@@ -5,7 +5,6 @@ export default function GrowingIcon() {
       width="20"
       height="20"
       viewBox="0 0 20 20"
-      fill="none"
     >
       <path
         d="M1.81055 18H5.07374V12.3174L1.81055 15.4207V18Z"
