@@ -1,0 +1,100 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int       @id @default(autoincrement())
+  clerkId   String    @unique
+  name      String
+  username  String    @unique
+  email     String    @unique
+  password  String?
+  bio       String?
+  picture   String
+  location  String?
+  posts     Post[]
+  likes     Like[]
+  comments  Comment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  likes     Like[]
+  tags      TagOnPost[]
+  comments  Comment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isEdited  Boolean  @default(false)
+}
+
+model Like {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+  postId   Int?
+  post     Post?    @relation(fields: [postId], references: [id])
+  commentId Int?
+  comment  Comment? @relation(fields: [commentId], references: [id])
+  liked    Boolean  @default(true)
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  postId    Int?
+  post      Post?    @relation(fields: [postId], references: [id])
+  parentId  Int?
+  parent    Comment? @relation("CommentToComment", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentToComment")
+  likes     Like[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isEdited  Boolean  @default(false)
+}
+
+model Tag {
+  id    Int        @id @default(autoincrement())
+  name  String     @unique
+  posts TagOnPost[]
+}
+
+model TagOnPost {
+  id      Int  @id @default(autoincrement())
+  postId  Int
+  post    Post @relation(fields: [postId], references: [id])
+  tagId   Int
+  tag     Tag  @relation(fields: [tagId], references: [id])
+  @@unique([postId, tagId])
+}
+
+
+model MeetUp {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now()) 
+}
+
+model Podcast {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now()) 
+}
+
+model Group {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now()) 
+}
+
