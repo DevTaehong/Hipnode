@@ -1,6 +1,6 @@
 export { default as FrameNumber } from "./FrameNumber";
 export { default as FrameIcon } from "./FrameIcon";
-export { default as FragmentIcon } from "./FragmentIcon";
+export { default as DevIcon } from "./DevIcon";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as IconAlt } from "./IconAlt";
 export { default as ArrowIcon } from "./ArrowIcon";
