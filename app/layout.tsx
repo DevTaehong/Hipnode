@@ -1,23 +1,26 @@
-import "./globals.css";
-import { ReactNode } from "react";
-import type { Metadata } from "next";
-// eslint-disable-next-line
-import { Source_Sans_3 } from "next/font/google";
-import Nav from "@/components/Nav";
+import './globals.css';
+import { ReactNode } from 'react';
+import type { Metadata } from 'next';
+import { Source_Sans_3 as SourceSans3 } from 'next/font/google';
 
-const font = Source_Sans_3({ subsets: ["latin"] });
+import Nav from '@/components/Nav';
+import { ThemeProvider } from '@/context/ThemeProvider';
+
+const font = SourceSans3({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "HipNode",
-  description: "Social Media Platform"
+  title: 'HipNode',
+  description: 'Social Media Platform',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={font.className}>
-        <Nav />
-        {children}
+        <ThemeProvider>
+          <Nav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
