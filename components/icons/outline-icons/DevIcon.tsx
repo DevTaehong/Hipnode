@@ -1,4 +1,4 @@
-const FragmentIcon = () => {
+const DevIcon = () => {
   return (
     <div className="flex h-5 w-5 items-center justify-center">
       <svg
@@ -25,4 +25,4 @@ const FragmentIcon = () => {
   );
 };
 
-export default FragmentIcon;
+export default DevIcon;

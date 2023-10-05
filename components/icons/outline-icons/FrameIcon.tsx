@@ -107,7 +107,7 @@ FrameIcon.Right = function FrameIconRight() {
   );
 };
 
-FrameIcon.List = function FrameIconList() {
+FrameIcon.Point = function FrameIconPoint() {
   return (
     <FrameIcon>
       <path

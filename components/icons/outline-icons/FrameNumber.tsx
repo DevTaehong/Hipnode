@@ -1,4 +1,4 @@
-const FrameNumberedListIcon = () => {
+const FrameNumber = () => {
   return (
     <div className="flex h-5 w-5 items-center justify-center">
       <svg
@@ -43,4 +43,4 @@ const FrameNumberedListIcon = () => {
   );
 };
 
-export default FrameNumberedListIcon;
+export default FrameNumber;
