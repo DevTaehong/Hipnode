@@ -1,4 +1,4 @@
-import FillIcon from "@/components/icons/fill-icons/FillIcon";
+import FillIcon from "@/components/icons/fill-icons";
 export default function Home() {
   return (
     <main className="">

@@ -1,37 +1,35 @@
 import { ReactNode } from "react";
-import {
-  BusinessIcon,
-  CalendarIcon,
-  CommentIcon,
-  FacebookIcon,
-  FeedbackIcon,
-  FireIcon,
-  FollowIcon,
-  GoogleIcon,
-  GroupIcon,
-  GrowingIcon,
-  HeartIcon,
-  HomeIcon,
-  InboxIcon,
-  InterviewsIcon,
-  LeaveIcon,
-  MenuIcon,
-  MessageIcon,
-  MoonIcon,
-  NotificationIcon,
-  PodcastsIcon,
-  PostIcon,
-  ProfileIcon,
-  ReplyIcon,
-  ReportIcon,
-  RocketIcon,
-  SendIcon,
-  SettingsIcon,
-  ShareIcon,
-  SunIcon,
-  TroubleIcon,
-  TwitterIcon
-} from ".";
+import HomeIcon from "./HomeIcon";
+import CommentIcon from "./CommentIcon";
+import RocketIcon from "./RocketIcon";
+import CalendarIcon from "./CalendarIcon";
+import MessageIcon from "./MessageIcon";
+import ProfileIcon from "./ProfileIcon";
+import ReplyIcon from "./ReplyIcon";
+import NotificationIcon from "./NotificationIcon";
+import GroupIcon from "./GroupIcon";
+import SunIcon from "./SunIcon";
+import ShareIcon from "./ShareIcon";
+import GoogleIcon from "./GoogleIcon";
+import FacebookIcon from "./FacebookIcon";
+import TwitterIcon from "./TwitterIcon";
+import TroubleIcon from "./TroubleIcon";
+import SendIcon from "./SendIcon";
+import SettingsIcon from "./SettingsIcon";
+import LeaveIcon from "./LeaveIcon";
+import MoonIcon from "./MoonIcon";
+import PostIcon from "./PostIcon";
+import PodcastsIcon from "./PodcastsIcon";
+import FireIcon from "./FireIcon";
+import HeartIcon from "./HeartIcon";
+import GrowingIcon from "./GrowingIcon";
+import ReportIcon from "./ReportIcon";
+import FeedbackIcon from "./FeedbackIcon";
+import InboxIcon from "./InboxIcon";
+import InterviewsIcon from "./InterviewsIcon";
+import BusinessIcon from "./BusinessIcon";
+import FollowIcon from "./FollowIcon";
+import MenuIcon from "./MenuIcon";
 
 interface FillIconProps {
   children?: ReactNode;
