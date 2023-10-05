@@ -1,5 +1,37 @@
 import { ReactNode } from "react";
-import { BusinessIcon, CalendarIcon, CommentIcon, NotificationIcon } from ".";
+import {
+  BusinessIcon,
+  CalendarIcon,
+  CommentIcon,
+  FacebookIcon,
+  FeedbackIcon,
+  FireIcon,
+  FollowIcon,
+  GoogleIcon,
+  GroupIcon,
+  GrowingIcon,
+  HeartIcon,
+  HomeIcon,
+  InboxIcon,
+  InterviewsIcon,
+  LeaveIcon,
+  MenuIcon,
+  MessageIcon,
+  MoonIcon,
+  NotificationIcon,
+  PodcastsIcon,
+  PostIcon,
+  ProfileIcon,
+  ReplyIcon,
+  ReportIcon,
+  RocketIcon,
+  SendIcon,
+  SettingsIcon,
+  ShareIcon,
+  SunIcon,
+  TroubleIcon,
+  TwitterIcon
+} from ".";
 
 interface FillIconProps {
   children?: ReactNode;
@@ -23,7 +55,7 @@ const FillIcon = ({ children, className }: FillIconProps) => {
   );
 };
 
-FillIcon.BusinessIcon = function Icon({ className }: FillIconProps) {
+FillIcon.Business = function Icon({ className }: FillIconProps) {
   return (
     <FillIcon className={className || "fill-[#FF571A]"}>
       <BusinessIcon />
@@ -31,7 +63,7 @@ FillIcon.BusinessIcon = function Icon({ className }: FillIconProps) {
   );
 };
 
-FillIcon.CalendarIcon = function Icon({ className }: FillIconProps) {
+FillIcon.Calendar = function Icon({ className }: FillIconProps) {
   return (
     <FillIcon className={className}>
       <CalendarIcon />
@@ -39,7 +71,7 @@ FillIcon.CalendarIcon = function Icon({ className }: FillIconProps) {
   );
 };
 
-FillIcon.CommentIcon = function Icon({ className }: FillIconProps) {
+FillIcon.Comment = function Icon({ className }: FillIconProps) {
   return (
     <FillIcon className={className || "fill-[#97989D]"}>
       <CommentIcon />
@@ -47,10 +79,226 @@ FillIcon.CommentIcon = function Icon({ className }: FillIconProps) {
   );
 };
 
-FillIcon.NotificationIcon = function Icon({ className, notifcation }: FillIconProps) {
+FillIcon.Facebook = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <FacebookIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Feedback = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <FeedbackIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Fire = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <FireIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Follow = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#FF6934]"}>
+      <FollowIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Google = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <GoogleIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Group = function Icon({ className, notifcation }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#C5D0E6] dark:fill-[#F4F6F8]"}>
+      <GroupIcon notifcation={notifcation} />
+    </FillIcon>
+  );
+};
+
+FillIcon.Growing = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <GrowingIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Heart = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#C5D0E6] dark:fill-[#C5D0E6]"}>
+      <HeartIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Home = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className}>
+      <HomeIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Inbox = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <InboxIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Interviews = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#C5D0E6] dark:fill-[#F4F6F8]"}>
+      <InterviewsIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Leave = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <LeaveIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Menu = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <MenuIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Message = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#858EAD] dark:fill-[#F4F6F8]"}>
+      <MessageIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Moon = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#C5D0E6] dark:fill-[#2C353D]"}>
+      <MoonIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Notification = function Icon({ className, notifcation }: FillIconProps) {
   return (
     <FillIcon className={className || "fill-[#858EAD] dark:fill-[#F4F6F8]"}>
       <NotificationIcon notifcation={notifcation} />
+    </FillIcon>
+  );
+};
+
+FillIcon.Podcasts = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#C5D0E6] dark:fill-[#F4F6F8]"}>
+      <PodcastsIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Post = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <PostIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Profile = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <ProfileIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Reply = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <ReplyIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Report = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <ReportIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Rocket = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <RocketIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Send = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <SendIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Settings = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <SettingsIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Share = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <ShareIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Sun = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#C5D0E6] dark:fill-[#2C353D]"}>
+      <SunIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Trouble = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354]"}>
+      <TroubleIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Twitter = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <TwitterIcon />
     </FillIcon>
   );
 };
