@@ -4,10 +4,10 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 import { ThemeContextType } from '@/types';
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState<string>('light');
 
   const handleThemeChange = () => {
     if (
@@ -37,7 +37,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
 
-  if (context === undefined) {
+  if (context === null) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
 
