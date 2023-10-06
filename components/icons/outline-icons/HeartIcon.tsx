@@ -1,6 +1,11 @@
-const HeartIcon = () => {
+const HeartIcon = ({ additionalClass = "" }: { additionalClass?: string }) => {
   return (
-    <div className="flex h-5 w-5 items-center justify-center">
+    <div
+      className={`flex items-center justify-center ${
+        additionalClass || "h-5 w-5"
+      }`}
+    >
+      {" "}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
