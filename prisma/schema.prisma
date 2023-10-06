@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +5,11 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 
@@ -17,6 +20,7 @@ model User {
   username  String    @unique
   email     String    @unique
   password  String?
+  role      Role      @default(USER)
   bio       String?
   picture   String
   location  String?
@@ -31,13 +35,14 @@ model Post {
   id        Int      @id @default(autoincrement())
   content   String
   authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   likes     Like[]
   tags      TagOnPost[]
   comments  Comment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   isEdited  Boolean  @default(false)
+  viewCount Int      @default(0)
 }
 
 model Like {
@@ -45,19 +50,19 @@ model Like {
   userId   Int
   user     User     @relation(fields: [userId], references: [id])
   postId   Int?
-  post     Post?    @relation(fields: [postId], references: [id])
+  post     Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   commentId Int?
-  comment  Comment? @relation(fields: [commentId], references: [id])
+  comment  Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   liked    Boolean  @default(true)
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
-  content   String
+  content   String   @db.VarChar(150)
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
   postId    Int?
-  post      Post?    @relation(fields: [postId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   parentId  Int?
   parent    Comment? @relation("CommentToComment", fields: [parentId], references: [id])
   replies   Comment[] @relation("CommentToComment")
