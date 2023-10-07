@@ -5,6 +5,7 @@ import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
 import { Source_Sans_3 as SourceSans3 } from "next/font/google";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const font = SourceSans3({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${font.className} flex overscroll-none`}>
-          {children}
+          <ThemeProvider>{children}</ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

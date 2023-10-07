@@ -33,23 +33,29 @@ module.exports = {
         },
         blue: {
           DEFAULT: "#347AE2",
+          10: "#EBF2FC",
         },
         purple: {
           DEFAULT: "#6570f7",
         },
         green: {
           DEFAULT: "#0ECC8D",
+          10: "#E7FAF4",
         },
         lightBackground: {
           DEFAULT: "#FFF",
           2: "#F7F7F7",
+          5: "#C5D0E6",
+          6: "#F4F6F8",
         },
         dark: {
+          DEFAULT: "#262D34",
           dark2: "#1E252B",
           dark3: "#2C323A",
           dark4: "#3A424C",
           secondary1: "#192351",
           secondary2: "#3F4354",
+          secondary4: "#858EAD",
         },
 
         border: "hsl(var(--border))",

@@ -199,3 +199,53 @@ code {
     --radius: 0.5rem;
   }
 }
+
+.cl-internal-16pk7q8 {
+  display: none;
+}
+
+.cl-internal-1pccesk {
+  width: 24px;
+}
+
+.cl-internal-1fc9kwt {
+  flex: 0 0 1.5rem;
+}
+
+.cl-internal-1hhd4k {
+  display: flex;
+}
+
+.cl-internal-b3fm6y {
+  box-sizing: inherit;
+  display: flex;
+  flex-flow: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  background-color: rgb(16, 63, 239);
+  padding: 0.375rem 1rem;
+  position: absolute;
+  transform-origin: left bottom;
+  left: -1px;
+  top: -1.5rem;
+  bottom: unset;
+  transform: rotate(-90deg) translateX(-10rem);
+  border-radius: 0.375rem 0.375rem 0px 0px;
+}
+
+@media (max-width: 30em) {
+  .cl-internal-b3fm6y {
+    /* Commenting out or removing these properties will ensure it stays in the same place */
+    /* left: 0px;
+      top: unset;
+      bottom: -1px;
+      transform: translateX(2rem) translateY(100%);
+      border-radius: 0px 0px 0.375rem 0.375rem;
+      border-top-color: transparent; */
+  }
+}
