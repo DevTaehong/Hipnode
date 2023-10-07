@@ -1,7 +1,27 @@
 import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
-import InboxIcon from "../icons/fill-icons/InboxIcon";
-import TroubleIcon from "../icons/fill-icons/TroubleIcon";
+import FillIcon from "../icons/fill-icons";
 import { OnboardingSideScreenProps } from "@/interfaces";
+
+const colorVariants: {
+  [key: string]: string;
+  red: string;
+  blue: string;
+  yellow: string;
+  green: string;
+  red10: string;
+  blue10: string;
+  yellow10: string;
+  green10: string;
+} = {
+  red: "fill-red",
+  blue: "fill-blue",
+  yellow: "fill-yellow",
+  green: "fill-green",
+  red10: "bg-red-10",
+  blue10: "bg-blue-10",
+  yellow10: "bg-yellow-10",
+  green10: "bg-green-10",
+};
 
 const OnboardingSideScreen = ({ info }: OnboardingSideScreenProps) => {
   return (
@@ -19,22 +39,13 @@ const OnboardingSideScreen = ({ info }: OnboardingSideScreenProps) => {
               return (
                 <div key={post.title} className="onboarding-card-small">
                   <div
-                    className={`onboarding-card-small-image`}
-                    style={{
-                      backgroundColor: post.iconBgColor,
-                    }}
+                    className={`onboarding-card-small-image ${
+                      colorVariants[post.iconBgColor]
+                    }`}
                   >
-                    <svg
-                      style={{
-                        fill: post.iconFillColor,
-                      }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                    >
-                      <IconComponent />
-                    </svg>
+                    <IconComponent
+                      className={`${colorVariants[post.iconFillColor]}`}
+                    />
                   </div>
                   <p className="onboarding-card-small-text">{post.title}</p>
                 </div>
@@ -44,20 +55,9 @@ const OnboardingSideScreen = ({ info }: OnboardingSideScreenProps) => {
             <>
               <div className="onboarding-card-small">
                 <div
-                  className="onboarding-card-small-image"
-                  style={{ backgroundColor: "#E7FAF4" }}
+                  className={`onboarding-card-small-image ${colorVariants.green10}`}
                 >
-                  <svg
-                    style={{
-                      fill: "#0ECC8D",
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                  >
-                    <InboxIcon />
-                  </svg>
+                  <FillIcon.Inbox className={`${colorVariants.green}`} />
                 </div>
                 <p className="onboarding-card-small-text">
                   Did you join before February 2017? You need to{" "}
@@ -67,20 +67,9 @@ const OnboardingSideScreen = ({ info }: OnboardingSideScreenProps) => {
               </div>
               <div className="onboarding-card-small">
                 <div
-                  className="onboarding-card-small-image"
-                  style={{ backgroundColor: "#FDF4EA" }}
+                  className={`onboarding-card-small-image ${colorVariants.yellow10}`}
                 >
-                  <svg
-                    style={{
-                      fill: "#EA942C",
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                  >
-                    <TroubleIcon />
-                  </svg>
+                  <FillIcon.Trouble className={`${colorVariants.yellow}`} />
                 </div>{" "}
                 <p className="onboarding-card-small-text">
                   Trouble logging in? <span className="text-red-80">Reset</span>{" "}

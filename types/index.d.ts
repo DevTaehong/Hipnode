@@ -19,7 +19,7 @@ export type QuestionKeysMapType = {
 
 export type PostItem = {
   title: string;
-  icon: React.FC<{ additionalClass?: string }>;
+  icon: React.FC<{ className?: string; children? }>;
   iconBgColor: string;
   iconFillColor: string;
 };
