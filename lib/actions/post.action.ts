@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "./lib/prisma";
+import prisma from "../prisma";
 
 interface CreatePostProps {
   content: string;
@@ -24,5 +24,3 @@ export async function createPost({ content, authorId }: CreatePostProps) {
     throw error;
   }
 }
-
-export async function updatePost() {}
