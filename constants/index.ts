@@ -1,4 +1,7 @@
-import { HeartIcon } from "@/components/icons/outline-icons";
+import BusinessIcon from "@/components/icons/fill-icons/BusinessIcon";
+import FeedbackIcon from "@/components/icons/fill-icons/FeedbackIcon";
+import RocketIcon from "@/components/icons/fill-icons/RocketIcon";
+import InboxIcon from "@/components/icons/fill-icons/InboxIcon";
 
 export const onboardingQuestions = [
   {
@@ -43,18 +46,21 @@ export const signUpSideScreenInfo = {
   posts: [
     {
       title: "Connect with other indie hackers running online businesses.",
-      icon: HeartIcon,
+      icon: BusinessIcon,
       iconBgColor: "#FFECE6",
+      iconFillColor: "#FF4401",
     },
     {
       title: "Get feedback on your business ideas, landing pages, and more.",
-      icon: HeartIcon,
+      icon: FeedbackIcon,
       iconBgColor: "#FDF4EA",
+      iconFillColor: "#EA942C",
     },
     {
       title: "Get the best new stories from founders in your inbox.",
-      icon: HeartIcon,
+      icon: InboxIcon,
       iconBgColor: "#EBF2FC",
+      iconFillColor: "#347AE2",
     },
   ],
 };
@@ -64,13 +70,15 @@ export const onboardingSideScreenInfo = {
   posts: [
     {
       title: "Help us build the best community for people like you.",
-      icon: HeartIcon,
+      icon: RocketIcon,
       iconBgColor: "#FFECE6",
+      iconFillColor: "#FF571A",
     },
     {
       title: "Help us build the best community for people like you.",
-      icon: HeartIcon,
+      icon: FeedbackIcon,
       iconBgColor: "#FDF4EA",
+      iconFillColor: "#EA942C",
     },
   ],
 };

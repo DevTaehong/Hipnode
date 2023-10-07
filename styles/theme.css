@@ -101,7 +101,7 @@
   }
 
   .onboarding-card-small-image {
-    @apply flex rounded-md dark:bg-dark-4 dark:grayscale-[10%] dark:invert-[20%];
+    @apply flex rounded-md dark:bg-dark-4 dark:grayscale-[10%] dark:invert-[20%] h-[3.75rem] w-[3.75rem] rounded-lg p-5;
   }
 
   .onboarding-card-small-text {

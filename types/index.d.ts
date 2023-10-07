@@ -21,6 +21,7 @@ export type PostItem = {
   title: string;
   icon: React.FC<{ additionalClass?: string }>;
   iconBgColor: string;
+  iconFillColor: string;
 };
 export interface User {
   id: number;
