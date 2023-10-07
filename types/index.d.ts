@@ -3,6 +3,14 @@ export interface ThemeContextType {
   setMode: (mode: string) => void;
 }
 
+interface Onboarding {
+  id: number;
+  userId: number;
+  businessStage: string;
+  codeAbility: string;
+  interests: string[];
+  isOnboarded: boolean;
+}
 export interface User {
   id: number;
   clerkId: string;
@@ -14,6 +22,7 @@ export interface User {
   picture: string;
   location?: string | null;
   joinedAt: Date;
+  onboarding: Onboarding;
 }
 
 interface BaseTag {

@@ -27,7 +27,12 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "prisma/seed.mjs"
+    "prisma/seed.mjs",
+    "prisma/seed/index.mjs",
+    "prisma/seed/createUsers.js",
+    "prisma/seed/createTags.js",
+    "prisma/seed/createPosts.js",
+    "prisma/seed/createOnboarding.js"
   ],
   "exclude": ["node_modules"]
 }
