@@ -240,12 +240,5 @@ code {
 
 @media (max-width: 30em) {
   .cl-internal-b3fm6y {
-    /* Commenting out or removing these properties will ensure it stays in the same place */
-    /* left: 0px;
-      top: unset;
-      bottom: -1px;
-      transform: translateX(2rem) translateY(100%);
-      border-radius: 0px 0px 0.375rem 0.375rem;
-      border-top-color: transparent; */
   }
 }
