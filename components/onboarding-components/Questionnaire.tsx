@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { UserAnswersType, AnswersType, QuestionKeysMapType } from "@/types";
 import { QuestionnaireProps } from "@/interfaces";
@@ -8,6 +9,7 @@ import { onboardingQuestions } from "@/constants";
 import QuestionnaireForm from "./QuestionnaireForm";
 
 const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
+  const router = useRouter();
   const [questionSet, setQuestionSet] = useState(0);
   const [animateIn, setAnimateIn] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<AnswersType[]>([]);
@@ -47,6 +49,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
           "Clerk User ID:",
           userClerkId
         );
+        router.push("/");
       } else {
         const questionKeysMap: QuestionKeysMapType = {
           0: "answerQuestion1",
