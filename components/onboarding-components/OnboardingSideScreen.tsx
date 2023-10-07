@@ -1,27 +1,7 @@
 import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
 import FillIcon from "../icons/fill-icons";
 import { OnboardingSideScreenProps } from "@/interfaces";
-
-const colorVariants: {
-  [key: string]: string;
-  red: string;
-  blue: string;
-  yellow: string;
-  green: string;
-  red10: string;
-  blue10: string;
-  yellow10: string;
-  green10: string;
-} = {
-  red: "fill-red",
-  blue: "fill-blue",
-  yellow: "fill-yellow",
-  green: "fill-green",
-  red10: "bg-red-10",
-  blue10: "bg-blue-10",
-  yellow10: "bg-yellow-10",
-  green10: "bg-green-10",
-};
+import { colorVariantsOnboarding as colorVariants } from "@/constants";
 
 const OnboardingSideScreen = ({ info }: OnboardingSideScreenProps) => {
   return (

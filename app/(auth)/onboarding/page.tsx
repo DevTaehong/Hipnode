@@ -1,7 +1,9 @@
 import { currentUser } from "@clerk/nextjs";
 
-import OnboardingSideScreen from "@/components/onboarding-components/OnboardingSideScreen";
-import Questionnaire from "@/components/onboarding-components/Questionnaire";
+import {
+  OnboardingSideScreen,
+  Questionnaire,
+} from "@/components/onboarding-components";
 import { onboardingSideScreenInfo } from "@/constants";
 
 const page = async () => {

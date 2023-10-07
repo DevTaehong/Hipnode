@@ -1,9 +1,4 @@
-import {
-  UserButton,
-  SignOutButton,
-  SignInButton,
-  UserProfile,
-} from "@clerk/nextjs";
+import { UserButton, SignOutButton, SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
@@ -23,7 +18,6 @@ export default function Home() {
         }}
       />
       <SignInButton>Sign In</SignInButton>
-      <UserProfile />
       <SignOutButton />
     </div>
   );
