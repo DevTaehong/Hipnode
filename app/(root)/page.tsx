@@ -7,9 +7,9 @@ export default function Home() {
         afterSignOutUrl="/"
         appearance={{
           elements: {
-            userButtonPopoverCard: "dark:bg-dark-dark2",
+            userButtonPopoverCard: "dark:bg-dark-2",
             userPreviewMainIdentifier: "dark:text-white",
-            userPreviewSecondaryIdentifier: "dark:text-lightBackground-5",
+            userPreviewSecondaryIdentifier: "dark:text-light-5",
             userButtonPopoverActionButtonText: "dark:text-white",
             userButtonPopoverActionButtonIcon: "dark:invert",
             userButtonPopoverFooter: "dark:invert",

@@ -4,11 +4,12 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
   return (
-    <div className="flex w-screen flex-col md:min-h-screen md:flex-row">
+    <div className="sign-up-background">
       <OnboardingSideScreen />
-      <div className="flex w-full justify-center py-8 dark:bg-dark md:w-1/2 md:py-20">
-        <div className="relative flex h-fit w-full max-w-[29rem] md:max-w-[28rem]">
+      <div className="clerk-modal-background">
+        <div className="clerk-modal-container">
           <SignIn
+            afterSignInUrl="/"
             appearance={{
               elements: {
                 rootBox: "w-full flex h-fit",
@@ -16,27 +17,25 @@ export default function Page() {
                 formButtonPrimary: "bg-red-60 hover:bg-red-80",
                 footerActionLink:
                   "text-sm sm:text-base text-red-60 hover:text-red-80",
-                footerActionText:
-                  "text-xs sm:text-sm dark:text-lightBackground",
+                footerActionText: "text-xs sm:text-sm dark:text-light",
                 dividerRow: "hidden",
                 socialButtonsBlockButtonText: "hidden",
                 socialButtonsBlockButtonArrow: "hidden",
                 socialButtonsBlockButton:
-                  "p-4 h-10 w-10 sm:h-14 sm:w-14 flex justify-center dark:border-dark-dark4",
-                card: "pt-[4.5rem] w-full sm:pt-24 dark:bg-dark-dark2 w-fit mx-8 px-6 gap-3.5 sm:gap-4",
+                  "p-4 h-10 w-10 sm:h-14 sm:w-14 flex justify-center dark:border-dark-4",
+                card: "pt-[4.5rem] w-full sm:pt-24 dark:bg-dark-2 w-fit mx-8 px-6 gap-3.5 sm:gap-4",
                 form: "gap-3 sm:gap-4",
                 formHeaderTitle: "dark:text-white",
                 formHeaderSubtitle: "dark:text-white",
                 identityPreviewEditButton: "grayscale-[100%] dark:invert",
                 main: "gap-6 sm:gap-8",
-                headerTitle: "text-sm sm:text-xl dark:text-lightBackground",
-                headerSubtitle:
-                  "text-xs sm:text-base dark:text-lightBackground-5",
+                headerTitle: "text-sm sm:text-xl dark:text-light",
+                headerSubtitle: "text-xs sm:text-base dark:text-light-5",
                 socialButtonsProviderIcon:
                   "h-3.5 sm:h-5 w-3.5 sm:w-5 dark:invert",
                 formFieldInput:
-                  "h-7 sm:h-9 dark:bg-dark-dark3 focus:ring-0 dark:text-white focus:border-dark-secondary4",
-                formFieldLabel: "text-xs sm:text-sm dark:text-lightBackground",
+                  "h-7 sm:h-9 dark:bg-dark-3 focus:ring-0 dark:text-white focus:border-dark-secondary4",
+                formFieldLabel: "text-xs sm:text-sm dark:text-light",
                 formFieldHintText: "text-xs sm:text-sm dark:text-white",
                 formFieldWarningText: "dark:text-white",
                 formFieldSuccessText: "dark:text-white",
@@ -47,9 +46,8 @@ export default function Page() {
                 formFieldAction: "text-red-60 hover:text-red-80",
               },
             }}
-            redirectUrl="/"
           />
-          <div className="absolute left-14 top-10 flex">
+          <div className="clerk-modal-logo">
             <HipnodeHeaderLogo clerkForm />
           </div>
         </div>

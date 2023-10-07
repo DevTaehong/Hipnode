@@ -12,7 +12,7 @@ const page = async () => {
   const userClerkId = user?.id;
 
   return (
-    <main className="flex w-screen flex-col dark:bg-dark-dark2 md:min-h-screen md:flex-row">
+    <main className="onboarding-page">
       <OnboardingSideScreen info={onboardingSideScreenInfo} />
       <Questionnaire userClerkId={userClerkId} />
     </main>

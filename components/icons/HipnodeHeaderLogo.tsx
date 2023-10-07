@@ -7,23 +7,21 @@ interface HipnodeHeaderLogoProps {
 const HipnodeHeaderLogo = ({ clerkForm = false }: HipnodeHeaderLogoProps) => {
   const divStyles = clerkForm
     ? "h-[0.87rem] w-[0.87rem] sm:h-[1.2rem] sm:w-[1.2rem] bg-[#F4F6F8]"
-    : "h-[1.625rem] w-[1.625rem] md:h-[1.875rem] md:w-[1.875rem] dark:bg-lightBackground bg-dark-dark2";
+    : "h-[1.625rem] w-[1.625rem] md:h-[1.875rem] md:w-[1.875rem] dark:bg-light bg-dark-2";
 
-  const fillColor = clerkForm
-    ? "fill-dark-secondary2"
-    : "fill-lightBackground dark:fill-dark";
+  const fillColor = clerkForm ? "fill-sc-2" : "fill-light dark:fill-dark";
 
   const strokeColor = clerkForm
-    ? "stroke-dark-secondary2"
-    : "stroke-lightBackground dark:stroke-dark";
+    ? "stroke-sc-2"
+    : "stroke-light dark:stroke-dark";
 
   const textStyles = clerkForm
     ? "text-xs sm:text-base font-bold text-red-90"
-    : "bold-18 md:bold-26 dark:text-red-90";
+    : "bold-18 md:bold-26 text-red-90";
 
   const dotStyles = clerkForm
-    ? "text-lightBackground-6"
-    : "text-dark-secondary1 dark:text-lightBackground";
+    ? "text-light-3"
+    : "text-dark-secondary1 dark:text-light";
 
   const divGap = clerkForm ? "gap-2 sm:gap-2.5 " : "gap-2.5";
 

@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { onboardingQuestions } from "@/constants";
 import { UserAnswersType, AnswersType, QuestionKeysMapType } from "@/types";
-import QuestionnaireForm from "./QuestionnaireForm";
 import { QuestionnaireProps } from "@/interfaces";
+import { onboardingQuestions } from "@/constants";
+import QuestionnaireForm from "./QuestionnaireForm";
 
 const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
   const [questionSet, setQuestionSet] = useState(0);
