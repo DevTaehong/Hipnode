@@ -1,4 +1,4 @@
-const New = ({ color, textColor }: { color: string; textColor: string }) => {
+const New = ({ color, textColor }: { color?: string; textColor?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

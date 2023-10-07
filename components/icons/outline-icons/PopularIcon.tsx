@@ -1,4 +1,4 @@
-const PopularIcon = ({ color }: { color: string }) => {
+const PopularIcon = ({ color }: { color?: string }) => {
   return (
     <div className="flex h-5 w-5 items-center justify-center">
       <svg
