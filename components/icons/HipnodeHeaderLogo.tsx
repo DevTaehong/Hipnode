@@ -1,5 +1,3 @@
-import React from "react";
-
 interface HipnodeHeaderLogoProps {
   clerkForm?: boolean;
 }
@@ -9,19 +7,17 @@ const HipnodeHeaderLogo = ({ clerkForm = false }: HipnodeHeaderLogoProps) => {
     ? "h-[0.87rem] w-[0.87rem] sm:h-[1.2rem] sm:w-[1.2rem] bg-[#F4F6F8]"
     : "h-[1.625rem] w-[1.625rem] md:h-[1.875rem] md:w-[1.875rem] dark:bg-light bg-dark-2";
 
-  const fillColor = clerkForm ? "fill-sc-2" : "fill-light dark:fill-dark";
+  const fillColor = clerkForm ? "fill-sc-2" : "fill-light dark:fill-dark-1";
 
   const strokeColor = clerkForm
     ? "stroke-sc-2"
-    : "stroke-light dark:stroke-dark";
+    : "stroke-light dark:stroke-dark-1";
 
   const textStyles = clerkForm
     ? "text-xs sm:text-base font-bold text-red-90"
     : "bold-18 md:bold-26 text-red-90";
 
-  const dotStyles = clerkForm
-    ? "text-light-3"
-    : "text-dark-secondary1 dark:text-light";
+  const dotStyles = clerkForm ? "text-light-3" : "text-sc-1 dark:text-light";
 
   const divGap = clerkForm ? "gap-2 sm:gap-2.5 " : "gap-2.5";
 
