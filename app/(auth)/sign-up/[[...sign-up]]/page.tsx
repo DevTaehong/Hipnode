@@ -1,8 +1,8 @@
 import { SignUp } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
-import { signUpSideScreenInfo } from "@/constants";
 import OnboardingSideScreen from "@/components/onboarding-components/OnboardingSideScreen";
+import { signUpSideScreenInfo } from "@/constants";
 
 export default function Page() {
   return (

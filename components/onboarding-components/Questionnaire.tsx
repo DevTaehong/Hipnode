@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { UserAnswersType, AnswersType, QuestionKeysMapType } from "@/types";
 import { QuestionnaireProps } from "@/interfaces";
-import { onboardingQuestions } from "@/constants";
+import { onboardingQuestions } from "@/constants/index";
 import { QuestionnaireForm } from ".";
 
 const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
