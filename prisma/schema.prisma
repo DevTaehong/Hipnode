@@ -34,6 +34,7 @@ model User {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   onboarding          Onboarding?
+  memberships         Membership[]
 }
 
 
@@ -112,29 +113,49 @@ model TagOnPost {
 
 
 model Shows {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  userId    Int       
-  user      User      @relation(fields: [userId], references: [id])
-  podcasts  Podcast[] 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id                  Int       @id @default(autoincrement())
+  name                String    @unique
+  userId              Int       
+  user                User      @relation(fields: [userId], references: [id])
+  podcasts            Podcast[] 
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
 model Podcast {
-  id            Int       @id @default(autoincrement())
-  episodeNumber Int       @default(autoincrement())
-  image         String
-  title         String
-  details       String
-  url           String
-  userId        Int
-  user          User      @relation(fields: [userId], references: [id])
-  show          Shows      @relation(fields: [showId], references: [id])
-  showId        Int
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                  Int       @id @default(autoincrement())
+  episodeNumber       Int       @default(autoincrement())
+  image               String
+  title               String
+  details             String
+  url                 String
+  userId              Int
+  user                User      @relation(fields: [userId], references: [id])
+  show                Shows      @relation(fields: [showId], references: [id])
+  showId              Int
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
 
+model Group {
+  id                  Int         @id @default(autoincrement())
+  groupName           String      @unique
+  details             String
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  members             Membership[] 
+}
+
+model Membership {
+  userId              Int
+  user                User        @relation(fields: [userId], references: [id])
+  groupId             Int
+  group               Group       @relation(fields: [groupId], references: [id])
+  joinedAt            DateTime    @default(now())
+
+  @@unique([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
+}
 
 
 
@@ -142,9 +163,6 @@ model MeetUp {
   id                  Int       @id @default(autoincrement())
   createdAt           DateTime  @default(now()) 
 }
-model Group {
-  id                  Int       @id @default(autoincrement())
-  createdAt           DateTime  @default(now()) 
-}
+
 
 

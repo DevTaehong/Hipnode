@@ -10,6 +10,11 @@ import {
   createPodcastsForShows,
 } from '../prisma/seed/seed-podcasts/index.mjs';
 
+import {
+  createGroups,
+  createMemberships,
+} from '../prisma/seed/seed-groups/index.mjs';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -23,6 +28,9 @@ async function main() {
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
+
+  const groups = await createGroups();
+  await createMemberships(users, groups);
 }
 
 main()
