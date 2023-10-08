@@ -36,7 +36,7 @@ export default function Page() {
                 socialButtonsProviderIcon:
                   "h-3.5 sm:h-5 w-3.5 sm:w-5 dark:invert",
                 formFieldInput:
-                  "h-7 sm:h-9 dark:bg-dark-3 focus:ring-0 dark:text-white focus:border-dark-secondary4",
+                  "h-7 sm:h-9 dark:bg-dark-3 focus:ring-0 dark:text-white focus:border-sc-4",
                 formFieldLabel: "text-xs sm:text-sm dark:text-light",
                 formFieldHintText: "text-xs sm:text-sm dark:text-white",
                 formFieldWarningText: "dark:text-white",
