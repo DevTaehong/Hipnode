@@ -44,20 +44,20 @@ export const signUpSideScreenInfo = {
     {
       title: "Connect with other indie hackers running online businesses.",
       icon: FillIcon.Business,
-      iconBgColor: "red10",
-      iconFillColor: "red",
+      iconBgColor: "bgRed",
+      iconFillColor: "fillRed",
     },
     {
       title: "Get feedback on your business ideas, landing pages, and more.",
       icon: FillIcon.Feedback,
-      iconBgColor: "yellow10",
-      iconFillColor: "yellow",
+      iconBgColor: "bgYellow",
+      iconFillColor: "fillYellow",
     },
     {
       title: "Get the best new stories from founders in your inbox.",
       icon: FillIcon.Inbox,
-      iconBgColor: "blue10",
-      iconFillColor: "blue",
+      iconBgColor: "bgBlue",
+      iconFillColor: "fillBlue",
     },
   ],
 };
@@ -68,14 +68,14 @@ export const onboardingSideScreenInfo = {
     {
       title: "Help us build the best community for people like you.",
       icon: FillIcon.Rocket,
-      iconBgColor: "red10",
-      iconFillColor: "red",
+      iconBgColor: "bgRed",
+      iconFillColor: "fillRed",
     },
     {
       title: "Help us build the best community for people like you.",
       icon: FillIcon.Feedback,
-      iconBgColor: "yellow10",
-      iconFillColor: "yellow",
+      iconBgColor: "bgYellow",
+      iconFillColor: "fillYellow",
     },
   ],
 };

@@ -101,3 +101,15 @@ export interface Post extends BasePost {
   tags: TagOnPost[];
   comments: Comment[];
 }
+
+export type ColorVariantsOnboardingType = {
+  [key: string]: string;
+  fillRed: string;
+  fillBlue: string;
+  fillYellow: string;
+  fillGreen: string;
+  bgRed: string;
+  bgBlue: string;
+  bgYellow: string;
+  bgGreen: string;
+};
