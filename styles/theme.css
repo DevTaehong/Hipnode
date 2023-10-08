@@ -133,7 +133,7 @@
   }
 
   .questionnaire-main-div {
-    @apply mt-[3.75rem] flex w-full max-w-[27.625rem] flex-col gap-10  md:mt-[7.37rem];
+    @apply mt-[1.875rem] flex w-full max-w-[27.625rem] flex-col gap-10  md:mt-[7.37rem];
   }
 
   .questionnaire-container {
