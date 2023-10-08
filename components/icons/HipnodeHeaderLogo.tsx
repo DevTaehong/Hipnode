@@ -23,7 +23,7 @@ const HipnodeHeaderLogo = ({ clerkForm = false }: HipnodeHeaderLogoProps) => {
 
   return (
     <div className={`flex items-center self-start ${divGap}`}>
-      <div className={`dark: flex rounded-md p-1 ${divStyles}`}>
+      <div className={`flex rounded-md p-1 ${divStyles}`}>
         <svg
           className="h-full w-full"
           viewBox="0 0 22 22"
