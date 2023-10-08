@@ -144,6 +144,10 @@
     @apply semibold-18 md:bold-30 text-sc-2 dark:text-light;
   }
 
+  .questionnaire-blue-span {
+    @apply regular-16 mb-5 text-blue-80;
+  }
+
   .questionnaire-answer {
     @apply cursor-pointer rounded-lg p-4 transition duration-200;
   }

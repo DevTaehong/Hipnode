@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={font.className}>
+        <body className={`${font.className} overscroll-none`}>
           <ThemeProvider>{children}</ThemeProvider>
         </body>
       </html>

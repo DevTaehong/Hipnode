@@ -95,6 +95,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
       handleQuestionClick={handleQuestionClick}
       handleNextClick={handleNextClick}
       selectedAnswers={selectedAnswers}
+      questionSet={questionSet}
     />
   );
 };

@@ -5,9 +5,9 @@ import OnboardingSideScreen from "@/components/onboarding-components/OnboardingS
 
 export default function Page() {
   return (
-    <div className="sign-up-background">
+    <main className="sign-up-background">
       <OnboardingSideScreen />
-      <div className="clerk-modal-background">
+      <section className="clerk-modal-background">
         <div className="clerk-modal-container">
           <SignIn
             afterSignInUrl="/"
@@ -52,7 +52,7 @@ export default function Page() {
             <HipnodeHeaderLogo clerkForm />
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

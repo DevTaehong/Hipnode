@@ -17,6 +17,7 @@ export interface QuestionnaireFormProps {
   handleQuestionClick: (question: AnswersType) => void;
   handleNextClick: () => void;
   selectedAnswers: AnswersType[];
+  questionSet: number;
 }
 
 export interface OnboardingSideScreenProps {

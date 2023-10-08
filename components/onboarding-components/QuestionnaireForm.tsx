@@ -9,36 +9,44 @@ const QuestionnaireForm = ({
   handleQuestionClick,
   handleNextClick,
   selectedAnswers,
+  questionSet,
 }: QuestionnaireFormProps) => {
   return (
     <section className="questionnaire-form-background">
       <div className="questionnaire-main-div">
         <div className={`questionnaire-container ${animateClass}`}>
           <h3 className="questionnaire-heading">{questions.title}</h3>
-          <div className={`flex ${classVariants.parentDivFlex} gap-5`}>
-            {questions.answers.map((question) => (
-              <div
-                key={question}
-                onClick={() => handleQuestionClick(question)}
-                className={`${
-                  classVariants.childDivWidth
-                } questionnaire-answer ${
-                  selectedAnswers.includes(question)
-                    ? "bg-red-80"
-                    : "bg-light dark:bg-dark-4 md:bg-light-2"
-                } `}
-              >
-                <p
-                  className={`questionnaire-answer-text ${
+          <div className="flex flex-col">
+            {questionSet === 2 && (
+              <span className="questionnaire-blue-span">
+                Choose as many as you like.
+              </span>
+            )}
+            <ul className={`flex ${classVariants.parentDivFlex} gap-5`}>
+              {questions.answers.map((question) => (
+                <li
+                  key={question}
+                  onClick={() => handleQuestionClick(question)}
+                  className={`${
+                    classVariants.childDivWidth
+                  } questionnaire-answer ${
                     selectedAnswers.includes(question)
-                      ? "text-light-2"
-                      : "text-sc-2 dark:text-light-2"
-                  }`}
+                      ? "bg-red-80"
+                      : "bg-light dark:bg-dark-4 md:bg-light-2"
+                  } `}
                 >
-                  {question}
-                </p>
-              </div>
-            ))}
+                  <p
+                    className={`questionnaire-answer-text ${
+                      selectedAnswers.includes(question)
+                        ? "text-light-2"
+                        : "text-sc-2 dark:text-light-2"
+                    }`}
+                  >
+                    {question}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

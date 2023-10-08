@@ -2,7 +2,7 @@ import { UserButton, SignOutButton, SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <UserButton
         afterSignOutUrl="/"
         appearance={{
@@ -19,6 +19,6 @@ export default function Home() {
       />
       <SignInButton>Sign In</SignInButton>
       <SignOutButton />
-    </div>
+    </main>
   );
 }

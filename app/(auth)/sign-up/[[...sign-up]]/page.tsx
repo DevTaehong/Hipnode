@@ -6,9 +6,9 @@ import { signUpSideScreenInfo } from "@/constants";
 
 export default function Page() {
   return (
-    <div className="sign-up-background">
+    <main className="sign-up-background">
       <OnboardingSideScreen info={signUpSideScreenInfo} />{" "}
-      <div className="clerk-modal-background">
+      <section className="clerk-modal-background">
         <div className="clerk-modal-container">
           <SignUp
             afterSignUpUrl="/onboarding"
@@ -52,7 +52,7 @@ export default function Page() {
             <HipnodeHeaderLogo clerkForm={true} />
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
