@@ -15,6 +15,8 @@ import {
   createMemberships,
 } from '../prisma/seed/seed-groups/index.mjs';
 
+import { createMeetUps } from '../prisma/seed/seed-meetup/index.mjs';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -31,6 +33,8 @@ async function main() {
 
   const groups = await createGroups();
   await createMemberships(users, groups);
+
+  await createMeetUps(users);
 }
 
 main()
