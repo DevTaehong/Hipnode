@@ -1,11 +1,10 @@
 import { PrismaClient } from '@prisma/client';
+import { createPosts, createTags } from '../prisma/seed/seed-posts/index.mjs';
 
 import {
   createOnboarding,
-  createPosts,
-  createTags,
   createUsers,
-} from './seed/index.mjs';
+} from '../prisma/seed/seed-user/index.mjs';
 
 const prisma = new PrismaClient();
 

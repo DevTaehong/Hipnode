@@ -32,7 +32,8 @@
     "prisma/seed/createUsers.js",
     "prisma/seed/createTags.js",
     "prisma/seed/createPosts.js",
-    "prisma/seed/createOnboarding.js"
+    "prisma/seed/createOnboarding.js",
+    "lib/prisma.mjs"
   ],
   "exclude": ["node_modules"]
 }
