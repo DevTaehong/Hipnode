@@ -9,7 +9,7 @@ export default function Home() {
           elements: {
             userButtonPopoverCard: "dark:bg-dark-2",
             userPreviewMainIdentifier: "dark:text-white",
-            userPreviewSecondaryIdentifier: "dark:text-light-5",
+            userPreviewSecondaryIdentifier: "dark:text-sc-5",
             userButtonPopoverActionButtonText: "dark:text-white",
             userButtonPopoverActionButtonIcon: "dark:invert",
             userButtonPopoverFooter: "dark:invert",

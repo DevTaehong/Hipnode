@@ -32,7 +32,7 @@ export default function Page() {
                 identityPreviewEditButton: "grayscale-[100%] dark:invert",
                 main: "gap-6 sm:gap-8",
                 headerTitle: "text-sm sm:text-xl dark:text-light",
-                headerSubtitle: "text-xs sm:text-base dark:text-light-5",
+                headerSubtitle: "text-xs sm:text-base dark:text-sc-5",
                 socialButtonsProviderIcon:
                   "h-3.5 sm:h-5 w-3.5 sm:w-5 dark:invert",
                 formFieldInput:
