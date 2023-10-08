@@ -29,6 +29,8 @@ model User {
   posts               Post[]
   likes               Like[]
   comments            Comment[]
+  shows               Shows[]    
+  podcasts            Podcast[]
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   onboarding          Onboarding?
@@ -107,16 +109,39 @@ model TagOnPost {
 }
 
 
+
+
+model Shows {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  userId    Int       
+  user      User      @relation(fields: [userId], references: [id])
+  podcasts  Podcast[] 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+model Podcast {
+  id            Int       @id @default(autoincrement())
+  episodeNumber Int       @default(autoincrement())
+  image         String
+  title         String
+  details       String
+  url           String
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  show          Shows      @relation(fields: [showId], references: [id])
+  showId        Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+
+
+
 model MeetUp {
   id                  Int       @id @default(autoincrement())
   createdAt           DateTime  @default(now()) 
 }
-
-model Podcast {
-  id                  Int       @id @default(autoincrement())
-  createdAt           DateTime  @default(now()) 
-}
-
 model Group {
   id                  Int       @id @default(autoincrement())
   createdAt           DateTime  @default(now()) 
