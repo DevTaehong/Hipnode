@@ -4,7 +4,7 @@ interface HipnodeHeaderLogoProps {
 
 const HipnodeHeaderLogo = ({ clerkForm = false }: HipnodeHeaderLogoProps) => {
   const divStyles = clerkForm
-    ? "h-[0.87rem] w-[0.87rem] sm:h-[1.2rem] sm:w-[1.2rem] bg-[#F4F6F8]"
+    ? "h-[0.87rem] w-[0.87rem] sm:h-[1.2rem] sm:w-[1.2rem] bg-light-3"
     : "h-[1.625rem] w-[1.625rem] md:h-[1.875rem] md:w-[1.875rem] dark:bg-light bg-dark-2";
 
   const fillColor = clerkForm ? "fill-sc-2" : "fill-light dark:fill-dark-1";
