@@ -81,7 +81,7 @@
   }
 
   .onboarding-background {
-    @apply flex h-full w-full grow flex-col items-center bg-light-2 p-[1.875rem] dark:bg-dark-2 md:min-h-screen md:w-1/2 md:p-10;
+    @apply flex h-auto w-full grow flex-col items-center bg-light-2 p-[1.875rem] dark:bg-dark-2 md:min-h-screen md:w-1/2 md:p-10;
   }
 
   .onboarding-main-div {
