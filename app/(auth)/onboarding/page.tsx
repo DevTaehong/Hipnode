@@ -6,7 +6,7 @@ import {
 } from "@/components/onboarding-components";
 import { onboardingSideScreenInfo } from "@/constants";
 
-const page = async () => {
+const Page = async () => {
   const user = await currentUser();
   if (!user) {
     throw new Error("User not found");
@@ -21,4 +21,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;
