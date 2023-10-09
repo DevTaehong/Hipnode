@@ -16,7 +16,7 @@ const Nav = () => {
   };
 
   return (
-    <div className="flex h-14 w-full items-center justify-between bg-lightBackground px-10 dark:bg-dark-dark2">
+    <div className="bg-lightBackground dark:bg-dark-dark2 flex h-14 w-full items-center justify-between px-10">
       <HipnodeIcon />
       <button
         className="mr-6 flex h-6 w-6 items-center justify-center"

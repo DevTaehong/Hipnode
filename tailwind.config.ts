@@ -23,7 +23,7 @@ module.exports = {
           80: '#FF6934',
           60: '#FF8F67',
           10: '#FFECE6',
-          "black-40": "#661B00"
+          'black-40': '#661B00',
         },
         yellow: {
           DEFAULT: '#EA942C',
@@ -38,15 +38,15 @@ module.exports = {
           80: '#5D95E8',
           20: '#D6E4F9',
           10: '#EBF2FC',
-          "black-80": '#2A62B5',
-          "black-10": '#0A182D'
+          'black-80': '#2A62B5',
+          'black-10': '#0A182D',
         },
         purple: {
           DEFAULT: '#6570f7',
           80: '#848DF9',
           20: '#E0E2FD',
           10: '#F0F1FE',
-          "black-20": '#141631'
+          'black-20': '#141631',
         },
         green: {
           DEFAULT: '#0ECC8D',
@@ -56,7 +56,7 @@ module.exports = {
         light: {
           DEFAULT: '#FFFFFF',
           2: '#F7F7F7',
-          3: '#F4F6F8'
+          3: '#F4F6F8',
         },
         dark: {
           1: '#151A1E',
@@ -69,7 +69,8 @@ module.exports = {
           2: '#3F4354',
           3: '#97989D',
           4: '#858EAD',
-          5: '#C5D0E6'
+          5: '#C5D0E6',
+          6: '#F4F6F8',
         },
 
         border: 'hsl(var(--border))',

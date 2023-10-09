@@ -81,3 +81,11 @@ export interface Post extends BasePost {
   tags: TagOnPost[];
   comments: Comment[];
 }
+
+export interface CustomButtonProps {
+  label: string;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+}
