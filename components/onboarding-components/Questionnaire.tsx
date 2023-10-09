@@ -3,8 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { UserAnswersType, AnswersType, QuestionKeysMapType } from "@/types";
-import { QuestionnaireProps } from "@/interfaces";
+import {
+  UserAnswersType,
+  AnswersType,
+  QuestionKeysMapType,
+  QuestionnaireProps,
+} from "@/types";
 import { QuestionnaireForm } from ".";
 import { onboardingQuestions } from "@/constants";
 

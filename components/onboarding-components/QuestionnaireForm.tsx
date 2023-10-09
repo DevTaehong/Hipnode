@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { QuestionnaireFormProps } from "@/interfaces";
+import { QuestionnaireFormProps } from "@/types";
 
 const QuestionnaireForm = ({
   questions,

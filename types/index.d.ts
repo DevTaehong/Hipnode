@@ -1,4 +1,5 @@
 import React from "react";
+import { onboardingQuestions } from "@/constants";
 
 export interface ThemeContextType {
   mode: string;
@@ -113,3 +114,33 @@ export type ColorVariantsOnboardingType = {
   bgYellow: string;
   bgGreen: string;
 };
+
+export interface QuestionnaireProps {
+  userClerkId: string;
+}
+
+export interface QuestionnaireFormProps {
+  questions: (typeof onboardingQuestions)[number];
+  animateClass: string;
+  classVariants: {
+    parentDivFlex: string;
+    childDivWidth: string;
+    buttonWidth: string;
+    buttonText: string;
+  };
+  handleQuestionClick: (question: AnswersType) => void;
+  handleNextClick: () => void;
+  selectedAnswers: AnswersType[];
+  questionSet: number;
+}
+
+export interface OnboardingSideScreenProps {
+  info?: {
+    title: string;
+    posts: PostItem[];
+  };
+}
+
+export interface IconProps {
+  children: React.ReactNode;
+}

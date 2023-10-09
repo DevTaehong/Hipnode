@@ -1,7 +1,9 @@
 import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
 import FillIcon from "../icons/fill-icons";
-import { OnboardingSideScreenProps } from "@/interfaces";
-import { ColorVariantsOnboardingType } from "@/types";
+import {
+  OnboardingSideScreenProps,
+  ColorVariantsOnboardingType,
+} from "@/types";
 
 const colorVariants: ColorVariantsOnboardingType = {
   fillRed: "fill-red",
