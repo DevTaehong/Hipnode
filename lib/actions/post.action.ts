@@ -1,21 +1,12 @@
 "use server";
 
+import { type Post } from "@prisma/client";
 import prisma from "../prisma";
 
-interface CreatePostProps {
-  content: string;
-  authorId: number;
-  // image?: string;
-}
-
-export async function createPost({ content, authorId }: CreatePostProps) {
+export async function createPost(data: Post) {
   try {
     const post = await prisma.post.create({
-      data: {
-        content,
-        authorId,
-        // image
-      },
+      data,
     });
 
     return post;
@@ -27,16 +18,12 @@ export async function createPost({ content, authorId }: CreatePostProps) {
 
 interface UpdatePostProps {
   id: number;
-  content?: string; // Should all fields be optional?
+  content?: string;
   isEdited?: boolean;
   // do we continue added other fields in?
 }
 
-export async function updatePost({
-  id,
-  content,
-  isEdited = true, // post is being updated, this can be set to true by default
-}: UpdatePostProps) {
+export async function updatePost({ id, content }: UpdatePostProps) {
   try {
     const updatedPost = await prisma.post.update({
       where: {
@@ -44,7 +31,7 @@ export async function updatePost({
       },
       data: {
         content,
-        isEdited,
+        isEdited: true,
         // other fields to update
       },
     });
