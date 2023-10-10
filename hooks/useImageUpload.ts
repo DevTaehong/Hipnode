@@ -10,6 +10,7 @@ import {
 
 export const useImageUpload = ({
   bucketName,
+  folderName,
 }: ImageUploadProps): UseImageUploadReturn => {
   const [file, setFile] = useState<File | null>(null);
 
@@ -29,7 +30,8 @@ export const useImageUpload = ({
 
     try {
       const fileExtension = file.name.split('.').pop();
-      const uniqueFileName = `image_${uuidv4()}.${fileExtension}`;
+      const prefix = folderName && folderName.trim() ? `${folderName}/` : '';
+      const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
 
       const { error } = await supabase.storage
         .from(bucketName)

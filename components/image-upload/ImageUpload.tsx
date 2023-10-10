@@ -1,9 +1,10 @@
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { ImageUploadProps } from '@/types';
 
-const ImageUpload = ({ bucketName }: ImageUploadProps) => {
+const ImageUpload = ({ bucketName, folderName }: ImageUploadProps) => {
   const { handleFileChange, handleSubmit } = useImageUpload({
     bucketName,
+    folderName,
   });
 
   return (

@@ -86,6 +86,7 @@ export interface Post extends BasePost {
 
 export interface ImageUploadProps {
   bucketName: string;
+  folderName?: string;
 }
 
 export interface UseImageUploadReturn {
