@@ -1,12 +1,7 @@
-import React from "react";
-import MeetupsCard from "@/components/MeetupsCard";
-
-const page = () => {
+const page = async () => {
   return (
-    <div className="flex">
-      <div className="flex">
-        <MeetupsCard />
-      </div>
+    <div className="flex w-screen">
+      <div className="flex flex-col gap-4 p-4">content</div>
     </div>
   );
 };

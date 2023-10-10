@@ -81,3 +81,24 @@ export interface Post extends BasePost {
   tags: TagOnPost[];
   comments: Comment[];
 }
+
+export type MeetUp = {
+  id: number;
+  createdAt: string;
+  contactEmail: string;
+  contactNumber: string;
+  image: string;
+  location: string;
+  responsiblePersonId: number;
+  summary: string;
+  title: string;
+  updatedAt: string;
+};
+
+export type Group = {
+  id: number;
+  createdAt: string;
+  details: string;
+  groupName: string;
+  updatedAt: string;
+};
