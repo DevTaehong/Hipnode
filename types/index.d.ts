@@ -89,3 +89,13 @@ export interface CustomButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
 }
+
+export interface ActiveButtonsProps {
+  currentPath: string;
+}
+
+export interface ActionButtonProps {
+  label: string;
+  href: string;
+  currentPath?: string;
+}

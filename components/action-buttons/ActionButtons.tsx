@@ -1,10 +1,6 @@
 import ActionButton from './ActionButton';
-
-const routes = ['Posts', 'Meetups', 'Podcasts', 'Interviews', 'History'];
-
-interface ActiveButtonsProps {
-  currentPath: string;
-}
+import { routes } from '@/constants';
+import { ActiveButtonsProps } from '@/types';
 
 const ActiveButtons = ({ currentPath }: ActiveButtonsProps) => {
   return (

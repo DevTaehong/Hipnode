@@ -1,12 +1,7 @@
 import Link from 'next/link';
 
 import { useTheme } from '@/context/ThemeProvider';
-
-interface ActionButtonProps {
-  label: string;
-  href: string;
-  currentPath?: string;
-}
+import { ActionButtonProps } from '@/types';
 
 const ActionButton = ({ label, href, currentPath }: ActionButtonProps) => {
   const { mode } = useTheme();

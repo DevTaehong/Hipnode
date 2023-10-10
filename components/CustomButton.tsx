@@ -3,17 +3,17 @@ import { CustomButtonProps } from '@/types';
 const CustomButton = ({
   label,
   onClick,
-  className = '',
+  className = 'bg-red-80 text-sc-6',
   disabled = false,
   type = 'button',
 }: CustomButtonProps) => {
   const baseStyles =
-    'flex rounded-[8px] bg-red-80 p-4 text-[1.125rem] font-semibold leading-[1.625rem] text-sc-6';
+    'flex rounded-[8px] p-4 text-[1.125rem] font-semibold leading-[1.625rem]';
 
   return (
     <button
       type={type}
-      className={className || baseStyles}
+      className={`${baseStyles} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

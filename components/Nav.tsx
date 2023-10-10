@@ -46,7 +46,17 @@ const Nav = () => {
         </button>
       </div>
       <ActionButtons currentPath={pathname} />
-      <CustomButton label="Advertising" />
+      <div className="flex justify-center gap-4">
+        <CustomButton
+          className="bg-sc-6 text-sc-2 dark:bg-dark-4 dark:text-sc-6"
+          label="Advertising"
+        />
+        <CustomButton
+          className="bg-dark-4 text-sc-6 dark:bg-sc-6 dark:text-sc-2"
+          label="Advertising"
+        />
+        <CustomButton label="Advertising" />
+      </div>
     </>
   );
 };
