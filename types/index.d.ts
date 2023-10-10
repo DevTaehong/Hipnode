@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export interface ThemeContextType {
   mode: string;
   setMode: (mode: string) => void;
@@ -81,3 +83,15 @@ export interface Post extends BasePost {
   tags: TagOnPost[];
   comments: Comment[];
 }
+
+export interface ImageUploadProps {
+  bucketName: string;
+}
+
+export interface UseImageUploadReturn {
+  file: File | null;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: () => Promise<void>;
+}
+
+export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
