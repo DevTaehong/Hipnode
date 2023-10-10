@@ -67,6 +67,10 @@
     @apply text-[12px] font-semibold leading-[18px];
   }
 
+  .base-12 {
+    @apply text-[12px] leading-[18px];
+  }
+
   .semibold-10 {
     @apply text-[10px] font-semibold leading-[16px];
   }
@@ -95,6 +99,10 @@
     @apply bg-light dark:bg-dark-3;
   }
 
+  .bg-light-2_dark-2 {
+    @apply bg-light-2 dark:bg-dark-2;
+  }
+
   .bg-light_dark-4 {
     @apply bg-light dark:bg-dark-4;
   }
@@ -111,8 +119,16 @@
     @apply text-sc-1 dark:text-light-2;
   }
 
+  .text-sc-2_light {
+    @apply text-sc-2 dark:text-light;
+  }
+
   .text-sc-2_light-2 {
     @apply text-sc-2 dark:text-light-2;
+  }
+
+  .text-sc-3_light-6 {
+    @apply text-sc-3 dark:text-light-3;
   }
 
   .text-sc-4_light-2 {

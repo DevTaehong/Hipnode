@@ -1,5 +1,5 @@
 import { supabase } from "@/utils/supabaseClient";
-import { MeetUp, Group } from "@/types";
+import { MeetUp, Group, Episode } from "@/types";
 
 export const getAllMeetups = async (): Promise<MeetUp[] | []> => {
   try {
@@ -29,6 +29,22 @@ export const getAllGroups = async (): Promise<Group[] | []> => {
     return data as Group[];
   } catch (error) {
     console.error("Error in getAllGroups function:", error);
+    return [];
+  }
+};
+
+export const getAllPodcasts = async (): Promise<Episode[] | []> => {
+  try {
+    const { data, error } = await supabase.from("Podcast").select("*");
+
+    if (error) {
+      console.error("Error fetching all podcasts:", error);
+      throw error;
+    }
+
+    return data as Episode[];
+  } catch (error) {
+    console.error("Error in getAllPodcasts function:", error);
     return [];
   }
 };

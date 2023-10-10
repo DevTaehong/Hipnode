@@ -102,3 +102,16 @@ export type Group = {
   groupName: string;
   updatedAt: string;
 };
+
+export type Episode = {
+  id: number;
+  createdAt: string;
+  details: string;
+  episodeNumber: number;
+  image: string;
+  showId: number;
+  title: string;
+  updatedAt: string;
+  url: string;
+  userId: number;
+};

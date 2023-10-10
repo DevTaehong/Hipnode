@@ -1,9 +1,13 @@
-const page = async () => {
+import GroupSection from "@/components/GroupSection";
+
+const Page = async () => {
   return (
-    <div className="flex w-screen">
-      <div className="flex flex-col gap-4 p-4">content</div>
+    <div className="bg-light-2_dark-2 flex w-screen">
+      <div className="flex w-full p-4">
+        <GroupSection />
+      </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
