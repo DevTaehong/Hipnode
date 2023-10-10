@@ -35,7 +35,7 @@ const fastestGrowingGroups = [
   },
   {
     icon: christopher,
-    groupDescription: "",
+    groupDescription: "Nostrud exercitation ex ea commodo",
     groupName: "Odio aenean sed",
   },
   {
