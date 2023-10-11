@@ -10,6 +10,7 @@
     "seed": "prisma db seed"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.25.2",
     "@prisma/client": "^5.4.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
