@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
-import Nav from "@/components/Nav";
+import React from "react";
+import Navbar from "@/components/navbar/Navbar";
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <Nav />
+    <main>
+      <Navbar />
       {children}
-    </>
+    </main>
   );
 }

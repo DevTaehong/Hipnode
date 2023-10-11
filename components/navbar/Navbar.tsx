@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 
 import { useTheme } from "@/context/ThemeProvider";
-import { HipnodeIcon } from "./icons/outline-icons";
+import { HipnodeIcon } from "../icons/outline-icons";
 
 const Nav = () => {
   const { mode, setMode } = useTheme();
@@ -24,7 +24,12 @@ const Nav = () => {
         aria-label="Toggle Theme"
       >
         {mode === "light" ? (
-          <Image src="/assets/icons/sun.svg" alt="sun" width={20} height={20} />
+          <Image
+            src="/assets/icons/sun.svg"
+            alt="sun"
+            width={20}
+            height={20}
+          />
         ) : (
           <Image
             src="/assets/icons/moon.svg"
