@@ -28,7 +28,7 @@ export interface User {
   id: number;
   clerkId: string;
   name: string;
-  username: string;
+  username: string | null;
   email: string;
   password?: string | null;
   bio?: string | null;

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { updateUser } from "@/lib/user.actions";
 import {
   UserAnswersType,
   AnswersType,
@@ -53,6 +54,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
           "Clerk User ID:",
           userClerkId
         );
+        updateUser(userClerkId, { bio: "This is a test" });
         router.push("/");
       } else {
         const questionKeysMap: QuestionKeysMapType = {
