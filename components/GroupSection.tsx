@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { ArrowIcon } from "./icons/outline-icons";
 
+import { ArrowIcon } from "./icons/outline-icons";
+import GroupSectionListItem from "./GroupSectionListItem";
+import GroupSectionHeader from "./GroupSectionHeader";
 import FillIcon from "./icons/fill-icons";
 import { christopher, santiago, negan } from "@/public/assets";
 
@@ -166,39 +167,35 @@ const newlyLaunchedGroups = [
   },
 ];
 
-const groupSectionHeadings = [
+const sectionHeadings = [
   {
     title: "Fastest Growing",
     icon: FillIcon.Growing,
     bgColor: "bgYellow",
-    group: fastestGrowingGroups,
+    groups: fastestGrowingGroups,
   },
   {
     title: "Most Popular",
     icon: FillIcon.Fire,
     bgColor: "bgRed",
-    group: mostPopularGroups,
+    groups: mostPopularGroups,
   },
   {
     title: "Newly Launched",
     icon: FillIcon.Rocket,
     bgColor: "bgBlue",
-    group: newlyLaunchedGroups,
+    groups: newlyLaunchedGroups,
   },
 ];
 
-type ColorVariantsType = {
-  [key: string]: string;
-  bgYellow: string;
-  bgRed: string;
-  bgBlue: string;
-};
-
-const colorVariants: ColorVariantsType = {
-  bgYellow: "bg-yellow-10",
-  bgRed: "bg-red-10",
-  bgBlue: "bg-blue-10",
-};
+const OuterDivPattern = () => (
+  <>
+    <div className="bg-light_dark-4 absolute left-12 top-[-0.3rem] h-3 w-3 rotate-45 rounded-sm" />
+    <div className="bg-light_dark-4 absolute left-[3.27rem] top-[-0.45rem] h-[0.125rem] w-[0.2rem] rounded-t-full" />
+    <div className="bg-light-2_dark-2 absolute left-[2.53rem] top-[-0.5rem] h-2 w-[0.75rem] rounded-b-full" />
+    <div className="bg-light-2_dark-2 absolute left-[3.46rem] top-[-0.5rem] h-2 w-[0.75rem] rounded-b-full" />
+  </>
+);
 
 const GroupSection = () => {
   const [expandedGroupIndex, setExpandedGroupIndex] = useState<null | number>(
@@ -210,85 +207,45 @@ const GroupSection = () => {
         expandedGroupIndex !== null ? "gap-2.5" : "gap-5"
       }`}
     >
-      {/* ! pattern for shape at the top of the main div */}
-      <div className="bg-light_dark-4 absolute left-12 top-[-0.3rem] h-3 w-3 rotate-45 rounded-sm" />
-      <div className="bg-light_dark-4 absolute left-[3.27rem] top-[-0.45rem] h-[0.125rem] w-[0.2rem] rounded-t-full" />
-      <div className="bg-light-2_dark-2 absolute left-[2.53rem] top-[-0.5rem] h-2 w-[0.75rem] rounded-b-full" />
-      <div className="bg-light-2_dark-2 absolute left-[3.46rem] top-[-0.5rem] h-2 w-[0.75rem] rounded-b-full" />
-
+      <OuterDivPattern />
       <figure
-        className={`${expandedGroupIndex === null && "hidden"}`}
+        className={`${expandedGroupIndex === null && "hidden"} cursor-pointer`}
         onClick={() => setExpandedGroupIndex(null)}
       >
         <ArrowIcon.Left className="stroke-sc-2 dark:stroke-sc-3" />
       </figure>
 
-      {groupSectionHeadings.map((group, index) => (
-        <section
-          key={group.title}
-          className={`flex flex-col gap-2.5 transition duration-200 ${
-            expandedGroupIndex !== null &&
-            expandedGroupIndex !== index &&
-            "hidden"
-          }`}
-        >
-          <header
-            className={`flex w-full flex-col rounded-[0.625rem] p-2.5 ${
-              colorVariants[group.bgColor]
+      {sectionHeadings.map((section, index) => {
+        const { title, bgColor, icon, groups } = section;
+        const mappedGroups =
+          expandedGroupIndex === index ? groups : groups.slice(0, 3);
+
+        return (
+          <section
+            key={title}
+            className={`flex flex-col gap-2.5 ${
+              expandedGroupIndex !== null &&
+              expandedGroupIndex !== index &&
+              "hidden"
             }`}
           >
-            <figure className="flex gap-1.5">
-              <group.icon />
-              <figcaption className="semibold-18 text-sc-2">
-                {group.title}
-              </figcaption>
-            </figure>
-            <h5 className="base-10 text-sc-3">
-              List updated daily at midnight PST.
-            </h5>
-          </header>
-          <ul className="flex flex-col gap-2.5">
-            {group.group
-              .slice(0, expandedGroupIndex === index ? group.group.length : 3)
-              .map((g) => (
-                <li key={g.groupName} className="flex items-center gap-2">
-                  <Image
-                    src={g.icon}
-                    height={34}
-                    width={34}
-                    style={{
-                      objectFit: "cover",
-                    }}
-                    alt="logo of the group"
-                    className="h-[2.125rem] w-[2.125rem] rounded-full border border-purple-20"
-                  />
-                  <div className="flex w-full flex-col truncate">
-                    <h5 className="semibold-12 text-sc-2_light-2">
-                      {g.groupName}
-                    </h5>
-                    <h5 className="base-10 truncate text-sc-3">
-                      {g.groupDescription}
-                    </h5>
-                  </div>
-                </li>
+            <GroupSectionHeader title={title} bgColor={bgColor} icon={icon} />
+            <ul className="flex flex-col gap-2.5">
+              {mappedGroups.map((group) => (
+                <GroupSectionListItem key={group.groupName} group={group} />
               ))}
-          </ul>
-          <button
-            className={`semibold-9 flex h-3.5 w-fit rounded-full bg-purple-20 px-2 text-purple ${
-              expandedGroupIndex !== null && "hidden"
-            }`}
-            onClick={() => {
-              if (expandedGroupIndex === index) {
-                setExpandedGroupIndex(null);
-              } else {
-                setExpandedGroupIndex(index);
-              }
-            }}
-          >
-            See All
-          </button>
-        </section>
-      ))}
+            </ul>
+            <button
+              className={`semibold-9 flex h-3.5 w-fit rounded-full bg-purple-20 px-1 text-purple ${
+                expandedGroupIndex !== null && "hidden"
+              }`}
+              onClick={() => setExpandedGroupIndex(index)}
+            >
+              See All
+            </button>
+          </section>
+        );
+      })}
     </aside>
   );
 };

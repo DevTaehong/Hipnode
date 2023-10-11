@@ -1,7 +1,6 @@
-import React from "react";
 import Image from "next/image";
-import { Episode } from "@/types";
 
+import { Episode } from "@/types";
 interface PodcastCardProps {
   info: Episode;
 }
