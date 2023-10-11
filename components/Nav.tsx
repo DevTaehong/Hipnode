@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
-import { useTheme } from "@/context/ThemeProvider";
-import { HipnodeIcon } from "./icons/outline-icons";
+import { useTheme } from '@/context/ThemeProvider';
+import { HipnodeIcon } from './icons/outline-icons';
 
 const Nav = () => {
   const { mode, setMode } = useTheme();
 
   const toggleTheme = () => {
-    const newMode = mode === "light" ? "dark" : "light";
+    const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);
-    localStorage.setItem("theme", newMode);
+    localStorage.setItem('theme', newMode);
   };
 
   return (
@@ -23,7 +23,7 @@ const Nav = () => {
         onClick={toggleTheme}
         aria-label="Toggle Theme"
       >
-        {mode === "light" ? (
+        {mode === 'light' ? (
           <Image src="/assets/icons/sun.svg" alt="sun" width={20} height={20} />
         ) : (
           <Image
