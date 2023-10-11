@@ -72,7 +72,8 @@ module.exports = {
           5: '#C5D0E6',
           6: '#F4F6F8',
         },
-
+        leaveModal:
+          'linear-gradient(180deg, rgba(189, 189, 189, 0.20) 0%, rgba(189, 189, 189, 0.20) 100%)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

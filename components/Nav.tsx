@@ -5,7 +5,7 @@ import ThemeToggle from '@/context/ThemeToggle';
 
 const Nav = () => {
   return (
-    <div className="flex h-14 w-full items-center justify-between bg-light px-10 dark:bg-dark-2">
+    <div className="bg-light dark:bg-dark-2 flex h-14 w-full items-center justify-between px-10">
       <HipnodeIcon />
       <ThemeToggle />
     </div>
