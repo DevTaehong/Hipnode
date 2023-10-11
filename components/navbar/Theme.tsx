@@ -19,15 +19,15 @@ const Theme = () => {
 
   return (
     <section
-      className="flex cursor-pointer items-center gap-1 rounded-full bg-light-2 p-1 dark:bg-dark-3"
+      className="flex cursor-pointer items-center gap-1 rounded-full bg-light-2 p-1 dark:bg-dark-2"
       onClick={setTheme}
     >
-      <div className="rounded-full bg-light p-1 dark:bg-dark-2">
-        <FillIcon.Sun className="fill-sc-4 dark:fill-sc-6" />
+      <div className="rounded-full bg-light p-1.5 dark:bg-dark-1">
+        <FillIcon.Sun className="fill-red-80 dark:fill-dark-4" />
       </div>
 
-      <div className="rounded-full bg-light-2 p-1 dark:bg-dark-4">
-        <FillIcon.Moon className="fill-sc-4 dark:fill-sc-6" />
+      <div className="rounded-full bg-light-2 p-1.5 dark:bg-dark-4">
+        <FillIcon.Moon className="fill-sc-5" />
       </div>
     </section>
   );
