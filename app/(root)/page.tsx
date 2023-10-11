@@ -1,6 +1,18 @@
-import { UserButton, SignOutButton, SignInButton } from "@clerk/nextjs";
+import {
+  UserButton,
+  SignOutButton,
+  SignInButton,
+  currentUser,
+} from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
   return (
     <main>
       <UserButton
