@@ -7,7 +7,7 @@ import { ThemeContextType } from "@/types";
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<string>("light");
+  const [mode, setMode] = useState("");
 
   const handleThemeChange = () => {
     if (

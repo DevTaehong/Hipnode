@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { HipnodeIcon, SearchIcon } from "../icons/outline-icons";
@@ -6,9 +8,9 @@ import FillIcon from "../icons/fill-icons";
 import { UserButton } from "@clerk/nextjs";
 import Theme from "./Theme";
 
-const Nav = () => {
+const Navbar = () => {
   return (
-    <nav className="flex-between flex w-full bg-white px-5 py-3 dark:bg-dark-3">
+    <nav className="flex-between flex w-full bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="md:hidden" />
@@ -34,4 +36,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default Navbar;
