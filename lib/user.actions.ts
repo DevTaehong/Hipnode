@@ -3,7 +3,15 @@
 import { type User } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
-export async function createUser(data: User) {
+type createUserType = {
+  clerkId: string;
+  name: string;
+  username: string;
+  picture: string;
+  email: string;
+};
+
+export async function createUser(data: createUserType) {
   try {
     const user = await prisma.user.create({
       data,
@@ -72,6 +80,21 @@ export async function updateUser(clerkId: string, data: Partial<User>) {
     return user;
   } catch (error) {
     console.error("Error updating user:", error);
+    throw error;
+  }
+}
+
+export async function deleteUser(clerkId: string) {
+  try {
+    const deletedUser = await prisma.user.delete({
+      where: {
+        clerkId,
+      },
+    });
+
+    return deletedUser;
+  } catch (error) {
+    console.error("Error deleting user:", error);
     throw error;
   }
 }

@@ -1,9 +1,5 @@
 import { currentUser } from "@clerk/nextjs";
-import {
-  checkUserForClerkId,
-  createUser,
-  checkUserForBio,
-} from "@/lib/user.actions";
+import { checkUserForBio } from "@/lib/user.actions";
 import {
   OnboardingSideScreen,
   Questionnaire,
@@ -14,27 +10,13 @@ import { redirect } from "next/navigation";
 const Page = async () => {
   const user = await currentUser();
   if (!user) {
-    redirect("/sign-in");
+    redirect("/sign-up");
   }
-  const userClerkId = user.id;
-  const userEmail = user.emailAddresses[0].emailAddress;
+  const { id: userClerkId } = user;
 
-  const { id, imageUrl, username, firstName, lastName } = user;
-
-  const checkForClerkId = await checkUserForClerkId({ clerkId: id });
-  const checkForBio = await checkUserForBio({ clerkId: id });
+  const checkForBio = await checkUserForBio({ clerkId: userClerkId });
   if (checkForBio) {
     redirect("/");
-  }
-
-  if (!checkForClerkId) {
-    await createUser({
-      clerkId: id,
-      name: `${firstName} ${lastName}`,
-      username,
-      picture: imageUrl,
-      email: userEmail,
-    });
   }
 
   return (
