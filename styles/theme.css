@@ -24,7 +24,7 @@
   }
 
   .regular-18 {
-    @apply text-[18px] font-medium leading-[26px];
+    @apply text-[18px] font-normal leading-[26px];
   }
 
   .bold-16 {
@@ -48,7 +48,7 @@
   }
 
   .regular-14 {
-    @apply text-[14px] font-semibold leading-[22px];
+    @apply text-[14px] font-medium leading-[22px];
   }
 
   .semibold-12 {
@@ -73,5 +73,102 @@
 
   .regular-9 {
     @apply text-[9px] font-semibold leading-[14px];
+  }
+
+  /* Onboarding component styles */
+  .onboarding-page {
+    @apply flex w-screen flex-col dark:bg-dark-2 md:min-h-screen md:flex-row;
+  }
+
+  .onboarding-background {
+    @apply flex h-auto w-full grow flex-col items-center bg-light-2 p-[1.875rem] dark:bg-dark-2 md:min-h-screen md:w-1/2 md:p-10;
+  }
+
+  .onboarding-main-div {
+    @apply mt-[3.75rem] flex max-w-[27.625rem] flex-col gap-10 md:mt-20;
+  }
+
+  .onboarding-heading {
+    @apply semibold-18 md:bold-30 text-sc-2 dark:text-light;
+  }
+
+  .onboarding-answer-container {
+    @apply flex flex-col gap-5;
+  }
+
+  .onboarding-card-small {
+    @apply flex items-center gap-5 rounded-lg bg-light p-5 dark:bg-dark-3;
+  }
+
+  .onboarding-card-small-image {
+    @apply flex h-[3.75rem] w-[3.75rem] dark:bg-dark-4 rounded-lg p-5;
+  }
+
+  .onboarding-card-small-text {
+    @apply semibold-14 md:semibold-18 dark:text-light-3;
+  }
+
+  /* Sign In and Sign Up styles */
+
+  .sign-up-background {
+    @apply flex w-screen flex-col md:min-h-screen md:flex-row;
+  }
+
+  .clerk-modal-background {
+    @apply flex w-full justify-center py-8 dark:bg-dark-1 md:w-1/2 md:py-20;
+  }
+
+  .clerk-modal-container {
+    @apply relative flex h-fit w-full max-w-[29rem] md:max-w-[28rem];
+  }
+
+  .clerk-modal-logo {
+    @apply absolute left-14 top-10 flex;
+  }
+
+  /* Questionnaire form styles */
+
+  .questionnaire-form-background {
+    @apply flex h-full w-full grow flex-col items-center bg-light-2 p-[1.875rem] dark:bg-dark-2 md:min-h-screen md:w-1/2 md:bg-light md:p-10 md:dark:bg-dark-3;
+  }
+
+  .questionnaire-main-div {
+    @apply mt-[1.875rem] flex w-full max-w-[27.625rem] flex-col gap-10  md:mt-[7.37rem];
+  }
+
+  .questionnaire-container {
+    @apply flex flex-col gap-10;
+  }
+
+  .questionnaire-heading {
+    @apply semibold-18 md:bold-30 text-sc-2 dark:text-light;
+  }
+
+  .questionnaire-blue-span {
+    @apply regular-16 mb-5 text-blue-80;
+  }
+
+  .questionnaire-answer {
+    @apply cursor-pointer rounded-lg p-4 transition duration-200;
+  }
+
+  .questionnaire-answer-text {
+    @apply semibold-14 md:semibold-18 transition duration-200;
+  }
+
+  .questionnaire-button-container {
+    @apply flex flex-col gap-5;
+  }
+
+  .questionnaire-button {
+    @apply semibold-18 flex h-[2.875rem] items-center justify-center self-start rounded-lg text-light-2 transition duration-200;
+  }
+
+  .questionnaire-footer-text {
+    @apply text-sc-2 dark:text-light-2;
+  }
+
+  .questionnaire-footer-span-text {
+    @apply semibold-14 cursor-pointer text-red-80;
   }
 }
