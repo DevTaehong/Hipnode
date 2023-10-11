@@ -24,7 +24,7 @@
   }
 
   .regular-18 {
-    @apply text-[18px] font-medium leading-[26px];
+    @apply text-[18px] font-normal leading-[26px];
   }
 
   .base-18 {
