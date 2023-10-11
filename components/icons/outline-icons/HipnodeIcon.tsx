@@ -1,6 +1,8 @@
-const HipnodeIcon = () => {
+const HipnodeIcon = ({ styles }: { styles?: String }) => {
   return (
-    <div className="flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-md bg-dark-2 dark:bg-light">
+    <div
+      className={`flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-md bg-dark-2 dark:bg-light ${styles}`}
+    >
       <svg
         width="22"
         height="22"

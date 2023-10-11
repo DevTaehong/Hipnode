@@ -1,5 +1,5 @@
 import "./globals.css";
-import { ReactNode } from "react";
+import React from "react";
 import type { Metadata } from "next";
 import { Source_Sans_3 as SourceSans3 } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Social Media Platform",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${font.className} overscroll-none`}>
