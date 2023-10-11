@@ -8,7 +8,7 @@ import Theme from "./Theme";
 
 const Nav = () => {
   return (
-    <nav className="flex-between flex w-full bg-white px-5 py-3">
+    <nav className="flex-between flex w-full bg-white px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="md:hidden" />
@@ -16,7 +16,7 @@ const Nav = () => {
         </Link>
 
         <span className="cursor-pointer md:hidden">
-          <SearchIcon />
+          <SearchIcon className="stroke-sc-5 dark:stroke-sc-4" />
         </span>
       </section>
 
