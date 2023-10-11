@@ -197,7 +197,10 @@ FillIcon.Moon = function Icon({ className }: FillIconProps) {
   );
 };
 
-FillIcon.Notification = function Icon({ className, notifcation }: FillIconProps) {
+FillIcon.Notification = function Icon({
+  className,
+  notifcation,
+}: FillIconProps) {
   return (
     <FillIcon className={className || "fill-[#858EAD] dark:fill-[#F4F6F8]"}>
       <NotificationIcon notifcation={notifcation} />

@@ -1,4 +1,4 @@
-import { IconProps } from "@/lib/utils";
+import { IconProps } from "@/types";
 
 const Icon = ({ children }: IconProps) => {
   return (
