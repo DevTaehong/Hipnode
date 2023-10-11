@@ -15,9 +15,7 @@ const Nav = () => {
           <HipnodeHeaderLogo styles="hidden md:flex" />
         </Link>
 
-        <span className="cursor-pointer md:hidden">
-          <SearchIcon className="stroke-sc-5 dark:stroke-sc-4" />
-        </span>
+        <SearchIcon className="cursor-pointer stroke-sc-5 dark:stroke-sc-4 md:hidden" />
       </section>
 
       <section className="flex items-center gap-5">
