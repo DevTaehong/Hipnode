@@ -1,26 +1,19 @@
-"use client";
-
 import React from "react";
-import Image from "next/image";
-
-import { useTheme } from "@/context/ThemeProvider";
+import Link from "next/link";
 import { HipnodeIcon } from "../icons/outline-icons";
+import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
 
 const Nav = () => {
-  const { mode, setMode } = useTheme();
-
-  const toggleTheme = () => {
-    const newMode = mode === "light" ? "dark" : "light";
-    setMode(newMode);
-    localStorage.setItem("theme", newMode);
-  };
-
   return (
     <nav className="">
       <section>
-        <HipnodeIcon styles="md:hidden" />
+        <Link href="/">
+          <HipnodeIcon styles="md:hidden" />
+          <HipnodeHeaderLogo styles="hidden md:flex" />
+        </Link>
       </section>
 
+      {/* Links to different parts that shows on lg screen */}
       <section></section>
     </nav>
   );
