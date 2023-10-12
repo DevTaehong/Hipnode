@@ -200,6 +200,8 @@ code {
   }
 }
 
+/* Clerks modal styles */
+
 .cl-internal-16pk7q8 {
   display: none;
 }
@@ -242,7 +244,57 @@ code {
   .cl-internal-b3fm6y {
   }
 }
+@media (max-width: 30em) {
+  .cl-internal-rx251b {
+    width: auto;
+  }
+}
 
 .cl-internal-b3fm6y {
   display: none;
+}
+
+/* Account settings styles */
+.cl-internal-jqrj10 {
+  background-color: #ff6934;
+}
+
+.cl-internal-enrgi0 {
+  color: #ff6934;
+  height: 15px;
+  width: 15px;
+}
+
+.cl-internal-3vf5mz {
+  color: white;
+}
+
+.cl-internal-fqx4fd {
+  color: white;
+}
+
+.cl-internal-mv2spy,
+.cl-internal-1b63r8w,
+.cl-internal-xkj3jj,
+.cl-internal-n3kcow,
+.cl-internal-l1ab9q,
+.cl-internal-3vf5mz,
+.cl-internal-fqx4fd {
+  color: black;
+}
+
+/* Dark mode styles */
+.dark .cl-internal-mv2spy,
+.dark .cl-internal-1b63r8w,
+.dark .cl-internal-xkj3jj,
+.dark .cl-internal-n3kcow,
+.dark .cl-internal-l1ab9q,
+.dark .cl-internal-3vf5mz,
+.dark .cl-internal-fqx4fd {
+  color: white;
+}
+
+.cl-internal-1qc4dsk {
+  margin-top: 2;
+  margin-left: 0;
 }
