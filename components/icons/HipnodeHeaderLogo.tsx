@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 interface HipnodeHeaderLogoProps {
   clerkForm?: boolean;
   styles?: string;
@@ -19,8 +21,8 @@ const HipnodeHeaderLogo = ({ clerkForm = false, styles }: HipnodeHeaderLogoProps
   const divGap = clerkForm ? "gap-2 sm:gap-2.5 " : "gap-2.5";
 
   return (
-    <div className={`flex items-center self-start ${divGap} ${styles}`}>
-      <div className={`flex rounded-md p-1 ${divStyles}`}>
+    <div className={cn("flex items-center self-start", divGap, styles)}>
+      <div className={cn("flex rounded-md p-1", divStyles)}>
         <svg
           className="h-full w-full"
           viewBox="0 0 22 22"
@@ -45,9 +47,9 @@ const HipnodeHeaderLogo = ({ clerkForm = false, styles }: HipnodeHeaderLogoProps
           </g>
         </svg>
       </div>
-      <h1 className={`${textStyles} `}>
+      <h1 className={cn(textStyles)}>
         Hipnode
-        <span className={dotStyles}>.</span>
+        <span className={cn(dotStyles)}>.</span>
       </h1>
     </div>
   );
