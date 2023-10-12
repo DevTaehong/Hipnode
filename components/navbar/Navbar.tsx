@@ -4,12 +4,12 @@ import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 
-import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
-import FillIcon from "../icons/fill-icons";
-import Theme from "./Theme";
-import { HipnodeIcon, SearchIcon } from "../icons/outline-icons";
-import { navLinks } from "@/constants";
+import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
+import FillIcon from "@/components/icons/fill-icons";
+import Theme from "@/components/navbar/Theme";
+import { HipnodeIcon, SearchIcon } from "@/components/icons/outline-icons";
 import { Input } from "@/components/ui/input";
+import { navLinks } from "@/constants";
 
 const Navbar = () => {
   const pathname = usePathname();
