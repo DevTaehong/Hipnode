@@ -79,3 +79,26 @@ export const onboardingSideScreenInfo = {
     },
   ],
 };
+
+export const navLinks = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Calendar",
+    link: "/calendar",
+  },
+  {
+    name: "Group",
+    link: "/group",
+  },
+  {
+    name: "Podcasts",
+    link: "/podcasts",
+  },
+  {
+    name: "Interviews",
+    link: "/interviews",
+  },
+];
