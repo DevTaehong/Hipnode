@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import { HipnodeIcon, SearchIcon } from "../icons/outline-icons";
+import { UserButton } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+
 import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
 import FillIcon from "../icons/fill-icons";
-import { UserButton } from "@clerk/nextjs";
 import Theme from "./Theme";
+import { HipnodeIcon, SearchIcon } from "../icons/outline-icons";
 import { navLinks } from "@/constants";
-import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 
 const Navbar = () => {
