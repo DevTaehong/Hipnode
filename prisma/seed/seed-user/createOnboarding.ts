@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
+import { PrismaClient, User } from '@prisma/client';
 
-import { PrismaClient } from '@prisma/client';
+
 const prisma = new PrismaClient();
 
 const businessStageOptions = [
@@ -32,7 +33,7 @@ const interestsOptions = [
   'Sports',
 ];
 
-export async function createOnboarding(users) {
+export async function createOnboarding(users: User[]) {
   const onboardingPromises = [];
 
   for (const user of users) {
@@ -52,6 +53,7 @@ export async function createOnboarding(users) {
         codeAbility,
         interests,
         isOnboarded,
+        updatedAt: faker.date.recent(),
       },
     });
 

@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker';
+import {PrismaClient, Comment, User } from '@prisma/client';
 
-import prisma from '../../../lib/prisma.mjs';
+const prisma = new PrismaClient();
 
-export async function createRepliesToComment(comment, user, repliesCount) {
+export async function createRepliesToComment(comment: Comment, user: User, repliesCount: number) {
   try {
     const repliesPromises = Array.from({ length: repliesCount }).map(() => {
       return prisma.comment.create({

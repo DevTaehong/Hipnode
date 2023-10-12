@@ -1,6 +1,8 @@
-import prisma from '../../../lib/prisma.mjs';
+import { Comment, User ,PrismaClient} from '@prisma/client';
 
-export async function createLikesForComment(comment, user, likeCount) {
+const prisma = new PrismaClient();
+
+export async function createLikesForComment(comment: Comment, user: User, likeCount: number) {
   try {
     const likePromises = Array.from({ length: likeCount }).map(() => {
       return prisma.like.create({

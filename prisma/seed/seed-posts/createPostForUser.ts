@@ -1,7 +1,9 @@
+import { User ,PrismaClient} from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import prisma from '../../../lib/prisma.mjs';
 
-export async function createPostForUser(user) {
+const prisma = new PrismaClient();
+
+export async function createPostForUser(user: User) {
   try {
     const post = await prisma.post.create({
       data: {

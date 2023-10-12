@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
-import prisma from '../../../lib/prisma.mjs';
+import {PrismaClient} from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function createGroups() {
   const groupCount = 10;
@@ -9,6 +11,8 @@ export async function createGroups() {
         data: {
           groupName: faker.lorem.words(2),
           details: faker.lorem.sentence(),
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent(),
         },
       });
       return group;
