@@ -149,11 +149,11 @@
   }
 
   .questionnaire-answer {
-    @apply cursor-pointer rounded-lg p-4 transition duration-200;
+    @apply cursor-pointer rounded-lg p-4;
   }
 
   .questionnaire-answer-text {
-    @apply semibold-14 md:semibold-18 transition duration-200;
+    @apply semibold-14 md:semibold-18;
   }
 
   .questionnaire-button-container {

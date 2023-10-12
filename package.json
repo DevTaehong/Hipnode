@@ -29,6 +29,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@clerk/types": "^3.55.0",
     "@faker-js/faker": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",

@@ -7,7 +7,14 @@ import {
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const user = await currentUser();
+  let user;
+
+  try {
+    user = currentUser();
+  } catch (error) {
+    console.error("Failed to fetch the current user:", error);
+    redirect("/sign-up");
+  }
 
   if (!user) {
     redirect("/sign-up");
@@ -25,7 +32,6 @@ export default async function Home() {
             userButtonPopoverActionButtonText: "dark:text-white",
             userButtonPopoverActionButtonIcon: "dark:invert",
             userButtonPopoverFooter: "dark:invert",
-            userPreviewAvatarContainer: "dark:grayscale-[60%]",
           },
         }}
       />
