@@ -1,6 +1,6 @@
-import ActionButton from './ActionButton';
-import { routes } from '@/constants';
-import { ActiveButtonsProps } from '@/types';
+import ActionButton from "./ActionButton";
+import { routes } from "@/constants";
+import { ActiveButtonsProps } from "@/types";
 
 const ActiveButtons = ({ currentPath }: ActiveButtonsProps) => {
   return (
@@ -9,7 +9,7 @@ const ActiveButtons = ({ currentPath }: ActiveButtonsProps) => {
         <ActionButton
           key={route}
           label={route}
-          href={`/${route.toLowerCase()}`}
+          href={`/${route}`}
           currentPath={currentPath}
         />
       ))}

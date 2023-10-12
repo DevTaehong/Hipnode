@@ -1,7 +1,5 @@
-'use client';
-
-import ThemeToggle from '@/context/ThemeToggle';
-import { HipnodeIcon } from './icons/outline-icons';
+import ThemeToggle from "@/context/ThemeToggle";
+import { HipnodeIcon } from "./icons/outline-icons";
 
 const Nav = () => {
   return (

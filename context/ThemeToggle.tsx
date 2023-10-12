@@ -1,13 +1,15 @@
-import Image from 'next/image';
-import { useTheme } from '@/context/ThemeProvider';
+"use client";
+
+import Image from "next/image";
+import { useTheme } from "@/context/ThemeProvider";
 
 const ThemeToggle = () => {
   const { mode, setMode } = useTheme();
 
   const toggleTheme = () => {
-    const newMode = mode === 'light' ? 'dark' : 'light';
+    const newMode = mode === "light" ? "dark" : "light";
     setMode(newMode);
-    localStorage.setItem('theme', newMode);
+    localStorage.setItem("theme", newMode);
   };
 
   return (
@@ -16,7 +18,7 @@ const ThemeToggle = () => {
       onClick={toggleTheme}
       aria-label="Toggle Theme"
     >
-      {mode === 'light' ? (
+      {mode === "light" ? (
         <Image src="/assets/icons/sun.svg" alt="sun" width={20} height={20} />
       ) : (
         <Image src="/assets/icons/moon.svg" alt="moon" width={20} height={20} />
