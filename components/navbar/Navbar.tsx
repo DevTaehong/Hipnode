@@ -9,12 +9,13 @@ import { UserButton } from "@clerk/nextjs";
 import Theme from "./Theme";
 import { navLinks } from "@/constants";
 import { usePathname } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex-between flex w-full bg-light px-5 py-3 dark:bg-dark-3">
+    <nav className="flex-between flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="md:hidden" />
@@ -40,6 +41,16 @@ const Navbar = () => {
             </Link>
           );
         })}
+      </section>
+
+      <section className="flex w-full max-w-[400px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4">
+        <Input
+          type="text"
+          placeholder="Type here to search..."
+          className="no-focus border-none bg-light-2 shadow-none outline-none dark:bg-dark-4 dark:text-white"
+        />
+
+        <SearchIcon className="cursor-pointer stroke-sc-4" />
       </section>
 
       <section className="flex items-center gap-5">
