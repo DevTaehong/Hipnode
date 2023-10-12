@@ -1,5 +1,9 @@
+<<<<<<< HEAD
+import { ChangeEvent } from 'react';
+=======
 import React from "react";
 import { onboardingQuestions } from "@/constants";
+>>>>>>> main
 
 export interface ThemeContextType {
   mode: string;
@@ -103,6 +107,18 @@ export interface Post extends BasePost {
   comments: Comment[];
 }
 
+export interface ImageUploadProps {
+  bucketName: string;
+  folderName?: string;
+}
+
+export interface UseImageUploadReturn {
+  file: File | null;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: () => Promise<void>;
+}
+
+export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
 export type ColorVariantsOnboardingType = {
   [key: string]: string;
   fillRed: string;
