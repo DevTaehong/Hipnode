@@ -1,10 +1,12 @@
-import GroupLeaveButton from "@/components/GroupLeaveButton";
+import ProfileModal from '@/components/ProfileModal';
 
 const page = () => {
   return (
-    <div className="h-screen bg-dark-1 p-4 dark:bg-dark-2">
-      <GroupLeaveButton />
-    </div>
+    <>
+      <div className="mt-12 flex justify-center bg-slate-600">
+        <ProfileModal />
+      </div>
+    </>
   );
 };
 
