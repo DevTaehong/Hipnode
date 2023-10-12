@@ -18,14 +18,14 @@ const Navbar = () => {
     <nav className="flex-between flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
-          <HipnodeIcon styles="md:hidden" />
-          <HipnodeHeaderLogo styles="hidden md:flex" />
+          <HipnodeIcon styles="lg:hidden" />
+          <HipnodeHeaderLogo styles="hidden lg:flex" />
         </Link>
 
-        <SearchIcon className="cursor-pointer stroke-sc-5 dark:stroke-sc-4 md:hidden" />
+        <SearchIcon className="cursor-pointer stroke-sc-5 dark:stroke-sc-4 lg:hidden" />
       </section>
 
-      <section className="hidden md:flex md:items-center md:gap-5">
+      <section className="hidden lg:flex lg:items-center lg:gap-5">
         {navLinks.map(({ name, link }) => {
           const Icon = FillIcon[name as keyof typeof FillIcon];
 
@@ -43,7 +43,7 @@ const Navbar = () => {
         })}
       </section>
 
-      <section className="flex w-full max-w-[400px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4">
+      <section className="hidden w-full max-w-[400px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4 lg:flex">
         <Input
           type="text"
           placeholder="Type here to search..."
@@ -53,13 +53,17 @@ const Navbar = () => {
         <SearchIcon className="cursor-pointer stroke-sc-4" />
       </section>
 
-      <section className="flex items-center gap-5">
-        <FillIcon.Message className="cursor-pointer fill-sc-4 dark:fill-sc-6" />
+      <section className="flex items-center gap-6">
+        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+          <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
+        </div>
 
-        <FillIcon.Notification
-          className="cursor-pointer fill-sc-4 dark:fill-sc-6"
-          notifcation
-        />
+        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+          <FillIcon.Notification
+            className="fill-sc-4 dark:fill-sc-6"
+            notifcation
+          />
+        </div>
 
         <UserButton />
 
