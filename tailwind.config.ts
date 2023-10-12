@@ -11,6 +11,9 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
     },
     extend: {
       screens: {
@@ -70,6 +73,7 @@ module.exports = {
           3: "#97989D",
           4: "#858EAD",
           5: "#C5D0E6",
+          6: "#F4F6F8",
         },
         leaveModal:
           "linear-gradient(180deg, rgba(189, 189, 189, 0.20) 0%, rgba(189, 189, 189, 0.20) 100%)",

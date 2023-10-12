@@ -1,6 +1,6 @@
 import FillIcon from "@/components/icons/fill-icons";
 import { PopularIcon, NewIcon } from "@/components/icons/outline-icons";
-        
+
 export const exploreIcons = [
   {
     Icon: NewIcon,
