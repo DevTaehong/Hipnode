@@ -1,4 +1,3 @@
-import Tags from "@/components/Tags";
 import { UserButton, SignOutButton, SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
@@ -20,11 +19,6 @@ export default function Home() {
       />
       <SignInButton>Sign In</SignInButton>
       <SignOutButton />
-      {/* Just for Testing */}
-      <div className="flex items-center justify-center">
-        <Tags />
-      </div>
-      {/* End */}
     </main>
   );
 }
