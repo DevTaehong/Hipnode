@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { updateUser } from "@/lib/user.actions";
+import { updateUser } from "@/lib/actions/user.actions";
 import {
   UserAnswersType,
   AnswersType,

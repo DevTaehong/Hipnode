@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import type { UserJSON } from "@clerk/nextjs/server";
 import { Webhook, WebhookRequiredHeaders } from "svix";
 
-import { createUser, deleteUser, updateUser } from "@/lib/user.actions";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 
 const webhookSecret = process.env.WEBHOOK_SECRET || "";
 type User = Omit<UserJSON, "username">;

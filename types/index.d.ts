@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { ChangeEvent } from 'react';
-=======
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { onboardingQuestions } from "@/constants";
->>>>>>> main
 
 export interface ThemeContextType {
   mode: string;
@@ -32,13 +28,17 @@ export interface User {
   id: number;
   clerkId: string;
   name: string;
-  username: string | null;
+  username: string;
   email: string;
   password?: string | null;
   bio?: string | null;
   picture: string;
   location?: string | null;
   joinedAt: Date;
+}
+
+export interface ClerkUser extends User {
+  username: string | null;
 }
 
 interface BaseTag {

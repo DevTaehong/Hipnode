@@ -1,5 +1,5 @@
 import { currentUser } from "@clerk/nextjs";
-import { checkUserForBio } from "@/lib/user.actions";
+import { checkUserForBio } from "@/lib/actions/user.actions";
 import {
   OnboardingSideScreen,
   Questionnaire,
