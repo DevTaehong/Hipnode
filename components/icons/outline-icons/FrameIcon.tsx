@@ -1,4 +1,4 @@
-import { IconProps } from "@/lib/utils";
+import { IconProps } from "@/types";
 
 const FrameIcon = ({ children }: IconProps) => (
   <div className="flex h-5 w-5 items-center justify-center">

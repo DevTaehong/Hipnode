@@ -1,8 +1,29 @@
+import React, { ChangeEvent } from "react";
+import { onboardingQuestions } from "@/constants";
+
 export interface ThemeContextType {
   mode: string;
   setMode: (mode: string) => void;
 }
 
+export type AnswersType = string | string[];
+
+export type UserAnswersType = {
+  answerQuestion1?: string;
+  answerQuestion2?: string;
+  answersQuestion3?: string[];
+};
+
+export type QuestionKeysMapType = {
+  [key: number]: string;
+};
+
+export type PostItem = {
+  title: string;
+  icon: React.FC<{ className?: string; children? }>;
+  iconBgColor: string;
+  iconFillColor: string;
+};
 export interface User {
   id: number;
   clerkId: string;
@@ -115,3 +136,57 @@ export type Episode = {
   url: string;
   userId: number;
 };
+export interface ImageUploadProps {
+  bucketName: string;
+  folderName?: string;
+}
+
+export interface UseImageUploadReturn {
+  file: File | null;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: () => Promise<void>;
+}
+
+export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
+export type ColorVariantsOnboardingType = {
+  [key: string]: string;
+  fillRed: string;
+  fillBlue: string;
+  fillYellow: string;
+  fillGreen: string;
+  bgRed: string;
+  bgBlue: string;
+  bgYellow: string;
+  bgGreen: string;
+};
+
+export interface QuestionnaireProps {
+  userClerkId: string;
+}
+
+export interface QuestionnaireFormProps {
+  questions: (typeof onboardingQuestions)[number];
+  animateClass: string;
+  classVariants: {
+    parentDivFlex: string;
+    childDivWidth: string;
+    buttonWidth: string;
+    buttonText: string;
+  };
+  handleQuestionClick: (question: AnswersType) => void;
+  handleNextClick: () => void;
+  selectedAnswers: AnswersType[];
+  questionSet: number;
+}
+
+export interface OnboardingSideScreenProps {
+  info?: {
+    title: string;
+    posts: PostItem[];
+  };
+}
+
+export interface IconProps {
+  children: React.ReactNode;
+  className?: string;
+}
