@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
+
 import { onboardingQuestions } from '@/constants';
 
 export interface ThemeContextType {
@@ -121,6 +122,18 @@ export interface ActionButtonProps {
   currentPath?: string;
 }
 
+export interface ImageUploadProps {
+  bucketName: string;
+  folderName?: string;
+}
+
+export interface UseImageUploadReturn {
+  file: File | null;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: () => Promise<void>;
+}
+
+export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
 export type ColorVariantsOnboardingType = {
   [key: string]: string;
   fillRed: string;

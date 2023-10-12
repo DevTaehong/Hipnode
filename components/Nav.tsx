@@ -1,11 +1,11 @@
 'use client';
 
-import { HipnodeIcon } from './icons/outline-icons';
 import ThemeToggle from '@/context/ThemeToggle';
+import { HipnodeIcon } from './icons/outline-icons';
 
 const Nav = () => {
   return (
-    <div className="bg-light dark:bg-dark-2 flex h-14 w-full items-center justify-between px-10">
+    <div className="flex h-14 w-full items-center justify-between bg-light px-10 dark:bg-dark-2">
       <HipnodeIcon />
       <ThemeToggle />
     </div>
