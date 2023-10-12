@@ -3,177 +3,165 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
-
 
 enum Role {
   ADMIN
   USER
 }
 
-
 model User {
-  id                  Int       @id @default(autoincrement())
-  clerkId             String    @unique
-  name                String
-  username            String    @unique
-  email               String    @unique
-  password            String?
-  role                Role      @default(USER)
-  bio                 String?
-  picture             String
-  location            String?
-  posts               Post[]
-  likes               Like[]
-  comments            Comment[]
-  shows               Shows[]    
-  podcasts            Podcast[]
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  onboarding          Onboarding?
-  memberships         Membership[]
-  meetup              MeetUp[]
+  id          Int          @id @default(autoincrement())
+  clerkId     String       @unique
+  name        String
+  username    String       @unique
+  email       String       @unique
+  password    String?
+  role        Role         @default(USER)
+  bio         String?
+  picture     String
+  location    String?
+  posts       Post[]
+  likes       Like[]
+  comments    Comment[]
+  shows       Shows[]
+  podcasts    Podcast[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  onboarding  Onboarding?
+  memberships Membership[]
+  meetup      MeetUp[]
 }
-
 
 model Onboarding {
-  id                  Int         @id @default(autoincrement())
-  userId              Int         @unique
-  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  businessStage       String 
-  codeAbility         String 
-  interests           String[]
-  isOnboarded         Boolean       
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessStage String
+  codeAbility   String
+  interests     String[]
+  isOnboarded   Boolean
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
-
-
 model Post {
-  id                  Int      @id @default(autoincrement())
-  content             String
-  authorId            Int
-  author              User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  likes               Like[]
-  tags                TagOnPost[]
-  comments            Comment[]
-  image               String
-  isEdited            Boolean  @default(false)
-  viewCount           Int      @default(0)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id        Int         @id @default(autoincrement())
+  content   String
+  authorId  Int
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes     Like[]
+  tags      TagOnPost[]
+  comments  Comment[]
+  image     String
+  isEdited  Boolean     @default(false)
+  viewCount Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model Like {
-  id                  Int      @id @default(autoincrement())
-  userId              Int
-  user                User     @relation(fields: [userId], references: [id])
-  postId              Int?
-  post                Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  commentId           Int?
-  comment             Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  liked               Boolean  @default(true)
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  postId    Int?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId Int?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  liked     Boolean  @default(true)
 }
 
 model Comment {
-  id                  Int      @id @default(autoincrement())
-  content             String   @db.VarChar(150)
-  authorId            Int
-  author              User     @relation(fields: [authorId], references: [id])
-  postId              Int?
-  post                Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  parentId            Int?
-  parent              Comment? @relation("CommentToComment", fields: [parentId], references: [id])
-  replies             Comment[] @relation("CommentToComment")
-  likes               Like[]
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  isEdited            Boolean  @default(false)
+  id        Int       @id @default(autoincrement())
+  content   String    @db.VarChar(150)
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id])
+  postId    Int?
+  post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parentId  Int?
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentToComment")
+  likes     Like[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isEdited  Boolean   @default(false)
 }
 
 model Tag {
-  id                  Int        @id @default(autoincrement())
-  name                String     @unique
-  posts               TagOnPost[]
+  id    Int         @id @default(autoincrement())
+  name  String      @unique
+  posts TagOnPost[]
 }
 
 model TagOnPost {
-  id                  Int  @id @default(autoincrement())
-  postId              Int
-  post                Post @relation(fields: [postId], references: [id])
-  tagId               Int
-  tag                 Tag  @relation(fields: [tagId], references: [id])
+  id     Int  @id @default(autoincrement())
+  postId Int
+  post   Post @relation(fields: [postId], references: [id])
+  tagId  Int
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
   @@unique([postId, tagId])
 }
 
-
-
-
 model Shows {
-  id                  Int       @id @default(autoincrement())
-  name                String    @unique
-  userId              Int       
-  user                User      @relation(fields: [userId], references: [id])
-  podcasts            Podcast[] 
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  podcasts  Podcast[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
+
 model Podcast {
-  id                  Int       @id @default(autoincrement())
-  episodeNumber       Int       @default(autoincrement())
-  image               String
-  title               String
-  details             String
-  url                 String
-  userId              Int
-  user                User      @relation(fields: [userId], references: [id])
-  show                Shows      @relation(fields: [showId], references: [id])
-  showId              Int
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  id            Int      @id @default(autoincrement())
+  episodeNumber Int      @default(autoincrement())
+  image         String
+  title         String
+  details       String
+  url           String
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  show          Shows    @relation(fields: [showId], references: [id])
+  showId        Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Group {
-  id                  Int         @id @default(autoincrement())
-  groupName           String      @unique
-  details             String
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
-  members             Membership[] 
+  id        Int          @id @default(autoincrement())
+  groupName String       @unique
+  details   String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  members   Membership[]
 }
 
 model Membership {
-  userId              Int
-  user                User        @relation(fields: [userId], references: [id])
-  groupId             Int
-  group               Group       @relation(fields: [groupId], references: [id])
-  joinedAt            DateTime    @default(now())
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+  groupId  Int
+  group    Group    @relation(fields: [groupId], references: [id])
+  joinedAt DateTime @default(now())
 
   @@unique([userId, groupId])
   @@index([userId])
   @@index([groupId])
 }
 
-
-
 model MeetUp {
-  id                  Int       @id @default(autoincrement())
+  id                  Int      @id @default(autoincrement())
   title               String
   summary             String
   contactNumber       String
   contactEmail        String
   location            String
   responsiblePersonId Int
-  responsiblePerson   User      @relation(fields: [responsiblePersonId], references: [id])
+  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id])
   image               String
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
-
-
-
-

@@ -1,7 +1,9 @@
+import { Post, User ,PrismaClient} from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import prisma from '../../../lib/prisma.mjs';
 
-export async function createCommentsForPost(post, user) {
+const prisma = new PrismaClient();
+
+export async function createCommentsForPost(post: Post, user: User) {
   try {
     const commentCount = faker.number.int({ min: 3, max: 5 });
 

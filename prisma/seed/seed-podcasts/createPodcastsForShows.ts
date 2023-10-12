@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker';
-import prisma from '../../../lib/prisma.mjs';
+import {  Shows ,PrismaClient} from '@prisma/client';
 
-export async function createPodcastsForShows(show) {
+const prisma = new PrismaClient();
+
+export async function createPodcastsForShows(show: Shows) {
   const podcastCount = faker.number.int({ min: 1, max: 3 });
   const podcastPromises = Array.from({ length: podcastCount }).map(
     async (_, index) => {
@@ -13,6 +15,8 @@ export async function createPodcastsForShows(show) {
           image: faker.image.avatar(),
           userId: show.userId,
           showId: show.id,
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent(),
         },
       });
       return podcast;

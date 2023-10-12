@@ -1,7 +1,9 @@
+import { User ,PrismaClient} from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import prisma from '../../../lib/prisma.mjs';
 
-export async function createShows(users) {
+const prisma = new PrismaClient();
+
+export async function createShows(users : User[]) {
   const allShows = [];
   for (const user of users) {
     const showCount = faker.number.int({ min: 1, max: 3 });
@@ -11,6 +13,8 @@ export async function createShows(users) {
           data: {
             name: faker.lorem.words(4),
             userId: user.id,
+            createdAt: faker.date.past(),
+            updatedAt: faker.date.recent(),
           },
         });
         return show;

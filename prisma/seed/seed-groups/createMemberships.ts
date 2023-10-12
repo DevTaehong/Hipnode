@@ -1,6 +1,8 @@
-import prisma from '../../../lib/prisma.mjs';
+import { User, Group ,PrismaClient } from '@prisma/client';
 
-export async function createMemberships(users, groups) {
+const prisma = new PrismaClient();
+
+export async function createMemberships(users : User[], groups: Group[]) {
   const membershipPromises = [];
 
   for (const user of users) {

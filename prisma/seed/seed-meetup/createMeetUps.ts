@@ -1,7 +1,10 @@
+import { User ,PrismaClient} from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import prisma from '../../../lib/prisma.mjs';
 
-export async function createMeetUps(users) {
+
+const prisma = new PrismaClient();
+
+export async function createMeetUps(users: User[]) {
   const meetUpPromises = users.map(async (user) => {
     const meetUpCount = faker.number.int({ min: 1, max: 5 });
     const userMeetUps = Array.from({ length: meetUpCount }).map(async () => {
@@ -14,6 +17,8 @@ export async function createMeetUps(users) {
           location: faker.location.streetAddress(),
           responsiblePersonId: user.id,
           image: faker.image.avatar(),
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent(),
         },
       });
       return meetUp;

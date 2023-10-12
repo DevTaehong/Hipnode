@@ -1,21 +1,21 @@
 import { PrismaClient } from '@prisma/client';
 
-import { createPosts, createTags } from '../prisma/seed/seed-posts/index.mjs';
+import { createPosts, createTags } from './seed/seed-posts/index';
 import {
   createOnboarding,
   createUsers,
-} from '../prisma/seed/seed-user/index.mjs';
+} from './seed/seed-user/index';
 import {
   createShows,
   createPodcastsForShows,
-} from '../prisma/seed/seed-podcasts/index.mjs';
+} from './seed/seed-podcasts/index';
 
 import {
   createGroups,
   createMemberships,
-} from '../prisma/seed/seed-groups/index.mjs';
+} from './seed/seed-groups/index';
 
-import { createMeetUps } from '../prisma/seed/seed-meetup/index.mjs';
+import { createMeetUps } from './seed/seed-meetup/index';
 
 const prisma = new PrismaClient();
 
