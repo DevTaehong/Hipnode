@@ -56,7 +56,7 @@
   }
 
   .regular-12 {
-    @apply text-[12px] font-semibold leading-[18px];
+    @apply text-[12px] font-normal leading-[18px];
   }
 
   .semibold-10 {
@@ -119,7 +119,7 @@
   }
 
   .clerk-modal-container {
-    @apply relative flex h-fit w-full max-w-[29rem] md:max-w-[28rem];
+    @apply relative flex h-fit w-full max-w-[32rem] md:max-w-[32rem];
   }
 
   .clerk-modal-logo {
@@ -133,7 +133,7 @@
   }
 
   .questionnaire-main-div {
-    @apply mt-[1.875rem] flex w-full max-w-[27.625rem] flex-col gap-10  md:mt-[7.37rem];
+    @apply mt-[1.875rem] flex w-full max-w-[27.625rem] flex-col gap-10 md:mt-[7.37rem];
   }
 
   .questionnaire-container {
@@ -149,11 +149,11 @@
   }
 
   .questionnaire-answer {
-    @apply cursor-pointer rounded-lg p-4 transition duration-200;
+    @apply cursor-pointer rounded-lg p-4;
   }
 
   .questionnaire-answer-text {
-    @apply semibold-14 md:semibold-18 transition duration-200;
+    @apply semibold-14 md:semibold-18;
   }
 
   .questionnaire-button-container {
@@ -171,4 +171,8 @@
   .questionnaire-footer-span-text {
     @apply semibold-14 cursor-pointer text-red-80;
   }
+}
+
+.message-popover-font-feature {
+  font-feature-settings: 'clig' off, 'liga' off;
 }
