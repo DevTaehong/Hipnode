@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent } from "react";
 
-import { onboardingQuestions } from '@/constants';
+import { onboardingQuestions } from "@/constants";
 
 export interface ThemeContextType {
   mode: string;
@@ -45,6 +45,10 @@ export interface User {
   location?: string | null;
   joinedAt: Date;
   onboarding: Onboarding;
+}
+
+export interface ClerkUser extends User {
+  username: string | null;
 }
 
 interface BaseTag {
@@ -118,7 +122,7 @@ export interface CustomButtonProps {
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 
 export interface ActiveButtonsProps {

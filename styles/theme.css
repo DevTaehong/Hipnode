@@ -119,7 +119,7 @@
   }
 
   .clerk-modal-container {
-    @apply relative flex h-fit w-full max-w-[29rem] md:max-w-[28rem];
+    @apply relative flex h-fit w-full max-w-[32rem] md:max-w-[32rem];
   }
 
   .clerk-modal-logo {
@@ -149,11 +149,11 @@
   }
 
   .questionnaire-answer {
-    @apply cursor-pointer rounded-lg p-4 transition duration-200;
+    @apply cursor-pointer rounded-lg p-4;
   }
 
   .questionnaire-answer-text {
-    @apply semibold-14 md:semibold-18 transition duration-200;
+    @apply semibold-14 md:semibold-18;
   }
 
   .questionnaire-button-container {
