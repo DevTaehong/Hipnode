@@ -2,8 +2,7 @@ import Image from "next/image";
 
 import { getFormattedDateMeetUpCard } from "@/utils";
 import { MeetUp } from "@/types";
-
-const pills = ["Remote", "Part-time", "Worldwide"];
+import { meetUpsCardPills } from "@/constants";
 
 const MeetupsCard = ({ meetUp }: { meetUp: MeetUp }) => {
   const { day, monthText } = getFormattedDateMeetUpCard(meetUp.createdAt);
@@ -13,7 +12,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUp }) => {
         <figure className="flex items-center gap-5">
           <Image
             src={meetUp.image}
-            alt="A logo of the organisation hosting the meetup"
+            alt={`A logo of the organization hosting the meetup ${meetUp.title}`}
             width={48}
             height={48}
             className="rounded-md md:h-[4.5rem] md:w-[4.5rem]"
@@ -35,7 +34,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUp }) => {
       </div>
       <p className="text-sc-1_light-2 flex">{meetUp.summary}</p>
       <ul className="flex gap-2.5">
-        {pills.map((pill) => (
+        {meetUpsCardPills.map((pill: string) => (
           <li
             key={pill}
             className="bg-light-3_dark-4 semibold-10 md:semibold-12 rounded-full px-2 py-[0.125rem] text-sc-4"

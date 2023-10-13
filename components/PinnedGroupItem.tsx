@@ -16,7 +16,7 @@ const PinnedGroupItem = ({ group }: PinnedGroupItemProps) => {
     <li className="flex items-center gap-2.5">
       <Image
         src={christopher}
-        alt="Logo of group in list of pinned groups"
+        alt={`Logo of group ${group.groupName} in list of pinned groups`}
         height={32}
         width={32}
         className="rounded"

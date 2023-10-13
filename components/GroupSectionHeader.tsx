@@ -13,9 +13,11 @@ const colorVariants: ColorVariantsType = {
   bgBlue: "bg-blue-10",
 };
 
+type ColorVariantKeys = keyof typeof colorVariants;
+
 interface GroupSectionHeaderProps {
   title: string;
-  bgColor: string;
+  bgColor: ColorVariantKeys;
   icon: FC;
 }
 

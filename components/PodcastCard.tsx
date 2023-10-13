@@ -18,7 +18,7 @@ const PodcastCard = ({ info }: PodcastCardProps) => {
         <figure>
           <Image
             src={info.image}
-            alt="image of the host of the podcast"
+            alt="Host of the podcast"
             height={30}
             width={30}
             className="max-h-[1.875rem] rounded-full"

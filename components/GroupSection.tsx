@@ -1,21 +1,13 @@
 "use client";
 
-import { useState, FC } from "react";
+import { useState } from "react";
 
 import { ArrowIcon } from "./icons/outline-icons";
-import GroupSectionListItem from "./GroupSectionListItem";
-import GroupSectionHeader from "./GroupSectionHeader";
 import { sectionHeadings } from "@/constants";
-import { GroupSectionGroupType } from "@/types";
+import { HeadingsType } from "@/types";
+import SectionGroup from "./SectionGroup";
 
-type HeadingsType = {
-  title: string;
-  bgColor: string;
-  icon: FC;
-  groups: GroupSectionGroupType[];
-};
-
-const OuterDivPattern = () => (
+const TopPointDecoration = () => (
   <>
     <div className="bg-light_dark-4 absolute left-12 top-[-0.3rem] h-3 w-3 rotate-45 rounded-sm" />
     <div className="bg-light_dark-4 absolute left-[3.27rem] top-[-0.45rem] h-[0.125rem] w-[0.2rem] rounded-t-full" />
@@ -34,7 +26,7 @@ const GroupSection = () => {
         expandedGroupIndex !== null ? "gap-2.5" : "gap-5"
       }`}
     >
-      <OuterDivPattern />
+      <TopPointDecoration />
       <figure
         className={`${expandedGroupIndex === null && "hidden"} cursor-pointer`}
         onClick={() => setExpandedGroupIndex(null)}
@@ -42,37 +34,15 @@ const GroupSection = () => {
         <ArrowIcon.Left className="stroke-sc-2 dark:stroke-sc-3" />
       </figure>
 
-      {sectionHeadings.map((section: HeadingsType, index: number) => {
-        const { title, bgColor, icon, groups } = section;
-        const mappedGroups =
-          expandedGroupIndex === index ? groups : groups.slice(0, 3);
-
-        return (
-          <section
-            key={title}
-            className={`flex flex-col gap-2.5 ${
-              expandedGroupIndex !== null &&
-              expandedGroupIndex !== index &&
-              "hidden"
-            }`}
-          >
-            <GroupSectionHeader title={title} bgColor={bgColor} icon={icon} />
-            <ul className="flex flex-col gap-2.5">
-              {mappedGroups.map((group: GroupSectionGroupType) => (
-                <GroupSectionListItem key={group.groupName} group={group} />
-              ))}
-            </ul>
-            <button
-              className={`semibold-9 flex h-3.5 w-fit rounded-full bg-purple-20 px-1 text-purple ${
-                expandedGroupIndex !== null && "hidden"
-              }`}
-              onClick={() => setExpandedGroupIndex(index)}
-            >
-              See All
-            </button>
-          </section>
-        );
-      })}
+      {sectionHeadings.map((section: HeadingsType, index: number) => (
+        <SectionGroup
+          key={section.title}
+          section={section}
+          index={index}
+          expandedGroupIndex={expandedGroupIndex}
+          setExpandedGroupIndex={setExpandedGroupIndex}
+        />
+      ))}
     </aside>
   );
 };

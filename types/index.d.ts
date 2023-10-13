@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 
 import { onboardingQuestions } from "@/constants";
@@ -228,4 +228,11 @@ export type GroupSectionGroupType = {
   icon: StaticImageData;
   groupDescription: string;
   groupName: string;
+};
+
+export type HeadingsType = {
+  title: string;
+  bgColor: string;
+  icon: FC;
+  groups: GroupSectionGroupType[];
 };

@@ -1,10 +1,5 @@
-const tags = [
-  "False Information?",
-  "Low Quality",
-  "Spam",
-  "Hate Speech",
-  "Inappropriate",
-];
+import { reportModalTags } from "@/constants";
+import ReportModalTag from "./ReportModalTag";
 
 interface ReportModalProps {
   name: string;
@@ -25,13 +20,8 @@ const ReportModal = ({
         </h2>
       </header>
       <div className="flex flex-wrap gap-5">
-        {tags.map((tag) => (
-          <div
-            key={tag}
-            className="bg-light-3_dark-3 flex rounded-full border border-sc-5 px-5 py-2.5 dark:border-sc-2"
-          >
-            <span className="text-sc-2_light-2 regular-12">{tag}</span>
-          </div>
+        {reportModalTags.map((tag) => (
+          <ReportModalTag key={tag} tag={tag} />
         ))}
       </div>
       <footer className="flex gap-5">
