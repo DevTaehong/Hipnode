@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-import { ChangeEvent } from 'react';
-=======
-import React from "react";
-import { onboardingQuestions } from "@/constants";
->>>>>>> main
+import React, { ChangeEvent } from 'react';
+
+import { onboardingQuestions } from '@/constants';
 
 export interface ThemeContextType {
   mode: string;
@@ -105,6 +102,24 @@ export interface Post extends BasePost {
   likes: Like[];
   tags: TagOnPost[];
   comments: Comment[];
+}
+
+export interface CustomButtonProps {
+  label: string;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+export interface ActiveButtonsProps {
+  currentPath: string;
+}
+
+export interface ActionButtonProps {
+  label: string;
+  href: string;
+  currentPath?: string;
 }
 
 export interface ImageUploadProps {
