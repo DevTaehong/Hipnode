@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from "react";
 import { StaticImageData } from "next/image";
+
 import { onboardingQuestions } from "@/constants";
 
 export interface ThemeContextType {
@@ -7,6 +8,14 @@ export interface ThemeContextType {
   setMode: (mode: string) => void;
 }
 
+interface Onboarding {
+  id: number;
+  userId: number;
+  businessStage: string;
+  codeAbility: string;
+  interests: string[];
+  isOnboarded: boolean;
+}
 export type AnswersType = string | string[];
 
 export type UserAnswersType = {
@@ -36,6 +45,11 @@ export interface User {
   picture: string;
   location?: string | null;
   joinedAt: Date;
+  onboarding: Onboarding;
+}
+
+export interface ClerkUser extends User {
+  username: string | null;
 }
 
 interface BaseTag {
@@ -137,6 +151,24 @@ export type Episode = {
   url: string;
   userId: number;
 };
+export interface CustomButtonProps {
+  label: string;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+}
+
+export interface ActiveButtonsProps {
+  currentPath: string;
+}
+
+export interface ActionButtonProps {
+  label: string;
+  href: string;
+  currentPath?: string;
+}
+
 export interface ImageUploadProps {
   bucketName: string;
   folderName?: string;

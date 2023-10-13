@@ -1,6 +1,15 @@
 import FillIcon from "@/components/icons/fill-icons";
+<<<<<<< HEAD
 import { PopularIcon, NewIcon } from "@/components/icons/outline-icons";
 import { christopher, santiago, negan } from "@/public/assets";
+=======
+
+import {
+  PopularIcon,
+  NewIcon,
+  DevIcon,
+} from "@/components/icons/outline-icons";
+>>>>>>> main
 
 export const exploreIcons = [
   {
@@ -100,6 +109,7 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
+<<<<<<< HEAD
 const fastestGrowingGroups = [
   {
     icon: christopher,
@@ -277,5 +287,111 @@ export const sectionHeadings = [
     icon: FillIcon.Rocket,
     bgColor: "bgBlue",
     groups: newlyLaunchedGroups,
+=======
+
+// NOTE - Delete this dummy data when we have real data
+export const dummyMessages = [
+  {
+    name: "Wade Warren",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 0,
+  },
+  {
+    name: "Wade Warren 1",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 1,
+  },
+  {
+    name: "Wade 22 Warren 2",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 2,
+  },
+  {
+    name: "Wade 222 Warren Warren Warren",
+    date: "20 minutes ago",
+    message:
+      "Congrats on your work anniversary! Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 0,
+  },
+  {
+    name: "Wade  22Warren 3",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 4,
+  },
+  {
+    name: "Wade  22Warren 4",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 5,
+  },
+  {
+    name: "Wade  22Warren 5",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    avatar: "https://github.com/shadcn.png",
+    avatarFallback: "CN",
+    newMessageCounts: 2,
+  },
+];
+
+export const tags = [
+  {
+    name: "javascript",
+    views: "82,645 Posted by this tag",
+    icon: DevIcon,
+    iconBgColor: "bgYellow",
+    iconFillColor: "fillYellow",
+  },
+  {
+    name: "bitcoin",
+    views: "65,523 Posted • Trending",
+    icon: PopularIcon,
+    iconBgColor: "bgRed",
+    iconFillColor: "fillRed",
+  },
+  {
+    name: "design",
+    views: "51,354 • Trending in Poland",
+    icon: PopularIcon,
+    iconBgColor: "bgBlue",
+    iconFillColor: "fillBlue",
+  },
+  {
+    name: "blogging",
+    views: "48,029 Posted by this tag",
+    icon: DevIcon,
+    iconBgColor: "bgYellow",
+    iconFillColor: "fillYellow",
+  },
+  {
+    name: "tutorial",
+    views: "51,354 • Trending in Bangladesh",
+    icon: DevIcon,
+    iconBgColor: "bgGreen",
+    iconFillColor: "fillGreen",
+  },
+  {
+    name: "seo",
+    views: "82,152 Posted by this tag",
+    icon: PopularIcon,
+    iconBgColor: "bgRed",
+    iconFillColor: "fillRed",
+>>>>>>> main
   },
 ];
