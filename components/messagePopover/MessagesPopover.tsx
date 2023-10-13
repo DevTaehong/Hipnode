@@ -1,5 +1,6 @@
-import Message from "@/components/messagePopover/Message";
 import Link from "next/link";
+
+import Message from "@/components/messagePopover/Message";
 
 const MessagesPopover = () => {
   return (
