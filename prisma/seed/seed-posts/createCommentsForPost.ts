@@ -1,5 +1,5 @@
-import { Post, User ,PrismaClient} from '@prisma/client';
-import { faker } from '@faker-js/faker';
+import { Post, User, PrismaClient } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -14,6 +14,9 @@ export async function createCommentsForPost(post: Post, user: User) {
             content: faker.lorem.sentence(),
             authorId: user.id,
             postId: post.id,
+            isEdited: faker.datatype.boolean(),
+            createdAt: faker.date.past(),
+            updatedAt: faker.date.recent(),
           },
         });
         return comment;

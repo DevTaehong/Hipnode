@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker';
-import {  Shows ,PrismaClient} from '@prisma/client';
+import { faker } from "@faker-js/faker";
+import { Shows, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -10,6 +10,7 @@ export async function createPodcastsForShows(show: Shows) {
       const podcast = await prisma.podcast.create({
         data: {
           title: faker.lorem.words(4),
+          episodeNumber: faker.number.int({ min: 1, max: 100 }),
           details: faker.lorem.paragraph(),
           url: faker.internet.url(),
           image: faker.image.avatar(),

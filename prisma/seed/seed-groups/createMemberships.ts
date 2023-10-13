@@ -1,8 +1,9 @@
-import { User, Group ,PrismaClient } from '@prisma/client';
+import { faker } from "@faker-js/faker";
+import { User, Group, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createMemberships(users : User[], groups: Group[]) {
+export async function createMemberships(users: User[], groups: Group[]) {
   const membershipPromises = [];
 
   for (const user of users) {
@@ -13,6 +14,7 @@ export async function createMemberships(users : User[], groups: Group[]) {
             data: {
               userId: user.id,
               groupId: group.id,
+              joinedAt: faker.date.recent(),
             },
           })
         );

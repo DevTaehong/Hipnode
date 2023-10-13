@@ -1,9 +1,13 @@
-import { faker } from '@faker-js/faker';
-import {PrismaClient, Comment, User } from '@prisma/client';
+import { faker } from "@faker-js/faker";
+import { PrismaClient, Comment, User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createRepliesToComment(comment: Comment, user: User, repliesCount: number) {
+export async function createRepliesToComment(
+  comment: Comment,
+  user: User,
+  repliesCount: number
+) {
   try {
     const repliesPromises = Array.from({ length: repliesCount }).map(() => {
       return prisma.comment.create({
@@ -12,6 +16,9 @@ export async function createRepliesToComment(comment: Comment, user: User, repli
           authorId: user.id,
           postId: comment.postId,
           parentId: comment.id,
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent(),
+          isEdited: faker.datatype.boolean(),
         },
       });
     });

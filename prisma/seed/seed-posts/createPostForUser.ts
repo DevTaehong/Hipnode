@@ -1,5 +1,5 @@
-import { User ,PrismaClient} from '@prisma/client';
-import { faker } from '@faker-js/faker';
+import { User, PrismaClient } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -10,7 +10,10 @@ export async function createPostForUser(user: User) {
         content: faker.lorem.paragraph(),
         authorId: user.id,
         viewCount: faker.number.int({ min: 0, max: 1000 }),
-        image: faker.image.urlLoremFlickr({ category: 'nature' }),
+        isEdited: faker.datatype.boolean(),
+        image: faker.image.urlLoremFlickr({ category: "nature" }),
+        createdAt: faker.date.past(),
+        updatedAt: faker.date.recent(),
       },
     });
     return post;
