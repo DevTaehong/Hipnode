@@ -1,7 +1,7 @@
 "use server";
 
 import { type Post } from "@prisma/client";
-import prisma from "@/lib/prisma";
+import prisma from "../prisma";
 
 export async function createPost(data: Post) {
   try {

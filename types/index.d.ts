@@ -7,6 +7,14 @@ export interface ThemeContextType {
   setMode: (mode: string) => void;
 }
 
+interface Onboarding {
+  id: number;
+  userId: number;
+  businessStage: string;
+  codeAbility: string;
+  interests: string[];
+  isOnboarded: boolean;
+}
 export type AnswersType = string | string[];
 
 export type UserAnswersType = {
@@ -36,6 +44,7 @@ export interface User {
   picture: string;
   location?: string | null;
   joinedAt: Date;
+  onboarding: Onboarding;
 }
 
 interface BaseTag {
