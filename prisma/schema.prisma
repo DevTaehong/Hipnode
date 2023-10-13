@@ -3,103 +3,169 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  clerkId     String       @unique
+  name        String
+  username    String       @unique
+  email       String       @unique
+  password    String?
+  role        Role         @default(USER)
+  bio         String?
+  picture     String
+  location    String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  comments    Comment[]
+  likes       Like[]
+  meetup      MeetUp[]
+  memberships Membership[]
+  onboarding  Onboarding?
+  podcasts    Podcast[]
+  posts       Post[]
+  shows       Shows[]
+}
+
+model Onboarding {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  businessStage String
+  codeAbility   String
+  interests     String[]
+  isOnboarded   Boolean
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id        Int         @id @default(autoincrement())
+  content   String
+  authorId  Int
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  isEdited  Boolean     @default(false)
+  viewCount Int         @default(0)
+  image     String
+  comments  Comment[]
+  likes     Like[]
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags      TagOnPost[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int?
+  commentId Int?
+  liked     Boolean  @default(true)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+}
+
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  content   String    @db.VarChar(150)
+  authorId  Int
+  postId    Int
+  parentId  Int?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isEdited  Boolean   @default(false)
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentToComment")
+  post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  likes     Like[]
+}
+
+model Tag {
+  id    Int         @id @default(autoincrement())
+  name  String      @unique
+  posts TagOnPost[]
+}
+
+model TagOnPost {
+  id     Int  @id @default(autoincrement())
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id])
+
+  @@unique([postId, tagId])
+}
+
+model Shows {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  podcasts  Podcast[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Podcast {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  details       String
+  episodeNumber Int      @default(autoincrement())
+  image         String
+  showId        Int
+  title         String
+  updatedAt     DateTime @updatedAt
+  url           String
+  userId        Int
+  show          Shows    @relation(fields: [showId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Group {
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  details   String
+  groupName String       @unique
+  updatedAt DateTime     @updatedAt
+  members   Membership[]
+}
+
+model Membership {
+  userId   Int
+  groupId  Int
+  joinedAt DateTime @default(now())
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
+}
+
+model MeetUp {
+  id                  Int      @id @default(autoincrement())
+  createdAt           DateTime @default(now())
+  contactEmail        String
+  contactNumber       String
+  image               String
+  location            String
+  responsiblePersonId Int
+  summary             String
+  title               String
+  updatedAt           DateTime @updatedAt
+  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
   ADMIN
   USER
 }
-
-
-model User {
-  id        Int       @id @default(autoincrement())
-  clerkId   String    @unique
-  name      String
-  username  String    @unique
-  email     String    @unique
-  password  String?
-  role      Role      @default(USER)
-  bio       String?
-  picture   String
-  location  String?
-  posts     Post[]
-  likes     Like[]
-  comments  Comment[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  content   String
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  likes     Like[]
-  tags      TagOnPost[]
-  comments  Comment[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isEdited  Boolean  @default(false)
-  viewCount Int      @default(0)
-}
-
-model Like {
-  id       Int      @id @default(autoincrement())
-  userId   Int
-  user     User     @relation(fields: [userId], references: [id])
-  postId   Int?
-  post     Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  commentId Int?
-  comment  Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  liked    Boolean  @default(true)
-}
-
-model Comment {
-  id        Int      @id @default(autoincrement())
-  content   String   @db.VarChar(150)
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
-  postId    Int?
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  parentId  Int?
-  parent    Comment? @relation("CommentToComment", fields: [parentId], references: [id])
-  replies   Comment[] @relation("CommentToComment")
-  likes     Like[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isEdited  Boolean  @default(false)
-}
-
-model Tag {
-  id    Int        @id @default(autoincrement())
-  name  String     @unique
-  posts TagOnPost[]
-}
-
-model TagOnPost {
-  id      Int  @id @default(autoincrement())
-  postId  Int
-  post    Post @relation(fields: [postId], references: [id])
-  tagId   Int
-  tag     Tag  @relation(fields: [tagId], references: [id])
-  @@unique([postId, tagId])
-}
-
-
-model MeetUp {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now()) 
-}
-
-model Podcast {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now()) 
-}
-
-model Group {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now()) 
-}
-
