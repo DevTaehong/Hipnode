@@ -56,7 +56,7 @@
   }
 
   .regular-12 {
-    @apply text-[12px] font-semibold leading-[18px];
+    @apply text-[12px] font-normal leading-[18px];
   }
 
   .semibold-10 {
@@ -133,7 +133,7 @@
   }
 
   .questionnaire-main-div {
-    @apply mt-[1.875rem] flex w-full max-w-[27.625rem] flex-col gap-10  md:mt-[7.37rem];
+    @apply mt-[1.875rem] flex w-full max-w-[27.625rem] flex-col gap-10 md:mt-[7.37rem];
   }
 
   .questionnaire-container {
@@ -171,4 +171,8 @@
   .questionnaire-footer-span-text {
     @apply semibold-14 cursor-pointer text-red-80;
   }
+}
+
+.message-popover-font-feature {
+  font-feature-settings: 'clig' off, 'liga' off;
 }

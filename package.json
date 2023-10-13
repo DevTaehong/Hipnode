@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "prisma db seed"
+    "ts-node": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\""
+
   },
   "dependencies": {
     "@clerk/nextjs": "^4.25.2",
     "@prisma/client": "^5.4.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/supabase-js": "^2.38.0",
@@ -44,9 +46,10 @@
     "eslint-plugin-tailwindcss": "^3.13.0",
     "postcss": "^8",
     "tailwindcss": "^3",
+    "ts-node": "^10.9.1",
     "typescript": "^5"
   },
-  "prisma": {
-    "seed": "node prisma/seed.mjs"
-  }
+  "prisma" : {
+    "seed" : "npm run ts-node --transpile-only prisma/seed.ts"
+    }
 }

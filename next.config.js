@@ -7,6 +7,7 @@ const nextConfig = {
     domains: [
       'cloudflare-ipfs.com',
       'avatars.githubusercontent.com',
+      'loremflickr.com',
       'jjxiydcvcwtbswunystj.supabase.co',
     ],
   },
