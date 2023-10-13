@@ -1,15 +1,11 @@
 import FillIcon from "@/components/icons/fill-icons";
-<<<<<<< HEAD
-import { PopularIcon, NewIcon } from "@/components/icons/outline-icons";
 import { christopher, santiago, negan } from "@/public/assets";
-=======
 
 import {
   PopularIcon,
   NewIcon,
   DevIcon,
 } from "@/components/icons/outline-icons";
->>>>>>> main
 
 export const exploreIcons = [
   {
@@ -109,7 +105,6 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
-<<<<<<< HEAD
 const fastestGrowingGroups = [
   {
     icon: christopher,
@@ -287,7 +282,8 @@ export const sectionHeadings = [
     icon: FillIcon.Rocket,
     bgColor: "bgBlue",
     groups: newlyLaunchedGroups,
-=======
+  },
+];
 
 // NOTE - Delete this dummy data when we have real data
 export const dummyMessages = [
@@ -392,6 +388,5 @@ export const tags = [
     icon: PopularIcon,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
->>>>>>> main
   },
 ];
