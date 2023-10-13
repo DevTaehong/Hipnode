@@ -1,5 +1,10 @@
 import FillIcon from "@/components/icons/fill-icons";
-import { PopularIcon, NewIcon } from "@/components/icons/outline-icons";
+
+import {
+  PopularIcon,
+  NewIcon,
+  DevIcon,
+} from "@/components/icons/outline-icons";
 
 export const exploreIcons = [
   {
@@ -99,6 +104,7 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
+
 // NOTE - Delete this dummy data when we have real data
 export const dummyMessages = [
   {
@@ -157,5 +163,50 @@ export const dummyMessages = [
     avatar: "https://github.com/shadcn.png",
     avatarFallback: "CN",
     newMessageCounts: 2,
+  },
+];
+
+export const tags = [
+  {
+    name: "javascript",
+    views: "82,645 Posted by this tag",
+    icon: DevIcon,
+    iconBgColor: "bgYellow",
+    iconFillColor: "fillYellow",
+  },
+  {
+    name: "bitcoin",
+    views: "65,523 Posted • Trending",
+    icon: PopularIcon,
+    iconBgColor: "bgRed",
+    iconFillColor: "fillRed",
+  },
+  {
+    name: "design",
+    views: "51,354 • Trending in Poland",
+    icon: PopularIcon,
+    iconBgColor: "bgBlue",
+    iconFillColor: "fillBlue",
+  },
+  {
+    name: "blogging",
+    views: "48,029 Posted by this tag",
+    icon: DevIcon,
+    iconBgColor: "bgYellow",
+    iconFillColor: "fillYellow",
+  },
+  {
+    name: "tutorial",
+    views: "51,354 • Trending in Bangladesh",
+    icon: DevIcon,
+    iconBgColor: "bgGreen",
+    iconFillColor: "fillGreen",
+  },
+  {
+    name: "seo",
+    views: "82,152 Posted by this tag",
+    icon: PopularIcon,
+    iconBgColor: "bgRed",
+    iconFillColor: "fillRed",
   },
 ];
