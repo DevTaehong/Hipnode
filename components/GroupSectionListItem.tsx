@@ -1,14 +1,7 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
+import { GroupSectionGroupType } from "@/types";
 
-interface GroupSectionListItemProps {
-  group: {
-    icon: string | StaticImageData;
-    groupDescription: string;
-    groupName: string;
-  };
-}
-
-const GroupSectionListItem = ({ group }: GroupSectionListItemProps) => {
+const GroupSectionListItem = ({ group }: { group: GroupSectionGroupType }) => {
   const { groupName, groupDescription, icon } = group;
   return (
     <li className="flex items-center gap-2">

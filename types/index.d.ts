@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import { StaticImageData } from "next/image";
 import { onboardingQuestions } from "@/constants";
 
 export interface ThemeContextType {
@@ -190,3 +191,9 @@ export interface IconProps {
   children: React.ReactNode;
   className?: string;
 }
+
+export type GroupSectionGroupType = {
+  icon: StaticImageData;
+  groupDescription: string;
+  groupName: string;
+};

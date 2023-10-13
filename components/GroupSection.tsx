@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FC } from "react";
 
 import { ArrowIcon } from "./icons/outline-icons";
 import GroupSectionListItem from "./GroupSectionListItem";
 import GroupSectionHeader from "./GroupSectionHeader";
 import { sectionHeadings } from "@/constants";
+import { GroupSectionGroupType } from "@/types";
+
+type HeadingsType = {
+  title: string;
+  bgColor: string;
+  icon: FC;
+  groups: GroupSectionGroupType[];
+};
 
 const OuterDivPattern = () => (
   <>
@@ -34,7 +42,7 @@ const GroupSection = () => {
         <ArrowIcon.Left className="stroke-sc-2 dark:stroke-sc-3" />
       </figure>
 
-      {sectionHeadings.map((section, index) => {
+      {sectionHeadings.map((section: HeadingsType, index: number) => {
         const { title, bgColor, icon, groups } = section;
         const mappedGroups =
           expandedGroupIndex === index ? groups : groups.slice(0, 3);
@@ -50,7 +58,7 @@ const GroupSection = () => {
           >
             <GroupSectionHeader title={title} bgColor={bgColor} icon={icon} />
             <ul className="flex flex-col gap-2.5">
-              {mappedGroups.map((group) => (
+              {mappedGroups.map((group: GroupSectionGroupType) => (
                 <GroupSectionListItem key={group.groupName} group={group} />
               ))}
             </ul>
