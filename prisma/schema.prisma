@@ -8,11 +8,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
 model User {
   id          Int          @id @default(autoincrement())
   clerkId     String       @unique
@@ -24,70 +19,70 @@ model User {
   bio         String?
   picture     String
   location    String?
-  posts       Post[]
-  likes       Like[]
-  comments    Comment[]
-  shows       Shows[]
-  podcasts    Podcast[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  onboarding  Onboarding?
-  memberships Membership[]
+  comments    Comment[]
+  likes       Like[]
   meetup      MeetUp[]
+  memberships Membership[]
+  onboarding  Onboarding?
+  podcasts    Podcast[]
+  posts       Post[]
+  shows       Shows[]
 }
 
 model Onboarding {
   id            Int      @id @default(autoincrement())
   userId        Int      @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   businessStage String
   codeAbility   String
   interests     String[]
   isOnboarded   Boolean
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {
   id        Int         @id @default(autoincrement())
   content   String
   authorId  Int
-  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  likes     Like[]
-  tags      TagOnPost[]
-  comments  Comment[]
-  image     String
-  isEdited  Boolean     @default(false)
-  viewCount Int         @default(0)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+  isEdited  Boolean     @default(false)
+  viewCount Int         @default(0)
+  image     String
+  comments  Comment[]
+  likes     Like[]
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags      TagOnPost[]
 }
 
 model Like {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
   postId    Int?
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   commentId Int?
-  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   liked     Boolean  @default(true)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Comment {
   id        Int       @id @default(autoincrement())
   content   String    @db.VarChar(150)
   authorId  Int
-  author    User      @relation(fields: [authorId], references: [id])
-  postId    Int
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int?
   parentId  Int?
-  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
-  replies   Comment[] @relation("CommentToComment")
-  likes     Like[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   isEdited  Boolean   @default(false)
+  author    User      @relation(fields: [authorId], references: [id])
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentToComment")
+  post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  likes     Like[]
 }
 
 model Tag {
@@ -99,9 +94,9 @@ model Tag {
 model TagOnPost {
   id     Int  @id @default(autoincrement())
   postId Int
-  post   Post @relation(fields: [postId], references: [id])
   tagId  Int
-  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id])
+  tag    Tag  @relation(fields: [tagId], references: [id])
 
   @@unique([postId, tagId])
 }
@@ -110,42 +105,42 @@ model Shows {
   id        Int       @id @default(autoincrement())
   name      String    @unique
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
-  podcasts  Podcast[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  podcasts  Podcast[]
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 model Podcast {
   id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  details       String
   episodeNumber Int      @default(autoincrement())
   image         String
+  showId        Int
   title         String
-  details       String
+  updatedAt     DateTime @updatedAt
   url           String
   userId        Int
-  user          User     @relation(fields: [userId], references: [id])
   show          Shows    @relation(fields: [showId], references: [id])
-  showId        Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id])
 }
 
 model Group {
   id        Int          @id @default(autoincrement())
-  groupName String       @unique
-  details   String
   createdAt DateTime     @default(now())
+  details   String
+  groupName String       @unique
   updatedAt DateTime     @updatedAt
   members   Membership[]
 }
 
 model Membership {
   userId   Int
-  user     User     @relation(fields: [userId], references: [id])
   groupId  Int
-  group    Group    @relation(fields: [groupId], references: [id])
   joinedAt DateTime @default(now())
+  group    Group    @relation(fields: [groupId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, groupId])
   @@index([userId])
@@ -154,14 +149,19 @@ model Membership {
 
 model MeetUp {
   id                  Int      @id @default(autoincrement())
-  title               String
-  summary             String
-  contactNumber       String
+  createdAt           DateTime @default(now())
   contactEmail        String
+  contactNumber       String
+  image               String
   location            String
   responsiblePersonId Int
-  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id])
-  image               String
-  createdAt           DateTime @default(now())
+  summary             String
+  title               String
   updatedAt           DateTime @updatedAt
+  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
