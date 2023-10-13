@@ -1,23 +1,13 @@
-import { PrismaClient } from '@prisma/client';
-
-import { createPosts, createTags } from './seed/seed-posts/index';
-import {
-  createOnboarding,
-  createUsers,
-} from './seed/seed-user/index';
+import { createPosts, createTags } from "./seed/seed-posts/index";
+import { createOnboarding, createUsers } from "./seed/seed-user/index";
 import {
   createShows,
   createPodcastsForShows,
-} from './seed/seed-podcasts/index';
+} from "./seed/seed-podcasts/index";
+import { createGroups, createMemberships } from "./seed/seed-groups/index";
+import { createMeetUps } from "./seed/seed-meetup/index";
 
-import {
-  createGroups,
-  createMemberships,
-} from './seed/seed-groups/index';
-
-import { createMeetUps } from './seed/seed-meetup/index';
-
-const prisma = new PrismaClient();
+import prisma from "../lib/prisma";
 
 async function main() {
   const tags = await createTags();

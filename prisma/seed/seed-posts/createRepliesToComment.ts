@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import { PrismaClient, Comment, User } from "@prisma/client";
+import { Comment, User } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 export async function createRepliesToComment(
   comment: Comment,

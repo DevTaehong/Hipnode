@@ -1,36 +1,35 @@
-import { faker } from '@faker-js/faker';
-import { PrismaClient, User } from '@prisma/client';
+import { faker } from "@faker-js/faker";
+import { User } from "@prisma/client";
 
-
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 const businessStageOptions = [
-  'Considering or planning to start a business',
-  'Actively getting started on something new',
-  'No interest in starting a business',
-  'Earnings from my business fully support me',
-  'Working on a business, no revenue yet',
+  "Considering or planning to start a business",
+  "Actively getting started on something new",
+  "No interest in starting a business",
+  "Earnings from my business fully support me",
+  "Working on a business, no revenue yet",
 ];
 
 const codeAbilityOptions = [
-  'No, and coding is totally unfamiliar',
-  'Not, but I understand a few concepts',
+  "No, and coding is totally unfamiliar",
+  "Not, but I understand a few concepts",
   "Yes, and I'm a beginner",
   "Yes, and I'm intermediate or a professional",
 ];
 
 const interestsOptions = [
-  'Advertising',
-  'Task Management',
-  'Email Marketing',
-  'Crypto',
-  'Design',
-  'Finance',
-  'Outdoors',
-  'Health & Fitness',
-  'Investing',
-  'Home Automation',
-  'Sports',
+  "Advertising",
+  "Task Management",
+  "Email Marketing",
+  "Crypto",
+  "Design",
+  "Finance",
+  "Outdoors",
+  "Health & Fitness",
+  "Investing",
+  "Home Automation",
+  "Sports",
 ];
 
 export async function createOnboarding(users: User[]) {

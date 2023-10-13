@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import { Shows, PrismaClient } from "@prisma/client";
+import { Shows } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 export async function createPodcastsForShows(show: Shows) {
   const podcastCount = faker.number.int({ min: 1, max: 3 });

@@ -1,25 +1,30 @@
 import { faker } from "@faker-js/faker";
-import { Comment, User, PrismaClient } from "@prisma/client";
+import { Comment, User } from "@prisma/client";
 
-const prisma = new PrismaClient();
-
-export async function createLikesForComment(
-  comment: Comment,
-  user: User,
-  likeCount: number
-) {
+import prisma from "../../../lib/prisma";
+export async function createLikesForComment(comment: Comment, user: User) {
   try {
-    const likePromises = Array.from({ length: likeCount }).map(() => {
-      return prisma.like.create({
-        data: {
+    const existingLike = await prisma.like.findUnique({
+      where: {
+        userId_commentId: {
           userId: user.id,
           commentId: comment.id,
-          postId: comment.postId,
-          liked: faker.datatype.boolean(),
         },
-      });
+      },
     });
-    return await Promise.all(likePromises);
+
+    if (existingLike) {
+      console.log(`User ${user.id} has already liked comment ${comment.id}.`);
+      return existingLike;
+    }
+
+    return await prisma.like.create({
+      data: {
+        userId: user.id,
+        commentId: comment.id,
+        liked: faker.datatype.boolean(),
+      },
+    });
   } catch (error) {
     console.error(`Failed to create likes for comment ${comment.id}:`, error);
   }

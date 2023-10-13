@@ -1,7 +1,7 @@
-import { User, PrismaClient } from "@prisma/client";
+import { User } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 export async function createPostForUser(user: User) {
   try {

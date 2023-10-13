@@ -1,8 +1,7 @@
-import { User ,PrismaClient} from '@prisma/client';
-import { faker } from '@faker-js/faker';
+import { User } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
-
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 export async function createMeetUps(users: User[]) {
   const meetUpPromises = users.map(async (user) => {

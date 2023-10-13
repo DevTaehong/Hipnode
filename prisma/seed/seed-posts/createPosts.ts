@@ -1,5 +1,5 @@
-import { Post, Tag, User } from '@prisma/client';
-import { faker } from '@faker-js/faker';
+import { Post, Tag, User } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 import {
   createCommentsForPost,
@@ -7,29 +7,32 @@ import {
   createPostForUser,
   createRepliesToComment,
   assignTagsToPost,
-} from './index';
+} from "./index";
 
 async function handleInteractionsForPost(post: Post, user: User) {
   const comments = await createCommentsForPost(post, user);
 
   try {
-    if(comments){
-    for (const comment of comments) {
-      const likeCount = faker.number.int({ min: 0, max: 3 });
-      await createLikesForComment(comment, user, likeCount);
+    if (comments) {
+      for (const comment of comments) {
+        await createLikesForComment(comment, user);
 
-      const repliesCount = faker.number.int({ min: 1, max: 4 });
-      const replies = await createRepliesToComment(comment, user, repliesCount);
+        const repliesCount = faker.number.int({ min: 1, max: 4 });
+        const replies = await createRepliesToComment(
+          comment,
+          user,
+          repliesCount
+        );
 
-      if(!replies) {
-        return;
-      }
-      for (const reply of replies) {
-        const replyLikeCount = faker.number.int({ min: 1, max: 3 });
-        await createLikesForComment(reply, user, replyLikeCount);
+        if (!replies) {
+          return;
+        }
+
+        for (const reply of replies) {
+          await createLikesForComment(reply, user);
+        }
       }
     }
-  }
   } catch (error) {
     console.error(`Failed to handle interactions for post ${post.id}:`, error);
   }
@@ -42,8 +45,8 @@ export async function createPosts(users: User[], tags: Tag[]) {
       const postPromises = Array.from({ length: postCount }).map(
         async (_, index) => {
           const post = await createPostForUser(user);
-          if(!post) {
-            return
+          if (!post) {
+            return;
           }
           await assignTagsToPost(post, tags);
           await handleInteractionsForPost(post, user);

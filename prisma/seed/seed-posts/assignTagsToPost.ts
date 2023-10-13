@@ -1,14 +1,14 @@
-import { Post, Tag, PrismaClient } from '@prisma/client';
-import { faker } from '@faker-js/faker';
-import { getRandomTags } from './getRandomTags';
+import { Post, Tag } from "@prisma/client";
+import { faker } from "@faker-js/faker";
+import { getRandomTags } from "./getRandomTags";
 
-const prisma = new PrismaClient();
+import prisma from " ../../../lib/prisma";
 
 export async function assignTagsToPost(post: Post, tags: Tag[]) {
   try {
     const randomTags = await getRandomTags(tags, faker);
-    if(!randomTags) {
-      return
+    if (!randomTags) {
+      return;
     }
     const tagOnPostPromises = randomTags.map((tag: Tag) => {
       return prisma.tagOnPost.create({

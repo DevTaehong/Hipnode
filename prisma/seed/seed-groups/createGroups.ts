@@ -1,7 +1,5 @@
-import { faker } from '@faker-js/faker';
-import {PrismaClient} from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { faker } from "@faker-js/faker";
+import prisma from "../../../lib/prisma";
 
 export async function createGroups() {
   const groupCount = 10;

@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
+import prisma from "../../../lib/prisma";
 export async function createUsers() {
   const userPromises = Array.from({ length: 10 }).map(async (_, index) => {
     return prisma.user.create({
