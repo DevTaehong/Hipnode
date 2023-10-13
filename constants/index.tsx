@@ -104,6 +104,28 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
+<<<<<<< HEAD
+export const navLinks = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Calendar",
+    link: "/calendar",
+  },
+  {
+    name: "Group",
+    link: "/group",
+  },
+  {
+    name: "Podcasts",
+    link: "/podcasts",
+  },
+  {
+    name: "Interviews",
+    link: "/interviews",
+=======
 
 // NOTE - Delete this dummy data when we have real data
 export const dummyMessages = [
@@ -208,5 +230,6 @@ export const tags = [
     icon: PopularIcon,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
+>>>>>>> main
   },
 ];

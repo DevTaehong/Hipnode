@@ -1,6 +1,13 @@
-const HipnodeIcon = () => {
+import { cn } from "@/lib/utils";
+
+const HipnodeIcon = ({ styles }: { styles?: String }) => {
   return (
-    <div className="flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-md bg-dark-2 dark:bg-light">
+    <div
+      className={cn(
+        "flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-md bg-dark-2 dark:bg-light",
+        styles
+      )}
+    >
       <svg
         width="22"
         height="22"
@@ -14,7 +21,7 @@ const HipnodeIcon = () => {
         />
         <path
           d="M19 16.5102C16.6988 18.7292 14.5 20 11 20C7.71377 20 5.08988 18.5253 3 16.5102"
-          className=" stroke-light  dark:stroke-dark-2"
+          className="stroke-light dark:stroke-dark-2"
           strokeWidth="3"
           strokeLinecap="round"
         />
