@@ -11,6 +11,47 @@ type createUserType = {
   email: string;
 };
 
+export async function getUserByClerkId(clerkId: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        clerkId,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw error;
+  }
+}
+
+export async function getUserById(id: number) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw error;
+  }
+}
+
+export async function getAllUsers() {
+  try {
+    const users = await prisma.user.findMany();
+
+    return users;
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    throw error;
+  }
+}
+
 export async function createUser(data: createUserType) {
   try {
     const user = await prisma.user.create({
