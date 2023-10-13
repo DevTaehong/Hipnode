@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { Comment, User } from "@prisma/client";
 
 import prisma from "../../../lib/prisma";
+
 export async function createLikesForComment(comment: Comment, user: User) {
   try {
     const existingLike = await prisma.like.findUnique({

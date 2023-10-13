@@ -1,7 +1,7 @@
 import { Post, Tag } from "@prisma/client";
 import { faker } from "@faker-js/faker";
-import { getRandomTags } from "./getRandomTags";
 
+import { getRandomTags } from "./getRandomTags";
 import prisma from " ../../../lib/prisma";
 
 export async function assignTagsToPost(post: Post, tags: Tag[]) {

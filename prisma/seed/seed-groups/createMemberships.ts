@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { User, Group } from "@prisma/client";
 
+import { User, Group } from "@prisma/client";
 import prisma from "../../../lib/prisma";
 
 export async function createMemberships(users: User[], groups: Group[]) {
