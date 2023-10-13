@@ -11,6 +11,13 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        "message-popover": "url('/images/messagePopover.svg')",
+        "dark-message-popover": "url('/images/darkMessagePopover.svg')",
+      },
+      screens: {
+        "2xl": "1440px",
+      },
       colors: {
         red: {
           DEFAULT: "#FF4401",

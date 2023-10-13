@@ -1,6 +1,25 @@
-import { UserButton, SignOutButton, SignInButton } from "@clerk/nextjs";
+import {
+  UserButton,
+  SignOutButton,
+  SignInButton,
+  currentUser,
+} from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  let user;
+
+  try {
+    user = currentUser();
+  } catch (error) {
+    console.error("Failed to fetch the current user:", error);
+    redirect("/sign-up");
+  }
+
+  if (!user) {
+    redirect("/sign-up");
+  }
+
   return (
     <section>
       <UserButton
@@ -13,7 +32,6 @@ export default function Home() {
             userButtonPopoverActionButtonText: "dark:text-white",
             userButtonPopoverActionButtonIcon: "dark:invert",
             userButtonPopoverFooter: "dark:invert",
-            userPreviewAvatarContainer: "dark:grayscale-[60%]",
           },
         }}
       />
