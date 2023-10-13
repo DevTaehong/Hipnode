@@ -1,29 +1,28 @@
+import { cn } from "@/lib/utils";
+
 interface HipnodeHeaderLogoProps {
   clerkForm?: boolean;
+  styles?: string;
 }
 
-const HipnodeHeaderLogo = ({ clerkForm = false }: HipnodeHeaderLogoProps) => {
+const HipnodeHeaderLogo = ({ clerkForm = false, styles }: HipnodeHeaderLogoProps) => {
   const divStyles = clerkForm
     ? "h-[0.87rem] w-[0.87rem] sm:h-[1.2rem] sm:w-[1.2rem] bg-light-3"
     : "h-[1.625rem] w-[1.625rem] md:h-[1.875rem] md:w-[1.875rem] dark:bg-light bg-dark-2";
 
   const fillColor = clerkForm ? "fill-sc-2" : "fill-light dark:fill-dark-1";
 
-  const strokeColor = clerkForm
-    ? "stroke-sc-2"
-    : "stroke-light dark:stroke-dark-1";
+  const strokeColor = clerkForm ? "stroke-sc-2" : "stroke-light dark:stroke-dark-1";
 
-  const textStyles = clerkForm
-    ? "text-xs sm:text-base font-bold text-red-90"
-    : "bold-18 md:bold-26 text-red-90";
+  const textStyles = clerkForm ? "text-xs sm:text-base font-bold text-red-90" : "bold-18 md:bold-26 text-red-90";
 
   const dotStyles = clerkForm ? "text-light-3" : "text-sc-1 dark:text-light";
 
   const divGap = clerkForm ? "gap-2 sm:gap-2.5 " : "gap-2.5";
 
   return (
-    <div className={`flex items-center self-start ${divGap}`}>
-      <div className={`flex rounded-md p-1 ${divStyles}`}>
+    <div className={cn("flex items-center self-start", divGap, styles)}>
+      <div className={cn("flex rounded-md p-1", divStyles)}>
         <svg
           className="h-full w-full"
           viewBox="0 0 22 22"
@@ -48,9 +47,9 @@ const HipnodeHeaderLogo = ({ clerkForm = false }: HipnodeHeaderLogoProps) => {
           </g>
         </svg>
       </div>
-      <h1 className={`${textStyles} `}>
+      <h1 className={cn(textStyles)}>
         Hipnode
-        <span className={dotStyles}>.</span>
+        <span className={cn(dotStyles)}>.</span>
       </h1>
     </div>
   );

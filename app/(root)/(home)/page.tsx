@@ -21,7 +21,7 @@ export default async function Home() {
   }
 
   return (
-    <main>
+    <section>
       <UserButton
         afterSignOutUrl="/"
         appearance={{
@@ -37,6 +37,6 @@ export default async function Home() {
       />
       <SignInButton>Sign In</SignInButton>
       <SignOutButton />
-    </main>
+    </section>
   );
 }
