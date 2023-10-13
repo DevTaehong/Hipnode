@@ -66,19 +66,23 @@ model Like {
   liked     Boolean  @default(true)
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
 }
+
 
 model Comment {
   id        Int       @id @default(autoincrement())
   content   String    @db.VarChar(150)
   authorId  Int
-  postId    Int?
+  postId    Int
   parentId  Int?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   isEdited  Boolean   @default(false)
-  author    User      @relation(fields: [authorId], references: [id])
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
   replies   Comment[] @relation("CommentToComment")
   post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -95,7 +99,7 @@ model TagOnPost {
   id     Int  @id @default(autoincrement())
   postId Int
   tagId  Int
-  post   Post @relation(fields: [postId], references: [id])
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   tag    Tag  @relation(fields: [tagId], references: [id])
 
   @@unique([postId, tagId])
@@ -108,7 +112,7 @@ model Shows {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   podcasts  Podcast[]
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Podcast {
@@ -122,8 +126,8 @@ model Podcast {
   updatedAt     DateTime @updatedAt
   url           String
   userId        Int
-  show          Shows    @relation(fields: [showId], references: [id])
-  user          User     @relation(fields: [userId], references: [id])
+  show          Shows    @relation(fields: [showId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Group {
@@ -139,8 +143,8 @@ model Membership {
   userId   Int
   groupId  Int
   joinedAt DateTime @default(now())
-  group    Group    @relation(fields: [groupId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, groupId])
   @@index([userId])
@@ -158,7 +162,7 @@ model MeetUp {
   summary             String
   title               String
   updatedAt           DateTime @updatedAt
-  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id])
+  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
