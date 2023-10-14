@@ -4,7 +4,12 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: ['cloudflare-ipfs.com', 'avatars.githubusercontent.com'],
+    domains: [
+      'cloudflare-ipfs.com',
+      'avatars.githubusercontent.com',
+      'loremflickr.com',
+      'jjxiydcvcwtbswunystj.supabase.co',
+    ],
   },
 };
 

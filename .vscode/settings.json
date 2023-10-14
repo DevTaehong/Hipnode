@@ -8,5 +8,7 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["Hipnode"]
+  "cSpell.words": ["Hipnode"],
+  "prettier.singleQuote": false,
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

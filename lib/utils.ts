@@ -8,4 +8,5 @@ export function cn(...inputs: ClassValue[]) {
 
 export interface IconProps {
   children: ReactNode;
+  className?: string;
 }

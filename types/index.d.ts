@@ -1,8 +1,39 @@
+import React, { ChangeEvent, FC } from "react";
+import { StaticImageData } from "next/image";
+
+import { onboardingQuestions } from "@/constants";
+
 export interface ThemeContextType {
   mode: string;
   setMode: (mode: string) => void;
 }
 
+interface Onboarding {
+  id: number;
+  userId: number;
+  businessStage: string;
+  codeAbility: string;
+  interests: string[];
+  isOnboarded: boolean;
+}
+export type AnswersType = string | string[];
+
+export type UserAnswersType = {
+  answerQuestion1?: string;
+  answerQuestion2?: string;
+  answersQuestion3?: string[];
+};
+
+export type QuestionKeysMapType = {
+  [key: number]: string;
+};
+
+export type PostItem = {
+  title: string;
+  icon: React.FC<{ className?: string; children? }>;
+  iconBgColor: string;
+  iconFillColor: string;
+};
 export interface User {
   id: number;
   clerkId: string;
@@ -14,6 +45,11 @@ export interface User {
   picture: string;
   location?: string | null;
   joinedAt: Date;
+  onboarding: Onboarding;
+}
+
+export interface ClerkUser extends User {
+  username: string | null;
 }
 
 interface BaseTag {
@@ -81,3 +117,122 @@ export interface Post extends BasePost {
   tags: TagOnPost[];
   comments: Comment[];
 }
+
+export type MeetUp = {
+  id: number;
+  createdAt: string;
+  contactEmail: string;
+  contactNumber: string;
+  image: string;
+  location: string;
+  responsiblePersonId: number;
+  summary: string;
+  title: string;
+  updatedAt: string;
+};
+
+export type Group = {
+  id: number;
+  createdAt: string;
+  details: string;
+  groupName: string;
+  updatedAt: string;
+};
+
+export type Episode = {
+  id: number;
+  createdAt: string;
+  details: string;
+  episodeNumber: number;
+  image: string;
+  showId: number;
+  title: string;
+  updatedAt: string;
+  url: string;
+  userId: number;
+};
+export interface CustomButtonProps {
+  label: string;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+}
+
+export interface ActiveButtonsProps {
+  currentPath: string;
+}
+
+export interface ActionButtonProps {
+  label: string;
+  href: string;
+  currentPath?: string;
+}
+
+export interface ImageUploadProps {
+  bucketName: string;
+  folderName?: string;
+}
+
+export interface UseImageUploadReturn {
+  file: File | null;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: () => Promise<void>;
+}
+
+export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
+export type ColorVariantsOnboardingType = {
+  [key: string]: string;
+  fillRed: string;
+  fillBlue: string;
+  fillYellow: string;
+  fillGreen: string;
+  bgRed: string;
+  bgBlue: string;
+  bgYellow: string;
+  bgGreen: string;
+};
+
+export interface QuestionnaireProps {
+  userClerkId: string;
+}
+
+export interface QuestionnaireFormProps {
+  questions: (typeof onboardingQuestions)[number];
+  animateClass: string;
+  classVariants: {
+    parentDivFlex: string;
+    childDivWidth: string;
+    buttonWidth: string;
+    buttonText: string;
+  };
+  handleQuestionClick: (question: AnswersType) => void;
+  handleNextClick: () => void;
+  selectedAnswers: AnswersType[];
+  questionSet: number;
+}
+
+export interface OnboardingSideScreenProps {
+  info?: {
+    title: string;
+    posts: PostItem[];
+  };
+}
+
+export interface IconProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export type GroupSectionGroupType = {
+  icon: StaticImageData;
+  groupDescription: string;
+  groupName: string;
+};
+
+export type HeadingsType = {
+  title: string;
+  bgColor: string;
+  icon: FC;
+  groups: GroupSectionGroupType[];
+};
