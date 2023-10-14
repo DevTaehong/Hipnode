@@ -18,8 +18,8 @@ const srcArray = [
 
 const ProfileModal = () => {
   return (
-    <div className="relative flex w-[20.938rem] flex-col items-center rounded-[1.625rem] bg-light dark:bg-dark-3">
-      <div className="absolute left-0 top-0 h-[6.25rem] w-full bg-profile-modal bg-no-repeat" />
+    <div className="relative flex max-w-[20.938rem] flex-col items-center rounded-2xl bg-light p-5 dark:bg-dark-3">
+      <div className="absolute left-0 top-0 flex h-[6.25rem] w-full rounded-t-2xl bg-profile-modal bg-no-repeat" />
       <div className="z-20 mt-[2.063rem]">
         <div className="flex h-[8.125rem] w-[8.125rem] items-center justify-center rounded-full border-[0.19rem] border-dark-3 bg-yellow-30">
           <div className="h-[6.25rem] w-[6.25rem] pb-[0.625rem]">
@@ -42,15 +42,15 @@ const ProfileModal = () => {
           <FillIcon.Message className="fill-blue" />
         </div>
       </div>
-      <p className="pb-[1.25rem] font-[0.875rem] leading-[1.375rem] text-purple-black-20 dark:text-light-3">
-        33 Followers
-        <span className="relative top-[-0.125rem] px-2 text-[2rem]">.</span>501
-        Points
+      <p className="pb-[1.25rem] text-center font-[0.875rem] leading-[1.375rem] text-purple-black-20 dark:text-light-3">
+        333 Followers
+        <span className="relative top-[-0.125rem] px-1 text-[2rem]">.</span>
+        501 Points
       </p>
       <p className="pb-[1.25rem] font-[0.875rem] leading-[1.375rem] text-purple-black-20 dark:text-light-3">
         Following 47
       </p>
-      <div className="flex flex-row space-x-[0.625rem] pb-[1.25rem] ">
+      <div className="flex flex-wrap justify-center gap-[0.625rem] pb-[1.25rem] ">
         {srcArray.slice(0, 6).map((src, index) => (
           <div
             className="h-[1.875rem] w-[1.875rem] rounded-full bg-blue-10"
@@ -66,20 +66,24 @@ const ProfileModal = () => {
         )}
       </div>
 
-      <p className="px-[1.25rem] pb-[1.25rem] text-center font-[0.875rem] leading-[1.375rem] text-sc-3">
+      <p className="pb-[1.25rem] text-center font-[0.875rem] leading-[1.375rem] text-sc-3">
         Hey there...I&apos;m AR Jakir! I&apos;m here to learn from and support
         the other members of the community!
       </p>
-      <div className="flex flex-row items-center space-x-[1.25rem] pb-[1.25rem]">
-        <div className="mr-[-0.625rem]">
-          <IconAlt.Web className="h-[0.875rem] w-[0.875rem] fill-sc-2 dark:fill-light-3" />
+      <div className="flex flex-col items-center px-[1.25rem] pb-[1.25rem]">
+        <div className="flex pb-[1.25rem]">
+          <div className="mr-[0.625rem]">
+            <IconAlt.Web className="h-[0.875rem] w-[0.875rem] fill-sc-2 dark:fill-light-3" />
+          </div>
+          <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6">
+            www.uikit.to
+          </p>
         </div>
-        <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6">
-          www.uikit.to
-        </p>
-        <SocialIcon.Twitter className="fill-sc-4 dark:fill-light-3" />
-        <SocialIcon.Facebook className="fill-sc-4 dark:fill-light-3" />
-        <SocialIcon.Instagram className="fill-sc-4 dark:fill-light-3" />
+        <div className="flex gap-2.5">
+          <SocialIcon.Twitter className="fill-sc-4 dark:fill-light-3" />
+          <SocialIcon.Facebook className="fill-sc-4 dark:fill-light-3" />
+          <SocialIcon.Instagram className="fill-sc-4 dark:fill-light-3" />
+        </div>
       </div>
       <div className="h-[0.063rem] w-[10.625rem] bg-sc-6 dark:bg-sc-3" />
       <p className="pb-[1.875rem] pt-[1.25rem] text-[0.875rem] font-semibold leading-[1.375rem] text-sc-3 dark:text-sc-6 ">
