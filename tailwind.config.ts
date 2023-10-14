@@ -19,7 +19,7 @@ module.exports = {
       backgroundImage: {
         "message-popover": "url('/images/messagePopover.svg')",
         "dark-message-popover": "url('/images/darkMessagePopover.svg')",
-        "profile-modal": "url('/profile-modal-header-bg.png')",
+        "profile-modal": "url('/profileModal.png')",
       },
       screens: {
         "2xl": "1440px",
