@@ -11,6 +11,14 @@ type createUserType = {
   email: string;
 };
 
+type createOnboardingType = {
+  userId: number;
+  businessStage: string;
+  codeAbility: string;
+  interests: string[];
+  isOnboarded: boolean;
+};
+
 export async function getUserByClerkId(clerkId: string) {
   try {
     const user = await prisma.user.findUnique({
@@ -140,17 +148,85 @@ export async function deleteUser(clerkId: string) {
   }
 }
 
-// export async function getOnboardingByUserId(userId: number) {
-//   try {
-//     const onboarding = await prisma.onboarding.findUnique({
-//       where: {
-//         userId,
-//       },
-//     });
+export async function getOnboardingByUserId(userId: number) {
+  try {
+    const onboarding = await prisma.onboarding.findUnique({
+      where: {
+        userId,
+      },
+    });
 
-//     return onboarding;
-//   } catch (error) {
-//     console.error("Error fetching onboarding by userId:", error);
-//     throw error;
-//   }
-// }
+    return onboarding;
+  } catch (error) {
+    console.error("Error fetching onboarding by userId:", error);
+    throw error;
+  }
+}
+
+export async function createOnboarding(
+  clerkId: string,
+  data: Omit<createOnboardingType, "userId">
+) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        clerkId,
+      },
+    });
+
+    if (!user) {
+      throw new Error(`No user found for clerkId: ${clerkId}`);
+    }
+
+    const onboarding = await prisma.onboarding.create({
+      data: {
+        ...data,
+        businessStage: data.businessStage as string,
+        userId: user.id,
+      },
+    });
+
+    return onboarding;
+  } catch (error) {
+    console.error("Error creating Onboarding:", error);
+    throw error;
+  }
+}
+
+export async function getAllOnboarding() {
+  try {
+    const onboardings = await prisma.onboarding.findMany();
+
+    return onboardings;
+  } catch (error) {
+    console.error("Error fetching all onboardings:", error);
+    throw error;
+  }
+}
+
+export async function isLoggedInUserOnboarded(
+  clerkId: string
+): Promise<boolean> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        clerkId,
+      },
+    });
+
+    if (!user) {
+      throw new Error(`No user found for clerkId: ${clerkId}`);
+    }
+
+    const onboarding = await prisma.onboarding.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    return !!onboarding; // If onboarding exists, it'll return true, else false
+  } catch (error) {
+    console.error("Error checking if user is onboarded:", error);
+    throw error;
+  }
+}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { updateUser } from "@/lib/actions/user.actions";
+import { createOnboarding } from "@/lib/actions/user.actions";
 import {
   UserAnswersType,
   AnswersType,
@@ -48,13 +48,12 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
           answerQuestion3: selectedAnswers as string[],
         };
         setUserAnswers(allAnswers);
-        console.log(
-          "Updated Answers:",
-          allAnswers,
-          "Clerk User ID:",
-          userClerkId
-        );
-        updateUser(userClerkId, { bio: "This is a test" });
+        createOnboarding(userClerkId, {
+          businessStage: allAnswers.answerQuestion1 || "",
+          codeAbility: allAnswers.answerQuestion2 || "",
+          interests: allAnswers.answerQuestion3,
+          isOnboarded: true,
+        });
         router.push("/");
       } else {
         const questionKeysMap: QuestionKeysMapType = {
