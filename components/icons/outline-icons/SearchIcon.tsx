@@ -1,4 +1,6 @@
-const SearchIcon = () => {
+import { cn } from "@/lib/utils";
+
+const SearchIcon = ({ className }: { className?: String }) => {
   return (
     <div className="flex h-5 w-5 items-center justify-center">
       <svg
@@ -7,17 +9,16 @@ const SearchIcon = () => {
         height="21"
         viewBox="0 0 20 21"
         fill="none"
+        className={cn(className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]")}
       >
         <circle
           cx="9"
           cy="9"
           r="8"
-          className="stroke-[#3F4354] dark:stroke-[#F7F7F7]"
           strokeWidth="2"
         />
         <path
           d="M14.5 15.5L18.5 19.5"
-          className="stroke-[#3F4354] dark:stroke-[#F7F7F7]"
           strokeWidth="2"
           strokeLinecap="round"
         />

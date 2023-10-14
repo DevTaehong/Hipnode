@@ -27,6 +27,10 @@
     @apply text-[18px] font-normal leading-[26px];
   }
 
+  .base-18 {
+    @apply text-[18px] leading-[26px];
+  }
+
   .bold-16 {
     @apply text-[16px] font-bold leading-[24px];
   }
@@ -51,12 +55,20 @@
     @apply text-[14px] font-medium leading-[22px];
   }
 
+  .base-14 {
+    @apply text-[14px] leading-[22px];
+  }
+
   .semibold-12 {
     @apply text-[12px] font-semibold leading-[18px];
   }
 
   .regular-12 {
     @apply text-[12px] font-normal leading-[18px];
+  }
+
+  .base-12 {
+    @apply text-[12px] leading-[18px];
   }
 
   .semibold-10 {
@@ -67,6 +79,10 @@
     @apply text-[10px] font-semibold leading-[16px];
   }
 
+  .base-10 {
+    @apply text-[10px] leading-[16px];
+  }
+
   .semibold-9 {
     @apply text-[9px] font-semibold leading-[14px];
   }
@@ -75,6 +91,49 @@
     @apply text-[9px] font-semibold leading-[14px];
   }
 
+  .base-9 {
+    @apply text-[9px] leading-[14px];
+  }
+
+  .bg-light_dark-3 {
+    @apply bg-light dark:bg-dark-3;
+  }
+
+  .bg-light-2_dark-2 {
+    @apply bg-light-2 dark:bg-dark-2;
+  }
+
+  .bg-light_dark-4 {
+    @apply bg-light dark:bg-dark-4;
+  }
+
+  .bg-light-3_dark-3 {
+    @apply bg-light-3 dark:bg-dark-3;
+  }
+
+  .bg-light-3_dark-4 {
+    @apply bg-light-3 dark:bg-dark-4;
+  }
+
+  .text-sc-1_light-2 {
+    @apply text-sc-1 dark:text-light-2;
+  }
+
+  .text-sc-2_light {
+    @apply text-sc-2 dark:text-light;
+  }
+
+  .text-sc-2_light-2 {
+    @apply text-sc-2 dark:text-light-2;
+  }
+
+  .text-sc-3_light-6 {
+    @apply text-sc-3 dark:text-light-3;
+  }
+
+  .text-sc-4_light-2 {
+    @apply text-sc-4 dark:text-light-2;
+  }
   /* Onboarding component styles */
   .onboarding-page {
     @apply flex w-screen flex-col dark:bg-dark-2 md:min-h-screen md:flex-row;

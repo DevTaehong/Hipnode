@@ -1,4 +1,5 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FC } from "react";
+import { StaticImageData } from "next/image";
 
 import { onboardingQuestions } from "@/constants";
 
@@ -117,6 +118,39 @@ export interface Post extends BasePost {
   comments: Comment[];
 }
 
+export type MeetUp = {
+  id: number;
+  createdAt: string;
+  contactEmail: string;
+  contactNumber: string;
+  image: string;
+  location: string;
+  responsiblePersonId: number;
+  summary: string;
+  title: string;
+  updatedAt: string;
+};
+
+export type Group = {
+  id: number;
+  createdAt: string;
+  details: string;
+  groupName: string;
+  updatedAt: string;
+};
+
+export type Episode = {
+  id: number;
+  createdAt: string;
+  details: string;
+  episodeNumber: number;
+  image: string;
+  showId: number;
+  title: string;
+  updatedAt: string;
+  url: string;
+  userId: number;
+};
 export interface CustomButtonProps {
   label: string;
   onClick?: () => void;
@@ -187,4 +221,18 @@ export interface OnboardingSideScreenProps {
 
 export interface IconProps {
   children: React.ReactNode;
+  className?: string;
 }
+
+export type GroupSectionGroupType = {
+  icon: StaticImageData;
+  groupDescription: string;
+  groupName: string;
+};
+
+export type HeadingsType = {
+  title: string;
+  bgColor: string;
+  icon: FC;
+  groups: GroupSectionGroupType[];
+};
