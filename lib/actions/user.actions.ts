@@ -2,6 +2,7 @@
 
 import { type User } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import { UserAnswersType } from "@/types";
 
 type createUserType = {
   clerkId: string;
@@ -9,14 +10,6 @@ type createUserType = {
   username: string;
   picture: string;
   email: string;
-};
-
-type createOnboardingType = {
-  userId: number;
-  businessStage: string;
-  codeAbility: string;
-  interests: string[];
-  isOnboarded: boolean;
 };
 
 export async function getUserByClerkId(clerkId: string) {
@@ -163,10 +156,7 @@ export async function getOnboardingByUserId(userId: number) {
   }
 }
 
-export async function createOnboarding(
-  clerkId: string,
-  data: Omit<createOnboardingType, "userId">
-) {
+export async function createOnboarding(clerkId: string, data: UserAnswersType) {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -178,12 +168,16 @@ export async function createOnboarding(
       throw new Error(`No user found for clerkId: ${clerkId}`);
     }
 
+    const onboardingData = {
+      businessStage: data.answerQuestion1 || "",
+      codeAbility: data.answerQuestion2 || "",
+      interests: data.answersQuestion3,
+      userId: user.id,
+      isOnboarded: true,
+    };
+
     const onboarding = await prisma.onboarding.create({
-      data: {
-        ...data,
-        businessStage: data.businessStage as string,
-        userId: user.id,
-      },
+      data: onboardingData,
     });
 
     return onboarding;

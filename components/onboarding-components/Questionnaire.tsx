@@ -48,12 +48,8 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
           answerQuestion3: selectedAnswers as string[],
         };
         setUserAnswers(allAnswers);
-        createOnboarding(userClerkId, {
-          businessStage: allAnswers.answerQuestion1 || "",
-          codeAbility: allAnswers.answerQuestion2 || "",
-          interests: allAnswers.answerQuestion3,
-          isOnboarded: true,
-        });
+
+        createOnboarding(userClerkId, userAnswers);
         router.push("/");
       } else {
         const questionKeysMap: QuestionKeysMapType = {
