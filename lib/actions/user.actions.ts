@@ -139,3 +139,18 @@ export async function deleteUser(clerkId: string) {
     throw error;
   }
 }
+
+// export async function getOnboardingByUserId(userId: number) {
+//   try {
+//     const onboarding = await prisma.onboarding.findUnique({
+//       where: {
+//         userId,
+//       },
+//     });
+
+//     return onboarding;
+//   } catch (error) {
+//     console.error("Error fetching onboarding by userId:", error);
+//     throw error;
+//   }
+// }
