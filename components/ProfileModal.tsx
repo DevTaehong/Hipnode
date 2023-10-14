@@ -2,19 +2,9 @@ import Image from "next/image";
 import CustomButton from "./CustomButton";
 import FillIcon from "./icons/fill-icons";
 import { IconAlt, SocialIcon } from "./icons/outline-icons";
+import { srcArray } from "@/constants";
 
 // TODO - use live data to populate
-
-const srcArray = [
-  "/emoji_2.png",
-  "/emoji_2.png",
-  "/emoji_2.png",
-  "/emoji_2.png",
-  "/emoji_2.png",
-  "/emoji_2.png",
-  "/emoji_2.png",
-  "/emoji_2.png",
-];
 
 const ProfileModal = () => {
   return (

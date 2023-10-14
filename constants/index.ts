@@ -423,3 +423,14 @@ export const tags = [
     iconFillColor: "fillRed",
   },
 ];
+
+export const srcArray = [
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+];
