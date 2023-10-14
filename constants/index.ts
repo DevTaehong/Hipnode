@@ -294,6 +294,7 @@ export const sectionHeadings = [
     groups: newlyLaunchedGroups,
   },
 ];
+
 export const navLinks = [
   {
     name: "Home",

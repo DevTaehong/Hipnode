@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -14,6 +19,7 @@ module.exports = {
       backgroundImage: {
         "message-popover": "url('/images/messagePopover.svg')",
         "dark-message-popover": "url('/images/darkMessagePopover.svg')",
+        "profile-modal": "url('/profile-modal-header-bg.png')",
       },
       screens: {
         "2xl": "1440px",
@@ -74,7 +80,8 @@ module.exports = {
           5: "#C5D0E6",
           6: "#F4F6F8",
         },
-        leaveModal: "linear-gradient(180deg, rgba(189, 189, 189, 0.20) 0%, rgba(189, 189, 189, 0.20) 100%)",
+        leaveModal:
+          "linear-gradient(180deg, rgba(189, 189, 189, 0.20) 0%, rgba(189, 189, 189, 0.20) 100%)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
