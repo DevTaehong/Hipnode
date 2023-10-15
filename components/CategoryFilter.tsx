@@ -6,11 +6,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { ArrowLargeIcon, CheckboxIcon } from "@/components/icons/outline-icons";
 import { CategoryFilterData } from "@/constants";
 
-const filterTitles = CategoryFilterData.map(category => {
-  return {
-    [category.name]: false,
-  };
-});
+const filterTitles = CategoryFilterData.reduce(
+  (acc, category) => {
+    acc[category.name] = false;
+    return acc;
+  },
+  {} as Record<string, boolean>
+);
 
 const CategoryFilter = () => {
   const [open, setOpen] = useState(filterTitles);
