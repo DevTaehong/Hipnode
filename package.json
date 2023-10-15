@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "ts-node": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\"",
-    "postinstall": "prisma generate"
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.25.2",
