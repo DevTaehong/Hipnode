@@ -1,4 +1,4 @@
-import ProfileModal from "@/components/ProfileModal";
+import ProfileModal from "@/components/profile-modal/ProfileModal";
 import Theme from "@/components/navbar/Theme";
 const page = () => {
   return (
