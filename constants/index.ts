@@ -422,3 +422,11 @@ export const tags = [
     iconFillColor: "fillRed",
   },
 ];
+
+export const socialStats = {
+  views: "651,764",
+  likes: "365,987",
+  comments: "58",
+};
+
+export const postTabs = ["finance", "bitcoin", "crypto"];
