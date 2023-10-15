@@ -4,21 +4,7 @@ import React, { useState } from "react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowLargeIcon, CheckboxIcon } from "@/components/icons/outline-icons";
-
-const CategoryFilterData = [
-  {
-    name: "Business Model",
-    filters: ["Free", "Advertising", "Affiliate", "Transactional", "Subscription-Based"],
-  },
-  {
-    name: "Monthly Revenue",
-    filters: ["2000", "3000", "4000", "5000", "8000"],
-  },
-  {
-    name: "Employees",
-    filters: ["1", "2", "3", "4", "5"],
-  },
-];
+import { CategoryFilterData } from "@/constants";
 
 const filterTitles = CategoryFilterData.map(category => {
   return {
