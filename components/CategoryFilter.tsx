@@ -1,5 +1,9 @@
+"use client";
+
+import React, { useState } from "react";
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowLargeIcon } from "@/components/icons/outline-icons";
+import { ArrowLargeIcon, CheckboxIcon } from "@/components/icons/outline-icons";
 
 const CategoryFilterData = [
   {
@@ -16,43 +20,74 @@ const CategoryFilterData = [
   },
 ];
 
-const CategoryFilter = () => {
-  return (
-    <div className="w-[350px] bg-light p-5">
-      <Accordion
-        type="multiple"
-        collapsible
-      >
-        {CategoryFilterData.map(category => (
-          <AccordionItem
-            key={category.name}
-            value={category.name}
-          >
-            <AccordionTrigger>
-              {category.name}
-              <ArrowLargeIcon.Right />
-            </AccordionTrigger>
+const filterTitles = CategoryFilterData.map(category => {
+  return {
+    [category.name]: false,
+  };
+});
 
-            <AccordionContent>
-              <section className="flex flex-col">
-                {category.filters.map(filter => (
-                  <label
-                    key={filter}
-                    className="flex items-center justify-between"
-                  >
-                    <span>{filter}</span>
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4"
-                    />
-                  </label>
-                ))}
-              </section>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
+const CategoryFilter = () => {
+  const [open, setOpen] = useState(filterTitles);
+  const [isChecked, setIsChecked] = useState({});
+
+  const handleOpen = (value: string): void => {
+    setOpen(prev => ({
+      ...prev,
+      [value]: !prev[value as keyof typeof open],
+    }));
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { id, checked } = e.target;
+
+    setIsChecked(prevState => ({ ...prevState, [id]: checked }));
+  };
+
+  return (
+    <Accordion
+      type="multiple"
+      collapsible
+      className="w-[300px] bg-light p-5 dark:bg-dark-3"
+    >
+      {CategoryFilterData.map(category => (
+        <AccordionItem
+          key={category.name}
+          value={category.name}
+        >
+          <AccordionTrigger
+            onClick={() => handleOpen(category.name)}
+            className="flex"
+          >
+            <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2">{category.name}</span>
+            {open[category.name as keyof typeof open] ? <ArrowLargeIcon.Down /> : <ArrowLargeIcon.Right />}
+          </AccordionTrigger>
+
+          <AccordionContent>
+            <section className="flex flex-col gap-[0.62rem]">
+              {category.filters.map(filter => (
+                <label
+                  key={filter}
+                  htmlFor={filter}
+                  className="relative flex items-center justify-between"
+                >
+                  <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2">{filter}</span>
+                  <input
+                    id={filter}
+                    type="checkbox"
+                    className="invisible h-4 w-4"
+                    onChange={handleInput}
+                  />
+
+                  <div className="absolute right-0">
+                    <CheckboxIcon checked={isChecked[filter as keyof typeof isChecked]} />
+                  </div>
+                </label>
+              ))}
+            </section>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 };
 
