@@ -12,11 +12,11 @@ const CategoryFilterData = [
   },
   {
     name: "Monthly Revenue",
-    filters: ["test1", "test2", "test3", "test4", "test5"],
+    filters: ["2000", "3000", "4000", "5000", "8000"],
   },
   {
     name: "Employees",
-    filters: ["test1", "test2", "test3", "test4", "test5"],
+    filters: ["1", "2", "3", "4", "5"],
   },
 ];
 
@@ -47,7 +47,7 @@ const CategoryFilter = () => {
     <Accordion
       type="multiple"
       collapsible
-      className="w-[300px] bg-light p-5 dark:bg-dark-3"
+      className="w-[300px] rounded-[1rem] bg-light p-5 dark:bg-dark-3"
     >
       {CategoryFilterData.map(category => (
         <AccordionItem
@@ -56,21 +56,27 @@ const CategoryFilter = () => {
         >
           <AccordionTrigger
             onClick={() => handleOpen(category.name)}
-            className="flex"
+            className={`flex rounded-[0.5rem] px-[0.62rem] ${
+              open[category.name as keyof typeof open] ? "bg-sc-6 dark:bg-dark-3" : ""
+            }`}
           >
-            <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2">{category.name}</span>
+            <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2 dark:text-light-2">
+              {category.name}
+            </span>
             {open[category.name as keyof typeof open] ? <ArrowLargeIcon.Down /> : <ArrowLargeIcon.Right />}
           </AccordionTrigger>
 
           <AccordionContent>
-            <section className="flex flex-col gap-[0.62rem]">
+            <section className="mt-[0.62rem] flex flex-col gap-[0.62rem] px-[0.62rem]">
               {category.filters.map(filter => (
                 <label
                   key={filter}
                   htmlFor={filter}
                   className="relative flex items-center justify-between"
                 >
-                  <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2">{filter}</span>
+                  <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2 dark:text-light-2">
+                    {filter}
+                  </span>
                   <input
                     id={filter}
                     type="checkbox"
