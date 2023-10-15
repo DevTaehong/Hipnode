@@ -176,6 +176,8 @@ export async function createOnboarding(clerkId: string, data: UserAnswersType) {
       isOnboarded: true,
     };
 
+    console.log(onboardingData);
+
     const onboarding = await prisma.onboarding.create({
       data: onboardingData,
     });

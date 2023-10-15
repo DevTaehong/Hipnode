@@ -45,11 +45,9 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
       if (questionSet === 2) {
         const allAnswers = {
           ...userAnswers,
-          answerQuestion3: selectedAnswers as string[],
+          answersQuestion3: selectedAnswers as string[],
         };
-        setUserAnswers(allAnswers);
-
-        createOnboarding(userClerkId, userAnswers);
+        createOnboarding(userClerkId, allAnswers);
         router.push("/");
       } else {
         const questionKeysMap: QuestionKeysMapType = {
