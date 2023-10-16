@@ -3,6 +3,22 @@
 import { type MeetUp } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
+interface MeetUpProp {
+  id: number;
+}
+
+interface UpdateMeetUpProps {
+  id: number;
+  content: {
+    title?: string;
+    summary?: string;
+    location?: string;
+    contactEmail?: string;
+    contactNumber?: string;
+    image?: string;
+  };
+}
+
 export async function getMeetUps() {
   try {
     const meetUps = await prisma.meetUp.findMany({
@@ -40,18 +56,6 @@ export async function createMeetUp(data: MeetUp) {
   }
 }
 
-interface UpdateMeetUpProps {
-  id: number;
-  content: {
-    title?: string;
-    summary?: string;
-    location?: string;
-    contactEmail?: string;
-    contactNumber?: string;
-    image?: string;
-  };
-}
-
 export async function updateMeetUp({ id, content }: UpdateMeetUpProps) {
   try {
     const updatedMeetUp = await prisma.meetUp.update({
@@ -67,6 +71,21 @@ export async function updateMeetUp({ id, content }: UpdateMeetUpProps) {
     return updatedMeetUp;
   } catch (error) {
     console.error("Error updating meetUp:", error);
+    throw error;
+  }
+}
+
+export async function deleteMeetUp({ id }: MeetUpProp) {
+  try {
+    const meetUp = await prisma.meetUp.delete({
+      where: {
+        id,
+      },
+    });
+
+    return meetUp;
+  } catch (error) {
+    console.error("Error deleting meetUp:", error);
     throw error;
   }
 }
