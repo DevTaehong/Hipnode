@@ -6,7 +6,7 @@ import { dummyMessages } from "@/constants";
 
 const ActiveMembers = () => {
   return (
-    <div className="flex w-[20.4rem] flex-col gap-5 rounded-2xl border border-black bg-white p-5 dark:bg-dark-3">
+    <div className="flex w-[20.4rem] flex-col gap-5 rounded-2xl bg-white p-5 dark:bg-dark-3">
       <h1 className="semibold-16 text-sc-2 dark:text-light-2">
         Active Members
       </h1>
