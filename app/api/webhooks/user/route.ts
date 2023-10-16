@@ -81,7 +81,6 @@ async function handler(request: Request) {
   } else if (eventType === "user.created") {
     const { id, username, first_name, last_name, image_url, email_addresses } =
       event.data;
-    console.log("we are here");
 
     const emailAddress = email_addresses[0].email_address;
 
@@ -92,15 +91,10 @@ async function handler(request: Request) {
       picture: image_url,
       email: emailAddress,
     });
-    console.log("we are here");
 
     if (user) {
-      console.log("we are here");
-
       return NextResponse.json({ data: user });
     } else {
-      console.log("we are here");
-
       return NextResponse.json(
         { error: "Failed to create user" },
         { status: 400 }
@@ -109,7 +103,6 @@ async function handler(request: Request) {
   } else {
     console.log("we are here");
 
-    // Handle unexpected event type
     return NextResponse.json(
       { error: "Unhandled event type" },
       { status: 400 }
