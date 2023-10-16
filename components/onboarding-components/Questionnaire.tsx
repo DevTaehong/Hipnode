@@ -25,6 +25,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
   useEffect(() => {
     if (shouldOnboard) {
       const doOnboarding = async () => {
+        setSelectedAnswers([]);
         await createOnboarding(userClerkId, userAnswers);
         router.push("/");
       };
