@@ -237,6 +237,22 @@ export type HeadingsType = {
   groups: GroupSectionGroupType[];
 };
 
+export interface MeetUpProp {
+  id: number;
+}
+
+export interface UpdateMeetUpProps {
+  id: number;
+  content: {
+    title?: string;
+    summary?: string;
+    location?: string;
+    contactEmail?: string;
+    contactNumber?: string;
+    image?: string;
+  };
+}
+
 export interface SocialIconProps extends IconProps {
   className?: string;
 }
