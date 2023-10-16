@@ -55,6 +55,9 @@ model Post {
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  groupId   Int?
+  group     Group?      @relation(fields: [groupId], references: [id])
+
   tags      TagOnPost[]
 }
 
@@ -137,6 +140,7 @@ model Group {
   groupName String       @unique
   updatedAt DateTime     @updatedAt
   members   Membership[]
+  posts     Post[]
 }
 
 model Membership {
@@ -169,3 +173,6 @@ enum Role {
   ADMIN
   USER
 }
+
+
+
