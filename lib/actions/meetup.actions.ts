@@ -19,6 +19,21 @@ interface UpdateMeetUpProps {
   };
 }
 
+export async function getMeetUp({ id }: MeetUpProp) {
+  try {
+    const meetUp = await prisma.meetUp.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return meetUp;
+  } catch (error) {
+    console.error("Error getting meetUp:", error);
+    throw error;
+  }
+}
+
 export async function getAllMeetUps() {
   try {
     const meetUps = await prisma.meetUp.findMany({
