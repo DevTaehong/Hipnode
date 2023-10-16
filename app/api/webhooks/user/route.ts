@@ -84,7 +84,7 @@ async function handler(request: Request) {
 
     const emailAddress = email_addresses[0].email_address;
 
-    const user = createUser({
+    const user = await createUser({
       clerkId: id,
       name: `${first_name} ${last_name}`,
       username,
