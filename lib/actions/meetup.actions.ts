@@ -39,3 +39,34 @@ export async function createMeetUp(data: MeetUp) {
     throw error;
   }
 }
+
+interface UpdateMeetUpProps {
+  id: number;
+  content: {
+    title?: string;
+    summary?: string;
+    location?: string;
+    contactEmail?: string;
+    contactNumber?: string;
+    image?: string;
+  };
+}
+
+export async function updateMeetUp({ id, content }: UpdateMeetUpProps) {
+  try {
+    const updatedMeetUp = await prisma.meetUp.update({
+      where: {
+        id,
+      },
+      data: {
+        content,
+        isEdited: true,
+      },
+    });
+
+    return updatedMeetUp;
+  } catch (error) {
+    console.error("Error updating meetUp:", error);
+    throw error;
+  }
+}
