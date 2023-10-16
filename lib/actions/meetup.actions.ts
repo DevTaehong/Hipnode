@@ -1,23 +1,10 @@
 "use server";
 
+// @ts-ignore
 import { type MeetUp } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
-interface MeetUpProp {
-  id: number;
-}
-
-interface UpdateMeetUpProps {
-  id: number;
-  content: {
-    title?: string;
-    summary?: string;
-    location?: string;
-    contactEmail?: string;
-    contactNumber?: string;
-    image?: string;
-  };
-}
+import { MeetUpProp, UpdateMeetUpProps } from "@/types";
 
 export async function getMeetUp({ id }: MeetUpProp) {
   try {
