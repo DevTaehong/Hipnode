@@ -4,47 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLargeIcon, Icon, IconAlt, VoiceIcon } from "@/components/icons/outline-icons";
 import ChatMessage from "@/components/ChatMessage";
 import FillIcon from "./icons/fill-icons";
-
-// TODO: Replace this with real data
-const chatMessages = [
-  {
-    user: "you",
-    message: "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
-  },
-  {
-    user: "other",
-    message: "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
-  },
-  {
-    user: "you",
-    message:
-      "Ah, the binary tango, a classic dance of 10 steps forward and 1 step back. I'm waltzing along too, albeit with a few buffer overflows!",
-  },
-  {
-    user: "other",
-    message:
-      "Buffer overflows, the dance move that keeps on giving! Let's hope we don't trip over any null pointers in this digital ballroom.",
-  },
-  {
-    user: "you",
-    message:
-      "Absolutely! Null pointers are the banana peels of our digital dance floor. So, what's your next move in this grand algorithmic dance?",
-  },
-  {
-    user: "other",
-    message:
-      "I'm thinking of attempting the 'Funky Function Flip.' It's got a 50% chance of impressing the virtual audience or crashing the virtual chandelier. High stakes, you know!",
-  },
-  {
-    user: "you",
-    message:
-      "A daring choice! Break a virtual leg, my friend. I'll be here, debugging and providing virtual applause. Until our next debugging disco, cheerio Christopher!",
-  },
-  {
-    user: "other",
-    message: "Cheerio Christopher!",
-  },
-];
+import { chatMessages } from "@/types";
 
 const ChatBox = () => (
   <section className="w-[370px] rounded-[1rem] bg-light pb-5 pt-4 dark:bg-dark-4">
