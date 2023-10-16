@@ -101,8 +101,6 @@ async function handler(request: Request) {
       );
     }
   } else {
-    console.log("we are here");
-
     return NextResponse.json(
       { error: "Unhandled event type" },
       { status: 400 }
