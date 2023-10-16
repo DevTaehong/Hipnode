@@ -236,3 +236,8 @@ export type HeadingsType = {
   icon: FC;
   groups: GroupSectionGroupType[];
 };
+
+export interface ChatMessageProps {
+  user: string;
+  message: string;
+}
