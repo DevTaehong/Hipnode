@@ -5,18 +5,24 @@ import {
   currentUser,
 } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { isLoggedInUserOnboarded } from "@/lib/actions/user.actions";
 
 export default async function Home() {
   let user;
 
   try {
-    user = currentUser();
+    user = await currentUser();
   } catch (error) {
     console.error("Failed to fetch the current user:", error);
     redirect("/sign-up");
   }
 
-  if (!user) {
+  if (user) {
+    const checkedUser = await isLoggedInUserOnboarded(user.id);
+    if (!checkedUser) {
+      redirect("/onboarding");
+    }
+  } else {
     redirect("/sign-up");
   }
 
