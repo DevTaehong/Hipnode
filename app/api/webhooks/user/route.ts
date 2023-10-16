@@ -57,12 +57,27 @@ async function handler(request: Request) {
       picture: image_url,
     });
 
-    return updatedUser;
+    if (updatedUser) {
+      return NextResponse.json({ data: updatedUser });
+    } else {
+      return NextResponse.json(
+        { error: "Failed to update user" },
+        { status: 400 }
+      );
+    }
   } else if (eventType === "user.deleted") {
     const { id } = event.data;
 
     const deletedUser = await deleteUser(id.toString());
-    return deletedUser;
+
+    if (deletedUser) {
+      return NextResponse.json({ data: deletedUser });
+    } else {
+      return NextResponse.json(
+        { error: "Failed to delete user" },
+        { status: 400 }
+      );
+    }
   } else if (eventType === "user.created") {
     const { id, username, first_name, last_name, image_url, email_addresses } =
       event.data;
@@ -77,7 +92,20 @@ async function handler(request: Request) {
       email: emailAddress,
     });
 
-    return user;
+    if (user) {
+      return NextResponse.json({ data: user });
+    } else {
+      return NextResponse.json(
+        { error: "Failed to create user" },
+        { status: 400 }
+      );
+    }
+  } else {
+    // Handle unexpected event type
+    return NextResponse.json(
+      { error: "Unhandled event type" },
+      { status: 400 }
+    );
   }
 }
 
