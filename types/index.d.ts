@@ -281,3 +281,7 @@ export const chatMessages = [
     message: "Cheerio Christopher!",
   },
 ];
+
+export interface SocialIconProps extends IconProps {
+  className?: string;
+}

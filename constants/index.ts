@@ -284,6 +284,7 @@ export const sectionHeadings = [
     groups: newlyLaunchedGroups,
   },
 ];
+
 export const navLinks = [
   {
     name: "Home",
@@ -426,4 +427,15 @@ export const CategoryFilterData = [
     name: "Employees",
     filters: ["1", "2", "3", "4", "5"],
   },
+];
+
+export const srcArray = [
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
 ];
