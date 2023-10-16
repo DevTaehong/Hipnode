@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { createOnboarding } from "@/lib/actions/user.actions";
@@ -20,6 +20,19 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
   const [selectedAnswers, setSelectedAnswers] = useState<AnswersType[]>([]);
   const [userAnswers, setUserAnswers] = useState<UserAnswersType>({});
   const questions = onboardingQuestions[questionSet];
+  const [shouldOnboard, setShouldOnboard] = useState(false);
+
+  useEffect(() => {
+    if (shouldOnboard) {
+      const doOnboarding = async () => {
+        await createOnboarding(userClerkId, userAnswers);
+        router.push("/");
+      };
+
+      doOnboarding();
+      setShouldOnboard(false);
+    }
+  }, [shouldOnboard]);
 
   const handleQuestionClick = (question: AnswersType) => {
     if (questionSet === 2) {
@@ -47,8 +60,8 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
           ...userAnswers,
           answersQuestion3: selectedAnswers as string[],
         };
-        createOnboarding(userClerkId, allAnswers);
-        router.push("/");
+        setUserAnswers(allAnswers);
+        setShouldOnboard(true);
       } else {
         const questionKeysMap: QuestionKeysMapType = {
           0: "answerQuestion1",
