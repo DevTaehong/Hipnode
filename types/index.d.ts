@@ -257,3 +257,8 @@ export interface UpdateMeetUpProps {
 export interface SocialIconProps extends IconProps {
   className?: string;
 }
+
+export interface NotificationTab {
+  title: string;
+  icon?: React.ElementType;
+}
