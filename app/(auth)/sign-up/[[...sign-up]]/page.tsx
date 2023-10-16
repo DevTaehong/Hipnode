@@ -3,11 +3,14 @@ import { SignUp } from "@clerk/nextjs";
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import OnboardingSideScreen from "@/components/onboarding-components/OnboardingSideScreen";
 import { signUpSideScreenInfo } from "@/constants";
+import AudioPlayer from "@/components/AudioPlayer";
 
 export default function Page() {
   return (
-    <main className="sign-up-background">
-      <OnboardingSideScreen info={signUpSideScreenInfo} />{" "}
+    <main>
+      {/* <main className="sign-up-background"> */}
+      {/* <OnboardingSideScreen info={signUpSideScreenInfo} />{" "} */}
+      <AudioPlayer />
       <section className="clerk-modal-background">
         <div className="clerk-modal-container">
           <SignUp
