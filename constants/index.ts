@@ -294,6 +294,7 @@ export const sectionHeadings = [
     groups: newlyLaunchedGroups,
   },
 ];
+
 export const navLinks = [
   {
     name: "Home",
@@ -421,6 +422,17 @@ export const tags = [
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
+];
+
+export const srcArray = [
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
+  "/emoji_2.png",
 ];
 
 export const socialStats = {

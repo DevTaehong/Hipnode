@@ -236,3 +236,7 @@ export type HeadingsType = {
   icon: FC;
   groups: GroupSectionGroupType[];
 };
+
+export interface SocialIconProps extends IconProps {
+  className?: string;
+}

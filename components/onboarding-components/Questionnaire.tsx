@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { updateUser } from "@/lib/actions/user.actions";
+import { createOnboarding } from "@/lib/actions/user.actions";
 import {
   UserAnswersType,
   AnswersType,
@@ -45,16 +45,9 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
       if (questionSet === 2) {
         const allAnswers = {
           ...userAnswers,
-          answerQuestion3: selectedAnswers as string[],
+          answersQuestion3: selectedAnswers as string[],
         };
-        setUserAnswers(allAnswers);
-        console.log(
-          "Updated Answers:",
-          allAnswers,
-          "Clerk User ID:",
-          userClerkId
-        );
-        updateUser(userClerkId, { bio: "This is a test" });
+        createOnboarding(userClerkId, allAnswers);
         router.push("/");
       } else {
         const questionKeysMap: QuestionKeysMapType = {
