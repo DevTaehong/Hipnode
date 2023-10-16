@@ -2,10 +2,12 @@ import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import CustomButton from "./CustomButton";
 import FillIcon from "./icons/fill-icons";
+import { Button } from "./ui/button";
+import { Share2Icon } from "./icons/outline-icons";
 
 const AudioPlayer = () => {
   return (
-    <section className="flex justify-between gap-[1.875rem] rounded-2xl border border-black bg-light p-5 dark:bg-dark-3">
+    <section className="flex justify-between gap-[1.875rem] rounded-2xl bg-light p-5 dark:bg-dark-3">
       <div className="flex">
         <Image
           src="/images/get-shit-done.png"
@@ -41,9 +43,15 @@ const AudioPlayer = () => {
         <div className="flex w-full items-center gap-5">
           <CustomButton
             label="Play now"
-            icon={FillIcon.Heart}
-            className="semibold-16 rounded-[1.25rem] bg-blue px-4 py-2"
+            icon={FillIcon.Play}
+            className="regular-16 items-end rounded-[1.25rem] bg-blue px-4 py-2 text-light"
           />
+          <Button
+            size="icon"
+            className="rounded-full border border-sc-2 dark:border-sc-3"
+          >
+            <Share2Icon />
+          </Button>
         </div>
       </div>
     </section>
