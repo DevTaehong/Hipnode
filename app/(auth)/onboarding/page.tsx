@@ -1,5 +1,4 @@
 import { currentUser } from "@clerk/nextjs";
-import { checkUserForBio } from "@/lib/actions/user.actions";
 import {
   OnboardingSideScreen,
   Questionnaire,
@@ -13,11 +12,6 @@ const Page = async () => {
     redirect("/");
   }
   const { id: userClerkId } = user;
-
-  const checkForBio = await checkUserForBio({ clerkId: userClerkId });
-  if (checkForBio) {
-    redirect("/");
-  }
 
   return (
     <main className="onboarding-page">

@@ -1,3 +1,3 @@
 # HIPNODE
 
-## SUBTITLE
+A social media platform
