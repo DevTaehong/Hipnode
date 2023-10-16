@@ -252,3 +252,7 @@ export interface UpdateMeetUpProps {
     image?: string;
   };
 }
+
+export interface SocialIconProps extends IconProps {
+  className?: string;
+}
