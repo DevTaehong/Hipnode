@@ -1,9 +1,6 @@
 import { currentUser } from "@clerk/nextjs";
 import { checkUserForBio } from "@/lib/actions/user.actions";
-import {
-  OnboardingSideScreen,
-  Questionnaire,
-} from "@/components/onboarding-components";
+import { OnboardingSideScreen, Questionnaire } from "@/components/onboarding-components";
 import { onboardingSideScreenInfo } from "@/constants";
 import { redirect } from "next/navigation";
 
