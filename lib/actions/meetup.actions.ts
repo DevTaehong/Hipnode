@@ -19,7 +19,7 @@ interface UpdateMeetUpProps {
   };
 }
 
-export async function getMeetUps() {
+export async function getAllMeetUps() {
   try {
     const meetUps = await prisma.meetUp.findMany({
       orderBy: {
