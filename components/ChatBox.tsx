@@ -1,7 +1,8 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
-import { ArrowLargeIcon, IconAlt } from "@/components/icons/outline-icons";
+import { ArrowLargeIcon, Icon, IconAlt, VoiceIcon } from "@/components/icons/outline-icons";
 import ChatMessage from "@/components/ChatMessage";
+import { Input } from "./ui/input";
 
 // TODO: Replace this with real data
 const chatMessages = [
@@ -24,7 +25,7 @@ const chatMessages = [
 ];
 
 const ChatBox = () => (
-  <section className="w-[350px] rounded-[1rem] bg-light pb-5 pt-4 dark:bg-dark-4">
+  <section className="w-[370px] rounded-[1rem] bg-light pb-5 pt-4 dark:bg-dark-4">
     <article className="mx-5 flex items-center justify-between border-b border-sc-6 pb-3 dark:border-sc-2">
       <section className="flex items-center gap-2">
         <Image
@@ -59,8 +60,21 @@ const ChatBox = () => (
       ))}
     </ScrollArea>
 
-    {/* Bottom Area */}
-    <article className="mx-5">Input messages goes here</article>
+    <article className="mx-5 flex gap-5 pt-5">
+      <section className="flex items-center gap-2 rounded-[1rem] border border-sc-5 p-3 dark:border-sc-2">
+        <Icon.Link />
+
+        <input
+          id="chat-input"
+          type="text"
+          placeholder="Type here your message..."
+          className="w-full flex-1 bg-transparent text-sc-3 outline-none dark:text-light-2"
+        />
+
+        <VoiceIcon />
+      </section>
+      <div>submit</div>
+    </article>
   </section>
 );
 
