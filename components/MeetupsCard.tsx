@@ -1,29 +1,11 @@
 import Image from "next/image";
 
-import { MeetUp } from "@prisma/client";
-
-const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
-
-const date = new Date();
-const day = date.getDate();
-const month = date.getMonth();
-const monthNames = [
-  "JAN",
-  "FEB",
-  "MAR",
-  "APR",
-  "MAY",
-  "JUN",
-  "JUL",
-  "AUG",
-  "SEP",
-  "OCT",
-  "NOV",
-  "DEC",
-];
-const monthText = monthNames[month];
+import { getFormattedDateMeetUpCard } from "@/utils";
+import { MeetUp } from "@/types";
+import { meetUpsCardPills } from "@/constants";
 
 const MeetupsCard = ({ meetUp }: { meetUp: MeetUp }) => {
+  const { day, monthText } = getFormattedDateMeetUpCard(meetUp.createdAt);
   return (
     <article className="bg-light_dark-3 flex flex-col gap-4 rounded-2xl p-3.5 md:gap-6 md:p-5">
       <div className="flex justify-between">

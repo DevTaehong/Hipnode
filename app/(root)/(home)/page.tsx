@@ -1,36 +1,18 @@
-import PostCard from "@/components/home-page/post-card/PostCard";
-import PinnedGroup from "@/components/home-page/pinned-group/PinnedGroup";
-import { Group } from "@prisma/client";
 import Tags from "@/components/home-page/Tags";
-import MeetupsCard from "@/components/home-page/MeetupsCard";
-import { getFormattedDateMeetUpCard } from "@/utils";
+import { getAllMeetUps } from "@/lib/actions/meetup.actions";
+import Meetups from "@/components/home-page/meetup/Meetups";
+import { PostCard } from "@/components/home-page/post-card";
+// import PinnedGroup from "@/components/home-page/pinned-group/PinnedGroup";
 
 export default async function Home() {
-  const { day, monthText } = getFormattedDateMeetUpCard(meetUp.createdAt);
-  console.log(day);
-  console.log(monthText);
-  const groups: Group[] = [
-    {
-      id: 1,
-      createdAt: new Date(),
-      details: "Sample group details 1",
-      groupName: "Group 1",
-      updatedAt: new Date(),
-    },
-    {
-      id: 2,
-      createdAt: new Date(),
-      details: "Sample group details 2",
-      groupName: "Group 2",
-      updatedAt: new Date(),
-    },
-  ];
+  const meetups = await getAllMeetUps();
+  console.log(meetups);
 
   return (
-    <section>
+    <section className="bg-gray-200">
       <PostCard />
-      <PinnedGroup groups={groups} />
-      <MeetupsCard meetUp={} />
+      {/* <PinnedGroup groups={groups} /> */}
+      <Meetups meetUp={meetups} />
       <Tags />
     </section>
   );

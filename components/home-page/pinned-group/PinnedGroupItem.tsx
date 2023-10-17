@@ -1,10 +1,8 @@
 import Image from "next/image";
-import { Group } from "@prisma/client";
-import { christopher } from "@/public/assets";
 
-interface PinnedGroupItemProps {
-  group: Group;
-}
+import { christopher } from "@/public/assets";
+import { PinnedGroupItemProps } from "@/types/homepage/index";
+
 const PinnedGroupItem = ({ group }: PinnedGroupItemProps) => {
   return (
     <li className="flex items-center gap-2.5">

@@ -1,4 +1,5 @@
 import { Group } from "@prisma/client";
+
 import { ArrowIcon } from "@/components/icons/outline-icons";
 import PinnedGroupItem from "./PinnedGroupItem";
 

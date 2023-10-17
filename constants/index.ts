@@ -1,5 +1,6 @@
 import FillIcon from "@/components/icons/fill-icons";
 import { christopher, santiago, negan } from "@/public/assets";
+import { ColorVariantsOnboardingType } from "@/types";
 
 import {
   PopularIcon,
@@ -7,7 +8,20 @@ import {
   DevIcon,
 } from "@/components/icons/outline-icons";
 
+export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
+
+export const colorVariants: ColorVariantsOnboardingType = {
+  fillRed: "fill-red",
+  fillBlue: "fill-blue",
+  fillYellow: "fill-yellow",
+  fillGreen: "fill-green",
+  bgRed: "bg-red-10",
+  bgBlue: "bg-blue-10",
+  bgYellow: "bg-yellow-10",
+  bgGreen: "bg-green-10",
+};
+
 export const reportModalTags = [
   "False Information?",
   "Low Quality",

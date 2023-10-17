@@ -1,16 +1,4 @@
-import { tags } from "@/constants";
-import { ColorVariantsOnboardingType } from "@/types";
-
-const colorVariants: ColorVariantsOnboardingType = {
-  fillRed: "fill-red",
-  fillBlue: "fill-blue",
-  fillYellow: "fill-yellow",
-  fillGreen: "fill-green",
-  bgRed: "bg-red-10",
-  bgBlue: "bg-blue-10",
-  bgYellow: "bg-yellow-10",
-  bgGreen: "bg-green-10",
-};
+import { tags, colorVariants } from "@/constants";
 
 const Tags = () => {
   return (
