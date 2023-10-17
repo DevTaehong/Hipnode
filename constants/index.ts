@@ -10,7 +10,7 @@ import {
 import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
 import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
 import PostIcon from "@/components/icons/outline-icons/PostIcon";
-import { NotificationTab } from "@/types";
+import { NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
@@ -489,5 +489,33 @@ export const notificationTabs: NotificationTab[] = [
   {
     title: "Posts",
     icon: PostIcon,
+  },
+];
+
+export const dummyNotifications: NotificationPopoverProps[] = [
+  {
+    name: "Mentor Christopher",
+    type: "comment",
+    comment: "Great ebook & giveaway!",
+    title: "Hipnode. Book Giveaway: The Standout Developer by Randall Kanna",
+    date: "16 Oct, 3:26pm",
+    read: false,
+    image: "/christopher.png",
+  },
+  {
+    name: "Mentor Santiago",
+    type: "reaction",
+    title: "Argentina Wins World Cup",
+    date: "14 Oct, 9:10am",
+    read: false,
+    image: "/santiago.png",
+  },
+  {
+    name: "Negan",
+    type: "mention",
+    title: "5 Key UI Design Principle for Beginners",
+    date: "12 Oct, 12:26pm",
+    read: true,
+    image: "/negan.png",
   },
 ];

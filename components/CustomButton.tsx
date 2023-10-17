@@ -1,7 +1,7 @@
 import { CustomButtonProps } from "@/types";
 import { cn } from "@/lib/utils";
 
-const baseStyles = "flex items-center justify-center rounded-[0.5rem]";
+const baseStyles = "flex items-center justify-center gap-2 rounded-[0.5rem]";
 
 const CustomButton = ({
   label,

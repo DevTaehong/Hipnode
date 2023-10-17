@@ -2,7 +2,6 @@
 
 import { notificationTabs } from "@/constants";
 import React, { useRef, useState } from "react";
-import { Button } from "../ui/button";
 
 const HorizontalScrollList = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -38,7 +37,7 @@ const HorizontalScrollList = () => {
 
   return (
     <div
-      className="flex cursor-pointer select-none space-x-4 overflow-x-auto"
+      className="flex cursor-pointer select-none gap-[1.625rem] overflow-x-auto"
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
@@ -49,14 +48,15 @@ const HorizontalScrollList = () => {
         const IconComponent = tab.icon;
 
         return (
-          <Button
+          <p
             key={tab.title}
-            variant="ghost"
-            className="flex-none whitespace-nowrap"
+            className="flex items-center justify-start gap-2 whitespace-nowrap text-start"
           >
             {IconComponent && <IconComponent />}
-            {tab.title}
-          </Button>
+            <span className="semibold-16 text-sc-2 dark:text-sc-3">
+              {tab.title}
+            </span>
+          </p>
         );
       })}
     </div>
