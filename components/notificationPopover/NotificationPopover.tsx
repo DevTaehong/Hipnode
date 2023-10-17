@@ -7,7 +7,7 @@ import NotificationComment from "./NotificationComment";
 
 const NotificationPopover = () => {
   return (
-    <section className="mx-10 mt-20 flex w-[500px] flex-col rounded-lg border border-black px-7 py-[1.875rem]">
+    <section className="mx-10 mt-20 flex w-[500px] flex-col rounded-lg px-7 py-[1.875rem]">
       <div className="flex items-center justify-between">
         <h1 className="semibold-26 text-sc-2 dark:text-light-2">
           3 Notifications
