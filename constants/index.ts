@@ -1,11 +1,20 @@
 import FillIcon from "@/components/icons/fill-icons";
 import { christopher, santiago, negan } from "@/public/assets";
 
-import { PopularIcon, NewIcon, DevIcon } from "@/components/icons/outline-icons";
+import {
+  PopularIcon,
+  NewIcon,
+  DevIcon,
+} from "@/components/icons/outline-icons";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
-export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
-export const reportModalTags = ["False Information?", "Low Quality", "Spam", "Hate Speech", "Inappropriate"];
+export const reportModalTags = [
+  "False Information?",
+  "Low Quality",
+  "Spam",
+  "Hate Speech",
+  "Inappropriate",
+];
 
 export const exploreIcons = [
   {
@@ -337,7 +346,8 @@ export const dummyMessages = [
   {
     name: "Wade 222 Warren Warren Warren",
     date: "20 minutes ago",
-    message: "Congrats on your work anniversary! Congrats on your work anniversary!",
+    message:
+      "Congrats on your work anniversary! Congrats on your work anniversary!",
     avatar: "https://github.com/shadcn.png",
     avatarFallback: "CN",
     newMessageCounts: 0,
@@ -417,7 +427,13 @@ export const tags = [
 export const CategoryFilterData = [
   {
     name: "Business Model",
-    filters: ["Free", "Advertising", "Affiliate", "Transactional", "Subscription-Based"],
+    filters: [
+      "Free",
+      "Advertising",
+      "Affiliate",
+      "Transactional",
+      "Subscription-Based",
+    ],
   },
   {
     name: "Monthly Revenue",

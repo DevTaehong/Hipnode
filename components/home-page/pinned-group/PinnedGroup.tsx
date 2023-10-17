@@ -1,5 +1,5 @@
-import { Group } from "@/types";
-import { ArrowIcon } from "./icons/outline-icons";
+import { Group } from "@prisma/client";
+import { ArrowIcon } from "@/components/icons/outline-icons";
 import PinnedGroupItem from "./PinnedGroupItem";
 
 const PinnedGroup = ({ groups }: { groups: Group[] }) => {
@@ -11,7 +11,7 @@ const PinnedGroup = ({ groups }: { groups: Group[] }) => {
       </header>
 
       <ul className="flex flex-col gap-2.5">
-        {groups.map((group) => (
+        {groups?.map((group) => (
           <PinnedGroupItem key={group.id} group={group} />
         ))}
       </ul>

@@ -1,15 +1,9 @@
 import Image from "next/image";
-
+import { Group } from "@prisma/client";
 import { christopher } from "@/public/assets";
 
 interface PinnedGroupItemProps {
-  group: {
-    id: number;
-    createdAt: string;
-    details: string;
-    groupName: string;
-    updatedAt: string;
-  };
+  group: Group;
 }
 const PinnedGroupItem = ({ group }: PinnedGroupItemProps) => {
   return (

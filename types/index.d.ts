@@ -131,13 +131,13 @@ export type MeetUp = {
   updatedAt: string;
 };
 
-export type Group = {
-  id: number;
-  createdAt: string;
-  details: string;
-  groupName: string;
-  updatedAt: string;
-};
+// export type Group = {
+//   id: number;
+//   createdAt: string;
+//   details: string;
+//   groupName: string;
+//   updatedAt: string;
+// };
 
 export type Episode = {
   id: number;

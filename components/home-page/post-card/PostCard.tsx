@@ -6,7 +6,7 @@ import {
   CardFooterDesktop,
   SocialStatistics,
 } from ".";
-import FillIcon from "../icons/fill-icons";
+import FillIcon from "../../icons/fill-icons";
 
 const PostCard = () => {
   return (
