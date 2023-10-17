@@ -267,7 +267,7 @@ export interface NotificationTab {
 
 export interface NotificationPopoverProps {
   name: string;
-  type: string;
+  type: "comment" | "reaction" | "mention";
   comment?: string;
   read: boolean;
   title: string;

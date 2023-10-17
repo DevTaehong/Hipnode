@@ -13,31 +13,21 @@ const NotificationComment = ({
   type,
   image,
 }: NotificationPopoverProps) => {
-  const typeText = (type: string) => {
-    switch (type) {
-      case "comment":
-        return "commented on your post";
-      case "reaction":
-        return "loved your post";
-      case "mention":
-        return "mentioned you";
-      default:
-        return "";
-    }
+  const NotificationTypeInfo = {
+    comment: {
+      message: "commented on your post",
+      icon: <CommentIcon />,
+    },
+    reaction: {
+      message: "loved your post",
+      icon: <HeartIcon />,
+    },
+    mention: {
+      message: "mentioned you",
+      icon: <MentionIcon />,
+    },
   };
 
-  const typeIcon = (type: string) => {
-    switch (type) {
-      case "comment":
-        return <CommentIcon />;
-      case "reaction":
-        return <HeartIcon />;
-      case "mention":
-        return <MentionIcon />;
-      default:
-        return "";
-    }
-  };
   return (
     <article className="flex items-start justify-start gap-5">
       <div className="relative flex">
@@ -45,12 +35,15 @@ const NotificationComment = ({
           <AvatarImage src={image} />
         </Avatar>
         <div className="absolute left-7 right-0 top-1/2 flex h-8 w-8 translate-y-1 items-center justify-center rounded-full bg-light dark:bg-dark-3">
-          {typeIcon(type)}
+          {NotificationTypeInfo[type].icon}
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2">
         <h1 className={`bold-18 ${read ? "text-sc-3" : "text-sc-2"}`}>
-          {name} <span className="semibold-14">{typeText(type)}</span>
+          {name}{" "}
+          <span className="semibold-14">
+            {NotificationTypeInfo[type].message}
+          </span>
         </h1>
         {type === "comment" && (
           <div className="rounded-[0.25rem] bg-light-2 p-3 dark:bg-dark-3">
