@@ -4,6 +4,10 @@
 
 @import url("../styles/theme.css");
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: "Inter", sans-serif;
 }
@@ -63,9 +67,9 @@ body {
     );
   }
 
-  .tab {
-    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-500 dark:data-[state=active]:bg-dark-300 data-[state=active]:bg-primary-100 data-[state=active]:text-primary-500 !important;
-  }
+  /* .tab {
+    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-200 dark:data-[state=active]:bg-dark-300 data-[state=active]:bg-primary-100 data-[state=active]:text-primary-500 !important;
+  } */
 
   /* !onboarding classes, to move elsewhere if necessary */
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Categories from "@/components/Categories";
 
 const page = () => {
@@ -6,6 +7,16 @@ const page = () => {
       <div className="flex w-full max-w-[13.125rem]">
         <Categories />
       </div>
+=======
+import CategoryFilter from "@/components/CategoryFilter";
+import ChatBox from "@/components/ChatBox";
+
+const page = () => {
+  return (
+    <div className="m-5 flex gap-5 bg-slate-400 p-5">
+      <CategoryFilter />
+      <ChatBox />
+>>>>>>> main
     </div>
   );
 };

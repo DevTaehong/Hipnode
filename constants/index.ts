@@ -1,11 +1,26 @@
 import FillIcon from "@/components/icons/fill-icons";
 import { christopher, santiago, negan } from "@/public/assets";
 
-import { PopularIcon, NewIcon, DevIcon } from "@/components/icons/outline-icons";
+import {
+  PopularIcon,
+  NewIcon,
+  DevIcon,
+  HeartIcon,
+} from "@/components/icons/outline-icons";
+import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
+import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
+import PostIcon from "@/components/icons/outline-icons/PostIcon";
+import { NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
-export const reportModalTags = ["False Information?", "Low Quality", "Spam", "Hate Speech", "Inappropriate"];
+export const reportModalTags = [
+  "False Information?",
+  "Low Quality",
+  "Spam",
+  "Hate Speech",
+  "Inappropriate",
+];
 
 export const exploreIcons = [
   {
@@ -337,7 +352,8 @@ export const dummyMessages = [
   {
     name: "Wade 222 Warren Warren Warren",
     date: "20 minutes ago",
-    message: "Congrats on your work anniversary! Congrats on your work anniversary!",
+    message:
+      "Congrats on your work anniversary! Congrats on your work anniversary!",
     avatar: "https://github.com/shadcn.png",
     avatarFallback: "CN",
     newMessageCounts: 0,
@@ -417,7 +433,13 @@ export const tags = [
 export const CategoryFilterData = [
   {
     name: "Business Model",
-    filters: ["Free", "Advertising", "Affiliate", "Transactional", "Subscription-Based"],
+    filters: [
+      "Free",
+      "Advertising",
+      "Affiliate",
+      "Transactional",
+      "Subscription-Based",
+    ],
   },
   {
     name: "Monthly Revenue",
@@ -447,3 +469,58 @@ export const socialStats = {
 };
 
 export const postTabs = ["finance", "bitcoin", "crypto"];
+
+export const notificationTabs: NotificationTab[] = [
+  {
+    title: "All notifications",
+    active: true,
+  },
+  {
+    title: "Reactions",
+    icon: HeartIcon,
+    active: false,
+  },
+  {
+    title: "Comments",
+    icon: CommentIcon,
+    active: false,
+  },
+  {
+    title: "Mentions",
+    icon: MentionIcon,
+    active: false,
+  },
+  {
+    title: "Posts",
+    icon: PostIcon,
+    active: false,
+  },
+];
+
+export const dummyNotifications: NotificationPopoverProps[] = [
+  {
+    name: "Mentor Christopher",
+    type: "comment",
+    comment: "Great ebook & giveaway!",
+    title: "Hipnode. Book Giveaway: The Standout Developer by Randall Kanna",
+    date: "16 Oct, 3:26pm",
+    read: false,
+    image: "/christopher.png",
+  },
+  {
+    name: "Mentor Santiago",
+    type: "reaction",
+    title: "Argentina Wins World Cup",
+    date: "14 Oct, 9:10am",
+    read: false,
+    image: "/santiago.png",
+  },
+  {
+    name: "Negan",
+    type: "mention",
+    title: "5 Key UI Design Principle for Beginners",
+    date: "12 Oct, 12:26pm",
+    read: true,
+    image: "/negan.png",
+  },
+];
