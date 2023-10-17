@@ -473,22 +473,27 @@ export const postTabs = ["finance", "bitcoin", "crypto"];
 export const notificationTabs: NotificationTab[] = [
   {
     title: "All notifications",
+    active: true,
   },
   {
     title: "Reactions",
     icon: HeartIcon,
+    active: false,
   },
   {
     title: "Comments",
     icon: CommentIcon,
+    active: false,
   },
   {
     title: "Mentions",
     icon: MentionIcon,
+    active: false,
   },
   {
     title: "Posts",
     icon: PostIcon,
+    active: false,
   },
 ];
 

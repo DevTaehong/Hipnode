@@ -262,6 +262,7 @@ export interface SocialIconProps extends IconProps {
 export interface NotificationTab {
   title: string;
   icon?: React.ElementType;
+  active: boolean;
 }
 
 export interface NotificationPopoverProps {

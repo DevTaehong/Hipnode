@@ -50,10 +50,16 @@ const HorizontalScrollList = () => {
         return (
           <p
             key={tab.title}
-            className="flex items-center justify-start gap-2 whitespace-nowrap text-start"
+            className={`flex items-center justify-start gap-2 whitespace-nowrap text-start ${
+              tab.active && "border-b-[0.063rem] border-blue"
+            }`}
           >
             {IconComponent && <IconComponent />}
-            <span className="semibold-16 text-sc-2 dark:text-sc-3">
+            <span
+              className={`semibold-16 ${
+                tab.active ? "text-blue" : "text-sc-2 dark:text-sc-3"
+              }`}
+            >
               {tab.title}
             </span>
           </p>

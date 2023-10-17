@@ -1,5 +1,8 @@
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { NotificationPopoverProps } from "@/types";
+import MentionIcon from "../icons/outline-icons/MentionIcon";
+import CommentIcon from "../icons/outline-icons/CommentIcon";
+import { HeartIcon } from "../icons/outline-icons";
 
 const NotificationComment = ({
   name,
@@ -23,11 +26,28 @@ const NotificationComment = ({
     }
   };
 
+  const typeIcon = (type: string) => {
+    switch (type) {
+      case "comment":
+        return <CommentIcon />;
+      case "reaction":
+        return <HeartIcon />;
+      case "mention":
+        return <MentionIcon />;
+      default:
+        return "";
+    }
+  };
   return (
     <article className="flex items-start justify-start gap-5">
-      <Avatar className="h-[3.125rem] w-[3.125rem]">
-        <AvatarImage src={image} />
-      </Avatar>
+      <div className="relative flex">
+        <Avatar className="h-[3.125rem] w-[3.125rem]">
+          <AvatarImage src={image} />
+        </Avatar>
+        <div className="absolute left-7 right-0 top-1/2 flex h-8 w-8 translate-y-1 items-center justify-center rounded-full bg-light dark:bg-dark-3">
+          {typeIcon(type)}
+        </div>
+      </div>
       <div className="flex flex-1 flex-col gap-2">
         <h1 className={`bold-18 ${read ? "text-sc-3" : "text-sc-2"}`}>
           {name} <span className="semibold-14">{typeText(type)}</span>
