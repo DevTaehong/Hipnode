@@ -2,6 +2,7 @@ import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 
 import { onboardingQuestions } from "@/constants";
+import { StringColorFormat } from "@faker-js/faker";
 
 export interface ThemeContextType {
   mode: string;
@@ -301,4 +302,20 @@ export interface UpdateMeetUpProps {
 
 export interface SocialIconProps extends IconProps {
   className?: string;
+}
+
+export interface NotificationTab {
+  title: string;
+  icon?: React.ElementType;
+  active: boolean;
+}
+
+export interface NotificationPopoverProps {
+  name: string;
+  type: "comment" | "reaction" | "mention";
+  comment?: string;
+  read: boolean;
+  title: string;
+  date: string;
+  image: string;
 }
