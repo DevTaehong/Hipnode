@@ -38,6 +38,30 @@ export async function getAllPodcasts() {
   }
 }
 
+export async function getPodcastsWithUserInfo() {
+  try {
+    const podcasts = await prisma.podcast.findMany({
+      select: {
+        id: true,
+        title: true,
+        details: true,
+        user: {
+          select: {
+            name: true,
+            location: true,
+            picture: true,
+          },
+        },
+      },
+    });
+
+    return podcasts;
+  } catch (error) {
+    console.error("Error fetching all podcasts:", error);
+    throw error;
+  }
+}
+
 export async function createPodcast(data: CreatePodcastType) {
   try {
     const podcast = await prisma.podcast.create({

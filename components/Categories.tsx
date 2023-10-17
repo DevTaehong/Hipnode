@@ -33,8 +33,10 @@ const Categories = () => {
             {category}
           </label>
           <div
-            className={`flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm border-2 border-sc-3 transition duration-200 ${
-              selectFilters.includes(category) && "border-red bg-red"
+            className={`flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm border transition duration-200 ${
+              selectFilters.includes(category)
+                ? "border-red bg-red"
+                : "border-sc-3"
             }`}
             onClick={() => toggleCategory(category)}
           >
@@ -42,6 +44,7 @@ const Categories = () => {
               wrapperStyles={`h-3 w-3 ${
                 !selectFilters.includes(category) && "hidden"
               }`}
+              className="fill-white"
             />
           </div>
         </div>
