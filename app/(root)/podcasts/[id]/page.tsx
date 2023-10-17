@@ -1,7 +1,31 @@
-import React from "react";
+import { getPodcastById } from "@/lib/actions/podcast.actions";
+import AudioPlayer from "@/components/AudioPlayer";
+import LargePodcastCard from "@/components/LargePodcastCard";
+import { redirect } from "next/navigation";
 
-const Page = () => {
-  return <div>Page</div>;
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+const Page = async ({ params }: PageProps) => {
+  const podcastId = parseInt(params.id);
+  const podcast = await getPodcastById(podcastId);
+
+  if (!podcast) {
+    redirect("/podcast");
+  }
+
+  const { title, details } = podcast;
+  return (
+    <main className="bg-light-2_dark-2 flex min-h-screen w-screen justify-center p-5 md:py-[1.875rem]">
+      <section className="flex w-full max-w-3xl flex-col gap-5">
+        <AudioPlayer podcast={podcast} />
+        <LargePodcastCard title={title} details={details} />
+      </section>
+    </main>
+  );
 };
 
 export default Page;

@@ -18,6 +18,18 @@ export async function getPodcastById(podcastId: number) {
       where: {
         id: podcastId,
       },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        show: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     return podcast;
@@ -41,10 +53,7 @@ export async function getAllPodcasts() {
 export async function getPodcastsWithUserInfo() {
   try {
     const podcasts = await prisma.podcast.findMany({
-      select: {
-        id: true,
-        title: true,
-        details: true,
+      include: {
         user: {
           select: {
             name: true,
@@ -58,6 +67,32 @@ export async function getPodcastsWithUserInfo() {
     return podcasts;
   } catch (error) {
     console.error("Error fetching all podcasts:", error);
+    throw error;
+  }
+}
+
+export async function getFilterPodcastsUserInfo({ show }: { show: number[] }) {
+  try {
+    const podcasts = await prisma.podcast.findMany({
+      where: {
+        showId: {
+          in: show,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            location: true,
+            picture: true,
+          },
+        },
+      },
+    });
+
+    return podcasts;
+  } catch (error) {
+    console.error("Error fetching filtered podcasts:", error);
     throw error;
   }
 }

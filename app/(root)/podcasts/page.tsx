@@ -1,36 +1,35 @@
-import { getPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
-import PodcastCard from "@/components/PodcastCard";
-import Categories from "@/components/Categories";
+import {
+  getPodcastsWithUserInfo,
+  getFilterPodcastsUserInfo,
+} from "@/lib/actions/podcast.actions";
+import { getAllShows } from "@/lib/actions/show.actions";
 import HostMeetup from "@/components/HostMeetup";
+import PodcastPageFilter from "@/components/PodcastPageFilter";
 
-const Podcasts = async () => {
-  const allPodcasts = await getPodcastsWithUserInfo();
+interface SearchParams {
+  show: string | string[];
+}
 
-  const oddPodcasts = allPodcasts
-    .slice(0, 20)
-    .filter((_, index) => index % 2 !== 0);
-  const evenPodcasts = allPodcasts
-    .slice(0, 20)
-    .filter((_, index) => index % 2 === 0);
+const Podcasts = async ({ searchParams }: { searchParams?: SearchParams }) => {
+  let allPodcasts;
+
+  if (!searchParams || Object.keys(searchParams).length === 0) {
+    allPodcasts = await getPodcastsWithUserInfo();
+  } else {
+    let showStrings = searchParams.show;
+    if (!Array.isArray(showStrings)) {
+      showStrings = [showStrings];
+    }
+    const showIds = showStrings.map(Number);
+    allPodcasts = await getFilterPodcastsUserInfo({ show: showIds });
+  }
+
+  const allShows = await getAllShows();
 
   return (
     <main className="bg-light-2_dark-2 flex min-h-screen w-screen justify-center p-5 md:py-[1.875rem]">
       <div className=" flex max-w-[85rem] flex-col gap-5 md:flex-row">
-        <section className="flex w-full md:w-[13.5rem] xl:w-[18%]">
-          <Categories />
-        </section>
-        <section className="no-scrollbar flex w-full flex-col gap-5 pb-20 md:h-screen md:w-1/2 md:overflow-scroll xl:w-[58%] xl:flex-row ">
-          <div className="flex h-fit flex-col gap-5">
-            {oddPodcasts.map((podcast) => (
-              <PodcastCard key={podcast.id} info={podcast} />
-            ))}
-          </div>
-          <div className="flex h-fit flex-col gap-5">
-            {evenPodcasts.map((podcast) => (
-              <PodcastCard key={podcast.id} info={podcast} />
-            ))}
-          </div>
-        </section>
+        <PodcastPageFilter allPodcasts={allPodcasts} allShows={allShows} />
         <section className="flex w-full md:w-1/3 xl:w-[24%]">
           <HostMeetup
             title="Host a Meetup"
