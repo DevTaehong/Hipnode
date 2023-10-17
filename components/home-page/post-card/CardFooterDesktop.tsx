@@ -1,4 +1,3 @@
-import React from "react";
 import SocialMediaIcon from "./SocialMediaIcon";
 import SocialStatistics from "./SocialStatistics";
 

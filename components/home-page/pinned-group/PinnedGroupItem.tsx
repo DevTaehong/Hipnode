@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { christopher } from "@/public/assets";
-import { PinnedGroupItemProps } from "@/types/homepage/index";
+import { PinnedGroupItemProps } from "@/types/homepage.index";
 
 const PinnedGroupItem = ({ group }: PinnedGroupItemProps) => {
   return (

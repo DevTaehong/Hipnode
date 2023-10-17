@@ -57,7 +57,6 @@ model Post {
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   groupId   Int?
   group     Group?      @relation(fields: [groupId], references: [id])
-
   tags      TagOnPost[]
 }
 
@@ -107,8 +106,6 @@ model TagOnPost {
 
   @@unique([postId, tagId])
 }
-
-
 
 model Shows {
   id        Int       @id @default(autoincrement())
@@ -170,6 +167,8 @@ model MeetUp {
   updatedAt           DateTime @updatedAt
   responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
 }
+
+
 
 enum Role {
   ADMIN

@@ -1,4 +1,4 @@
-import { RightSidebarWrapperProps } from "@/types/homepage/index";
+import { RightSidebarWrapperProps } from "@/types/homepage.index";
 
 const RightSidebarWrapper = ({ children }: RightSidebarWrapperProps) => {
   return (

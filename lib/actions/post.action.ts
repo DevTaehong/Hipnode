@@ -3,6 +3,8 @@
 import { type Post } from "@prisma/client";
 import prisma from "../prisma";
 
+import { Group } from "@prisma/client";
+
 export async function createPost(data: Post) {
   try {
     const post = await prisma.post.create({
@@ -85,5 +87,76 @@ export async function getAllPosts() {
   } catch (error) {
     console.error("Error retrieving all posts:", error);
     throw error;
+  }
+}
+
+// export async function getGroupWithAllData(groupId: number) {
+//   try {
+//     const group = await prisma.group.findUnique({
+//       where: {
+//         id: groupId,
+//       },
+//       include: {
+//         members: {
+//           include: {
+//             user: true,
+//           },
+//         },
+//       },
+//     });
+
+//     return group;
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// }
+
+export async function getGroupWithAllData(
+  groupId: number
+): Promise<Array<typeof GroupWithMembers>> {
+  try {
+    const group = await prisma.group.findUnique({
+      where: {
+        id: groupId,
+      },
+      include: {
+        members: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    return [group];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function getAllGroups(): Promise<Group[]> {
+  try {
+    const groups = await prisma.group.findMany({
+      include: {
+        members: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    return groups;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
   }
 }

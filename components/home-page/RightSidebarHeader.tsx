@@ -1,6 +1,6 @@
 import { ArrowIcon } from "../icons/outline-icons";
 
-import { RightSidebarHeaderProps } from "@/types/homepage/index";
+import { RightSidebarHeaderProps } from "@/types/homepage.index";
 
 const RightSidebarHeader = ({ heading }: RightSidebarHeaderProps) => {
   return (
