@@ -40,7 +40,7 @@
   }
 
   .regular-16 {
-    @apply text-[16px] font-semibold leading-[24px];
+    @apply text-[16px] font-medium leading-[24px];
   }
 
   .bold-14 {
@@ -233,5 +233,7 @@
 }
 
 .message-popover-font-feature {
-  font-feature-settings: 'clig' off, 'liga' off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
 }

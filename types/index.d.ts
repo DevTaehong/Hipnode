@@ -157,6 +157,7 @@ export interface CustomButtonProps {
   className?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  icon?: React.FC;
 }
 
 export interface ActiveButtonsProps {

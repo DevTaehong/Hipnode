@@ -9,6 +9,7 @@ const CustomButton = ({
   className = "bg-red-80 text-sc-6",
   disabled = false,
   type = "button",
+  icon: Icon,
 }: CustomButtonProps) => {
   return (
     <button
@@ -17,6 +18,7 @@ const CustomButton = ({
       onClick={onClick}
       disabled={disabled}
     >
+      {Icon && <Icon />}
       {label}
     </button>
   );
