@@ -81,3 +81,25 @@ export async function deletePodcast(id: number) {
     throw error;
   }
 }
+
+export async function getAllPodcastsWithUserInfo() {
+  try {
+    const podcasts = await prisma.podcast.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            email: true,
+            picture: true,
+          },
+        },
+      },
+    });
+    return podcasts;
+  } catch (error) {
+    console.error("Error retrieving podcasts with user info:", error);
+    throw error;
+  }
+}
