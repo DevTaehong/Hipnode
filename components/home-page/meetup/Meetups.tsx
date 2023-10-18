@@ -14,7 +14,7 @@ const Meetups = ({ meetUp }: { meetUp: MeetUp[] }) => {
       {meetUp?.slice(0, 5).map((meet) => {
         return (
           <article
-            className="flex w-fit flex-row bg-light  pb-[1.25rem] dark:bg-dark-3"
+            className="flex flex-row bg-light  pb-[1.25rem] dark:bg-dark-3"
             key={meet.id}
           >
             <MeetupDate createdAt={meet.createdAt} />
@@ -34,7 +34,7 @@ const Meetups = ({ meetUp }: { meetUp: MeetUp[] }) => {
                     imageHeight={16}
                     className="h-[1rem] w-[1rem] rounded-full"
                   />
-                  <p className="base-10  text-sc-3">{meet.location}</p>
+                  <p className="base-10 text-sc-3">{meet.location}</p>
                 </div>
               </div>
               <div className="flex">

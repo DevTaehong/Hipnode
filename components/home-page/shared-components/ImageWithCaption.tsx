@@ -2,7 +2,7 @@ import Image from "next/image";
 
 interface ImageWithCaptionProps {
   imageSrc: string;
-  imageTitle: string;
+  imageTitle?: string;
   imageAlt: string;
   imageWidth?: number;
   imageHeight?: number;
