@@ -1,4 +1,4 @@
-import { ArrowIcon } from "../icons/outline-icons";
+import { ArrowIcon } from "../../icons/outline-icons";
 
 import { RightSidebarHeaderProps } from "@/types/homepage.index";
 

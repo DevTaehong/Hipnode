@@ -1,7 +1,11 @@
 import { MeetUp } from "@prisma/client";
 
 import { Pills, MeetupDate } from ".";
-import { RightSidebarWrapper, RightSidebarHeader, ImageWithCaption } from "..";
+import {
+  RightSidebarWrapper,
+  RightSidebarHeader,
+  ImageWithCaption,
+} from "../shared-components";
 
 const Meetups = ({ meetUp }: { meetUp: MeetUp[] }) => {
   return (

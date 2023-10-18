@@ -1,5 +1,9 @@
 import { Podcast } from "@prisma/client";
-import { RightSidebarWrapper, RightSidebarHeader, ImageWithCaption } from "..";
+import {
+  RightSidebarWrapper,
+  RightSidebarHeader,
+  ImageWithCaption,
+} from "../shared-components";
 import { ArrowIcon } from "@/components/icons/outline-icons";
 
 type PodcastWithUser = Podcast & {
