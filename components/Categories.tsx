@@ -25,15 +25,15 @@ const Categories = ({ shows }: { shows: Shows[] }) => {
   };
 
   return (
-    <div className="bg-light_dark-3 flex h-fit w-full flex-col gap-3 rounded-2xl p-5">
+    <div className="bg-light_dark-3 flex h-fit w-full flex-col gap-3 rounded-2xl p-5 md:w-[13.125rem]">
       <h2 className="semibold-18 text-sc-2_light">Filter by Show</h2>
       {shows.map((show) => (
-        <div key={show.id} className="flex w-full items-center justify-between">
+        <div key={show.id} className="flex w-full justify-between gap-2">
           <label className="text-sc-2_light semibold-12" htmlFor={show.name}>
             {show.name}
           </label>
           <div
-            className={`flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200 ${
+            className={`mt-0.5 flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200 ${
               selectFilters.includes(show.id)
                 ? "border-red bg-red"
                 : "border-sc-3"

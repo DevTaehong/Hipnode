@@ -50,9 +50,33 @@ export async function getAllPodcasts() {
   }
 }
 
-export async function getPodcastsWithUserInfo() {
+interface QueryOptions {
+  take?: number; // Optional
+  include: {
+    user: {
+      select: {
+        name: boolean;
+        location: boolean;
+        picture: boolean;
+      };
+    };
+  };
+}
+
+interface PodcastUserInfo extends Podcast {
+  user: {
+    name: string;
+    location: string | null;
+    picture: string;
+  };
+}
+
+export async function getPodcastsWithUserInfo(
+  amount: number
+): Promise<PodcastUserInfo[]> {
   try {
-    const podcasts = await prisma.podcast.findMany({
+    const queryOptions: QueryOptions = {
+      take: amount,
       include: {
         user: {
           select: {
@@ -62,9 +86,11 @@ export async function getPodcastsWithUserInfo() {
           },
         },
       },
-    });
+    };
 
-    return podcasts;
+    const podcasts = await prisma.podcast.findMany(queryOptions);
+
+    return podcasts as PodcastUserInfo[];
   } catch (error) {
     console.error("Error fetching all podcasts:", error);
     throw error;
