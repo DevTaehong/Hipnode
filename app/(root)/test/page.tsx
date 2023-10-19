@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-import Categories from "@/components/Categories";
+import Categories from "@/components/podcast-components/Categories";
 
 const page = () => {
   return (

@@ -1,10 +1,10 @@
 import { Podcast } from "@prisma/client";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
-import CustomButton from "./CustomButton";
-import FillIcon from "./icons/fill-icons";
-import { Button } from "./ui/button";
-import { Share2Icon } from "./icons/outline-icons";
+import CustomButton from "../CustomButton";
+import FillIcon from "../icons/fill-icons";
+import { Button } from "../ui/button";
+import { Share2Icon } from "../icons/outline-icons";
 
 interface IPodcast extends Podcast {
   user: {

@@ -3,7 +3,7 @@
 import { Shows } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { IconAlt } from "./icons/outline-icons";
+import { IconAlt } from "../icons/outline-icons";
 
 const Categories = ({ shows }: { shows: Shows[] }) => {
   const router = useRouter();

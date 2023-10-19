@@ -51,6 +51,7 @@ export async function getAllPodcasts() {
 }
 
 interface QueryOptions {
+  skip: number;
   take?: number; // Optional
   include: {
     user: {
@@ -72,10 +73,12 @@ interface PodcastUserInfo extends Podcast {
 }
 
 export async function getPodcastsWithUserInfo(
-  amount: number
+  amount: number,
+  startNumber = 0
 ): Promise<PodcastUserInfo[]> {
   try {
     const queryOptions: QueryOptions = {
+      skip: startNumber,
       take: amount,
       include: {
         user: {

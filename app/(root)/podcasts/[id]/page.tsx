@@ -1,8 +1,8 @@
-import { getPodcastById } from "@/lib/actions/podcast.actions";
-import AudioPlayer from "@/components/AudioPlayer";
-import LargePodcastCard from "@/components/LargePodcastCard";
 import { redirect } from "next/navigation";
 
+import { getPodcastById } from "@/lib/actions/podcast.actions";
+import AudioPlayer from "@/components/podcast-components/AudioPlayer";
+import LargePodcastCard from "@/components/podcast-components/LargePodcastCard";
 interface PageProps {
   params: {
     id: string;
