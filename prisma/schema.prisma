@@ -141,7 +141,6 @@ model Group {
   members     User[]       @relation("UserGroups")
   posts       Post[]
 	createdBy   Int
-  adminId   Int
   admins      User[]       @relation("GroupAdmins")
   coverImage  String?
   logo        String?

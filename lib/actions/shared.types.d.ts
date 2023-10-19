@@ -33,3 +33,11 @@ export interface DeleteGroupParams {
   groupId: number;
   path: string;
 }
+
+export interface QueryOptions {
+  take: number;
+  skip?: number;
+  cursor?: {
+    id: number;
+  };
+}

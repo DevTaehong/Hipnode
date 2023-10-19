@@ -8,6 +8,7 @@ import {
   DeleteGroupParams,
   EditGroupParams,
   GetGroupByIdParams,
+  QueryOptions,
 } from "./shared.types";
 
 // LINK - https://github.com/adrianhajdin/stack_overflow_nextjs13/blob/main/lib/actions/question.action.ts#L229
@@ -63,9 +64,22 @@ export async function getGroupById(params: GetGroupByIdParams) {
   }
 }
 
-export async function getGroups() {
+export async function getGroups(myCursorId?: number) {
+  // LINK - https://www.prisma.io/docs/concepts/components/prisma-client/pagination
   try {
-    const groups = await prisma.group.findMany();
+    let queryOptions: QueryOptions = {
+      take: 6, // Take only the limit number of results
+    };
+
+    if (myCursorId !== undefined && myCursorId !== null) {
+      queryOptions = {
+        ...queryOptions,
+        skip: 1, // Skip the first result
+        cursor: { id: myCursorId },
+      };
+    }
+
+    const groups = await prisma.group.findMany(queryOptions);
     return groups;
   } catch (error) {
     console.error("Error finding groups:", error);
