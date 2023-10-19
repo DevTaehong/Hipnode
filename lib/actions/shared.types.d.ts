@@ -19,8 +19,8 @@ export interface GetGroupByIdParams {
 
 export interface EditGroupParams {
   groupId: number;
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
   path: string;
   members?: User[];
   admins?: User[];
