@@ -11,7 +11,7 @@ const SidebarSection = ({
   description,
   notification,
 }: SidebarSectionProps) => (
-  <div className="flex flex-row items-center">
+  <div className="flex w-full flex-row items-center">
     <div className={imgContainerClass}>
       <Image src={imgSrc} height={28} width={28} alt={imgAlt} />
     </div>
@@ -25,7 +25,7 @@ const SidebarSection = ({
           </span>
         )}
       </p>
-      <p className="hidden text-[0.563rem] dark:text-sc-3 md:block">
+      <p className="hidden text-[0.563rem] dark:text-sc-3 lg:block">
         {description}
       </p>
     </div>

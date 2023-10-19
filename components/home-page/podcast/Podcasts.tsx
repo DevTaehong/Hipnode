@@ -21,7 +21,7 @@ const Podcasts = ({ podcasts }: { podcasts: PodcastWithUser[] }) => {
       {podcastArray?.slice(0, 5).map((podcast) => {
         return (
           <article
-            className="flex w-full flex-row bg-light  pb-[1.25rem] dark:bg-dark-3"
+            className="flex w-full flex-row bg-light  pt-[1.25rem] dark:bg-dark-3"
             key={podcast.id}
           >
             <div className="flex w-full flex-row">

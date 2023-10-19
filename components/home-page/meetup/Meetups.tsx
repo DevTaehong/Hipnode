@@ -22,7 +22,7 @@ const Meetups = ({ meetUps }: { meetUps: MeetUp[] }) => {
             <div className="flex flex-col  justify-between pl-[0.875rem]">
               <div className="flex flex-col gap-0.5">
                 <h3 className="semibold-14 capitalize text-sc-2 dark:text-light-2">
-                  {meet.title}
+                  {meet.title.slice(0, 22)}
                 </h3>
                 <div className="flex gap-[0.375rem]">
                   <ImageWithCaption

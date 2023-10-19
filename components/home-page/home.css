@@ -1,0 +1,32 @@
+.wrapper-home {
+  display: grid;
+  grid-template-columns: 13.125rem 1fr 20.313rem;
+  grid-template-areas: "sidebar middle right";
+}
+
+.sidebar {
+  display: grid;
+  grid-area: sidebar;
+  align-content: start;
+}
+
+.middle {
+  display: grid;
+  grid-area: middle;
+}
+
+.right {
+  display: grid;
+  grid-area: right;
+  align-content: start;
+}
+
+@media (max-width: 1024px) {
+  .wrapper-home {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "middle"
+      "sidebar"
+      "right";
+  }
+}

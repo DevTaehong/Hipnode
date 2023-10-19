@@ -8,7 +8,7 @@ type CreatePostInputProps = {
 
 const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
   return (
-    <section className="py-[1.25rem]">
+    <section className="p-[1.25rem] lg:px-[0rem] lg:py-[1.25rem]">
       <div className="flex w-full items-center rounded-2xl bg-light p-[0.875rem] dark:bg-dark-3 md:p-[1.25rem]">
         <div className="flex h-[2.3rem] w-[2.3rem] items-center justify-center rounded-full bg-yellow-30 md:h-[2.5rem] md:w-[2.5rem]">
           <ImageWithCaption
