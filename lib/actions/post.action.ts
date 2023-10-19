@@ -2,8 +2,7 @@
 
 import { type Post } from "@prisma/client";
 import prisma from "../prisma";
-
-import { Group } from "@prisma/client";
+import { ExtendedPost } from "@/types/models.index";
 
 export async function createPost(data: Post) {
   try {
@@ -79,84 +78,36 @@ export async function getPost({ id }: UniquePostProps) {
   }
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(): Promise<ExtendedPost[]> {
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      include: {
+        author: true,
+        comments: {
+          include: {
+            author: true,
+            likes: true,
+            parent: true,
+            replies: true,
+          },
+        },
+        likes: {
+          include: {
+            user: true,
+          },
+        },
+        // group: true,
+        // tags: {
+        //   include: {
+        //     tag: true,
+        //   },
+        // },
+      },
+    });
 
     return posts;
   } catch (error) {
-    console.error("Error retrieving all posts:", error);
+    console.error("Error retrieving posts:", error);
     throw error;
-  }
-}
-
-// export async function getGroupWithAllData(groupId: number) {
-//   try {
-//     const group = await prisma.group.findUnique({
-//       where: {
-//         id: groupId,
-//       },
-//       include: {
-//         members: {
-//           include: {
-//             user: true,
-//           },
-//         },
-//       },
-//     });
-
-//     return group;
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// }
-
-export async function getGroupWithAllData(
-  groupId: number
-): Promise<Array<typeof GroupWithMembers>> {
-  try {
-    const group = await prisma.group.findUnique({
-      where: {
-        id: groupId,
-      },
-      include: {
-        members: {
-          include: {
-            user: true,
-          },
-        },
-      },
-    });
-
-    return [group];
-  } catch (error) {
-    console.error(error);
-    throw error;
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-export async function getAllGroups(): Promise<Group[]> {
-  try {
-    const groups = await prisma.group.findMany({
-      include: {
-        members: {
-          include: {
-            user: true,
-          },
-        },
-      },
-    });
-
-    return groups;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  } finally {
-    await prisma.$disconnect();
   }
 }

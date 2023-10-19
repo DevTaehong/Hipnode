@@ -4,7 +4,6 @@ import { ArrowIcon } from "@/components/icons/outline-icons";
 import PinnedGroupItem from "./PinnedGroupItem";
 
 const PinnedGroup = ({ groups }: { groups: Group[] }) => {
-  console.log(groups);
   return (
     <section className="bg-light_dark-3 flex w-full flex-col gap-5 rounded-2xl p-5">
       <header className="flex items-center gap-1">

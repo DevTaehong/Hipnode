@@ -1,3 +1,31 @@
+import {
+  User as PrismaUser,
+  Post as PrismaPost,
+  Comment as CommentType,
+  Like as LikeType,
+} from "@prisma/client";
+
+export type ExtendedUser = {
+  id: number;
+  clerkId: string;
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  bio: string;
+  picture: string;
+  location: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type ExtendedPost = PrismaPost & {
+  author: ExtendedUser;
+  comments: CommentType[];
+  likes: LikeType[];
+};
+
 interface Onboarding {
   id: number;
   userId: number;
@@ -7,19 +35,9 @@ interface Onboarding {
   isOnboarded: boolean;
 }
 
-export interface User {
-  id: number;
-  clerkId: string;
-  name: string;
-  username: string;
-  email: string;
-  password?: string | null;
-  bio?: string | null;
-  picture: string;
-  location?: string | null;
-  joinedAt: Date;
-  onboarding: Onboarding;
-}
+export type User = PrismaUser & {
+  onboarding?: Onboarding;
+};
 interface BaseTag {
   id: number;
   name: string;

@@ -7,11 +7,11 @@ import {
   ImageWithCaption,
 } from "../shared-components";
 
-const Meetups = ({ meetUp }: { meetUp: MeetUp[] }) => {
+const Meetups = ({ meetUps }: { meetUps: MeetUp[] }) => {
   return (
     <RightSidebarWrapper>
       <RightSidebarHeader heading={"Meetups"} />
-      {meetUp?.slice(0, 5).map((meet) => {
+      {meetUps?.slice(0, 5).map((meet) => {
         return (
           <article
             className="flex flex-row bg-light  pb-[1.25rem] dark:bg-dark-3"

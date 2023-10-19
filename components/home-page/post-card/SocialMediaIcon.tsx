@@ -1,13 +1,18 @@
 import Image from "next/image";
 
-const SocialMediaIcon = () => (
+type SocialMediaIconProps = {
+  authorPicture: string;
+};
+
+const SocialMediaIcon = ({ authorPicture }: SocialMediaIconProps) => (
   <figure className="flex h-[1.874rem] w-[1.875rem] items-center justify-center rounded-full bg-purple-10 p-2">
-    <div className="h-[1.25rem] w-[1.25rem]">
+    <div className="flex h-[1.75rem] w-[1.75rem] items-center justify-center">
       <Image
-        src="/emoji-placeholder.png"
-        alt="social-icon-placeholder"
-        width={20}
-        height={20}
+        src={authorPicture || "/images/emoji_2.png"}
+        alt="authors avatar"
+        width={50}
+        height={50}
+        className="rounded-full"
       />
     </div>
     <figcaption className="sr-only">Social media profile image</figcaption>

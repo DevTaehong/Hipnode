@@ -7,23 +7,31 @@ import {
   SocialStatistics,
 } from ".";
 import FillIcon from "../../icons/fill-icons";
+import { ExtendedPost } from "@/types/models.index";
 
-const PostCard = () => {
+type PostCardProps = {
+  post: ExtendedPost;
+};
+
+const PostCard = ({ post }: PostCardProps) => {
   return (
     <article className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
-      <PostImage />
+      <PostImage postImage={post?.image} />
       <div className="ml-[0.875rem] flex grow flex-col justify-between">
         <div className="flex justify-between">
-          <PostText />
+          <PostText postContent={post?.content} />
           <div className="flex flex-row">
             <div className="flex md:hidden">
-              <SocialMediaIcon />
+              <SocialMediaIcon authorPicture={post?.author?.picture} />
             </div>
             <FillIcon.Heart className="hidden fill-sc-5 md:flex" />
           </div>
         </div>
         <PostLabels />
-        <CardFooterDesktop />
+        <CardFooterDesktop
+          authorPicture={post?.author?.picture}
+          username={post?.author.username}
+        />
         <div className="flex md:hidden">
           <SocialStatistics />
         </div>
