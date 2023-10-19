@@ -7,6 +7,7 @@ import Podcasts from "@/components/home-page/podcast/Podcasts";
 import CreatePostInput from "@/components/home-page/CreatePostInput";
 import { auth } from "@clerk/nextjs";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
+import Sidebar from "@/components/home-page/sidebar/Sidebar";
 export default async function Home() {
   const { userId } = auth();
   let userImage: string = "";
@@ -19,8 +20,9 @@ export default async function Home() {
   console.log(podcasts.slice(0, 2));
   return (
     <section className="bg-gray-200">
-      <div className="flex items-center justify-center p-12">
+      <div className="flex flex-col items-center justify-center gap-10 p-12">
         <CreatePostInput userImage={userImage} />
+        <Sidebar />
       </div>
 
       <PostCard />
