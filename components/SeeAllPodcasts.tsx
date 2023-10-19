@@ -1,29 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { QueryObject } from "@/types/podcast.index";
+import { useRouter, useSearchParams } from "next/navigation";
 
-interface SeeAllPodcastsProps {
-  urlString: QueryObject;
-  podcastLength?: number;
-}
-
-const SeeAllPodcasts = ({ urlString, podcastLength }: SeeAllPodcastsProps) => {
+const SeeAllPodcasts = ({ podcastLength }: { podcastLength?: number }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [fetchNumber, setFetchNumber] = useState(20);
 
   let queryString: string;
-  if (Object.keys(urlString).length) {
-    const queryObj = urlString;
-
-    const valuesArray = Array.isArray(queryObj.show)
-      ? queryObj.show
-      : [queryObj.show];
-    queryString = valuesArray
-      .filter((value): value is string => typeof value === "string")
-      .map((value) => `show=${value}`)
-      .join("&");
+  if (searchParams.size > 0) {
+    queryString = searchParams.toString();
   }
 
   const handleButtonClick = () => {
@@ -31,7 +18,7 @@ const SeeAllPodcasts = ({ urlString, podcastLength }: SeeAllPodcastsProps) => {
     const number = fetchNumber + 20;
 
     let newURL;
-    if (!queryString || queryString.startsWith("show=undefined")) {
+    if (!queryString || queryString.startsWith("amount")) {
       newURL = `/podcasts?amount=${number}`;
     } else {
       newURL = `/podcasts?${queryString}&amount=${number}`;

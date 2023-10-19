@@ -20,7 +20,7 @@ const Page = async ({ params }: PageProps) => {
   const { title, details, episodeNumber } = podcast;
   return (
     <main className="bg-light-2_dark-2 flex min-h-screen w-screen justify-center p-5 md:py-[1.875rem]">
-      <section className="flex w-full max-w-3xl flex-col gap-5">
+      <section className="flex h-fit w-full max-w-3xl flex-col gap-5">
         <AudioPlayer podcast={podcast} />
         <LargePodcastCard
           title={title}

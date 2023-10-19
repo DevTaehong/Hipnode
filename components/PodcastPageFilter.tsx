@@ -2,7 +2,6 @@ import { Podcast, Shows } from "@prisma/client";
 import Categories from "./Categories";
 import PodcastCard from "./PodcastCard";
 import SeeAllPodcasts from "./SeeAllPodcasts";
-import { QueryObject } from "@/types/podcast.index";
 
 interface PodcastUserInfo extends Podcast {
   user: {
@@ -15,13 +14,11 @@ interface PodcastUserInfo extends Podcast {
 interface PodcastPageFilterProps {
   allPodcasts: PodcastUserInfo[] | undefined;
   allShows: Shows[];
-  urlString: QueryObject;
 }
 
 const PodcastPageFilter = ({
   allPodcasts,
   allShows,
-  urlString,
 }: PodcastPageFilterProps) => {
   const oddPodcasts = allPodcasts?.filter((_, index) => index % 2 !== 0);
   const evenPodcasts = allPodcasts?.filter((_, index) => index % 2 === 0);
@@ -53,7 +50,7 @@ const PodcastPageFilter = ({
             </div>
           </section>
         </div>
-        <SeeAllPodcasts urlString={urlString} podcastLength={podcastLength} />
+        <SeeAllPodcasts podcastLength={podcastLength} />
       </section>
     </>
   );

@@ -35,11 +35,7 @@ const Podcasts = async ({ searchParams }: { searchParams: PodcastsProps }) => {
   return (
     <main className="bg-light-2_dark-2 flex min-h-screen w-screen justify-center p-5 md:py-[1.875rem]">
       <div className=" flex max-w-[85rem] flex-col gap-5 md:flex-row">
-        <PodcastPageFilter
-          allPodcasts={allPodcasts}
-          allShows={allShows}
-          urlString={searchParams}
-        />
+        <PodcastPageFilter allPodcasts={allPodcasts} allShows={allShows} />
         <section className="flex w-full md:w-fit">
           <HostMeetup
             title="Host a Meetup"
