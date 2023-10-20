@@ -2,8 +2,7 @@
 
 import { type Post } from "@prisma/client";
 import prisma from "../prisma";
-import { ExtendedPost } from "@/types/models.index";
-
+import { ExtendedPost } from "@/types/models";
 export async function createPost(data: Post) {
   try {
     const post = await prisma.post.create({
@@ -78,9 +77,15 @@ export async function getPost({ id }: UniquePostProps) {
   }
 }
 
-export async function getAllPosts(): Promise<ExtendedPost[]> {
+export async function getAllPosts({
+  page = 1,
+}: {
+  page?: number;
+}): Promise<ExtendedPost[]> {
   try {
     const posts = await prisma.post.findMany({
+      skip: page * 5,
+      take: 10,
       include: {
         author: true,
         comments: {
@@ -104,8 +109,8 @@ export async function getAllPosts(): Promise<ExtendedPost[]> {
         // },
       },
     });
-
-    return posts;
+    // @ts-ignore
+    return JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.error("Error retrieving posts:", error);
     throw error;

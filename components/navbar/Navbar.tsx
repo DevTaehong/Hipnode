@@ -10,7 +10,7 @@ import NavLinks from "@/components/navbar/NavLinks";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
+    <nav className="flex-between fixed top-0 z-50 flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="lg:hidden" />

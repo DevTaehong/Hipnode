@@ -4,8 +4,8 @@
   grid-template-columns: 13.125rem 1fr 1fr 20.313rem;
   grid-template-areas:
     "sidebar create create meetups"
-    "tags list list meetups"
-    ". list list podcasts";
+    "tags list list podcasts"
+    ". list list .";
 
   align-content: start;
 }
@@ -18,6 +18,7 @@
 .tags {
   display: grid;
   grid-area: tags;
+  margin-top: -21rem;
 }
 
 .create {
@@ -28,7 +29,7 @@
 .list {
   display: grid;
   grid-area: list;
-  margin-top: -4.8rem;
+  margin-top: -26rem;
 }
 
 .meetups {
@@ -39,7 +40,6 @@
 .podcasts {
   display: grid;
   grid-area: podcasts;
-  margin-top: -12.4rem;
 }
 
 @media (max-width: 1024px) {
@@ -55,9 +55,6 @@
     display: none;
   }
 
-  .podcasts {
-    margin-top: 0;
-  }
   .list {
     margin-top: 0;
   }
@@ -77,4 +74,29 @@
       "meetups"
       "podcasts";
   }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.sidebar,
+.create,
+.meetups {
+  position: sticky;
+  top: 0;
+}
+
+.tags {
+  position: sticky;
+  top: 13rem;
+}
+
+.podcasts {
+  position: sticky;
+  top: 34rem;
 }

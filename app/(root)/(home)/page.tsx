@@ -22,11 +22,11 @@ export default async function Home() {
   }
   const meetups = await getAllMeetUps();
   const podcasts = await getAllPodcastsWithUserInfo();
-  const posts = await getAllPosts();
+  const posts = await getAllPosts({});
 
   return (
-    <section className="min-h-screen w-full bg-light-2 dark:bg-dark-2">
-      <div className="wrapper-home  mx-auto max-w-[85rem]">
+    <section className="min-h-screen w-full bg-light-2 pt-16 dark:bg-dark-2 ">
+      <div className="wrapper-home mx-auto  max-w-[85rem] scroll-smooth">
         <div className="sidebar">
           <Sidebar />
         </div>
@@ -37,7 +37,7 @@ export default async function Home() {
         <div className="create">
           <CreatePostInput userImage={userImage} />
         </div>
-        <div className="list">
+        <div className="list no-scrollbar max-h-[screen] overflow-scroll">
           <PostCardList posts={posts} />
         </div>
 
