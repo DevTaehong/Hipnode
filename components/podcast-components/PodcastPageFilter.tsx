@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { christopher } from "@/public/assets";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 import { Podcast } from "@prisma/client";
 
+import { christopher } from "@/public/assets";
 import PodcastCard from "./PodcastCard";
 import { getPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { ArrowIcon } from "../icons/outline-icons";
@@ -30,6 +30,17 @@ const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
 
   const oddPodcasts = podcasts?.filter((_, index) => index % 2 !== 0);
   const evenPodcasts = podcasts?.filter((_, index) => index % 2 === 0);
+
+  const displayedPodcasts = [
+    {
+      listNumber: "List One",
+      list: oddPodcasts,
+    },
+    {
+      listNumber: "List Two",
+      list: evenPodcasts,
+    },
+  ];
 
   useEffect(() => {
     const fetchMorePodcasts = async () => {
@@ -59,22 +70,23 @@ const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
       <div className="absolute bottom-0 h-6 w-full bg-gradient-to-t from-light-2 to-transparent dark:from-dark-2" />
       <section className="no-scrollbar flex w-full flex-col pb-10 md:h-screen md:overflow-scroll">
         <div className="flex flex-col gap-5 xl:flex-row">
-          <div className="flex h-fit flex-col gap-5 xl:w-full">
-            {evenPodcasts &&
-              evenPodcasts.map((podcast) => (
-                <PodcastCard key={podcast.id} info={podcast} />
-              ))}
-          </div>
-          <div className="flex h-fit flex-col gap-5 xl:w-full">
-            {oddPodcasts &&
-              oddPodcasts.map((podcast) => (
-                <PodcastCard key={podcast.id} info={podcast} />
-              ))}
-          </div>
+          {displayedPodcasts.map((podcasts) => (
+            <div
+              className="flex h-fit flex-col gap-5 xl:w-full"
+              key={podcasts.listNumber}
+            >
+              {podcasts.list &&
+                podcasts.list.map((podcast) => (
+                  <PodcastCard key={podcast.id} info={podcast} />
+                ))}
+            </div>
+          ))}
         </div>
 
         <button
-          className="mt-3 flex w-fit items-center gap-2.5 lg:hidden"
+          className={`mt-3 flex w-fit items-center gap-2.5 lg:hidden ${
+            podcasts && podcasts.length < 20 && "hidden lg:hidden"
+          }`}
           onClick={() => setLoadMore(true)}
         >
           <p className="text-sc-3">See More</p>
