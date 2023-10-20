@@ -47,11 +47,10 @@
   .wrapper-home {
     grid-template-columns: 1fr;
     grid-template-areas:
-      "sidebar"
-      "create"
-      "list"
-      "meetups"
-      "podcasts";
+      "sidebar sidebar"
+      "create create"
+      "list list"
+      "meetups podcasts";
   }
   .tags {
     display: none;
@@ -62,5 +61,17 @@
   }
   .list {
     margin-top: 0;
+  }
+}
+
+@media (max-width: 590px) {
+  .wrapper-home {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sidebar"
+      "create"
+      "list"
+      "meetups"
+      "podcasts";
   }
 }
