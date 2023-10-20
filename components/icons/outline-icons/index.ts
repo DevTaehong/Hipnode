@@ -15,5 +15,7 @@ export { default as PopularIcon } from "./PopularIcon";
 export { default as FollowingIcon } from "./FollowingIcon";
 export { default as CheckboxIcon } from "./CheckboxIcon";
 export { default as NewIcon } from "./NewIcon";
+export { default as Share2Icon } from "./Share2Icon";
+export { default as CheckmarkIcon } from "./CheckmarkIcon";
 
 export { default as HipnodeIcon } from "./HipnodeIcon";

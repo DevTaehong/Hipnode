@@ -30,6 +30,7 @@ import InterviewsIcon from "./InterviewsIcon";
 import BusinessIcon from "./BusinessIcon";
 import FollowIcon from "./FollowIcon";
 import MenuIcon from "./MenuIcon";
+import PlayIcon from "./PlayIcon";
 
 interface FillIconProps {
   children?: ReactNode;
@@ -204,6 +205,14 @@ FillIcon.Notification = function Icon({
   return (
     <FillIcon className={className || "fill-[#858EAD] dark:fill-[#F4F6F8]"}>
       <NotificationIcon notifcation={notifcation} />
+    </FillIcon>
+  );
+};
+
+FillIcon.Play = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className || "fill-[#FFFFFF]"}>
+      <PlayIcon />
     </FillIcon>
   );
 };
