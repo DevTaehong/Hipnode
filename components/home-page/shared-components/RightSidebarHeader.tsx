@@ -1,7 +1,6 @@
 import { ArrowIcon } from "../../icons/outline-icons";
 
-import { RightSidebarHeaderProps } from "@/types/homepage.index";
-
+import { RightSidebarHeaderProps } from "@/types/homepage";
 const RightSidebarHeader = ({ heading }: RightSidebarHeaderProps) => {
   return (
     <div className="flex items-center pb-[1.25rem]">

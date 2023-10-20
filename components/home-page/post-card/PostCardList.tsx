@@ -1,5 +1,4 @@
-import { ExtendedPost } from "@/types/models.index";
-
+import { ExtendedPost } from "@/types/models";
 import { PostCard } from ".";
 
 type PostCardListProps = {

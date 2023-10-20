@@ -1,14 +1,6 @@
 import Image from "next/image";
 
-interface ImageWithCaptionProps {
-  imageSrc: string;
-  imageTitle?: string;
-  imageAlt: string;
-  imageWidth?: number;
-  imageHeight?: number;
-  className?: string;
-  caption?: string;
-}
+import { ImageWithCaptionProps } from "@/types/homepage";
 
 const ImageWithCaption = ({
   imageSrc,

@@ -7,11 +7,7 @@ import {
   SocialStatistics,
 } from ".";
 import FillIcon from "../../icons/fill-icons";
-import { ExtendedPost } from "@/types/models.index";
-
-type PostCardProps = {
-  post: ExtendedPost;
-};
+import { PostCardProps } from "@/types/homepage";
 
 const PostCard = ({ post }: PostCardProps) => {
   return (

@@ -1,8 +1,6 @@
 import Image from "next/image";
 
-type SocialMediaIconProps = {
-  authorPicture: string;
-};
+import { SocialMediaIconProps } from "@/types/homepage";
 
 const SocialMediaIcon = ({ authorPicture }: SocialMediaIconProps) => (
   <figure className="flex h-[1.874rem] w-[1.875rem] items-center justify-center rounded-full bg-purple-10 p-2">

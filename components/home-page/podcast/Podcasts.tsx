@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Podcast } from "@prisma/client";
+
 import {
   RightSidebarWrapper,
   RightSidebarHeader,
@@ -14,10 +16,11 @@ type PodcastWithUser = Podcast & {
 
 const Podcasts = ({ podcasts }: { podcasts: PodcastWithUser[] }) => {
   const podcastArray = podcasts.slice(0, 6);
-
   return (
     <RightSidebarWrapper>
-      <RightSidebarHeader heading={"Podcasts"} />
+      <Link href="/podcasts">
+        <RightSidebarHeader heading={"Podcasts"} />
+      </Link>
       {podcastArray?.slice(0, 5).map((podcast) => {
         return (
           <article
@@ -46,7 +49,9 @@ const Podcasts = ({ podcasts }: { podcasts: PodcastWithUser[] }) => {
                 </div>
               </div>
               <div className="flex items-center">
-                <ArrowIcon.Right className="stroke-sc-3" />
+                <Link href={`/podcasts/${podcast.id}`}>
+                  <ArrowIcon.Right className="stroke-sc-3" />
+                </Link>
               </div>
             </div>
           </article>

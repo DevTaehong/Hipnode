@@ -1,8 +1,6 @@
 import Image from "next/image";
 
-interface PostImageProps {
-  postImage: string;
-}
+import { PostImageProps } from "@/types/homepage";
 
 const PostImage = ({ postImage }: PostImageProps) => (
   <div className="">

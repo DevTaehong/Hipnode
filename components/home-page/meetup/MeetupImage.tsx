@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { MeetupImageInterface } from "@/types/homepage.index";
+import { MeetupImageInterface } from "@/types/homepage";
 
 const MeetupImage = ({
   imageSrc,

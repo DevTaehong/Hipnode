@@ -23,7 +23,6 @@
 .create {
   display: grid;
   grid-area: create;
-  height: 20px;
 }
 
 .list {
@@ -61,6 +60,10 @@
   }
   .list {
     margin-top: 0;
+  }
+
+  .create {
+    margin-top: -1.4rem;
   }
 }
 
