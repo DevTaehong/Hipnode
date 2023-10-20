@@ -29,16 +29,22 @@ export default async function Home() {
       <div className="wrapper-home  mx-auto max-w-[85rem]">
         <div className="sidebar">
           <Sidebar />
+        </div>
+        <div className="tags">
           <Tags />
         </div>
 
-        <div className="middle">
+        <div className="create">
           <CreatePostInput userImage={userImage} />
+        </div>
+        <div className="list">
           <PostCardList posts={posts} />
         </div>
 
-        <div className="right">
-          <Meetups meetUps={meetups} />
+        <div className="meetups">
+          <Meetups meetUps={meetups} />{" "}
+        </div>
+        <div className="podcasts">
           <Podcasts podcasts={podcasts} />
         </div>
       </div>

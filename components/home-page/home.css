@@ -1,32 +1,66 @@
 .wrapper-home {
   display: grid;
-  grid-template-columns: 13.125rem 1fr 20.313rem;
-  grid-template-areas: "sidebar middle right";
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 13.125rem 1fr 1fr 20.313rem;
+  grid-template-areas:
+    "sidebar create create meetups"
+    "tags list list meetups"
+    ". list list podcasts";
+
+  align-content: start;
 }
 
 .sidebar {
   display: grid;
   grid-area: sidebar;
-  align-content: start;
 }
 
-.middle {
+.tags {
   display: grid;
-  grid-area: middle;
+  grid-area: tags;
 }
 
-.right {
+.create {
   display: grid;
-  grid-area: right;
-  align-content: start;
+  grid-area: create;
+  height: 20px;
+}
+
+.list {
+  display: grid;
+  grid-area: list;
+  margin-top: -4.8rem;
+}
+
+.meetups {
+  display: grid;
+  grid-area: meetups;
+}
+
+.podcasts {
+  display: grid;
+  grid-area: podcasts;
+  margin-top: -12.4rem;
 }
 
 @media (max-width: 1024px) {
   .wrapper-home {
     grid-template-columns: 1fr;
     grid-template-areas:
-      "middle"
       "sidebar"
-      "right";
+      "create"
+      "list"
+      "meetups"
+      "podcasts";
+  }
+  .tags {
+    display: none;
+  }
+
+  .podcasts {
+    margin-top: 0;
+  }
+  .list {
+    margin-top: 0;
   }
 }
