@@ -1,13 +1,25 @@
 import FillIcon from "@/components/icons/fill-icons";
 import { christopher, santiago, negan } from "@/public/assets";
-import { ColorVariantsOnboardingType } from "@/types";
+import {
+  ColorVariantsOnboardingType,
+  NotificationPopoverProps,
+  NotificationTab,
+} from "@/types";
 
 import {
   PopularIcon,
   NewIcon,
   DevIcon,
+  HeartIcon,
 } from "@/components/icons/outline-icons";
 import { newest, popular, followers } from "@/public/images";
+import CommentIcon from "@/components/icons/fill-icons/CommentIcon";
+// import PostIcon from "@/components/icons/fill-icons/PostIcon";
+import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
+// import HeartIcon from "@/components/icons/outline-icons/HeartIcon";
+// import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
+
+import PostIcon from "@/components/icons/outline-icons/PostIcon";
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -506,5 +518,60 @@ export const sidebarItems = [
     notification: 24,
     imgContainerClass:
       "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
+  },
+];
+
+export const notificationTabs: NotificationTab[] = [
+  {
+    title: "All notifications",
+    active: true,
+  },
+  {
+    title: "Reactions",
+    icon: HeartIcon,
+    active: false,
+  },
+  {
+    title: "Comments",
+    icon: CommentIcon,
+    active: false,
+  },
+  {
+    title: "Mentions",
+    icon: MentionIcon,
+    active: false,
+  },
+  {
+    title: "Posts",
+    icon: PostIcon,
+    active: false,
+  },
+];
+
+export const dummyNotifications: NotificationPopoverProps[] = [
+  {
+    name: "Mentor Christopher",
+    type: "comment",
+    comment: "Great ebook & giveaway!",
+    title: "Hipnode. Book Giveaway: The Standout Developer by Randall Kanna",
+    date: "16 Oct, 3:26pm",
+    read: false,
+    image: "/christopher.png",
+  },
+  {
+    name: "Mentor Santiago",
+    type: "reaction",
+    title: "Argentina Wins World Cup",
+    date: "14 Oct, 9:10am",
+    read: false,
+    image: "/santiago.png",
+  },
+  {
+    name: "Negan",
+    type: "mention",
+    title: "5 Key UI Design Principle for Beginners",
+    date: "12 Oct, 12:26pm",
+    read: true,
+    image: "/negan.png",
   },
 ];
