@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import { supabase } from '@/utils/supabaseClient';
+import { supabase } from "@/utils/supabaseClient";
 import {
   ImageUploadProps,
   UseImageUploadReturn,
   InputChangeEvent,
-} from '@/types';
+} from "@/types/upload-image/index";
 
 export const useImageUpload = ({
   bucketName,
@@ -24,13 +24,13 @@ export const useImageUpload = ({
 
   const handleSubmit = async () => {
     if (!file) {
-      console.error('No file selected');
+      console.error("No file selected");
       return;
     }
 
     try {
-      const fileExtension = file.name.split('.').pop();
-      const prefix = folderName && folderName.trim() ? `${folderName}/` : '';
+      const fileExtension = file.name.split(".").pop();
+      const prefix = folderName && folderName.trim() ? `${folderName}/` : "";
       const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
 
       const { error } = await supabase.storage
@@ -38,14 +38,14 @@ export const useImageUpload = ({
         .upload(uniqueFileName, file, { contentType: file.type });
 
       if (error) {
-        console.error('File upload error:', error.message);
+        console.error("File upload error:", error.message);
       } else {
-        console.log('File uploaded successfully:', uniqueFileName);
+        console.log("File uploaded successfully:", uniqueFileName);
         setFile(null);
       }
     } catch (error) {
       if (error instanceof Error)
-        console.error('Unexpected error:', error.message);
+        console.error("Unexpected error:", error.message);
     }
   };
 

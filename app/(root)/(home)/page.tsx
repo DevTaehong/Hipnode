@@ -33,7 +33,6 @@ export default async function Home() {
         <div className="tags">
           <Tags />
         </div>
-
         <div className="create">
           <CreatePostInput userImage={userImage} />
         </div>

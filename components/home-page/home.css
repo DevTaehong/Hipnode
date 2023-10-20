@@ -85,18 +85,17 @@
 }
 
 .sidebar,
-.create,
 .meetups {
   position: sticky;
-  top: 0;
+  top: 4rem;
 }
 
 .tags {
   position: sticky;
-  top: 13rem;
+  top: 17rem;
 }
 
 .podcasts {
   position: sticky;
-  top: 34rem;
+  top: 38rem;
 }

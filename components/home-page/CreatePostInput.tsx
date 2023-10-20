@@ -31,7 +31,7 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
             imageAlt="User Image"
           />
         </div>
-        <div className="flex grow px-[0.625rem] dark:bg-dark-4 md:px-[1.25rem]">
+        <div className="flex grow px-[0.625rem] dark:bg-dark-3 md:px-[1.25rem]">
           <Input
             type="text"
             placeholder="Share what is going on in your mind..."
