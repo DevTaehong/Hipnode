@@ -15,6 +15,10 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
     setInputValue(event.target.value);
   };
 
+  const handleButtonClick = (): void => {
+    setInputValue("");
+  };
+
   return (
     <section className="p-[1.25rem] lg:px-[0rem] lg:py-[1.25rem]">
       <div className="flex w-full items-center rounded-2xl bg-light p-[0.875rem] dark:bg-dark-3 md:p-[1.25rem]">
@@ -35,10 +39,11 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
             onChange={handleInputChange}
           />
         </div>
-        <Link href={`/create-post/${inputValue}`}>
+        <Link href={`/posts/create-post/${inputValue}`}>
           <CustomButton
             label="Create Post"
             className="w-auto shrink-0 truncate rounded-[0.375rem] bg-red-80 px-[0.875rem] py-[0.55rem] text-[0.75rem] font-medium leading-[1.25rem] text-light dark:text-sc-6 md:px-[1rem] md:py-[0.65rem] md:text-[0.875rem]"
+            onClick={handleButtonClick}
           />
         </Link>
       </div>

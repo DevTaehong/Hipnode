@@ -25,7 +25,7 @@ export default async function Home() {
   const posts = await getAllPosts();
 
   return (
-    <section className="w-full bg-light-2 dark:bg-dark-2">
+    <section className="min-h-screen w-full bg-light-2 dark:bg-dark-2">
       <div className="wrapper-home  mx-auto max-w-[85rem]">
         <div className="sidebar">
           <Sidebar />
