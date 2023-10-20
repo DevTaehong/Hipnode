@@ -71,7 +71,7 @@ export async function getGroups(myCursorId?: number) {
       take: 6, // Take only the limit number of results
     };
 
-    if (myCursorId !== undefined && myCursorId !== null) {
+    if (myCursorId !== undefined) {
       queryOptions = {
         ...queryOptions,
         skip: 1, // Skip the first result
