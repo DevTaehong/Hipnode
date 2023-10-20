@@ -104,7 +104,7 @@ const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
             height={80}
             width={80}
             alt="christopher"
-            className="animate-bounce rounded-full"
+            className="animate-ping rounded-full"
           />
         </div>
       </section>
