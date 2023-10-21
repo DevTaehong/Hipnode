@@ -23,3 +23,18 @@ export function getFormattedDateMeetUpCard(dateString: string) {
     monthText,
   };
 }
+
+export function extractShowArray(queryString: string) {
+  const keyValuePairs = queryString.split("&");
+  const showNumbers = [];
+
+  for (const keyValue of keyValuePairs) {
+    const [key, value] = keyValue.split("=");
+
+    if (key === "show" && !isNaN(Number(value))) {
+      showNumbers.push(Number(value));
+    }
+  }
+
+  return showNumbers;
+}

@@ -524,3 +524,11 @@ export const dummyNotifications: NotificationPopoverProps[] = [
     image: "/negan.png",
   },
 ];
+
+export const podcastFormLinkProps = {
+  title: "Start your Podcast",
+  description:
+    "Working on your own internet business? We'd love to interview you!",
+  buttonOne: "Code of Conduct",
+  buttonTwo: "Submit a Podcast",
+};

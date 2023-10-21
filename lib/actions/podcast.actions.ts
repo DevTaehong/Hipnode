@@ -100,7 +100,13 @@ export async function getPodcastsWithUserInfo(
   }
 }
 
-export async function getFilterPodcastsUserInfo({ show }: { show: number[] }) {
+export async function getFilterPodcastsUserInfo({
+  show,
+  skipCount = 0,
+}: {
+  show: number[];
+  skipCount?: number;
+}) {
   try {
     const podcasts = await prisma.podcast.findMany({
       where: {
@@ -117,6 +123,8 @@ export async function getFilterPodcastsUserInfo({ show }: { show: number[] }) {
           },
         },
       },
+      skip: skipCount, // Skip the specified number of podcasts at the beginning
+      take: 20, // Limit the result to 20 podcasts
     });
 
     return podcasts;

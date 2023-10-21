@@ -3,29 +3,26 @@
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
-import { Podcast } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 
 import { christopher } from "@/public/assets";
 import PodcastCard from "./PodcastCard";
-import { getPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
+import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
 import { ArrowIcon } from "../icons/outline-icons";
+import { extractShowArray } from "@/utils";
+import { PodcastPageFilterProps } from "@/types/podcast.index";
 
-interface PodcastUserInfo extends Podcast {
-  user: {
-    name: string;
-    location: string | null;
-    picture: string;
-  };
-}
-
-interface PodcastPageFilterProps {
-  allPodcasts: PodcastUserInfo[] | undefined;
-}
-
-const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
-  const [podcasts, setPodcasts] = useState(allPodcasts);
+const PodcastPageFilter = ({
+  listedPodcasts,
+  userShowsIds,
+}: PodcastPageFilterProps) => {
+  const queryString = useSearchParams().toString();
+  const showsArray =
+    queryString === "" ? userShowsIds : extractShowArray(queryString);
+  const [podcasts, setPodcasts] = useState(listedPodcasts);
   const [podcastAmount, setPodcastAmount] = useState(20);
   const [loadMore, setLoadMore] = useState(false);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
   const [ref, inView] = useInView();
 
   const oddPodcasts = podcasts?.filter((_, index) => index % 2 !== 0);
@@ -45,15 +42,22 @@ const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
   useEffect(() => {
     const fetchMorePodcasts = async () => {
       if (inView || loadMore) {
-        const morePodcasts = await getPodcastsWithUserInfo(20, podcastAmount);
-        setPodcasts((prevPodcasts) => [
-          ...(prevPodcasts || []),
-          ...morePodcasts,
-        ]);
-        setPodcastAmount((prevValue) => prevValue + 20);
+        const morePodcasts = await getFilterPodcastsUserInfo({
+          show: showsArray,
+          skipCount: podcastAmount,
+        });
+        if (morePodcasts.length === 0) {
+          setHasMoreItems(false);
+        } else {
+          setPodcasts((prevPodcasts) => [
+            ...(prevPodcasts || []),
+            ...morePodcasts,
+          ]);
+          setPodcastAmount((prevValue) => prevValue + 20);
 
-        if (loadMore) {
-          setLoadMore(false);
+          if (loadMore) {
+            setLoadMore(false);
+          }
         }
       }
     };
@@ -61,8 +65,8 @@ const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
   }, [inView, loadMore]);
 
   useEffect(() => {
-    setPodcasts(allPodcasts);
-  }, [allPodcasts]);
+    setPodcasts(listedPodcasts);
+  }, [listedPodcasts]);
 
   return (
     <article className="relative flex h-full w-full flex-col">
@@ -96,7 +100,7 @@ const PodcastPageFilter = ({ allPodcasts }: PodcastPageFilterProps) => {
         <div
           ref={ref}
           className={`${
-            podcasts && podcasts.length < 20 && "hidden lg:hidden"
+            !hasMoreItems && "hidden lg:hidden"
           } mt-10 hidden self-center lg:flex`}
         >
           <Image
