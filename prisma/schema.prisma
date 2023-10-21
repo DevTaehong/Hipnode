@@ -21,7 +21,7 @@ model User {
   location        String?
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
-  subscribedShows ShowSubscription[]
+  subscribedShows UsersSubscribedToShows[]
   comments        Comment[]
   likes           Like[]
   meetup          MeetUp[]
@@ -112,7 +112,7 @@ model Shows {
   userId          Int
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
-  subscribers     ShowSubscription[]
+  subscribers     UsersSubscribedToShows[]
   podcasts        Podcast[]
   user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -132,7 +132,7 @@ model Podcast {
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model ShowSubscription {
+model UsersSubscribedToShows {
   id      Int    @id @default(autoincrement())
   userId  Int
   showId  Int
