@@ -15,8 +15,9 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import CustomButton from "../CustomButton";
-import { FormatIcon, Icon, FrameIcon } from "@/components/icons/outline-icons";
+import { Icon } from "@/components/icons/outline-icons";
 import { ChevronDown } from "lucide-react";
+import PostEditor from "./PostEditor";
 
 import {
   Select,
@@ -54,8 +55,6 @@ export default function CreatePost() {
       tagStringsInput: "",
     },
   });
-
-  console.log("Form initialized", form);
 
   const onSubmit = (values: FormValues) => {
     console.log("onSubmit called with values:", values);
@@ -231,8 +230,8 @@ export default function CreatePost() {
               />
             </div>
           </div>
-          <div className="flex flex-col pb-[1.25rem] pt-[2.5rem] ">
-            <div className="flex flex-row justify-between rounded-t-md dark:bg-dark-4 md:px-[1.25rem] md:py-[1.125rem]">
+          <div className="relative flex flex-col pb-[1.25rem] pt-[2.5rem]">
+            <div className="absolute left-[1.25rem] top-12 flex w-fit flex-row justify-start rounded-t-md dark:bg-dark-4">
               <div className="flex flex-row">
                 <div className="flex items-center dark:text-blue-80">
                   <Icon.Edit className="dark:fill-blue-80 " />
@@ -248,20 +247,6 @@ export default function CreatePost() {
                   Code of Conduct
                 </p>
               </div>
-              <div className="flex flex-row items-center gap-[0.625rem]">
-                <FormatIcon.Headline />
-                <FormatIcon.Bold />
-                <FormatIcon.Italic />
-                <FormatIcon.Underline />
-                <FormatIcon.Strikethrough />
-                <Icon.Link />
-                <Icon.Image />
-                <FrameIcon.Left />
-                <FrameIcon.Center />
-                <FrameIcon.Right />
-                <FrameIcon.Point />
-                <FrameIcon.Point />
-              </div>
             </div>
             <div className="">
               <FormField
@@ -270,11 +255,7 @@ export default function CreatePost() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <textarea
-                        {...field}
-                        placeholder="Tell your story..."
-                        className="h-[20rem] w-full resize-none rounded-b-md p-2 text-green-300 dark:bg-dark-3 "
-                      />
+                      <PostEditor name="mainText" />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>
