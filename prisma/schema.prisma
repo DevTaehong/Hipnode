@@ -9,26 +9,27 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  clerkId     String       @unique
-  name        String
-  username    String       @unique
-  email       String       @unique
-  password    String?
-  role        Role         @default(USER)
-  bio         String?
-  picture     String
-  location    String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  comments    Comment[]
-  likes       Like[]
-  meetup      MeetUp[]
-  memberships Membership[]
-  onboarding  Onboarding?
-  podcasts    Podcast[]
-  posts       Post[]
-  shows       Shows[]
+  id              Int                 @id @default(autoincrement())
+  clerkId         String              @unique
+  name            String
+  username        String              @unique
+  email           String              @unique
+  password        String?
+  role            Role                @default(USER)
+  bio             String?
+  picture         String
+  location        String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  subscribedShows ShowSubscription[]
+  comments        Comment[]
+  likes           Like[]
+  meetup          MeetUp[]
+  memberships     Membership[]
+  onboarding      Onboarding?
+  podcasts        Podcast[]
+  posts           Post[]
+  shows           Shows[]
 }
 
 model Onboarding {
@@ -106,13 +107,14 @@ model TagOnPost {
 }
 
 model Shows {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  userId    Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  podcasts  Podcast[]
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              Int                 @id @default(autoincrement())
+  name            String              @unique
+  userId          Int
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  subscribers     ShowSubscription[]
+  podcasts        Podcast[]
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Podcast {
@@ -128,6 +130,16 @@ model Podcast {
   userId        Int
   show          Shows    @relation(fields: [showId], references: [id], onDelete: Cascade)
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ShowSubscription {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  showId  Int
+  user    User   @relation(fields: [userId], references: [id])
+  show    Shows  @relation(fields: [showId], references: [id])
+
+  @@unique([userId, showId]) 
 }
 
 model Group {
