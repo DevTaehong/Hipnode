@@ -1,16 +1,16 @@
-type HostMeetupType = {
+type FormLinkType = {
   title: string;
   description: string;
   buttonOne: string;
   buttonTwo: string;
 };
 
-const HostMeetup = ({
+const FormLink = ({
   title,
   description,
   buttonOne,
   buttonTwo,
-}: HostMeetupType) => {
+}: FormLinkType) => {
   return (
     <div className="flex h-fit w-full flex-col rounded-2xl bg-host-meetup bg-cover bg-no-repeat p-5 lg:w-[20.3125rem]">
       <p className="semibold-18 text-white">{title}</p>
@@ -27,4 +27,4 @@ const HostMeetup = ({
   );
 };
 
-export default HostMeetup;
+export default FormLink;

@@ -4,7 +4,7 @@ import { Shows } from "@prisma/client";
 import prisma from "../../../lib/prisma";
 
 export async function createPodcastsForShows(show: Shows) {
-  const podcastCount = faker.number.int({ min: 1, max: 3 });
+  const podcastCount = faker.number.int({ min: 4, max: 10 });
   const podcastPromises = Array.from({ length: podcastCount }).map(
     async (_, index) => {
       const podcast = await prisma.podcast.create({

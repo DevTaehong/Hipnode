@@ -6,7 +6,7 @@ import prisma from "../../../lib/prisma";
 export async function createShows(users: User[]) {
   const allShows = [];
   for (const user of users) {
-    const showCount = faker.number.int({ min: 1, max: 3 });
+    const showCount = faker.number.int({ min: 1, max: 5 });
     const showPromises = Array.from({ length: showCount }).map(
       async (_, index) => {
         const show = await prisma.shows.create({

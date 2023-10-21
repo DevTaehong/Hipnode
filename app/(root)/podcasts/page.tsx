@@ -3,7 +3,7 @@ import {
   getFilterPodcastsUserInfo,
 } from "@/lib/actions/podcast.actions";
 import { getAllShows } from "@/lib/actions/show.actions";
-import HostMeetup from "@/components/HostMeetup";
+import FormLink from "@/components/FormLink";
 import PodcastPageFilter from "@/components/podcast-components/PodcastPageFilter";
 import Categories from "@/components/podcast-components/Categories";
 
@@ -39,11 +39,11 @@ const Podcasts = async ({ searchParams }: { searchParams: PodcastsProps }) => {
       <div className=" mt-16 flex max-w-[85rem] flex-col gap-5 lg:flex-row">
         <section className="flex w-full flex-col gap-5 lg:w-[13.125rem]">
           <div className="flex lg:hidden">
-            <HostMeetup
-              title="Host a Meetup"
-              description="Find other Hipnoders in your area so you can learn, share and work together"
+            <FormLink
+              title="Start your Podcast"
+              description="Working on your own internet business? We'd love to interview you!"
               buttonOne="Code of Conduct"
-              buttonTwo="Host a Meetup"
+              buttonTwo="Submit a Podcast"
             />
           </div>
           <div className="hidden lg:flex">
@@ -55,11 +55,11 @@ const Podcasts = async ({ searchParams }: { searchParams: PodcastsProps }) => {
         </section>
         <section className="flex w-full lg:w-fit">
           <div className="hidden lg:flex">
-            <HostMeetup
-              title="Host a Meetup"
-              description="Find other Hipnoders in your area so you can learn, share and work together"
+            <FormLink
+              title="Start your Podcast"
+              description="Working on your own internet business? We'd love to interview you!"
               buttonOne="Code of Conduct"
-              buttonTwo="Host a Meetup"
+              buttonTwo="Submit a Podcast"
             />
           </div>
         </section>
