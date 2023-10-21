@@ -31,7 +31,7 @@ import { faker } from "@faker-js/faker";
 
 export async function createShows(users: User[]) {
   try {
-    const showCount = 4; // Number of shows you want to create
+    const showCount = 12; // Number of shows you want to create
 
     const showsPromises = Array.from({ length: showCount }).map(async () => {
       const showName = faker.lorem.words(4); // Generate a random show name
