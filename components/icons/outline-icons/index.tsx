@@ -3,6 +3,8 @@ import { ArrowLeft, ArrowRight } from "./ArrowIcon";
 import { ArrowLargeDown, ArrowLargeRight } from "./ArrowLargeIcon";
 import BloggingIcon from "./BloggingIcon";
 import CheckboxIcon from "./CheckboxIcon";
+import CheckmarkIcon from "./CheckmarkIcon";
+import CommentIcon from "./CommentIcon";
 
 // Still working on this
 import FrameNumber from "./FrameNumber";
@@ -95,6 +97,24 @@ OutlineIcon.Blogging = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Checkbox = function Icon({ checked }: OutlineIconProps) {
   return <CheckboxIcon checked={checked} />;
+};
+
+OutlineIcon.Checkmark = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#347AE2]"}>
+      <CheckmarkIcon />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.Comment = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon
+      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
+      <CommentIcon />
+    </OutlineIcon>
+  );
 };
 
 export default OutlineIcon;
