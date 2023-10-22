@@ -31,11 +31,11 @@ const PodcastPageFilter = ({
   const displayedPodcasts = [
     {
       listNumber: "List One",
-      list: oddPodcasts,
+      list: evenPodcasts,
     },
     {
       listNumber: "List Two",
-      list: evenPodcasts,
+      list: oddPodcasts,
     },
   ];
 
@@ -54,15 +54,17 @@ const PodcastPageFilter = ({
             ...morePodcasts,
           ]);
           setPodcastAmount((prevValue) => prevValue + 20);
-
           if (loadMore) {
             setLoadMore(false);
+          }
+          if ((podcasts ?? []).length + morePodcasts.length < 20) {
+            setHasMoreItems(false);
           }
         }
       }
     };
     fetchMorePodcasts();
-  }, [inView, loadMore]);
+  }, [inView, loadMore, podcasts]);
 
   useEffect(() => {
     setPodcasts(listedPodcasts);
