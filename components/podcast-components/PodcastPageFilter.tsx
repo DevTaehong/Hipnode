@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { christopher } from "@/public/assets";
 import PodcastCard from "./PodcastCard";
 import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
 import { ArrowIcon } from "../icons/outline-icons";
@@ -64,11 +62,13 @@ const PodcastPageFilter = ({
       }
     };
     fetchMorePodcasts();
-  }, [inView, loadMore, podcasts]);
+  }, [inView, loadMore]);
 
   useEffect(() => {
     setPodcasts(listedPodcasts);
-  }, [listedPodcasts]);
+    setPodcastAmount(20);
+    setHasMoreItems(true);
+  }, [listedPodcasts, queryString]);
 
   return (
     <article className="relative flex h-full w-full flex-col">
@@ -98,21 +98,14 @@ const PodcastPageFilter = ({
           <p className="text-sc-3">See More</p>
           <ArrowIcon.Right className="stroke-sc-3" />
         </button>
-
-        <div
+        <p
           ref={ref}
           className={`${
             !hasMoreItems && "hidden lg:hidden"
-          } mt-10 hidden self-center lg:flex`}
+          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
         >
-          <Image
-            src={christopher}
-            height={80}
-            width={80}
-            alt="christopher"
-            className="animate-ping rounded-full"
-          />
-        </div>
+          Loading...
+        </p>
       </section>
     </article>
   );
