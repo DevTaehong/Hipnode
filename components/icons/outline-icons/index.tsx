@@ -5,6 +5,7 @@ import BloggingIcon from "./BloggingIcon";
 import CheckboxIcon from "./CheckboxIcon";
 import CheckmarkIcon from "./CheckmarkIcon";
 import CommentIcon from "./CommentIcon";
+import DevIcon from "./DevIcon";
 
 // Still working on this
 import FrameNumber from "./FrameNumber";
@@ -114,6 +115,12 @@ OutlineIcon.Comment = function Icon({ className }: OutlineIconProps) {
     >
       <CommentIcon />
     </OutlineIcon>
+  );
+};
+
+OutlineIcon.Dev = function Icon({ className }: OutlineIconProps) {
+  return (
+    <DevIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
   );
 };
 

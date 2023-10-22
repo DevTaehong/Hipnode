@@ -7,6 +7,7 @@ const page = () => {
     <div className="m-5 flex gap-5 bg-slate-200 p-5">
       <OutlineIcon.Checkbox />
       <OutlineIcon.Checkbox checked />
+      <OutlineIcon.Dev />
     </div>
   );
 };
