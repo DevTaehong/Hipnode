@@ -55,8 +55,6 @@ model Post {
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  groupId   Int?
-  group     Group?      @relation(fields: [groupId], references: [id])
   tags      TagOnPost[]
 }
 
@@ -74,7 +72,6 @@ model Like {
   @@unique([userId, commentId])
 }
 
-
 model Comment {
   id        Int       @id @default(autoincrement())
   content   String    @db.VarChar(150)
@@ -87,7 +84,7 @@ model Comment {
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
   replies   Comment[] @relation("CommentToComment")
-  post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   likes     Like[]
 }
 
@@ -139,7 +136,6 @@ model Group {
   groupName String       @unique
   updatedAt DateTime     @updatedAt
   members   Membership[]
-  posts     Post[]
 }
 
 model Membership {
@@ -168,12 +164,7 @@ model MeetUp {
   responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
 }
 
-
-
 enum Role {
   ADMIN
   USER
 }
-
-
-

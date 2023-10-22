@@ -23,6 +23,7 @@ export default async function Home() {
   const meetups = await getAllMeetUps();
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
+  console.log(posts);
 
   return (
     <section className="min-h-screen w-full bg-light-2 pt-16 dark:bg-dark-2 ">
