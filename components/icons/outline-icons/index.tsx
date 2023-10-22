@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "./ArrowIcon";
-// import ArrowLargeIcon from "./ArrowLargeIcon";
+import { ArrowLargeDown, ArrowLargeRight } from "./ArrowLargeIcon";
 // import FrameNumber from "./FrameNumber";
 // export { default as FrameIcon } from "./FrameIcon";
 // export { default as DevIcon } from "./DevIcon";
@@ -44,9 +44,7 @@ const OutlineIcon = ({ children, className }: OutlineIconProps) => {
   );
 };
 
-OutlineIcon.ArrowLeft = function ArrowLeftIcon({
-  className,
-}: OutlineIconProps) {
+OutlineIcon.ArrowLeft = function Icon({ className }: OutlineIconProps) {
   return (
     <OutlineIcon
       className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
@@ -56,14 +54,28 @@ OutlineIcon.ArrowLeft = function ArrowLeftIcon({
   );
 };
 
-OutlineIcon.ArrowRight = function ArrowRightIcon({
-  className,
-}: OutlineIconProps) {
+OutlineIcon.ArrowRight = function Icon({ className }: OutlineIconProps) {
   return (
     <OutlineIcon
       className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
     >
       <ArrowRight />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.ArrowLargeDown = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
+      <ArrowLargeDown />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.ArrowLargeRight = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
+      <ArrowLargeRight />
     </OutlineIcon>
   );
 };
