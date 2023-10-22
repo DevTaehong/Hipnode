@@ -6,6 +6,7 @@ import CheckboxIcon from "./CheckboxIcon";
 import CheckmarkIcon from "./CheckmarkIcon";
 import CommentIcon from "./CommentIcon";
 import DevIcon from "./DevIcon";
+import FollowingIcon from "./FollowingIcon";
 
 // Still working on this
 import FrameNumber from "./FrameNumber";
@@ -34,6 +35,7 @@ interface OutlineIconProps {
   children?: ReactNode;
   className?: string;
   checked?: boolean;
+  color?: string;
 }
 
 const OutlineIcon = ({ children, className }: OutlineIconProps) => {
@@ -122,6 +124,10 @@ OutlineIcon.Dev = function Icon({ className }: OutlineIconProps) {
   return (
     <DevIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
   );
+};
+
+OutlineIcon.Following = function Icon({ color }: OutlineIconProps) {
+  return <FollowingIcon color={color || "#6570F7"} />;
 };
 
 export default OutlineIcon;

@@ -8,6 +8,7 @@ const page = () => {
       <OutlineIcon.Checkbox />
       <OutlineIcon.Checkbox checked />
       <OutlineIcon.Dev />
+      <OutlineIcon.Following />
     </div>
   );
 };
