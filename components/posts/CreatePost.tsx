@@ -258,7 +258,7 @@ export default function CreatePost() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Editor name="mainText" />
+                      <Editor name={"mainText"} setFormValue={setFormValue} />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>

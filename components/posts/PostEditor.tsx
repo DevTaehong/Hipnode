@@ -4,15 +4,15 @@ import React, { useEffect, useState, useRef } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useFormContext } from "react-hook-form";
+
 import "./EditorStyles.css";
 
-type PostEditorProp = {
+type PostEditorProps = {
   name: string;
+  setFormValue: (name: string, value: string) => void;
 };
 
-function PostEditor({ name }: PostEditorProp) {
-  const { setValue } = useFormContext();
+function PostEditor({ name, setFormValue }: PostEditorProps) {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -27,9 +27,9 @@ function PostEditor({ name }: PostEditorProp) {
   useEffect(() => {
     if (isMounted.current) {
       const rawContent = convertToRaw(editorState.getCurrentContent());
-      setValue(name, JSON.stringify(rawContent));
+      setFormValue(name, JSON.stringify(rawContent));
     }
-  }, [editorState, name, setValue]);
+  }, [editorState, name, setFormValue]);
 
   return (
     <Editor
