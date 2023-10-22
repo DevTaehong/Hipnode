@@ -63,7 +63,7 @@ export default function CreatePost() {
     },
   });
 
-  const { watch, formState, handleSubmit } = form;
+  const { watch, formState, handleSubmit, setValue } = form;
   const watchedValues = watch();
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export default function CreatePost() {
                     <Input
                       placeholder="Title..."
                       type="text"
-                      className="w-full dark:bg-dark-4 dark:text-sc-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1.625rem]"
+                      className="w-full dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem]"
                       {...field}
                     />
                   </FormControl>
@@ -169,7 +169,7 @@ export default function CreatePost() {
                       }}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3  text-[1rem] dark:bg-dark-4 dark:text-light-2">
                           <SelectValue
                             placeholder={
                               <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
@@ -206,7 +206,7 @@ export default function CreatePost() {
                       }}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3  text-[1rem] dark:bg-dark-4 dark:text-light-2">
                           <SelectValue
                             placeholder={
                               <div className="flex w-fit  flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
@@ -258,7 +258,7 @@ export default function CreatePost() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Editor name={"mainText"} setFormValue={setFormValue} />
+                      <Editor name={"mainText"} setFormValue={setValue} />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>
@@ -280,7 +280,7 @@ export default function CreatePost() {
                     <Input
                       placeholder="Add a tag..."
                       type="text"
-                      className="px-[1.25rem] py-[0.625rem] dark:bg-dark-2"
+                      className="px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-2 dark:text-light-2"
                       {...field}
                     />
                   </FormControl>
