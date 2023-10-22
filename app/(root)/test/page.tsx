@@ -9,6 +9,12 @@ const page = () => {
       <OutlineIcon.Checkbox checked />
       <OutlineIcon.Dev />
       <OutlineIcon.Following />
+      <OutlineIcon.Headline />
+      <OutlineIcon.Underline />
+      <OutlineIcon.Italic />
+      <OutlineIcon.Strikethrough />
+      <OutlineIcon.Bold />
+      <OutlineIcon.Checkmark />
     </div>
   );
 };

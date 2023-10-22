@@ -7,6 +7,7 @@ import CheckmarkIcon from "./CheckmarkIcon";
 import CommentIcon from "./CommentIcon";
 import DevIcon from "./DevIcon";
 import FollowingIcon from "./FollowingIcon";
+import { Headline, Underline, Italic, Strikethrough, Bold } from "./FormatIcon";
 
 // Still working on this
 import FrameNumber from "./FrameNumber";
@@ -16,7 +17,7 @@ export { default as SearchIcon } from "./SearchIcon";
 export { default as IconAlt } from "./IconAlt";
 export { default as ArrowIcon } from "./ArrowIcon";
 export { default as ArrowLargeIcon } from "./ArrowLargeIcon";
-export { default as FormatIcon } from "./FormatIcon";
+// export { default as FormatIcon } from "./FormatIcon";
 export { default as SocialIcon } from "./SocialIcon";
 export { default as Icon } from "./Icon";
 export { default as BloggingIcon } from "./BloggingIcon";
@@ -128,6 +129,46 @@ OutlineIcon.Dev = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Following = function Icon({ color }: OutlineIconProps) {
   return <FollowingIcon color={color || "#6570F7"} />;
+};
+
+OutlineIcon.Headline = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <Headline />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.Underline = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <Underline />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.Italic = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <Italic />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.Strikethrough = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <Strikethrough />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.Bold = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <Bold />
+    </OutlineIcon>
+  );
 };
 
 export default OutlineIcon;
