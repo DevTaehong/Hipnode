@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "./ArrowIcon";
 import { ArrowLargeDown, ArrowLargeRight } from "./ArrowLargeIcon";
+import BloggingIcon from "./BloggingIcon";
 // import FrameNumber from "./FrameNumber";
 // export { default as FrameIcon } from "./FrameIcon";
 // export { default as DevIcon } from "./DevIcon";
@@ -76,6 +77,14 @@ OutlineIcon.ArrowLargeRight = function Icon({ className }: OutlineIconProps) {
   return (
     <OutlineIcon className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
       <ArrowLargeRight />
+    </OutlineIcon>
+  );
+};
+
+OutlineIcon.Blogging = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <BloggingIcon />
     </OutlineIcon>
   );
 };
