@@ -7,7 +7,11 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useFormContext } from "react-hook-form";
 import "./EditorStyles.css";
 
-function PostEditor({ name }) {
+type PostEditorProp = {
+  name: string;
+};
+
+function PostEditor({ name }: PostEditorProp) {
   const { setValue } = useFormContext();
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()

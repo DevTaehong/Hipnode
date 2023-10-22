@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -17,7 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomButton from "../CustomButton";
 import { Icon } from "@/components/icons/outline-icons";
 import { ChevronDown } from "lucide-react";
-import PostEditor from "./PostEditor";
 
 import {
   Select,
@@ -26,6 +26,10 @@ import {
   SelectContent,
   SelectItem,
 } from "@radix-ui/react-select";
+
+const Editor = dynamic(() => import("./PostEditor"), {
+  ssr: false,
+});
 
 const validationSchema = z.object({
   title: z.string().min(1, {
@@ -255,7 +259,7 @@ export default function CreatePost() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <PostEditor name="mainText" />
+                      <Editor name="mainText" />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>
