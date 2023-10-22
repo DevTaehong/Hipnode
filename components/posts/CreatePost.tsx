@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -25,7 +25,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+} from "@/components/ui/select";
 
 const Editor = dynamic(() => import("./PostEditor"), {
   ssr: false,
@@ -44,6 +44,9 @@ const validationSchema = z.object({
 
 type FormValues = z.infer<typeof validationSchema>;
 
+const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
+const POST = ["Newest", "New", "Old", "Older", "Oldest"];
+
 export default function CreatePost() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -60,18 +63,23 @@ export default function CreatePost() {
     },
   });
 
+  const { watch, formState, handleSubmit } = form;
+  const watchedValues = watch();
+
+  useEffect(() => {
+    console.log("Form errors:", formState.errors);
+  }, [formState.errors]);
+
+  useEffect(() => {
+    console.log("Form values have changed:", watchedValues);
+  }, [watchedValues, formState.isDirty]);
+
   const onSubmit = (values: FormValues) => {
+    console.log("onSubmit function called");
     console.log("onSubmit called with values:", values);
     console.log(values);
 
-    const inputStr = values.tagStringsInput;
-    let stringsArray = inputStr.includes(",")
-      ? inputStr.split(",")
-      : [inputStr];
-    stringsArray = stringsArray.slice(0, 5);
-    stringsArray = stringsArray.map((str) => str.trim());
-
-    console.log("Processed stringsArray:", stringsArray);
+    form.reset();
   };
 
   return (
@@ -79,10 +87,7 @@ export default function CreatePost() {
       <Form {...form}>
         <form
           action=""
-          onSubmit={form.handleSubmit((values) => {
-            console.log("handleSubmit called with values:", values); // Log handleSubmit call and values
-            onSubmit(values);
-          })}
+          onSubmit={handleSubmit(onSubmit)}
           className="w-[55rem] rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
@@ -123,11 +128,11 @@ export default function CreatePost() {
                           onChange={(event) => {
                             const file =
                               event.target.files && event.target.files[0];
-                            console.log("File selected:", file); // Log file selection
+                            console.log("File selected:", file);
 
                             if (file) {
                               form.setValue("coverImage", file);
-                              console.log("File set as coverImage:", file); // Log file set as coverImage
+                              console.log("File set as coverImage:", file);
                             }
                           }}
                         />
@@ -152,17 +157,16 @@ export default function CreatePost() {
                   </FormItem>
                 )}
               />
-              <FormField
+              <Controller
+                name={"group"}
                 control={form.control}
-                name="group"
                 render={({ field }) => (
                   <FormItem>
                     <Select
+                      value={String(field.value)}
                       onValueChange={(value) => {
                         field.onChange(value);
-                        console.log("Group selected:", value); // Log group selection
                       }}
-                      defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -178,37 +182,34 @@ export default function CreatePost() {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="pl-2 dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
-                        {["Alex", "Glen", "Taehong", "Tye", "Jay"].map(
-                          (group) => (
-                            <SelectItem key={group} value={group}>
-                              {group}
-                            </SelectItem>
-                          )
-                        )}
+                      <SelectContent className="z-50 cursor-pointer p-3 pl-2 dark:bg-dark-2 dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                        {GROUP.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
+              <Controller
                 control={form.control}
-                name="post"
+                name={"post"}
                 render={({ field }) => (
                   <FormItem>
                     <Select
+                      value={String(field.value)}
                       onValueChange={(value) => {
                         field.onChange(value);
-                        console.log("Post selected:", value); // Log post selection
                       }}
-                      defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
                             placeholder={
-                              <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
+                              <div className="flex w-fit  flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
                                 <p className=" dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
                                   Create Post
                                 </p>
@@ -218,14 +219,12 @@ export default function CreatePost() {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="pl-2 dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
-                        {["Newest", "New", "Old", "Older", "Oldest"].map(
-                          (post) => (
-                            <SelectItem key={post} value={post}>
-                              {post}
-                            </SelectItem>
-                          )
-                        )}
+                      <SelectContent className="z-50 cursor-pointer p-3 pl-2 dark:bg-dark-2 dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                        {POST.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -297,7 +296,7 @@ export default function CreatePost() {
               className="rounded-md bg-blue text-blue-10 md:px-[2.5rem] md:py-[0.625rem] md:text-[1rem] md:leading-[1.5rem]"
             />
             <CustomButton
-              type="submit"
+              type="button"
               label="Cancel"
               className="rounded-md bg-dark-3 text-sc-3 md:px-[2.5rem] md:py-[0.625rem] md:text-[1rem] md:leading-[1.5rem]"
             />
