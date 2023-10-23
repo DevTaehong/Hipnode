@@ -29,6 +29,7 @@ import NewIcon from "./NewIcon";
 import PopularIcon from "./PopularIcon";
 import PostIcon from "./PostIcon";
 import SearchIcon from "./SearchIcon";
+import Share2Icon from "./Share2Icon";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
@@ -457,6 +458,14 @@ OutlineIcon.Search = function Icon({ className }: OutlineIconProps) {
     <SearchIcon
       className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
     />
+  );
+};
+
+OutlineIcon.Share2 = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <Share2Icon />
+    </OutlineIcon>
   );
 };
 
