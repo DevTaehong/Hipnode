@@ -9,9 +9,9 @@ import DevIcon from "./DevIcon";
 import FollowingIcon from "./FollowingIcon";
 import { Headline, Underline, Italic, Strikethrough, Bold } from "./FormatIcon";
 import FrameIcon from "./FrameIcon";
+import FrameNumber from "./FrameNumber";
 
 // Still working on this
-import FrameNumber from "./FrameNumber";
 export { default as FrameIcon } from "./FrameIcon";
 export { default as DevIcon } from "./DevIcon";
 export { default as SearchIcon } from "./SearchIcon";
@@ -38,6 +38,8 @@ interface OutlineIconProps {
   className?: string;
   checked?: boolean;
   color?: string;
+  fillColor?: string;
+  strokeColor?: string;
 }
 
 const OutlineIcon = ({ children, className }: OutlineIconProps) => {
@@ -209,6 +211,18 @@ OutlineIcon.FramePoint = function Icon({ className }: OutlineIconProps) {
     >
       <FrameIcon.Point />
     </FrameIcon>
+  );
+};
+
+OutlineIcon.FrameNumber = function Icon({
+  fillColor,
+  strokeColor,
+}: OutlineIconProps) {
+  return (
+    <FrameNumber
+      fillColor={fillColor || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+      strokeColor={strokeColor || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
   );
 };
 
