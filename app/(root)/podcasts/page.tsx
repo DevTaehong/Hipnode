@@ -45,9 +45,7 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
     <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:py-[1.875rem]">
       <div className=" mt-16 flex max-w-[85rem] flex-col gap-5 lg:flex-row">
         <section className="flex w-full flex-col gap-5 lg:w-[13.125rem]">
-          <div className="flex lg:hidden">
-            <FormLink {...podcastFormLinkProps} />
-          </div>
+          <FormLink {...podcastFormLinkProps} className="flex lg:hidden" />
           <div className="hidden lg:flex">
             <Categories shows={usersShows} />
           </div>
@@ -59,9 +57,7 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
           />
         </section>
         <section className="flex w-full lg:w-fit">
-          <div className="hidden lg:flex">
-            <FormLink {...podcastFormLinkProps} />
-          </div>
+          <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
         </section>
       </div>
     </main>

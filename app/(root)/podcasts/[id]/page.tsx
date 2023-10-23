@@ -14,7 +14,6 @@ const PodcastPage = async ({ params }: PodcastPageProps) => {
   const podcastId = parseInt(params.id);
   const podcast = await getPodcastById(podcastId);
   const bucketUrls = await getBucketUrls("podcasts");
-  console.log(bucketUrls);
 
   if (!podcast) {
     redirect("/podcast");

@@ -38,3 +38,17 @@ export function extractShowArray(queryString: string) {
 
   return showNumbers;
 }
+
+export function formatPodcastDuration(seconds: number) {
+  const roundedSeconds = Math.round(seconds);
+  const minutes = Math.floor(roundedSeconds / 60);
+  const remainingSeconds = roundedSeconds % 60;
+
+  const formattedMinutes = minutes.toString();
+  const formattedSeconds =
+    remainingSeconds < 10
+      ? `0${remainingSeconds}`
+      : remainingSeconds.toString();
+
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
