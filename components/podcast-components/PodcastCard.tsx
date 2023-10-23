@@ -1,18 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-type User = {
-  name: string;
-  location: string | null;
-  picture: string;
-};
-
-type PodcastWithUserInfo = {
-  id: number;
-  title: string;
-  details: string;
-  user: User;
-};
+import { PodcastWithUserInfo } from "@/types/podcast.index";
 
 const PodcastCard = ({ info }: { info: PodcastWithUserInfo }) => {
   const {

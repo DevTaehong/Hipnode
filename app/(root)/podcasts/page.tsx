@@ -6,16 +6,18 @@ import FormLink from "@/components/FormLink";
 import PodcastPageFilter from "@/components/podcast-components/PodcastPageFilter";
 import Categories from "@/components/podcast-components/Categories";
 import { podcastFormLinkProps } from "@/constants";
-interface PodcastsProps {
+import { redirect } from "next/navigation";
+interface SearchProps {
   show: string | string[];
   amount: string;
 }
 
-const Podcasts = async ({ searchParams }: { searchParams: PodcastsProps }) => {
+const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   const user = await currentUser();
 
   if (!user) {
-    throw new Error("Can't find user");
+    console.error("Can't find user");
+    redirect("/");
   }
 
   const usersShows = await getAllUsersShows(user.id);

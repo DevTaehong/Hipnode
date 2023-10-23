@@ -525,10 +525,17 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
+// Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
   description:
     "Working on your own internet business? We'd love to interview you!",
-  buttonOne: "Code of Conduct",
-  buttonTwo: "Submit a Podcast",
+  codeOfConductButton: {
+    title: "Code of Conduct",
+    link: "/",
+  },
+  linkToFormButton: {
+    title: "Submit a Podcast",
+    link: "/",
+  },
 };

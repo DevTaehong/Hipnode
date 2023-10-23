@@ -16,3 +16,16 @@ export interface PodcastPageFilterProps {
   listedPodcasts: PodcastUserInfo[] | undefined;
   userShowsIds: number[];
 }
+
+type UserInfo = {
+  name: string;
+  location: string | null;
+  picture: string;
+};
+
+export type PodcastWithUserInfo = {
+  id: number;
+  title: string;
+  details: string;
+  user: UserInfo;
+};

@@ -4,20 +4,18 @@ import { User } from "@prisma/client";
 
 export async function createShows(users: User[]) {
   try {
-    const showCount = 12; // Number of shows you want to create
-    const minSubscriptionsPerUser = 3; // Minimum subscriptions per user
+    const showCount = 12;
+    const minSubscriptionsPerUser = 3;
 
     const showsPromises = Array.from({ length: showCount }).map(async () => {
-      const showName = faker.lorem.words(4); // Generate a random show name
-      // Create a show
+      const showName = faker.lorem.words(4);
       const show = await prisma.shows.create({
         data: {
           name: showName,
-          userId: users[Math.floor(Math.random() * users.length)].id, // Assign a random user as the owner
+          userId: users[Math.floor(Math.random() * users.length)].id,
         },
       });
 
-      // Randomly choose some users to subscribe
       const userSubscriptions: User[] = [];
       while (userSubscriptions.length < minSubscriptionsPerUser) {
         const randomUser = users[Math.floor(Math.random() * users.length)];

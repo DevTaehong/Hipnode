@@ -3,13 +3,13 @@ import { redirect } from "next/navigation";
 import { getPodcastById } from "@/lib/actions/podcast.actions";
 import AudioPlayer from "@/components/podcast-components/AudioPlayer";
 import LargePodcastCard from "@/components/podcast-components/LargePodcastCard";
-interface PageProps {
+interface PodcastPageProps {
   params: {
     id: string;
   };
 }
 
-const Page = async ({ params }: PageProps) => {
+const PodcastPage = async ({ params }: PodcastPageProps) => {
   const podcastId = parseInt(params.id);
   const podcast = await getPodcastById(podcastId);
 
@@ -32,4 +32,4 @@ const Page = async ({ params }: PageProps) => {
   );
 };
 
-export default Page;
+export default PodcastPage;
