@@ -251,16 +251,6 @@ OutlineIcon.Heart = function Icon({ className }: OutlineIconProps) {
   );
 };
 
-OutlineIcon.Comment = function Icon({ className }: OutlineIconProps) {
-  return (
-    <OutlineIcon
-      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
-    >
-      <Comment />
-    </OutlineIcon>
-  );
-};
-
 OutlineIcon.Edit = function Icon({ className }: OutlineIconProps) {
   return (
     <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
@@ -481,18 +471,18 @@ OutlineIcon.Twitter = function Icon({ className }: OutlineIconProps) {
   );
 };
 
-OutlineIcon.Facebook = function Icon({ className }: OutlineIconProps) {
-  return (
-    <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
-      <SocialIcon.Facebook />
-    </SocialIcon>
-  );
-};
-
 OutlineIcon.Instagram = function Icon({ className }: OutlineIconProps) {
   return (
     <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <SocialIcon.Instagram />
+    </SocialIcon>
+  );
+};
+
+OutlineIcon.Facebook = function Icon({ className }: OutlineIconProps) {
+  return (
+    <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <SocialIcon.Facebook />
     </SocialIcon>
   );
 };
