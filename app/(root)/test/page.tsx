@@ -4,7 +4,7 @@ import OutlineIcon from "@/components/icons/outline-icons";
 
 const page = () => {
   return (
-    <div className="m-5 flex items-center gap-5 bg-slate-200 p-5">
+    <div className="m-5 flex items-center gap-5 bg-slate-100 p-5">
       <OutlineIcon.Checkbox />
       <OutlineIcon.Checkbox checked />
       <OutlineIcon.Dev />
@@ -20,6 +20,7 @@ const page = () => {
         strokeColor="stroke-red-500"
         fillColor="fill-red-500 dark:fill-[#F7F7F7]"
       />
+      <OutlineIcon.Heart />
     </div>
   );
 };

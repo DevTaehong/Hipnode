@@ -10,14 +10,14 @@ import FollowingIcon from "./FollowingIcon";
 import { Headline, Underline, Italic, Strikethrough, Bold } from "./FormatIcon";
 import FrameIcon from "./FrameIcon";
 import FrameNumber from "./FrameNumber";
+import HeartIcon from "./HeartIcon";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
 export { default as DevIcon } from "./DevIcon";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as IconAlt } from "./IconAlt";
-export { default as ArrowIcon } from "./ArrowIcon";
-export { default as ArrowLargeIcon } from "./ArrowLargeIcon";
+
 // export { default as FormatIcon } from "./FormatIcon";
 export { default as SocialIcon } from "./SocialIcon";
 export { default as Icon } from "./Icon";
@@ -222,6 +222,14 @@ OutlineIcon.FrameNumber = function Icon({
     <FrameNumber
       fillColor={fillColor || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
       strokeColor={strokeColor || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
+  );
+};
+
+OutlineIcon.Heart = function Icon({ className }: OutlineIconProps) {
+  return (
+    <HeartIcon
+      className={className || "fill-[#3F4354] dark:fill-[#F7F7F7] dark:invert"}
     />
   );
 };
