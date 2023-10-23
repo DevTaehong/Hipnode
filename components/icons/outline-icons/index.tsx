@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "./ArrowIcon";
-import { ArrowLargeDown, ArrowLargeRight } from "./ArrowLargeIcon";
+import ArrowLarge from "./ArrowLargeIcon";
 import BloggingIcon from "./BloggingIcon";
 import CheckboxIcon from "./CheckboxIcon";
 import CheckmarkIcon from "./CheckmarkIcon";
@@ -65,17 +65,17 @@ OutlineIcon.ArrowRight = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.ArrowLargeDown = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-sc-3"}>
-      <ArrowLargeDown />
-    </OutlineIcon>
+    <ArrowLarge className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
+      <ArrowLarge.Down />
+    </ArrowLarge>
   );
 };
 
 OutlineIcon.ArrowLargeRight = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-sc-3"}>
-      <ArrowLargeRight />
-    </OutlineIcon>
+    <ArrowLarge className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
+      <ArrowLarge.Right />
+    </ArrowLarge>
   );
 };
 
@@ -213,11 +213,7 @@ OutlineIcon.Follow = function Icon({ className }: OutlineIconProps) {
 };
 
 OutlineIcon.ImageIcon = function Icon({ className }: OutlineIconProps) {
-  return (
-    <OutlineIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
-      <ImageIcon />
-    </OutlineIcon>
-  );
+  return <ImageIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"} />;
 };
 
 OutlineIcon.Info = function Icon({ className }: OutlineIconProps) {

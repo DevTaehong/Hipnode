@@ -7,8 +7,8 @@ const page = () => {
     <div className="m-5 flex flex-wrap items-center gap-5 bg-slate-100 p-5">
       <OutlineIcon.ArrowLeft className="stroke-red-500" />
       <OutlineIcon.ArrowRight className="stroke-red-500" />
-      <OutlineIcon.ArrowLargeDown className="fill-red-500" />
-      <OutlineIcon.ArrowLargeRight className="fill-red-500" />
+      <OutlineIcon.ArrowLargeDown />
+      <OutlineIcon.ArrowLargeRight />
       <OutlineIcon.Blogging />
       <OutlineIcon.Checkbox />
       <OutlineIcon.Checkmark />
