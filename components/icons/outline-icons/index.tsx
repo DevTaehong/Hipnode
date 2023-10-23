@@ -24,6 +24,7 @@ import {
   Share,
   View,
 } from "./Icon";
+import IconAlt from "./IconAlt";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
@@ -331,6 +332,94 @@ OutlineIcon.View = function Icon({ className }: OutlineIconProps) {
     <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <View />
     </OutlineIcon>
+  );
+};
+
+OutlineIcon.Bitcoin = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Bitcoin />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Close = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Close />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Design = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Design />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Expand = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Expand />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Mention = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Mention />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.More = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.More />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Post = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Post />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Success = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Success />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Upload = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Upload />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.Web = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.Web />
+    </IconAlt>
+  );
+};
+
+OutlineIcon.ImageWide = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.ImageWide />
+    </IconAlt>
   );
 };
 
