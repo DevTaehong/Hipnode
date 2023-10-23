@@ -31,6 +31,7 @@ import PostIcon from "./PostIcon";
 import SearchIcon from "./SearchIcon";
 import Share2Icon from "./Share2Icon";
 import SocialIcon from "./SocialIcon";
+import VoiceIcon from "./VoiceIcon";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
@@ -503,6 +504,14 @@ OutlineIcon.LinkedIn = function Icon({ className }: OutlineIconProps) {
         className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
       />
     </SocialIcon>
+  );
+};
+
+OutlineIcon.Voice = function Icon({ className }: OutlineIconProps) {
+  return (
+    <VoiceIcon
+      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
   );
 };
 
