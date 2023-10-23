@@ -5,10 +5,10 @@ import OutlineIcon from "@/components/icons/outline-icons";
 const page = () => {
   return (
     <div className="m-5 flex flex-wrap items-center gap-5 bg-slate-100 p-5">
-      <OutlineIcon.ArrowLeft />
-      <OutlineIcon.ArrowRight />
-      <OutlineIcon.ArrowLargeDown />
-      <OutlineIcon.ArrowLargeRight />
+      <OutlineIcon.ArrowLeft className="stroke-red-500" />
+      <OutlineIcon.ArrowRight className="stroke-red-500" />
+      <OutlineIcon.ArrowLargeDown className="fill-red-500" />
+      <OutlineIcon.ArrowLargeRight className="fill-red-500" />
       <OutlineIcon.Blogging />
       <OutlineIcon.Checkbox />
       <OutlineIcon.Checkmark />
