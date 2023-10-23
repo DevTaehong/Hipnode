@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
+import { useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -17,7 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import CustomButton from "../CustomButton";
 import { Icon } from "@/components/icons/outline-icons";
-import { ChevronDown } from "lucide-react";
+
+import Editor from "./Editor";
 
 import {
   Select,
@@ -26,10 +26,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-
-const Editor = dynamic(() => import("./PostEditor"), {
-  ssr: false,
-});
 
 const validationSchema = z.object({
   title: z.string().min(1, {
@@ -63,16 +59,7 @@ export default function CreatePost() {
     },
   });
 
-  const { watch, formState, handleSubmit, setValue } = form;
-  const watchedValues = watch();
-
-  useEffect(() => {
-    console.log("Form errors:", formState.errors);
-  }, [formState.errors]);
-
-  useEffect(() => {
-    console.log("Form values have changed:", watchedValues);
-  }, [watchedValues, formState.isDirty]);
+  const { handleSubmit } = form;
 
   const onSubmit = (values: FormValues) => {
     console.log("onSubmit function called");
@@ -176,7 +163,6 @@ export default function CreatePost() {
                                 <p className=" dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
                                   Select Group
                                 </p>
-                                <ChevronDown className="dark:text-light-2" />
                               </div>
                             }
                           />
@@ -213,7 +199,6 @@ export default function CreatePost() {
                                 <p className=" dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
                                   Create Post
                                 </p>
-                                <ChevronDown className="dark:text-light-2" />
                               </div>
                             }
                           />
@@ -234,7 +219,7 @@ export default function CreatePost() {
             </div>
           </div>
           <div className="relative flex flex-col pb-[1.25rem] pt-[2.5rem]">
-            <div className="absolute left-[1.25rem] top-12 flex w-fit flex-row justify-start rounded-t-md dark:bg-dark-4">
+            <div className="absolute left-[1.25rem] top-2 flex w-fit flex-row justify-start rounded-t-md dark:bg-dark-4">
               <div className="flex flex-row">
                 <div className="flex items-center dark:text-blue-80">
                   <Icon.Edit className="dark:fill-blue-80 " />
@@ -251,14 +236,14 @@ export default function CreatePost() {
                 </p>
               </div>
             </div>
-            <div className="">
+            <div className="min-h-[22rem]">
               <FormField
                 name="mainText"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Editor name={"mainText"} setFormValue={setValue} />
+                      <Editor />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>
