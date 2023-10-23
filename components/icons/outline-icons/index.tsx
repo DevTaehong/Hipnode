@@ -31,7 +31,7 @@ export { default as NewIcon } from "./NewIcon";
 export { default as Share2Icon } from "./Share2Icon";
 export { default as CheckmarkIcon } from "./CheckmarkIcon";
 
-export { default as HipnodeIcon } from "./HipnodeIcon";
+export { default as HipnodeIcon } from "../HipnodeIcon";
 
 interface OutlineIconProps {
   children?: ReactNode;
