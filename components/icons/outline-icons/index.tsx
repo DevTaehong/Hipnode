@@ -25,6 +25,7 @@ import {
   View,
 } from "./Icon";
 import IconAlt from "./IconAlt";
+import NewIcon from "./NewIcon";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
@@ -47,6 +48,7 @@ interface OutlineIconProps {
   className?: string;
   checked?: boolean;
   color?: string;
+  secondaryColor?: string;
   fillColor?: string;
   strokeColor?: string;
 }
@@ -420,6 +422,14 @@ OutlineIcon.ImageWide = function Icon({ className }: OutlineIconProps) {
     <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.ImageWide />
     </IconAlt>
+  );
+};
+
+OutlineIcon.New = function Icon({ color, secondaryColor }: OutlineIconProps) {
+  return (
+    <OutlineIcon>
+      <NewIcon color={color} secondaryColor={secondaryColor} />;
+    </OutlineIcon>
   );
 };
 
