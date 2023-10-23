@@ -10,23 +10,21 @@ import {
   EditorState,
 } from "lexical";
 
-import { IconAlt } from "../icons/outline-icons";
-
+import { IconAlt } from "../../icons/outline-icons";
 import { UseFormSetValue } from "react-hook-form";
-
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TRANSFORMERS } from "@lexical/markdown";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
 import { LinkNode } from "@lexical/link";
 import { CodeNode } from "@lexical/code";
+
+import { LexicalMenu } from "./LexicalMenu";
 
 const EDITOR_NAMESPACE = "lexical-editor";
 
@@ -140,7 +138,6 @@ function CustomOnChangePlugin({
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
-      console.log("Editor State", editorState);
       const editorStateJSON = editorState.toJSON();
       updateField(name, JSON.stringify(editorStateJSON));
       onChange(editorState);
@@ -157,30 +154,39 @@ const Placeholder = () => {
   );
 };
 
+function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
+  const [editor] = useLexicalComposerContext();
+
+  return (
+    <main className="relative">
+      <RichTextPlugin
+        contentEditable={
+          <ContentEditable className="h-[20rem] w-[100%] border border-dark-2 p-4 text-[1rem] text-light-2 dark:bg-slate-800" />
+        }
+        placeholder={<Placeholder />}
+        ErrorBoundary={LexicalErrorBoundary}
+      />
+      <LexicalMenu editor={editor} />
+      <HistoryPlugin />
+      <CustomOnChangePlugin
+        name={name}
+        updateField={updateField}
+        onChange={(editorState) => {}}
+      />
+      <MyCustomAutoFocusPlugin />
+      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <ActionsPlugin />
+    </main>
+  );
+}
+
 export default function LexicalEditor({
   name,
   updateField,
 }: LexicalEditorProps) {
   return (
-    <main className="relative">
-      <LexicalComposer initialConfig={initialConfig}>
-        <RichTextPlugin
-          contentEditable={
-            <ContentEditable className="h-[20rem] w-[100%] border border-dark-2 p-4 text-[1rem] text-light-2 dark:bg-slate-800" />
-          }
-          placeholder={<Placeholder />}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <HistoryPlugin />
-        <CustomOnChangePlugin
-          name={name}
-          updateField={updateField}
-          onChange={(editorState) => {}}
-        />
-        <MyCustomAutoFocusPlugin />
-        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-        <ActionsPlugin />
-      </LexicalComposer>
-    </main>
+    <LexicalComposer initialConfig={initialConfig}>
+      <MainLexicalEditor name={name} updateField={updateField} />
+    </LexicalComposer>
   );
 }

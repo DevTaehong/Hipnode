@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomButton from "../CustomButton";
 import { Icon } from "@/components/icons/outline-icons";
 
-import LexicalEditor from "./Editor";
+import LexicalEditor from "./lexical-editor/LexicalEditor";
 
 import {
   Select,
