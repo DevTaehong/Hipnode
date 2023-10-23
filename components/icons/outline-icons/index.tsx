@@ -30,6 +30,7 @@ import PopularIcon from "./PopularIcon";
 import PostIcon from "./PostIcon";
 import SearchIcon from "./SearchIcon";
 import Share2Icon from "./Share2Icon";
+import SocialIcon from "./SocialIcon";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
@@ -466,6 +467,42 @@ OutlineIcon.Share2 = function Icon({ className }: OutlineIconProps) {
     <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Share2Icon />
     </OutlineIcon>
+  );
+};
+
+OutlineIcon.Twitter = function Icon({ className }: OutlineIconProps) {
+  return (
+    <SocialIcon>
+      <SocialIcon.Twitter
+        className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+      />
+    </SocialIcon>
+  );
+};
+
+OutlineIcon.Facebook = function Icon({ className }: OutlineIconProps) {
+  return (
+    <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <SocialIcon.Facebook />
+    </SocialIcon>
+  );
+};
+
+OutlineIcon.Instagram = function Icon({ className }: OutlineIconProps) {
+  return (
+    <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <SocialIcon.Instagram />
+    </SocialIcon>
+  );
+};
+
+OutlineIcon.LinkedIn = function Icon({ className }: OutlineIconProps) {
+  return (
+    <SocialIcon>
+      <SocialIcon.LinkedIn
+        className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+      />
+    </SocialIcon>
   );
 };
 
