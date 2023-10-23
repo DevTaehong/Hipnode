@@ -12,11 +12,10 @@ interface IPodcast extends Podcast {
   };
 }
 
-const AudioPlayer = ({ podcast }: { podcast: IPodcast }) => {
+const AudioPlayer = ({ podcast, url }: { podcast: IPodcast; url: string }) => {
   const {
     image,
     episodeNumber,
-    url,
     user: { name: creatorName },
     show: { name: showName },
   } = podcast;
