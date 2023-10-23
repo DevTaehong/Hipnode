@@ -26,6 +26,7 @@ import {
 } from "./Icon";
 import IconAlt from "./IconAlt";
 import NewIcon from "./NewIcon";
+import PopularIcon from "./PopularIcon";
 
 // Still working on this
 export { default as FrameIcon } from "./FrameIcon";
@@ -428,9 +429,17 @@ OutlineIcon.ImageWide = function Icon({ className }: OutlineIconProps) {
 OutlineIcon.New = function Icon({ color, secondaryColor }: OutlineIconProps) {
   return (
     <OutlineIcon>
-      <NewIcon color={color} secondaryColor={secondaryColor} />;
+      <NewIcon
+        color={color || "fill-[#0ECC8D]"}
+        secondaryColor={secondaryColor || "fill-light-2"}
+      />
+      ;
     </OutlineIcon>
   );
+};
+
+OutlineIcon.Popular = function Icon({ className }: OutlineIconProps) {
+  return <PopularIcon className={className || "fill-[#EEA956]"} />;
 };
 
 export default OutlineIcon;
