@@ -21,6 +21,7 @@ const page = () => {
         fillColor="fill-red-500 dark:fill-[#F7F7F7]"
       />
       <OutlineIcon.Heart />
+      <OutlineIcon.Mention />
     </div>
   );
 };
