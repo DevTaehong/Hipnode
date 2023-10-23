@@ -52,7 +52,14 @@ type LexicalEditorProps = {
   updateField: UseFormSetValue<FormValues>;
 };
 
-const theme = {};
+const theme = {
+  text: {
+    bold: "textBold",
+    italic: "textItalic",
+    underline: "textUnderline",
+    strikethrough: "textStrikethrough",
+  },
+};
 
 const initialConfig = {
   namespace: EDITOR_NAMESPACE,

@@ -8,6 +8,28 @@
   display: none;
 }
 
+/* Styles for LexicalEditor */
+
+.underlined-line-through {
+  text-decoration: underline line-through;
+}
+
+.textBold {
+  font-weight: bold;
+}
+
+.textItalic {
+  font-style: italic;
+}
+
+.textUnderline {
+  text-decoration: underline;
+}
+
+.textStrikethrough {
+  text-decoration: line-through;
+}
+
 body {
   font-family: "Inter", sans-serif;
 }

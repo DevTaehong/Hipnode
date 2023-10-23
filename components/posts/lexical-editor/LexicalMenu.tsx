@@ -2,9 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from "lexical";
+import {
+  $getSelection,
+  $isRangeSelection,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
+  FORMAT_ELEMENT_COMMAND,
+  FORMAT_TEXT_COMMAND,
+  REDO_COMMAND,
+  UNDO_COMMAND,
+} from "lexical";
 
 import { IconButton } from "./IconButton";
+const LowPriority = 1;
 
 type LexicalMenuState = {
   isBold: boolean;
@@ -19,6 +29,8 @@ type LexicalMenuProps = {
 };
 
 export function LexicalMenu(props: LexicalMenuProps) {
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
   const { editor } = props;
 
   const [state, setState] = useState<LexicalMenuState>({
@@ -49,6 +61,31 @@ export function LexicalMenu(props: LexicalMenuProps) {
     );
 
     return unregisterListener;
+  }, [editor]);
+
+  useEffect(() => {
+    const unregisterUndoCommand = editor.registerCommand(
+      CAN_UNDO_COMMAND,
+      (payload) => {
+        setCanUndo(payload);
+        return false;
+      },
+      LowPriority
+    );
+
+    const unregisterRedoCommand = editor.registerCommand(
+      CAN_REDO_COMMAND,
+      (payload) => {
+        setCanRedo(payload);
+        return false;
+      },
+      LowPriority
+    );
+
+    return () => {
+      unregisterUndoCommand();
+      unregisterRedoCommand();
+    };
   }, [editor]);
 
   return (
@@ -100,6 +137,55 @@ export function LexicalMenu(props: LexicalMenuProps) {
         onClick={() => {
           console.log(FORMAT_TEXT_COMMAND, "code");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+        }}
+      />
+      <IconButton
+        icon="alignLeft"
+        aria-label="Left Align"
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+        }}
+      />
+
+      <IconButton
+        icon="alignCenter"
+        aria-label="Center Align"
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+        }}
+      />
+
+      <IconButton
+        icon="alignRight"
+        aria-label="Right Align"
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+        }}
+      />
+
+      <IconButton
+        icon="alignJustify"
+        aria-label="Justify Align"
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+        }}
+      />
+      <IconButton
+        icon="clockwiseArrow"
+        aria-label="Redo"
+        disabled={!canUndo}
+        onClick={() => {
+          // @ts-ignore
+          editor.dispatchCommand(REDO_COMMAND);
+        }}
+      />
+      <IconButton
+        icon="antiClockwiseArrow"
+        aria-label="Undo"
+        disabled={!canUndo}
+        onClick={() => {
+          // @ts-ignore
+          editor.dispatchCommand(UNDO_COMMAND);
         }}
       />
     </div>
