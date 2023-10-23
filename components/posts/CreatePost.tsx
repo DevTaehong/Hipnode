@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomButton from "../CustomButton";
 import { Icon } from "@/components/icons/outline-icons";
 
-import Editor from "./Editor";
+import LexicalEditor from "./Editor";
 
 import {
   Select,
@@ -59,7 +59,7 @@ export default function CreatePost() {
     },
   });
 
-  const { handleSubmit } = form;
+  const { handleSubmit, setValue, watch } = form;
 
   const onSubmit = (values: FormValues) => {
     console.log("onSubmit function called");
@@ -68,6 +68,11 @@ export default function CreatePost() {
 
     form.reset();
   };
+
+  useEffect(() => {
+    const data = watch();
+    console.log(data.mainText);
+  });
 
   return (
     <div className="flex h-screen w-full items-center justify-center dark:bg-dark-2">
@@ -243,7 +248,7 @@ export default function CreatePost() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Editor />
+                      <LexicalEditor name="mainText" updateField={setValue} />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>
