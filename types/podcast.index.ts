@@ -4,7 +4,7 @@ export interface QueryObject {
   show?: string | string[];
 }
 
-interface PodcastUserInfo extends Podcast {
+export interface PodcastUserInfo extends Podcast {
   user: {
     name: string;
     location: string | null;
