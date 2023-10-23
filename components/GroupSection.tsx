@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { ArrowIcon } from "./icons/outline-icons";
+import OutlineIcons from "./icons/outline-icons";
 import { sectionHeadings } from "@/constants";
 import { HeadingsType } from "@/types";
 import SectionGroup from "./SectionGroup";
@@ -31,7 +31,7 @@ const GroupSection = () => {
         className={`${expandedGroupIndex === null && "hidden"} cursor-pointer`}
         onClick={() => setExpandedGroupIndex(null)}
       >
-        <ArrowIcon.Left className="stroke-sc-2 dark:stroke-sc-3" />
+        <OutlineIcons.ArrowLeft className="stroke-sc-2 dark:stroke-sc-3" />
       </figure>
 
       {sectionHeadings.map((section: HeadingsType, index: number) => (

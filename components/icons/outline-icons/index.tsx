@@ -12,7 +12,6 @@ import FrameIcon from "./FrameIcon";
 import FrameNumber from "./FrameNumber";
 import HeartIcon from "./HeartIcon";
 import {
-  Comment,
   Edit,
   Follow,
   ImageIcon,
@@ -32,22 +31,6 @@ import SearchIcon from "./SearchIcon";
 import Share2Icon from "./Share2Icon";
 import SocialIcon from "./SocialIcon";
 import VoiceIcon from "./VoiceIcon";
-
-// Still working on this
-export { default as FrameIcon } from "./FrameIcon";
-export { default as DevIcon } from "./DevIcon";
-export { default as SearchIcon } from "./SearchIcon";
-export { default as IconAlt } from "./IconAlt";
-export { default as SocialIcon } from "./SocialIcon";
-export { default as BloggingIcon } from "./BloggingIcon";
-export { default as VoiceIcon } from "./VoiceIcon";
-export { default as HeartIcon } from "./HeartIcon";
-export { default as PopularIcon } from "./PopularIcon";
-export { default as FollowingIcon } from "./FollowingIcon";
-export { default as CheckboxIcon } from "./CheckboxIcon";
-export { default as NewIcon } from "./NewIcon";
-export { default as Share2Icon } from "./Share2Icon";
-export { default as CheckmarkIcon } from "./CheckmarkIcon";
 
 interface OutlineIconProps {
   children?: ReactNode;
