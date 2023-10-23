@@ -8,6 +8,7 @@ import CommentIcon from "./CommentIcon";
 import DevIcon from "./DevIcon";
 import FollowingIcon from "./FollowingIcon";
 import { Headline, Underline, Italic, Strikethrough, Bold } from "./FormatIcon";
+import FrameIcon from "./FrameIcon";
 
 // Still working on this
 import FrameNumber from "./FrameNumber";
@@ -168,6 +169,46 @@ OutlineIcon.Bold = function Icon({ className }: OutlineIconProps) {
     <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Bold />
     </OutlineIcon>
+  );
+};
+
+OutlineIcon.FrameCenter = function Icon({ className }: OutlineIconProps) {
+  return (
+    <FrameIcon
+      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
+      <FrameIcon.Center />
+    </FrameIcon>
+  );
+};
+
+OutlineIcon.FrameLeft = function Icon({ className }: OutlineIconProps) {
+  return (
+    <FrameIcon
+      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
+      <FrameIcon.Left />
+    </FrameIcon>
+  );
+};
+
+OutlineIcon.FrameRight = function Icon({ className }: OutlineIconProps) {
+  return (
+    <FrameIcon
+      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
+      <FrameIcon.Right />
+    </FrameIcon>
+  );
+};
+
+OutlineIcon.FramePoint = function Icon({ className }: OutlineIconProps) {
+  return (
+    <FrameIcon
+      className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
+      <FrameIcon.Point />
+    </FrameIcon>
   );
 };
 

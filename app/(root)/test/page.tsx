@@ -15,6 +15,7 @@ const page = () => {
       <OutlineIcon.Strikethrough />
       <OutlineIcon.Bold />
       <OutlineIcon.Checkmark />
+      <OutlineIcon.FrameCenter />
     </div>
   );
 };
