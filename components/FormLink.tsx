@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 type FormLinkButtonType = {
@@ -34,7 +35,10 @@ const FormLink = ({
           <Link
             href={button.link}
             key={button.title}
-            className={`semibold-14 flex-center w-full rounded py-2.5 ${buttonStyles[index]}`}
+            className={cn(
+              "semibold-14 flex-center w-full rounded py-2.5",
+              buttonStyles[index] // Add the conditionally applied class here
+            )}
           >
             {button.title}
           </Link>

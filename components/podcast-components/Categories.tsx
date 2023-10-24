@@ -4,6 +4,7 @@ import { Shows } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { IconAlt } from "../icons/outline-icons";
+import { cn } from "@/lib/utils";
 
 const Categories = ({ shows }: { shows: Shows[] }) => {
   const router = useRouter();
@@ -33,11 +34,11 @@ const Categories = ({ shows }: { shows: Shows[] }) => {
             {show.name}
           </label>
           <div
-            className={`mt-0.5 flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200 ${
-              selectFilters.includes(show.id)
-                ? "border-red bg-red"
-                : "border-sc-3"
-            }`}
+            className={cn(
+              "mt-0.5 flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200",
+              selectFilters.includes(show.id) && "border-red bg-red",
+              !selectFilters.includes(show.id) && "border-sc-3"
+            )}
             onClick={() => toggleCategory(show.id)}
           >
             <IconAlt.Success
