@@ -62,10 +62,6 @@ export default function CreatePost() {
   const { handleSubmit, setValue, watch } = form;
 
   const onSubmit = (values: FormValues) => {
-    console.log("onSubmit function called");
-    console.log("onSubmit called with values:", values);
-    console.log(values);
-
     form.reset();
   };
 
@@ -138,7 +134,7 @@ export default function CreatePost() {
                         >
                           <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
                             <Icon.Image />
-                            <p className="pl-[0.625rem] text-[0.625] dark:text-light-2 md:leading-[1.5rem]">
+                            <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
                               Set Cover
                             </p>
                           </div>
@@ -161,11 +157,11 @@ export default function CreatePost() {
                       }}
                     >
                       <FormControl>
-                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[0.625] dark:bg-dark-4 dark:text-light-2">
+                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] dark:bg-dark-4 dark:text-light-2">
                           <SelectValue
                             placeholder={
                               <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                                <p className="text-[0.625] dark:text-light-2 md:leading-[1.5rem]">
+                                <p className="text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
                                   Select Group
                                 </p>
                               </div>
@@ -173,7 +169,7 @@ export default function CreatePost() {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="z-50 cursor-pointer border-none text-[0.625] dark:bg-dark-3 dark:text-light-2 md:leading-[1.5rem]">
+                      <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
                         {GROUP.map((item) => (
                           <SelectItem key={item} value={item}>
                             {item}
@@ -201,7 +197,7 @@ export default function CreatePost() {
                           <SelectValue
                             placeholder={
                               <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                                <p className="leading-[1.5rem] text-[0.625] dark:text-light-2">
+                                <p className="text-[0.563rem] leading-[1.5rem] dark:text-light-2 sm:text-[0.625rem]">
                                   Create Post
                                 </p>
                               </div>
@@ -209,7 +205,7 @@ export default function CreatePost() {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="z-50 cursor-pointer border-none leading-[1.5rem] text-[0.625] dark:bg-dark-3 dark:text-light-2">
+                      <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] leading-[1.5rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem]">
                         {POST.map((item) => (
                           <SelectItem key={item} value={item}>
                             {item}
@@ -217,6 +213,7 @@ export default function CreatePost() {
                         ))}
                       </SelectContent>
                     </Select>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -239,7 +236,7 @@ export default function CreatePost() {
               />
             </div>
           </div>
-          <div className="md:pb-[1.25rem]">
+          <div className="pb-[1.25rem]">
             <FormField
               name="tagStringsInput"
               control={form.control}
@@ -266,12 +263,12 @@ export default function CreatePost() {
             <CustomButton
               type="submit"
               label="Publish"
-              className="rounded-md bg-blue text-blue-10 md:px-[2.5rem] md:py-[0.625rem] md:text-[1rem] md:leading-[1.5rem]"
+              className="rounded-md bg-blue px-[2.5rem] py-[0.625rem] text-[0.875rem] text-blue-10 md:text-[1rem] md:leading-[1.5rem]"
             />
             <CustomButton
               type="button"
               label="Cancel"
-              className="rounded-md bg-dark-3 text-sc-3 md:px-[2.5rem] md:py-[0.625rem] md:text-[1rem] md:leading-[1.5rem]"
+              className="rounded-md bg-dark-3 px-[2.5rem] py-[0.625rem] text-[0.875rem] text-sc-3 md:text-[1rem] md:leading-[1.5rem]"
             />
           </div>
         </form>
