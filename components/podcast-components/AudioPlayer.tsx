@@ -1,16 +1,7 @@
-import { Podcast } from "@prisma/client";
 import AudioPlayerImage from "./AudioPlayerImage";
 import PodcastEpisodeInfo from "./PodcastEpisodeInfo";
-import PodcastButton from "./PodcastButtons";
-
-interface IPodcast extends Podcast {
-  user: {
-    name: string;
-  };
-  show: {
-    name: string;
-  };
-}
+import PodcastPlayButton from "./PodcastPlayButton";
+import { IPodcast } from "@/types/podcast.index";
 
 const AudioPlayer = ({ podcast, url }: { podcast: IPodcast; url: string }) => {
   const {
@@ -28,7 +19,7 @@ const AudioPlayer = ({ podcast, url }: { podcast: IPodcast; url: string }) => {
           episodeNumber={episodeNumber}
           creatorName={creatorName}
         />
-        <PodcastButton url={url} />
+        <PodcastPlayButton url={url} />
       </div>
     </section>
   );

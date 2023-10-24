@@ -1,3 +1,5 @@
+import { HandlePlayProps } from "@/types/podcast.index";
+
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
   const day = date.getDate();
@@ -52,3 +54,20 @@ export function formatPodcastDuration(seconds: number) {
 
   return `${formattedMinutes}:${formattedSeconds}`;
 }
+
+export const handlePlay = ({
+  audioRef,
+  isPlaying,
+  setIsPlaying,
+}: HandlePlayProps) => {
+  const audioElement = audioRef.current;
+
+  if (audioElement) {
+    if (isPlaying) {
+      audioElement.pause();
+    } else {
+      audioElement.play();
+    }
+    setIsPlaying(!isPlaying);
+  }
+};

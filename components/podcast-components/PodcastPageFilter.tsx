@@ -4,11 +4,11 @@ import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-import PodcastCard from "./PodcastCard";
 import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
 import { ArrowIcon } from "../icons/outline-icons";
 import { extractShowArray } from "@/utils";
 import { PodcastPageFilterProps } from "@/types/podcast.index";
+import PodcastListColumn from "./PodcastListColumn";
 
 const PodcastPageFilter = ({
   listedPodcasts,
@@ -77,15 +77,7 @@ const PodcastPageFilter = ({
       <section className="no-scrollbar flex w-full flex-col pb-10 md:h-screen md:overflow-scroll">
         <div className="flex flex-col gap-5 xl:flex-row">
           {displayedPodcasts.map((podcasts) => (
-            <div
-              className="flex h-fit flex-col gap-5 xl:w-full"
-              key={podcasts.listNumber}
-            >
-              {podcasts.list &&
-                podcasts.list.map((podcast) => (
-                  <PodcastCard key={podcast.id} info={podcast} />
-                ))}
-            </div>
+            <PodcastListColumn key={podcasts.listNumber} podcasts={podcasts} />
           ))}
         </div>
 

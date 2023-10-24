@@ -8,9 +8,9 @@ import { Progress } from "../ui/progress";
 import FillIcon from "../icons/fill-icons";
 import PauseIcon from "../icons/outline-icons/PauseIcon";
 import CustomButton from "../CustomButton";
-import { formatPodcastDuration } from "@/utils";
+import { formatPodcastDuration, handlePlay } from "@/utils";
 
-const PodcastButtons = ({ url }: { url: string }) => {
+const PodcastPlayButton = ({ url }: { url: string }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioDuration, setAudioDuration] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<string>("00:00");
@@ -49,22 +49,13 @@ const PodcastButtons = ({ url }: { url: string }) => {
     }
   }, []);
 
-  const handleButtonClick = () => {
-    const audioElement = audioRef.current;
-
-    if (audioElement) {
-      if (isPlaying) {
-        audioElement.pause();
-      } else {
-        audioElement.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
+  const handleClick = () => {
+    handlePlay({ audioRef, isPlaying, setIsPlaying });
   };
 
   const icon = isPlaying ? PauseIcon : FillIcon.Play;
   return (
-    <>
+    <div className="flex flex-col">
       <div className="mb-2.5 flex w-full items-center gap-5 md:mb-4">
         <Progress
           value={currentPlaybackPercentage}
@@ -83,7 +74,7 @@ const PodcastButtons = ({ url }: { url: string }) => {
           label={isPlaying ? "Pause" : "Play"}
           icon={icon}
           className="semibold-14 md:regular-16 items-end rounded-[1.25rem] bg-blue px-4 py-2 text-light"
-          onClick={handleButtonClick}
+          onClick={handleClick}
         />
         <Button
           size="icon"
@@ -92,8 +83,8 @@ const PodcastButtons = ({ url }: { url: string }) => {
           <Share2Icon />
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
-export default PodcastButtons;
+export default PodcastPlayButton;

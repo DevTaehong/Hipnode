@@ -29,3 +29,20 @@ export type PodcastWithUserInfo = {
   details: string;
   user: UserInfo;
 };
+
+export interface IPodcast extends Podcast {
+  user: {
+    name: string;
+  };
+  show: {
+    name: string;
+  };
+}
+
+export interface HandlePlayProps {
+  audioRef: {
+    current: HTMLAudioElement | null;
+  };
+  isPlaying: boolean;
+  setIsPlaying: (newIsPlaying: boolean) => void;
+}
