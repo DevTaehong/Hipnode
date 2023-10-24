@@ -4,7 +4,7 @@ import {
   createShows,
   createPodcastsForShows,
 } from "./seed/seed-podcasts/index";
-import { createGroups, createMemberships } from "./seed/seed-groups/index";
+import { createGroups } from "./seed/seed-groups/index";
 import { createMeetUps } from "./seed/seed-meetup/index";
 
 import prisma from "../lib/prisma";

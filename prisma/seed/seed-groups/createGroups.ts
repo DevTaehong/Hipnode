@@ -1,22 +1,34 @@
 import { faker } from "@faker-js/faker";
 
 import prisma from "../../../lib/prisma";
+import { User } from "@prisma/client";
 
-export async function createGroups() {
-  const groupCount = 10;
-  const groupPromises = Array.from({ length: groupCount }).map(
-    async (_, index) => {
-      const group = await prisma.group.create({
-        data: {
-          groupName: faker.lorem.words(2),
-          details: faker.lorem.sentence(),
-          createdAt: faker.date.past(),
-          updatedAt: faker.date.recent(),
+export async function createGroups(users: User[]) {
+  const groupCount = 15;
+
+  const adminsToConnect = [users[0], users[1], users[2]];
+  const membersToConnect = [...adminsToConnect, users[3], users[4], users[5]];
+
+  const groupPromises = users.slice(0, groupCount).map(async (user) => {
+    const group = await prisma.group.create({
+      data: {
+        name: faker.lorem.words(2),
+        description: faker.lorem.sentence(),
+        createdAt: faker.date.past(),
+        updatedAt: faker.date.recent(),
+        createdBy: user.id,
+        coverImage: faker.image.urlLoremFlickr({ category: "nature" }),
+        logo: faker.image.urlLoremFlickr({ category: "business" }),
+        admins: {
+          connect: adminsToConnect,
         },
-      });
-      return group;
-    }
-  );
+        members: {
+          connect: membersToConnect,
+        },
+      },
+    });
+    return group;
+  });
   const groups = await Promise.all(groupPromises);
   return groups;
 }
