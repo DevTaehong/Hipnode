@@ -109,7 +109,7 @@ function CustomOnChangePlugin({
 
 const Placeholder = () => {
   return (
-    <div className="absolute left-[1.7rem] top-[1.45rem] text-[1rem] text-sc-3">
+    <div className="absolute bottom-[18rem] left-[1.7rem] text-[1rem]  text-sc-3">
       Tell your story...
     </div>
   );
@@ -119,8 +119,8 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
   const [editor] = useLexicalComposerContext();
 
   return (
-    <main className="relative flex">
-      <div className="absolute left-[19.4rem] top-[-2.89rem] flex justify-start">
+    <main className="flex flex-col">
+      <div className="w-full">
         <LexicalMenu editor={editor} />
       </div>
 

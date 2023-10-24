@@ -80,7 +80,7 @@ export default function CreatePost() {
         <form
           action=""
           onSubmit={handleSubmit(onSubmit)}
-          className="w-[55rem] rounded-md p-[1.25rem] dark:bg-dark-3"
+          className="rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
             <FormField
@@ -138,7 +138,7 @@ export default function CreatePost() {
                         >
                           <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
                             <Icon.Image />
-                            <p className="pl-[0.625rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                            <p className="pl-[0.625rem] text-[0.625] dark:text-light-2 md:leading-[1.5rem]">
                               Set Cover
                             </p>
                           </div>
@@ -161,11 +161,11 @@ export default function CreatePost() {
                       }}
                     >
                       <FormControl>
-                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3  text-[1rem] dark:bg-dark-4 dark:text-light-2">
+                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[0.625] dark:bg-dark-4 dark:text-light-2">
                           <SelectValue
                             placeholder={
-                              <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
-                                <p className=" dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                              <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
+                                <p className="text-[0.625] dark:text-light-2 md:leading-[1.5rem]">
                                   Select Group
                                 </p>
                               </div>
@@ -173,7 +173,7 @@ export default function CreatePost() {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="z-50 cursor-pointer p-3 pl-2 dark:bg-dark-2 dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                      <SelectContent className="z-50 cursor-pointer border-none text-[0.625] dark:bg-dark-3 dark:text-light-2 md:leading-[1.5rem]">
                         {GROUP.map((item) => (
                           <SelectItem key={item} value={item}>
                             {item}
@@ -197,11 +197,11 @@ export default function CreatePost() {
                       }}
                     >
                       <FormControl>
-                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3  text-[1rem] dark:bg-dark-4 dark:text-light-2">
+                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3 text-[1rem] dark:bg-dark-4 dark:text-light-2">
                           <SelectValue
                             placeholder={
-                              <div className="flex w-fit  flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
-                                <p className=" dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                              <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
+                                <p className="leading-[1.5rem] text-[0.625] dark:text-light-2">
                                   Create Post
                                 </p>
                               </div>
@@ -209,7 +209,7 @@ export default function CreatePost() {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="z-50 cursor-pointer p-3 pl-2 dark:bg-dark-2 dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                      <SelectContent className="z-50 cursor-pointer border-none leading-[1.5rem] text-[0.625] dark:bg-dark-3 dark:text-light-2">
                         {POST.map((item) => (
                           <SelectItem key={item} value={item}>
                             {item}
@@ -224,23 +224,6 @@ export default function CreatePost() {
             </div>
           </div>
           <div className="relative flex flex-col py-[1.25rem]">
-            <div className="flex flex-row justify-start rounded-t-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4">
-              <div className="flex w-full flex-row ">
-                <div className="flex items-center text-blue-80 ">
-                  <Icon.Edit className="fill-blue-80 " />
-                  <p className="md:pl-[0.625rem] md:pr-[1.875rem]"> Write</p>
-                </div>
-                <p className="flex items-center dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
-                  <div className="flex items-center">
-                    <Icon.View />
-                    <p className="md:pl-[0.625rem] md:pr-[1.875rem]">Preview</p>
-                  </div>
-                </p>
-                {/* <p className="w-fit dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
-                  Code of Conduct
-                </p> */}
-              </div>
-            </div>
             <div className="min-h-[22rem]">
               <FormField
                 name="mainText"
@@ -270,7 +253,7 @@ export default function CreatePost() {
                     <Input
                       placeholder="Add a tag..."
                       type="text"
-                      className="px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-2"
+                      className="bg-light-2 px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-4 dark:text-light-2"
                       {...field}
                     />
                   </FormControl>

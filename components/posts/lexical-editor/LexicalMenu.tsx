@@ -19,6 +19,7 @@ import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
 } from "@lexical/list";
+import { Icon } from "@/components/icons/outline-icons";
 const LowPriority = 1;
 
 type LexicalMenuState = {
@@ -93,122 +94,140 @@ export function LexicalMenu(props: LexicalMenuProps) {
   }, [editor]);
 
   return (
-    <div className="flex w-fit items-end justify-end gap-[0.3rem] rounded-md  bg-light-2  dark:bg-dark-4">
-      <IconButton
-        icon="unorderedList"
-        aria-label="Insert Unordered List"
-        onClick={(e) => {
-          editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-        }}
-      />
+    <div className="flex w-full flex-wrap justify-between gap-2  rounded-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4">
+      <div className="flex justify-between gap-[1.25rem] md:gap-[1.875rem]">
+        <div className="flex items-center gap-[0.625rem] text-blue-80">
+          <Icon.Edit className="fill-blue-80" />
+          <p className=" text-[0.875rem]">Write</p>
+        </div>
+        <p className="flex items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+          <div className="flex items-center gap-[0.625rem]">
+            <Icon.View />
+            <p>Preview</p>
+          </div>
+        </p>
+      </div>
+      <div className="flex-wrap">
+        <IconButton
+          icon="unorderedList"
+          aria-label="Insert Unordered List"
+          onClick={(e) => {
+            editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+          }}
+        />
 
-      <IconButton
-        icon="orderedList"
-        aria-label="Insert Unordered List"
-        onClick={(e) => {
-          editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-        }}
-      />
-      <IconButton
-        icon="bold"
-        aria-label="Format text as bold"
-        active={state.isBold}
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-        }}
-      />
+        <IconButton
+          icon="orderedList"
+          aria-label="Insert Unordered List"
+          onClick={(e) => {
+            editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+          }}
+        />
+        <IconButton
+          icon="bold"
+          aria-label="Format text as bold"
+          active={state.isBold}
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
+          }}
+        />
 
-      <IconButton
-        icon="italic"
-        aria-label="Format text as italics"
-        active={state.isItalic}
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
-        }}
-      />
+        <IconButton
+          icon="italic"
+          aria-label="Format text as italics"
+          active={state.isItalic}
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+          }}
+        />
 
-      <IconButton
-        icon="underline"
-        aria-label="Format text to underlined"
-        active={state.isUnderline}
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
-        }}
-      />
+        <IconButton
+          icon="underline"
+          aria-label="Format text to underlined"
+          active={state.isUnderline}
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+          }}
+        />
 
-      <IconButton
-        icon="strike"
-        aria-label="Format text with a strikethrough"
-        active={state.isStrikethrough}
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-        }}
-      />
+        <IconButton
+          icon="strike"
+          aria-label="Format text with a strikethrough"
+          active={state.isStrikethrough}
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+          }}
+        />
 
-      <IconButton
-        icon="code"
-        aria-label="Format text with inline code"
-        active={state.isCode}
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
-        }}
-      />
-      <IconButton
-        icon="alignLeft"
-        aria-label="Left Align"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-        }}
-      />
+        <IconButton
+          icon="code"
+          aria-label="Format text with inline code"
+          active={state.isCode}
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+          }}
+        />
+        <IconButton
+          icon="alignLeft"
+          aria-label="Left Align"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+          }}
+        />
 
-      <IconButton
-        icon="alignCenter"
-        aria-label="Center Align"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-        }}
-      />
+        <IconButton
+          icon="alignCenter"
+          aria-label="Center Align"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+          }}
+        />
 
-      <IconButton
-        icon="alignRight"
-        aria-label="Right Align"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-        }}
-      />
+        <IconButton
+          icon="alignRight"
+          aria-label="Right Align"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+          }}
+        />
 
-      <IconButton
-        icon="alignJustify"
-        aria-label="Justify Align"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-        }}
-      />
-      <IconButton
-        icon="clockwiseArrow"
-        aria-label="Redo"
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-      />
-      <IconButton
-        icon="trash"
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
-        }}
-      ></IconButton>
-      <IconButton
-        icon="antiClockwiseArrow"
-        aria-label="Undo"
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-      />
+        <IconButton
+          icon="alignJustify"
+          aria-label="Justify Align"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+          }}
+        />
+        <IconButton
+          icon="clockwiseArrow"
+          aria-label="Redo"
+          disabled={!canUndo}
+          onClick={() => {
+            editor.dispatchCommand(REDO_COMMAND, undefined);
+          }}
+        />
+        <IconButton
+          icon="trash"
+          disabled={!canUndo}
+          onClick={() => {
+            editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+          }}
+        ></IconButton>
+        <IconButton
+          icon="antiClockwiseArrow"
+          aria-label="Undo"
+          disabled={!canUndo}
+          onClick={() => {
+            editor.dispatchCommand(UNDO_COMMAND, undefined);
+          }}
+        />
+      </div>
     </div>
   );
 }
 
 export default LexicalMenu;
+
+//  {/* <p className="flex items-center dark:text-light-2 md:text-[1rem]  md:leading-[1.5rem]">
+//           Code of Conduct
+//         </p> */}
