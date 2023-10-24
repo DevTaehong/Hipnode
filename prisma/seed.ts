@@ -4,7 +4,7 @@ import {
   createShows,
   createPodcastsForShows,
 } from "./seed/seed-podcasts/index";
-import { createGroups, createMemberships } from "./seed/seed-groups/index";
+import { createGroups } from "./seed/seed-groups/index";
 import { createMeetUps } from "./seed/seed-meetup/index";
 
 import prisma from "../lib/prisma";
@@ -21,8 +21,7 @@ async function main() {
     await createPodcastsForShows(show);
   }
 
-  const groups = await createGroups();
-  await createMemberships(users, groups);
+  await createGroups(users);
 
   await createMeetUps(users);
 }
