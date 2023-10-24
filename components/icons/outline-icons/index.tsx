@@ -11,7 +11,18 @@ import { Headline, Underline, Italic, Strikethrough, Bold } from "./FormatIcon";
 import FrameIcon from "./FrameIcon";
 import FrameNumber from "./FrameNumber";
 import HeartIcon from "./HeartIcon";
-import { Edit, Follow, ImageIcon, Info, Link, NewSquare, Tutorial, Seo, Share, View } from "./Icon";
+import {
+  Edit,
+  Follow,
+  ImageIcon,
+  Info,
+  Link,
+  NewSquare,
+  Tutorial,
+  Seo,
+  Share,
+  View,
+} from "./Icon";
 import IconAlt from "./IconAlt";
 import NewIcon from "./NewIcon";
 import PopularIcon from "./PopularIcon";
@@ -32,7 +43,7 @@ interface OutlineIconProps {
 }
 
 const OutlineIcon = ({ children, className }: OutlineIconProps) => {
-  const styles = className || "fill-[#C5D0E6] dark:fill-[#F4F6F8]";
+  const styles = className ?? "fill-[#C5D0E6] dark:fill-[#F4F6F8]";
 
   return (
     <svg
@@ -49,7 +60,9 @@ const OutlineIcon = ({ children, className }: OutlineIconProps) => {
 
 OutlineIcon.ArrowLeft = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
+    <OutlineIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
       <ArrowLeft />
     </OutlineIcon>
   );
@@ -57,7 +70,9 @@ OutlineIcon.ArrowLeft = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.ArrowRight = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
+    <OutlineIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
       <ArrowRight />
     </OutlineIcon>
   );
@@ -65,7 +80,7 @@ OutlineIcon.ArrowRight = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.ArrowLargeDown = function Icon({ className }: OutlineIconProps) {
   return (
-    <ArrowLarge className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
+    <ArrowLarge className={className ?? "stroke-[#3F4354] dark:stroke-sc-3"}>
       <ArrowLarge.Down />
     </ArrowLarge>
   );
@@ -73,7 +88,7 @@ OutlineIcon.ArrowLargeDown = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.ArrowLargeRight = function Icon({ className }: OutlineIconProps) {
   return (
-    <ArrowLarge className={className || "stroke-[#3F4354] dark:stroke-sc-3"}>
+    <ArrowLarge className={className ?? "stroke-[#3F4354] dark:stroke-sc-3"}>
       <ArrowLarge.Right />
     </ArrowLarge>
   );
@@ -81,7 +96,7 @@ OutlineIcon.ArrowLargeRight = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Blogging = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <BloggingIcon />
     </OutlineIcon>
   );
@@ -93,27 +108,33 @@ OutlineIcon.Checkbox = function Icon({ checked }: OutlineIconProps) {
 
 OutlineIcon.Checkmark = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#347AE2]"}>
+    <OutlineIcon className={className ?? "fill-[#347AE2]"}>
       <CheckmarkIcon />
     </OutlineIcon>
   );
 };
 
 OutlineIcon.Comment = function Icon({ className }: OutlineIconProps) {
-  return <CommentIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"} />;
+  return (
+    <CommentIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
+  );
 };
 
 OutlineIcon.Dev = function Icon({ className }: OutlineIconProps) {
-  return <DevIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"} />;
+  return (
+    <DevIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
+  );
 };
 
 OutlineIcon.Following = function Icon({ color }: OutlineIconProps) {
-  return <FollowingIcon color={color || "#6570F7"} />;
+  return <FollowingIcon color={color ?? "#6570F7"} />;
 };
 
 OutlineIcon.Headline = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Headline />
     </OutlineIcon>
   );
@@ -121,7 +142,7 @@ OutlineIcon.Headline = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Underline = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Underline />
     </OutlineIcon>
   );
@@ -129,7 +150,7 @@ OutlineIcon.Underline = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Italic = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Italic />
     </OutlineIcon>
   );
@@ -137,7 +158,7 @@ OutlineIcon.Italic = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Strikethrough = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Strikethrough />
     </OutlineIcon>
   );
@@ -145,7 +166,7 @@ OutlineIcon.Strikethrough = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Bold = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Bold />
     </OutlineIcon>
   );
@@ -153,7 +174,9 @@ OutlineIcon.Bold = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.FrameCenter = function Icon({ className }: OutlineIconProps) {
   return (
-    <FrameIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
+    <FrameIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
       <FrameIcon.Center />
     </FrameIcon>
   );
@@ -161,7 +184,9 @@ OutlineIcon.FrameCenter = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.FrameLeft = function Icon({ className }: OutlineIconProps) {
   return (
-    <FrameIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
+    <FrameIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
       <FrameIcon.Left />
     </FrameIcon>
   );
@@ -169,7 +194,9 @@ OutlineIcon.FrameLeft = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.FrameRight = function Icon({ className }: OutlineIconProps) {
   return (
-    <FrameIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
+    <FrameIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
       <FrameIcon.Right />
     </FrameIcon>
   );
@@ -177,28 +204,37 @@ OutlineIcon.FrameRight = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.FramePoint = function Icon({ className }: OutlineIconProps) {
   return (
-    <FrameIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}>
+    <FrameIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
       <FrameIcon.Point />
     </FrameIcon>
   );
 };
 
-OutlineIcon.FrameNumber = function Icon({ fillColor, strokeColor }: OutlineIconProps) {
+OutlineIcon.FrameNumber = function Icon({
+  fillColor,
+  strokeColor,
+}: OutlineIconProps) {
   return (
     <FrameNumber
-      fillColor={fillColor || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
-      strokeColor={strokeColor || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+      fillColor={fillColor ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+      strokeColor={strokeColor ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
     />
   );
 };
 
 OutlineIcon.Heart = function Icon({ className }: OutlineIconProps) {
-  return <HeartIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7] dark:invert"} />;
+  return (
+    <HeartIcon
+      className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7] dark:invert"}
+    />
+  );
 };
 
 OutlineIcon.Edit = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Edit />
     </OutlineIcon>
   );
@@ -206,19 +242,23 @@ OutlineIcon.Edit = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Follow = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Follow />
     </OutlineIcon>
   );
 };
 
 OutlineIcon.ImageIcon = function Icon({ className }: OutlineIconProps) {
-  return <ImageIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"} />;
+  return (
+    <ImageIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
+  );
 };
 
 OutlineIcon.Info = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Info />
     </OutlineIcon>
   );
@@ -226,7 +266,7 @@ OutlineIcon.Info = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Link = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Link />
     </OutlineIcon>
   );
@@ -234,7 +274,7 @@ OutlineIcon.Link = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.NewSquare = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#0ECC8D]"}>
+    <OutlineIcon className={className ?? "fill-[#0ECC8D]"}>
       <NewSquare />
     </OutlineIcon>
   );
@@ -242,7 +282,7 @@ OutlineIcon.NewSquare = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Tutorial = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Tutorial />
     </OutlineIcon>
   );
@@ -250,7 +290,7 @@ OutlineIcon.Tutorial = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Seo = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Seo />
     </OutlineIcon>
   );
@@ -258,7 +298,7 @@ OutlineIcon.Seo = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Share = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Share />
     </OutlineIcon>
   );
@@ -266,7 +306,7 @@ OutlineIcon.Share = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.View = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <View />
     </OutlineIcon>
   );
@@ -274,7 +314,7 @@ OutlineIcon.View = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Bitcoin = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Bitcoin />
     </IconAlt>
   );
@@ -282,7 +322,7 @@ OutlineIcon.Bitcoin = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Close = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Close />
     </IconAlt>
   );
@@ -290,7 +330,7 @@ OutlineIcon.Close = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Design = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Design />
     </IconAlt>
   );
@@ -298,7 +338,7 @@ OutlineIcon.Design = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Expand = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Expand />
     </IconAlt>
   );
@@ -306,7 +346,7 @@ OutlineIcon.Expand = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Mention = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Mention />
     </IconAlt>
   );
@@ -314,7 +354,7 @@ OutlineIcon.Mention = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.More = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.More />
     </IconAlt>
   );
@@ -322,7 +362,7 @@ OutlineIcon.More = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Post = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Post />
     </IconAlt>
   );
@@ -330,7 +370,7 @@ OutlineIcon.Post = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Success = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Success />
     </IconAlt>
   );
@@ -338,7 +378,7 @@ OutlineIcon.Success = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Upload = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Upload />
     </IconAlt>
   );
@@ -346,7 +386,7 @@ OutlineIcon.Upload = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Web = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.Web />
     </IconAlt>
   );
@@ -354,7 +394,7 @@ OutlineIcon.Web = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.ImageWide = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <IconAlt.ImageWide />
     </IconAlt>
   );
@@ -364,8 +404,8 @@ OutlineIcon.New = function Icon({ color, secondaryColor }: OutlineIconProps) {
   return (
     <OutlineIcon>
       <NewIcon
-        color={color || "fill-[#0ECC8D]"}
-        secondaryColor={secondaryColor || "fill-light-2"}
+        color={color ?? "fill-[#0ECC8D]"}
+        secondaryColor={secondaryColor ?? "fill-light-2"}
       />
       ;
     </OutlineIcon>
@@ -373,24 +413,28 @@ OutlineIcon.New = function Icon({ color, secondaryColor }: OutlineIconProps) {
 };
 
 OutlineIcon.Popular = function Icon({ className }: OutlineIconProps) {
-  return <PopularIcon className={className || "fill-[#EEA956]"} />;
+  return <PopularIcon className={className ?? "fill-[#EEA956]"} />;
 };
 
 OutlineIcon.Post = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#97989D]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#97989D]"}>
       <PostIcon />
     </OutlineIcon>
   );
 };
 
 OutlineIcon.Search = function Icon({ className }: OutlineIconProps) {
-  return <SearchIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"} />;
+  return (
+    <SearchIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
+  );
 };
 
 OutlineIcon.Share2 = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <Share2Icon />
     </OutlineIcon>
   );
@@ -399,14 +443,16 @@ OutlineIcon.Share2 = function Icon({ className }: OutlineIconProps) {
 OutlineIcon.Twitter = function Icon({ className }: OutlineIconProps) {
   return (
     <SocialIcon>
-      <SocialIcon.Twitter className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
+      <SocialIcon.Twitter
+        className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+      />
     </SocialIcon>
   );
 };
 
 OutlineIcon.Instagram = function Icon({ className }: OutlineIconProps) {
   return (
-    <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <SocialIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <SocialIcon.Instagram />
     </SocialIcon>
   );
@@ -414,7 +460,7 @@ OutlineIcon.Instagram = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Facebook = function Icon({ className }: OutlineIconProps) {
   return (
-    <SocialIcon className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <SocialIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
       <SocialIcon.Facebook />
     </SocialIcon>
   );
@@ -423,13 +469,19 @@ OutlineIcon.Facebook = function Icon({ className }: OutlineIconProps) {
 OutlineIcon.LinkedIn = function Icon({ className }: OutlineIconProps) {
   return (
     <SocialIcon>
-      <SocialIcon.LinkedIn className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
+      <SocialIcon.LinkedIn
+        className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+      />
     </SocialIcon>
   );
 };
 
 OutlineIcon.Voice = function Icon({ className }: OutlineIconProps) {
-  return <VoiceIcon className={className || "stroke-[#3F4354] dark:stroke-[#F7F7F7]"} />;
+  return (
+    <VoiceIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    />
+  );
 };
 
 export default OutlineIcon;

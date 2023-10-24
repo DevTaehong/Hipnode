@@ -7,7 +7,7 @@ const IconAlt = ({ children, className }: SocialIconProps) => (
     height="20"
     viewBox="0 0 21 20"
     fill="none"
-    className={className || "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+    className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}
   >
     {children}
   </svg>
