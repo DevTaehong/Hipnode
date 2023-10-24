@@ -41,10 +41,12 @@ const Categories = ({ shows }: { shows: Shows[] }) => {
             onClick={() => toggleCategory(show.id)}
           >
             <IconAlt.Success
-              wrapperStyles={`h-3 w-3 ${
+              wrapperStyles={`p-0.5 ${
                 !selectFilters.includes(show.id) && "hidden"
               }`}
-              className="fill-white"
+              className={`${
+                !selectFilters.includes(show.id) ? "fill-none" : "fill-white"
+              }`}
             />
           </div>
         </div>
