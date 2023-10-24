@@ -17,7 +17,9 @@ type IconType =
   | "alignRight"
   | "alignJustify"
   | "clockwiseArrow"
-  | "antiClockwiseArrow";
+  | "antiClockwiseArrow"
+  | "unorderedList"
+  | "orderedList";
 
 type IconButtonProps = {
   active?: boolean;
@@ -31,13 +33,14 @@ export function IconButton({
   ...props
 }: IconButtonProps) {
   if (!icon) return null;
-  console.log(active, icon);
   return (
     <button
       type="button"
       {...props}
       className={cn(
-        `py-[1px] px-1 rounded-sm ${active ? "text-slate-900" : ""} ${
+        `p-1.5 rounded-sm dark:bg-dark-4 dark:text-light-2 ${
+          active ? "dark:bg-dark-2 dark:text-light-3" : ""
+        } ${
           props.disabled
             ? `bg-slate-50 text-slate-400`
             : active
@@ -55,15 +58,15 @@ export function IconButton({
 const IconLibrary = {
   bold: (
     <svg
-      viewBox="0 0 100 100"
-      focusable="false"
-      role="img"
-      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
       <title>Bold</title>
-      <path d="M62.73 49.109c5.347-1.103 9.76-5.94 9.76-12.985 0-7.553-5.517-14.428-16.295-14.428H29.011a2.604 2.604 0 0 0-2.604 2.604v51.399a2.604 2.604 0 0 0 2.604 2.604h28.118c10.863 0 16.464-6.79 16.464-15.361.001-7.043-4.752-12.9-10.863-13.833zM38.458 32.305h15.107c4.074 0 6.62 2.461 6.62 5.94 0 3.649-2.546 5.941-6.62 5.941H38.458V32.305zm15.615 35.39H38.458v-12.9h15.616c4.668 0 7.214 2.886 7.214 6.45 0 4.074-2.716 6.45-7.215 6.45z"></path>
+      <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z" />
     </svg>
   ),
   check: (
@@ -85,12 +88,12 @@ const IconLibrary = {
   ),
   code: (
     <svg
-      viewBox="0 0 16 16"
-      focusable="false"
-      role="img"
-      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
       <title>Inline Code</title>
       <path d="M5.854 4.854a.5.5 0 1 0-.708-.708l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L2.707 8l3.147-3.146zm4.292 0a.5.5 0 0 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L13.293 8l-3.147-3.146z"></path>
@@ -98,12 +101,12 @@ const IconLibrary = {
   ),
   copy: (
     <svg
-      viewBox="0 0 24 24"
-      focusable="false"
-      role="img"
-      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
       <title>Copy</title>
       <path d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z"></path>
@@ -124,12 +127,12 @@ const IconLibrary = {
   ),
   link: (
     <svg
-      viewBox="0 0 24 24"
-      focusable="false"
-      role="img"
-      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-[18px] w-[18px]"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
       <title>Link</title>
       <path d="m17.657 14.828-1.414-1.414L17.657 12A4 4 0 1 0 12 6.343l-1.414 1.414-1.414-1.414 1.414-1.414a6 6 0 0 1 8.485 8.485l-1.414 1.414zm-2.829 2.829-1.414 1.414a6 6 0 1 1-8.485-8.485l1.414-1.414 1.414 1.414L6.343 12A4 4 0 1 0 12 17.657l1.414-1.414 1.414 1.414zm0-9.9 1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z"></path>
@@ -183,11 +186,13 @@ const IconLibrary = {
   alignLeft: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
       fill="currentColor"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
-      <title>AlignLeft</title>
+      <title>Align Left</title>
       <path
         fillRule="evenodd"
         d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
@@ -200,10 +205,10 @@ const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
-      <title>AlignCenter</title>
+      <title>Align Center</title>
       <path
         fillRule="evenodd"
         d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
@@ -216,10 +221,10 @@ const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
-      <title>AlignRight</title>
+      <title>Align Right</title>
       <path
         fillRule="evenodd"
         d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
@@ -232,10 +237,10 @@ const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
-      <title>AlignJustfy</title>
+      <title>Align Justify</title>
       <path
         fillRule="evenodd"
         d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
@@ -248,10 +253,10 @@ const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
-      <title>ClockwiseArrow</title>
+      <title>Redo</title>
       <path
         fillRule="evenodd"
         d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
@@ -265,15 +270,48 @@ const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
     >
-      <title>AntiClockwiseArrow</title>
+      <title>Undo</title>
       <path
         fillRule="evenodd"
         d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"
       />
       <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
+    </svg>
+  ),
+  unorderedList: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
+    >
+      <title>Unordered List</title>
+      <path
+        fillRule="evenodd"
+        d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+      />
+    </svg>
+  ),
+  orderedList: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="h-5 w-5 text-center"
+      viewBox="0 0 16 16"
+    >
+      <title>Ordered List</title>
+      <path
+        fillRule="evenodd"
+        d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z"
+      />
+      <path d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338v.041zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635V5z" />
     </svg>
   ),
 };

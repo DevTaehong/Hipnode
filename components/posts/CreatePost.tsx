@@ -75,7 +75,7 @@ export default function CreatePost() {
   });
 
   return (
-    <div className="flex h-screen w-full items-center justify-center dark:bg-dark-2">
+    <div className="flex w-fit items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
           action=""
@@ -92,7 +92,7 @@ export default function CreatePost() {
                     <Input
                       placeholder="Title..."
                       type="text"
-                      className="w-full dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem]"
+                      className="w-full bg-light-2 dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem]"
                       {...field}
                     />
                   </FormControl>
@@ -223,11 +223,11 @@ export default function CreatePost() {
               />
             </div>
           </div>
-          <div className="relative flex flex-col pb-[1.25rem] pt-[2.5rem]">
-            <div className="absolute left-[1.25rem] top-2 flex w-fit flex-row justify-start rounded-t-md dark:bg-dark-4">
-              <div className="flex flex-row">
-                <div className="flex items-center dark:text-blue-80">
-                  <Icon.Edit className="dark:fill-blue-80 " />
+          <div className="relative flex flex-col py-[1.25rem]">
+            <div className="flex flex-row justify-start rounded-t-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4">
+              <div className="flex w-full flex-row ">
+                <div className="flex items-center text-blue-80 ">
+                  <Icon.Edit className="fill-blue-80 " />
                   <p className="md:pl-[0.625rem] md:pr-[1.875rem]"> Write</p>
                 </div>
                 <p className="flex items-center dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
@@ -236,9 +236,9 @@ export default function CreatePost() {
                     <p className="md:pl-[0.625rem] md:pr-[1.875rem]">Preview</p>
                   </div>
                 </p>
-                <p className="w-fit dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+                {/* <p className="w-fit dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
                   Code of Conduct
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="min-h-[22rem]">
@@ -270,7 +270,7 @@ export default function CreatePost() {
                     <Input
                       placeholder="Add a tag..."
                       type="text"
-                      className="px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-2 dark:text-light-2"
+                      className="px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-2"
                       {...field}
                     />
                   </FormControl>

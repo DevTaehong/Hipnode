@@ -7,6 +7,7 @@ import {
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
+  CLEAR_EDITOR_COMMAND,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   REDO_COMMAND,
@@ -14,6 +15,10 @@ import {
 } from "lexical";
 
 import { IconButton } from "./IconButton";
+import {
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+} from "@lexical/list";
 const LowPriority = 1;
 
 type LexicalMenuState = {
@@ -46,7 +51,6 @@ export function LexicalMenu(props: LexicalMenuProps) {
       ({ editorState }) => {
         editorState.read(() => {
           const selection = $getSelection();
-          console.log(editorState);
           if (!$isRangeSelection(selection)) return;
 
           setState({
@@ -89,13 +93,27 @@ export function LexicalMenu(props: LexicalMenuProps) {
   }, [editor]);
 
   return (
-    <div className="flex items-center justify-between gap-1 rounded-md border-[1px] border-slate-300 bg-slate-100 p-1">
+    <div className="flex w-fit items-end justify-end gap-[0.3rem] rounded-md  bg-light-2  dark:bg-dark-4">
+      <IconButton
+        icon="unorderedList"
+        aria-label="Insert Unordered List"
+        onClick={(e) => {
+          editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+        }}
+      />
+
+      <IconButton
+        icon="orderedList"
+        aria-label="Insert Unordered List"
+        onClick={(e) => {
+          editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+        }}
+      />
       <IconButton
         icon="bold"
         aria-label="Format text as bold"
         active={state.isBold}
         onClick={() => {
-          console.log(FORMAT_TEXT_COMMAND, "bold");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
         }}
       />
@@ -105,7 +123,6 @@ export function LexicalMenu(props: LexicalMenuProps) {
         aria-label="Format text as italics"
         active={state.isItalic}
         onClick={() => {
-          console.log(FORMAT_TEXT_COMMAND, "italic");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
         }}
       />
@@ -115,7 +132,6 @@ export function LexicalMenu(props: LexicalMenuProps) {
         aria-label="Format text to underlined"
         active={state.isUnderline}
         onClick={() => {
-          console.log(FORMAT_TEXT_COMMAND, "underline");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
         }}
       />
@@ -125,7 +141,6 @@ export function LexicalMenu(props: LexicalMenuProps) {
         aria-label="Format text with a strikethrough"
         active={state.isStrikethrough}
         onClick={() => {
-          console.log(FORMAT_TEXT_COMMAND, "strikethrough");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
       />
@@ -135,7 +150,6 @@ export function LexicalMenu(props: LexicalMenuProps) {
         aria-label="Format text with inline code"
         active={state.isCode}
         onClick={() => {
-          console.log(FORMAT_TEXT_COMMAND, "code");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
         }}
       />
@@ -175,17 +189,22 @@ export function LexicalMenu(props: LexicalMenuProps) {
         aria-label="Redo"
         disabled={!canUndo}
         onClick={() => {
-          // @ts-ignore
-          editor.dispatchCommand(REDO_COMMAND);
+          editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
       />
+      <IconButton
+        icon="trash"
+        disabled={!canUndo}
+        onClick={() => {
+          editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+        }}
+      ></IconButton>
       <IconButton
         icon="antiClockwiseArrow"
         aria-label="Undo"
         disabled={!canUndo}
         onClick={() => {
-          // @ts-ignore
-          editor.dispatchCommand(UNDO_COMMAND);
+          editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
       />
     </div>

@@ -30,6 +30,26 @@
   text-decoration: line-through;
 }
 
+.editorListOl {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+}
+
+.editorListUl {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+}
+
+.editorListItem {
+  margin: 8px 32px 8px 32px;
+}
+
+.editorNestedListitem {
+  list-style-type: none;
+}
+
 body {
   font-family: "Inter", sans-serif;
 }

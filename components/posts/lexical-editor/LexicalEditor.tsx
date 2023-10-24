@@ -1,22 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
-import {
-  $getRoot,
-  $isParagraphNode,
-  CLEAR_EDITOR_COMMAND,
-  EditorState,
-} from "lexical";
+import { EditorState } from "lexical";
 
-import { IconAlt } from "../../icons/outline-icons";
 import { UseFormSetValue } from "react-hook-form";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { TRANSFORMERS } from "@lexical/markdown";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
@@ -59,6 +54,14 @@ const theme = {
     underline: "textUnderline",
     strikethrough: "textStrikethrough",
   },
+  list: {
+    nested: {
+      listitem: "editorListitem",
+    },
+    ol: "editorListOl",
+    ul: "editorListUl",
+    listitem: "editorListItem",
+  },
 };
 
 const initialConfig = {
@@ -74,56 +77,7 @@ type CustomOnChangePluginProps = {
   updateField: UseFormSetValue<FormValues>;
 };
 
-export function ActionsPlugin() {
-  const [editor] = useLexicalComposerContext();
-  const [isEditorEmpty, setIsEditorEmpty] = useState(true);
-
-  useEffect(
-    function checkEditorEmptyState() {
-      return editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          const root = $getRoot();
-          const children = root.getChildren();
-
-          if (children.length > 1) {
-            setIsEditorEmpty(false);
-            return;
-          }
-
-          if ($isParagraphNode(children[0])) {
-            setIsEditorEmpty(children[0].getChildren().length === 0);
-          } else {
-            setIsEditorEmpty(false);
-          }
-        });
-      });
-    },
-    [editor]
-  );
-
-  const MandatoryPlugins = useMemo(() => {
-    return <ClearEditorPlugin />;
-  }, []);
-
-  return (
-    <>
-      {MandatoryPlugins}
-      <div className="my-4">
-        <button
-          type="button"
-          disabled={isEditorEmpty}
-          onClick={() => {
-            editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
-          }}
-        >
-          {<IconAlt.Close />}
-        </button>
-      </div>
-    </>
-  );
-}
-
-function MyCustomAutoFocusPlugin() {
+function CustomAutoFocusPlugin() {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -155,8 +109,8 @@ function CustomOnChangePlugin({
 
 const Placeholder = () => {
   return (
-    <div className="fixed top-[20rem] text-[1rem] text-white">
-      Enter some text...
+    <div className="absolute left-[1.7rem] top-[1.45rem] text-[1rem] text-sc-3">
+      Tell your story...
     </div>
   );
 };
@@ -165,24 +119,28 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
   const [editor] = useLexicalComposerContext();
 
   return (
-    <main className="relative">
+    <main className="relative flex">
+      <div className="absolute left-[19.4rem] top-[-2.89rem] flex justify-start">
+        <LexicalMenu editor={editor} />
+      </div>
+
       <RichTextPlugin
         contentEditable={
-          <ContentEditable className="h-[20rem] w-[100%] border border-dark-2 p-4 text-[1rem] text-light-2 dark:bg-slate-800" />
+          <ContentEditable className="h-[20rem] w-[100%] rounded-b-md border-x-[0.1rem] border-b-[0.1rem] border-light-2 bg-light p-6 text-[1rem] text-sc-2  dark:border-dark-4 dark:bg-dark-3 dark:text-light-2" />
         }
         placeholder={<Placeholder />}
         ErrorBoundary={LexicalErrorBoundary}
       />
-      <LexicalMenu editor={editor} />
       <HistoryPlugin />
+      <ListPlugin />
+      <ClearEditorPlugin />
       <CustomOnChangePlugin
         name={name}
         updateField={updateField}
         onChange={(editorState) => {}}
       />
-      <MyCustomAutoFocusPlugin />
+      <CustomAutoFocusPlugin />
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-      <ActionsPlugin />
     </main>
   );
 }
