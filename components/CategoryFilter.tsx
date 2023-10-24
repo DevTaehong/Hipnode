@@ -2,7 +2,12 @@
 
 import React, { useState } from "react";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { ArrowLargeIcon, CheckboxIcon } from "@/components/icons/outline-icons";
 import { CategoryFilterData } from "@/constants";
 
@@ -19,7 +24,7 @@ const CategoryFilter = () => {
   const [isChecked, setIsChecked] = useState({});
 
   const handleOpen = (value: string): void => {
-    setOpen(prev => ({
+    setOpen((prev) => ({
       ...prev,
       [value]: !prev[value as keyof typeof open],
     }));
@@ -28,7 +33,7 @@ const CategoryFilter = () => {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, checked } = e.target;
 
-    setIsChecked(prevState => ({ ...prevState, [id]: checked }));
+    setIsChecked((prevState) => ({ ...prevState, [id]: checked }));
   };
 
   return (
@@ -37,26 +42,29 @@ const CategoryFilter = () => {
       collapsible
       className="w-[300px] rounded-[1rem] bg-light p-5 dark:bg-dark-3"
     >
-      {CategoryFilterData.map(category => (
-        <AccordionItem
-          key={category.name}
-          value={category.name}
-        >
+      {CategoryFilterData.map((category) => (
+        <AccordionItem key={category.name} value={category.name}>
           <AccordionTrigger
             onClick={() => handleOpen(category.name)}
             className={`flex rounded-[0.5rem] px-[0.62rem] ${
-              open[category.name as keyof typeof open] ? "bg-sc-6 dark:bg-dark-3" : ""
+              open[category.name as keyof typeof open]
+                ? "bg-sc-6 dark:bg-dark-3"
+                : ""
             }`}
           >
             <span className="text-[0.75rem] font-semibold leading-[150%] text-sc-2 dark:text-light-2">
               {category.name}
             </span>
-            {open[category.name as keyof typeof open] ? <ArrowLargeIcon.Down /> : <ArrowLargeIcon.Right />}
+            {open[category.name as keyof typeof open] ? (
+              <ArrowLargeIcon.Down />
+            ) : (
+              <ArrowLargeIcon.Right />
+            )}
           </AccordionTrigger>
 
           <AccordionContent>
             <section className="mt-[0.62rem] flex flex-col gap-[0.62rem] px-[0.62rem]">
-              {category.filters.map(filter => (
+              {category.filters.map((filter) => (
                 <label
                   key={filter}
                   htmlFor={filter}
@@ -73,7 +81,9 @@ const CategoryFilter = () => {
                   />
 
                   <div className="absolute right-0">
-                    <CheckboxIcon checked={isChecked[filter as keyof typeof isChecked]} />
+                    <CheckboxIcon
+                      checked={isChecked[filter as keyof typeof isChecked]}
+                    />
                   </div>
                 </label>
               ))}

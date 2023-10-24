@@ -15,13 +15,21 @@ async function main() {
   await createOnboarding(users);
   await createPosts(users, tags);
 
-  const shows = await createShows(users);
-
+  const shows = (await createShows(users)) as {
+    id: number;
+    name: string;
+    userId: number;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
 
-  await createGroups(users);
+  console.log("Shows created:", shows);
+
+  const groups = await createGroups();
+  await createMemberships(users, groups);
 
   await createMeetUps(users);
 }
