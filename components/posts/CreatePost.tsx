@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
+import Image from "next/image";
 import {
   Form,
   FormControl,
@@ -16,9 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import CustomButton from "../CustomButton";
 import { Icon } from "@/components/icons/outline-icons";
-
 import LexicalEditor from "./lexical-editor/LexicalEditor";
-
 import {
   Select,
   SelectTrigger,
@@ -26,8 +25,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-
 import ImageUpload from "../image-upload/ImageUpload";
+import { uploadImageToSupabase } from "./lexical-editor/UploadImageToSupabase";
 
 const validationSchema = z.object({
   title: z.string().min(1, {
@@ -47,7 +46,19 @@ const POST = ["Newest", "New", "Old", "Older", "Oldest"];
 
 export default function CreatePost() {
   const [htmlString, setHtmlString] = useState("");
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  const handleUpload = async () => {
+    if (imageToUpload) {
+      const uploadedURL = await uploadImageToSupabase(
+        imageToUpload,
+        "posts",
+        "images"
+      );
+      setValue("coverImage", uploadedURL);
+    }
+  };
 
   const form = useForm<FormValues>({
     resolver: zodResolver(validationSchema),
@@ -62,29 +73,25 @@ export default function CreatePost() {
     },
   });
 
-  const { handleSubmit, setValue, watch } = form;
+  const { setValue, watch } = form;
 
-  const onSubmit = (values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
+    console.log(values);
+    handleUpload();
     form.reset();
   };
 
-  console.log(htmlString, watch());
-
   useEffect(() => {
     const data = watch();
-    setHtmlString(data.mainText);
-  });
-
-  useEffect(() => {
-    setValue("coverImage", uploadedImageUrl);
-  }, [uploadedImageUrl]);
+    console.log(data.coverImage);
+  }, []);
 
   return (
     <div className="flex w-fit items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
           action=""
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
@@ -116,13 +123,16 @@ export default function CreatePost() {
                   <FormControl>
                     <>
                       <ImageUpload
-                        bucketName="posts"
-                        folderName="images"
-                        onUploadComplete={(url) => {
-                          setUploadedImageUrl(url);
+                        onFileSelected={(file) => {
+                          const reader = new FileReader();
+                          reader.onloadend = function () {
+                            setImagePreviewUrl(reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                          setImageToUpload(file);
                         }}
                       >
-                        <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
+                        <div className="flex w-fit cursor-pointer flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
                           <Icon.Image />
                           <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
                             Set Cover
@@ -208,6 +218,15 @@ export default function CreatePost() {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+          </div>
+          <div className="flex items-center justify-center p-6">
+            <Image
+              src={imagePreviewUrl || "/christopher.png"}
+              height={125}
+              width={125}
+              alt="image"
+              className="rounded-md"
             />
           </div>
           <div className="relative flex flex-col py-[1.25rem]">
