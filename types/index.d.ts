@@ -171,8 +171,9 @@ export interface ActionButtonProps {
 
 export interface ImageUploadProps {
   bucketName: string;
-  folderName?: string;
+  folderName: string;
   onUploadComplete?: (url: string) => void;
+  children?: React.ReactNode;
 }
 
 export interface UseImageUploadReturn {

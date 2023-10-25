@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -68,7 +68,7 @@ export default function CreatePost() {
     form.reset();
   };
 
-  console.log(watch());
+  console.log(htmlString, watch());
 
   useEffect(() => {
     const data = watch();
@@ -120,8 +120,6 @@ export default function CreatePost() {
                         folderName="images"
                         onUploadComplete={(url) => {
                           setUploadedImageUrl(url);
-                          // setValue("coverImage", url);
-                          console.log(url);
                         }}
                       />
                       <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
