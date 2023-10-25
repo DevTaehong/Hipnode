@@ -121,13 +121,14 @@ export default function CreatePost() {
                         onUploadComplete={(url) => {
                           setUploadedImageUrl(url);
                         }}
-                      />
-                      <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
-                        <Icon.Image />
-                        <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                          Set Cover
-                        </p>
-                      </div>
+                      >
+                        <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
+                          <Icon.Image />
+                          <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+                            Set Cover
+                          </p>
+                        </div>
+                      </ImageUpload>
                     </>
                   </FormControl>
                   <FormMessage className="capitalize text-red-500" />
