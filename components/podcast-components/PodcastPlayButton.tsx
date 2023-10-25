@@ -6,12 +6,12 @@ import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
 
 import FillIcon from "../icons/fill-icons";
-import PauseIcon from "../icons/outline-icons/PauseIcon";
 import CustomButton from "../CustomButton";
-import { formatPodcastDuration, handlePlay } from "@/utils";
+import { formatPodcastDuration } from "@/utils";
+import usePodcastStore from "@/app/store";
 
 const PodcastPlayButton = ({ url }: { url: string }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { songUrl, setSongUrl, togglePlay, isPlaying } = usePodcastStore();
   const [audioDuration, setAudioDuration] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<string>("00:00");
   const [currentPlaybackPercentage, setCurrentPlaybackPercentage] =
@@ -50,10 +50,22 @@ const PodcastPlayButton = ({ url }: { url: string }) => {
   }, []);
 
   const handleClick = () => {
-    handlePlay({ audioRef, isPlaying, setIsPlaying });
+    if (isPlaying && url === songUrl) {
+      setSongUrl(url);
+    } else {
+      setSongUrl(url);
+      togglePlay();
+    }
   };
 
-  const icon = isPlaying ? PauseIcon : FillIcon.Play;
+  const isAudioPlaying = url === songUrl && isPlaying;
+
+  const playbackInfo = {
+    label: isAudioPlaying ? "Playing" : "Play",
+    icon: isAudioPlaying ? undefined : FillIcon.Play,
+    bgColor: isAudioPlaying ? "bg-red-80" : "bg-blue",
+  };
+
   return (
     <div className="flex flex-col">
       <div className="mb-2.5 flex w-full items-center gap-5 md:mb-4">
@@ -71,9 +83,9 @@ const PodcastPlayButton = ({ url }: { url: string }) => {
           Your browser does not support the audio element.
         </audio>
         <CustomButton
-          label={isPlaying ? "Pause" : "Play"}
-          icon={icon}
-          className="semibold-14 md:regular-16 items-end rounded-[1.25rem] bg-blue px-4 py-2 text-light"
+          label={playbackInfo.label}
+          icon={playbackInfo.icon}
+          className={`semibold-14 md:regular-16 items-end rounded-[1.25rem] transition duration-500 ${playbackInfo.bgColor} px-4 py-2 text-light`}
           onClick={handleClick}
         />
         <Button

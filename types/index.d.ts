@@ -247,11 +247,13 @@ export interface ChatMessageProps {
 export const chatMessages = [
   {
     user: "you",
-    message: "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
+    message:
+      "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
   },
   {
     user: "other",
-    message: "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
+    message:
+      "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
   },
   {
     user: "you",

@@ -1,7 +1,12 @@
 import Image from "next/image";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLargeIcon, Icon, IconAlt, VoiceIcon } from "@/components/icons/outline-icons";
+import {
+  ArrowLargeIcon,
+  Icon,
+  IconAlt,
+  VoiceIcon,
+} from "@/components/icons/outline-icons";
 import ChatMessage from "@/components/ChatMessage";
 import FillIcon from "./icons/fill-icons";
 import { chatMessages } from "@/types";
@@ -22,7 +27,9 @@ const ChatBox = () => (
           <h3 className="text-[1.125rem] font-semibold leading-[144%] text-sc-2 dark:text-light-2">
             Christopher the Great
           </h3>
-          <p className="text-[0.625rem] font-semibold leading-[160%] text-green">Online</p>
+          <p className="text-[0.625rem] font-semibold leading-[160%] text-green">
+            Online
+          </p>
         </div>
       </section>
 
