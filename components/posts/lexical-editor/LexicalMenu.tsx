@@ -56,7 +56,7 @@ export function LexicalMenu(props: LexicalMenuProps) {
     setHtmlString(props.editorHtmlString);
   }, [props.editorHtmlString]);
 
-  console.log(htmlString);
+  console.log(htmlString, canRedo);
 
   const [state, setState] = useState<LexicalMenuState>({
     isBold: false,

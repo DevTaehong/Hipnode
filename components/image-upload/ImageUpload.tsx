@@ -1,11 +1,22 @@
-import { useImageUpload } from '@/hooks/useImageUpload';
-import { ImageUploadProps } from '@/types';
+import { useImageUpload } from "@/hooks/useImageUpload";
+import { ImageUploadProps } from "@/types";
+import { useEffect } from "react";
 
-const ImageUpload = ({ bucketName, folderName }: ImageUploadProps) => {
-  const { handleFileChange, handleSubmit } = useImageUpload({
+const ImageUpload = ({
+  bucketName,
+  folderName,
+  onUploadComplete,
+}: ImageUploadProps) => {
+  const { handleFileChange, handleSubmit, publicURL } = useImageUpload({
     bucketName,
     folderName,
   });
+
+  useEffect(() => {
+    if (publicURL && onUploadComplete) {
+      onUploadComplete(publicURL);
+    }
+  }, [publicURL, onUploadComplete]);
 
   return (
     <>

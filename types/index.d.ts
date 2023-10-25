@@ -2,7 +2,6 @@ import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 
 import { onboardingQuestions } from "@/constants";
-import { StringColorFormat } from "@faker-js/faker";
 
 export interface ThemeContextType {
   mode: string;
@@ -168,18 +167,19 @@ export interface ActiveButtonsProps {
 export interface ActionButtonProps {
   label: string;
   href: string;
-  currentPath?: string;
 }
 
 export interface ImageUploadProps {
   bucketName: string;
   folderName?: string;
+  onUploadComplete?: (url: string) => void;
 }
 
 export interface UseImageUploadReturn {
   file: File | null;
   handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: () => Promise<void>;
+  publicURL: string | null;
 }
 
 export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
@@ -247,11 +247,13 @@ export interface ChatMessageProps {
 export const chatMessages = [
   {
     user: "you",
-    message: "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
+    message:
+      "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
   },
   {
     user: "other",
-    message: "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
+    message:
+      "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
   },
   {
     user: "you",

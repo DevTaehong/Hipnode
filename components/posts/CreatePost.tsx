@@ -27,6 +27,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
+import ImageUpload from "../image-upload/ImageUpload";
+
 const validationSchema = z.object({
   title: z.string().min(1, {
     message: "Name is required",
@@ -44,9 +46,8 @@ const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
 const POST = ["Newest", "New", "Old", "Older", "Oldest"];
 
 export default function CreatePost() {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
   const [htmlString, setHtmlString] = useState("");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(validationSchema),
@@ -67,11 +68,16 @@ export default function CreatePost() {
     form.reset();
   };
 
+  console.log(watch());
+
   useEffect(() => {
     const data = watch();
-    console.log(data.mainText);
     setHtmlString(data.mainText);
   });
+
+  useEffect(() => {
+    setValue("coverImage", uploadedImageUrl);
+  }, [uploadedImageUrl]);
 
   return (
     <div className="flex w-fit items-center justify-center rounded-md bg-light dark:bg-dark-3">
@@ -101,128 +107,109 @@ export default function CreatePost() {
               )}
             />
           </div>
-          <div>
-            <div className="flex flex-row items-center gap-4 dark:bg-dark-3">
-              <FormField
-                control={form.control}
-                name="coverImage"
-                render={() => (
-                  <FormItem>
-                    <FormControl>
-                      <div>
-                        <input
-                          type="file"
-                          id="coverImage"
-                          name="coverImage"
-                          accept=".jpg,.jpeg,.png"
-                          style={{ display: "none" }}
-                          ref={inputRef}
-                          onChange={(event) => {
-                            const file =
-                              event.target.files && event.target.files[0];
-                            console.log("File selected:", file);
-
-                            if (file) {
-                              form.setValue("coverImage", file);
-                              console.log("File set as coverImage:", file);
-                            }
-                          }}
-                        />
-                        <div
-                          className="cursor-pointer dark:bg-dark-2"
-                          onClick={() => {
-                            if (inputRef.current) {
-                              inputRef.current.click();
-                            }
-                          }}
-                        >
-                          <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
-                            <Icon.Image />
-                            <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                              Set Cover
-                            </p>
-                          </div>
-                        </div>
+          <div className="flex flex-row items-center gap-4 dark:bg-dark-3">
+            <FormField
+              control={form.control}
+              name="coverImage"
+              render={() => (
+                <FormItem>
+                  <FormControl>
+                    <>
+                      <ImageUpload
+                        bucketName="posts"
+                        folderName="images"
+                        onUploadComplete={(url) => {
+                          setUploadedImageUrl(url);
+                          // setValue("coverImage", url);
+                          console.log(url);
+                        }}
+                      />
+                      <div className="flex w-fit flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
+                        <Icon.Image />
+                        <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+                          Set Cover
+                        </p>
                       </div>
-                    </FormControl>
-                    <FormMessage className="capitalize text-red-500" />
-                  </FormItem>
-                )}
-              />
-              <Controller
-                name={"group"}
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      value={String(field.value)}
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                      }}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] dark:bg-dark-4 dark:text-light-2">
-                          <SelectValue
-                            placeholder={
-                              <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                                <p className="text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                                  Select Group
-                                </p>
-                              </div>
-                            }
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                        {GROUP.map((item) => (
-                          <SelectItem key={item} value={item}>
-                            {item}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Controller
-                control={form.control}
-                name={"post"}
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      value={String(field.value)}
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                      }}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3 text-[1rem] dark:bg-dark-4 dark:text-light-2">
-                          <SelectValue
-                            placeholder={
-                              <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                                <p className="text-[0.563rem] leading-[1.5rem] dark:text-light-2 sm:text-[0.625rem]">
-                                  Create Post
-                                </p>
-                              </div>
-                            }
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] leading-[1.5rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem]">
-                        {POST.map((item) => (
-                          <SelectItem key={item} value={item}>
-                            {item}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    </>
+                  </FormControl>
+                  <FormMessage className="capitalize text-red-500" />
+                </FormItem>
+              )}
+            />
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <Controller
+              name={"group"}
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] dark:bg-dark-4 dark:text-light-2">
+                        <SelectValue
+                          placeholder={
+                            <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
+                              <p className="text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+                                Select Group
+                              </p>
+                            </div>
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+                      {GROUP.map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name={"post"}
+              render={({ field }) => (
+                <FormItem>
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3 text-[1rem] dark:bg-dark-4 dark:text-light-2">
+                        <SelectValue
+                          placeholder={
+                            <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
+                              <p className="text-[0.563rem] leading-[1.5rem] dark:text-light-2 sm:text-[0.625rem]">
+                                Create Post
+                              </p>
+                            </div>
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] leading-[1.5rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem]">
+                      {POST.map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div className="relative flex flex-col py-[1.25rem]">
             <div className="min-h-[22rem]">
