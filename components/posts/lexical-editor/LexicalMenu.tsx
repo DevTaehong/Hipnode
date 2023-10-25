@@ -19,7 +19,17 @@ import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
 } from "@lexical/list";
+
 import { Icon } from "@/components/icons/outline-icons";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 const LowPriority = 1;
 
 type LexicalMenuState = {
@@ -32,12 +42,21 @@ type LexicalMenuState = {
 
 type LexicalMenuProps = {
   editor: ReturnType<typeof useLexicalComposerContext>[0];
+  editorHtmlString: string;
 };
 
 export function LexicalMenu(props: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
+  const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
+
   const { editor } = props;
+
+  useEffect(() => {
+    setHtmlString(props.editorHtmlString);
+  }, [props.editorHtmlString]);
+
+  console.log(htmlString);
 
   const [state, setState] = useState<LexicalMenuState>({
     isBold: false,
@@ -100,12 +119,22 @@ export function LexicalMenu(props: LexicalMenuProps) {
           <Icon.Edit className="fill-blue-80" />
           <p className=" text-[0.875rem]">Write</p>
         </div>
-        <p className="flex items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
-          <div className="flex items-center gap-[0.625rem]">
-            <Icon.View />
-            <p>Preview</p>
-          </div>
-        </p>
+        <Dialog>
+          <DialogTrigger asChild>
+            <p className="flex items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+              <div className="flex items-center gap-[0.625rem]">
+                <Icon.View />
+                <p className="pr-4">Preview</p>
+              </div>
+            </p>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Preview of your Post</DialogTitle>
+            </DialogHeader>
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="flex-wrap">
         <IconButton

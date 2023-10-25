@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { EditorState } from "lexical";
@@ -20,6 +20,7 @@ import { LinkNode } from "@lexical/link";
 import { CodeNode } from "@lexical/code";
 
 import { LexicalMenu } from "./LexicalMenu";
+import { $generateHtmlFromNodes } from "@lexical/html";
 
 const EDITOR_NAMESPACE = "lexical-editor";
 
@@ -99,9 +100,11 @@ function CustomOnChangePlugin({
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
-      const editorStateJSON = editorState.toJSON();
-      updateField(name, JSON.stringify(editorStateJSON));
-      onChange(editorState);
+      editor.update(() => {
+        const htmlString = $generateHtmlFromNodes(editor, null);
+        updateField(name, JSON.stringify(htmlString));
+        onChange(editorState);
+      });
     });
   }, [editor, onChange]);
   return null;
@@ -117,11 +120,21 @@ const Placeholder = () => {
 
 function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
   const [editor] = useLexicalComposerContext();
+  const [htmlString, setHtmlString] = useState("");
+
+  useEffect(() => {
+    return editor?.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const htmlString = $generateHtmlFromNodes(editor, null);
+        setHtmlString(htmlString);
+      });
+    });
+  }, [editor]);
 
   return (
     <main className="flex flex-col">
       <div className="w-full">
-        <LexicalMenu editor={editor} />
+        <LexicalMenu editor={editor} editorHtmlString={htmlString} />
       </div>
 
       <RichTextPlugin

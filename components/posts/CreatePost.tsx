@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -46,6 +46,8 @@ const POST = ["Newest", "New", "Old", "Older", "Oldest"];
 export default function CreatePost() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const [htmlString, setHtmlString] = useState("");
+
   const form = useForm<FormValues>({
     resolver: zodResolver(validationSchema),
     mode: "onBlur",
@@ -68,6 +70,7 @@ export default function CreatePost() {
   useEffect(() => {
     const data = watch();
     console.log(data.mainText);
+    setHtmlString(data.mainText);
   });
 
   return (
@@ -92,6 +95,7 @@ export default function CreatePost() {
                       {...field}
                     />
                   </FormControl>
+
                   <FormMessage className="capitalize text-red-500" />
                 </FormItem>
               )}
