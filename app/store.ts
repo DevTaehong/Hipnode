@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 interface PodcastStore {
   isPlaying: boolean;
-  songUrl: string;
+  songUrl: string | undefined;
   podcast: IPodcast | null;
   togglePlay: () => void;
   setSongUrl: (url: string) => void;
@@ -12,7 +12,7 @@ interface PodcastStore {
 
 const usePodcastStore = create<PodcastStore>((set) => ({
   isPlaying: false,
-  songUrl: "",
+  songUrl: undefined,
   podcast: null,
   togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
   setSongUrl: (url: string) => set({ songUrl: url }),

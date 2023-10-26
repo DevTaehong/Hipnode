@@ -28,6 +28,7 @@ const PodcastPlayer = () => {
   const [totalDuration, setTotalDuration] = useState(0);
   const [showPlayer, setShowPlayer] = useState(false);
   const [volume, setVolume] = useState([100]);
+  const [playbackSpeedIndex, setPlaybackSpeedIndex] = useState(1);
   const percentagePlayed = (currentTime / totalDuration) * 100;
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -134,6 +135,19 @@ const PodcastPlayer = () => {
     }
   };
 
+  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+
+  const cyclePlaybackSpeed = () => {
+    const nextIndex = (playbackSpeedIndex + 1) % playbackSpeedOptions.length;
+
+    setPlaybackSpeedIndex(nextIndex);
+
+    const newSpeed = playbackSpeedOptions[nextIndex];
+    if (audioRef.current) {
+      audioRef.current.playbackRate = newSpeed;
+    }
+  };
+
   return (
     <div
       className={`bg-light_dark-3 fixed bottom-0 flex h-[4.5rem] w-full items-center justify-between gap-2 px-5 transition duration-200 ${
@@ -166,10 +180,16 @@ const PodcastPlayer = () => {
             )}
           </div>
         </div>
-        <div className="flex">
-          <p className="text-sc-1_light-2 mt-1 text-xs">
+        <div className="flex items-center gap-2">
+          <p className="text-sc-1_light-2 text-xs">
             #{episodeNumber} - {title}
           </p>
+          <button
+            onClick={cyclePlaybackSpeed}
+            className="text-sc-1_light-2 text-sm"
+          >
+            {playbackSpeedOptions[playbackSpeedIndex]}x
+          </button>
         </div>
         <div className="flex w-full max-w-[20rem] items-center gap-3">
           <p className="text-sc-1_light-2 text-xs">{formattedTime}</p>
