@@ -47,6 +47,8 @@ type LexicalEditorProps = {
   name: keyof FormValues;
   updateField: UseFormSetValue<FormValues>;
   imagePreviewUrl: string;
+  onSubmitPreview: () => void;
+  previewValues?: FormValues;
 };
 
 const theme = {

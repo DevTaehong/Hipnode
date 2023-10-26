@@ -35,6 +35,15 @@ type LexicalMenuState = {
   isUnderline: boolean;
 };
 
+type FormValues = {
+  title: string;
+  mainText: string;
+  coverImage?: string;
+  group: string;
+  post: string;
+  tagStringsInput: string;
+};
+
 type LexicalMenuProps = {
   editor: ReturnType<typeof useLexicalComposerContext>[0];
   editorHtmlString: string;
@@ -42,6 +51,8 @@ type LexicalMenuProps = {
   setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
   editorRef: React.RefObject<HTMLDivElement>;
   imagePreviewUrl: string;
+  onSubmitPreview: () => void;
+  previewValues?: FormValues | null;
 };
 
 export function LexicalMenu({

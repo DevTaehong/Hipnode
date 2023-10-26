@@ -43,11 +43,20 @@ const validationSchema = z.object({
 
 type FormValues = z.infer<typeof validationSchema>;
 
+const defaultPreviewValues: FormValues = {
+  title: "",
+  mainText: "",
+  coverImage: "",
+  group: "",
+  post: "",
+  tagStringsInput: "",
+};
+
 const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
 const POST = ["Newest", "New", "Old", "Older", "Oldest"];
 
 export default function CreatePost() {
-  const [htmlString, setHtmlString] = useState("");
+  // const [htmlString, setHtmlString] = useState("");
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [previewValues, setPreviewValues] = useState<FormValues | null>(null);
@@ -81,11 +90,12 @@ export default function CreatePost() {
   const onSubmit = async (values: FormValues) => {
     await handleUpload();
     const finalValues = form.getValues();
+    console.log(finalValues);
 
     form.reset();
   };
 
-  const onSubmitPreview = async (values: FormValues) => {
+  const onSubmitPreview = async () => {
     const previewValues = form.getValues();
     setPreviewValues(previewValues);
   };
@@ -191,8 +201,8 @@ export default function CreatePost() {
                         name="mainText"
                         updateField={setValue}
                         imagePreviewUrl={imagePreviewUrl || "/emoji_2.png"}
-                        previewValues={previewValues}
                         onSubmitPreview={onSubmitPreview}
+                        previewValues={previewValues || defaultPreviewValues}
                       />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />

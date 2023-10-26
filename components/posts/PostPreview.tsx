@@ -10,9 +10,20 @@ import {
 
 import { Icon } from "@/components/icons/outline-icons";
 
+type FormValues = {
+  title: string;
+  mainText: string;
+  coverImage?: string;
+  group: string;
+  post: string;
+  tagStringsInput: string;
+};
+
 type PostPreviewProps = {
   imagePreviewUrl: string;
   htmlString: string;
+  onSubmitPreview: () => void;
+  previewValues?: FormValues | null;
 };
 
 const PostPreview = ({
