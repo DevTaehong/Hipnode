@@ -4,7 +4,7 @@ import {
   createShows,
   createPodcastsForShows,
 } from "./seed/seed-podcasts/index";
-import { createGroups, createMemberships } from "./seed/seed-groups/index";
+import { createGroups } from "./seed/seed-groups/index";
 import { createMeetUps } from "./seed/seed-meetup/index";
 
 import prisma from "../lib/prisma";
@@ -15,11 +15,18 @@ async function main() {
   await createOnboarding(users);
   await createPosts(users, tags);
 
-  const shows = await createShows(users);
-
+  const shows = (await createShows(users)) as {
+    id: number;
+    name: string;
+    userId: number;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
+
+  console.log("Shows created:", shows);
 
   const groups = await createGroups();
   await createMemberships(users, groups);
