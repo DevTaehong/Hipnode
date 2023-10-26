@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
@@ -43,6 +43,9 @@ type LexicalMenuState = {
 type LexicalMenuProps = {
   editor: ReturnType<typeof useLexicalComposerContext>[0];
   editorHtmlString: string;
+  autoFocus: boolean;
+  setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  editorRef: React.RefObject<HTMLDivElement>;
 };
 
 export function LexicalMenu(props: LexicalMenuProps) {
@@ -50,7 +53,7 @@ export function LexicalMenu(props: LexicalMenuProps) {
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
 
-  const { editor } = props;
+  const { editor, autoFocus, setAutoFocus, editorRef } = props;
 
   useEffect(() => {
     setHtmlString(props.editorHtmlString);
@@ -110,12 +113,42 @@ export function LexicalMenu(props: LexicalMenuProps) {
     };
   }, [editor]);
 
+  useEffect(() => {
+    function handleDocumentClick(event: MouseEvent) {
+      if (editorRef.current) {
+        if (editorRef.current.contains(event.target as Node)) {
+          setAutoFocus(true);
+        } else {
+          setAutoFocus(false);
+        }
+      }
+    }
+
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [editorRef]);
+
   return (
-    <div className="flex w-full flex-wrap justify-between gap-2  rounded-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4">
+    <div
+      ref={editorRef}
+      className="flex w-full flex-wrap justify-between gap-2  rounded-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4"
+    >
       <div className="flex justify-between gap-[1.25rem] md:gap-[1.875rem]">
-        <div className="flex items-center gap-[0.625rem] text-blue-80">
-          <Icon.Edit className="fill-blue-80" />
-          <p className=" text-[0.875rem]">Write</p>
+        <div
+          onClick={() => setAutoFocus(!autoFocus)}
+          className="flex cursor-pointer items-center gap-[0.625rem] text-blue-80"
+        >
+          <Icon.Edit className={autoFocus ? "fill-blue-80" : "fill-light-2"} />
+          <p
+            className={`${
+              autoFocus ? "text-blue-80" : "text-light-2"
+            } text-[0.875rem]`}
+          >
+            Write
+          </p>
         </div>
         <Dialog>
           <DialogTrigger asChild>

@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import ImageUpload from "../image-upload/ImageUpload";
 import { uploadImageToSupabase } from "./lexical-editor/UploadImageToSupabase";
+import { ChevronUp, ChevronDown } from "lucide-react";
 
 const validationSchema = z.object({
   title: z.string().min(1, {
@@ -48,6 +49,9 @@ export default function CreatePost() {
   const [htmlString, setHtmlString] = useState("");
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  const [isGroupOpen, setIsGroupOpen] = useState(false);
+  const [isPostOpen, setIsPostOpen] = useState(false);
 
   const handleUpload = async () => {
     if (imageToUpload) {
@@ -85,6 +89,14 @@ export default function CreatePost() {
     const data = watch();
     console.log(data.coverImage);
   }, []);
+
+  const handleGroupChange = () => {
+    setIsGroupOpen(!isGroupOpen);
+  };
+
+  const handlePostChange = () => {
+    setIsPostOpen(!isPostOpen);
+  };
 
   return (
     <div className="flex w-fit items-center justify-center rounded-md bg-light dark:bg-dark-3">
@@ -152,6 +164,7 @@ export default function CreatePost() {
               render={({ field }) => (
                 <FormItem>
                   <Select
+                    onOpenChange={handleGroupChange}
                     value={String(field.value)}
                     onValueChange={(value) => {
                       field.onChange(value);
@@ -168,6 +181,11 @@ export default function CreatePost() {
                             </div>
                           }
                         />
+                        {isGroupOpen ? (
+                          <ChevronUp className="h-4 w-4 text-white opacity-50" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4 text-white opacity-50" />
+                        )}
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
@@ -188,6 +206,7 @@ export default function CreatePost() {
               render={({ field }) => (
                 <FormItem>
                   <Select
+                    onOpenChange={handlePostChange}
                     value={String(field.value)}
                     onValueChange={(value) => {
                       field.onChange(value);
@@ -204,6 +223,11 @@ export default function CreatePost() {
                             </div>
                           }
                         />
+                        {isPostOpen ? (
+                          <ChevronUp className="h-4 w-4 text-white opacity-50" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4 text-white opacity-50" />
+                        )}
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] leading-[1.5rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem]">

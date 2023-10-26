@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { EditorState } from "lexical";
@@ -78,12 +78,22 @@ type CustomOnChangePluginProps = {
   updateField: UseFormSetValue<FormValues>;
 };
 
-function CustomAutoFocusPlugin() {
+type CustomAutoFocusPluginProps = {
+  autoFocus: boolean;
+  setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function CustomAutoFocusPlugin({
+  autoFocus,
+  setAutoFocus,
+}: CustomAutoFocusPluginProps) {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    editor.focus();
-  }, [editor]);
+    if (autoFocus) {
+      editor.focus();
+    }
+  }, [editor, autoFocus]);
 
   return null;
 }
@@ -121,6 +131,12 @@ const Placeholder = () => {
 function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
   const [editor] = useLexicalComposerContext();
   const [htmlString, setHtmlString] = useState("");
+  const [autoFocus, setAutoFocus] = useState(false);
+  const editorRef = React.useRef<HTMLDivElement>(null);
+
+  // function handleEditorFocus() {
+  //   setAutoFocus(true);
+  // }
 
   useEffect(() => {
     return editor?.registerUpdateListener(({ editorState }) => {
@@ -132,9 +148,15 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
   }, [editor]);
 
   return (
-    <main className="flex flex-col">
+    <main ref={editorRef} className="flex flex-col">
       <div className="w-full">
-        <LexicalMenu editor={editor} editorHtmlString={htmlString} />
+        <LexicalMenu
+          editor={editor}
+          editorHtmlString={htmlString}
+          autoFocus={autoFocus}
+          setAutoFocus={setAutoFocus}
+          editorRef={editorRef}
+        />
       </div>
 
       <RichTextPlugin
@@ -152,7 +174,10 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
         updateField={updateField}
         onChange={(editorState) => {}}
       />
-      <CustomAutoFocusPlugin />
+      <CustomAutoFocusPlugin
+        autoFocus={autoFocus}
+        setAutoFocus={setAutoFocus}
+      />
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
     </main>
   );
