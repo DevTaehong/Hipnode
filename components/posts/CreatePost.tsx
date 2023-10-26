@@ -246,7 +246,7 @@ export default function CreatePost() {
           </div>
           <div className="flex items-center justify-center p-6">
             <Image
-              src={imagePreviewUrl || "/christopher.png"}
+              src={imagePreviewUrl || "/emoji_2.png"}
               height={125}
               width={125}
               alt="image"
@@ -261,7 +261,11 @@ export default function CreatePost() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <LexicalEditor name="mainText" updateField={setValue} />
+                      <LexicalEditor
+                        name="mainText"
+                        updateField={setValue}
+                        imagePreviewUrl={imagePreviewUrl || "/emoji_2.png"}
+                      />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
                   </FormItem>

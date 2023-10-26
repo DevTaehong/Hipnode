@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import DOMPurify from "dompurify";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
@@ -47,6 +48,7 @@ type LexicalMenuProps = {
   autoFocus: boolean;
   setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
   editorRef: React.RefObject<HTMLDivElement>;
+  imagePreviewUrl: string;
 };
 
 export function LexicalMenu({
@@ -55,10 +57,13 @@ export function LexicalMenu({
   setAutoFocus,
   editorRef,
   editorHtmlString,
+  imagePreviewUrl,
 }: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
+
+  console.log(canRedo);
 
   useEffect(() => {
     const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
@@ -169,6 +174,15 @@ export function LexicalMenu({
             <DialogHeader>
               <DialogTitle>Preview of your Post</DialogTitle>
             </DialogHeader>
+            <div className="flex items-center justify-center p-6">
+              <Image
+                src={imagePreviewUrl || "/emoji_2.png"}
+                height={125}
+                width={125}
+                alt="image"
+                className="rounded-md"
+              />
+            </div>
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
           </DialogContent>
         </Dialog>

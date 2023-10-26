@@ -46,6 +46,7 @@ type LexicalEditorProps = {
   config?: Parameters<typeof LexicalComposer>["0"]["initialConfig"];
   name: keyof FormValues;
   updateField: UseFormSetValue<FormValues>;
+  imagePreviewUrl: string;
 };
 
 const theme = {
@@ -128,7 +129,11 @@ const Placeholder = () => {
   );
 };
 
-function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
+function MainLexicalEditor({
+  name,
+  updateField,
+  imagePreviewUrl,
+}: LexicalEditorProps) {
   const [editor] = useLexicalComposerContext();
   const [htmlString, setHtmlString] = useState("");
   const [autoFocus, setAutoFocus] = useState(false);
@@ -156,6 +161,7 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
           autoFocus={autoFocus}
           setAutoFocus={setAutoFocus}
           editorRef={editorRef}
+          imagePreviewUrl={imagePreviewUrl}
         />
       </div>
 
@@ -186,10 +192,15 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
 export default function LexicalEditor({
   name,
   updateField,
+  imagePreviewUrl,
 }: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <MainLexicalEditor name={name} updateField={updateField} />
+      <MainLexicalEditor
+        name={name}
+        updateField={updateField}
+        imagePreviewUrl={imagePreviewUrl}
+      />
     </LexicalComposer>
   );
 }
