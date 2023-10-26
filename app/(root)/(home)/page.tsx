@@ -24,27 +24,32 @@ export default async function Home() {
   const posts = await getAllPosts({});
 
   return (
-    <div className="h-[100vh] ">
-      <section className="flex w-full bg-light-2 py-[1.875rem] pt-16 dark:bg-dark-2">
-        <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
-          <div className="sticky top-[2rem] flex flex-col gap-5">
-            <Sidebar />
+    <section className="flex w-full bg-light-2 py-[1.875rem] pt-16 dark:bg-dark-2">
+      <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
+        <div className="flex h-fit  flex-col gap-5 lg:sticky lg:top-[4rem]">
+          <Sidebar />
+          <div className="w-full lg:hidden">
+            <CreatePostInput userImage={userImage} />
+          </div>
+          <div className="hidden w-full lg:block">
             <Tags />
           </div>
+        </div>
 
-          <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5">
+          <div className="hidden lg:block">
             <CreatePostInput userImage={userImage} />
-            <div className="flex h-full overflow-scroll">
-              <PostCardList posts={posts} />
-            </div>
           </div>
-
-          <div className="sticky top-[2rem] flex flex-col gap-5">
-            <Meetups meetUps={meetups} />
-            <Podcasts podcasts={podcasts} />
+          <div className="flex h-full overflow-scroll">
+            <PostCardList posts={posts} />
           </div>
         </div>
-      </section>
-    </div>
+
+        <div className="flex h-fit flex-col gap-5 lg:sticky lg:top-[4rem]">
+          <Meetups meetUps={meetups} />
+          <Podcasts podcasts={podcasts} />
+        </div>
+      </div>
+    </section>
   );
 }

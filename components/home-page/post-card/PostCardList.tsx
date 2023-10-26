@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { getAllPosts } from "@/lib/actions/post.action";
 import { ExtendedPost } from "@/types/models";
 import { PostCard } from ".";
+import { ArrowIcon } from "@/components/icons/outline-icons";
 
 type PostCardListProps = {
   posts: ExtendedPost[];
@@ -14,6 +15,7 @@ type PostCardListProps = {
 const PostCardList = ({ posts }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPost[]>(posts);
   const [page, setPage] = useState(1);
+  const [loadMore, setLoadMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { ref, inView } = useInView();
@@ -36,10 +38,11 @@ const PostCardList = ({ posts }: PostCardListProps) => {
   };
 
   useEffect(() => {
-    if (inView) {
+    if (inView || loadMore) {
       loadMoreData();
     }
-  }, [inView]);
+    setLoadMore(false);
+  }, [inView, loadMore]);
 
   return (
     <main className="flex h-fit flex-col">
@@ -48,13 +51,23 @@ const PostCardList = ({ posts }: PostCardListProps) => {
           <PostCard post={post} />
         </section>
       ))}
-      <div className="flex items-center justify-center p-4" ref={ref}>
+      <div
+        className=" hidden items-center justify-center p-4 lg:flex"
+        ref={ref}
+      >
         {isLoading && (
           <div className="animate-pulse text-dark-3 dark:text-white">
             Loading...
           </div>
         )}
       </div>
+      <button
+        className="dark:text-light-2 lg:hidden"
+        type="button"
+        onClick={() => setLoadMore(true)}
+      >
+        See more...
+      </button>
     </main>
   );
 };
