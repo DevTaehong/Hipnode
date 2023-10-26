@@ -107,7 +107,7 @@ export default function CreatePost() {
   }, [watchedData]);
 
   return (
-    <div className="flex w-fit items-center justify-center rounded-md bg-light dark:bg-dark-3">
+    <div className="flex w-fit max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
           action=""
@@ -115,55 +115,13 @@ export default function CreatePost() {
           className="rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
-            <FormField
-              name="title"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Title..."
-                      type="text"
-                      className="w-full bg-light-2 dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem]"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage className="capitalize text-red-500" />
-                </FormItem>
-              )}
-            />
+            <CreatePostTitle control={form.control} />
           </div>
           <div className="flex flex-row items-center gap-4 dark:bg-dark-3">
-            <FormField
+            <CoverImageUpload
               control={form.control}
-              name="coverImage"
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <>
-                      <ImageUpload
-                        onFileSelected={(file) => {
-                          const reader = new FileReader();
-                          reader.onloadend = function () {
-                            setImagePreviewUrl(reader.result as string);
-                          };
-                          reader.readAsDataURL(file);
-                          setImageToUpload(file);
-                        }}
-                      >
-                        <div className="flex w-fit cursor-pointer flex-row rounded-md dark:bg-dark-4 md:px-[0.625rem] md:py-[0.25rem]">
-                          <Icon.Image />
-                          <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                            Set Cover
-                          </p>
-                        </div>
-                      </ImageUpload>
-                    </>
-                  </FormControl>
-                  <FormMessage className="capitalize text-red-500" />
-                </FormItem>
-              )}
+              setImagePreviewUrl={setImagePreviewUrl}
+              setImageToUpload={setImageToUpload}
             />
 
             <SelectController
@@ -211,35 +169,107 @@ export default function CreatePost() {
               />
             </div>
           </div>
-          <div className="pb-[1.25rem]">
-            <FormField
-              name="tagStringsInput"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="leading-[1.375rem] dark:text-light-2 md:py-[0.625rem]  md:text-[0.875rem]">
-                    Add or change tags (up to 5) so readers know what your story
-                    is about
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Add a tag..."
-                      type="text"
-                      className="bg-light-2 px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-4 dark:text-light-2"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="capitalize text-red-500" />
-                </FormItem>
-              )}
-            />
-          </div>
+          <CreatePostTags control={form.control} />
           <CreatePostButtons />
         </form>
       </Form>
     </div>
   );
 }
+
+type CoverImageUploadProps = {
+  control: Control<FormValues>;
+  setImagePreviewUrl: (url: string) => void;
+  setImageToUpload: (file: File) => void;
+};
+
+const CoverImageUpload = ({
+  control,
+  setImagePreviewUrl,
+  setImageToUpload,
+}: CoverImageUploadProps) => {
+  return (
+    <FormField
+      control={control}
+      name="coverImage"
+      render={() => (
+        <FormItem>
+          <FormControl>
+            <ImageUpload
+              onFileSelected={(file) => {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                  setImagePreviewUrl(reader.result as string);
+                };
+                reader.readAsDataURL(file);
+                setImageToUpload(file);
+              }}
+            >
+              <div className="flex h-10 w-fit cursor-pointer flex-row items-center rounded-md   px-[0.8rem] py-[0.25rem] dark:bg-dark-4">
+                <Icon.Image />
+                <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+                  Set Cover
+                </p>
+              </div>
+            </ImageUpload>
+          </FormControl>
+          <FormMessage className="capitalize text-red-500" />
+        </FormItem>
+      )}
+    />
+  );
+};
+
+interface FromFieldProps {
+  control: Control<FormValues>;
+}
+
+const CreatePostTitle = ({ control }: FromFieldProps) => (
+  <FormField
+    name="title"
+    control={control}
+    render={({ field }) => (
+      <FormItem>
+        <FormControl>
+          <Input
+            placeholder="Title..."
+            type="text"
+            className="w-full bg-light-2 dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem]"
+            {...field}
+          />
+        </FormControl>
+
+        <FormMessage className="capitalize text-red-500" />
+      </FormItem>
+    )}
+  />
+);
+
+const CreatePostTags = ({ control }: FromFieldProps) => (
+  <div className="pb-[1.25rem]">
+    <FormField
+      name="tagStringsInput"
+      control={control}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="leading-[1.375rem] dark:text-light-2 md:py-[0.625rem]  md:text-[0.875rem]">
+            Add or change tags (up to 5) so readers know what your story is
+            about
+          </FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Add a tag..."
+              type="text"
+              className="bg-light-2 px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-4 dark:text-light-2"
+              {...field}
+            />
+          </FormControl>
+          <FormMessage className="capitalize text-red-500" />
+        </FormItem>
+      )}
+    />
+  </div>
+);
 
 const CreatePostButtons = () => (
   <div className="flex flex-row gap-4">

@@ -38,11 +38,11 @@ const ImageUpload = ({ onFileSelected, children }: ImageUploadProps) => {
         onClick={handleUploadClick}
       >
         {imageSelected ? (
-          <p className="cursor-pointer rounded-md p-2 text-[0.8rem] text-sc-3 dark:bg-dark-4 dark:text-light-2">
+          <p className="cursor-pointer rounded-md p-2.5 text-[0.8rem] text-sc-3 dark:bg-dark-4 dark:text-light-2">
             Upload Image
           </p>
         ) : imageUploaded ? (
-          <p className="cursor-pointer rounded-md p-2 text-[0.8rem] text-sc-3 dark:bg-dark-4 dark:text-light-2">
+          <p className="cursor-pointer rounded-md p-2.5 text-[0.8rem] text-sc-3 dark:bg-dark-4 dark:text-light-2">
             Replace Image
           </p>
         ) : (

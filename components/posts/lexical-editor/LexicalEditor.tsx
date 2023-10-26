@@ -173,7 +173,7 @@ function MainLexicalEditor({
 
       <RichTextPlugin
         contentEditable={
-          <ContentEditable className="h-[20rem] w-[100%] rounded-b-md border-x-[0.1rem] border-b-[0.1rem] border-light-2 bg-light p-6 text-[1rem] text-sc-2  dark:border-dark-4 dark:bg-dark-3 dark:text-light-2" />
+          <ContentEditable className="h-[20rem] w-[100%] overflow-scroll rounded-b-md border-x-[0.1rem] border-b-[0.1rem] border-light-2 bg-light p-6 text-[1rem] text-sc-2  dark:border-dark-4 dark:bg-dark-3 dark:text-light-2" />
         }
         placeholder={<Placeholder />}
         ErrorBoundary={LexicalErrorBoundary}
