@@ -8,10 +8,17 @@ import { Progress } from "../ui/progress";
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
 import { formatPodcastDuration } from "@/utils";
+import { IPodcast } from "@/types/podcast.index";
 import usePodcastStore from "@/app/store";
 
-const PodcastPlayButton = ({ url }: { url: string }) => {
-  const { songUrl, setSongUrl, togglePlay, isPlaying } = usePodcastStore();
+interface PodcastPlayButtonProps {
+  url: string;
+  podcast: IPodcast;
+}
+
+const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
+  const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =
+    usePodcastStore();
   const [audioDuration, setAudioDuration] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<string>("00:00");
   const [currentPlaybackPercentage, setCurrentPlaybackPercentage] =
@@ -51,8 +58,10 @@ const PodcastPlayButton = ({ url }: { url: string }) => {
 
   const handleClick = () => {
     if (isPlaying && url === songUrl) {
+      setPodcast(podcast);
       setSongUrl(url);
     } else {
+      setPodcast(podcast);
       setSongUrl(url);
       togglePlay();
     }
