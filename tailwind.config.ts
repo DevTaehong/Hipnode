@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sourceSans: ["var(--font-source-sans)"],
+      },
       backgroundImage: {
         "message-popover": "url('/images/messagePopover.svg')",
         "dark-message-popover": "url('/images/darkMessagePopover.svg')",

@@ -7,7 +7,7 @@ type ColorVariantsType = {
   bgBlue: string;
 };
 
-const colorVariants: ColorVariantsType = {
+export const colorVariants: ColorVariantsType = {
   bgYellow: "bg-yellow-10",
   bgRed: "bg-red-10",
   bgBlue: "bg-blue-10",
@@ -15,7 +15,7 @@ const colorVariants: ColorVariantsType = {
 
 type ColorVariantKeys = keyof typeof colorVariants;
 
-interface GroupSectionHeaderProps {
+export interface GroupSectionHeaderProps {
   title: string;
   bgColor: ColorVariantKeys;
   icon: FC;

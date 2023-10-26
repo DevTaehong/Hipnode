@@ -120,7 +120,7 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
-const fastestGrowingGroups = [
+export const fastestGrowingGroups = [
   {
     icon: christopher,
     groupDescription: "Lorem ipsum dolor sit amet consectetur",
@@ -173,7 +173,7 @@ const fastestGrowingGroups = [
   },
 ];
 
-const mostPopularGroups = [
+export const mostPopularGroups = [
   {
     icon: santiago,
     groupDescription: "Praesent sapien massa, convallis a pellentesque",
@@ -226,7 +226,7 @@ const mostPopularGroups = [
   },
 ];
 
-const newlyLaunchedGroups = [
+export const newlyLaunchedGroups = [
   {
     icon: negan,
     groupDescription: "Viverra mauris in aliquam sem fringilla",

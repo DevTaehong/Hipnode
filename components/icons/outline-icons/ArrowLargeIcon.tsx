@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { IconProps } from "@/types";
 
 const ArrowLargeIcon = ({ children }: IconProps) => {
@@ -16,12 +17,16 @@ const ArrowLargeIcon = ({ children }: IconProps) => {
   );
 };
 
-ArrowLargeIcon.Down = function ArrowLargeDown() {
+ArrowLargeIcon.Down = function ArrowLargeDown({
+  className,
+}: {
+  className?: string;
+}) {
   return (
     <ArrowLargeIcon>
       <path
         d="M19 5.5L10 14.5L1 5.5"
-        className="stroke-[#3F4354] dark:stroke-sc-3"
+        className={cn("stroke-sc-2 dark:stroke-sc-3", className)}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -34,7 +39,7 @@ ArrowLargeIcon.Right = function ArrowLargeRight() {
     <ArrowLargeIcon>
       <path
         d="M5.5 1L14.5 10L5.5 19"
-        className="stroke-[#3F4354] dark:stroke-sc-3"
+        className="stroke-sc-2 dark:stroke-sc-3"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

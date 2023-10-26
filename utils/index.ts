@@ -23,3 +23,13 @@ export function getFormattedDateMeetUpCard(dateString: string) {
     monthText,
   };
 }
+
+export const formatDate = (date: Date) => {
+  const updatedDate = new Date(date);
+  const monthText = updatedDate
+    .toLocaleString("en-US", { month: "short" })
+    .toUpperCase();
+  const day = updatedDate.getDate();
+
+  return { monthText, day };
+};
