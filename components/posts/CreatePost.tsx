@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, Control } from "react-hook-form";
+
 import { z } from "zod";
 import Image from "next/image";
 import {
@@ -49,9 +50,7 @@ export default function CreatePost() {
   const [htmlString, setHtmlString] = useState("");
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-
-  const [isGroupOpen, setIsGroupOpen] = useState(false);
-  const [isPostOpen, setIsPostOpen] = useState(false);
+  const [postData, setPostData] = useState<FormValues | null>(null);
 
   const handleUpload = async () => {
     if (imageToUpload) {
@@ -80,23 +79,19 @@ export default function CreatePost() {
   const { setValue, watch } = form;
 
   const onSubmit = async (values: FormValues) => {
-    console.log(values);
-    handleUpload();
+    await handleUpload();
+    const finalValues = form.getValues();
+    setPostData(finalValues);
     form.reset();
   };
 
+  console.log(postData);
+
+  const watchedData = watch();
+
   useEffect(() => {
-    const data = watch();
-    console.log(data.coverImage);
-  }, []);
-
-  const handleGroupChange = () => {
-    setIsGroupOpen(!isGroupOpen);
-  };
-
-  const handlePostChange = () => {
-    setIsPostOpen(!isPostOpen);
-  };
+    console.log(watchedData);
+  }, [watchedData]);
 
   return (
     <div className="flex w-fit items-center justify-center rounded-md bg-light dark:bg-dark-3">
@@ -158,90 +153,18 @@ export default function CreatePost() {
               )}
             />
 
-            <Controller
-              name={"group"}
+            <SelectController
               control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onOpenChange={handleGroupChange}
-                    value={String(field.value)}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                    }}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] dark:bg-dark-4 dark:text-light-2">
-                        <SelectValue
-                          placeholder={
-                            <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                              <p className="text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                                Select Group
-                              </p>
-                            </div>
-                          }
-                        />
-                        {isGroupOpen ? (
-                          <ChevronUp className="h-4 w-4 text-white opacity-50" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4 text-white opacity-50" />
-                        )}
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                      {GROUP.map((item) => (
-                        <SelectItem key={item} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              name={"group"}
+              placeholder={"Select Group"}
+              options={GROUP}
             />
-            <Controller
+
+            <SelectController
               control={form.control}
               name={"post"}
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onOpenChange={handlePostChange}
-                    value={String(field.value)}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                    }}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="flex min-w-[7rem] justify-between border-none p-0 px-3 text-[1rem] dark:bg-dark-4 dark:text-light-2">
-                        <SelectValue
-                          placeholder={
-                            <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                              <p className="text-[0.563rem] leading-[1.5rem] dark:text-light-2 sm:text-[0.625rem]">
-                                Create Post
-                              </p>
-                            </div>
-                          }
-                        />
-                        {isPostOpen ? (
-                          <ChevronUp className="h-4 w-4 text-white opacity-50" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4 text-white opacity-50" />
-                        )}
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] leading-[1.5rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem]">
-                      {POST.map((item) => (
-                        <SelectItem key={item} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={"Create Post"}
+              options={POST}
             />
           </div>
           <div className="flex items-center justify-center p-6">
@@ -296,20 +219,101 @@ export default function CreatePost() {
               )}
             />
           </div>
-          <div className="flex flex-row gap-4">
-            <CustomButton
-              type="submit"
-              label="Publish"
-              className="rounded-md bg-blue px-[2.5rem] py-[0.625rem] text-[0.875rem] text-blue-10 md:text-[1rem] md:leading-[1.5rem]"
-            />
-            <CustomButton
-              type="button"
-              label="Cancel"
-              className="rounded-md bg-dark-3 px-[2.5rem] py-[0.625rem] text-[0.875rem] text-sc-3 md:text-[1rem] md:leading-[1.5rem]"
-            />
-          </div>
+          <CreatePostButtons />
         </form>
       </Form>
     </div>
   );
 }
+
+const CreatePostButtons = () => (
+  <div className="flex flex-row gap-4">
+    <CustomButton
+      type="submit"
+      label="Publish"
+      className="rounded-md bg-blue px-[2.5rem] py-[0.625rem] text-[0.875rem] text-blue-10 md:text-[1rem] md:leading-[1.5rem]"
+    />
+    <CustomButton
+      type="button"
+      label="Cancel"
+      className="rounded-md bg-dark-3 px-[2.5rem] py-[0.625rem] text-[0.875rem] text-sc-3 md:text-[1rem] md:leading-[1.5rem]"
+    />
+  </div>
+);
+
+interface FormData {
+  title: string;
+  mainText: string;
+  group: string;
+  post: string;
+  tagStringsInput: string;
+  coverImage?: any;
+}
+
+type SelectControllerProps = {
+  control: Control<FormData>;
+  name: keyof FormData;
+  placeholder: string;
+  options: string[];
+};
+
+const SelectController = ({
+  control,
+  name,
+  placeholder,
+  options,
+}: SelectControllerProps) => {
+  const [openState, setOpenState] = useState<Record<string, boolean>>({});
+
+  const handleOpenChange = (name: string) => {
+    setOpenState((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
+  };
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <FormItem>
+          <Select
+            onOpenChange={() => handleOpenChange(name)}
+            value={String(field.value)}
+            onValueChange={(value) => {
+              field.onChange(value);
+            }}
+          >
+            <FormControl>
+              <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] dark:bg-dark-4 dark:text-light-2">
+                <SelectValue
+                  placeholder={
+                    <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
+                      <p className="text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+                        {placeholder}
+                      </p>
+                    </div>
+                  }
+                />
+                {openState[name] ? (
+                  <ChevronUp className="h-4 w-4 text-white opacity-50" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-white opacity-50" />
+                )}
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
+              {options.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <FormMessage className="capitalize text-red-500" />
+        </FormItem>
+      )}
+    />
+  );
+};
