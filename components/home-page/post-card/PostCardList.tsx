@@ -42,7 +42,7 @@ const PostCardList = ({ posts }: PostCardListProps) => {
   }, [inView]);
 
   return (
-    <main>
+    <main className="flex h-fit flex-col">
       {postData.map((post) => (
         <section className="pb-[1.25rem]" key={post.id}>
           <PostCard post={post} />

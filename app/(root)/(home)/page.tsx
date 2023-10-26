@@ -11,7 +11,6 @@ import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { getAllPosts } from "@/lib/actions/post.action";
-import "@/components/home-page/home.css";
 
 export default async function Home() {
   const { userId } = auth();
@@ -23,31 +22,29 @@ export default async function Home() {
   const meetups = await getAllMeetUps();
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
-  console.log(posts);
 
   return (
-    <section className="min-h-screen w-full bg-light-2 pt-16 dark:bg-dark-2 ">
-      <div className="wrapper-home mx-auto  max-w-[85rem] scroll-smooth">
-        <div className="sidebar">
-          <Sidebar />
-        </div>
-        <div className="tags">
-          <Tags />
-        </div>
-        <div className="create">
-          <CreatePostInput userImage={userImage} />
-        </div>
-        <div className="list no-scrollbar max-h-[screen] overflow-scroll">
-          <PostCardList posts={posts} />
-        </div>
+    <div className="h-[100vh] ">
+      <section className="flex w-full bg-light-2 py-[1.875rem] pt-16 dark:bg-dark-2">
+        <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
+          <div className="sticky top-[2rem] flex flex-col gap-5">
+            <Sidebar />
+            <Tags />
+          </div>
 
-        <div className="meetups">
-          <Meetups meetUps={meetups} />{" "}
+          <div className="flex flex-col gap-5">
+            <CreatePostInput userImage={userImage} />
+            <div className="flex h-full overflow-scroll">
+              <PostCardList posts={posts} />
+            </div>
+          </div>
+
+          <div className="sticky top-[2rem] flex flex-col gap-5">
+            <Meetups meetUps={meetups} />
+            <Podcasts podcasts={podcasts} />
+          </div>
         </div>
-        <div className="podcasts">
-          <Podcasts podcasts={podcasts} />
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
