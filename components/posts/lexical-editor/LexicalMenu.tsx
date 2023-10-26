@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
@@ -48,16 +49,21 @@ type LexicalMenuProps = {
   editorRef: React.RefObject<HTMLDivElement>;
 };
 
-export function LexicalMenu(props: LexicalMenuProps) {
+export function LexicalMenu({
+  editor,
+  autoFocus,
+  setAutoFocus,
+  editorRef,
+  editorHtmlString,
+}: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
 
-  const { editor, autoFocus, setAutoFocus, editorRef } = props;
-
   useEffect(() => {
-    setHtmlString(props.editorHtmlString);
-  }, [props.editorHtmlString]);
+    const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
+    setHtmlString(sanitizedHtml);
+  }, [editorHtmlString]);
 
   const [state, setState] = useState<LexicalMenuState>({
     isBold: false,
@@ -152,7 +158,7 @@ export function LexicalMenu(props: LexicalMenuProps) {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <p className="flex items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+            <p className="flex cursor-pointer items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
               <div className="flex items-center gap-[0.625rem]">
                 <Icon.View />
                 <p className="pr-4">Preview</p>

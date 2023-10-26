@@ -134,21 +134,21 @@ function MainLexicalEditor({ name, updateField }: LexicalEditorProps) {
   const [autoFocus, setAutoFocus] = useState(false);
   const editorRef = React.useRef<HTMLDivElement>(null);
 
-  // function handleEditorFocus() {
-  //   setAutoFocus(true);
-  // }
-
   useEffect(() => {
     return editor?.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
-        const htmlString = $generateHtmlFromNodes(editor, null);
-        setHtmlString(htmlString);
+        const htmlStringEditor = $generateHtmlFromNodes(editor, null);
+        setHtmlString(htmlStringEditor);
       });
     });
   }, [editor]);
 
   return (
-    <main ref={editorRef} className="flex flex-col">
+    <main
+      ref={editorRef}
+      onBlur={() => setAutoFocus(false)}
+      className="flex flex-col"
+    >
       <div className="w-full">
         <LexicalMenu
           editor={editor}
