@@ -133,6 +133,8 @@ function MainLexicalEditor({
   name,
   updateField,
   imagePreviewUrl,
+  onSubmitPreview,
+  previewValues,
 }: LexicalEditorProps) {
   const [editor] = useLexicalComposerContext();
   const [htmlString, setHtmlString] = useState("");
@@ -162,6 +164,8 @@ function MainLexicalEditor({
           setAutoFocus={setAutoFocus}
           editorRef={editorRef}
           imagePreviewUrl={imagePreviewUrl}
+          onSubmitPreview={onSubmitPreview}
+          previewValues={previewValues}
         />
       </div>
 
@@ -193,6 +197,8 @@ export default function LexicalEditor({
   name,
   updateField,
   imagePreviewUrl,
+  onSubmitPreview,
+  previewValues,
 }: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -200,6 +206,8 @@ export default function LexicalEditor({
         name={name}
         updateField={updateField}
         imagePreviewUrl={imagePreviewUrl}
+        onSubmitPreview={onSubmitPreview}
+        previewValues={previewValues}
       />
     </LexicalComposer>
   );

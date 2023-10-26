@@ -15,16 +15,24 @@ type PostPreviewProps = {
   htmlString: string;
 };
 
-const PostPreview = ({ imagePreviewUrl, htmlString }: PostPreviewProps) => {
+const PostPreview = ({
+  imagePreviewUrl,
+  htmlString,
+  previewValues,
+  onSubmitPreview,
+}: PostPreviewProps) => {
+  console.log(previewValues);
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <p className="flex cursor-pointer items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
-          <div className="flex items-center gap-[0.625rem]">
-            <Icon.View />
-            <p className="pr-4">Preview</p>
-          </div>
-        </p>
+        <button type="button" onClick={() => onSubmitPreview()}>
+          <p className="flex cursor-pointer items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+            <div className="flex items-center gap-[0.625rem]">
+              <Icon.View />
+              <p className="pr-4">Preview</p>
+            </div>
+          </p>
+        </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

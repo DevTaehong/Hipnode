@@ -51,6 +51,8 @@ export function LexicalMenu({
   editorRef,
   editorHtmlString,
   imagePreviewUrl,
+  onSubmitPreview,
+  previewValues,
 }: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
@@ -157,6 +159,8 @@ export function LexicalMenu({
         <PostPreview
           imagePreviewUrl={imagePreviewUrl}
           htmlString={htmlString}
+          onSubmitPreview={onSubmitPreview}
+          previewValues={previewValues}
         />
       </div>
       <div className="flex-wrap">

@@ -50,7 +50,7 @@ export default function CreatePost() {
   const [htmlString, setHtmlString] = useState("");
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-  const [postData, setPostData] = useState<FormValues | null>(null);
+  const [previewValues, setPreviewValues] = useState<FormValues | null>(null);
 
   const handleUpload = async () => {
     if (imageToUpload) {
@@ -81,11 +81,14 @@ export default function CreatePost() {
   const onSubmit = async (values: FormValues) => {
     await handleUpload();
     const finalValues = form.getValues();
-    setPostData(finalValues);
+
     form.reset();
   };
 
-  console.log(postData);
+  const onSubmitPreview = async (values: FormValues) => {
+    const previewValues = form.getValues();
+    setPreviewValues(previewValues);
+  };
 
   const watchedData = watch();
 
@@ -188,6 +191,8 @@ export default function CreatePost() {
                         name="mainText"
                         updateField={setValue}
                         imagePreviewUrl={imagePreviewUrl || "/emoji_2.png"}
+                        previewValues={previewValues}
+                        onSubmitPreview={onSubmitPreview}
                       />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
