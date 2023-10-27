@@ -10,7 +10,7 @@ import {
 import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
 import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
 import PostIcon from "@/components/icons/outline-icons/PostIcon";
-import { NotificationPopoverProps, NotificationTab } from "@/types";
+import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
@@ -537,5 +537,28 @@ export const podcastFormLinkProps = {
   linkToFormButton: {
     title: "Submit a Podcast",
     link: "/",
+  },
+};
+
+export const groupData: GroupData = {
+  "fastest-growing": {
+    header: {
+      color: "bg-yellow-10",
+      icon: FillIcon.Rocket,
+      title: "Fastest Growing",
+    },
+    groups: fastestGrowingGroups,
+  },
+  "Most Popular": {
+    header: { color: "bg-red-10", icon: FillIcon.Fire, title: "Most Popular" },
+    groups: mostPopularGroups,
+  },
+  "Newly Launched": {
+    header: {
+      color: "bg-blue-10",
+      icon: FillIcon.Rocket,
+      title: "Newly Launched",
+    },
+    groups: newlyLaunchedGroups,
   },
 };

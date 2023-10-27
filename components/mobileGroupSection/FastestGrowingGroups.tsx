@@ -1,7 +1,7 @@
 import SeeAllButton from "@/components/mobileGroupSection/SeeAllButton";
 import { fastestGrowingGroups } from "@/constants";
 import { GroupSectionGroupType } from "@/types";
-import GroupSectionListItem from "../GroupSectionListItem";
+import GroupSectionListItem from "@/components/GroupSectionListItem";
 
 const FastestGrowingGroups = () => {
   return (
