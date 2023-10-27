@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Share2Icon } from "../icons/outline-icons";
 import { Button } from "../ui/button";
 
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
-import { formatPodcastDuration } from "@/utils";
+import { formatPodcastDuration, setToLocalStorage } from "@/utils";
 import { IPodcast } from "@/types/podcast.index";
 import usePodcastStore from "@/app/store";
 
@@ -32,16 +32,17 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
     }
   }, []);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
+    setPodcast(podcast);
+
     if (isPlaying && url === songUrl) {
-      setPodcast(podcast);
       setSongUrl(url);
     } else {
-      setPodcast(podcast);
       setSongUrl(url);
       togglePlay();
     }
-  };
+    setToLocalStorage("selectedPodcastId", podcast.id);
+  }, [isPlaying, songUrl, url, podcast, setPodcast, setSongUrl, togglePlay]);
 
   const isAudioPlaying = url === songUrl && isPlaying;
 

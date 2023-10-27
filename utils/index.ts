@@ -71,3 +71,22 @@ export const handlePlay = ({
     setIsPlaying(!isPlaying);
   }
 };
+
+export const setToLocalStorage = (key: string, value: any) => {
+  try {
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(key, serializedValue);
+  } catch (e) {
+    console.error("Failed to set item in local storage:", e);
+  }
+};
+
+export const getFromLocalStorage = (key: string) => {
+  try {
+    const serializedValue = localStorage.getItem(key);
+    return serializedValue ? JSON.parse(serializedValue) : null;
+  } catch (e) {
+    console.error("Failed to get item from local storage:", e);
+    return null;
+  }
+};

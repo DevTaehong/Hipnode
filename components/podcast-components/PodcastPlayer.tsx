@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import usePodcastStore from "@/app/store";
-import { formatPodcastDuration } from "@/utils";
+import { formatPodcastDuration, getFromLocalStorage } from "@/utils";
 import { Progress } from "../ui/progress";
 import {
   HoverCard,
@@ -22,6 +22,7 @@ import {
   ImCross,
 } from "react-icons/im";
 import { christopher } from "@/public/assets";
+import { getPodcastById } from "@/lib/actions/podcast.actions";
 
 const PodcastPlayer = () => {
   const { isPlaying, togglePlay, songUrl, setSongUrl, podcast } =
@@ -31,10 +32,11 @@ const PodcastPlayer = () => {
   const [showPlayer, setShowPlayer] = useState(false);
   const [showInfo, setShowInfo] = useState("");
   const [volume, setVolume] = useState([100]);
+  const [podcastUserImage, setPodcastUserImage] = useState("");
   const [playbackSpeedIndex, setPlaybackSpeedIndex] = useState(1);
   const percentagePlayed = (currentTime / totalDuration) * 100;
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { title, image, episodeNumber, id } = podcast || {};
+  const { title, episodeNumber, id } = podcast || {};
 
   const handlePlayCall = () => {
     const audioElement = document.getElementById(
@@ -42,8 +44,11 @@ const PodcastPlayer = () => {
     ) as HTMLAudioElement;
 
     if (audioElement) {
-      if (isPlaying) {
+      if (podcast !== null) {
+        setPodcastUserImage(podcast.image);
         setShowInfo("#" + episodeNumber + " - " + title);
+      }
+      if (isPlaying) {
         audioElement.play();
         setShowPlayer(true);
       }
@@ -54,6 +59,10 @@ const PodcastPlayer = () => {
     const audioElement = document.getElementById(
       "podcast-audio"
     ) as HTMLAudioElement;
+
+    if (podcast) {
+      setPodcastUserImage(podcast.image);
+    }
 
     if (audioElement) {
       if (isPlaying) {
@@ -173,22 +182,22 @@ const PodcastPlayer = () => {
     }
   };
 
-  const savePodcastPlayerState = (
-    id,
+  type savePodcastTypeProps = {
+    isPlaying: boolean;
+    currentTime: any;
+    songUrl: string | undefined;
+  };
+
+  const savePodcastPlayerState = ({
     isPlaying,
     currentTime,
     songUrl,
-    title,
-    episodeNumber
-  ) => {
+  }: savePodcastTypeProps) => {
     try {
       const state = {
-        id,
         isPlaying,
         currentTime,
         songUrl,
-        title,
-        episodeNumber,
       };
       localStorage.setItem("podcastPlayerState", JSON.stringify(state));
     } catch (error) {
@@ -206,34 +215,33 @@ const PodcastPlayer = () => {
     }
   };
 
-  const handlePlayCallFromLocalStorage = () => {
-    const audioElement = document.getElementById(
-      "podcast-audio"
-    ) as HTMLAudioElement;
-
-    if (audioElement) {
-      audioElement.play();
-    }
-  };
-
   useEffect(() => {
+    const fetchPodcast = async () => {
+      if (podcast === null) {
+        const podcastId = getFromLocalStorage("selectedPodcastId");
+        if (podcastId) {
+          const podcastUpdated = await getPodcastById(podcastId);
+          if (podcastUpdated) {
+            const { title, episodeNumber } = podcastUpdated;
+            setShowInfo("#" + episodeNumber + " - " + title);
+            setPodcastUserImage(podcastUpdated.image);
+          }
+        }
+      }
+    };
+
+    fetchPodcast();
+
     const storedState = getPodcastPlayerState();
     const loadPodcastFromLocalStorage = () => {
       if (storedState) {
-        const { currentTime, id, episodeNumber, title, songUrl } = storedState;
+        const { currentTime, songUrl } = storedState;
         setSongUrl(songUrl);
-        setShowInfo("#" + episodeNumber + " - " + title);
         if (currentTime > 0) {
           setCurrentTime(currentTime);
           setShowPlayer(true);
-          if (id) {
-            if (podcast) {
-              handlePlayCallFromLocalStorage();
-            }
-          }
         }
-
-        if (audioRef.current) {
+        if (audioRef.current && Number.isFinite(storedState.currentTime)) {
           audioRef.current.currentTime = storedState.currentTime;
         }
       }
@@ -244,14 +252,7 @@ const PodcastPlayer = () => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      savePodcastPlayerState(
-        id,
-        isPlaying,
-        currentTime,
-        songUrl,
-        title,
-        episodeNumber
-      );
+      savePodcastPlayerState({ isPlaying, currentTime, songUrl });
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
 
@@ -268,7 +269,7 @@ const PodcastPlayer = () => {
     >
       <Link href={`/podcasts/${id}`} className="min-h-[50px] min-w-[50px] ">
         <Image
-          src={image || christopher}
+          src={podcastUserImage || christopher}
           height={50}
           width={50}
           alt="christopher"
@@ -293,7 +294,9 @@ const PodcastPlayer = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <p className="text-sc-1_light-2 text-xs">{showInfo}</p>
+          {!showInfo.includes("undefined") && (
+            <p className="text-sc-1_light-2 text-xs">{showInfo}</p>
+          )}
           <button
             onClick={cyclePlaybackSpeed}
             className="text-sc-1_light-2 text-sm"
