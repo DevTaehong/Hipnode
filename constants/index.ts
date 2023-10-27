@@ -539,3 +539,25 @@ export const podcastFormLinkProps = {
     link: "/",
   },
 };
+
+// <PodcastPlayerBar
+//     title={title}
+//     formattedLength = {formattedLength}
+//   formattedTime = {formattedTime}
+//   showPlayer = {showPlayer}
+//   image = {image}
+//   songUrl = {songUrl}
+//   audioRef = {audioRef}
+//   handlePlayClick = {handlePlayClick}
+//   isPlaying = {isPlaying}
+//   episodeNumber = {episodeNumber}
+//   cyclePlaybackSpeed = {cyclePlaybackSpeed}
+//   playbackSpeedOptions = {playbackSpeedOptions}
+//   playbackSpeedIndex = {playbackSpeedIndex}
+//   percentagePlayed = {percentagePlayed}
+//   handleProgressClick = {handleProgressClick}
+//   handleVolumeIconClick = {handleVolumeIconClick}
+//   getVolumeIcon = {getVolumeIcon}
+//   volume = {volume}
+//   handleVolumeChange = {handleVolumeChange}
+//     />

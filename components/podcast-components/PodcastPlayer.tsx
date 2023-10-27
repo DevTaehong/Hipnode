@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import usePodcastStore from "@/app/store";
 import { formatPodcastDuration } from "@/utils";
@@ -18,6 +19,7 @@ import {
   ImVolumeMedium,
   ImVolumeMute2,
   ImVolumeHigh,
+  ImCross,
 } from "react-icons/im";
 import { christopher } from "@/public/assets";
 
@@ -27,12 +29,12 @@ const PodcastPlayer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [showPlayer, setShowPlayer] = useState(false);
+  const [showInfo, setShowInfo] = useState("");
   const [volume, setVolume] = useState([100]);
   const [playbackSpeedIndex, setPlaybackSpeedIndex] = useState(1);
   const percentagePlayed = (currentTime / totalDuration) * 100;
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const { title, image, episodeNumber } = podcast || {};
+  const { title, image, episodeNumber, id } = podcast || {};
 
   const handlePlayCall = () => {
     const audioElement = document.getElementById(
@@ -41,6 +43,7 @@ const PodcastPlayer = () => {
 
     if (audioElement) {
       if (isPlaying) {
+        setShowInfo("#" + episodeNumber + " - " + title);
         audioElement.play();
         setShowPlayer(true);
       }
@@ -82,15 +85,37 @@ const PodcastPlayer = () => {
       audioElement.addEventListener("loadedmetadata", () => {
         setTotalDuration(Math.floor(audioElement.duration));
       });
+
+      audioElement.addEventListener("ended", handleAudioEnd);
     }
 
     return () => {
       if (audioElement) {
         audioElement.removeEventListener("timeupdate", () => {});
         audioElement.removeEventListener("loadedmetadata", () => {});
+        audioElement.removeEventListener("ended", handleAudioEnd);
       }
     };
   }, []);
+
+  const handleStop = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+    }
+  };
+
+  const handleAudioEnd = () => {
+    togglePlay();
+    setTimeout(() => {
+      setShowPlayer(false);
+    }, 1000);
+  };
+
+  const handleCloseClick = () => {
+    setShowPlayer(false);
+    handlePlayClick();
+    handleStop();
+  };
 
   const getVolumeIcon = (volumeValues: number[]) => {
     const volumeValue = volumeValues[0];
@@ -148,13 +173,100 @@ const PodcastPlayer = () => {
     }
   };
 
+  const savePodcastPlayerState = (
+    id,
+    isPlaying,
+    currentTime,
+    songUrl,
+    title,
+    episodeNumber
+  ) => {
+    try {
+      const state = {
+        id,
+        isPlaying,
+        currentTime,
+        songUrl,
+        title,
+        episodeNumber,
+      };
+      localStorage.setItem("podcastPlayerState", JSON.stringify(state));
+    } catch (error) {
+      console.error("Error saving podcast player state:", error);
+    }
+  };
+
+  const getPodcastPlayerState = () => {
+    const storedState = localStorage.getItem("podcastPlayerState");
+    try {
+      return storedState ? JSON.parse(storedState) : null;
+    } catch (error) {
+      console.error("Error parsing podcast player state:", error);
+      return null;
+    }
+  };
+
+  const handlePlayCallFromLocalStorage = () => {
+    const audioElement = document.getElementById(
+      "podcast-audio"
+    ) as HTMLAudioElement;
+
+    if (audioElement) {
+      audioElement.play();
+    }
+  };
+
+  useEffect(() => {
+    const storedState = getPodcastPlayerState();
+    const loadPodcastFromLocalStorage = () => {
+      if (storedState) {
+        const { currentTime, id, episodeNumber, title, songUrl } = storedState;
+        setSongUrl(songUrl);
+        setShowInfo("#" + episodeNumber + " - " + title);
+        if (currentTime > 0) {
+          setCurrentTime(currentTime);
+          setShowPlayer(true);
+          if (id) {
+            if (podcast) {
+              handlePlayCallFromLocalStorage();
+            }
+          }
+        }
+
+        if (audioRef.current) {
+          audioRef.current.currentTime = storedState.currentTime;
+        }
+      }
+    };
+
+    loadPodcastFromLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      savePodcastPlayerState(
+        id,
+        isPlaying,
+        currentTime,
+        songUrl,
+        title,
+        episodeNumber
+      );
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [currentTime]);
+
   return (
     <div
       className={`bg-light_dark-3 fixed bottom-0 flex h-[4.5rem] w-full items-center justify-between gap-2 px-5 transition duration-200 ${
         !showPlayer && "translate-y-[4.5rem]"
       }`}
     >
-      <div className="min-h-[50px] min-w-[50px] ">
+      <Link href={`/podcasts/${id}`} className="min-h-[50px] min-w-[50px] ">
         <Image
           src={image || christopher}
           height={50}
@@ -162,7 +274,7 @@ const PodcastPlayer = () => {
           alt="christopher"
           className="rounded-full"
         />
-      </div>
+      </Link>
 
       <div className="flex w-80 flex-col items-center">
         <div className="flex gap-2">
@@ -181,9 +293,7 @@ const PodcastPlayer = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <p className="text-sc-1_light-2 text-xs">
-            #{episodeNumber} - {title}
-          </p>
+          <p className="text-sc-1_light-2 text-xs">{showInfo}</p>
           <button
             onClick={cyclePlaybackSpeed}
             className="text-sc-1_light-2 text-sm"
@@ -200,7 +310,7 @@ const PodcastPlayer = () => {
           <p className="text-sc-1_light-2 text-xs">{formattedLength}</p>
         </div>
       </div>
-      <div className="flex cursor-pointer gap-2">
+      <div className="flex cursor-pointer gap-3">
         <HoverCard openDelay={100} closeDelay={500}>
           <HoverCardTrigger>
             <div
@@ -220,6 +330,12 @@ const PodcastPlayer = () => {
             />{" "}
           </HoverCardContent>
         </HoverCard>
+        <div
+          className="text-sc-1_light-2 flex items-center"
+          onClick={handleCloseClick}
+        >
+          <ImCross />
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, MouseEvent } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Share2Icon } from "../icons/outline-icons";
 import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
 
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
@@ -20,19 +19,7 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
   const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =
     usePodcastStore();
   const [audioDuration, setAudioDuration] = useState<string>("");
-  const [currentTime, setCurrentTime] = useState<string>("00:00");
-  const [currentPlaybackPercentage, setCurrentPlaybackPercentage] =
-    useState<number>(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const handleProgressClick = (percentage: number | MouseEvent) => {
-    if (audioRef.current) {
-      if (typeof percentage === "number") {
-        const newTime = (percentage / 100) * audioRef.current.duration;
-        audioRef.current.currentTime = newTime;
-      }
-    }
-  };
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -41,17 +28,6 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
       audioElement.addEventListener("loadedmetadata", () => {
         const audioDuration = formatPodcastDuration(audioElement.duration);
         setAudioDuration(audioDuration);
-      });
-
-      audioElement.addEventListener("timeupdate", () => {
-        const currentPlaybackTime = formatPodcastDuration(
-          audioElement.currentTime
-        );
-        setCurrentTime(currentPlaybackTime);
-
-        const percentage =
-          (audioElement.currentTime / audioElement.duration) * 100;
-        setCurrentPlaybackPercentage(percentage);
       });
     }
   }, []);
@@ -77,13 +53,9 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-2.5 flex w-full items-center gap-5 md:mb-4">
-        <Progress
-          value={currentPlaybackPercentage}
-          onClick={(percentage) => handleProgressClick(percentage)}
-        />
+      <div className="mb-2.5 flex w-full items-center gap-5 md:mb-3">
         <p className="regular-10 md:semibold-14 whitespace-nowrap text-sc-2 dark:text-light-2">
-          {currentTime} {audioDuration && " | " + audioDuration}
+          {audioDuration && audioDuration}
         </p>
       </div>
       <div className="flex w-full items-center gap-3.5 md:gap-5">
