@@ -532,3 +532,11 @@ export const podcastFormLinkProps = {
     link: "/",
   },
 };
+
+export const profileFilters = [
+  "Posts",
+  "Meetups",
+  "Podcasts",
+  "Interviews",
+  "History",
+];
