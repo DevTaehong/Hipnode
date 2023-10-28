@@ -4,7 +4,6 @@ import Link from "next/link";
 import ProfileBtns from "./ProfileBtns";
 import OutlineIcon from "../icons/outline-icons";
 
-// ! Keeping props here since they will be changing when we implement database intergration
 interface ProfileInfoProps {
   src: string;
   name: string;
