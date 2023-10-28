@@ -1,22 +1,21 @@
 import { FC } from "react";
 import Link from "next/link";
 
-import { ArrowIcon } from "@/components/icons/outline-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
 
 const GroupHeader = ({
   color,
   title,
-  icon,
+  Icon,
 }: {
   color: string;
   title: string;
-  icon: FC;
+  Icon: FC;
 }) => {
-  const Icon = icon;
   return (
     <div className="mt-2.5">
       <Link href="/group">
-        <ArrowIcon.Left className="stroke-sc-2 dark:stroke-sc-3" />
+        <OutlineIcon.ArrowLeft className="stroke-sc-2 dark:stroke-sc-3" />
         <span className="sr-only">Back</span>
       </Link>
       <div

@@ -1,51 +1,42 @@
-import { cn } from "@/lib/utils";
-import { IconProps } from "@/types";
+import React from "react";
 
-const ArrowLargeIcon = ({ children }: IconProps) => {
-  return (
-    <div className="flex h-5 w-5 items-center justify-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-      >
-        {children}
-      </svg>
-    </div>
-  );
-};
-
-ArrowLargeIcon.Down = function ArrowLargeDown({
+export default function ArrowLarge({
+  children,
   className,
 }: {
+  children?: React.ReactNode;
   className?: string;
 }) {
   return (
-    <ArrowLargeIcon>
-      <path
-        d="M19 5.5L10 14.5L1 5.5"
-        className={cn("stroke-sc-2 dark:stroke-sc-3", className)}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </ArrowLargeIcon>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="none"
+      className={className}
+    >
+      {children}
+    </svg>
   );
-};
-ArrowLargeIcon.Right = function ArrowLargeRight() {
+}
+ArrowLarge.Down = function ArrowLargeDown() {
   return (
-    <ArrowLargeIcon>
-      <path
-        d="M5.5 1L14.5 10L5.5 19"
-        className="stroke-sc-2 dark:stroke-sc-3"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </ArrowLargeIcon>
+    <path
+      d="M19 5.5L10 14.5L1 5.5"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   );
 };
 
-export default ArrowLargeIcon;
+ArrowLarge.Right = function ArrowLargeRight() {
+  return (
+    <path
+      d="M5.5 1L14.5 10L5.5 19"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  );
+};
