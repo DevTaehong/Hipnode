@@ -13,11 +13,13 @@ type State = {
 
 export type Action =
   | { type: "INITIALIZE_PODCAST"; payload: IPodcast | null }
-  | { type: "SET_PODCAST_ID"; payload: number }
+  | {
+      type: "UPDATE_PODCAST_INFO";
+      payload: { image: string; showInfo: string };
+    }
   | { type: "SET_CURRENT_TIME"; payload: number }
   | { type: "SET_TOTAL_DURATION"; payload: number }
   | { type: "SET_SHOW_PLAYER"; payload: boolean }
-  | { type: "SET_SHOW_INFO"; payload: string }
   | { type: "SET_VOLUME"; payload: number[] }
   | { type: "SET_PODCAST_USER_IMAGE"; payload: string }
   | { type: "SET_PLAYBACK_SPEED_INDEX"; payload: number };
@@ -35,16 +37,18 @@ export const reducer = (state: State, action: Action): State => {
         podcastUserImage: podcast?.image || state.podcastUserImage,
       };
     }
-    case "SET_PODCAST_ID":
-      return { ...state, id: action.payload };
+    case "UPDATE_PODCAST_INFO":
+      return {
+        ...state,
+        podcastUserImage: action.payload.image,
+        showInfo: action.payload.showInfo,
+      };
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.payload };
     case "SET_TOTAL_DURATION":
       return { ...state, totalDuration: action.payload };
     case "SET_SHOW_PLAYER":
       return { ...state, showPlayer: action.payload };
-    case "SET_SHOW_INFO":
-      return { ...state, showInfo: action.payload };
     case "SET_VOLUME":
       return { ...state, volume: action.payload };
     case "SET_PODCAST_USER_IMAGE":

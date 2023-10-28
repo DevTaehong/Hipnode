@@ -143,10 +143,12 @@ export const handlePlayCall = ({
   ) as HTMLAudioElement;
   if (audioElement) {
     if (podcast !== null) {
-      dispatch({ type: "SET_PODCAST_USER_IMAGE", payload: podcast.image });
       dispatch({
-        type: "SET_SHOW_INFO",
-        payload: "#" + podcast.episodeNumber + " - " + podcast.title,
+        type: "UPDATE_PODCAST_INFO",
+        payload: {
+          image: podcast.image,
+          showInfo: `#${podcast.episodeNumber} - ${podcast.title}`,
+        },
       });
     }
     if (isPlaying) {
