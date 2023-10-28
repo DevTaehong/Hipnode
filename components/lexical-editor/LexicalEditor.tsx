@@ -10,6 +10,7 @@ export default function LexicalEditor({
   imagePreviewUrl,
   onSubmitPreview,
   previewValues,
+  clearEditor,
 }: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -19,6 +20,7 @@ export default function LexicalEditor({
         imagePreviewUrl={imagePreviewUrl}
         onSubmitPreview={onSubmitPreview}
         previewValues={previewValues}
+        clearEditor={clearEditor}
       />
     </LexicalComposer>
   );

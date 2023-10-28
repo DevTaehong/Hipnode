@@ -57,6 +57,7 @@ const MainLexicalEditor = ({
   imagePreviewUrl,
   onSubmitPreview,
   previewValues,
+  clearEditor,
 }: LexicalEditorProps) => {
   const [editor] = useLexicalComposerContext();
   const [htmlString, setHtmlString] = useState("");
@@ -99,6 +100,7 @@ const MainLexicalEditor = ({
           imagePreviewUrl={imagePreviewUrl}
           onSubmitPreview={onSubmitPreview}
           previewValues={previewValues}
+          clearEditor={clearEditor}
         />
       </div>
 

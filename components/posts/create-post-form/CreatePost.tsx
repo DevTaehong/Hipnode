@@ -32,6 +32,7 @@ export default function CreatePost() {
   const [previewValues, setPreviewValues] = useState<PostFormValuesType | null>(
     null
   );
+  const [clearEditor, setClearEditor] = useState(false);
 
   const handleUpload = async () => {
     if (imageToUpload) {
@@ -56,7 +57,7 @@ export default function CreatePost() {
     await handleUpload();
     const finalValues = form.getValues();
     console.log(finalValues);
-
+    setClearEditor(true);
     form.reset();
   };
 
@@ -128,6 +129,7 @@ export default function CreatePost() {
                         previewValues={
                           previewValues || POST_FORM_DEFAULT_VALUES
                         }
+                        clearEditor={clearEditor}
                       />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />

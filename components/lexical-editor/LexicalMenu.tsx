@@ -35,14 +35,13 @@ export function LexicalMenu({
   imagePreviewUrl,
   onSubmitPreview,
   previewValues,
+  clearEditor,
 }: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
 
   console.log(canRedo);
-
-  console.log(previewValues?.coverImage);
 
   useEffect(() => {
     const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
@@ -120,6 +119,10 @@ export function LexicalMenu({
       document.removeEventListener("click", handleDocumentClick);
     };
   }, [editorRef]);
+
+  useEffect(() => {
+    if (clearEditor) editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+  }, [clearEditor]);
 
   return (
     <div
