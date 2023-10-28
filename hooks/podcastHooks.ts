@@ -1,9 +1,15 @@
-import React from "react";
+import { RefObject } from "react";
 
-import { Action } from "@/components/podcast-components/podcastReducer";
-import { IPodcast, savePodcastTypeProps } from "@/types/podcast.index";
+import {
+  savePodcastTypeProps,
+  FetchPodcastProps,
+  LoadPodcastProps,
+  HandlePlayCallProps,
+  HandleVolumeChangeProps,
+  CyclePlaybackSpeedProps,
+} from "@/types/podcast.index";
 
-export const handleStop = (audioRef: React.RefObject<HTMLAudioElement>) => {
+export const handleStop = (audioRef: RefObject<HTMLAudioElement>) => {
   if (audioRef?.current) {
     audioRef.current.currentTime = 0;
   }
@@ -12,33 +18,13 @@ export const handleStop = (audioRef: React.RefObject<HTMLAudioElement>) => {
 export const cyclePlaybackSpeed = ({
   audioRef,
   playbackSpeedIndex,
-}: {
-  audioRef: React.RefObject<HTMLAudioElement>;
-  playbackSpeedIndex: number;
-}) => {
-  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+}: CyclePlaybackSpeedProps) => {
+  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
   const newIndex = (playbackSpeedIndex + 1) % playbackSpeedOptions.length;
   if (audioRef && audioRef.current) {
     audioRef.current.playbackRate = playbackSpeedOptions[newIndex];
   }
   return newIndex;
-};
-
-interface handleProgressClickProps {
-  percentage: number | React.MouseEvent<HTMLDivElement, MouseEvent>;
-  audioRef: any;
-}
-
-export const handleProgressClick = ({
-  percentage,
-  audioRef,
-}: handleProgressClickProps) => {
-  if (audioRef.current) {
-    if (typeof percentage === "number") {
-      const newTime = (percentage / 100) * audioRef.current.duration;
-      audioRef.current.currentTime = newTime;
-    }
-  }
 };
 
 export const getPodcastPlayerState = () => {
@@ -50,19 +36,6 @@ export const getPodcastPlayerState = () => {
     return null;
   }
 };
-
-interface PodcastPlayerState {
-  isPlaying: boolean;
-  currentTime: number;
-  songUrl: string;
-}
-
-interface FetchPodcastProps {
-  podcast: IPodcast | null;
-  getFromLocalStorage: (key: string) => PodcastPlayerState;
-  getPodcastById: (id: number) => Promise<IPodcast | null>;
-  dispatch: any;
-}
 
 export const fetchPodcast = async ({
   podcast,
@@ -84,13 +57,6 @@ export const fetchPodcast = async ({
     }
   }
 };
-
-interface LoadPodcastProps {
-  storedState: PodcastPlayerState | null;
-  setSongUrl: (url: string) => void;
-  setCurrentTime: (time: number) => void;
-  audioRef: React.RefObject<HTMLAudioElement>;
-}
 
 export const loadPodcastFromLocalStorage = ({
   storedState,
@@ -127,12 +93,6 @@ export const savePodcastPlayerState = ({
   }
 };
 
-interface HandlePlayCallProps {
-  podcast: IPodcast | null;
-  dispatch: React.Dispatch<Action>;
-  isPlaying: boolean;
-}
-
 export const handlePlayCall = ({
   podcast,
   dispatch,
@@ -157,12 +117,6 @@ export const handlePlayCall = ({
     }
   }
 };
-
-interface HandleVolumeChangeProps {
-  newVolume: number[];
-  audioRef: React.RefObject<HTMLAudioElement>;
-  dispatch: React.Dispatch<Action>;
-}
 
 export const handleVolumeChange = ({
   newVolume,

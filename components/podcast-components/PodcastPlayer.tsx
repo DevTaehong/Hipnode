@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useReducer } from "react";
+import { useEffect, useRef, useReducer } from "react";
 
 import usePodcastStore from "@/app/store";
 import { getFromLocalStorage } from "@/utils";

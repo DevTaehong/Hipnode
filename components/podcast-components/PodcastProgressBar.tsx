@@ -1,12 +1,14 @@
-import React from "react";
-
 import { formatPodcastDuration } from "@/utils";
 import { Progress } from "../ui/progress";
+import {
+  handleProgressClickProps,
+  PodcastProgressBarProps,
+} from "@/types/podcast.index";
 
-const handleProgressClick = (
-  audioRef: any,
-  percentage: number | React.MouseEvent<HTMLDivElement, MouseEvent>
-) => {
+const handleProgressClick = ({
+  audioRef,
+  percentage,
+}: handleProgressClickProps) => {
   if (audioRef.current) {
     if (typeof percentage === "number") {
       const newTime = (percentage / 100) * audioRef.current.duration;
@@ -14,12 +16,6 @@ const handleProgressClick = (
     }
   }
 };
-
-interface PodcastProgressBarProps {
-  currentTime: number;
-  totalDuration: number;
-  audioRef: React.RefObject<HTMLAudioElement>;
-}
 
 const PodcastProgressBar = ({
   currentTime,
@@ -35,7 +31,7 @@ const PodcastProgressBar = ({
       <p className="text-sc-1_light-2 text-xs">{formattedTime}</p>
       <Progress
         value={percentagePlayed}
-        onClick={(percentage) => handleProgressClick(audioRef, percentage)}
+        onClick={(percentage) => handleProgressClick({ audioRef, percentage })}
       />
       <p className="text-sc-1_light-2 text-xs">{formattedLength}</p>
     </div>

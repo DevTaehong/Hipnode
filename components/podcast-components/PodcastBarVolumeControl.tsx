@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   HoverCard,
   HoverCardTrigger,
@@ -13,22 +11,7 @@ import {
   ImVolumeHigh,
   ImCross,
 } from "react-icons/im";
-import { Action } from "./podcastReducer";
-
-interface HandleVolumeChangeProps {
-  newVolume: number[];
-  audioRef: React.RefObject<HTMLAudioElement>;
-  dispatch: React.Dispatch<Action>;
-}
-
-interface PodcastBarVolumeControlProps {
-  handleVolumeChange: (props: HandleVolumeChangeProps) => void;
-  handleVolumeIconClick: () => void;
-  handleCloseClick: () => void;
-  volume: number[];
-  audioRef: React.RefObject<HTMLAudioElement>;
-  dispatch: React.Dispatch<Action>;
-}
+import { PodcastBarVolumeControlProps } from "@/types/podcast.index";
 
 const PodcastBarVolumeControl = ({
   handleVolumeChange,

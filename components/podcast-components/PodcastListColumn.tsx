@@ -1,12 +1,5 @@
 import PodcastCard from "./PodcastCard";
-import { PodcastUserInfo } from "@/types/podcast.index";
-
-type PodcastListColumnType = {
-  podcasts: {
-    listNumber: string;
-    list: PodcastUserInfo[] | undefined;
-  };
-};
+import { PodcastListColumnType } from "@/types/podcast.index";
 
 const PodcastListColumn = ({ podcasts }: PodcastListColumnType) => {
   return (

@@ -7,13 +7,8 @@ import { Button } from "../ui/button";
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
 import { formatPodcastDuration, setToLocalStorage } from "@/utils";
-import { IPodcast } from "@/types/podcast.index";
 import usePodcastStore from "@/app/store";
-
-interface PodcastPlayButtonProps {
-  url: string;
-  podcast: IPodcast;
-}
+import { PodcastPlayButtonProps } from "@/types/podcast.index";
 
 const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
   const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =

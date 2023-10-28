@@ -1,21 +1,13 @@
-import React from "react";
-
 import { cyclePlaybackSpeed } from "@/hooks/podcastHooks";
-import { Action } from "./podcastReducer";
+import { PodcastSpeedButtonProps } from "@/types/podcast.index";
 
-interface PodcastSpeedButtonProps {
-  showInfo: string;
-  audioRef: React.RefObject<HTMLAudioElement>;
-  playbackSpeedIndex: number;
-  dispatch: React.Dispatch<Action>;
-}
 const PodcastSpeedButton = ({
   showInfo,
   audioRef,
   playbackSpeedIndex,
   dispatch,
 }: PodcastSpeedButtonProps) => {
-  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
 
   const handlePlaybackSpeedCycle = () => {
     const newIndex = cyclePlaybackSpeed({ audioRef, playbackSpeedIndex });

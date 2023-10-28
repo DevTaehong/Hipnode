@@ -1,14 +1,6 @@
-import React from "react";
-
 import FillIcon from "../icons/fill-icons";
 import PauseIcon from "../icons/outline-icons/PauseIcon";
-
-interface PodcastBarPlayButtonProps {
-  songUrl: string | undefined;
-  audioRef: React.RefObject<HTMLAudioElement>;
-  handlePlayClick: () => void;
-  isPlaying: boolean;
-}
+import { PodcastBarPlayButtonProps } from "@/types/podcast.index";
 
 const PodcastBarPlayButton = ({
   songUrl,

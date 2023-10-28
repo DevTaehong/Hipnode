@@ -1,8 +1,4 @@
-type PodcastEpisodeInfoType = {
-  showName: string;
-  episodeNumber: number;
-  creatorName: string;
-};
+import { PodcastEpisodeInfoType } from "@/types/podcast.index";
 
 const PodcastEpisodeInfo = ({
   showName,

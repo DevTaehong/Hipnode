@@ -2,11 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { christopher } from "@/public/assets";
-
-interface PodcastBarImageProps {
-  id: number | undefined;
-  podcastUserImage: string;
-}
+import { PodcastBarImageProps } from "@/types/podcast.index";
 
 const PodcastBarImage = ({ id, podcastUserImage }: PodcastBarImageProps) => {
   return (
