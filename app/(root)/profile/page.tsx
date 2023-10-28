@@ -90,7 +90,7 @@ const profileData = {
 const Page = () => {
   return (
     <div className="flex flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
-      {/* Profile Modal */}
+      {/* Profile Info */}
       <section className="">
         <ProfileInfo
           src={profileData.src}
