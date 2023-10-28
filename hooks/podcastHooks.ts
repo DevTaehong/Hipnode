@@ -61,20 +61,14 @@ interface FetchPodcastProps {
   podcast: IPodcast | null;
   getFromLocalStorage: (key: string) => PodcastPlayerState;
   getPodcastById: (id: number) => Promise<IPodcast | null>;
-  setPodcastId: (id: number) => void;
-  setShowInfo: (info: string) => void;
-  setPodcastUserImage: (image: string) => void;
-  setShowPlayer: (show: boolean) => void;
+  dispatch: any;
 }
 
 export const fetchPodcast = async ({
   podcast,
   getFromLocalStorage,
   getPodcastById,
-  setPodcastId,
-  setShowInfo,
-  setPodcastUserImage,
-  setShowPlayer,
+  dispatch,
 }: FetchPodcastProps) => {
   if (podcast === null) {
     const podcastId = getFromLocalStorage("selectedPodcastId");
@@ -82,13 +76,9 @@ export const fetchPodcast = async ({
     if (podcastId) {
       const podcastUpdated = await getPodcastById(Number(podcastId));
       if (podcastUpdated) {
-        const { title, episodeNumber, image, id } = podcastUpdated;
-        console.log(typeof id);
-        setShowInfo("#" + episodeNumber + " - " + title);
-        setPodcastUserImage(image);
-        setPodcastId(id);
+        dispatch({ type: "INITIALIZE_PODCAST", payload: podcastUpdated });
         if (isSongPlaying.isPlaying) {
-          setShowPlayer(true);
+          dispatch({ type: "SET_SHOW_PLAYER", payload: true });
         }
       }
     }

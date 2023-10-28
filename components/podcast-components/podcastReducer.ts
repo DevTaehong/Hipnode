@@ -1,3 +1,5 @@
+import { IPodcast } from "@/types/podcast.index";
+
 type State = {
   id: number | undefined;
   currentTime: number;
@@ -10,6 +12,7 @@ type State = {
 };
 
 export type Action =
+  | { type: "INITIALIZE_PODCAST"; payload: IPodcast | null }
   | { type: "SET_PODCAST_ID"; payload: number }
   | { type: "SET_CURRENT_TIME"; payload: number }
   | { type: "SET_TOTAL_DURATION"; payload: number }
@@ -21,6 +24,17 @@ export type Action =
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case "INITIALIZE_PODCAST": {
+      const podcast = action.payload;
+      return {
+        ...state,
+        id: podcast?.id,
+        showInfo: podcast
+          ? `#${podcast.episodeNumber} - ${podcast.title}`
+          : state.showInfo,
+        podcastUserImage: podcast?.image || state.podcastUserImage,
+      };
+    }
     case "SET_PODCAST_ID":
       return { ...state, id: action.payload };
     case "SET_CURRENT_TIME":

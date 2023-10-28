@@ -114,14 +114,7 @@ const PodcastPlayer = () => {
       podcast,
       getFromLocalStorage,
       getPodcastById,
-      setShowInfo: (value: string) =>
-        dispatch({ type: "SET_SHOW_INFO", payload: value }),
-      setPodcastUserImage: (value: string) =>
-        dispatch({ type: "SET_PODCAST_USER_IMAGE", payload: value }),
-      setShowPlayer: (value: boolean) =>
-        dispatch({ type: "SET_SHOW_PLAYER", payload: value }),
-      setPodcastId: (value: number) =>
-        dispatch({ type: "SET_PODCAST_ID", payload: value }),
+      dispatch,
     });
     const storedState = PodcastHooks.getPodcastPlayerState();
     PodcastHooks.loadPodcastFromLocalStorage({
