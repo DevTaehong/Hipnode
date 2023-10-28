@@ -11,6 +11,7 @@ export default function LexicalEditor({
   onSubmitPreview,
   previewValues,
   clearEditor,
+  setClearEditor,
 }: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -21,6 +22,7 @@ export default function LexicalEditor({
         onSubmitPreview={onSubmitPreview}
         previewValues={previewValues}
         clearEditor={clearEditor}
+        setClearEditor={setClearEditor}
       />
     </LexicalComposer>
   );

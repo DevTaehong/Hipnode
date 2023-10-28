@@ -55,9 +55,9 @@ export default function CreatePost() {
 
   const onSubmit = async (values: PostFormValuesType) => {
     await handleUpload();
+    setClearEditor(true);
     const finalValues = form.getValues();
     console.log(finalValues);
-    setClearEditor(true);
     form.reset();
   };
 
@@ -83,27 +83,35 @@ export default function CreatePost() {
           <div className="pb-[1.25rem]">
             <CreatePostTitle control={form.control} />
           </div>
-          <div className="flex flex-row items-center gap-4 dark:bg-dark-3">
-            <CoverImageUpload
-              control={form.control}
-              setImagePreviewUrl={setImagePreviewUrl}
-              setImageToUpload={setImageToUpload}
-            />
+          <div className="flex flex-col justify-between  sm:flex-row">
+            <div className="flex flex-row items-center gap-4 dark:bg-dark-3">
+              <CoverImageUpload
+                control={form.control}
+                setImagePreviewUrl={setImagePreviewUrl}
+                setImageToUpload={setImageToUpload}
+              />
 
-            <SelectController
-              control={form.control}
-              name={"group"}
-              placeholder={"Select Group"}
-              options={GROUP}
-            />
+              <SelectController
+                control={form.control}
+                name={"group"}
+                placeholder={"Select Group"}
+                options={GROUP}
+              />
 
-            <SelectController
-              control={form.control}
-              name={"post"}
-              placeholder={"Create Post"}
-              options={POST}
-            />
+              <SelectController
+                control={form.control}
+                name={"post"}
+                placeholder={"Create Post"}
+                options={POST}
+              />
+            </div>
+            <div className="mr-[1.25rem] mt-[1.25rem] flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[1rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0">
+              <p className="text-[1rem] leading-[1.5rem] dark:text-light-2">
+                Code of Conduct
+              </p>
+            </div>
           </div>
+
           <div className="flex items-center justify-center p-6">
             <Image
               src={imagePreviewUrl || "/emoji_2.png"}
@@ -130,6 +138,7 @@ export default function CreatePost() {
                           previewValues || POST_FORM_DEFAULT_VALUES
                         }
                         clearEditor={clearEditor}
+                        setClearEditor={setClearEditor}
                       />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />

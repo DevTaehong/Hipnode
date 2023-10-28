@@ -36,6 +36,7 @@ export function LexicalMenu({
   onSubmitPreview,
   previewValues,
   clearEditor,
+  setClearEditor,
 }: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
@@ -122,6 +123,7 @@ export function LexicalMenu({
 
   useEffect(() => {
     if (clearEditor) editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+    setClearEditor(false);
   }, [clearEditor]);
 
   return (
@@ -274,7 +276,3 @@ export function LexicalMenu({
 }
 
 export default LexicalMenu;
-
-//  {/* <p className="flex items-center dark:text-light-2 md:text-[1rem]  md:leading-[1.5rem]">
-//           Code of Conduct
-//         </p> */}
