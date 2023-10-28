@@ -10,7 +10,7 @@ const Page = () => {
   return (
     <div className="flex flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
-      <section className="">
+      <section>
         <ProfileInfo
           src={profileData.src}
           name={profileData.name}
@@ -26,13 +26,13 @@ const Page = () => {
       </section>
 
       {/* Profile Filter & Content Cards */}
-      <section className="">
+      <section>
         <ProfileFilter />
         <ContentCard />
       </section>
 
       {/* HostMeetup Card & Performance Card */}
-      <section className="">
+      <section>
         <HostMeetupCard />
         <PerformanceCard />
       </section>
