@@ -1,15 +1,8 @@
 import FillIcon from "@/components/icons/fill-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
+
 import { christopher, santiago, negan } from "@/public/assets";
 
-import {
-  PopularIcon,
-  NewIcon,
-  DevIcon,
-  HeartIcon,
-} from "@/components/icons/outline-icons";
-import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
-import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
-import PostIcon from "@/components/icons/outline-icons/PostIcon";
 import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -24,7 +17,7 @@ export const reportModalTags = [
 
 export const exploreIcons = [
   {
-    Icon: NewIcon,
+    Icon: OutlineIcon.New,
     color: "newIcon",
     secondaryColor: "newIconSecondary",
     bgColor: "newIconBg",
@@ -32,7 +25,7 @@ export const exploreIcons = [
     label: "New",
   },
   {
-    Icon: PopularIcon,
+    Icon: OutlineIcon.Popular,
     color: "popularIcon",
     bgColor: "popularBg",
     textColor: "popularText",
@@ -388,42 +381,42 @@ export const tags = [
   {
     name: "javascript",
     views: "82,645 Posted by this tag",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgYellow",
     iconFillColor: "fillYellow",
   },
   {
     name: "bitcoin",
     views: "65,523 Posted • Trending",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
   {
     name: "design",
     views: "51,354 • Trending in Poland",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgBlue",
     iconFillColor: "fillBlue",
   },
   {
     name: "blogging",
     views: "48,029 Posted by this tag",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgYellow",
     iconFillColor: "fillYellow",
   },
   {
     name: "tutorial",
     views: "51,354 • Trending in Bangladesh",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgGreen",
     iconFillColor: "fillGreen",
   },
   {
     name: "seo",
     views: "82,152 Posted by this tag",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
@@ -477,22 +470,22 @@ export const notificationTabs: NotificationTab[] = [
   },
   {
     title: "Reactions",
-    icon: HeartIcon,
+    icon: OutlineIcon.Heart,
     active: false,
   },
   {
     title: "Comments",
-    icon: CommentIcon,
+    icon: OutlineIcon.Comment,
     active: false,
   },
   {
     title: "Mentions",
-    icon: MentionIcon,
+    icon: OutlineIcon.Mention,
     active: false,
   },
   {
     title: "Posts",
-    icon: PostIcon,
+    icon: OutlineIcon.Post,
     active: false,
   },
 ];

@@ -1,6 +1,6 @@
 import { dummyNotifications } from "@/constants";
 import CustomButton from "../CustomButton";
-import { CheckmarkIcon } from "../icons/outline-icons";
+import OutlineIcon from "../icons/outline-icons";
 import { Separator } from "../ui/separator";
 import HorizontalScrollList from "./HorizontalScrollList";
 import NotificationComment from "./NotificationComment";
@@ -13,7 +13,7 @@ const NotificationPopover = () => {
           3 Notifications
         </h1>
         <CustomButton
-          icon={CheckmarkIcon}
+          icon={OutlineIcon.Checkmark}
           label="Mark All Read"
           className="semibold-16 bg-blue-10 px-[0.625rem] py-[0.438rem] text-blue"
         />
