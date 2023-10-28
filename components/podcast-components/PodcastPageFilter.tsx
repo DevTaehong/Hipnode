@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
-import { ArrowIcon } from "../icons/outline-icons";
+import OutlineIcon from "../icons/outline-icons";
 import { extractShowArray } from "@/utils";
 import { PodcastPageFilterProps } from "@/types/podcast.index";
 import PodcastListColumn from "./PodcastListColumn";
@@ -88,7 +88,7 @@ const PodcastPageFilter = ({
           onClick={() => setLoadMore(true)}
         >
           <p className="text-sc-3">See More</p>
-          <ArrowIcon.Right className="stroke-sc-3" />
+          <OutlineIcon.ArrowRight className="stroke-sc-3" />
         </button>
         <p
           ref={ref}

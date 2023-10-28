@@ -3,7 +3,7 @@
 import { Shows } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { IconAlt } from "../icons/outline-icons";
+import OutlineIcon from "../icons/outline-icons";
 import { cn } from "@/lib/utils";
 
 const Categories = ({ shows }: { shows: Shows[] }) => {
@@ -41,10 +41,7 @@ const Categories = ({ shows }: { shows: Shows[] }) => {
             )}
             onClick={() => toggleCategory(show.id)}
           >
-            <IconAlt.Success
-              wrapperStyles={`p-0.5 ${
-                !selectFilters.includes(show.id) && "hidden"
-              }`}
+            <OutlineIcon.Success
               className={`${
                 !selectFilters.includes(show.id) ? "fill-none" : "fill-white"
               }`}
