@@ -46,3 +46,9 @@ export interface HandlePlayProps {
   isPlaying: boolean;
   setIsPlaying: (newIsPlaying: boolean) => void;
 }
+
+export type savePodcastTypeProps = {
+  isPlaying: boolean;
+  currentTime: any;
+  songUrl: string | undefined;
+};
