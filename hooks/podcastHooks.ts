@@ -76,7 +76,7 @@ export const fetchPodcast = async ({
     if (podcastId) {
       const podcastUpdated = await getPodcastById(Number(podcastId));
       if (podcastUpdated) {
-        dispatch({ type: "INITIALIZE_PODCAST", payload: podcastUpdated });
+        dispatch({ type: "INITIALISE_PODCAST", payload: podcastUpdated });
         if (isSongPlaying.isPlaying) {
           dispatch({ type: "SET_SHOW_PLAYER", payload: true });
         }

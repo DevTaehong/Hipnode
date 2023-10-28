@@ -12,7 +12,7 @@ type State = {
 };
 
 export type Action =
-  | { type: "INITIALIZE_PODCAST"; payload: IPodcast | null }
+  | { type: "INITIALISE_PODCAST"; payload: IPodcast | null }
   | {
       type: "UPDATE_PODCAST_INFO";
       payload: { image: string; showInfo: string };
@@ -26,7 +26,7 @@ export type Action =
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "INITIALIZE_PODCAST": {
+    case "INITIALISE_PODCAST": {
       const podcast = action.payload;
       return {
         ...state,
