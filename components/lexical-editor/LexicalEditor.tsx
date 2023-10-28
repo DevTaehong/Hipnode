@@ -25,7 +25,7 @@ import {
   LexicalEditorProps,
   CustomAutoFocusPluginProps,
   CustomOnChangePluginProps,
-} from "";
+} from "@/types/lexical-editor";
 
 const EDITOR_NAMESPACE = "lexical-editor";
 
