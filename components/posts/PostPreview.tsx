@@ -45,20 +45,34 @@ const PostPreview = ({
           </p>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Preview of your Post</DialogTitle>
-        </DialogHeader>
+      <DialogContent className="max-h-[50rem] max-w-[49rem] overflow-scroll px-[1.25rem] dark:bg-dark-3">
         <div className="flex items-center justify-center p-6">
           <Image
             src={imagePreviewUrl || "/emoji_2.png"}
             height={125}
             width={125}
             alt="image"
-            className="rounded-md"
+            className="h-[17rem] w-auto rounded-md"
           />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        <DialogHeader>
+          <DialogTitle className="flex flex-row justify-start text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
+            {previewValues?.title}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-wrap justify-start gap-6 ">
+          {previewValues?.tags.map((tag) => (
+            <p
+              key={tag}
+              className="text-[1rem] font-normal leading-[1.5rem] text-yellow-90"
+            >
+              #{tag}
+            </p>
+          ))}
+        </div>
+        <div className="text-[0.875rem] leading-[1.5rem] text-sc-3 dark:text-sc-3 md:text-[1rem]">
+          <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        </div>
       </DialogContent>
     </Dialog>
   );

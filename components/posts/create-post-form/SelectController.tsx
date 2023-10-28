@@ -6,7 +6,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+} from "@/components/ui/select";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";

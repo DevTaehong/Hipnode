@@ -71,6 +71,8 @@ export function LexicalMenu({
 
   console.log(canRedo);
 
+  console.log(typeof previewValues?.mainText);
+
   useEffect(() => {
     const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
     setHtmlString(sanitizedHtml);
@@ -158,10 +160,14 @@ export function LexicalMenu({
           onClick={() => setAutoFocus(!autoFocus)}
           className="flex cursor-pointer items-center gap-[0.625rem] text-blue-80"
         >
-          <Icon.Edit className={autoFocus ? "fill-blue-80" : "fill-light-2"} />
+          <Icon.Edit
+            className={
+              autoFocus ? "fill-blue-80" : "fill-sc-3 dark:fill-light-2"
+            }
+          />
           <p
             className={`${
-              autoFocus ? "text-blue-80" : "text-light-2"
+              autoFocus ? "text-blue-80" : "text-sc-3 dark:text-light-2"
             } text-[0.875rem]`}
           >
             Write

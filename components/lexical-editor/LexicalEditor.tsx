@@ -129,6 +129,7 @@ function MainLexicalEditor({
       editorState.read(() => {
         const htmlStringEditor = $generateHtmlFromNodes(editor, null);
         console.log(htmlStringEditor);
+        updateField(name, JSON.stringify(htmlString));
         setHtmlString(htmlStringEditor);
       });
     });
@@ -188,6 +189,7 @@ export default function LexicalEditor({
   onSubmitPreview,
   previewValues,
 }: LexicalEditorProps) {
+  console.log(previewValues);
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <MainLexicalEditor
@@ -200,5 +202,3 @@ export default function LexicalEditor({
     </LexicalComposer>
   );
 }
-
-// https://courses.jsmastery.pro/course/ultimate-next-js-13-course-ebook/learn/module-ask-a-question-page/custom-multiple-tags-input

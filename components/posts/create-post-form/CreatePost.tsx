@@ -66,13 +66,13 @@ export default function CreatePost() {
   };
 
   const watchedData = watch();
-
+  console.log(previewValues);
   useEffect(() => {
     console.log(watchedData);
   }, [watchedData]);
 
   return (
-    <div className="flex items-center justify-center rounded-md bg-light dark:bg-dark-3">
+    <div className="flex max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
           action=""
