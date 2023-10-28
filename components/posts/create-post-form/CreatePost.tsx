@@ -24,15 +24,18 @@ import {
 import { postFormValidationSchema } from "@/lib/validations";
 import { PostFormValuesType } from "@/types/create-post-form/index";
 import { POST, GROUP, POST_FORM_DEFAULT_VALUES } from "@/constants/index";
+import { useCreatePostStore } from "@/app/lexicalStore";
 
 export default function CreatePost() {
-  // const [htmlString, setHtmlString] = useState("");
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-  const [previewValues, setPreviewValues] = useState<PostFormValuesType | null>(
-    null
-  );
-  const [clearEditor, setClearEditor] = useState(false);
+
+  const {
+    imagePreviewUrl,
+    setImagePreviewUrl,
+    previewValues,
+    setPreviewValues,
+    setClearEditor,
+  } = useCreatePostStore((state) => state);
 
   const handleUpload = async () => {
     if (imageToUpload) {
@@ -132,13 +135,7 @@ export default function CreatePost() {
                       <LexicalEditor
                         name="mainText"
                         updateField={setValue}
-                        imagePreviewUrl={imagePreviewUrl || "/emoji_2.png"}
                         onSubmitPreview={onSubmitPreview}
-                        previewValues={
-                          previewValues || POST_FORM_DEFAULT_VALUES
-                        }
-                        clearEditor={clearEditor}
-                        setClearEditor={setClearEditor}
                       />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />

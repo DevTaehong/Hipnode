@@ -54,11 +54,7 @@ function CustomOnChangePlugin({
 const MainLexicalEditor = ({
   name,
   updateField,
-  imagePreviewUrl,
   onSubmitPreview,
-  previewValues,
-  clearEditor,
-  setClearEditor,
 }: LexicalEditorProps) => {
   const [editor] = useLexicalComposerContext();
   const [htmlString, setHtmlString] = useState("");
@@ -98,11 +94,7 @@ const MainLexicalEditor = ({
           autoFocus={autoFocus}
           setAutoFocus={setAutoFocus}
           editorRef={editorRef}
-          imagePreviewUrl={imagePreviewUrl}
           onSubmitPreview={onSubmitPreview}
-          previewValues={previewValues}
-          clearEditor={clearEditor}
-          setClearEditor={setClearEditor}
         />
       </div>
 

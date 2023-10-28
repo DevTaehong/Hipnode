@@ -25,6 +25,7 @@ import PostPreview from "@/components/posts/PostPreview";
 import { Icon } from "@/components/icons/outline-icons";
 import { LexicalMenuState, LexicalMenuProps } from "@/types/lexical-editor";
 import { LowPriority } from "@/constants/lexical-editor";
+import { useCreatePostStore } from "@/app/lexicalStore";
 
 export function LexicalMenu({
   editor,
@@ -32,17 +33,14 @@ export function LexicalMenu({
   setAutoFocus,
   editorRef,
   editorHtmlString,
-  imagePreviewUrl,
   onSubmitPreview,
-  previewValues,
-  clearEditor,
-  setClearEditor,
 }: LexicalMenuProps) {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
-
   console.log(canRedo);
+
+  const { clearEditor, setClearEditor } = useCreatePostStore((state) => state);
 
   useEffect(() => {
     const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
@@ -150,10 +148,8 @@ export function LexicalMenu({
           </p>
         </div>
         <PostPreview
-          imagePreviewUrl={imagePreviewUrl}
           htmlString={htmlString}
           onSubmitPreview={onSubmitPreview}
-          previewValues={previewValues}
         />
       </div>
       <div className="flex-wrap">

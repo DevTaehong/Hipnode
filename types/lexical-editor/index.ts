@@ -10,11 +10,11 @@ export type LexicalEditorProps = {
   config?: Parameters<typeof LexicalComposer>["0"]["initialConfig"];
   name: keyof PostFormValuesType;
   updateField: UseFormSetValue<PostFormValuesType>;
-  imagePreviewUrl: string;
+  // imagePreviewUrl: string;
   onSubmitPreview: () => void;
-  previewValues?: PostFormValuesType;
-  clearEditor: boolean;
-  setClearEditor: React.Dispatch<React.SetStateAction<boolean>>;
+  // previewValues?: PostFormValuesType;
+  // clearEditor: boolean;
+  // setClearEditor: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type CustomOnChangePluginProps = {
@@ -66,9 +66,9 @@ export type LexicalMenuProps = {
   autoFocus: boolean;
   setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
   editorRef: React.RefObject<HTMLDivElement>;
-  imagePreviewUrl: string;
+  // imagePreviewUrl: string;
   onSubmitPreview: () => void;
-  clearEditor: boolean;
-  setClearEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  previewValues?: PostFormValuesType | null;
+  // clearEditor: boolean;
+  // setClearEditor: React.Dispatch<React.SetStateAction<boolean>>;
+  // previewValues?: PostFormValuesType | null;
 };

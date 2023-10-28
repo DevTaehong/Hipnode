@@ -10,13 +10,13 @@ import {
 
 import { Icon } from "@/components/icons/outline-icons";
 import { PostPreviewProps } from "@/types/create-post-form";
+import { useCreatePostStore } from "@/app/lexicalStore";
 
-const PostPreview = ({
-  imagePreviewUrl,
-  htmlString,
-  previewValues,
-  onSubmitPreview,
-}: PostPreviewProps) => {
+const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
+  const { imagePreviewUrl, previewValues } = useCreatePostStore(
+    (state) => state
+  );
+
   return (
     <Dialog>
       <DialogTrigger asChild>

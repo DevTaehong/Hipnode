@@ -7,22 +7,14 @@ import { initialConfig } from "@/constants/lexical-editor";
 export default function LexicalEditor({
   name,
   updateField,
-  imagePreviewUrl,
   onSubmitPreview,
-  previewValues,
-  clearEditor,
-  setClearEditor,
 }: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <MainLexicalEditor
         name={name}
         updateField={updateField}
-        imagePreviewUrl={imagePreviewUrl}
         onSubmitPreview={onSubmitPreview}
-        previewValues={previewValues}
-        clearEditor={clearEditor}
-        setClearEditor={setClearEditor}
       />
     </LexicalComposer>
   );
