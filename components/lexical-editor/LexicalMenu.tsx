@@ -16,13 +16,13 @@ import {
   UNDO_COMMAND,
 } from "lexical";
 
-import { IconButton } from "./IconButton";
+import { LexicalIconButtons } from ".";
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
 } from "@lexical/list";
 
-import PostPreview from "../PostPreview";
+import PostPreview from "../posts/PostPreview";
 import { Icon } from "@/components/icons/outline-icons";
 
 const LowPriority = 1;
@@ -38,10 +38,10 @@ type LexicalMenuState = {
 type FormValues = {
   title: string;
   mainText: string;
-  coverImage?: string;
   group: string;
   post: string;
-  tagStringsInput: string;
+  tags: string[];
+  coverImage?: string;
 };
 
 type LexicalMenuProps = {
@@ -175,7 +175,7 @@ export function LexicalMenu({
         />
       </div>
       <div className="flex-wrap">
-        <IconButton
+        <LexicalIconButtons
           icon="unorderedList"
           aria-label="Insert Unordered List"
           onClick={(e) => {
@@ -183,14 +183,14 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="orderedList"
           aria-label="Insert Unordered List"
           onClick={(e) => {
             editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
           }}
         />
-        <IconButton
+        <LexicalIconButtons
           icon="bold"
           aria-label="Format text as bold"
           active={state.isBold}
@@ -199,7 +199,7 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="italic"
           aria-label="Format text as italics"
           active={state.isItalic}
@@ -208,7 +208,7 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="underline"
           aria-label="Format text to underlined"
           active={state.isUnderline}
@@ -217,7 +217,7 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="strike"
           aria-label="Format text with a strikethrough"
           active={state.isStrikethrough}
@@ -226,7 +226,7 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="code"
           aria-label="Format text with inline code"
           active={state.isCode}
@@ -234,7 +234,7 @@ export function LexicalMenu({
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
           }}
         />
-        <IconButton
+        <LexicalIconButtons
           icon="alignLeft"
           aria-label="Left Align"
           onClick={() => {
@@ -242,7 +242,7 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="alignCenter"
           aria-label="Center Align"
           onClick={() => {
@@ -250,7 +250,7 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="alignRight"
           aria-label="Right Align"
           onClick={() => {
@@ -258,14 +258,14 @@ export function LexicalMenu({
           }}
         />
 
-        <IconButton
+        <LexicalIconButtons
           icon="alignJustify"
           aria-label="Justify Align"
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
           }}
         />
-        <IconButton
+        <LexicalIconButtons
           icon="clockwiseArrow"
           aria-label="Redo"
           disabled={!canUndo}
@@ -273,14 +273,14 @@ export function LexicalMenu({
             editor.dispatchCommand(REDO_COMMAND, undefined);
           }}
         />
-        <IconButton
+        <LexicalIconButtons
           icon="trash"
           disabled={!canUndo}
           onClick={() => {
             editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
           }}
-        ></IconButton>
-        <IconButton
+        ></LexicalIconButtons>
+        <LexicalIconButtons
           icon="antiClockwiseArrow"
           aria-label="Undo"
           disabled={!canUndo}

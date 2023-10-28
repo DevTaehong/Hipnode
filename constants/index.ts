@@ -11,6 +11,7 @@ import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
 import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
 import PostIcon from "@/components/icons/outline-icons/PostIcon";
 import { NotificationPopoverProps, NotificationTab } from "@/types";
+import { PostFormValuesType } from "@/types/create-post-form";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
@@ -524,3 +525,14 @@ export const dummyNotifications: NotificationPopoverProps[] = [
     image: "/negan.png",
   },
 ];
+
+export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
+export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
+export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
+  title: "",
+  mainText: "",
+  coverImage: "",
+  group: "",
+  post: "",
+  tags: [],
+};

@@ -1,3 +1,5 @@
+"use client";
+
 import { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
@@ -21,17 +23,17 @@ type IconType =
   | "unorderedList"
   | "orderedList";
 
-type IconButtonProps = {
+type LexicalIconButtonsProps = {
   active?: boolean;
   icon?: IconType;
 } & ComponentProps<"button">;
 
-export function IconButton({
+export default function LexicalIconButtons({
   icon,
   active,
   className,
   ...props
-}: IconButtonProps) {
+}: LexicalIconButtonsProps) {
   if (!icon) return null;
   return (
     <button

@@ -5,7 +5,6 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { EditorState } from "lexical";
 
-import { UseFormSetValue } from "react-hook-form";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -22,6 +21,12 @@ import { CodeNode } from "@lexical/code";
 import { LexicalMenu } from "./LexicalMenu";
 import { $generateHtmlFromNodes } from "@lexical/html";
 
+import {
+  LexicalEditorProps,
+  CustomAutoFocusPluginProps,
+  CustomOnChangePluginProps,
+} from "";
+
 const EDITOR_NAMESPACE = "lexical-editor";
 
 const EDITOR_NODES = [
@@ -32,24 +37,6 @@ const EDITOR_NODES = [
   ListItemNode,
   QuoteNode,
 ];
-
-type FormValues = {
-  title: string;
-  mainText: string;
-  coverImage?: string;
-  group: string;
-  post: string;
-  tagStringsInput: string;
-};
-
-type LexicalEditorProps = {
-  config?: Parameters<typeof LexicalComposer>["0"]["initialConfig"];
-  name: keyof FormValues;
-  updateField: UseFormSetValue<FormValues>;
-  imagePreviewUrl: string;
-  onSubmitPreview: () => void;
-  previewValues?: FormValues;
-};
 
 const theme = {
   text: {
@@ -73,17 +60,6 @@ const initialConfig = {
   theme,
   onError,
   nodes: EDITOR_NODES,
-};
-
-type CustomOnChangePluginProps = {
-  onChange: (editorState: EditorState) => void;
-  name: keyof FormValues;
-  updateField: UseFormSetValue<FormValues>;
-};
-
-type CustomAutoFocusPluginProps = {
-  autoFocus: boolean;
-  setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function CustomAutoFocusPlugin({
@@ -142,15 +118,25 @@ function MainLexicalEditor({
   const [htmlString, setHtmlString] = useState("");
   const [autoFocus, setAutoFocus] = useState(false);
   const editorRef = React.useRef<HTMLDivElement>(null);
+  const [editorState, setEditorState] = useState<EditorState | undefined>(
+    undefined
+  );
+
+  console.log(editorState);
 
   useEffect(() => {
     return editor?.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         const htmlStringEditor = $generateHtmlFromNodes(editor, null);
+        console.log(htmlStringEditor);
         setHtmlString(htmlStringEditor);
       });
     });
   }, [editor]);
+
+  function onChange(editorState: EditorState) {
+    setEditorState(editorState);
+  }
 
   return (
     <main
@@ -184,7 +170,7 @@ function MainLexicalEditor({
       <CustomOnChangePlugin
         name={name}
         updateField={updateField}
-        onChange={(editorState) => {}}
+        onChange={onChange}
       />
       <CustomAutoFocusPlugin
         autoFocus={autoFocus}
@@ -214,3 +200,5 @@ export default function LexicalEditor({
     </LexicalComposer>
   );
 }
+
+// https://courses.jsmastery.pro/course/ultimate-next-js-13-course-ebook/learn/module-ask-a-question-page/custom-multiple-tags-input

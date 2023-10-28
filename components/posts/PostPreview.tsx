@@ -13,10 +13,10 @@ import { Icon } from "@/components/icons/outline-icons";
 type FormValues = {
   title: string;
   mainText: string;
-  coverImage?: string;
   group: string;
   post: string;
-  tagStringsInput: string;
+  tags: string[];
+  coverImage?: string;
 };
 
 type PostPreviewProps = {
