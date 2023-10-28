@@ -334,3 +334,10 @@ export interface ProfileInfoProps {
   socials: { name: string; link: string }[];
   joinedAt: string;
 }
+
+export interface ProfileLinkProps {
+  id: string;
+  name: string;
+  src: string;
+  link: string;
+}

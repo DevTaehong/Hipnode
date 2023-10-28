@@ -6,7 +6,7 @@ import ProfileInfo from "@/components/profile/ProfileInfo";
 
 import { profileData } from "@/constants";
 
-const Page = () => {
+const ProfilePage = () => {
   return (
     <div className="flex flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
@@ -40,4 +40,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ProfilePage;

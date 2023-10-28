@@ -5,6 +5,7 @@ import ProfileBtns from "./ProfileBtns";
 import OutlineIcon from "../icons/outline-icons";
 
 import { ProfileInfoProps } from "@/types";
+import ProfileLink from "./ProfileLink";
 
 const ProfileModal = ({
   src,
@@ -54,15 +55,13 @@ const ProfileModal = ({
       {/* Gets all followers then slice all but 6 to run a map on that then returns clickable images of the users profiles */}
       <div className="mt-4 flex flex-wrap justify-center gap-2.5">
         {following.slice(0, 6).map((profile) => (
-          <Link key={profile.id} href={profile.link}>
-            <Image
-              src={profile.src}
-              alt="profile"
-              width={30}
-              height={30}
-              className="rounded-full bg-sc-6 dark:border-dark-3"
-            />
-          </Link>
+          <ProfileLink
+            key={profile.id}
+            id={profile.id}
+            name={profile.name}
+            src={profile.src}
+            link={profile.link}
+          />
         ))}
 
         {/* If user has more than 6 followings then this shows how many more they are following minus 6 that is already showing */}
