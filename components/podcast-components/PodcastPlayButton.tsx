@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Share2Icon } from "../icons/outline-icons";
+import OutlineIcon from "../icons/outline-icons";
 import { Button } from "../ui/button";
 
 import FillIcon from "../icons/fill-icons";
@@ -74,7 +74,7 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
           size="icon"
           className="rounded-full border border-sc-2 dark:border-sc-3"
         >
-          <Share2Icon />
+          <OutlineIcon.Share />
         </Button>
       </div>
     </div>
