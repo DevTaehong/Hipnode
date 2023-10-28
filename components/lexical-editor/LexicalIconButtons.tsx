@@ -1,32 +1,7 @@
 "use client";
 
-import { ComponentProps } from "react";
-
 import { cn } from "@/lib/utils";
-
-type IconType =
-  | "bold"
-  | "code"
-  | "copy"
-  | "italic"
-  | "link"
-  | "underline"
-  | "strike"
-  | "check"
-  | "trash"
-  | "alignLeft"
-  | "alignCenter"
-  | "alignRight"
-  | "alignJustify"
-  | "clockwiseArrow"
-  | "antiClockwiseArrow"
-  | "unorderedList"
-  | "orderedList";
-
-type LexicalIconButtonsProps = {
-  active?: boolean;
-  icon?: IconType;
-} & ComponentProps<"button">;
+import { LexicalIconButtonsProps } from "@/types/lexical-editor";
 
 export default function LexicalIconButtons({
   icon,

@@ -9,22 +9,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Icon } from "@/components/icons/outline-icons";
-
-type FormValues = {
-  title: string;
-  mainText: string;
-  group: string;
-  post: string;
-  tags: string[];
-  coverImage?: string;
-};
-
-type PostPreviewProps = {
-  imagePreviewUrl: string;
-  htmlString: string;
-  onSubmitPreview: () => void;
-  previewValues?: FormValues | null;
-};
+import { PostPreviewProps } from "@/types/create-post-form";
 
 const PostPreview = ({
   imagePreviewUrl,
@@ -32,7 +17,6 @@ const PostPreview = ({
   previewValues,
   onSubmitPreview,
 }: PostPreviewProps) => {
-  console.log(previewValues);
   return (
     <Dialog>
       <DialogTrigger asChild>

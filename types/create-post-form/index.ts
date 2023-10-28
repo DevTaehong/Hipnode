@@ -26,3 +26,10 @@ export type SelectControllerProps = {
   placeholder: string;
   options: string[];
 };
+
+export type PostPreviewProps = {
+  imagePreviewUrl: string;
+  htmlString: string;
+  onSubmitPreview: () => void;
+  previewValues?: PostFormValuesType | null;
+};

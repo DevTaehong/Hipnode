@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 
 import DOMPurify from "dompurify";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
   $isRangeSelection,
@@ -22,38 +21,10 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
 } from "@lexical/list";
 
-import PostPreview from "../posts/PostPreview";
+import PostPreview from "@/components/posts/PostPreview";
 import { Icon } from "@/components/icons/outline-icons";
-
-const LowPriority = 1;
-
-type LexicalMenuState = {
-  isBold: boolean;
-  isCode: boolean;
-  isItalic: boolean;
-  isStrikethrough: boolean;
-  isUnderline: boolean;
-};
-
-type FormValues = {
-  title: string;
-  mainText: string;
-  group: string;
-  post: string;
-  tags: string[];
-  coverImage?: string;
-};
-
-type LexicalMenuProps = {
-  editor: ReturnType<typeof useLexicalComposerContext>[0];
-  editorHtmlString: string;
-  autoFocus: boolean;
-  setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
-  editorRef: React.RefObject<HTMLDivElement>;
-  imagePreviewUrl: string;
-  onSubmitPreview: () => void;
-  previewValues?: FormValues | null;
-};
+import { LexicalMenuState, LexicalMenuProps } from "@/types/lexical-editor";
+import { LowPriority } from "@/constants/lexical-editor";
 
 export function LexicalMenu({
   editor,
@@ -71,7 +42,7 @@ export function LexicalMenu({
 
   console.log(canRedo);
 
-  console.log(typeof previewValues?.mainText);
+  console.log(previewValues?.coverImage);
 
   useEffect(() => {
     const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
