@@ -16,7 +16,7 @@ const MobileGroupSection = () => {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
 
-  const groups = searchParams.get("groups") as string;
+  const groups = searchParams.get("groups") ?? "N/A";
   const selectedGroup = groupData[groups as keyof GroupData];
 
   return (
@@ -29,7 +29,7 @@ const MobileGroupSection = () => {
       {selectedGroup ? (
         <GroupHeader
           color={selectedGroup.header.color}
-          icon={selectedGroup.header.icon}
+          Icon={selectedGroup.header.icon}
           title={selectedGroup.header.title}
         />
       ) : (

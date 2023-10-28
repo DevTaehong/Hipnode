@@ -3,6 +3,22 @@ import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 
 import { onboardingQuestions } from "@/constants";
+import { colorVariants } from "@/components/GroupSectionHeader";
+
+export type ColorVariantsType = {
+  [key: string]: string;
+  bgYellow: string;
+  bgRed: string;
+  bgBlue: string;
+};
+
+export type ColorVariantKeys = keyof typeof colorVariants;
+
+export interface GroupSectionHeaderProps {
+  title: string;
+  bgColor: ColorVariantKeys;
+  icon: FC;
+}
 
 export type GroupData = {
   [key in "fastest-growing" | "Most Popular" | "Newly Launched"]: {

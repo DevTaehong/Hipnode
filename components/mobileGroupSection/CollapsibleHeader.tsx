@@ -1,17 +1,17 @@
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ArrowLargeIcon } from "@/components/icons/outline-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
 import { Button } from "@/components/ui/button";
 import { sectionHeadings } from "@/constants";
 
 const CollapsibleHeader = ({ isOpen }: { isOpen: boolean }) => {
-  const Icon = sectionHeadings[0].icon;
+  const { icon: Icon, title } = sectionHeadings[0];
 
   return (
     <div className="flex flex-row justify-between rounded-[0.625rem] bg-yellow-10 p-[0.62rem]">
       <div className="flex flex-col">
         <div className="flex flex-row gap-[0.38rem]">
           <Icon />
-          <h6 className="semibold-16 text-sc-2">{sectionHeadings[0].title}</h6>
+          <h6 className="semibold-16 text-sc-2">{title}</h6>
         </div>
         <p className="regular-10 text-sc-3">
           List updated daily at midnight PST.
@@ -23,7 +23,7 @@ const CollapsibleHeader = ({ isOpen }: { isOpen: boolean }) => {
           size="sm"
           className={`w-9 ${isOpen ? "rotate-180" : "rotate-0"} p-0 transition`}
         >
-          <ArrowLargeIcon.Down className="stroke-sc-2 dark:stroke-sc-2" />
+          <OutlineIcon.ArrowLargeDown className="stroke-sc-2 dark:stroke-sc-2" />
           <span className="sr-only">Toggle</span>
         </Button>
       </CollapsibleTrigger>
