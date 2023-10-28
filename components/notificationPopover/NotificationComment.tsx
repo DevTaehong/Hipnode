@@ -1,8 +1,6 @@
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { NotificationPopoverProps } from "@/types";
-import MentionIcon from "../icons/outline-icons/MentionIcon";
-import CommentIcon from "../icons/outline-icons/CommentIcon";
-import { HeartIcon } from "../icons/outline-icons";
+import OutlineIcons from "../icons/outline-icons";
 
 const NotificationComment = ({
   name,
@@ -16,15 +14,15 @@ const NotificationComment = ({
   const NotificationTypeInfo = {
     comment: {
       message: "commented on your post",
-      icon: <CommentIcon />,
+      icon: <OutlineIcons.Comment />,
     },
     reaction: {
       message: "loved your post",
-      icon: <HeartIcon />,
+      icon: <OutlineIcons.Heart />,
     },
     mention: {
       message: "mentioned you",
-      icon: <MentionIcon />,
+      icon: <OutlineIcons.Mention />,
     },
   };
 

@@ -1,12 +1,7 @@
 import Image from "next/image";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  ArrowLargeIcon,
-  Icon,
-  IconAlt,
-  VoiceIcon,
-} from "@/components/icons/outline-icons";
+import OutlineIcons from "@/components/icons/outline-icons";
 import ChatMessage from "@/components/ChatMessage";
 import FillIcon from "./icons/fill-icons";
 import { chatMessages } from "@/types";
@@ -34,8 +29,8 @@ const ChatBox = () => (
       </section>
 
       <section className="flex items-center gap-4">
-        <IconAlt.Expand />
-        <ArrowLargeIcon.Down />
+        <OutlineIcons.Expand />
+        <OutlineIcons.ArrowLargeDown />
       </section>
     </article>
 
@@ -51,7 +46,7 @@ const ChatBox = () => (
 
     <article className="mx-5 flex items-center justify-between gap-5 pt-5">
       <section className="flex w-full items-center gap-2 rounded-[1rem] border border-sc-5 p-3 dark:border-sc-2">
-        <Icon.Link />
+        <OutlineIcons.Link />
 
         <input
           id="chat-input"
@@ -60,7 +55,7 @@ const ChatBox = () => (
           className="w-full flex-1 bg-transparent text-sc-3 outline-none dark:text-light-2"
         />
 
-        <VoiceIcon />
+        <OutlineIcons.Voice />
       </section>
 
       <FillIcon.Send className="cursor-pointer fill-sc-2 dark:fill-light-2" />
