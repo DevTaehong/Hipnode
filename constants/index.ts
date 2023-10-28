@@ -3,7 +3,7 @@ import OutlineIcon from "@/components/icons/outline-icons";
 
 import { christopher, santiago, negan } from "@/public/assets";
 
-import { NotificationPopoverProps, NotificationTab } from "@/types";
+import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
@@ -113,7 +113,7 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
-const fastestGrowingGroups = [
+export const fastestGrowingGroups = [
   {
     icon: christopher,
     groupDescription: "Lorem ipsum dolor sit amet consectetur",
@@ -166,7 +166,7 @@ const fastestGrowingGroups = [
   },
 ];
 
-const mostPopularGroups = [
+export const mostPopularGroups = [
   {
     icon: santiago,
     groupDescription: "Praesent sapien massa, convallis a pellentesque",
@@ -219,7 +219,7 @@ const mostPopularGroups = [
   },
 ];
 
-const newlyLaunchedGroups = [
+export const newlyLaunchedGroups = [
   {
     icon: negan,
     groupDescription: "Viverra mauris in aliquam sem fringilla",
@@ -533,24 +533,25 @@ export const podcastFormLinkProps = {
   },
 };
 
-// <PodcastPlayerBar
-//     title={title}
-//     formattedLength = {formattedLength}
-//   formattedTime = {formattedTime}
-//   showPlayer = {showPlayer}
-//   image = {image}
-//   songUrl = {songUrl}
-//   audioRef = {audioRef}
-//   handlePlayClick = {handlePlayClick}
-//   isPlaying = {isPlaying}
-//   episodeNumber = {episodeNumber}
-//   cyclePlaybackSpeed = {cyclePlaybackSpeed}
-//   playbackSpeedOptions = {playbackSpeedOptions}
-//   playbackSpeedIndex = {playbackSpeedIndex}
-//   percentagePlayed = {percentagePlayed}
-//   handleProgressClick = {handleProgressClick}
-//   handleVolumeIconClick = {handleVolumeIconClick}
-//   getVolumeIcon = {getVolumeIcon}
-//   volume = {volume}
-//   handleVolumeChange = {handleVolumeChange}
-//     />
+export const groupData: GroupData = {
+  "fastest-growing": {
+    header: {
+      color: "bg-yellow-10",
+      icon: FillIcon.Rocket,
+      title: "Fastest Growing",
+    },
+    groups: fastestGrowingGroups,
+  },
+  "Most Popular": {
+    header: { color: "bg-red-10", icon: FillIcon.Fire, title: "Most Popular" },
+    groups: mostPopularGroups,
+  },
+  "Newly Launched": {
+    header: {
+      color: "bg-blue-10",
+      icon: FillIcon.Rocket,
+      title: "Newly Launched",
+    },
+    groups: newlyLaunchedGroups,
+  },
+};
