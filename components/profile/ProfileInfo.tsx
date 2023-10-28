@@ -4,18 +4,7 @@ import Link from "next/link";
 import ProfileBtns from "./ProfileBtns";
 import OutlineIcon from "../icons/outline-icons";
 
-interface ProfileInfoProps {
-  src: string;
-  name: string;
-  title: string;
-  followers: number;
-  points: string;
-  following: { id: string; name: string; src: string; link: string }[];
-  description: string;
-  website?: string;
-  socials: { name: string; link: string }[];
-  joinedAt: string;
-}
+import { ProfileInfoProps } from "@/types";
 
 const ProfileModal = ({
   src,
