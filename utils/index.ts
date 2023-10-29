@@ -41,7 +41,6 @@ export const uploadImageToSupabase = async (
     const fileExtension = file.name.split(".").pop();
     const prefix = folderName && folderName.trim() ? `${folderName}/` : "";
     const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
-    console.log(uniqueFileName);
 
     const { error } = await supabase.storage
       .from(bucketName)

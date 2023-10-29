@@ -64,14 +64,10 @@ const MainLexicalEditor = ({
     undefined
   );
 
-  console.log(editorState);
-
   useEffect(() => {
     return editor?.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         const htmlStringEditor = $generateHtmlFromNodes(editor, null);
-        console.log(htmlStringEditor);
-        updateField(name, JSON.stringify(htmlStringEditor));
         setHtmlString(htmlStringEditor);
       });
     });

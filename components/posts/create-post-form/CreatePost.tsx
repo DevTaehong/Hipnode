@@ -54,13 +54,16 @@ export default function CreatePost() {
     defaultValues: POST_FORM_DEFAULT_VALUES,
   });
 
+  console.log("first");
+
   const { setValue, watch } = form;
 
   const onSubmit = async (values: PostFormValuesType) => {
+    console.log("We are in the SUBMIT handler");
     await handleUpload();
     setClearEditor(true);
     const finalValues = form.getValues();
-    console.log(finalValues);
+    console.log("FINAL VALUES", finalValues);
     form.reset();
   };
 
