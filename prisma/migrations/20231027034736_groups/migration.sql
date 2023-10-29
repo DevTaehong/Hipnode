@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - A unique constraint covering the columns `[name]` on the table `Group` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `createdBy` to the `Group` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `name` to the `Group` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `Group` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- AlterTable
 ALTER TABLE "Group" ADD COLUMN     "coverImage" TEXT,
 ADD COLUMN     "createdBy" INTEGER NOT NULL,
