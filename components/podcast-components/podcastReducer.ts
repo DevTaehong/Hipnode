@@ -17,6 +17,7 @@ export type Action =
       type: "UPDATE_PODCAST_INFO";
       payload: { image: string; showInfo: string };
     }
+  | { type: "RESET_PLAYER_SETTINGS" }
   | { type: "SET_CURRENT_TIME"; payload: number }
   | { type: "SET_TOTAL_DURATION"; payload: number }
   | { type: "SET_SHOW_PLAYER"; payload: boolean }
@@ -42,6 +43,12 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         podcastUserImage: action.payload.image,
         showInfo: action.payload.showInfo,
+      };
+    case "RESET_PLAYER_SETTINGS":
+      return {
+        ...state,
+        showPlayer: false,
+        playbackSpeedIndex: 1,
       };
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.payload };

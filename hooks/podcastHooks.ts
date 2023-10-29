@@ -12,6 +12,7 @@ import {
 export const handleStop = (audioRef: RefObject<HTMLAudioElement>) => {
   if (audioRef?.current) {
     audioRef.current.currentTime = 0;
+    audioRef.current.playbackRate = 1;
   }
 };
 
@@ -114,6 +115,8 @@ export const handlePlayCall = ({
     if (isPlaying) {
       audioElement.play();
       dispatch({ type: "SET_SHOW_PLAYER", payload: true });
+    } else {
+      dispatch({ type: "SET_PLAYBACK_SPEED_INDEX", payload: 1 });
     }
   }
 };

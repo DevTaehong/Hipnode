@@ -79,12 +79,13 @@ const PodcastPlayer = () => {
   }, []);
 
   const handleAudioEnd = () => {
-    dispatch({ type: "SET_SHOW_PLAYER", payload: false });
+    dispatch({ type: "RESET_PLAYER_SETTINGS" });
     togglePlay();
+    PodcastHooks.handleStop(audioRef);
   };
 
   const handleCloseClick = () => {
-    dispatch({ type: "SET_SHOW_PLAYER", payload: false });
+    dispatch({ type: "RESET_PLAYER_SETTINGS" });
     if (isPlaying) {
       handlePlayClick();
     }
