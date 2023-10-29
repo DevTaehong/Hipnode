@@ -6,6 +6,7 @@ import OutlineIcon from "../icons/outline-icons";
 import ProfileLink from "./ProfileLink";
 
 import { ProfileInfoProps } from "@/types";
+import SocialIcons from "./SocialIcons";
 
 const TextDescription = ({ children, className, ...props }: any) => (
   <p
@@ -104,18 +105,7 @@ const ProfileModal = ({
         )}
 
         {/* Social Icons */}
-        <div className="mt-5 flex justify-center gap-5">
-          {socials.map((social) => {
-            const SocialIcon =
-              OutlineIcon[social.name as keyof typeof OutlineIcon];
-
-            return (
-              <Link key={social.name} href={social.link}>
-                <SocialIcon className="fill-sc-4 dark:fill-sc-6" />
-              </Link>
-            );
-          })}
-        </div>
+        <SocialIcons socials={socials} />
       </div>
 
       {/* div line that seperates socials from when the user joined */}

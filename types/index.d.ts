@@ -341,3 +341,7 @@ export interface ProfileLinkProps {
   src: string;
   link: string;
 }
+
+export interface SocialIconsProps {
+  socials: { name: string; link: string }[];
+}
