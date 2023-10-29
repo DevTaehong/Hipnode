@@ -79,10 +79,8 @@ const PodcastPlayer = () => {
   }, []);
 
   const handleAudioEnd = () => {
+    dispatch({ type: "SET_SHOW_PLAYER", payload: false });
     togglePlay();
-    setTimeout(() => {
-      dispatch({ type: "SET_SHOW_PLAYER", payload: false });
-    }, 1000);
   };
 
   const handleCloseClick = () => {
