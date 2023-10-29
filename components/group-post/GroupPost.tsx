@@ -13,7 +13,7 @@ import GroupPostIcons from "@/components/group-post/GroupPostIcons";
 
 const GroupPost = () => {
   return (
-    <Card className="bg-light_dark-3 mx-5 text-sc-2 dark:text-light-2">
+    <Card className="bg-light_dark-3 mb-5 text-sc-2 dark:text-light-2 2xl:max-w-[15.5rem]">
       <CardHeader className="flex flex-row items-center gap-[0.62rem]">
         <Avatar className="h-[2.125rem] w-[2.125rem]">
           <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
@@ -26,7 +26,7 @@ const GroupPost = () => {
       </CardHeader>
       <CardContent className="flex flex-col gap-[0.62rem]">
         <Image
-          className="rounded-[0.65rem]"
+          className="w-full rounded-[0.65rem]"
           src="/images/group-post.svg"
           width={315}
           height={146}
