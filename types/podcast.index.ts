@@ -42,14 +42,6 @@ export interface IPodcast extends Podcast {
   };
 }
 
-export interface HandlePlayProps {
-  audioRef: {
-    current: HTMLAudioElement | null;
-  };
-  isPlaying: boolean;
-  setIsPlaying: (newIsPlaying: boolean) => void;
-}
-
 export type savePodcastTypeProps = {
   isPlaying: boolean;
   currentTime: any;
