@@ -98,25 +98,33 @@ export const handlePlayCall = ({
   podcast,
   dispatch,
   isPlaying,
+  audioRef,
+  state,
 }: HandlePlayCallProps) => {
+  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
   const audioElement = document.getElementById(
     "podcast-audio"
   ) as HTMLAudioElement;
-  if (audioElement) {
-    if (podcast !== null) {
+  if (audioElement && podcast !== null) {
+    if (audioRef && audioRef.current) {
+      audioRef.current.playbackRate =
+        playbackSpeedOptions[state.playbackSpeedIndex];
       dispatch({
-        type: "UPDATE_PODCAST_INFO",
-        payload: {
-          image: podcast.image,
-          showInfo: `#${podcast.episodeNumber} - ${podcast.title}`,
-        },
+        type: "SET_PLAYBACK_SPEED_INDEX",
+        payload: state.playbackSpeedIndex,
       });
     }
+    dispatch({
+      type: "UPDATE_PODCAST_INFO",
+      payload: {
+        image: podcast.image,
+        showInfo: `#${podcast.episodeNumber} - ${podcast.title}`,
+      },
+    });
+
     if (isPlaying) {
       audioElement.play();
       dispatch({ type: "SET_SHOW_PLAYER", payload: true });
-    } else {
-      dispatch({ type: "SET_PLAYBACK_SPEED_INDEX", payload: 1 });
     }
   }
 };

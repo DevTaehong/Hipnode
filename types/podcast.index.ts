@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Podcast } from "@prisma/client";
-import { Action } from "@/components/podcast-components/podcastReducer";
+import { Action, State } from "@/components/podcast-components/podcastReducer";
 
 export interface QueryObject {
   show?: string | string[];
@@ -84,6 +84,8 @@ export interface HandlePlayCallProps {
   podcast: IPodcast | null;
   dispatch: React.Dispatch<Action>;
   isPlaying: boolean;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  state: State;
 }
 
 export interface CyclePlaybackSpeedProps {

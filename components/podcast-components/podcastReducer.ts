@@ -1,6 +1,6 @@
 import { IPodcast } from "@/types/podcast.index";
 
-type State = {
+export type State = {
   id: number | undefined;
   currentTime: number;
   totalDuration: number;

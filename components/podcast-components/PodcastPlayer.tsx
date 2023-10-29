@@ -44,6 +44,8 @@ const PodcastPlayer = () => {
         podcast,
         dispatch,
         isPlaying,
+        audioRef,
+        state,
       });
     }
   }, [isPlaying, setSongUrl]);
