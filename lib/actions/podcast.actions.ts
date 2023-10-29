@@ -18,6 +18,18 @@ export async function getPodcastById(podcastId: number) {
       where: {
         id: podcastId,
       },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        show: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     return podcast;
@@ -34,6 +46,90 @@ export async function getAllPodcasts() {
     return podcasts;
   } catch (error) {
     console.error("Error fetching all podcasts:", error);
+    throw error;
+  }
+}
+
+interface QueryOptions {
+  skip: number;
+  take?: number; // Optional
+  include: {
+    user: {
+      select: {
+        name: boolean;
+        location: boolean;
+        picture: boolean;
+      };
+    };
+  };
+}
+
+interface PodcastUserInfo extends Podcast {
+  user: {
+    name: string;
+    location: string | null;
+    picture: string;
+  };
+}
+
+export async function getPodcastsWithUserInfo(
+  amount: number,
+  startNumber = 0
+): Promise<PodcastUserInfo[]> {
+  try {
+    const queryOptions: QueryOptions = {
+      skip: startNumber,
+      take: amount,
+      include: {
+        user: {
+          select: {
+            name: true,
+            location: true,
+            picture: true,
+          },
+        },
+      },
+    };
+
+    const podcasts = await prisma.podcast.findMany(queryOptions);
+
+    return podcasts as PodcastUserInfo[];
+  } catch (error) {
+    console.error("Error fetching all podcasts:", error);
+    throw error;
+  }
+}
+
+export async function getFilterPodcastsUserInfo({
+  show,
+  skipCount = 0,
+}: {
+  show: number[];
+  skipCount?: number;
+}) {
+  try {
+    const podcasts = await prisma.podcast.findMany({
+      where: {
+        showId: {
+          in: show,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            location: true,
+            picture: true,
+          },
+        },
+      },
+      skip: skipCount, // Skip the specified number of podcasts at the beginning
+      take: 20, // Limit the result to 20 podcasts
+    });
+
+    return podcasts;
+  } catch (error) {
+    console.error("Error fetching filtered podcasts:", error);
     throw error;
   }
 }

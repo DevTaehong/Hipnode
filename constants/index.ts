@@ -1,17 +1,10 @@
 import FillIcon from "@/components/icons/fill-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
+
 import { christopher, santiago, negan } from "@/public/assets";
 
-import {
-  PopularIcon,
-  NewIcon,
-  DevIcon,
-  HeartIcon,
-} from "@/components/icons/outline-icons";
-import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
-import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
-import PostIcon from "@/components/icons/outline-icons/PostIcon";
-import { NotificationPopoverProps, NotificationTab } from "@/types";
 import { PostFormValuesType } from "@/types/create-post-form";
+import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
@@ -25,7 +18,7 @@ export const reportModalTags = [
 
 export const exploreIcons = [
   {
-    Icon: NewIcon,
+    Icon: OutlineIcon.New,
     color: "newIcon",
     secondaryColor: "newIconSecondary",
     bgColor: "newIconBg",
@@ -33,7 +26,7 @@ export const exploreIcons = [
     label: "New",
   },
   {
-    Icon: PopularIcon,
+    Icon: OutlineIcon.Popular,
     color: "popularIcon",
     bgColor: "popularBg",
     textColor: "popularText",
@@ -121,7 +114,7 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
-const fastestGrowingGroups = [
+export const fastestGrowingGroups = [
   {
     icon: christopher,
     groupDescription: "Lorem ipsum dolor sit amet consectetur",
@@ -174,7 +167,7 @@ const fastestGrowingGroups = [
   },
 ];
 
-const mostPopularGroups = [
+export const mostPopularGroups = [
   {
     icon: santiago,
     groupDescription: "Praesent sapien massa, convallis a pellentesque",
@@ -227,7 +220,7 @@ const mostPopularGroups = [
   },
 ];
 
-const newlyLaunchedGroups = [
+export const newlyLaunchedGroups = [
   {
     icon: negan,
     groupDescription: "Viverra mauris in aliquam sem fringilla",
@@ -389,42 +382,42 @@ export const tags = [
   {
     name: "javascript",
     views: "82,645 Posted by this tag",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgYellow",
     iconFillColor: "fillYellow",
   },
   {
     name: "bitcoin",
     views: "65,523 Posted • Trending",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
   {
     name: "design",
     views: "51,354 • Trending in Poland",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgBlue",
     iconFillColor: "fillBlue",
   },
   {
     name: "blogging",
     views: "48,029 Posted by this tag",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgYellow",
     iconFillColor: "fillYellow",
   },
   {
     name: "tutorial",
     views: "51,354 • Trending in Bangladesh",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgGreen",
     iconFillColor: "fillGreen",
   },
   {
     name: "seo",
     views: "82,152 Posted by this tag",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
@@ -478,22 +471,22 @@ export const notificationTabs: NotificationTab[] = [
   },
   {
     title: "Reactions",
-    icon: HeartIcon,
+    icon: OutlineIcon.Heart,
     active: false,
   },
   {
     title: "Comments",
-    icon: CommentIcon,
+    icon: OutlineIcon.Comment,
     active: false,
   },
   {
     title: "Mentions",
-    icon: MentionIcon,
+    icon: OutlineIcon.Mention,
     active: false,
   },
   {
     title: "Posts",
-    icon: PostIcon,
+    icon: OutlineIcon.Post,
     active: false,
   },
 ];
@@ -535,4 +528,41 @@ export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
   group: "",
   post: "",
   tags: [],
+}
+// Add real links once they're available
+export const podcastFormLinkProps = {
+  title: "Start your Podcast",
+  description:
+    "Working on your own internet business? We'd love to interview you!",
+  codeOfConductButton: {
+    title: "Code of Conduct",
+    link: "/",
+  },
+  linkToFormButton: {
+    title: "Submit a Podcast",
+    link: "/",
+  },
+};
+
+export const groupData: GroupData = {
+  "fastest-growing": {
+    header: {
+      color: "bg-yellow-10",
+      icon: FillIcon.Rocket,
+      title: "Fastest Growing",
+    },
+    groups: fastestGrowingGroups,
+  },
+  "Most Popular": {
+    header: { color: "bg-red-10", icon: FillIcon.Fire, title: "Most Popular" },
+    groups: mostPopularGroups,
+  },
+  "Newly Launched": {
+    header: {
+      color: "bg-blue-10",
+      icon: FillIcon.Rocket,
+      title: "Newly Launched",
+    },
+    groups: newlyLaunchedGroups,
+  },
 };

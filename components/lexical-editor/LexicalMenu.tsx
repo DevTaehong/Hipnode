@@ -22,7 +22,7 @@ import {
 } from "@lexical/list";
 
 import PostPreview from "@/components/posts/PostPreview";
-import { Icon } from "@/components/icons/outline-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
 import { LexicalMenuState, LexicalMenuProps } from "@/types/lexical-editor";
 import { LowPriority } from "@/constants/lexical-editor";
 import { useCreatePostStore } from "@/app/lexicalStore";
@@ -134,7 +134,7 @@ export function LexicalMenu({
           onClick={() => setAutoFocus(!autoFocus)}
           className="flex cursor-pointer items-center gap-[0.625rem] text-blue-80"
         >
-          <Icon.Edit
+          <OutlineIcon.Edit
             className={
               autoFocus ? "fill-blue-80" : "fill-sc-3 dark:fill-light-2"
             }

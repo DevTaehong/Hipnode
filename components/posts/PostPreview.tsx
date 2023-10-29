@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Icon } from "@/components/icons/outline-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
 import { PostPreviewProps } from "@/types/create-post-form";
 import { useCreatePostStore } from "@/app/lexicalStore";
 
@@ -23,7 +23,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
         <button type="button" onClick={() => onSubmitPreview()}>
           <p className="flex cursor-pointer items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
             <div className="flex items-center gap-[0.625rem]">
-              <Icon.View />
+              <OutlineIcon.View />
               <p className="pr-4">Preview</p>
             </div>
           </p>

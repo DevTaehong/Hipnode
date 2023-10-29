@@ -1,7 +1,35 @@
+/* eslint-disable no-unused-vars */
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 
 import { onboardingQuestions } from "@/constants";
+import { colorVariants } from "@/components/GroupSectionHeader";
+
+export type ColorVariantsType = {
+  [key: string]: string;
+  bgYellow: string;
+  bgRed: string;
+  bgBlue: string;
+};
+
+export type ColorVariantKeys = keyof typeof colorVariants;
+
+export interface GroupSectionHeaderProps {
+  title: string;
+  bgColor: ColorVariantKeys;
+  icon: FC;
+}
+
+export type GroupData = {
+  [key in "fastest-growing" | "Most Popular" | "Newly Launched"]: {
+    header: { color: string; icon: FC; title: string };
+    groups: {
+      icon: StaticImageData;
+      groupDescription: string;
+      groupName: string;
+    }[];
+  };
+};
 
 export interface ThemeContextType {
   mode: string;

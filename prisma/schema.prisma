@@ -21,14 +21,16 @@ model User {
   location    String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  subscribedShows UsersSubscribedToShows[]
   comments    Comment[]
   likes       Like[]
   meetup      MeetUp[]
-  memberships Membership[]
   onboarding  Onboarding?
   podcasts    Podcast[]
   posts       Post[]
   shows       Shows[]
+  groupAdmin  Group[]       @relation("GroupAdmins")
+  groups      Group[]       @relation("UserGroups")
 }
 
 model Onboarding {
@@ -55,6 +57,8 @@ model Post {
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  groupId   Int?
+  group     Group?      @relation(fields: [groupId], references: [id])
   tags      TagOnPost[]
 }
 
@@ -71,7 +75,6 @@ model Like {
   @@unique([userId, postId])
   @@unique([userId, commentId])
 }
-
 
 model Comment {
   id        Int       @id @default(autoincrement())
@@ -106,13 +109,14 @@ model TagOnPost {
 }
 
 model Shows {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  userId    Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  podcasts  Podcast[]
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              Int                 @id @default(autoincrement())
+  name            String              @unique
+  userId          Int
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  subscribers     UsersSubscribedToShows[]
+  podcasts        Podcast[]
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Podcast {
@@ -130,25 +134,28 @@ model Podcast {
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Group {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime     @default(now())
-  details   String
-  groupName String       @unique
-  updatedAt DateTime     @updatedAt
-  members   Membership[]
+model UsersSubscribedToShows {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  showId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  show    Shows  @relation(fields: [showId], references: [id])
+
+  @@unique([userId, showId]) 
 }
 
-model Membership {
-  userId   Int
-  groupId  Int
-  joinedAt DateTime @default(now())
-  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, groupId])
-  @@index([userId])
-  @@index([groupId])
+model Group {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  description String?      @db.VarChar(300)
+  name        String       @unique
+  updatedAt   DateTime     @updatedAt
+  members     User[]       @relation("UserGroups")
+  posts       Post[]
+	createdBy   Int
+  admins      User[]       @relation("GroupAdmins")
+  coverImage  String?
+  logo        String?
 }
 
 model MeetUp {

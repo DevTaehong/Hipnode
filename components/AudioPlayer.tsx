@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import CustomButton from "./CustomButton";
 import FillIcon from "./icons/fill-icons";
 import { Button } from "./ui/button";
-import { Share2Icon } from "./icons/outline-icons";
+import OutlineIcons from "./icons/outline-icons";
 
 const AudioPlayer = () => {
   return (
@@ -32,10 +32,7 @@ const AudioPlayer = () => {
           by Courtland Allen
         </h2>
         <div className="mb-4 flex w-full items-center gap-5">
-          <Progress
-            value={33}
-            className="flex-1"
-          />
+          <Progress value={33} className="flex-1" />
           <p className="semibold-14 text-sc-2 dark:text-light-2">
             00:00 | 63:37
           </p>
@@ -50,7 +47,7 @@ const AudioPlayer = () => {
             size="icon"
             className="rounded-full border border-sc-2 dark:border-sc-3"
           >
-            <Share2Icon />
+            <OutlineIcons.Share2 />
           </Button>
         </div>
       </div>

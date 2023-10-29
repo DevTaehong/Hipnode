@@ -16,10 +16,14 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sourceSans: ["var(--font-source-sans)"],
+      },
       backgroundImage: {
         "message-popover": "url('/images/messagePopover.svg')",
         "dark-message-popover": "url('/images/darkMessagePopover.svg')",
         "profile-modal": "url('/profileModal.png')",
+        "host-meetup": "url('/host-meetup.png')",
       },
       screens: {
         "2xl": "1440px",

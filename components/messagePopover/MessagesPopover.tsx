@@ -24,7 +24,7 @@ const MessagesPopover = () => {
         {/* // TODO - Change this to the real link */}
         <Link
           href="/"
-          className="semibold-14 message-popover-font-feature py-0 text-blue hover:underline"
+          className="semibold-14 font-feature py-0 text-blue hover:underline"
         >
           See all in Messenger
         </Link>

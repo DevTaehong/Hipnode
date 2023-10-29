@@ -1,3 +1,4 @@
+import OutlineIcon from "@/components/icons/outline-icons";
 import ImageUpload from "@/components/image-upload/ImageUpload";
 import {
   FormField,
@@ -6,7 +7,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CoverImageUploadProps } from "@/types/create-post-form";
-import { Icon } from "@/components/icons/outline-icons";
 
 const CoverImageUpload = ({
   control,
@@ -31,7 +31,7 @@ const CoverImageUpload = ({
               }}
             >
               <div className="flex h-10 w-fit cursor-pointer flex-row items-center rounded-md   px-[0.8rem] py-[0.25rem] dark:bg-dark-4">
-                <Icon.Image />
+                <OutlineIcon.ImageIcon />
                 <p className="pl-[0.625rem] text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
                   Set Cover
                 </p>
