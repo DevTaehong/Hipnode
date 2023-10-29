@@ -1,13 +1,6 @@
 import { RefObject } from "react";
-import {
-  playbackSpeedOptions,
-  savePodcastTypeProps,
-  FetchPodcastProps,
-  LoadPodcastProps,
-  HandlePlayCallProps,
-  HandleVolumeChangeProps,
-  CyclePlaybackSpeedProps,
-} from "@/types/podcast.index";
+import * as PodcastTypes from "@/types/podcast.index";
+import { playbackSpeedOptions } from "@/constants";
 
 export const handleStop = (audioRef: RefObject<HTMLAudioElement>) => {
   if (audioRef?.current) {
@@ -19,7 +12,7 @@ export const handleStop = (audioRef: RefObject<HTMLAudioElement>) => {
 export const cyclePlaybackSpeed = ({
   audioRef,
   playbackSpeedIndex,
-}: CyclePlaybackSpeedProps) => {
+}: PodcastTypes.CyclePlaybackSpeedProps) => {
   const newIndex = (playbackSpeedIndex + 1) % playbackSpeedOptions.length;
   if (audioRef && audioRef.current) {
     audioRef.current.playbackRate = playbackSpeedOptions[newIndex];
@@ -42,7 +35,7 @@ export const fetchPodcast = async ({
   getFromLocalStorage,
   getPodcastById,
   dispatch,
-}: FetchPodcastProps) => {
+}: PodcastTypes.FetchPodcastProps) => {
   if (podcast === null) {
     const podcastId = getFromLocalStorage("selectedPodcastId");
     const isSongPlaying = getFromLocalStorage("podcastPlayerState");
@@ -63,7 +56,7 @@ export const loadPodcastFromLocalStorage = ({
   setSongUrl,
   setCurrentTime,
   audioRef,
-}: LoadPodcastProps) => {
+}: PodcastTypes.LoadPodcastProps) => {
   if (storedState) {
     const { currentTime, songUrl } = storedState;
     setSongUrl(songUrl);
@@ -80,7 +73,7 @@ export const savePodcastPlayerState = ({
   isPlaying,
   currentTime,
   songUrl,
-}: savePodcastTypeProps) => {
+}: PodcastTypes.SavePodcastTypeProps) => {
   try {
     const state = {
       isPlaying,
@@ -99,7 +92,7 @@ export const handlePlayCall = ({
   isPlaying,
   audioRef,
   state,
-}: HandlePlayCallProps) => {
+}: PodcastTypes.HandlePlayCallProps) => {
   const audioElement = document.getElementById(
     "podcast-audio"
   ) as HTMLAudioElement;
@@ -133,7 +126,7 @@ export const handleVolumeChange = ({
   newVolume,
   audioRef,
   dispatch,
-}: HandleVolumeChangeProps) => {
+}: PodcastTypes.HandleVolumeChangeProps) => {
   if (audioRef.current) {
     const volumeValue = newVolume[0] / 100;
     audioRef.current.volume = volumeValue;

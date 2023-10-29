@@ -42,7 +42,7 @@ export interface IPodcast extends Podcast {
   };
 }
 
-export type savePodcastTypeProps = {
+export type SavePodcastTypeProps = {
   isPlaying: boolean;
   currentTime: any;
   songUrl: string | undefined;
@@ -148,5 +148,3 @@ export type LargePodcastCardType = {
   details: string;
   episodeNumber: number;
 };
-
-export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];

@@ -1,8 +1,6 @@
+import { playbackSpeedOptions } from "@/constants";
 import { cyclePlaybackSpeed } from "@/hooks/podcastHooks";
-import {
-  PodcastSpeedButtonProps,
-  playbackSpeedOptions,
-} from "@/types/podcast.index";
+import { PodcastSpeedButtonProps } from "@/types/podcast.index";
 
 const PodcastSpeedButton = ({
   showInfo,
@@ -17,9 +15,7 @@ const PodcastSpeedButton = ({
 
   return (
     <div className="flex items-center gap-2">
-      {!showInfo.includes("undefined") && (
-        <p className="text-sc-1_light-2 text-xs">{showInfo}</p>
-      )}
+      {showInfo && <p className="text-sc-1_light-2 text-xs">{showInfo}</p>}
       <button
         onClick={handlePlaybackSpeedCycle}
         className="text-sc-1_light-2 text-sm"

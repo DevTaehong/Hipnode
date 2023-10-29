@@ -28,14 +28,15 @@ export type Action =
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "INITIALISE_PODCAST": {
-      const podcast = action.payload;
+      const { id, episodeNumber, title, image } = action.payload || {};
       return {
         ...state,
-        id: podcast?.id,
-        showInfo: podcast
-          ? `#${podcast.episodeNumber} - ${podcast.title}`
-          : state.showInfo,
-        podcastUserImage: podcast?.image || state.podcastUserImage,
+        id,
+        showInfo:
+          episodeNumber && title
+            ? `#${episodeNumber} - ${title}`
+            : state.showInfo,
+        podcastUserImage: image || state.podcastUserImage,
       };
     }
     case "UPDATE_PODCAST_INFO":

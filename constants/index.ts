@@ -555,3 +555,5 @@ export const groupData: GroupData = {
     groups: newlyLaunchedGroups,
   },
 };
+
+export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];

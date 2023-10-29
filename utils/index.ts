@@ -1,3 +1,10 @@
+import {
+  ImVolumeLow,
+  ImVolumeMedium,
+  ImVolumeMute2,
+  ImVolumeHigh,
+} from "react-icons/im";
+
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
   const day = date.getDate();
@@ -69,5 +76,18 @@ export const getFromLocalStorage = (key: string) => {
   } catch (e) {
     console.error("Failed to get item from local storage:", e);
     return null;
+  }
+};
+
+export const getVolumeIcon = (volumeValues: number[]) => {
+  const volumeValue = volumeValues[0];
+  if (volumeValue === 0) {
+    return ImVolumeMute2;
+  } else if (volumeValue <= 33) {
+    return ImVolumeLow;
+  } else if (volumeValue <= 66) {
+    return ImVolumeMedium;
+  } else {
+    return ImVolumeHigh;
   }
 };

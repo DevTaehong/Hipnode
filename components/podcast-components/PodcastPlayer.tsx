@@ -38,6 +38,10 @@ const PodcastPlayer = () => {
     }
   };
 
+  const getAudioElement = () => {
+    return document.getElementById("podcast-audio") as HTMLAudioElement;
+  };
+
   useEffect(() => {
     if (isPlaying) {
       PodcastHooks.handlePlayCall({
@@ -51,30 +55,33 @@ const PodcastPlayer = () => {
   }, [isPlaying, setSongUrl]);
 
   useEffect(() => {
-    const audioElement = document.getElementById(
-      "podcast-audio"
-    ) as HTMLAudioElement;
+    const audioElement = getAudioElement();
+
+    const handleTimeUpdate = () => {
+      const newTime = Math.floor(audioElement.currentTime);
+      dispatch({ type: "SET_CURRENT_TIME", payload: newTime });
+    };
+
+    const handleLoadedMetadata = () => {
+      dispatch({
+        type: "SET_TOTAL_DURATION",
+        payload: Math.floor(audioElement.duration),
+      });
+    };
 
     if (audioElement) {
-      audioElement.addEventListener("timeupdate", () => {
-        const newTime = Math.floor(audioElement.currentTime);
-        dispatch({ type: "SET_CURRENT_TIME", payload: newTime });
-      });
-
-      audioElement.addEventListener("loadedmetadata", () => {
-        dispatch({
-          type: "SET_TOTAL_DURATION",
-          payload: Math.floor(audioElement.duration),
-        });
-      });
-
+      audioElement.addEventListener("timeupdate", handleTimeUpdate);
+      audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
       audioElement.addEventListener("ended", handleAudioEnd);
     }
 
     return () => {
       if (audioElement) {
-        audioElement.removeEventListener("timeupdate", () => {});
-        audioElement.removeEventListener("loadedmetadata", () => {});
+        audioElement.removeEventListener("timeupdate", handleTimeUpdate);
+        audioElement.removeEventListener(
+          "loadedmetadata",
+          handleLoadedMetadata
+        );
         audioElement.removeEventListener("ended", handleAudioEnd);
       }
     };

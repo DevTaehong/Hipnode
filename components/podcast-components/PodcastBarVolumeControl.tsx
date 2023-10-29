@@ -4,14 +4,9 @@ import {
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
 import { Slider } from "../ui/slider";
-import {
-  ImVolumeLow,
-  ImVolumeMedium,
-  ImVolumeMute2,
-  ImVolumeHigh,
-  ImCross,
-} from "react-icons/im";
+import { ImCross } from "react-icons/im";
 import { PodcastBarVolumeControlProps } from "@/types/podcast.index";
+import { getVolumeIcon } from "@/utils";
 
 const PodcastBarVolumeControl = ({
   handleVolumeChange,
@@ -21,18 +16,7 @@ const PodcastBarVolumeControl = ({
   audioRef,
   dispatch,
 }: PodcastBarVolumeControlProps) => {
-  const getVolumeIcon = (volumeValues: number[]) => {
-    const volumeValue = volumeValues[0];
-    if (volumeValue === 0) {
-      return <ImVolumeMute2 />;
-    } else if (volumeValue >= 1 && volumeValue <= 33) {
-      return <ImVolumeLow />;
-    } else if (volumeValue > 33 && volumeValue <= 66) {
-      return <ImVolumeMedium />;
-    } else {
-      return <ImVolumeHigh />;
-    }
-  };
+  const VolumeSymbol = getVolumeIcon(volume);
 
   const onVolumeChanged = (newVolumeValue: number[]) => {
     handleVolumeChange({
@@ -50,7 +34,7 @@ const PodcastBarVolumeControl = ({
             className="text-sc-1_light-2 text-2xl"
             onClick={handleVolumeIconClick}
           >
-            {getVolumeIcon(volume)}
+            <VolumeSymbol />
           </div>
         </HoverCardTrigger>
         <HoverCardContent className="-translate-y-4">
