@@ -1,6 +1,6 @@
 import { RefObject } from "react";
-
 import {
+  playbackSpeedOptions,
   savePodcastTypeProps,
   FetchPodcastProps,
   LoadPodcastProps,
@@ -20,7 +20,6 @@ export const cyclePlaybackSpeed = ({
   audioRef,
   playbackSpeedIndex,
 }: CyclePlaybackSpeedProps) => {
-  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
   const newIndex = (playbackSpeedIndex + 1) % playbackSpeedOptions.length;
   if (audioRef && audioRef.current) {
     audioRef.current.playbackRate = playbackSpeedOptions[newIndex];
@@ -101,10 +100,10 @@ export const handlePlayCall = ({
   audioRef,
   state,
 }: HandlePlayCallProps) => {
-  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
   const audioElement = document.getElementById(
     "podcast-audio"
   ) as HTMLAudioElement;
+
   if (audioElement && podcast !== null) {
     if (audioRef && audioRef.current) {
       audioRef.current.playbackRate =
@@ -114,6 +113,7 @@ export const handlePlayCall = ({
         payload: state.playbackSpeedIndex,
       });
     }
+
     dispatch({
       type: "UPDATE_PODCAST_INFO",
       payload: {

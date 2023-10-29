@@ -1,5 +1,8 @@
 import { cyclePlaybackSpeed } from "@/hooks/podcastHooks";
-import { PodcastSpeedButtonProps } from "@/types/podcast.index";
+import {
+  PodcastSpeedButtonProps,
+  playbackSpeedOptions,
+} from "@/types/podcast.index";
 
 const PodcastSpeedButton = ({
   showInfo,
@@ -7,8 +10,6 @@ const PodcastSpeedButton = ({
   playbackSpeedIndex,
   dispatch,
 }: PodcastSpeedButtonProps) => {
-  const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
-
   const handlePlaybackSpeedCycle = () => {
     const newIndex = cyclePlaybackSpeed({ audioRef, playbackSpeedIndex });
     dispatch({ type: "SET_PLAYBACK_SPEED_INDEX", payload: newIndex });

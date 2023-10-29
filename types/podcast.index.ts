@@ -156,3 +156,5 @@ export type LargePodcastCardType = {
   details: string;
   episodeNumber: number;
 };
+
+export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
