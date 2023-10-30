@@ -38,7 +38,6 @@ const LexicalMenu = ({
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
-  console.log(canRedo);
 
   const { clearEditor, setClearEditor } = useCreatePostStore((state) => state);
 

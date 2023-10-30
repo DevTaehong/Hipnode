@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +13,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import LexicalEditor from "@/components/lexical-editor/LexicalEditor";
 import { uploadImageToSupabase } from "@/utils/index";
 import {
   CoverImageUpload,
@@ -25,6 +25,11 @@ import { postFormValidationSchema } from "@/lib/validations";
 import { PostFormValuesType } from "@/types/create-post-form/index";
 import { POST, GROUP, POST_FORM_DEFAULT_VALUES } from "@/constants/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
+
+const LexicalEditor = dynamic(
+  () => import("@/components/lexical-editor/LexicalEditor"),
+  { ssr: false }
+);
 
 const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
@@ -115,14 +120,18 @@ const CreatePost = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center p-6">
-            <Image
-              src={imagePreviewUrl || "/emoji_2.png"}
-              height={125}
-              width={125}
-              alt="image"
-              className="rounded-md"
-            />
+          <div className="flex items-center justify-center">
+            {imagePreviewUrl && (
+              <div className="py-6">
+                <Image
+                  src={imagePreviewUrl || "/negan.png"}
+                  height={125}
+                  width={125}
+                  alt="image"
+                  className="rounded-md"
+                />
+              </div>
+            )}
           </div>
           <div className="relative flex flex-col py-[1.25rem]">
             <div className="min-h-[22rem]">
