@@ -2,11 +2,30 @@ import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 import { christopher, santiago, negan } from "@/public/assets";
+import { newest, popular, followers } from "@/public/images";
+import {
+  ColorVariantsOnboardingType,
+  GroupData,
+  NotificationPopoverProps,
+  NotificationTab,
+} from "@/types";
 
-import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
+import { PostFormValuesType } from "@/types/create-post-form";
 
-export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
+export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
+
+export const colorVariants: ColorVariantsOnboardingType = {
+  fillRed: "fill-red",
+  fillBlue: "fill-blue",
+  fillYellow: "fill-yellow",
+  fillGreen: "fill-green",
+  bgRed: "bg-red-10",
+  bgBlue: "bg-blue-10",
+  bgYellow: "bg-yellow-10",
+  bgGreen: "bg-green-10",
+};
+
 export const reportModalTags = [
   "False Information?",
   "Low Quality",
@@ -463,6 +482,36 @@ export const socialStats = {
 
 export const postTabs = ["finance", "bitcoin", "crypto"];
 
+export const sidebarItems = [
+  {
+    imgSrc: newest,
+    imgAlt: "newest and recent",
+    title: "Newest",
+    subTitle: "and recent",
+    description: "Find the latest update",
+    imgContainerClass:
+      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
+  },
+  {
+    imgSrc: popular,
+    imgAlt: "popular of the day",
+    title: "Popular",
+    subTitle: "of the day",
+    description: "Shots featured today by curators",
+    imgContainerClass:
+      "flex h-[1.75rem] w-[1.75rem] items-center justify-center rounded-md bg-light-3 dark:bg-dark-4",
+  },
+  {
+    imgSrc: followers,
+    imgAlt: "followers",
+    title: "Following",
+    description: "Explore from your favorite person",
+    notification: 24,
+    imgContainerClass:
+      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
+  },
+];
+
 export const notificationTabs: NotificationTab[] = [
   {
     title: "All notifications",
@@ -518,6 +567,16 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
+export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
+export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
+export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
+  title: "",
+  mainText: "",
+  coverImage: "",
+  group: "",
+  post: "",
+  tags: [],
+};
 // Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
