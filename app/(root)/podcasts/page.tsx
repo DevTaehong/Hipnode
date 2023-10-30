@@ -3,10 +3,9 @@ import { currentUser } from "@clerk/nextjs";
 import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
 import { getAllUsersShows } from "@/lib/actions/show.actions";
 import FormLink from "@/components/FormLink";
-import PodcastPageFilter from "@/components/podcast-components/PodcastPageFilter";
-import Categories from "@/components/podcast-components/Categories";
 import { podcastFormLinkProps } from "@/constants";
 import { redirect } from "next/navigation";
+import { Categories, PodcastPageFilter } from "@/components/podcast-components";
 interface SearchProps {
   show: string | string[];
   amount: string;

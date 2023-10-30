@@ -1,3 +1,5 @@
+"use client";
+
 import { formatPodcastDuration } from "@/utils";
 import { Progress } from "../ui/progress";
 import {
