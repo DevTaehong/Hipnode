@@ -5,10 +5,12 @@ import { christopher, santiago, negan } from "@/public/assets";
 import { newest, popular, followers } from "@/public/images";
 import {
   ColorVariantsOnboardingType,
+  GroupData,
   NotificationPopoverProps,
   NotificationTab,
-  GroupData,
 } from "@/types";
+
+import { PostFormValuesType } from "@/types/create-post-form";
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -565,6 +567,16 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
+export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
+export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
+export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
+  title: "",
+  mainText: "",
+  coverImage: "",
+  group: "",
+  post: "",
+  tags: [],
+};
 // Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
