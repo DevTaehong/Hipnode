@@ -26,7 +26,7 @@ export default async function Home() {
   return (
     <section className="flex w-full bg-light-2  dark:bg-dark-2">
       <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
-        <div className="flex h-fit  flex-col gap-5 lg:sticky lg:top-[4rem]">
+        <div className="flex h-fit flex-col lg:sticky lg:top-[4rem]">
           <Sidebar />
           <div className="w-full lg:hidden">
             <CreatePostInput userImage={userImage} />
@@ -45,7 +45,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="flex h-fit flex-col gap-5 lg:sticky lg:top-[4rem]">
+        <div className="flex h-fit flex-col lg:sticky lg:top-[4rem]">
           <Meetups meetUps={meetups} />
           <Podcasts podcasts={podcasts} />
         </div>

@@ -11,7 +11,7 @@ const SidebarSection = ({
   description,
   notification,
 }: SidebarSectionProps) => (
-  <div className="flex w-full flex-row items-center">
+  <div className="flex w-fit flex-row items-center justify-between">
     <div className={imgContainerClass}>
       <Image src={imgSrc} height={28} width={28} alt={imgAlt} />
     </div>
