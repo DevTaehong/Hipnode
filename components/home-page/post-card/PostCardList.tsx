@@ -8,6 +8,7 @@ import { ExtendedPost } from "@/types/models";
 import { PostCard } from ".";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
+import CustomButton from "@/components/CustomButton";
 
 const PostCardList = ({ posts }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPost[]>(posts);
@@ -58,16 +59,17 @@ const PostCardList = ({ posts }: PostCardListProps) => {
           </div>
         )}
       </div>
-      <button
+      <CustomButton
         className="dark:text-light-2 lg:hidden"
         type="button"
         onClick={() => setLoadMore(true)}
-      >
-        <div className="flex items-center justify-center">
-          <span className="pr-4">See more podcasts</span>{" "}
-          <OutlineIcon.ArrowRight />
-        </div>
-      </button>
+        label={
+          <div className="flex items-center justify-center">
+            <span className="pr-4">See more podcasts</span>{" "}
+            <OutlineIcon.ArrowRight />
+          </div>
+        }
+      />
     </main>
   );
 };

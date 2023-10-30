@@ -13,7 +13,7 @@ const Meetups = ({ meetUps }: MeetupsProps) => (
       <RightSidebarHeader heading={"Meetups"} />
     </Link>
     {meetUps
-      ?.slice(0, 5)
+      ?.slice(0, 4)
       .map((meet) => <MeetupItem meet={meet} key={meet.id} />)}
   </RightSidebarWrapper>
 );

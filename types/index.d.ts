@@ -61,7 +61,7 @@ export interface ClerkUser extends User {
 }
 
 export interface CustomButtonProps {
-  label: string;
+  label: string | React.ReactNode;
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
