@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 import { LexicalIconButtonsProps } from "@/types/lexical-editor";
 import { IconLibrary } from "./IconLibrary";
 
-export default function LexicalIconButtons({
+const LexicalIconButtons = ({
   icon,
   active,
   className,
   ...props
-}: LexicalIconButtonsProps) {
+}: LexicalIconButtonsProps) => {
   if (!icon) return null;
   return (
     <button
@@ -31,4 +31,6 @@ export default function LexicalIconButtons({
       {IconLibrary[icon]}
     </button>
   );
-}
+};
+
+export default LexicalIconButtons;

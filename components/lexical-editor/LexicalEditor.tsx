@@ -4,11 +4,11 @@ import { LexicalEditorProps } from "@/types/lexical-editor";
 import { MainLexicalEditor } from ".";
 import { initialConfig } from "@/constants/lexical-editor";
 
-export default function LexicalEditor({
+const LexicalEditor = ({
   name,
   updateField,
   onSubmitPreview,
-}: LexicalEditorProps) {
+}: LexicalEditorProps) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <MainLexicalEditor
@@ -18,4 +18,6 @@ export default function LexicalEditor({
       />
     </LexicalComposer>
   );
-}
+};
+
+export default LexicalEditor;

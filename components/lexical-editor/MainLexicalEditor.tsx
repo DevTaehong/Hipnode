@@ -18,10 +18,10 @@ import {
   LexicalEditorProps,
 } from "@/types/lexical-editor";
 
-function CustomAutoFocusPlugin({
+const CustomAutoFocusPlugin = ({
   autoFocus,
   setAutoFocus,
-}: CustomAutoFocusPluginProps) {
+}: CustomAutoFocusPluginProps) => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -31,13 +31,13 @@ function CustomAutoFocusPlugin({
   }, [editor, autoFocus]);
 
   return null;
-}
+};
 
-function CustomOnChangePlugin({
+const CustomOnChangePlugin = ({
   onChange,
   name,
   updateField,
-}: CustomOnChangePluginProps): null {
+}: CustomOnChangePluginProps): null => {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
@@ -49,7 +49,7 @@ function CustomOnChangePlugin({
     });
   }, [editor, onChange]);
   return null;
-}
+};
 
 const MainLexicalEditor = ({
   name,

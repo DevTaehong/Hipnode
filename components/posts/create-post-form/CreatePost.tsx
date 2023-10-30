@@ -26,7 +26,7 @@ import { PostFormValuesType } from "@/types/create-post-form/index";
 import { POST, GROUP, POST_FORM_DEFAULT_VALUES } from "@/constants/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
 
-export default function CreatePost() {
+const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
 
   const {
@@ -150,4 +150,6 @@ export default function CreatePost() {
       </Form>
     </div>
   );
-}
+};
+
+export default CreatePost;

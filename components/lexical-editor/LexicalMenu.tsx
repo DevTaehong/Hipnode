@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import DOMPurify from "dompurify";
+
 import {
   $getSelection,
   $isRangeSelection,
@@ -27,14 +27,14 @@ import { LexicalMenuState, LexicalMenuProps } from "@/types/lexical-editor";
 import { LowPriority } from "@/constants/lexical-editor";
 import { useCreatePostStore } from "@/app/lexicalStore";
 
-export function LexicalMenu({
+const LexicalMenu = ({
   editor,
   autoFocus,
   setAutoFocus,
   editorRef,
   editorHtmlString,
   onSubmitPreview,
-}: LexicalMenuProps) {
+}: LexicalMenuProps) => {
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
@@ -269,6 +269,6 @@ export function LexicalMenu({
       </div>
     </div>
   );
-}
+};
 
 export default LexicalMenu;
