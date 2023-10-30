@@ -45,9 +45,13 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="flex h-fit flex-col lg:sticky lg:top-[4rem]">
-          <Meetups meetUps={meetups} />
-          <Podcasts podcasts={podcasts} />
+        <div className="flex flex-col sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:flex-col">
+          <div className="w-full sm:w-1/2 lg:w-full">
+            <Meetups meetUps={meetups} />
+          </div>
+          <div className="w-full sm:w-1/2 lg:w-full">
+            <Podcasts podcasts={podcasts} />
+          </div>
         </div>
       </div>
     </section>

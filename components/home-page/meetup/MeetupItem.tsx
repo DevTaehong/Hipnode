@@ -5,7 +5,6 @@ import { MeetupItemProps } from "@/types/homepage";
 import { ImageWithCaption } from "@/components/home-page/shared-components";
 import Pills from "@/components/home-page/pills/Pills";
 import { MeetupDate } from "@/components/home-page/meetup";
-import { title } from "process";
 
 const MeetupItem = ({
   meet: { id, createdAt, title, image, location },

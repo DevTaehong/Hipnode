@@ -25,7 +25,7 @@ const SidebarSection = ({
           </span>
         )}
       </p>
-      <p className="hidden text-[0.563rem] dark:text-sc-3 lg:block">
+      <p className="line-clamp-1 hidden text-[0.563rem] dark:text-sc-3 lg:block">
         {description}
       </p>
     </div>

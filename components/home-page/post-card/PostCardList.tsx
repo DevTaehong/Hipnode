@@ -64,7 +64,8 @@ const PostCardList = ({ posts }: PostCardListProps) => {
         onClick={() => setLoadMore(true)}
       >
         <div className="flex items-center justify-center">
-          <span className="pr-4">See more</span> <OutlineIcon.ArrowRight />
+          <span className="pr-4">See more podcasts</span>{" "}
+          <OutlineIcon.ArrowRight />
         </div>
       </button>
     </main>
