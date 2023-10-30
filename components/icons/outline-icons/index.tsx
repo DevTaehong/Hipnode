@@ -234,8 +234,8 @@ OutlineIcon.Heart = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Edit = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
-      <Edit />
+    <OutlineIcon>
+      <Edit className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
     </OutlineIcon>
   );
 };

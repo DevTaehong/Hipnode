@@ -3,20 +3,19 @@ import Link from "next/link";
 
 import ProfileBtns from "./ProfileBtns";
 import OutlineIcon from "../icons/outline-icons";
+import ProfileLink from "./ProfileLink";
 
-// ! Keeping props here since they will be changing when we implement database intergration
-interface ProfileInfoProps {
-  src: string;
-  name: string;
-  title: string;
-  followers: number;
-  points: string;
-  following: { id: string; name: string; src: string; link: string }[];
-  description: string;
-  website?: string;
-  socials: { name: string; link: string }[];
-  joinedAt: string;
-}
+import { ProfileInfoProps } from "@/types";
+import SocialIcons from "./SocialIcons";
+
+const TextDescription = ({ children, className, ...props }: any) => (
+  <p
+    className={`text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6 ${className}`}
+    {...props}
+  >
+    {children}
+  </p>
+);
 
 const ProfileModal = ({
   src,
@@ -55,26 +54,24 @@ const ProfileModal = ({
       {/* Made the Follow & Message buttons into their own components since both will use onClick which requires "use client" */}
       <ProfileBtns />
 
-      <p className="mt-5 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6">
+      <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
         {followers} Followers • {points} Points
-      </p>
+      </TextDescription>
 
-      <p className="mt-5 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6">
+      <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
         Following {following.length}
-      </p>
+      </TextDescription>
 
       {/* Gets all followers then slice all but 6 to run a map on that then returns clickable images of the users profiles */}
       <div className="mt-4 flex flex-wrap justify-center gap-2.5">
         {following.slice(0, 6).map((profile) => (
-          <Link key={profile.id} href={profile.link}>
-            <Image
-              src={profile.src}
-              alt="profile"
-              width={30}
-              height={30}
-              className="rounded-full bg-sc-6 dark:border-dark-3"
-            />
-          </Link>
+          <ProfileLink
+            key={profile.id}
+            id={profile.id}
+            name={profile.name}
+            src={profile.src}
+            link={profile.link}
+          />
         ))}
 
         {/* If user has more than 6 followings then this shows how many more they are following minus 6 that is already showing */}
@@ -91,9 +88,9 @@ const ProfileModal = ({
         )}
       </div>
 
-      <p className="mt-5 w-[200px] text-center text-[0.875rem] font-semibold leading-[1.375rem] text-sc-3">
+      <TextDescription className="mt-5 w-[200px] text-center text-sc-3">
         {description}
-      </p>
+      </TextDescription>
 
       <div className="flex flex-wrap justify-center gap-5 md:flex-col">
         {/* Website Link */}
@@ -108,18 +105,7 @@ const ProfileModal = ({
         )}
 
         {/* Social Icons */}
-        <div className="mt-5 flex justify-center gap-5">
-          {socials.map((social) => {
-            const SocialIcon =
-              OutlineIcon[social.name as keyof typeof OutlineIcon];
-
-            return (
-              <Link key={social.name} href={social.link}>
-                <SocialIcon className="fill-sc-4 dark:fill-sc-6" />
-              </Link>
-            );
-          })}
-        </div>
+        <SocialIcons socials={socials} />
       </div>
 
       {/* div line that seperates socials from when the user joined */}
@@ -127,9 +113,9 @@ const ProfileModal = ({
 
       {/* Shows when the account joined hipnode */}
       {/* TODO: create a function that returns the proper date format */}
-      <p className="mt-5 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-3 dark:text-sc-6 md:mt-7">
+      <TextDescription className="mt-5 text-sc-3 dark:text-sc-6 md:mt-7">
         {joinedAt}
-      </p>
+      </TextDescription>
     </div>
   );
 };

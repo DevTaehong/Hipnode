@@ -1,7 +1,5 @@
-import AudioPlayerImage from "./AudioPlayerImage";
-import PodcastEpisodeInfo from "./PodcastEpisodeInfo";
-import PodcastPlayButton from "./PodcastPlayButton";
 import { IPodcast } from "@/types/podcast.index";
+import { AudioPlayerImage, PodcastEpisodeInfo, PodcastPlayButton } from ".";
 
 const AudioPlayer = ({ podcast, url }: { podcast: IPodcast; url: string }) => {
   const {
@@ -19,7 +17,7 @@ const AudioPlayer = ({ podcast, url }: { podcast: IPodcast; url: string }) => {
           episodeNumber={episodeNumber}
           creatorName={creatorName}
         />
-        <PodcastPlayButton url={url} />
+        <PodcastPlayButton url={url} podcast={podcast} />
       </div>
     </section>
   );

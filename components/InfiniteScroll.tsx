@@ -1,23 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
-import Spinner from "./Spinner";
 
-// LINK - https://www.youtube.com/watch?v=UWwUWpcFEBM
+import Spinner from "@/components/Spinner";
+import OutlineIcon from "@/components/icons/outline-icons";
 interface InfiniteScrollProps<T extends { id: number }> {
   fetchData: (myCursorId: number) => Promise<T[]>;
   initialData: T[];
-  renderItem: (item: T) => React.ReactNode;
+  renderItem: (item: T) => ReactNode;
+  className: string;
 }
 
 const InfiniteScroll = <T extends { id: number }>({
   fetchData,
   initialData,
   renderItem,
+  className,
 }: InfiniteScrollProps<T>) => {
   const [data, setData] = useState<T[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSeeMore, setIsSeeMore] = useState(false);
 
   const { ref, inView } = useInView();
 
@@ -32,18 +35,30 @@ const InfiniteScroll = <T extends { id: number }>({
   };
 
   useEffect(() => {
-    if (inView) {
+    if (inView || isSeeMore) {
       loadMoreData();
     }
-  }, [inView]);
+  }, [inView, isSeeMore]);
 
   return (
     <>
-      {data.map((item) => (
-        <div key={item.id}>{renderItem(item)}</div>
-      ))}
-      <div className="flex items-center justify-center p-4" ref={ref}>
-        {isLoading && <Spinner />}
+      <div className={className}>
+        {data.map((item) => (
+          <Fragment key={item.id}>{renderItem(item)}</Fragment>
+        ))}
+      </div>
+      <button
+        type="button"
+        onClick={() => setIsSeeMore(true)}
+        className="regular-10 mb-5 ml-5 mt-2 flex items-center gap-2.5 text-sc-3 lg:hidden"
+      >
+        See more
+        <OutlineIcon.ArrowRight className="stroke-sc-3" />
+      </button>
+      <div className="hidden lg:block" ref={ref}>
+        <div className="flex items-center justify-center p-3 lg:p-0">
+          {isLoading && <Spinner />}
+        </div>
       </div>
     </>
   );

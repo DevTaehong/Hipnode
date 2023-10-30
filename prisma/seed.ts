@@ -28,8 +28,7 @@ async function main() {
 
   console.log("Shows created:", shows);
 
-  const groups = await createGroups();
-  await createMemberships(users, groups);
+  await createGroups(users);
 
   await createMeetUps(users);
 }

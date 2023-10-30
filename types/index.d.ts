@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
+import { User } from "@prisma/client";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
@@ -36,14 +37,6 @@ export interface ThemeContextType {
   setMode: (mode: string) => void;
 }
 
-interface Onboarding {
-  id: number;
-  userId: number;
-  businessStage: string;
-  codeAbility: string;
-  interests: string[];
-  isOnboarded: boolean;
-}
 export type AnswersType = string | string[];
 
 export type UserAnswersType = {
@@ -62,125 +55,13 @@ export type PostItem = {
   iconBgColor: string;
   iconFillColor: string;
 };
-export interface User {
-  id: number;
-  clerkId: string;
-  name: string;
-  username: string;
-  email: string;
-  password?: string | null;
-  bio?: string | null;
-  picture: string;
-  location?: string | null;
-  joinedAt: Date;
-  onboarding: Onboarding;
-}
 
 export interface ClerkUser extends User {
   username: string | null;
 }
 
-interface BaseTag {
-  id: number;
-  name: string;
-}
-
-interface BasePost {
-  id: number;
-  content: string;
-  authorId: number;
-  author: User;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  viewCount: number;
-}
-
-export interface TagOnPost {
-  id: number;
-  postId: number;
-  post: BasePost;
-  tagId: number;
-  tag: BaseTag;
-}
-
-export interface Tag extends BaseTag {
-  posts: TagOnPost[];
-}
-
-interface BaseComment {
-  id: number;
-  content: string;
-  authorId: number;
-  author: User;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-}
-
-interface BaseLike {
-  id: number;
-  userId: number;
-  user: User;
-  liked: boolean;
-}
-interface Like extends BaseLike {
-  postId?: number;
-  post?: BasePost;
-  commentId?: number;
-  comment?: BaseComment;
-}
-
-interface Comment extends BaseComment {
-  postId?: number;
-  post?: BasePost;
-  parentId?: number;
-  parent?: BaseComment;
-  replies: BaseComment[];
-  likes: BaseLike[];
-}
-
-export interface Post extends BasePost {
-  likes: Like[];
-  tags: TagOnPost[];
-  comments: Comment[];
-}
-
-export type MeetUp = {
-  id: number;
-  createdAt: string;
-  contactEmail: string;
-  contactNumber: string;
-  image: string;
-  location: string;
-  responsiblePersonId: number;
-  summary: string;
-  title: string;
-  updatedAt: string;
-};
-
-export type Group = {
-  id: number;
-  createdAt: string;
-  details: string;
-  groupName: string;
-  updatedAt: string;
-};
-
-export type Episode = {
-  id: number;
-  createdAt: string;
-  details: string;
-  episodeNumber: number;
-  image: string;
-  showId: number;
-  title: string;
-  updatedAt: string;
-  url: string;
-  userId: number;
-};
 export interface CustomButtonProps {
-  label: string;
+  label: string | React.ReactNode;
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
@@ -195,21 +76,8 @@ export interface ActiveButtonsProps {
 export interface ActionButtonProps {
   label: string;
   href: string;
-  currentPath?: string;
 }
 
-export interface ImageUploadProps {
-  bucketName: string;
-  folderName?: string;
-}
-
-export interface UseImageUploadReturn {
-  file: File | null;
-  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: () => Promise<void>;
-}
-
-export type InputChangeEvent<T = HTMLInputElement> = ChangeEvent<T>;
 export type ColorVariantsOnboardingType = {
   [key: string]: string;
   fillRed: string;
@@ -347,4 +215,28 @@ export interface NotificationPopoverProps {
   title: string;
   date: string;
   image: string;
+}
+
+export interface ProfileInfoProps {
+  src: string;
+  name: string;
+  title: string;
+  followers: number;
+  points: string;
+  following: { id: string; name: string; src: string; link: string }[];
+  description: string;
+  website?: string;
+  socials: { name: string; link: string }[];
+  joinedAt: string;
+}
+
+export interface ProfileLinkProps {
+  id: string;
+  name: string;
+  src: string;
+  link: string;
+}
+
+export interface SocialIconsProps {
+  socials: { name: string; link: string }[];
 }

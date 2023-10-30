@@ -8,6 +8,49 @@
   display: none;
 }
 
+/* Styles for LexicalEditor */
+
+.underlined-line-through {
+  text-decoration: underline line-through;
+}
+
+.textBold {
+  font-weight: bold;
+}
+
+.textItalic {
+  font-style: italic;
+}
+
+.textUnderline {
+  text-decoration: underline;
+}
+
+.textStrikethrough {
+  text-decoration: line-through;
+}
+
+.editorListOl {
+  padding: 0;
+  margin: 0;
+  margin-left: 0;
+  font-size: 1rem;
+  list-style-type: decimal;
+}
+
+.editorListUl {
+  padding: 0;
+  margin: 0;
+  margin-left: 0;
+  font-size: 1rem;
+  list-style-type: disc;
+}
+
+.editorListItem {
+  margin: 8px 32px 8px 32px;
+  font-size: 1rem;
+}
+
 body {
   font-family: "Inter", sans-serif;
 }
@@ -311,4 +354,56 @@ code {
 .cl-internal-1qc4dsk {
   margin-top: 2;
   margin-left: 0;
+}
+
+.audioAnimation {
+  width: 40px;
+  height: 40px;
+  display: flex;
+}
+
+.audioAnimation span {
+  width: 4px;
+  height: 8px;
+  background: #ff6934;
+  border-radius: 1px;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(-13px);
+}
+
+.audioAnimation span:first-of-type {
+  margin-top: 0;
+}
+
+.audioAnimation span:nth-child(1) {
+  animation: animationTest 1s infinite ease-in-out;
+  left: 0;
+}
+
+.audioAnimation span:nth-child(2) {
+  animation: animationTest 1.3s infinite ease-in-out;
+  left: 6px;
+}
+
+.audioAnimation span:nth-child(3) {
+  animation: animationTest 1.1s infinite ease-in-out;
+  left: 12px;
+}
+
+.audioAnimation span:nth-child(4) {
+  animation: animationTest 0.8s infinite ease-in-out;
+  left: 18px;
+}
+
+@keyframes animationTest {
+  0% {
+    height: 0px;
+  }
+  50% {
+    height: 15px;
+  }
+  100% {
+    height: 0px;
+  }
 }

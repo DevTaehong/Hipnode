@@ -2,11 +2,30 @@ import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 import { christopher, santiago, negan } from "@/public/assets";
+import { newest, popular, followers } from "@/public/images";
+import {
+  ColorVariantsOnboardingType,
+  GroupData,
+  NotificationPopoverProps,
+  NotificationTab,
+} from "@/types";
 
-import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
+import { PostFormValuesType } from "@/types/create-post-form";
 
-export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
+export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
+
+export const colorVariants: ColorVariantsOnboardingType = {
+  fillRed: "fill-red",
+  fillBlue: "fill-blue",
+  fillYellow: "fill-yellow",
+  fillGreen: "fill-green",
+  bgRed: "bg-red-10",
+  bgBlue: "bg-blue-10",
+  bgYellow: "bg-yellow-10",
+  bgGreen: "bg-green-10",
+};
+
 export const reportModalTags = [
   "False Information?",
   "Low Quality",
@@ -463,6 +482,36 @@ export const socialStats = {
 
 export const postTabs = ["finance", "bitcoin", "crypto"];
 
+export const sidebarItems = [
+  {
+    imgSrc: newest,
+    imgAlt: "newest and recent",
+    title: "Newest",
+    subTitle: "and recent",
+    description: "Find the latest update",
+    imgContainerClass:
+      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
+  },
+  {
+    imgSrc: popular,
+    imgAlt: "popular of the day",
+    title: "Popular",
+    subTitle: "of the day",
+    description: "Shots featured today by curators",
+    imgContainerClass:
+      "flex h-[1.75rem] w-[1.75rem] items-center justify-center rounded-md bg-light-3 dark:bg-dark-4",
+  },
+  {
+    imgSrc: followers,
+    imgAlt: "followers",
+    title: "Following",
+    description: "Explore from your favorite person",
+    notification: 24,
+    imgContainerClass:
+      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
+  },
+];
+
 export const notificationTabs: NotificationTab[] = [
   {
     title: "All notifications",
@@ -518,6 +567,16 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
+export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
+export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
+export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
+  title: "",
+  mainText: "",
+  coverImage: "",
+  group: "",
+  post: "",
+  tags: [],
+};
 // Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
@@ -541,6 +600,88 @@ export const profileFilters = [
   "History",
 ];
 
+// ! Dummy data for the profile page
+export const profileData = {
+  src: "/emoji_2.png",
+  name: "AR. Jakir",
+  title: "User Interface Designer",
+  points: "880",
+  description:
+    "Hey there... I'm AR Jakir! I'm here to learn from and support the other members of this community!",
+  website: "https://google.com",
+  joinedAt: "joined 2 years ago",
+  followers: [
+    {
+      name: "Tye1",
+      src: "/emoji_2.png",
+      link: "/profile-page",
+    },
+    {
+      name: "Tye2",
+      src: "/emoji_2.png",
+      link: "/profile-page",
+    },
+  ],
+  following: [
+    {
+      id: "1",
+      name: "Tye1",
+      src: "/emoji_2.png",
+      link: "/profile-page1",
+    },
+    {
+      id: "2",
+      name: "Tye2",
+      src: "/emoji_2.png",
+      link: "/profile-page2",
+    },
+    {
+      id: "3",
+      name: "Tye3",
+      src: "/emoji_2.png",
+      link: "/profile-page3",
+    },
+    {
+      id: "4",
+      name: "Tye4",
+      src: "/emoji_2.png",
+      link: "/profile-page4",
+    },
+    {
+      id: "5",
+      name: "Tye5",
+      src: "/emoji_2.png",
+      link: "/profile-page5",
+    },
+    {
+      id: "6",
+      name: "Tye6",
+      src: "/emoji_2.png",
+      link: "/profile-page6",
+    },
+    {
+      id: "7",
+      name: "Tye7",
+      src: "/emoji_2.png",
+      link: "/profile-page7",
+    },
+  ],
+  socials: [
+    {
+      name: "Twitter",
+      link: "https://twitter.com/",
+    },
+    {
+      name: "Facebook",
+      link: "https://facebook.com/",
+    },
+    {
+      name: "Instagram",
+      link: "https://instagram.com/",
+    },
+  ],
+};
+
 export const groupData: GroupData = {
   "fastest-growing": {
     header: {
@@ -563,3 +704,5 @@ export const groupData: GroupData = {
     groups: newlyLaunchedGroups,
   },
 };
+
+export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
