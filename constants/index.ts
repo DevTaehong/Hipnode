@@ -592,6 +592,14 @@ export const podcastFormLinkProps = {
   },
 };
 
+export const profileFilters = [
+  "Posts",
+  "Meetups",
+  "Podcasts",
+  "Interviews",
+  "History",
+];
+
 // ! Dummy data for the profile page
 export const profileData = {
   src: "/emoji_2.png",
