@@ -121,8 +121,8 @@ const CreatePost = () => {
           </div>
 
           <div className="flex items-center justify-center">
-            {imagePreviewUrl && (
-              <div className="py-6">
+            {imagePreviewUrl ? (
+              <div className="py-[1.25rem]">
                 <Image
                   src={imagePreviewUrl || "/negan.png"}
                   height={125}
@@ -131,9 +131,11 @@ const CreatePost = () => {
                   className="rounded-md"
                 />
               </div>
+            ) : (
+              <div className="py-[1.25rem]" />
             )}
           </div>
-          <div className="relative flex flex-col py-[1.25rem]">
+          <div className="relative flex flex-col pb-[2.5rem]">
             <div className="min-h-[22rem]">
               <FormField
                 name="mainText"
