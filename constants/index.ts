@@ -2,13 +2,13 @@ import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 import { christopher, santiago, negan } from "@/public/assets";
+import { newest, popular, followers } from "@/public/images";
 import {
   ColorVariantsOnboardingType,
   NotificationPopoverProps,
   NotificationTab,
+  GroupData,
 } from "@/types";
-
-import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];

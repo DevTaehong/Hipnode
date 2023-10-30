@@ -1,7 +1,8 @@
-import { Group } from "@prisma/client";
+import { Group, MeetUp, Podcast } from "@prisma/client";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 import { ExtendedPost } from "../models";
+import { tags } from "@/constants";
 
 export interface MeetupImageInterface {
   imageSrc: string;
@@ -60,3 +61,37 @@ export interface ImageWithCaptionProps {
   className?: string;
   caption?: string;
 }
+
+export type TagProps = {
+  tag: (typeof tags)[0];
+};
+
+export type MeetupItemProps = {
+  meet: MeetUp;
+};
+
+export type MeetupsProps = {
+  meetUps: MeetUp[];
+};
+
+export type PillItemProps = {
+  pill: string;
+};
+
+type PodcastWithUser = Podcast & {
+  user: {
+    username: string;
+  };
+};
+
+export type PodcastsProps = {
+  podcasts: PodcastWithUser[];
+};
+
+export type PodcastItemProps = {
+  podcast: PodcastWithUser;
+};
+
+export type PostCardListProps = {
+  posts: ExtendedPost[];
+};

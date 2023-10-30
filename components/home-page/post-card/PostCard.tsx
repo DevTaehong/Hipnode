@@ -10,35 +10,37 @@ import {
 import FillIcon from "../../icons/fill-icons";
 import { PostCardProps } from "@/types/homepage";
 
-const PostCard = ({ post }: PostCardProps) => {
-  return (
-    <article className="px-[1.25rem] lg:px-[0]">
-      <Link href={`/posts/${post?.id}`}>
-        <div className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
-          <PostImage postImage={post?.image} />
-          <div className="ml-[0.875rem] flex grow flex-col justify-between">
-            <div className="flex justify-between">
-              <PostText postContent={post?.content} />
-              <div className="flex flex-row">
-                <div className="flex md:hidden">
-                  <SocialMediaIcon authorPicture={post?.author?.picture} />
-                </div>
-                <FillIcon.Heart className="hidden fill-sc-5 md:flex" />
+const PostCard = ({
+  post: {
+    image,
+    content,
+    id,
+    author: { picture, username },
+  },
+}: PostCardProps) => (
+  <article className="px-[1.25rem] lg:px-[0]">
+    <Link href={`/posts/${id}`}>
+      <div className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
+        <PostImage postImage={image} />
+        <div className="ml-[0.875rem] flex grow flex-col justify-between">
+          <div className="flex justify-between">
+            <PostText postContent={content} />
+            <div className="flex flex-row">
+              <div className="flex md:hidden">
+                <SocialMediaIcon authorPicture={picture} />
               </div>
-            </div>
-            <PostLabels />
-            <CardFooterDesktop
-              authorPicture={post?.author?.picture}
-              username={post?.author.username}
-            />
-            <div className="flex md:hidden">
-              <SocialStatistics />
+              <FillIcon.Heart className="hidden fill-sc-5 md:flex" />
             </div>
           </div>
+          <PostLabels />
+          <CardFooterDesktop authorPicture={picture} username={username} />
+          <div className="flex md:hidden">
+            <SocialStatistics />
+          </div>
         </div>
-      </Link>
-    </article>
-  );
-};
+      </div>
+    </Link>
+  </article>
+);
 
 export default PostCard;

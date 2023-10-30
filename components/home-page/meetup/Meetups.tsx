@@ -1,53 +1,21 @@
 import Link from "next/link";
-import { MeetUp } from "@prisma/client";
 
-import { Pills, MeetupDate } from ".";
 import {
   RightSidebarWrapper,
   RightSidebarHeader,
-  ImageWithCaption,
-} from "../shared-components";
+} from "@/components/home-page/shared-components";
+import { MeetupItem } from "@/components/home-page/meetup";
+import { MeetupsProps } from "@/types/homepage";
 
-const Meetups = ({ meetUps }: { meetUps: MeetUp[] }) => {
-  return (
-    <RightSidebarWrapper>
-      <Link href="/meet-ups">
-        <RightSidebarHeader heading={"Meetups"} />
-      </Link>
-      {meetUps?.slice(0, 5).map((meet) => {
-        return (
-          <Link key={meet.id} href={`/meet-ups/${meet.id}`}>
-            <article className="flex flex-row bg-light  pb-[1.25rem] dark:bg-dark-3">
-              <MeetupDate createdAt={meet.createdAt} />
-
-              <div className="flex flex-col  justify-between pl-[0.875rem]">
-                <div className="flex flex-col gap-0.5">
-                  <h3 className="semibold-14 capitalize text-sc-2 dark:text-light-2">
-                    {meet.title.slice(0, 22)}
-                  </h3>
-                  <div className="flex gap-[0.375rem]">
-                    <ImageWithCaption
-                      imageSrc={meet.image}
-                      imageTitle={meet.title}
-                      imageAlt={meet.title}
-                      caption={meet.location}
-                      imageWidth={16}
-                      imageHeight={16}
-                      className="h-[1rem] w-[1rem] rounded-full"
-                    />
-                    <p className="base-10 text-sc-3">{meet.location}</p>
-                  </div>
-                </div>
-                <div className="flex">
-                  <Pills />
-                </div>
-              </div>
-            </article>
-          </Link>
-        );
-      })}
-    </RightSidebarWrapper>
-  );
-};
+const Meetups = ({ meetUps }: MeetupsProps) => (
+  <RightSidebarWrapper>
+    <Link href="/meet-ups">
+      <RightSidebarHeader heading={"Meetups"} />
+    </Link>
+    {meetUps
+      ?.slice(0, 5)
+      .map((meet) => <MeetupItem meet={meet} key={meet.id} />)}
+  </RightSidebarWrapper>
+);
 
 export default Meetups;

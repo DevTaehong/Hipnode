@@ -6,11 +6,8 @@ import { useInView } from "react-intersection-observer";
 import { getAllPosts } from "@/lib/actions/post.action";
 import { ExtendedPost } from "@/types/models";
 import { PostCard } from ".";
-import { ArrowIcon } from "@/components/icons/outline-icons";
-
-type PostCardListProps = {
-  posts: ExtendedPost[];
-};
+import OutlineIcon from "@/components/icons/outline-icons";
+import { PostCardListProps } from "@/types/homepage";
 
 const PostCardList = ({ posts }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPost[]>(posts);
@@ -66,7 +63,9 @@ const PostCardList = ({ posts }: PostCardListProps) => {
         type="button"
         onClick={() => setLoadMore(true)}
       >
-        See more...
+        <div className="flex items-center justify-center">
+          <span className="pr-4">See more</span> <OutlineIcon.ArrowRight />
+        </div>
       </button>
     </main>
   );

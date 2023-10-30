@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 
-import Tags from "@/components/home-page/Tags";
+import Tags from "@/components/home-page/tags/Tags";
 import Podcasts from "@/components/home-page/podcast/Podcasts";
 import CreatePostInput from "@/components/home-page/CreatePostInput";
 import Meetups from "@/components/home-page/meetup/Meetups";
@@ -24,7 +24,7 @@ export default async function Home() {
   const posts = await getAllPosts({});
 
   return (
-    <section className="flex w-full bg-light-2 py-[1.875rem] pt-16 dark:bg-dark-2">
+    <section className="flex w-full bg-light-2  dark:bg-dark-2">
       <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
         <div className="flex h-fit  flex-col gap-5 lg:sticky lg:top-[4rem]">
           <Sidebar />

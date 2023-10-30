@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { SidebarSectionProps } from "@/types/homepage.index";
+import { SidebarSectionProps } from "@/types/homepage";
 
 const SidebarSection = ({
   imgSrc,
