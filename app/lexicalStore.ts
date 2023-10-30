@@ -16,7 +16,7 @@ type CreatePostStore = {
 };
 
 export const useCreatePostStore = create<CreatePostStore>((set) => ({
-  imagePreviewUrl: null || "/emoji_2.png",
+  imagePreviewUrl: null || "",
   setImagePreviewUrl: (url) => set({ imagePreviewUrl: url }),
   previewValues: POST_FORM_DEFAULT_VALUES,
   setPreviewValues: (values) => set({ previewValues: values }),

@@ -21,11 +21,10 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
 } from "@lexical/list";
 
-import PostPreview from "@/components/posts/PostPreview";
-import OutlineIcon from "@/components/icons/outline-icons";
 import { LexicalMenuState, LexicalMenuProps } from "@/types/lexical-editor";
 import { LowPriority } from "@/constants/lexical-editor";
 import { useCreatePostStore } from "@/app/lexicalStore";
+import LexicalWritePreviewToggle from "./LexicalWritePreviewToggle";
 
 const LexicalMenu = ({
   editor,
@@ -38,7 +37,6 @@ const LexicalMenu = ({
   const [canUndo, setCanUndo] = useState(false);
   const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
-  console.log(canRedo);
 
   const { clearEditor, setClearEditor } = useCreatePostStore((state) => state);
 
@@ -129,29 +127,13 @@ const LexicalMenu = ({
       ref={editorRef}
       className="flex w-full flex-wrap justify-between gap-2  rounded-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4"
     >
-      <div className="flex justify-between gap-[1.25rem] md:gap-[1.875rem]">
-        <div
-          onClick={() => setAutoFocus(!autoFocus)}
-          className="flex cursor-pointer items-center gap-[0.625rem] text-blue-80"
-        >
-          <OutlineIcon.Edit
-            className={
-              autoFocus ? "fill-blue-80" : "fill-sc-3 dark:fill-light-2"
-            }
-          />
-          <p
-            className={`${
-              autoFocus ? "text-blue-80" : "text-sc-3 dark:text-light-2"
-            } text-[0.875rem]`}
-          >
-            Write
-          </p>
-        </div>
-        <PostPreview
-          htmlString={htmlString}
-          onSubmitPreview={onSubmitPreview}
-        />
-      </div>
+      <LexicalWritePreviewToggle
+        autoFocus={autoFocus}
+        setAutoFocus={setAutoFocus}
+        htmlString={htmlString}
+        onSubmitPreview={onSubmitPreview}
+      />
+
       <div className="flex-wrap">
         <LexicalIconButtons
           icon="unorderedList"
