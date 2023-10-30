@@ -1,7 +1,7 @@
 import Image from "next/image";
 
+import { MeetUp } from "@prisma/client";
 import { getFormattedDateMeetUpCard } from "@/utils";
-import { MeetUp } from "@/types";
 import { meetUpsCardPills } from "@/constants";
 
 const MeetupsCard = ({ meetUp }: { meetUp: MeetUp }) => {
