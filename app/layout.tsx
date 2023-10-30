@@ -6,7 +6,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import { ThemeProvider } from "@/context/ThemeProvider";
 
-const font = SourceSans3({ subsets: ["latin"] });
+const font = SourceSans3({
+  subsets: ["latin"],
+  variable: "--font-source-sans",
+});
 
 export const metadata: Metadata = {
   title: "HipNode",

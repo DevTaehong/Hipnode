@@ -4,20 +4,21 @@ import { UserButton } from "@clerk/nextjs";
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
 import Theme from "@/components/navbar/Theme";
-import { HipnodeIcon, SearchIcon } from "@/components/icons/outline-icons";
+import OutlineIcons from "@/components/icons/outline-icons";
+import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between fixed top-0 z-50 flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
+    <nav className="flex-between sticky top-0 z-50 flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="lg:hidden" />
           <HipnodeHeaderLogo styles="hidden lg:flex" />
         </Link>
 
-        <SearchIcon className="cursor-pointer stroke-sc-5 dark:stroke-sc-4 lg:hidden" />
+        <OutlineIcons.Search className="cursor-pointer stroke-sc-5 dark:stroke-sc-4 lg:hidden" />
       </section>
 
       <NavLinks />
@@ -29,7 +30,7 @@ const Navbar = () => {
           className="no-focus border-none bg-light-2 shadow-none outline-none dark:bg-dark-4 dark:text-white"
         />
 
-        <SearchIcon className="cursor-pointer stroke-sc-4" />
+        <OutlineIcons.Search className="cursor-pointer stroke-sc-4" />
       </section>
 
       <section className="flex items-center gap-6">

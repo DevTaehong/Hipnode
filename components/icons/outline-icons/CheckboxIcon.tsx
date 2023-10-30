@@ -1,48 +1,33 @@
-interface CheckboxIconProps {
-  checked?: boolean;
-}
-
-const CheckboxIcon = ({ checked = false }: CheckboxIconProps) => {
+export default function CheckboxIcon({ checked }: { checked?: boolean }) {
   return (
-    <div className="flex h-5 w-5 items-center justify-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
       {checked ? (
-        <div className="flex h-4 w-4 items-center justify-center self-center rounded-sm bg-[#FF4401]">
-          <svg
-            width="10"
-            height="9"
-            viewBox="0 0 10 9"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              id="Vector 20"
-              d="M1 4.5L4 7L9 1"
-              stroke="white"
-              strokeWidth="1.5"
-            />
-          </svg>
-        </div>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-        >
-          <rect
-            x="1"
-            y="1"
-            width="14"
-            height="14"
-            rx="1"
-            stroke="#97989D"
-            strokeWidth="2"
+        <>
+          <rect width="16" height="16" rx="2" fill="#FF4401" />
+          <path
+            d="M4 8.5L7 11L12 5"
+            stroke="white"
+            fill="#FF4401"
+            stroke-width="1.5"
           />
-        </svg>
+        </>
+      ) : (
+        <rect
+          x="1"
+          y="1"
+          width="14"
+          height="14"
+          rx="1"
+          stroke="#97989D"
+          stroke-width="2"
+        />
       )}
-    </div>
+    </svg>
   );
-};
-
-export default CheckboxIcon;
+}

@@ -1,4 +1,6 @@
 import FillIcon from "@/components/icons/fill-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
+
 import { christopher, santiago, negan } from "@/public/assets";
 import {
   ColorVariantsOnboardingType,
@@ -6,20 +8,7 @@ import {
   NotificationTab,
 } from "@/types";
 
-import {
-  PopularIcon,
-  NewIcon,
-  DevIcon,
-  HeartIcon,
-} from "@/components/icons/outline-icons";
-import { newest, popular, followers } from "@/public/images";
-import CommentIcon from "@/components/icons/fill-icons/CommentIcon";
-// import PostIcon from "@/components/icons/fill-icons/PostIcon";
-import MentionIcon from "@/components/icons/outline-icons/MentionIcon";
-// import HeartIcon from "@/components/icons/outline-icons/HeartIcon";
-// import CommentIcon from "@/components/icons/outline-icons/CommentIcon";
-
-import PostIcon from "@/components/icons/outline-icons/PostIcon";
+import { GroupData, NotificationPopoverProps, NotificationTab } from "@/types";
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -45,7 +34,7 @@ export const reportModalTags = [
 
 export const exploreIcons = [
   {
-    Icon: NewIcon,
+    Icon: OutlineIcon.New,
     color: "newIcon",
     secondaryColor: "newIconSecondary",
     bgColor: "newIconBg",
@@ -53,7 +42,7 @@ export const exploreIcons = [
     label: "New",
   },
   {
-    Icon: PopularIcon,
+    Icon: OutlineIcon.Popular,
     color: "popularIcon",
     bgColor: "popularBg",
     textColor: "popularText",
@@ -141,7 +130,7 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
-const fastestGrowingGroups = [
+export const fastestGrowingGroups = [
   {
     icon: christopher,
     groupDescription: "Lorem ipsum dolor sit amet consectetur",
@@ -194,7 +183,7 @@ const fastestGrowingGroups = [
   },
 ];
 
-const mostPopularGroups = [
+export const mostPopularGroups = [
   {
     icon: santiago,
     groupDescription: "Praesent sapien massa, convallis a pellentesque",
@@ -247,7 +236,7 @@ const mostPopularGroups = [
   },
 ];
 
-const newlyLaunchedGroups = [
+export const newlyLaunchedGroups = [
   {
     icon: negan,
     groupDescription: "Viverra mauris in aliquam sem fringilla",
@@ -409,42 +398,42 @@ export const tags = [
   {
     name: "javascript",
     views: "82,645 Posted by this tag",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgYellow",
     iconFillColor: "fillYellow",
   },
   {
     name: "bitcoin",
     views: "65,523 Posted • Trending",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
   {
     name: "design",
     views: "51,354 • Trending in Poland",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgBlue",
     iconFillColor: "fillBlue",
   },
   {
     name: "blogging",
     views: "48,029 Posted by this tag",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgYellow",
     iconFillColor: "fillYellow",
   },
   {
     name: "tutorial",
     views: "51,354 • Trending in Bangladesh",
-    icon: DevIcon,
+    icon: OutlineIcon.Dev,
     iconBgColor: "bgGreen",
     iconFillColor: "fillGreen",
   },
   {
     name: "seo",
     views: "82,152 Posted by this tag",
-    icon: PopularIcon,
+    icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
   },
@@ -528,22 +517,22 @@ export const notificationTabs: NotificationTab[] = [
   },
   {
     title: "Reactions",
-    icon: HeartIcon,
+    icon: OutlineIcon.Heart,
     active: false,
   },
   {
     title: "Comments",
-    icon: CommentIcon,
+    icon: OutlineIcon.Comment,
     active: false,
   },
   {
     title: "Mentions",
-    icon: MentionIcon,
+    icon: OutlineIcon.Mention,
     active: false,
   },
   {
     title: "Posts",
-    icon: PostIcon,
+    icon: OutlineIcon.Post,
     active: false,
   },
 ];
@@ -590,3 +579,110 @@ export const podcastFormLinkProps = {
     link: "/",
   },
 };
+
+// ! Dummy data for the profile page
+export const profileData = {
+  src: "/emoji_2.png",
+  name: "AR. Jakir",
+  title: "User Interface Designer",
+  points: "880",
+  description:
+    "Hey there... I'm AR Jakir! I'm here to learn from and support the other members of this community!",
+  website: "https://google.com",
+  joinedAt: "joined 2 years ago",
+  followers: [
+    {
+      name: "Tye1",
+      src: "/emoji_2.png",
+      link: "/profile-page",
+    },
+    {
+      name: "Tye2",
+      src: "/emoji_2.png",
+      link: "/profile-page",
+    },
+  ],
+  following: [
+    {
+      id: "1",
+      name: "Tye1",
+      src: "/emoji_2.png",
+      link: "/profile-page1",
+    },
+    {
+      id: "2",
+      name: "Tye2",
+      src: "/emoji_2.png",
+      link: "/profile-page2",
+    },
+    {
+      id: "3",
+      name: "Tye3",
+      src: "/emoji_2.png",
+      link: "/profile-page3",
+    },
+    {
+      id: "4",
+      name: "Tye4",
+      src: "/emoji_2.png",
+      link: "/profile-page4",
+    },
+    {
+      id: "5",
+      name: "Tye5",
+      src: "/emoji_2.png",
+      link: "/profile-page5",
+    },
+    {
+      id: "6",
+      name: "Tye6",
+      src: "/emoji_2.png",
+      link: "/profile-page6",
+    },
+    {
+      id: "7",
+      name: "Tye7",
+      src: "/emoji_2.png",
+      link: "/profile-page7",
+    },
+  ],
+  socials: [
+    {
+      name: "Twitter",
+      link: "https://twitter.com/",
+    },
+    {
+      name: "Facebook",
+      link: "https://facebook.com/",
+    },
+    {
+      name: "Instagram",
+      link: "https://instagram.com/",
+    },
+  ],
+};
+
+export const groupData: GroupData = {
+  "fastest-growing": {
+    header: {
+      color: "bg-yellow-10",
+      icon: FillIcon.Rocket,
+      title: "Fastest Growing",
+    },
+    groups: fastestGrowingGroups,
+  },
+  "Most Popular": {
+    header: { color: "bg-red-10", icon: FillIcon.Fire, title: "Most Popular" },
+    groups: mostPopularGroups,
+  },
+  "Newly Launched": {
+    header: {
+      color: "bg-blue-10",
+      icon: FillIcon.Rocket,
+      title: "Newly Launched",
+    },
+    groups: newlyLaunchedGroups,
+  },
+};
+
+export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];

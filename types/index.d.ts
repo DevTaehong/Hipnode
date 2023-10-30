@@ -1,9 +1,36 @@
-import React, { FC } from "react";
+/* eslint-disable no-unused-vars */
+import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 import { User } from "@prisma/client";
 
 import { onboardingQuestions } from "@/constants";
-import { StringColorFormat } from "@faker-js/faker";
+import { colorVariants } from "@/components/GroupSectionHeader";
+
+export type ColorVariantsType = {
+  [key: string]: string;
+  bgYellow: string;
+  bgRed: string;
+  bgBlue: string;
+};
+
+export type ColorVariantKeys = keyof typeof colorVariants;
+
+export interface GroupSectionHeaderProps {
+  title: string;
+  bgColor: ColorVariantKeys;
+  icon: FC;
+}
+
+export type GroupData = {
+  [key in "fastest-growing" | "Most Popular" | "Newly Launched"]: {
+    header: { color: string; icon: FC; title: string };
+    groups: {
+      icon: StaticImageData;
+      groupDescription: string;
+      groupName: string;
+    }[];
+  };
+};
 
 export interface ThemeContextType {
   mode: string;
@@ -116,11 +143,13 @@ export interface ChatMessageProps {
 export const chatMessages = [
   {
     user: "you",
-    message: "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
+    message:
+      "Greetings, fellow carbon-based life form! How art thou in the realm of 1s and 0s?",
   },
   {
     user: "other",
-    message: "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
+    message:
+      "Salutations, my silicon-chip comrade! I'm currently doing the binary tango, how about you?",
   },
   {
     user: "you",
@@ -187,4 +216,28 @@ export interface NotificationPopoverProps {
   title: string;
   date: string;
   image: string;
+}
+
+export interface ProfileInfoProps {
+  src: string;
+  name: string;
+  title: string;
+  followers: number;
+  points: string;
+  following: { id: string; name: string; src: string; link: string }[];
+  description: string;
+  website?: string;
+  socials: { name: string; link: string }[];
+  joinedAt: string;
+}
+
+export interface ProfileLinkProps {
+  id: string;
+  name: string;
+  src: string;
+  link: string;
+}
+
+export interface SocialIconsProps {
+  socials: { name: string; link: string }[];
 }

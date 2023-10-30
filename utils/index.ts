@@ -1,4 +1,9 @@
-import { HandlePlayProps } from "@/types/podcast.index";
+import {
+  ImVolumeLow,
+  ImVolumeMedium,
+  ImVolumeMute2,
+  ImVolumeHigh,
+} from "react-icons/im";
 
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
@@ -65,19 +70,34 @@ export function formatPodcastDuration(seconds: number) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-export const handlePlay = ({
-  audioRef,
-  isPlaying,
-  setIsPlaying,
-}: HandlePlayProps) => {
-  const audioElement = audioRef.current;
+export const setToLocalStorage = (key: string, value: any) => {
+  try {
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(key, serializedValue);
+  } catch (e) {
+    console.error("Failed to set item in local storage:", e);
+  }
+};
 
-  if (audioElement) {
-    if (isPlaying) {
-      audioElement.pause();
-    } else {
-      audioElement.play();
-    }
-    setIsPlaying(!isPlaying);
+export const getFromLocalStorage = (key: string) => {
+  try {
+    const serializedValue = localStorage.getItem(key);
+    return serializedValue ? JSON.parse(serializedValue) : null;
+  } catch (e) {
+    console.error("Failed to get item from local storage:", e);
+    return null;
+  }
+};
+
+export const getVolumeIcon = (volumeValues: number[]) => {
+  const volumeValue = volumeValues[0];
+  if (volumeValue === 0) {
+    return ImVolumeMute2;
+  } else if (volumeValue <= 33) {
+    return ImVolumeLow;
+  } else if (volumeValue <= 66) {
+    return ImVolumeMedium;
+  } else {
+    return ImVolumeHigh;
   }
 };

@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ArrowLargeIcon, CheckboxIcon } from "@/components/icons/outline-icons";
+import OutlineIcons from "@/components/icons/outline-icons";
 import { CategoryFilterData } from "@/constants";
 
 const filterTitles = CategoryFilterData.reduce(
@@ -56,9 +56,9 @@ const CategoryFilter = () => {
               {category.name}
             </span>
             {open[category.name as keyof typeof open] ? (
-              <ArrowLargeIcon.Down />
+              <OutlineIcons.ArrowLargeDown />
             ) : (
-              <ArrowLargeIcon.Right />
+              <OutlineIcons.ArrowLargeRight />
             )}
           </AccordionTrigger>
 
@@ -81,7 +81,7 @@ const CategoryFilter = () => {
                   />
 
                   <div className="absolute right-0">
-                    <CheckboxIcon
+                    <OutlineIcons.Checkbox
                       checked={isChecked[filter as keyof typeof isChecked]}
                     />
                   </div>

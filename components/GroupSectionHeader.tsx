@@ -1,25 +1,10 @@
-import { FC } from "react";
+import { ColorVariantsType, GroupSectionHeaderProps } from "@/types";
 
-type ColorVariantsType = {
-  [key: string]: string;
-  bgYellow: string;
-  bgRed: string;
-  bgBlue: string;
-};
-
-const colorVariants: ColorVariantsType = {
+export const colorVariants: ColorVariantsType = {
   bgYellow: "bg-yellow-10",
   bgRed: "bg-red-10",
   bgBlue: "bg-blue-10",
 };
-
-type ColorVariantKeys = keyof typeof colorVariants;
-
-interface GroupSectionHeaderProps {
-  title: string;
-  bgColor: ColorVariantKeys;
-  icon: FC;
-}
 
 const GroupSectionHeader = ({
   title,
