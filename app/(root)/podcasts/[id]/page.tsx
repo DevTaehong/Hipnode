@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { getPodcastById } from "@/lib/actions/podcast.actions";
-import AudioPlayer from "@/components/podcast-components/AudioPlayer";
-import LargePodcastCard from "@/components/podcast-components/LargePodcastCard";
 import { getBucketUrls } from "@/utils/getBucketURLs";
+import { AudioPlayer, LargePodcastCard } from "@/components/podcast-components";
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+
 import OutlineIcon from "../icons/outline-icons";
 import { Button } from "../ui/button";
-
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
 import { formatPodcastDuration, setToLocalStorage } from "@/utils";
