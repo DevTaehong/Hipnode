@@ -21,25 +21,17 @@ const PodcastPlayer = () => {
   const { id } = podcast || {};
 
   const handlePlayClick = () => {
-    const audioElement = document.getElementById(
-      "podcast-audio"
-    ) as HTMLAudioElement;
-
     if (podcast) {
       dispatch({ type: "SET_PODCAST_USER_IMAGE", payload: podcast.image });
     }
-    if (audioElement) {
+    if (audioRef.current) {
       if (isPlaying) {
-        audioElement.pause();
+        audioRef.current.pause();
       } else {
-        audioElement.play();
+        audioRef.current.play();
       }
       togglePlay();
     }
-  };
-
-  const getAudioElement = () => {
-    return document.getElementById("podcast-audio") as HTMLAudioElement;
   };
 
   useEffect(() => {
@@ -52,10 +44,10 @@ const PodcastPlayer = () => {
         state,
       });
     }
-  }, [isPlaying, setSongUrl]);
+  }, [isPlaying]);
 
   useEffect(() => {
-    const audioElement = getAudioElement();
+    const audioElement = PodcastHooks.getAudioElement();
 
     const handleTimeUpdate = () => {
       const newTime = Math.floor(audioElement.currentTime);

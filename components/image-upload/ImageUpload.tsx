@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { ImageUploadProps } from "@/types";
+import { ImageUploadProps } from "@/types/upload-image";
 
 const ImageUpload = ({ onFileSelected, children }: ImageUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);

@@ -133,3 +133,7 @@ export const handleVolumeChange = ({
     dispatch({ type: "SET_VOLUME", payload: newVolume });
   }
 };
+
+export const getAudioElement = () => {
+  return document.getElementById("podcast-audio") as HTMLAudioElement;
+};

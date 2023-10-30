@@ -89,6 +89,17 @@ export async function getBucketUrls(bucketName: string): Promise<string[]> {
     return [];
   }
 }
+
+export const formatDate = (date: Date) => {
+  const updatedDate = new Date(date);
+  const monthText = updatedDate
+    .toLocaleString("en-US", { month: "short" })
+    .toUpperCase();
+  const day = updatedDate.getDate();
+
+  return { monthText, day };
+};
+
 export function extractShowArray(queryString: string) {
   const keyValuePairs = queryString.split("&");
   const showNumbers = [];
