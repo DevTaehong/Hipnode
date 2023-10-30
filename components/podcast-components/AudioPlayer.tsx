@@ -19,7 +19,7 @@ const AudioPlayer = ({ podcast, url }: { podcast: IPodcast; url: string }) => {
           episodeNumber={episodeNumber}
           creatorName={creatorName}
         />
-        <PodcastPlayButton url={url} />
+        <PodcastPlayButton url={url} podcast={podcast} />
       </div>
     </section>
   );

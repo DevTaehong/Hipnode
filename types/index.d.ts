@@ -348,3 +348,27 @@ export interface NotificationPopoverProps {
   date: string;
   image: string;
 }
+
+export interface ProfileInfoProps {
+  src: string;
+  name: string;
+  title: string;
+  followers: number;
+  points: string;
+  following: { id: string; name: string; src: string; link: string }[];
+  description: string;
+  website?: string;
+  socials: { name: string; link: string }[];
+  joinedAt: string;
+}
+
+export interface ProfileLinkProps {
+  id: string;
+  name: string;
+  src: string;
+  link: string;
+}
+
+export interface SocialIconsProps {
+  socials: { name: string; link: string }[];
+}
