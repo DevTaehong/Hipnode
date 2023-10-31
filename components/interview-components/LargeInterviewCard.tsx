@@ -1,6 +1,6 @@
 import { formatSalary } from "@/utils";
 import { InterviewProps } from "@/constants/interview";
-import { InterviewBannerImage, InterviewCardButtons } from ".";
+import { InterviewBannerImage, InterviewCardInfo } from ".";
 
 const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
   const {
@@ -27,7 +27,7 @@ const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
           {title}
         </h1>
         <div className="flex w-full flex-col justify-between gap-3.5 sm:flex-row">
-          <InterviewCardButtons
+          <InterviewCardInfo
             interviewSalary={interviewSalary}
             updates={updates}
             websiteLink={websiteLink}
