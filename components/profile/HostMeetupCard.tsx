@@ -8,7 +8,7 @@ const HostMeetupCard = ({
   rightBtn,
 }: HostMeetupCardProps) => {
   return (
-    <div className="bg-red-card p-5 text-light">
+    <div className="rounded-[1rem] bg-red-card p-5 text-light">
       <h3 className="text-[1.125rem] font-semibold leading-[1.625rem]">
         {title}
       </h3>

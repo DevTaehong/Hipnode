@@ -602,7 +602,7 @@ export const profileFilters = [
 
 // ! Dummy data for the profile page
 export const profileData = {
-  src: "/emoji_2.png",
+  src: "/images/emoji_2.png",
   name: "AR. Jakir",
   title: "User Interface Designer",
   points: "880",
