@@ -15,8 +15,8 @@ const ContentCard = () => {
         />
       </section>
 
-      <section className="flex w-full flex-1 flex-col">
-        <article className="flex gap-5">
+      <section className="flex w-full flex-1 flex-col gap-5 md:gap-7">
+        <article className="flex gap-2.5 sm:gap-5">
           <div className="flex flex-col gap-2.5">
             <p className="line-clamp-3 text-[0.75rem] font-semibold leading-[1.125rem] text-sc-2 dark:text-light-2 md:line-clamp-2 md:text-[1.125rem] md:leading-[1.625rem]">
               Bitcoin has tumbled from its record high of $58,000 after words
@@ -41,7 +41,21 @@ const ContentCard = () => {
           </div>
         </article>
 
-        <article>views likes comments</article>
+        <article className="flex items-end justify-between">
+          {/* account name goes here on bigger screen */}
+
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 md:text-[0.875rem] md:leading-[1.375rem]">
+              601,066 Views
+            </p>
+            <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 md:text-[0.875rem] md:leading-[1.375rem]">
+              24,753 Likes
+            </p>
+            <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 md:text-[0.875rem] md:leading-[1.375rem]">
+              209 Comments
+            </p>
+          </div>
+        </article>
       </section>
     </div>
   );
