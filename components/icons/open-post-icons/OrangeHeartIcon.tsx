@@ -1,4 +1,4 @@
-export default function OrangeLikeIcon() {
+export default function OrangeHeartIcon() {
   return (
     <svg
       width="28"
