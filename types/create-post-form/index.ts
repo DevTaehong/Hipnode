@@ -42,3 +42,7 @@ export type IconBlockProps = {
 export type PostIconsProps = {
   children: ReactNode;
 };
+
+export type MoreInformationItemProps = {
+  item: { title: string; tags: string };
+};

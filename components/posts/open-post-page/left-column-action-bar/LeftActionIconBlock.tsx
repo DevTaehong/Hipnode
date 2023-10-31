@@ -1,8 +1,8 @@
 import { IconBlockProps } from "@/types/create-post-form";
 
 const IconBlock = ({ label, count, IconComponent }: IconBlockProps) => (
-  <div className="flex gap-[0.875rem]">
-    <div className="h-[1.75rem] w-[1.75rem] rounded-md">
+  <div className="flex items-center gap-[0.875rem]">
+    <div className="flex-center h-[1.75rem] w-[1.75rem] rounded-md">
       <IconComponent />
     </div>
     {count && (

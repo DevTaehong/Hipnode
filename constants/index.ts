@@ -706,3 +706,18 @@ export const groupData: GroupData = {
 };
 
 export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
+
+export const devInfo = [
+  {
+    title: "Self-taught developer Journal, Day 51",
+    tags: "#webdev #beginners #codenewbie #devjournal",
+  },
+  {
+    title: "Coding Bootcamp Journey, Day 51",
+    tags: "#webdev #beginners #codenewbie #devjournal",
+  },
+  {
+    title: "Formal Education Pathway, Day 51",
+    tags: "#webdev #beginners #codenewbie #devjournal",
+  },
+];
