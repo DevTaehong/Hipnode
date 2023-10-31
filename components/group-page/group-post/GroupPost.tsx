@@ -9,7 +9,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import GroupPostIcons from "@/components/group-post/GroupPostIcons";
+import GroupPostIcons from "@/components/group-page/group-post/GroupPostIcons";
 
 const GroupPost = () => {
   return (
