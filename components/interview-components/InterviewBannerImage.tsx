@@ -5,6 +5,7 @@ type InterviewBannerImageType = {
   className: string;
   height: number;
   width: number;
+  roundedTop?: boolean;
 };
 
 const InterviewBannerImage = ({
@@ -12,7 +13,9 @@ const InterviewBannerImage = ({
   className,
   height,
   width,
+  roundedTop = false,
 }: InterviewBannerImageType) => {
+  const borderRadius = roundedTop ? "rounded-t-lg" : "rounded-lg";
   return (
     <figure className={className}>
       <Image
@@ -21,7 +24,7 @@ const InterviewBannerImage = ({
         width={width}
         alt="banner image"
         style={{ objectFit: "cover" }}
-        className="rounded-lg"
+        className={borderRadius}
       />
     </figure>
   );

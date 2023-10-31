@@ -21,6 +21,7 @@ const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
         className="max-h-[17rem] w-full overflow-hidden"
         height={273}
         width={785}
+        roundedTop
       />
       <section className="flex flex-col gap-3.5 p-5 text-sc-3 md:gap-5">
         <h1 className="text-sc-2_light-2 semibold-16 sm:semibold-26">
