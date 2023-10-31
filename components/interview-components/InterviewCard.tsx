@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { formatInterviewDate, formatSalary } from "@/utils";
 import OutlineIcon from "../icons/outline-icons";
-import InterviewBannerImage from "./InterviewBannerImage";
-import InterviewCardButtons from "./InterviewCardButtons";
-import { InterviewProps } from ".";
+import { InterviewProps } from "@/constants/interview";
+import { InterviewBannerImage, InterviewCardButtons } from ".";
 
 const InterviewCard = ({ interviewData }: InterviewProps) => {
   const {

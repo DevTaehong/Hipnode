@@ -1,8 +1,6 @@
-import React from "react";
-import InterviewBannerImage from "./InterviewBannerImage";
-import InterviewCardButtons from "./InterviewCardButtons";
 import { formatSalary } from "@/utils";
-import { InterviewProps } from ".";
+import { InterviewProps } from "@/constants/interview";
+import { InterviewBannerImage, InterviewCardButtons } from ".";
 
 const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
   const {

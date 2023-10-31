@@ -1,6 +1,8 @@
-import InterviewCard from "@/components/interview-components/InterviewCard";
-import LargeInterviewCard from "@/components/interview-components/LargeInterviewCard";
-import { dummyInterviewData } from "@/components/interview-components";
+import {
+  InterviewCard,
+  LargeInterviewCard,
+} from "@/components/interview-components";
+import { dummyInterviewData } from "@/constants/interview";
 
 const Interviews = () => {
   return (
