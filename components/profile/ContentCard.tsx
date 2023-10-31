@@ -14,15 +14,26 @@ const ContentCard = () => {
         />
       </section>
 
-      <section className="w-full flex-1">
-        <article>
-          <div>
-            <p></p>
+      <section className="flex w-full flex-1 flex-col">
+        <article className="flex gap-5">
+          <div className="flex flex-col gap-2.5">
+            <p className="line-clamp-3 text-[0.75rem] font-semibold leading-[1.125rem] text-sc-2 dark:text-light-2 md:text-[1.125rem] md:leading-[1.625rem]">
+              Bitcoin has tumbled from its record high of $58,000 after words
+              from three wise men and women...
+            </p>
 
-            <div>tags</div>
+            <div className="flex">tags</div>
           </div>
 
-          <div>icon mobile or desktop heart</div>
+          <div className="shrink-0">
+            <Image
+              src="/images/emoji_2.png"
+              alt="User"
+              width={30}
+              height={30}
+              className="rounded-full bg-light-2 object-contain dark:bg-purple-10"
+            />
+          </div>
         </article>
 
         <article>views likes comments</article>
