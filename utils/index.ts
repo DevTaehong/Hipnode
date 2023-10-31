@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabaseClient";
-import { HandlePlayProps } from "@/types/podcast.index";
 import {
   ImVolumeLow,
   ImVolumeMedium,
@@ -160,3 +159,65 @@ export const getVolumeIcon = (volumeValues: number[]) => {
     return ImVolumeHigh;
   }
 };
+
+export function formatInterviewDate(inputDate: Date): string {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const inputDay = inputDate.getDate();
+  const inputMonth = inputDate.getMonth();
+  const inputYear = inputDate.getFullYear();
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  if (
+    inputDay === today.getDate() &&
+    inputMonth === today.getMonth() &&
+    inputYear === today.getFullYear()
+  ) {
+    return `Today, ${inputDay} ${monthNames[inputMonth]}`;
+  } else if (
+    inputDay === tomorrow.getDate() &&
+    inputMonth === tomorrow.getMonth() &&
+    inputYear === tomorrow.getFullYear()
+  ) {
+    return `Tomorrow, ${inputDay} ${monthNames[inputMonth]}`;
+  } else {
+    return `${inputDay} ${monthNames[inputMonth]}`;
+  }
+}
+
+type SalaryPeriod = "month" | "year";
+
+export function formatSalary(num: number, salaryPeriod: SalaryPeriod) {
+  let formattedSalary: string;
+
+  if (num >= 1000) {
+    formattedSalary = (num / 1000).toFixed(0) + "k";
+  } else {
+    formattedSalary = num.toString();
+  }
+
+  switch (salaryPeriod) {
+    case "month":
+      return formattedSalary + "/mo";
+    case "year":
+      return formattedSalary + "/year";
+    default:
+      throw new Error("Invalid salary period provided.");
+  }
+}

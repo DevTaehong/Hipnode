@@ -360,6 +360,14 @@ OutlineIcon.More = function Icon({ className }: OutlineIconProps) {
   );
 };
 
+OutlineIcon.MoreVertical = function Icon({ className }: OutlineIconProps) {
+  return (
+    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+      <IconAlt.MoreVertical />
+    </IconAlt>
+  );
+};
+
 OutlineIcon.Post = function Icon({ className }: OutlineIconProps) {
   return (
     <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
