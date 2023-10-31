@@ -50,13 +50,13 @@ const InfiniteScroll = <T extends { id: number }>({
       <button
         type="button"
         onClick={() => setIsSeeMore(true)}
-        className="regular-10 mb-5 ml-5 mt-2 flex items-center gap-2.5 text-sc-3 lg:hidden"
+        className="regular-10 ml-5 mt-2 flex items-center gap-2.5 text-sc-3 lg:hidden"
       >
         See more
         <OutlineIcon.ArrowRight className="stroke-sc-3" />
       </button>
       <div className="hidden lg:block" ref={ref}>
-        <div className="flex items-center justify-center p-3 lg:p-0">
+        <div className="flex items-center justify-center p-3">
           {isLoading && <Spinner />}
         </div>
       </div>

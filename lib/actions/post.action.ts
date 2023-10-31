@@ -3,6 +3,8 @@
 import { type Post } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
+import { QueryOptions } from "@/lib/actions/shared.types";
+
 export async function createPost(data: Post) {
   try {
     const post = await prisma.post.create({
@@ -113,6 +115,37 @@ export async function getAllPosts({
     return JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function getPostsFromGroups(myCursorId?: number) {
+  try {
+    let queryOptions: QueryOptions = {
+      take: 9, // Take only the limit number of results
+      where: {
+        group: {
+          isNot: null,
+        },
+      },
+      include: {
+        author: true,
+        group: true,
+      },
+    };
+
+    if (myCursorId !== undefined) {
+      queryOptions = {
+        ...queryOptions,
+        skip: 1, // Skip the first result
+        cursor: { id: myCursorId },
+      };
+    }
+
+    const postsFromGroups = await prisma.post.findMany(queryOptions);
+    return postsFromGroups;
+  } catch (error) {
+    console.error("Error finding posts from groups:", error);
     throw error;
   }
 }

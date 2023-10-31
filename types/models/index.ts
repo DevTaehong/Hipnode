@@ -24,6 +24,9 @@ export type ExtendedPost = PrismaPost & {
   author: ExtendedUser;
   comments: CommentType[];
   likes: LikeType[];
+  group: {
+    name: string;
+  };
 };
 
 interface Onboarding {

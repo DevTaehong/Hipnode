@@ -40,4 +40,6 @@ export interface QueryOptions {
   cursor?: {
     id: number;
   };
+  where?;
+  include?;
 }
