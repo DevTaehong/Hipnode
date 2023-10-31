@@ -8,7 +8,7 @@ import { profileData } from "@/constants";
 
 const ProfilePage = () => {
   return (
-    <div className="flex flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
+    <div className="flex w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
       <section>
         <ProfileInfo
@@ -26,7 +26,7 @@ const ProfilePage = () => {
       </section>
 
       {/* Profile Filter & Content Cards */}
-      <section>
+      <section className="flex flex-col gap-5">
         <ProfileFilter />
         <ContentCard />
       </section>

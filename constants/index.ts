@@ -602,7 +602,7 @@ export const profileFilters = [
 
 // ! Dummy data for the profile page
 export const profileData = {
-  src: "/emoji_2.png",
+  src: "/images/emoji_2.png",
   name: "AR. Jakir",
   title: "User Interface Designer",
   points: "880",
@@ -613,12 +613,12 @@ export const profileData = {
   followers: [
     {
       name: "Tye1",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page",
     },
     {
       name: "Tye2",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page",
     },
   ],
@@ -626,43 +626,43 @@ export const profileData = {
     {
       id: "1",
       name: "Tye1",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page1",
     },
     {
       id: "2",
       name: "Tye2",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page2",
     },
     {
       id: "3",
       name: "Tye3",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page3",
     },
     {
       id: "4",
       name: "Tye4",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page4",
     },
     {
       id: "5",
       name: "Tye5",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page5",
     },
     {
       id: "6",
       name: "Tye6",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page6",
     },
     {
       id: "7",
       name: "Tye7",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page7",
     },
   ],
