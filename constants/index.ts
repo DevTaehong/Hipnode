@@ -706,3 +706,10 @@ export const groupData: GroupData = {
 };
 
 export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
+
+export interface HostMeetupCardProps {
+  title: string;
+  desc: string;
+  leftBtn: string;
+  rightBtn: string;
+}
