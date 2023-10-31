@@ -48,11 +48,16 @@ const InterviewCard = ({ interviewData }: InterviewProps) => {
           width={560}
         />
         <h2 className="semibold-16 sm:semibold-18 ">{title}</h2>
-        <InterviewCardInfo
-          interviewSalary={interviewSalary}
-          updates={updates}
-          websiteLink={websiteLink}
-        />
+        <div className="flex flex-col justify-between gap-5 sm:flex-row">
+          <InterviewCardInfo
+            interviewSalary={interviewSalary}
+            updates={updates}
+            websiteLink={websiteLink}
+          />
+          <button className="flex-center semibold-14 h-[2.375rem] w-[5.9375rem] rounded bg-blue sm:h-full">
+            Full Details
+          </button>
+        </div>
       </section>
       <InterviewBannerImage
         bannerImage={bannerImage}
