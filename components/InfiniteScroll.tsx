@@ -37,6 +37,7 @@ const InfiniteScroll = <T extends { id: number }>({
   useEffect(() => {
     if (inView || isSeeMore) {
       loadMoreData();
+      setIsSeeMore(false);
     }
   }, [inView, isSeeMore]);
 
