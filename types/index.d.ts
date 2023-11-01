@@ -240,3 +240,16 @@ export interface ProfileLinkProps {
 export interface SocialIconsProps {
   socials: { name: string; link: string }[];
 }
+
+export interface ContentCardProps {
+  contentImg: string;
+  userImg: string;
+  desc: string;
+  tags: string[];
+  views: number;
+  likes: number;
+  comments: number;
+  isHeart: boolean;
+  name: string;
+  createdAt: string;
+}

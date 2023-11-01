@@ -1,20 +1,10 @@
 import Image from "next/image";
+
 import Tag from "./Tag";
 import FillIcon from "../icons/fill-icons";
 import Dot from "./Dot";
 
-export interface ContentCardProps {
-  contentImg: string;
-  userImg: string;
-  desc: string;
-  tags: string[];
-  views: number;
-  likes: number;
-  comments: number;
-  isHeart: boolean;
-  name: string;
-  createdAt: string;
-}
+import { ContentCardProps } from "@/types";
 
 const ContentCard = ({
   contentImg,
