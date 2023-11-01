@@ -5,7 +5,7 @@ import RightColumnWrapper from "./RightColumnWrapper";
 
 const Profile = () => (
   <RightColumnWrapper>
-    <div className="mb-[1.25rem] flex h-[6.25rem]  w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
+    <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
       <Image
         src="/negan.png"
         alt="profile-image"
