@@ -32,7 +32,7 @@ const ProfilePage = () => {
       </section>
 
       {/* HostMeetup Card & Performance Card */}
-      <section>
+      <section className="hidden">
         <HostMeetupCard />
         <PerformanceCard />
       </section>
