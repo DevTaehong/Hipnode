@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Tag from "./Tag";
 import FillIcon from "../icons/fill-icons";
+import Dot from "./Dot";
 
 const ContentCard = () => {
   return (
     <div className="flex gap-3.5 rounded-[0.875rem] bg-light p-3.5 dark:bg-dark-3 md:rounded-[1rem] lg:p-5">
-      <section className="w-[20%] ">
+      <section className="w-[20%]">
         <Image
           src="/postCardPlacholder.png"
           alt="content"
@@ -52,8 +53,7 @@ const ContentCard = () => {
         </article>
 
         <article className="flex justify-start md:justify-between">
-          {/* account name goes here on bigger screen */}
-          <div className="shrink-0">
+          <div className="flex shrink-0 gap-2.5">
             <Image
               src="/images/emoji_2.png"
               alt="User"
@@ -61,6 +61,17 @@ const ContentCard = () => {
               height={40}
               className="hidden rounded-full bg-light-2 object-contain object-right-top dark:bg-purple-10 md:block"
             />
+
+            <div className="hidden md:block">
+              <h4 className="flex items-center gap-1 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6">
+                Pavel Gvay
+                <Dot />
+              </h4>
+
+              <p className="text-[0.625rem] leading-[1rem] text-sc-3 dark:text-sc-5">
+                1 week ago
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center justify-between gap-4">
