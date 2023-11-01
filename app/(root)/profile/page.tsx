@@ -1,6 +1,6 @@
 import ContentCard from "@/components/profile/ContentCard";
 import HostMeetupCard from "@/components/profile/HostMeetupCard";
-import PerformanceCard from "@/components/profile/PerformanceCard";
+import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 
@@ -34,7 +34,7 @@ const ProfilePage = () => {
       {/* HostMeetup Card & Performance Card */}
       <section>
         <HostMeetupCard />
-        <PerformanceCard />
+        <Performance />
       </section>
     </div>
   );
