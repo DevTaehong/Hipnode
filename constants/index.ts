@@ -706,3 +706,30 @@ export const groupData: GroupData = {
 };
 
 export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
+
+export const performanceData = [
+  {
+    contentImg: "/postCardPlacholder.png",
+    views: 100,
+    likes: 100,
+    comments: 100,
+  },
+  {
+    contentImg: "/postCardPlacholder.png",
+    views: 100,
+    likes: 100,
+    comments: 100,
+  },
+  {
+    contentImg: "/postCardPlacholder.png",
+    views: 100,
+    likes: 100,
+    comments: 100,
+  },
+  {
+    contentImg: "/postCardPlacholder.png",
+    views: 100,
+    likes: 100,
+    comments: 100,
+  },
+];

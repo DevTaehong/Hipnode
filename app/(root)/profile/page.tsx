@@ -4,7 +4,7 @@ import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 
-import { profileData } from "@/constants";
+import { profileData, performanceData } from "@/constants";
 
 const ProfilePage = () => {
   return (
@@ -34,7 +34,7 @@ const ProfilePage = () => {
       {/* HostMeetup Card & Performance Card */}
       <section>
         <HostMeetupCard />
-        <Performance />
+        <Performance data={performanceData} />
       </section>
     </div>
   );

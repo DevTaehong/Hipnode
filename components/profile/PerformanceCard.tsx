@@ -1,10 +1,17 @@
 import Image from "next/image";
 
-const PerformanceCard = () => {
+import { PerformanceCardProps } from "@/types";
+
+const PerformanceCard = ({
+  contentImg,
+  views,
+  likes,
+  comments,
+}: PerformanceCardProps) => {
   return (
     <article className="flex items-center">
       <Image
-        src="/postCardPlacholder.png"
+        src={contentImg}
         alt="content"
         width={50}
         height={50}
@@ -17,7 +24,7 @@ const PerformanceCard = () => {
             Views
           </p>
           <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-3">
-            651,334
+            {views}
           </p>
         </section>
 
@@ -26,7 +33,7 @@ const PerformanceCard = () => {
             Likes
           </p>
           <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-3">
-            651,334
+            {likes}
           </p>
         </section>
 
@@ -35,7 +42,7 @@ const PerformanceCard = () => {
             Comments
           </p>
           <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-3">
-            651,334
+            {comments}
           </p>
         </section>
       </div>
