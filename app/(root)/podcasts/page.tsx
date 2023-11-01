@@ -20,6 +20,10 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   }
 
   const usersShows = await getAllUsersShows(user.id);
+
+  if (!usersShows) {
+    redirect("/");
+  }
   const usersShowsIds = usersShows.map((show) => show.id);
 
   let listedPodcasts;
