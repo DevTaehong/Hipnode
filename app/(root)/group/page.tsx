@@ -9,9 +9,11 @@ import Meetups from "@/components/home-page/meetup/Meetups";
 import { getPostsFromGroups } from "@/lib/actions/post.action";
 
 const GroupPage = async () => {
-  const meetups = await getAllMeetUps();
-  const podcasts = await getAllPodcastsWithUserInfo();
-  const posts = await getPostsFromGroups();
+  const [meetups, podcasts, posts] = await Promise.all([
+    getAllMeetUps(),
+    getAllPodcastsWithUserInfo(),
+    getPostsFromGroups(),
+  ]);
 
   return (
     <main className="bg-light-2_dark-2">
