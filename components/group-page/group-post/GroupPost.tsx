@@ -15,7 +15,8 @@ import { ExtendedPost } from "@/types/models";
 import { Post } from "@prisma/client";
 
 const GroupPost = (post: Post) => {
-  const { id, author, group, image, content, createdAt } = post as ExtendedPost;
+  const { id, author, group, image, content, createdAt, heading } =
+    post as ExtendedPost;
   const date = new Date(createdAt).toLocaleDateString("en-US", {
     weekday: "short",
     day: "numeric",
@@ -48,10 +49,7 @@ const GroupPost = (post: Post) => {
             alt={`Post image from a ${group.name} group`}
           />
           <GroupPostIcons />
-          <h6 className="semibold-14 font-feature line-clamp-2">
-            {/* // TODO - Change post schema to have title */}
-            {content}
-          </h6>
+          <h6 className="semibold-14 font-feature line-clamp-2">{heading}</h6>
           <p className="regular-12">{content}</p>
         </CardContent>
         <CardFooter>
