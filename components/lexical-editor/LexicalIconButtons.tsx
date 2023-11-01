@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { LexicalIconButtonsProps } from "@/types/lexical-editor";
 import { IconLibrary } from "./IconLibrary";

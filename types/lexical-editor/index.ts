@@ -64,3 +64,10 @@ export type LexicalMenuProps = {
   editorRef: React.RefObject<HTMLDivElement>;
   onSubmitPreview: () => void;
 };
+
+export interface WritePreviewToggleProps {
+  autoFocus: boolean;
+  setAutoFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  htmlString: string;
+  onSubmitPreview: () => void;
+}

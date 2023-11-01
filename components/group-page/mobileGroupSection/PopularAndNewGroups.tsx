@@ -1,5 +1,5 @@
 import { sectionHeadings } from "@/constants";
-import PopularAndNewGroup from "@/components/mobileGroupSection/PopularAndNewGroup";
+import PopularAndNewGroup from "@/components/group-page/mobileGroupSection/PopularAndNewGroup";
 
 const PopularAndNewGroups = () => {
   return (

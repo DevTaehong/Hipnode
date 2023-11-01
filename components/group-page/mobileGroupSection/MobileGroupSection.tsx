@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
-import FastestGrowingGroups from "@/components/mobileGroupSection/FastestGrowingGroups";
-import PopularAndNewGroups from "@/components/mobileGroupSection/PopularAndNewGroups";
-import GroupHeader from "@/components/mobileGroupSection/GroupHeader";
-import CollapsibleHeader from "@/components/mobileGroupSection/CollapsibleHeader";
-import SeeAllGroups from "@/components/mobileGroupSection/SeeAllGroups";
+import FastestGrowingGroups from "@/components/group-page/mobileGroupSection/FastestGrowingGroups";
+import PopularAndNewGroups from "@/components/group-page/mobileGroupSection/PopularAndNewGroups";
+import GroupHeader from "@/components/group-page/mobileGroupSection/GroupHeader";
+import CollapsibleHeader from "@/components/group-page/mobileGroupSection/CollapsibleHeader";
+import SeeAllGroups from "@/components/group-page/mobileGroupSection/SeeAllGroups";
 import { groupData } from "@/constants";
 import { GroupData } from "@/types";
 

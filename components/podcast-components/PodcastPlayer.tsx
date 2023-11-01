@@ -151,7 +151,7 @@ const PodcastPlayer = () => {
         id={state.id || id}
         podcastUserImage={state.podcastUserImage}
       />
-      <section className="flex w-80 flex-col items-center">
+      <section className="flex w-80 flex-col items-center self-center">
         <PodcastComponents.PodcastBarPlayButton
           songUrl={songUrl}
           audioRef={audioRef}
