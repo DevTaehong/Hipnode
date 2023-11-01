@@ -20,10 +20,17 @@ export type ExtendedUser = {
   updatedAt: Date;
 };
 
+type TagType = {
+  id: string;
+  name: string;
+};
+
 export type ExtendedPost = PrismaPost & {
   author: ExtendedUser;
   comments: CommentType[];
   likes: LikeType[];
+  tags: TagType[];
+  heading: string;
 };
 
 interface Onboarding {

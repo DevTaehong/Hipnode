@@ -15,11 +15,12 @@ import prisma from "../lib/prisma";
 async function main() {
   const tags = await createTags();
   const users = await createUsers();
+  const groups = await createGroups(users);
   await createOnboarding(users);
   await seedInterviewTags();
-  await createPosts(users, tags);
   await createInterviews(users);
   await seedTagOnInterview();
+  await createPosts(users, tags, groups);
 
   const shows = (await createShows(users)) as {
     id: number;
@@ -31,8 +32,6 @@ async function main() {
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
-
-  await createGroups(users);
 
   await createMeetUps(users);
 }

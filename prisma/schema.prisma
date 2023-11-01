@@ -21,6 +21,7 @@ model User {
   location        String?
   createdAt       DateTime                 @default(now())
   updatedAt       DateTime                 @updatedAt
+  subscribedShows UsersSubscribedToShows[]
   comments        Comment[]
   likes           Like[]
   meetup          MeetUp[]
@@ -28,7 +29,6 @@ model User {
   podcasts        Podcast[]
   posts           Post[]
   shows           Shows[]
-  subscribedShows UsersSubscribedToShows[]
   groupAdmin      Group[]                  @relation("GroupAdmins")
   groups          Group[]                  @relation("UserGroups")
 }
@@ -47,6 +47,7 @@ model Onboarding {
 
 model Post {
   id        Int         @id @default(autoincrement())
+  heading   String
   content   String
   authorId  Int
   createdAt DateTime    @default(now())
@@ -114,9 +115,9 @@ model Shows {
   userId      Int
   createdAt   DateTime                 @default(now())
   updatedAt   DateTime                 @updatedAt
+  subscribers UsersSubscribedToShows[]
   podcasts    Podcast[]
   user        User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  subscribers UsersSubscribedToShows[]
 }
 
 model Podcast {
@@ -138,8 +139,8 @@ model UsersSubscribedToShows {
   id     Int   @id @default(autoincrement())
   userId Int
   showId Int
-  show   Shows @relation(fields: [showId], references: [id])
   user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  show   Shows @relation(fields: [showId], references: [id])
 
   @@unique([userId, showId])
 }
