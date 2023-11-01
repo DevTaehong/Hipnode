@@ -1,12 +1,6 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
-type InterviewBannerImageType = {
-  bannerImage: string | StaticImageData;
-  className: string;
-  height: number;
-  width: number;
-  roundedTop?: boolean;
-};
+import { InterviewBannerImageType } from "@/types/interview.index";
 
 const InterviewBannerImage = ({
   bannerImage,

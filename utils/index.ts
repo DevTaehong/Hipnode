@@ -6,25 +6,12 @@ import {
   ImVolumeMute2,
   ImVolumeHigh,
 } from "react-icons/im";
+import { monthNames } from "@/constants";
 
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
   const day = date.getDate();
   const month = date.getMonth();
-  const monthNames = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-  ];
   const monthText = monthNames[month];
 
   return {
@@ -169,21 +156,6 @@ export function formatInterviewDate(inputDate: Date): string {
   const inputMonth = inputDate.getMonth();
   const inputYear = inputDate.getFullYear();
 
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   if (
     inputDay === today.getDate() &&
     inputMonth === today.getMonth() &&
@@ -203,21 +175,12 @@ export function formatInterviewDate(inputDate: Date): string {
 
 type SalaryPeriod = "month" | "year";
 
-export function formatSalary(num: number, salaryPeriod: SalaryPeriod) {
-  let formattedSalary: string;
-
-  if (num >= 1000) {
-    formattedSalary = (num / 1000).toFixed(0) + "k";
-  } else {
-    formattedSalary = num.toString();
-  }
-
-  switch (salaryPeriod) {
-    case "month":
-      return formattedSalary + "/mo";
-    case "year":
-      return formattedSalary + "/year";
-    default:
-      throw new Error("Invalid salary period provided.");
-  }
+export function formatSalary(
+  amount: number,
+  salaryPeriod: SalaryPeriod
+): string {
+  const formattedSalary =
+    amount >= 1000 ? `${(amount / 1000).toFixed(0)}k` : amount.toString();
+  const periodSuffix = salaryPeriod === "month" ? "/mo" : "/year";
+  return formattedSalary + periodSuffix;
 }

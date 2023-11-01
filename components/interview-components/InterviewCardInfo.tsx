@@ -1,11 +1,7 @@
 import Link from "next/link";
-import OutlineIcon from "../icons/outline-icons";
 
-type InterviewCardButtonsType = {
-  interviewSalary: string;
-  updates: number;
-  websiteLink: string;
-};
+import OutlineIcon from "../icons/outline-icons";
+import { InterviewCardButtonsType } from "@/types/interview.index";
 
 const InterviewCardInfo = ({
   interviewSalary,
