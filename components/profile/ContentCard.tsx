@@ -3,12 +3,36 @@ import Tag from "./Tag";
 import FillIcon from "../icons/fill-icons";
 import Dot from "./Dot";
 
-const ContentCard = () => {
+export interface ContentCardProps {
+  contentImg: string;
+  userImg: string;
+  desc: string;
+  tags: string[];
+  views: number;
+  likes: number;
+  comments: number;
+  isHeart: boolean;
+  name: string;
+  createdAt: string;
+}
+
+const ContentCard = ({
+  contentImg,
+  userImg,
+  desc,
+  tags,
+  views,
+  likes,
+  comments,
+  isHeart,
+  name,
+  createdAt,
+}: ContentCardProps) => {
   return (
     <div className="flex gap-3.5 rounded-[0.875rem] bg-light p-3.5 dark:bg-dark-3 md:rounded-[1rem] lg:p-5">
       <section className="w-[20%]">
         <Image
-          src="/postCardPlacholder.png"
+          src={contentImg}
           alt="content"
           width={100}
           height={100}
@@ -20,20 +44,19 @@ const ContentCard = () => {
         <article className="flex gap-2.5 sm:gap-5">
           <div className="flex flex-col gap-2.5">
             <p className="line-clamp-3 text-[0.75rem] font-semibold leading-[1.125rem] text-sc-2 dark:text-light-2 md:line-clamp-2 md:text-[1.125rem] md:leading-[1.625rem]">
-              Bitcoin has tumbled from its record high of $58,000 after words
-              from three wise men and women...
+              {desc}
             </p>
 
             <div className="flex gap-2.5">
-              <Tag text="payment" />
-              <Tag text="seo" />
-              <Tag text="crypto" />
+              {tags.map((tag) => (
+                <Tag key={tag} text={tag} />
+              ))}
             </div>
           </div>
 
           <div className="flex shrink-0">
             <Image
-              src="/images/emoji_2.png"
+              src={userImg}
               alt="User"
               width={30}
               height={30}
@@ -41,8 +64,16 @@ const ContentCard = () => {
             />
 
             <div className="hidden items-start gap-2.5 md:flex">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sc-6 dark:bg-dark-4">
-                <FillIcon.Heart className="fill-sc-5" />
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full dark:bg-dark-4 ${
+                  isHeart ? "bg-red-10" : "bg-sc-6"
+                }`}
+              >
+                <FillIcon.Heart
+                  className={`mt-[2.5px] ${
+                    isHeart ? "fill-red-80" : "fill-sc-5"
+                  }`}
+                />
               </div>
 
               <div className="flex h-8 w-8 items-center justify-center">
@@ -55,7 +86,7 @@ const ContentCard = () => {
         <article className="flex justify-start md:justify-between">
           <div className="flex shrink-0 gap-2.5">
             <Image
-              src="/images/emoji_2.png"
+              src={userImg}
               alt="User"
               width={40}
               height={40}
@@ -64,25 +95,26 @@ const ContentCard = () => {
 
             <div className="hidden md:block">
               <h4 className="flex items-center gap-1 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6">
-                Pavel Gvay
+                {name}
+                {/* TODO: figure out how to change this status dot based on if the user is online */}
                 <Dot />
               </h4>
 
               <p className="text-[0.625rem] leading-[1rem] text-sc-3 dark:text-sc-5">
-                1 week ago
+                {createdAt}
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-between gap-4">
             <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]">
-              601,066 Views
+              {views} Views
             </p>
             <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]">
-              24,753 Likes
+              {likes} Likes
             </p>
             <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]">
-              209 Comments
+              {comments} Comments
             </p>
           </div>
         </article>

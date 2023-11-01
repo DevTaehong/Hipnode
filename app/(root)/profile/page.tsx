@@ -28,7 +28,20 @@ const ProfilePage = () => {
       {/* Profile Filter & Content Cards */}
       <section className="flex flex-col gap-5">
         <ProfileFilter />
-        <ContentCard />
+
+        <ContentCard
+          contentImg="/postCardPlacholder.png"
+          userImg="/images/emoji_2.png"
+          desc="Bitcoin has tumbled from its record high of $58,000 after words
+          from three wise men and women..."
+          tags={["payment", "seo", "crypto"]}
+          views={100}
+          likes={100}
+          comments={100}
+          isHeart={true}
+          name="Pavel Gvay"
+          createdAt="1 day ago"
+        />
       </section>
 
       {/* HostMeetup Card & Performance Card */}
