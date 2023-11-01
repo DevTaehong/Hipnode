@@ -55,10 +55,10 @@ model Post {
   isEdited  Boolean     @default(false)
   viewCount Int         @default(0)
   image     String
-  groupId   Int?
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  groupId   Int?
   group     Group?      @relation(fields: [groupId], references: [id])
   tags      TagOnPost[]
 }
@@ -148,15 +148,15 @@ model UsersSubscribedToShows {
 model Group {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
-  coverImage  String?
-  createdBy   Int
   description String?  @db.VarChar(300)
-  logo        String?
   name        String   @unique
   updatedAt   DateTime @updatedAt
-  posts       Post[]
-  admins      User[]   @relation("GroupAdmins")
   members     User[]   @relation("UserGroups")
+  posts       Post[]
+  createdBy   Int
+  admins      User[]   @relation("GroupAdmins")
+  coverImage  String?
+  logo        String?
 }
 
 model MeetUp {
