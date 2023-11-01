@@ -23,6 +23,8 @@ export default async function Home() {
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
 
+  console.log(posts[5]);
+
   return (
     <section className="flex w-full bg-light-2  dark:bg-dark-2">
       <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
