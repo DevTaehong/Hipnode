@@ -2,7 +2,7 @@ import PerformanceCard from "./PerformanceCard";
 
 const Performance = () => {
   return (
-    <div>
+    <div className="rounded-[1rem] bg-light p-5 dark:bg-dark-3">
       <h4 className="text-[1.125rem] font-semibold leading-[1.625rem] text-sc-1 dark:text-light">
         Performance
       </h4>
@@ -10,7 +10,7 @@ const Performance = () => {
         Showing data from the last 30 days
       </p>
 
-      <section className="flex flex-col">
+      <section className="mt-7 flex flex-col">
         <PerformanceCard />
       </section>
     </div>

@@ -8,23 +8,35 @@ const PerformanceCard = () => {
         alt="content"
         width={50}
         height={50}
-        className="w-full"
+        className="mr-3.5 w-full rounded-[0.375rem] border border-contentCard shadow-contentCard"
       />
 
-      <div className="flex justify-between">
-        <section>
-          <p>Views</p>
-          <p>651,334</p>
+      <div className="flex justify-between gap-5">
+        <section className="flex flex-col gap-1">
+          <p className="text-[1rem] leading-[1.5rem] text-sc-3 dark:text-sc-6">
+            Views
+          </p>
+          <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-3">
+            651,334
+          </p>
         </section>
 
-        <section>
-          <p>Like</p>
-          <p>651,334</p>
+        <section className="flex flex-col gap-1">
+          <p className="text-[1rem] leading-[1.5rem] text-sc-3 dark:text-sc-6">
+            Likes
+          </p>
+          <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-3">
+            651,334
+          </p>
         </section>
 
-        <section>
-          <p>Comments</p>
-          <p>651,334</p>
+        <section className="flex flex-col gap-1">
+          <p className="text-[1rem] leading-[1.5rem] text-sc-3 dark:text-sc-6">
+            Comments
+          </p>
+          <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-3">
+            651,334
+          </p>
         </section>
       </div>
     </article>

@@ -29,6 +29,9 @@ module.exports = {
         "2xl": "1440px",
         xxs: "460px",
       },
+      boxShadow: {
+        contentCard: "0px 2px 6px 0px rgba(43, 0, 212, 0.06)",
+      },
       colors: {
         red: {
           DEFAULT: "#FF4401",
@@ -85,6 +88,7 @@ module.exports = {
           5: "#C5D0E6",
           6: "#F4F6F8",
         },
+        contentCard: "rgba(43, 0, 212, 0.10)",
         leaveModal:
           "linear-gradient(180deg, rgba(189, 189, 189, 0.20) 0%, rgba(189, 189, 189, 0.20) 100%)",
         border: "hsl(var(--border))",
