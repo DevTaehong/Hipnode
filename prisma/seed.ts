@@ -27,8 +27,6 @@ async function main() {
     await createPodcastsForShows(show);
   }
 
-  console.log("Shows created:", shows);
-
   await createMeetUps(users);
 }
 
