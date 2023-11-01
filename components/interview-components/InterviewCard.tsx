@@ -54,7 +54,7 @@ const InterviewCard = ({ interviewData }: InterviewProps) => {
             updates={updates}
             websiteLink={websiteLink}
           />
-          <button className="flex-center semibold-14 h-[2.375rem] w-[5.9375rem] rounded bg-blue sm:h-full">
+          <button className="flex-center semibold-14 h-[2.375rem] w-[5.9375rem] rounded bg-blue text-white sm:h-full">
             Full Details
           </button>
         </div>
