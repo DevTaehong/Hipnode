@@ -6,7 +6,7 @@ const Profile = () => (
   <aside className="flex max-w-[20.3rem] flex-col items-center justify-center rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
     <div className="mb-[1.25rem] flex h-[6.25rem]  w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
       <Image
-        src="/emoji_2.png"
+        src="/negan.png"
         alt="profile-image"
         height={100}
         width={100}

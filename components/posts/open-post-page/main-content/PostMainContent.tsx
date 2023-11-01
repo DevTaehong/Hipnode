@@ -47,8 +47,20 @@ const PostMainContent = () => (
           height={40}
         />
       </div>
-      <div className="w-full  pr-[1.25rem]">
-        <Input />
+      <div className="flex grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem] ">
+        <Input
+          type="text"
+          placeholder="Say something nice ....."
+          value={""}
+          className="bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5"
+        />
+        <Image
+          src={"/smiley.svg"}
+          alt="search icon"
+          width={24}
+          height={24}
+          className="rounded-full"
+        />
       </div>
     </div>
   </main>
