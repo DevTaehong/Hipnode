@@ -30,6 +30,7 @@ export type ExtendedPost = PrismaPost & {
   comments: CommentType[];
   likes: LikeType[];
   tags: TagType[];
+  heading: string;
 };
 
 interface Onboarding {
