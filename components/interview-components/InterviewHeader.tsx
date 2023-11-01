@@ -1,13 +1,8 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import OutlineIcon from "../icons/outline-icons";
 import { formatInterviewDate } from "@/utils";
-
-interface InterviewHeaderProps {
-  userImage: string | StaticImageData;
-  username: string;
-  date: Date;
-}
+import { InterviewHeaderProps } from "@/types/interview.index";
 
 const InterviewHeader = ({
   userImage,

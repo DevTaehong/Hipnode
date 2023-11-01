@@ -13,3 +13,9 @@ export type InterviewCardButtonsType = {
   updates: number;
   websiteLink: string;
 };
+
+export interface InterviewHeaderProps {
+  userImage: string | StaticImageData;
+  username: string;
+  date: Date;
+}
