@@ -1,4 +1,4 @@
-import { MoreInformationItemProps } from "@/types/create-post-form";
+import { MoreInformationItemProps } from "@/types/posts";
 
 const MoreInformationItem = ({
   item: { title, tags },

@@ -1,9 +1,10 @@
 import Image from "next/image";
 
 import CustomButton from "@/components/CustomButton";
+import RightColumnWrapper from "./RightColumnWrapper";
 
 const Profile = () => (
-  <aside className="flex max-w-[20.3rem] flex-col items-center justify-center rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
+  <RightColumnWrapper>
     <div className="mb-[1.25rem] flex h-[6.25rem]  w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
       <Image
         src="/negan.png"
@@ -26,7 +27,7 @@ const Profile = () => (
     <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
       joined 6 months ago
     </p>
-  </aside>
+  </RightColumnWrapper>
 );
 
 export default Profile;

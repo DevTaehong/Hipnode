@@ -1,8 +1,9 @@
 import MoreInformationItem from "./MoreInformationItem";
 import { devInfo } from "@/constants";
+import RightColumnWrapper from "./RightColumnWrapper";
 
 const MoreInformation = () => (
-  <aside className="flex min-w-[20.3rem] flex-col justify-center rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
+  <RightColumnWrapper>
     <h2 className="text-[1.125rem] leading-[1.625rem] text-sc-2 dark:text-light-2">
       More from Mansurul Haque
     </h2>
@@ -17,7 +18,7 @@ const MoreInformation = () => (
         </>
       ))}
     </div>
-  </aside>
+  </RightColumnWrapper>
 );
 
 export default MoreInformation;

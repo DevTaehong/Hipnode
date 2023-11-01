@@ -1,4 +1,7 @@
 import FillIcon from "@/components/icons/fill-icons";
+import CommentIcon from "@/components/icons/fill-icons/CommentIcon";
+import ReportIcon from "@/components/icons/fill-icons/ReportIcon";
+import { OrangeHeartIcon } from "@/components/icons/open-post-icons/PostIcons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 import { christopher, santiago, negan } from "@/public/assets";
@@ -10,7 +13,8 @@ import {
   NotificationTab,
 } from "@/types";
 
-import { PostFormValuesType } from "@/types/create-post-form";
+import { PostFormValuesType } from "@/types/posts";
+import { ShareIcon } from "lucide-react";
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -721,3 +725,12 @@ export const devInfo = [
     tags: "#webdev #beginners #codenewbie #devjournal",
   },
 ];
+
+export const iconData = [
+  { label: "Heart", count: 20000, IconComponent: OrangeHeartIcon },
+  { label: "Comments", count: 20000, IconComponent: CommentIcon },
+  { label: "Share", count: 20000, IconComponent: ShareIcon },
+  { label: "Report", IconComponent: ReportIcon },
+];
+
+export const postTags = ["#onepay", "#payment", "#online payment"];

@@ -1,4 +1,4 @@
-import { IconBlockProps } from "@/types/create-post-form";
+import { IconBlockProps } from "@/types/posts";
 
 const IconBlock = ({ label, count, IconComponent }: IconBlockProps) => (
   <div className="flex items-center gap-[0.875rem]">

@@ -22,7 +22,7 @@ import {
   SelectController,
 } from ".";
 import { postFormValidationSchema } from "@/lib/validations";
-import { PostFormValuesType } from "@/types/create-post-form/index";
+import { PostFormValuesType } from "@/types/posts/index";
 import { POST, GROUP, POST_FORM_DEFAULT_VALUES } from "@/constants/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
 

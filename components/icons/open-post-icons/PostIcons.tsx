@@ -1,4 +1,4 @@
-import { PostIconsProps } from "@/types/create-post-form";
+import { PostIconsProps } from "@/types/posts";
 
 export const PostIconsWrapper = ({ children }: PostIconsProps) => (
   <svg

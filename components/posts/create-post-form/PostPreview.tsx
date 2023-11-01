@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 
 import OutlineIcon from "@/components/icons/outline-icons";
-import { PostPreviewProps } from "@/types/create-post-form";
+import { PostPreviewProps } from "@/types/posts";
 import { useCreatePostStore } from "@/app/lexicalStore";
 
 const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
