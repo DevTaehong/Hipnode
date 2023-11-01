@@ -8,6 +8,7 @@ export async function createPostForUser(user: User) {
     const post = await prisma.post.create({
       data: {
         content: faker.lorem.paragraph(),
+        heading: faker.lorem.sentence(),
         authorId: user.id,
         viewCount: faker.number.int({ min: 0, max: 1000 }),
         isEdited: faker.datatype.boolean(),
