@@ -109,3 +109,24 @@ export async function deleteInterview(id: number) {
     throw error;
   }
 }
+
+export async function createInterviewTag(name: string) {
+  try {
+    const existingTag = await prisma.interviewTag.findUnique({
+      where: { name },
+    });
+
+    if (existingTag) {
+      return existingTag;
+    }
+
+    const newTag = await prisma.interviewTag.create({
+      data: { name },
+    });
+
+    return newTag;
+  } catch (error) {
+    console.error("Failed to create or retrieve interview tag:", error);
+    throw error;
+  }
+}

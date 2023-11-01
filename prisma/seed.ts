@@ -7,6 +7,8 @@ import {
 import { createGroups } from "./seed/seed-groups/index";
 import { createMeetUps } from "./seed/seed-meetup/index";
 import { createInterviews } from "./seed/seed-interviews/createInterview";
+import { seedInterviewTags } from "./seed/seed-interviews/createInterviewTag";
+import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 
 import prisma from "../lib/prisma";
 
@@ -14,8 +16,10 @@ async function main() {
   const tags = await createTags();
   const users = await createUsers();
   await createOnboarding(users);
+  await seedInterviewTags();
   await createPosts(users, tags);
   await createInterviews(users);
+  await seedTagOnInterview();
 
   const shows = (await createShows(users)) as {
     id: number;
@@ -27,8 +31,6 @@ async function main() {
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
-
-  console.log("Shows created:", shows);
 
   await createGroups(users);
 
