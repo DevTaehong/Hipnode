@@ -6,6 +6,15 @@ import Dot from "./Dot";
 
 import { ContentCardProps } from "@/types";
 
+const StatsDescription = ({ children, ...props }: any) => (
+  <p
+    className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]"
+    {...props}
+  >
+    {children}
+  </p>
+);
+
 const ContentCard = ({
   contentImg,
   userImg,
@@ -97,15 +106,11 @@ const ContentCard = ({
           </div>
 
           <div className="flex items-center justify-between gap-4">
-            <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]">
-              {views} Views
-            </p>
-            <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]">
-              {likes} Likes
-            </p>
-            <p className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]">
-              {comments} Comments
-            </p>
+            <StatsDescription>{views} Views</StatsDescription>
+
+            <StatsDescription>{likes} Likes</StatsDescription>
+
+            <StatsDescription>{comments} Comments</StatsDescription>
           </div>
         </article>
       </section>
