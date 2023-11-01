@@ -31,13 +31,15 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
       </DialogTrigger>
       <DialogContent className="max-h-[50rem] max-w-[49rem] overflow-scroll px-[1.25rem] dark:bg-dark-3">
         <div className="flex items-center justify-center p-6">
-          <Image
-            src={imagePreviewUrl || "/emoji_2.png"}
-            height={125}
-            width={125}
-            alt="image"
-            className="h-[17rem] w-auto rounded-md"
-          />
+          {imagePreviewUrl && (
+            <Image
+              src={imagePreviewUrl}
+              height={125}
+              width={125}
+              alt="image"
+              className="h-[17rem] w-auto rounded-md"
+            />
+          )}
         </div>
         <DialogHeader>
           <DialogTitle className="flex flex-row justify-start text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
