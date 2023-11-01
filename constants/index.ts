@@ -1,7 +1,4 @@
 import FillIcon from "@/components/icons/fill-icons";
-import CommentIcon from "@/components/icons/fill-icons/CommentIcon";
-import ReportIcon from "@/components/icons/fill-icons/ReportIcon";
-import { OrangeHeartIcon } from "@/components/icons/open-post-icons/PostIcons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 import { christopher, santiago, negan } from "@/public/assets";
@@ -12,9 +9,6 @@ import {
   NotificationPopoverProps,
   NotificationTab,
 } from "@/types";
-
-import { PostFormValuesType } from "@/types/posts";
-import { ShareIcon } from "lucide-react";
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -571,16 +565,6 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
-export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
-export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
-export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
-  title: "",
-  mainText: "",
-  coverImage: "",
-  group: "",
-  post: "",
-  tags: [],
-};
 // Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
@@ -725,12 +709,3 @@ export const devInfo = [
     tags: "#webdev #beginners #codenewbie #devjournal",
   },
 ];
-
-export const iconData = [
-  { label: "Heart", count: 20000, IconComponent: OrangeHeartIcon },
-  { label: "Comments", count: 20000, IconComponent: CommentIcon },
-  { label: "Share", count: 20000, IconComponent: ShareIcon },
-  { label: "Report", IconComponent: ReportIcon },
-];
-
-export const postTags = ["#onepay", "#payment", "#online payment"];

@@ -1,4 +1,4 @@
-import { iconData } from "@/constants";
+import { iconData } from "@/constants/posts";
 import IconBlock from "./LeftActionIconBlock";
 import LeftColumnWrapper from "./LeftColumnWrapper";
 

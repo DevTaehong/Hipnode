@@ -4,7 +4,7 @@ import PostImage from "./PostImage";
 import PostTitle from "./PostTitle";
 import TagsList from "./TagsList";
 
-import { postTags } from "@/constants";
+import { postTags } from "@/constants/posts";
 
 const PostMainContent = () => (
   <main className="rounded-2xl bg-light dark:bg-dark-3">
