@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabaseClient";
-import { HandlePlayProps } from "@/types/podcast.index";
 import {
   ImVolumeLow,
   ImVolumeMedium,
