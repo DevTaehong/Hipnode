@@ -613,12 +613,12 @@ export const profileData = {
   followers: [
     {
       name: "Tye1",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page",
     },
     {
       name: "Tye2",
-      src: "/emoji_2.png",
+      src: "/images/emoji_2.png",
       link: "/profile-page",
     },
   ],
