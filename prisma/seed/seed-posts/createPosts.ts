@@ -1,4 +1,4 @@
-import { Post, Tag, User } from "@prisma/client";
+import { Group, Post, Tag, User } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
 import {
@@ -17,7 +17,7 @@ async function handleInteractionsForPost(post: Post, user: User) {
       for (const comment of comments) {
         await createLikesForComment(comment, user);
 
-        const repliesCount = faker.number.int({ min: 1, max: 4 });
+        const repliesCount = faker.number.int({ min: 1, max: 2 });
         const replies = await createRepliesToComment(
           comment,
           user,
@@ -38,13 +38,14 @@ async function handleInteractionsForPost(post: Post, user: User) {
   }
 }
 
-export async function createPosts(users: User[], tags: Tag[]) {
+export async function createPosts(users: User[], tags: Tag[], groups: Group[]) {
   try {
     for (const user of users) {
-      const postCount = faker.number.int({ min: 5, max: 8 });
+      const postCount = faker.number.int({ min: 1, max: 3 });
       const postPromises = Array.from({ length: postCount }).map(
         async (_, index) => {
-          const post = await createPostForUser(user);
+          const randomGroup = groups[Math.floor(Math.random() * groups.length)];
+          const post = await createPostForUser(user, randomGroup.id);
           if (!post) {
             return;
           }

@@ -9,28 +9,28 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  clerkId     String       @unique
-  name        String
-  username    String       @unique
-  email       String       @unique
-  password    String?
-  role        Role         @default(USER)
-  bio         String?
-  picture     String
-  location    String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id              Int                      @id @default(autoincrement())
+  clerkId         String                   @unique
+  name            String
+  username        String                   @unique
+  email           String                   @unique
+  password        String?
+  role            Role                     @default(USER)
+  bio             String?
+  picture         String
+  location        String?
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
   subscribedShows UsersSubscribedToShows[]
-  comments    Comment[]
-  likes       Like[]
-  meetup      MeetUp[]
-  onboarding  Onboarding?
-  podcasts    Podcast[]
-  posts       Post[]
-  shows       Shows[]
-  groupAdmin  Group[]       @relation("GroupAdmins")
-  groups      Group[]       @relation("UserGroups")
+  comments        Comment[]
+  likes           Like[]
+  meetup          MeetUp[]
+  onboarding      Onboarding?
+  podcasts        Podcast[]
+  posts           Post[]
+  shows           Shows[]
+  groupAdmin      Group[]                  @relation("GroupAdmins")
+  groups          Group[]                  @relation("UserGroups")
 }
 
 model Onboarding {
@@ -47,6 +47,7 @@ model Onboarding {
 
 model Post {
   id        Int         @id @default(autoincrement())
+  heading   String
   content   String
   authorId  Int
   createdAt DateTime    @default(now())
@@ -109,14 +110,14 @@ model TagOnPost {
 }
 
 model Shows {
-  id              Int                 @id @default(autoincrement())
-  name            String              @unique
-  userId          Int
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  subscribers     UsersSubscribedToShows[]
-  podcasts        Podcast[]
-  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          Int                      @id @default(autoincrement())
+  name        String                   @unique
+  userId      Int
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
+  subscribers UsersSubscribedToShows[]
+  podcasts    Podcast[]
+  user        User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Podcast {
@@ -135,25 +136,25 @@ model Podcast {
 }
 
 model UsersSubscribedToShows {
-  id      Int    @id @default(autoincrement())
-  userId  Int
-  showId  Int
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  show    Shows  @relation(fields: [showId], references: [id])
+  id     Int   @id @default(autoincrement())
+  userId Int
+  showId Int
+  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  show   Shows @relation(fields: [showId], references: [id])
 
-  @@unique([userId, showId]) 
+  @@unique([userId, showId])
 }
 
 model Group {
-  id          Int          @id @default(autoincrement())
-  createdAt   DateTime     @default(now())
-  description String?      @db.VarChar(300)
-  name        String       @unique
-  updatedAt   DateTime     @updatedAt
-  members     User[]       @relation("UserGroups")
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  description String?  @db.VarChar(300)
+  name        String   @unique
+  updatedAt   DateTime @updatedAt
+  members     User[]   @relation("UserGroups")
   posts       Post[]
-	createdBy   Int
-  admins      User[]       @relation("GroupAdmins")
+  createdBy   Int
+  admins      User[]   @relation("GroupAdmins")
   coverImage  String?
   logo        String?
 }

@@ -69,6 +69,34 @@ IconAlt.More = function More() {
   );
 };
 
+IconAlt.MoreVertical = function MoreVertical() {
+  return (
+    <>
+      <circle
+        id="Ellipse 32"
+        cx="10"
+        cy="17.5"
+        r="2.5"
+        transform="rotate(-90 10 17.5)"
+      />
+      <circle
+        id="Ellipse 33"
+        cx="10"
+        cy="10"
+        r="2.5"
+        transform="rotate(-90 10 10)"
+      />
+      <circle
+        id="Ellipse 34"
+        cx="10"
+        cy="2.5"
+        r="2.5"
+        transform="rotate(-90 10 2.5)"
+      />
+    </>
+  );
+};
+
 IconAlt.Post = function Post() {
   return (
     <>

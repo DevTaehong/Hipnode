@@ -1,4 +1,4 @@
-import SeeAllButton from "@/components/mobileGroupSection/SeeAllButton";
+import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
 import { fastestGrowingGroups } from "@/constants";
 import { GroupSectionGroupType } from "@/types";
 import GroupSectionListItem from "@/components/GroupSectionListItem";

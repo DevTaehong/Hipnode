@@ -1,11 +1,8 @@
-import {
-  GroupSectionHeaderProps,
-  colorVariants,
-} from "@/components/GroupSectionHeader";
+import { colorVariants } from "@/components/GroupSectionHeader";
 import GroupSectionListItem from "@/components/GroupSectionListItem";
 import { mostPopularGroups, newlyLaunchedGroups } from "@/constants";
-import { GroupSectionGroupType } from "@/types";
-import SeeAllButton from "@/components/mobileGroupSection/SeeAllButton";
+import { GroupSectionGroupType, GroupSectionHeaderProps } from "@/types";
+import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
 
 const PopularAndNewGroup = ({ group }: { group: GroupSectionHeaderProps }) => {
   const Icon = group.icon;

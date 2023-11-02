@@ -1,31 +1,17 @@
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabaseClient";
-import { HandlePlayProps } from "@/types/podcast.index";
 import {
   ImVolumeLow,
   ImVolumeMedium,
   ImVolumeMute2,
   ImVolumeHigh,
 } from "react-icons/im";
+import { monthNames } from "@/constants";
 
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
   const day = date.getDate();
   const month = date.getMonth();
-  const monthNames = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-  ];
   const monthText = monthNames[month];
 
   return {
@@ -160,3 +146,41 @@ export const getVolumeIcon = (volumeValues: number[]) => {
     return ImVolumeHigh;
   }
 };
+
+export function formatInterviewDate(inputDate: Date): string {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const inputDay = inputDate.getDate();
+  const inputMonth = inputDate.getMonth();
+  const inputYear = inputDate.getFullYear();
+
+  if (
+    inputDay === today.getDate() &&
+    inputMonth === today.getMonth() &&
+    inputYear === today.getFullYear()
+  ) {
+    return `Today, ${inputDay} ${monthNames[inputMonth]}`;
+  } else if (
+    inputDay === tomorrow.getDate() &&
+    inputMonth === tomorrow.getMonth() &&
+    inputYear === tomorrow.getFullYear()
+  ) {
+    return `Tomorrow, ${inputDay} ${monthNames[inputMonth]}`;
+  } else {
+    return `${inputDay} ${monthNames[inputMonth]}`;
+  }
+}
+
+type SalaryPeriod = "month" | "year";
+
+export function formatSalary(
+  amount: number,
+  salaryPeriod: SalaryPeriod
+): string {
+  const formattedSalary =
+    amount >= 1000 ? `${(amount / 1000).toFixed(0)}k` : amount.toString();
+  const periodSuffix = salaryPeriod === "month" ? "/mo" : "/year";
+  return formattedSalary + periodSuffix;
+}
