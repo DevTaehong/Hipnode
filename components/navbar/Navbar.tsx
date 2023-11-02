@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -8,8 +8,11 @@ import OutlineIcons from "@/components/icons/outline-icons";
 import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
+import UserButton from "@/components/navbar/UserButton";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const user = await currentUser();
+
   return (
     <nav className="flex-between sticky top-0 z-50 flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
@@ -45,9 +48,9 @@ const Navbar = () => {
           />
         </div>
 
-        <UserButton />
+        <UserButton userImg={user?.imageUrl} />
 
-        <Theme />
+        {/* <Theme /> */}
       </section>
     </nav>
   );
