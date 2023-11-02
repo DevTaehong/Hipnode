@@ -7,7 +7,7 @@ const TagsList = ({ tags }: TagsListProps) => (
         key={tag}
         className="pr-[1.5rem] text-[1rem] leading-[1.5rem] text-yellow-90"
       >
-        {tag}
+        #{tag}
       </p>
     ))}
   </div>

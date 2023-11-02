@@ -708,6 +708,7 @@ export const devInfo = [
     title: "Formal Education Pathway, Day 51",
     tags: "#webdev #beginners #codenewbie #devjournal",
   },
+];
 export interface HostMeetupCardProps {
   title: string;
   desc: string;

@@ -51,6 +51,14 @@ export async function getPostById(id: number): Promise<Post | null> {
   try {
     const post = await prisma.post.findUnique({
       where: { id },
+      include: {
+        author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
     return post;
   } catch (error) {

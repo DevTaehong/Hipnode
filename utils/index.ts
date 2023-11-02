@@ -86,6 +86,15 @@ export const formatDate = (date: Date) => {
   return { monthText, day };
 };
 
+export const formatDatePostFormat = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(date).toLocaleDateString("en-US", options);
+};
+
 export function extractShowArray(queryString: string) {
   const keyValuePairs = queryString.split("&");
   const showNumbers = [];
