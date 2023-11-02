@@ -706,3 +706,25 @@ export const groupData: GroupData = {
 };
 
 export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
+
+export interface HostMeetupCardProps {
+  title: string;
+  desc: string;
+  leftBtn: string;
+  rightBtn: string;
+}
+
+export const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

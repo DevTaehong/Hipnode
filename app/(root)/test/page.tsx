@@ -1,62 +1,21 @@
 "use client";
 
+import NavModalBG from "@/components/icons/NavModalBG";
 import OutlineIcon from "@/components/icons/outline-icons";
+import Image from "next/image";
 
 const page = () => {
   return (
-    <div className="m-5 flex flex-wrap items-center gap-5 bg-slate-100 p-5">
-      <OutlineIcon.ArrowLeft className="stroke-red-500" />
-      <OutlineIcon.ArrowRight className="stroke-red-500" />
-      <OutlineIcon.ArrowLargeDown />
-      <OutlineIcon.ArrowLargeRight />
-      <OutlineIcon.Blogging />
-      <OutlineIcon.Checkbox />
-      <OutlineIcon.Checkmark />
-      <OutlineIcon.Comment />
-      <OutlineIcon.Dev />
-      <OutlineIcon.Following />
-      <OutlineIcon.Headline />
-      <OutlineIcon.Underline />
-      <OutlineIcon.Italic />
-      <OutlineIcon.Strikethrough />
-      <OutlineIcon.Bold />
-      <OutlineIcon.FrameCenter />
-      <OutlineIcon.FrameLeft />
-      <OutlineIcon.FrameRight />
-      <OutlineIcon.FramePoint />
-      <OutlineIcon.FrameNumber />
-      <OutlineIcon.Heart />
-      <OutlineIcon.Edit />
-      <OutlineIcon.Follow />
-      <OutlineIcon.ImageIcon />
-      <OutlineIcon.Info />
-      <OutlineIcon.Link />
-      <OutlineIcon.NewSquare />
-      <OutlineIcon.Tutorial />
-      <OutlineIcon.Seo />
-      <OutlineIcon.Share />
-      <OutlineIcon.View />
-      <OutlineIcon.Bitcoin />
-      <OutlineIcon.Close />
-      <OutlineIcon.Design />
-      <OutlineIcon.Expand />
-      <OutlineIcon.Mention />
-      <OutlineIcon.More />
-      <OutlineIcon.Post />
-      <OutlineIcon.Success />
-      <OutlineIcon.Upload />
-      <OutlineIcon.Web />
-      <OutlineIcon.ImageWide />
-      <OutlineIcon.New />
-      <OutlineIcon.Popular />
-      <OutlineIcon.Post />
-      <OutlineIcon.Search />
-      <OutlineIcon.Share2 />
-      <OutlineIcon.Twitter />
-      <OutlineIcon.Instagram />
-      <OutlineIcon.Facebook />
-      <OutlineIcon.LinkedIn />
-      <OutlineIcon.Voice />
+    <div className="m-5 flex  flex-wrap items-center gap-5 bg-slate-500 fill-white p-5">
+      center
+      {/* <div className="relative h-[187px] w-[450px] bg-[url('/navbar/user_modal_light.svg')] bg-center bg-no-repeat">
+        test
+      </div> */}
+      <div className="relative flex h-[150px] w-[150px] bg-red-500">
+        <div className="relative top-[-50px] h-[50%] w-[50%] rounded-[20px]" />
+
+        <div className="h-[50%] w-[50%] rounded-[20px] bg-white" />
+      </div>
     </div>
   );
 };

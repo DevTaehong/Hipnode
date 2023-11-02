@@ -40,6 +40,7 @@ module.exports = {
           60: "#FF8F67",
           10: "#FFECE6",
           "black-40": "#661B00",
+          card: "#FF7C4D",
         },
         yellow: {
           DEFAULT: "#EA942C",

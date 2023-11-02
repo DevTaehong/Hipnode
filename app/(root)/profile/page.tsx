@@ -45,8 +45,13 @@ const ProfilePage = () => {
       </section>
 
       {/* HostMeetup Card & Performance Card */}
-      <section className="hidden">
-        <HostMeetupCard />
+      <section>
+        <HostMeetupCard
+          title="Start Your Interview"
+          desc="Working on your own internet business? We'd love to interview you!"
+          leftBtn="Code of Conduct"
+          rightBtn="Submit a Story"
+        />
         <PerformanceCard />
       </section>
     </div>
