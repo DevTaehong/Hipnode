@@ -244,7 +244,7 @@ export interface SocialIconsProps {
 export interface ContentCardProps {
   contentImg: string;
   userImg: string;
-  desc: string;
+  description: string;
   tags: string[];
   views: number;
   likes: number;

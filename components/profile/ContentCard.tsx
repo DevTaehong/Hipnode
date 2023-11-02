@@ -10,7 +10,7 @@ import { ContentCardProps } from "@/types";
 const ContentCard = ({
   contentImg,
   userImg,
-  desc,
+  description,
   tags,
   views,
   likes,
@@ -35,7 +35,7 @@ const ContentCard = ({
         <article className="flex gap-2.5 sm:gap-5">
           <div className="flex flex-col gap-2.5">
             <p className="line-clamp-3 text-[0.75rem] font-semibold leading-[1.125rem] text-sc-2 dark:text-light-2 md:line-clamp-2 md:text-[1.125rem] md:leading-[1.625rem]">
-              {desc}
+              {description}
             </p>
 
             <div className="flex gap-2.5">

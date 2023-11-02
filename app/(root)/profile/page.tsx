@@ -32,7 +32,7 @@ const ProfilePage = () => {
         <ContentCard
           contentImg="/postCardPlacholder.png"
           userImg="/images/emoji_2.png"
-          desc="Bitcoin has tumbled from its record high of $58,000 after words
+          description="Bitcoin has tumbled from its record high of $58,000 after words
           from three wise men and women..."
           tags={["payment", "seo", "crypto"]}
           views={100}
