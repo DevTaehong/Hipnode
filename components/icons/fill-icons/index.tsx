@@ -31,6 +31,7 @@ import BusinessIcon from "./BusinessIcon";
 import FollowIcon from "./FollowIcon";
 import MenuIcon from "./MenuIcon";
 import PlayIcon from "./PlayIcon";
+import MoreVerticalIcon from "./MoreVerticalIcon";
 
 interface FillIconProps {
   children?: ReactNode;
@@ -194,6 +195,14 @@ FillIcon.Moon = function Icon({ className }: FillIconProps) {
   return (
     <FillIcon className={className ?? "fill-[#C5D0E6] dark:fill-[#2C353D]"}>
       <MoonIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.MoreVertical = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon className={className ?? "fill-[#C5D0E6] dark:fill-[#C5D0E6]"}>
+      <MoreVerticalIcon />
     </FillIcon>
   );
 };
