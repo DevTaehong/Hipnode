@@ -253,3 +253,7 @@ export interface ContentCardProps {
   name: string;
   createdAt: string;
 }
+
+export interface StatsDescriptionProps {
+  children: React.ReactNode;
+}

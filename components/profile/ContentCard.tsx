@@ -3,17 +3,9 @@ import Image from "next/image";
 import Tag from "@/components/profile/Tag";
 import FillIcon from "@/components/icons/fill-icons";
 import Dot from "@/components/profile/Dot";
+import StatsDescription from "@/components/profile/StatsDescription";
 
 import { ContentCardProps } from "@/types";
-
-const StatsDescription = ({ children, ...props }: any) => (
-  <p
-    className="text-[0.5625rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 lg:text-[0.875rem] lg:leading-[1.375rem]"
-    {...props}
-  >
-    {children}
-  </p>
-);
 
 const ContentCard = ({
   contentImg,
