@@ -6,6 +6,7 @@ import Dot from "@/components/profile/Dot";
 import StatsDescription from "@/components/profile/StatsDescription";
 
 import { ContentCardProps } from "@/types";
+import { cn } from "@/lib/utils";
 
 const ContentCard = ({
   contentImg,
@@ -56,14 +57,16 @@ const ContentCard = ({
 
             <div className="hidden items-start gap-2.5 md:flex">
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full dark:bg-dark-4 ${
-                  isHeart ? "bg-red-10" : "bg-sc-6"
-                }`}
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full dark:bg-dark-4 bg-sc-6",
+                  isHeart && "bg-red-10"
+                )}
               >
                 <FillIcon.Heart
-                  className={`mt-[2.5px] ${
-                    isHeart ? "fill-red-80" : "fill-sc-5"
-                  }`}
+                  className={cn(
+                    "mt-[2.5px] fill-sc-5",
+                    isHeart && "fill-red-80"
+                  )}
                 />
               </div>
 
