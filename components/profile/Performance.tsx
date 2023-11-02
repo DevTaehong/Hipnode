@@ -1,4 +1,4 @@
-import PerformanceCard from "./PerformanceCard";
+import PerformanceCard from "@/components/profile/PerformanceCard";
 
 import { PerformanceProps } from "@/types";
 

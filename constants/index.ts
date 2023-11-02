@@ -733,3 +733,25 @@ export const performanceData = [
     comments: 100,
   },
 ];
+
+export interface HostMeetupCardProps {
+  title: string;
+  desc: string;
+  leftBtn: string;
+  rightBtn: string;
+}
+
+export const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

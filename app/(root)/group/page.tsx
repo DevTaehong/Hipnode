@@ -1,5 +1,5 @@
-import GroupPost from "@/components/group-post/GroupPost";
-import MobileGroupSection from "@/components/mobileGroupSection/MobileGroupSection";
+import GroupPost from "@/components/group-page/group-post/GroupPost";
+import MobileGroupSection from "@/components/group-page/mobileGroupSection/MobileGroupSection";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import GroupSection from "@/components/GroupSection";
 import { getGroups } from "@/lib/actions/group.actions";

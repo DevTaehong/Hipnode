@@ -5,7 +5,7 @@ import prisma from "../../../lib/prisma";
 
 export async function createCommentsForPost(post: Post, user: User) {
   try {
-    const commentCount = faker.number.int({ min: 3, max: 5 });
+    const commentCount = faker.number.int({ min: 1, max: 2 });
 
     const commentPromises = Array.from({ length: commentCount }).map(
       async () => {
