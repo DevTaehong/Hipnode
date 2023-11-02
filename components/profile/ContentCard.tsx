@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-import Tag from "./Tag";
-import FillIcon from "../icons/fill-icons";
-import Dot from "./Dot";
+import Tag from "@/components/profile/Tag";
+import FillIcon from "@/components/icons/fill-icons";
+import Dot from "@/components/profile/Dot";
 
 import { ContentCardProps } from "@/types";
 
