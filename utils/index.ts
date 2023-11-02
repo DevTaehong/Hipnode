@@ -160,3 +160,13 @@ export const getVolumeIcon = (volumeValues: number[]) => {
     return ImVolumeHigh;
   }
 };
+
+export function formatPostDate(createdAt: Date) {
+  const date = new Date(createdAt).toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  return date;
+}
