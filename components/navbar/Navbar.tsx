@@ -36,8 +36,7 @@ const Navbar = async () => {
       </section>
 
       <section className="flex items-center gap-6">
-        {/* Commented out until I get to refactoring the navbar so it doesn't overflow */}
-        {/* <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
         </div>
 
@@ -46,7 +45,7 @@ const Navbar = async () => {
             className="fill-sc-4 dark:fill-sc-6"
             notifcation
           />
-        </div> */}
+        </div>
 
         <UserButton userImg={user?.imageUrl} />
       </section>
