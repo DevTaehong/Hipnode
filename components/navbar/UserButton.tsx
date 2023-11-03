@@ -9,9 +9,7 @@ import Theme from "@/components/navbar/Theme";
 import FillIcon from "@/components/icons/fill-icons";
 import Link from "next/link";
 
-interface UserButtonProps {
-  userImg: string | undefined;
-}
+import { UserButtonProps } from "@/types";
 
 const UserButton = async ({ userImg }: UserButtonProps) => {
   return (
