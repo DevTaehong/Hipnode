@@ -1,12 +1,22 @@
+"use server";
+
 import prisma from "@/lib/prisma";
 
 export async function getAllInterviews() {
   try {
-    const shows = await prisma.interview.findMany();
-
-    return shows;
+    const interviews = await prisma.interview.findMany({
+      include: {
+        creator: {
+          select: {
+            name: true,
+            picture: true,
+          },
+        },
+      },
+    });
+    return interviews;
   } catch (error) {
-    console.error("Error fetching all shows:", error);
+    console.error("Error fetching all interviews with creator details:", error);
     throw error;
   }
 }
@@ -127,6 +137,104 @@ export async function createInterviewTag(name: string) {
     return newTag;
   } catch (error) {
     console.error("Failed to create or retrieve interview tag:", error);
+    throw error;
+  }
+}
+
+export async function getTagsByInterviewId(interviewId: number) {
+  try {
+    const tagConnections = await prisma.tagOnInterview.findMany({
+      where: {
+        interviewId,
+      },
+      include: {
+        tag: true,
+      },
+    });
+
+    const tags = tagConnections.map((connection) => connection.tag);
+
+    return tags;
+  } catch (error) {
+    console.error(
+      `Error fetching tags for interview ID ${interviewId}:`,
+      error
+    );
+    throw error;
+  }
+}
+
+export async function getTopFiveTags() {
+  try {
+    const mostUsedTags = await prisma.tagOnInterview.groupBy({
+      by: ["tagId"],
+      _count: {
+        tagId: true,
+      },
+      orderBy: {
+        _count: {
+          tagId: "desc",
+        },
+      },
+      take: 5,
+    });
+
+    const tagsWithDetails = await prisma.interviewTag.findMany({
+      where: {
+        id: {
+          in: mostUsedTags.map((tag) => tag.tagId),
+        },
+      },
+    });
+
+    return tagsWithDetails;
+  } catch (error) {
+    console.error("Error fetching the top five tags:", error);
+    throw error;
+  }
+}
+
+export async function getFilteredInterviews({
+  tagIds,
+  skipCount = 0,
+}: {
+  tagIds?: number[];
+  skipCount?: number;
+}) {
+  try {
+    const interviews = await prisma.interview.findMany({
+      where:
+        tagIds && tagIds.length
+          ? {
+              tags: {
+                some: {
+                  tagId: {
+                    in: tagIds,
+                  },
+                },
+              },
+            }
+          : {},
+      include: {
+        creator: {
+          select: {
+            name: true,
+            picture: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+      skip: skipCount,
+      take: 20,
+    });
+
+    return interviews;
+  } catch (error) {
+    console.error("Error fetching filtered interviews:", error);
     throw error;
   }
 }

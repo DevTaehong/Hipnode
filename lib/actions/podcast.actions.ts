@@ -123,8 +123,8 @@ export async function getFilterPodcastsUserInfo({
           },
         },
       },
-      skip: skipCount, // Skip the specified number of podcasts at the beginning
-      take: 20, // Limit the result to 20 podcasts
+      skip: skipCount,
+      take: 20,
     });
 
     return podcasts;

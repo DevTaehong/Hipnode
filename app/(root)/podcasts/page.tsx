@@ -50,7 +50,12 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
         <section className="flex w-full flex-col gap-5 lg:w-[13.125rem]">
           <FormLink {...podcastFormLinkProps} className="flex lg:hidden" />
           <div className="hidden overflow-scroll lg:flex">
-            <Categories shows={usersShows} />
+            <Categories
+              filters={usersShows}
+              page="podcasts"
+              urlFilter="show"
+              className="md:w-[13.125rem]"
+            />
           </div>
         </section>
         <section className="flex w-full flex-col">
