@@ -3,7 +3,7 @@
 import { type Post } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
-import { QueryOptions } from "@/lib/actions/shared.types";
+import { getPostsFromGroupsQueryOptions } from "@/lib/actions/shared.types";
 
 export async function createPost(data: Post): Promise<Post> {
   try {
@@ -210,7 +210,7 @@ export async function getAllPostsExtended({
 
 export async function getPostsFromGroups(myCursorId?: number) {
   try {
-    let queryOptions: QueryOptions = {
+    let queryOptions: getPostsFromGroupsQueryOptions = {
       take: 9, // Take only the limit number of results
       where: {
         group: {
@@ -232,6 +232,7 @@ export async function getPostsFromGroups(myCursorId?: number) {
     }
 
     const postsFromGroups = await prisma.post.findMany(queryOptions);
+    console.log(postsFromGroups);
     return postsFromGroups;
   } catch (error) {
     console.error("Error finding posts from groups:", error);

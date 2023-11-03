@@ -34,12 +34,27 @@ export interface DeleteGroupParams {
   path: string;
 }
 
-export interface QueryOptions {
+export interface GetGroupsQueryOptions {
   take: number;
   skip?: number;
   cursor?: {
     id: number;
   };
-  where?;
-  include?;
+}
+
+export interface getPostsFromGroupsQueryOptions {
+  take: number;
+  skip?: number;
+  cursor?: {
+    id: number;
+  };
+  where?: {
+    group?: {
+      isNot?: null;
+    };
+  };
+  include?: {
+    author: boolean;
+    group: boolean;
+  };
 }
