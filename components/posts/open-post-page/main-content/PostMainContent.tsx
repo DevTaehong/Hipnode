@@ -1,42 +1,42 @@
-import { Post } from "@prisma/client";
 import CommentBox from "./CommentBox";
 import PostDescription from "./PostDescription";
 import PostImage from "./PostImage";
 import PostTitle from "./PostTitle";
 import TagsList from "./TagsList";
 
-interface Tag {
-  id: number;
-  postId: number;
-  tagId: number;
+interface NestedTag {
   tag: {
-    id: number;
+    id: string;
     name: string;
   };
 }
 
-interface PostWithTags extends Post {
-  tags: Tag[];
-}
-
 interface PostMainContentProps {
-  post: PostWithTags | null;
+  imageSrc: string | null;
+  heading: string | null;
+  content: string | null;
+  tags: NestedTag[] | null;
 }
 
-const PostMainContent = ({ post }: PostMainContentProps) => {
-  const tagNames = post?.tags?.map((tagRelation) => tagRelation.tag.name) || [];
+const PostMainContent = ({
+  imageSrc,
+  heading,
+  content,
+  tags,
+}: PostMainContentProps) => {
+  const tagNames = tags?.map((tagRelation) => tagRelation.tag.name) || [];
 
   return (
     <main className="rounded-2xl bg-light dark:bg-dark-3">
       <PostImage
-        src={post?.image || ""}
+        src={imageSrc || ""}
         alt="post-image"
         width={335}
         height={117}
       />
-      <PostTitle title={post?.heading || ""} />
+      <PostTitle title={heading || ""} />
       <TagsList tags={tagNames} />
-      <PostDescription description={post?.content || ""} />
+      <PostDescription description={content || ""} />
       <CommentBox placeholder="Say something nice ....." value="" />
     </main>
   );

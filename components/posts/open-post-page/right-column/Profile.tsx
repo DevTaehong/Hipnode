@@ -3,11 +3,16 @@ import Image from "next/image";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "./RightColumnWrapper";
 
-const Profile = () => (
+interface ProfileProps {
+  username: string;
+  image: string;
+}
+
+const Profile = ({ username, image }: ProfileProps) => (
   <RightColumnWrapper>
     <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
       <Image
-        src="/negan.png"
+        src={image}
         alt="profile-image"
         height={100}
         width={100}
@@ -15,7 +20,7 @@ const Profile = () => (
       />
     </div>
     <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
-      Mansurul Haque
+      {username}
     </h2>
     <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
       Web Developer

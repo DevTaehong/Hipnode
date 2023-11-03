@@ -2,10 +2,14 @@ import MoreInformationItem from "./MoreInformationItem";
 import { devInfo } from "@/constants";
 import RightColumnWrapper from "./RightColumnWrapper";
 
-const MoreInformation = () => (
+interface MoreInformationProps {
+  username: string;
+}
+
+const MoreInformation = ({ username }: MoreInformationProps) => (
   <RightColumnWrapper>
     <h2 className="text-[1.125rem] leading-[1.625rem] text-sc-2 dark:text-light-2">
-      More from Mansurul Haque
+      More from {username}
     </h2>
 
     <div className="flex flex-col items-start">
