@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import FillIcon from "@/components/icons/fill-icons";
 import { navLinks } from "@/constants";
+import { cn } from "@/lib/utils";
 
 const NavLinks = () => {
   const pathname = usePathname();
@@ -20,12 +21,15 @@ const NavLinks = () => {
           <Link
             href={link}
             key={name}
-            className={`cursor-pointer rounded-lg p-2 ${isActive && "bg-red"}`}
+            className={cn(
+              "cursor-pointer rounded-lg p-2",
+              isActive && "bg-red"
+            )}
           >
             <Icon
-              className={`${
+              className={cn(
                 isActive ? "fill-light" : "fill-sc-5 dark:fill-sc-6"
-              }`}
+              )}
             />
           </Link>
         );

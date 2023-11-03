@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   Popover,
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/popover";
 import Theme from "@/components/navbar/Theme";
 import FillIcon from "@/components/icons/fill-icons";
-import Link from "next/link";
 
 import { UserButtonProps } from "@/types";
 
