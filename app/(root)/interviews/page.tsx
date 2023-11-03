@@ -4,7 +4,7 @@ import {
 } from "@/components/interview-components";
 import { dummyInterviewData } from "@/constants/interview";
 
-const Interviews = async () => {
+const Interviews = () => {
   return (
     <main className="flex h-screen w-screen bg-light-3 dark:bg-dark-1">
       <div className="flex w-full flex-col gap-2 p-2">
