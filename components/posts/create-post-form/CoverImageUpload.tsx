@@ -6,7 +6,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { CoverImageUploadProps } from "@/types/create-post-form";
+import { CoverImageUploadProps } from "@/types/posts";
 
 const CoverImageUpload = ({
   control,

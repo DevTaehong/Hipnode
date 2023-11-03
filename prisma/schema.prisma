@@ -173,6 +173,37 @@ model MeetUp {
   responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
 }
 
+model InterviewTag {
+  id         Int              @id @default(autoincrement())
+  name       String           @unique
+  interviews TagOnInterview[]
+}
+
+model TagOnInterview {
+  id          Int          @id @default(autoincrement())
+  interviewId Int
+  tagId       Int
+  interview   Interview    @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  tag         InterviewTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([interviewId, tagId])
+}
+
+model Interview {
+  id           Int              @id @default(autoincrement())
+  createdAt    DateTime         @default(now())
+  creatorId    Int
+  title        String
+  bannerImage  String
+  details      String
+  websiteLink  String
+  salary       Int
+  salaryPeriod String
+  updates      Int
+  updatedAt    DateTime         @updatedAt
+  tags         TagOnInterview[]
+}
+
 enum Role {
   ADMIN
   USER

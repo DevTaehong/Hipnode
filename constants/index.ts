@@ -10,8 +10,6 @@ import {
   NotificationTab,
 } from "@/types";
 
-import { PostFormValuesType } from "@/types/create-post-form";
-
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 
@@ -567,16 +565,6 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
-export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
-export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
-export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
-  title: "",
-  mainText: "",
-  coverImage: "",
-  group: "",
-  post: "",
-  tags: [],
-};
 // Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
@@ -734,6 +722,20 @@ export const performanceData = [
   },
 ];
 
+export const devInfo = [
+  {
+    title: "Self-taught developer Journal, Day 51",
+    tags: "#webdev #beginners #codenewbie #devjournal",
+  },
+  {
+    title: "Coding Bootcamp Journey, Day 51",
+    tags: "#webdev #beginners #codenewbie #devjournal",
+  },
+  {
+    title: "Formal Education Pathway, Day 51",
+    tags: "#webdev #beginners #codenewbie #devjournal",
+  },
+];
 export interface HostMeetupCardProps {
   title: string;
   desc: string;
