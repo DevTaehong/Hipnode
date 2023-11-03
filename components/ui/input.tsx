@@ -10,10 +10,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         type={type}
-        className={cn(
-          "flex  w-full rounded-md  bg-background  placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
+        className={cn("flex w-full", className)}
         ref={ref}
         {...props}
       />

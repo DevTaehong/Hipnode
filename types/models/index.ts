@@ -25,13 +25,22 @@ type TagType = {
   name: string;
 };
 
-export type ExtendedPost = PrismaPost & {
-  author: ExtendedUser;
-  comments: CommentType[];
-  likes: LikeType[];
-  tags: TagType[];
-  heading: string;
+type TagOnPostWithTags = {
+  tag: TagType;
 };
+
+export type ExtendedPost = PrismaPost & {
+  author: {
+    id: number;
+    username: string;
+  };
+  comments?: CommentType[];
+  likes?: LikeType[];
+  tags: TagOnPostWithTags[];
+  heading?: string;
+};
+
+export type GetPostByIdType = ExtendedPost | null;
 
 interface Onboarding {
   id: number;
@@ -143,4 +152,9 @@ export type Episode = {
   updatedAt: string;
   url: string;
   userId: number;
+};
+
+export type ExtendedPostById = PrismaPost & {
+  author: ExtendedUser;
+  tags: TagOnPostWithTags[];
 };

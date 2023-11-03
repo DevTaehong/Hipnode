@@ -1,5 +1,5 @@
 import { FormItem, FormControl, FormMessage } from "@/components/ui/form";
-import { SelectControllerProps } from "@/types/create-post-form";
+import { SelectControllerProps } from "@/types/posts";
 import {
   Select,
   SelectTrigger,

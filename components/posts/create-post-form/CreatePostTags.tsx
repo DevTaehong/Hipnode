@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FromFieldProps } from "@/types/create-post-form";
+import { FromFieldProps } from "@/types/posts";
 import { Badge } from "@/components/ui/badge";
 import { Delete } from "lucide-react";
 
