@@ -37,3 +37,16 @@ export const dummyInterviewData = {
   tags: interviewTags,
   date: new Date(),
 };
+
+export const interviewTagsSeed = [
+  "Innovation",
+  "Tech",
+  "Startup",
+  "Venture",
+  "Code",
+  "Data",
+  "Design",
+  "Product",
+  "Growth",
+  "Strategy",
+];
