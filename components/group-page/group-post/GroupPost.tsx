@@ -22,12 +22,12 @@ const GroupPost = (post: Post) => {
     >
       <Card className="bg-light_dark-3 mb-5 break-inside-avoid text-sc-2 dark:text-light-2 2xl:max-w-[15.5rem]">
         <GroupPostHeader
-          authorName={author.name}
-          groupName={group.name}
-          authorPicture={author.picture}
+          authorName={author.username}
+          groupName={group?.name as string}
+          authorPicture={author.picture as string}
         />
         <GroupPostContent
-          {...{ image, groupName: group.name, heading, content }}
+          {...{ image, groupName: group?.name as string, heading, content }}
         />
         <CardFooter>
           <p className="regular-12 text-sc-3">{date}</p>

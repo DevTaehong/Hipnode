@@ -11,7 +11,7 @@ const GroupPostContent = ({
 }: {
   image: string;
   groupName: string;
-  heading: string;
+  heading?: string;
   content: string;
 }) => {
   return (
