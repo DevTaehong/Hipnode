@@ -3,7 +3,6 @@ import { currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
-import Theme from "@/components/navbar/Theme";
 import OutlineIcons from "@/components/icons/outline-icons";
 import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
@@ -49,8 +48,6 @@ const Navbar = async () => {
         </div>
 
         <UserButton userImg={user?.imageUrl} />
-
-        {/* <Theme /> */}
       </section>
     </nav>
   );
