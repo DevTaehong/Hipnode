@@ -22,7 +22,11 @@ const NavLinks = () => {
             key={name}
             className={`cursor-pointer rounded-lg p-2 ${isActive && "bg-red"}`}
           >
-            <Icon className={`${isActive ? "fill-light" : ""}`} />
+            <Icon
+              className={`${
+                isActive ? "fill-light" : "fill-sc-5 dark:fill-sc-6"
+              }`}
+            />
           </Link>
         );
       })}
