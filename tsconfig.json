@@ -33,7 +33,8 @@
     "prisma/seed/createTags.js",
     "prisma/seed/createPosts.js",
     "prisma/seed/createOnboarding.js",
-    "lib/prisma.ts"
+    "lib/prisma.ts",
+    "app/(root)/post/[id]/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

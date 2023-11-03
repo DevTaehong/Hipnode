@@ -10,7 +10,7 @@ export async function createPost(data: Post): Promise<Post> {
     const post = await prisma.post.create({
       data,
     });
-    console.log("Post created successfully:", post);
+
     return post;
   } catch (error) {
     console.error("Error creating post:", error);
@@ -40,7 +40,7 @@ export async function deletePost(id: number): Promise<Post> {
     const post = await prisma.post.delete({
       where: { id },
     });
-    console.log("Post deleted successfully:", post);
+
     return post;
   } catch (error) {
     console.error("Error deleting post:", error);
@@ -48,12 +48,64 @@ export async function deletePost(id: number): Promise<Post> {
   }
 }
 
-export async function getPostById(id: number): Promise<Post | null> {
+const mapPostToExtendedPost = (post: any): ExtendedPost => {
+  return {
+    ...post,
+    author: {
+      id: post.author.id,
+      username: post.author.username,
+    },
+    comments: post.comments.map((comment: any) => ({
+      id: comment.id,
+      content: comment.content,
+      authorId: comment.authorId,
+      postId: comment.postId,
+      parentId: comment.parentId,
+      createdAt: comment.createdAt,
+      updatedAt: comment.updatedAt,
+      isEdited: comment.isEdited,
+    })),
+    likes: post.likes.map((like: any) => ({
+      id: like.id,
+      userId: like.userId,
+      liked: like.liked,
+      postId: like.postId,
+      commentId: like.commentId,
+    })),
+    tags: post.tags.map((tagOnPost: any) => ({
+      tag: {
+        id: tagOnPost.tag.id,
+        name: tagOnPost.tag.name,
+      },
+    })),
+  };
+};
+
+export async function getPostById(id: number): Promise<ExtendedPost> {
   try {
     const post = await prisma.post.findUnique({
       where: { id },
+      include: {
+        author: true,
+        comments: true,
+        likes: {
+          include: {
+            user: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
-    return post;
+
+    if (post === null) {
+      throw new Error(`Post with id ${id} not found`);
+    }
+
+    return mapPostToExtendedPost(post);
   } catch (error) {
     console.error("Error retrieving post:", error);
     throw error;

@@ -5,7 +5,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreatePostTitleProps } from "@/types/create-post-form";
+import { CreatePostTitleProps } from "@/types/posts";
 
 const CreatePostTitle = ({ control }: CreatePostTitleProps) => (
   <FormField
