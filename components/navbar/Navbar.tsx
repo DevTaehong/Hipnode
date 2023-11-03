@@ -13,7 +13,7 @@ const Navbar = async () => {
   const user = await currentUser();
 
   return (
-    <nav className="flex-between sticky top-0 z-50 flex w-full gap-5 bg-light px-5 py-3 dark:bg-dark-3">
+    <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="lg:hidden" />
@@ -36,7 +36,8 @@ const Navbar = async () => {
       </section>
 
       <section className="flex items-center gap-6">
-        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+        {/* Commented out until I get to refactoring the navbar so it doesn't overflow */}
+        {/* <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
         </div>
 
@@ -45,7 +46,7 @@ const Navbar = async () => {
             className="fill-sc-4 dark:fill-sc-6"
             notifcation
           />
-        </div>
+        </div> */}
 
         <UserButton userImg={user?.imageUrl} />
       </section>

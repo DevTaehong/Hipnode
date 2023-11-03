@@ -244,3 +244,19 @@ export interface SocialIconsProps {
 export interface UserButtonProps {
   userImg: string | undefined;
 }
+export interface ContentCardProps {
+  contentImg: string;
+  userImg: string;
+  description: string;
+  tags: string[];
+  views: number;
+  likes: number;
+  comments: number;
+  isHeart: boolean;
+  name: string;
+  createdAt: string;
+}
+
+export interface StatsDescriptionProps {
+  children: React.ReactNode;
+}

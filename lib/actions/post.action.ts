@@ -9,7 +9,7 @@ export async function createPost(data: Post): Promise<Post> {
     const post = await prisma.post.create({
       data,
     });
-    console.log("Post created successfully:", post);
+
     return post;
   } catch (error) {
     console.error("Error creating post:", error);
@@ -39,7 +39,7 @@ export async function deletePost(id: number): Promise<Post> {
     const post = await prisma.post.delete({
       where: { id },
     });
-    console.log("Post deleted successfully:", post);
+
     return post;
   } catch (error) {
     console.error("Error deleting post:", error);
