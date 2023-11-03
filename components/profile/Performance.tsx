@@ -13,9 +13,9 @@ const Performance = ({ data }: PerformanceProps) => {
       </p>
 
       <section className="mt-7 flex flex-col gap-6">
-        {data.map((card, i) => (
+        {data.map((card) => (
           <PerformanceCard
-            key={i}
+            key={card.contentImg}
             contentImg={card.contentImg}
             views={card.views}
             likes={card.likes}
