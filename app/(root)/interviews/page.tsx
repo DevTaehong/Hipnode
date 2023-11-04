@@ -7,20 +7,7 @@ import Podcasts from "@/components/home-page/podcast/Podcasts";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { Categories } from "@/components/podcast-components";
 import InterviewPageFilter from "@/components/interview-components/InterviewPageFilter";
-
-const interviewFormLinkProps = {
-  title: "Start Your Interview",
-  description:
-    "Working on your own internet business? We'd love to interview you!",
-  codeOfConductButton: {
-    title: "Code of Conduct",
-    link: "/",
-  },
-  linkToFormButton: {
-    title: "Submit a Podcast",
-    link: "/",
-  },
-};
+import { interviewFormLinkProps } from "@/constants/interview";
 
 interface SearchProps {
   interview: string[];
