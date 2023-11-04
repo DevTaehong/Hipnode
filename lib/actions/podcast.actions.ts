@@ -199,3 +199,29 @@ export async function getAllPodcastsWithUserInfo() {
     throw error;
   }
 }
+
+export async function getTopFiveShowIds() {
+  try {
+    const mostSubscribedShows = await prisma.usersSubscribedToShows.groupBy({
+      by: ["showId"],
+      _count: {
+        showId: true,
+      },
+      orderBy: {
+        _count: {
+          showId: "desc",
+        },
+      },
+      take: 5,
+    });
+
+    const showIds = mostSubscribedShows.map(
+      (subscription) => subscription.showId
+    );
+
+    return showIds;
+  } catch (error) {
+    console.error("Error fetching the top five show IDs:", error);
+    throw error;
+  }
+}

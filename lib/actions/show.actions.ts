@@ -44,3 +44,24 @@ export async function getAllUsersShows(clerkId: string) {
     throw error;
   }
 }
+
+export async function getTopFiveShows(showIds: number[]) {
+  try {
+    if (!showIds || showIds.length !== 5) {
+      throw new Error(`Exactly five show IDs must be provided`);
+    }
+
+    const shows = await prisma.shows.findMany({
+      where: {
+        id: {
+          in: showIds,
+        },
+      },
+    });
+
+    return shows;
+  } catch (error) {
+    console.error(`Error fetching top five shows:`, error);
+    throw error;
+  }
+}
