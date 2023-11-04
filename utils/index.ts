@@ -156,6 +156,16 @@ export const getVolumeIcon = (volumeValues: number[]) => {
   }
 };
 
+export function formatPostDate(createdAt: Date) {
+  const date = new Date(createdAt).toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  return date;
+}
+
 export function formatInterviewDate(inputDate: Date): string {
   const today = new Date();
   const tomorrow = new Date(today);

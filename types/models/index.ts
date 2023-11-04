@@ -33,11 +33,15 @@ export type ExtendedPost = PrismaPost & {
   author: {
     id: number;
     username: string;
+    picture?: string;
   };
   comments?: CommentType[];
   likes?: LikeType[];
   tags: TagOnPostWithTags[];
   heading?: string;
+  group?: {
+    name: string;
+  };
 };
 
 export type GetPostByIdType = ExtendedPost | null;
