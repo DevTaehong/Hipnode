@@ -1,7 +1,10 @@
 import { currentUser } from "@clerk/nextjs";
 
-import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
-import { getAllUsersShows } from "@/lib/actions/show.actions";
+import {
+  getFilterPodcastsUserInfo,
+  getTopFiveShowIds,
+} from "@/lib/actions/podcast.actions";
+import { getAllUsersShows, getTopFiveShows } from "@/lib/actions/show.actions";
 import FormLink from "@/components/FormLink";
 import { podcastFormLinkProps } from "@/constants";
 import { redirect } from "next/navigation";
@@ -12,6 +15,7 @@ interface SearchProps {
 }
 
 const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
+  const topFiveShows = await getTopFiveShowIds();
   const user = await currentUser();
 
   if (!user) {
@@ -19,13 +23,17 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
     redirect("/");
   }
 
-  const usersShows = await getAllUsersShows(user.id);
+  let listOfShows = await getAllUsersShows(user.id);
+  if (!listOfShows.length) {
+    listOfShows = await getTopFiveShows(topFiveShows);
+  }
 
-  if (!usersShows) {
+  if (!listOfShows) {
     redirect("/");
   }
-  const usersShowsIds = usersShows.map((show) => show.id);
-
+  const usersShowsIds = listOfShows.length
+    ? listOfShows.map((show) => show.id)
+    : topFiveShows;
   let listedPodcasts;
   let showStrings;
 
@@ -50,7 +58,12 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
         <section className="flex w-full flex-col gap-5 lg:w-[13.125rem]">
           <FormLink {...podcastFormLinkProps} className="flex lg:hidden" />
           <div className="hidden overflow-scroll lg:flex">
-            <Categories shows={usersShows} />
+            <Categories
+              filters={listOfShows}
+              page="podcasts"
+              urlFilter="show"
+              className="md:w-[13.125rem]"
+            />
           </div>
         </section>
         <section className="flex w-full flex-col">
