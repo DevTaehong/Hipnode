@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
-import OutlineIcon from "../icons/outline-icons";
-import { extractShowArray } from "@/utils";
+import { extractArray } from "@/utils";
 import { PodcastPageFilterProps } from "@/types/podcast.index";
 import PodcastListColumn from "./PodcastListColumn";
+import SeeMoreButton from "../interview-components/SeeMoreButton";
+import BoxShading from "../interview-components/BoxShading";
 
 const PodcastPageFilter = ({
   listedPodcasts,
@@ -16,7 +17,7 @@ const PodcastPageFilter = ({
 }: PodcastPageFilterProps) => {
   const queryString = useSearchParams().toString();
   const showsArray =
-    queryString === "" ? userShowsIds : extractShowArray(queryString);
+    queryString === "" ? userShowsIds : extractArray(queryString, "show");
   const [podcasts, setPodcasts] = useState(listedPodcasts);
   const [podcastAmount, setPodcastAmount] = useState(20);
   const [loadMore, setLoadMore] = useState(false);
@@ -72,24 +73,14 @@ const PodcastPageFilter = ({
 
   return (
     <article className="relative flex h-full w-full flex-col">
-      <div className="absolute h-6 w-full bg-gradient-to-t from-transparent to-light-2 dark:to-dark-2" />
-      <div className="absolute bottom-0 h-6 w-full bg-gradient-to-t from-light-2 to-transparent dark:from-dark-2" />
+      <BoxShading />
       <section className="no-scrollbar flex w-full flex-col pb-10 md:h-screen md:overflow-scroll">
         <div className="flex flex-col gap-5 xl:flex-row">
           {displayedPodcasts.map((podcasts) => (
             <PodcastListColumn key={podcasts.listNumber} podcasts={podcasts} />
           ))}
         </div>
-
-        <button
-          className={`mt-3 flex w-fit items-center gap-2.5 lg:hidden ${
-            podcasts && podcasts.length < 20 && "hidden lg:hidden"
-          }`}
-          onClick={() => setLoadMore(true)}
-        >
-          <p className="text-sc-3">See More</p>
-          <OutlineIcon.ArrowRight className="stroke-sc-3" />
-        </button>
+        <SeeMoreButton array={podcasts} setLoadMore={setLoadMore} />
         <p
           ref={ref}
           className={`${

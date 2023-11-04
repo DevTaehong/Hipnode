@@ -123,8 +123,8 @@ export async function getFilterPodcastsUserInfo({
           },
         },
       },
-      skip: skipCount, // Skip the specified number of podcasts at the beginning
-      take: 20, // Limit the result to 20 podcasts
+      skip: skipCount,
+      take: 20,
     });
 
     return podcasts;
@@ -196,6 +196,32 @@ export async function getAllPodcastsWithUserInfo() {
     return podcasts;
   } catch (error) {
     console.error("Error retrieving podcasts with user info:", error);
+    throw error;
+  }
+}
+
+export async function getTopFiveShowIds() {
+  try {
+    const mostSubscribedShows = await prisma.usersSubscribedToShows.groupBy({
+      by: ["showId"],
+      _count: {
+        showId: true,
+      },
+      orderBy: {
+        _count: {
+          showId: "desc",
+        },
+      },
+      take: 5,
+    });
+
+    const showIds = mostSubscribedShows.map(
+      (subscription) => subscription.showId
+    );
+
+    return showIds;
+  } catch (error) {
+    console.error("Error fetching the top five show IDs:", error);
     throw error;
   }
 }

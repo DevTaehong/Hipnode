@@ -1,8 +1,11 @@
 import { formatSalary } from "@/utils";
-import { InterviewProps } from "@/constants/interview";
+import { LargeInterviewCardProps } from "@/constants/interview";
 import { InterviewBannerImage, InterviewCardInfo } from ".";
 
-const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
+const LargeInterviewCard = ({
+  interviewData,
+  tags,
+}: LargeInterviewCardProps) => {
   const {
     title,
     bannerImage,
@@ -10,15 +13,14 @@ const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
     salary,
     salaryPeriod,
     updates,
-    tags,
     details,
   } = interviewData;
   const interviewSalary = formatSalary(salary, salaryPeriod);
   return (
-    <article className="bg-light_dark-3 flex max-w-[49rem] flex-col rounded-2xl">
+    <article className="bg-light_dark-3 flex h-fit max-w-[49rem] flex-col rounded-2xl">
       <InterviewBannerImage
         bannerImage={bannerImage}
-        className="max-h-[17rem] w-full overflow-hidden"
+        className="h-[10rem] w-full overflow-hidden sm:h-[17rem]"
         height={273}
         width={785}
         roundedTop
@@ -34,7 +36,7 @@ const LargeInterviewCard = ({ interviewData }: InterviewProps) => {
             websiteLink={websiteLink}
           />
           <div className="flex gap-6">
-            {tags.map((tag: string) => (
+            {tags?.map((tag: string) => (
               <span className="base-12 text-yellow-90 md:text-base" key={tag}>
                 #{tag}
               </span>

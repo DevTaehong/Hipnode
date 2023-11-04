@@ -6,6 +6,9 @@ import {
 } from "./seed/seed-podcasts/index";
 import { createGroups } from "./seed/seed-groups/index";
 import { createMeetUps } from "./seed/seed-meetup/index";
+import { createInterviews } from "./seed/seed-interviews/createInterview";
+import { seedInterviewTags } from "./seed/seed-interviews/createInterviewTag";
+import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 
 import prisma from "../lib/prisma";
 
@@ -14,6 +17,9 @@ async function main() {
   const users = await createUsers();
   const groups = await createGroups(users);
   await createOnboarding(users);
+  await seedInterviewTags();
+  await createInterviews(users);
+  await seedTagOnInterview();
   await createPosts(users, tags, groups);
 
   const shows = (await createShows(users)) as {

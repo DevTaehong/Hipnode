@@ -1,4 +1,5 @@
 import { z } from "zod";
+import React, { ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
@@ -28,8 +29,48 @@ export type SelectControllerProps = {
 };
 
 export type PostPreviewProps = {
-  // imagePreviewUrl: string;
   htmlString: string;
   onSubmitPreview: () => void;
-  // previewValues?: PostFormValuesType | null;
+};
+
+export type IconBlockProps = {
+  label: string;
+  count?: number;
+  IconComponent: React.ElementType;
+};
+
+export type PostIconsProps = {
+  children: ReactNode;
+};
+
+export type MoreInformationItemProps = {
+  item: { title: string; tags: string };
+};
+
+export type ColumnWrapperType = {
+  children: React.ReactNode;
+};
+
+export type PostImageProps = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+export type PostTitleProps = {
+  title: string;
+};
+
+export type TagsListProps = {
+  tags: string[];
+};
+
+export type PostDescriptionProps = {
+  description: string;
+};
+
+export type CommentBoxProps = {
+  placeholder: string;
+  value: string;
 };

@@ -86,14 +86,23 @@ export const formatDate = (date: Date) => {
   return { monthText, day };
 };
 
-export function extractShowArray(queryString: string) {
+export const formatDatePostFormat = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(date).toLocaleDateString("en-US", options);
+};
+
+export function extractArray(queryString: string, urlFilter: string) {
   const keyValuePairs = queryString.split("&");
   const showNumbers = [];
 
   for (const keyValue of keyValuePairs) {
     const [key, value] = keyValue.split("=");
 
-    if (key === "show" && !isNaN(Number(value))) {
+    if (key === urlFilter && !isNaN(Number(value))) {
       showNumbers.push(Number(value));
     }
   }
@@ -147,6 +156,16 @@ export const getVolumeIcon = (volumeValues: number[]) => {
   }
 };
 
+export function formatPostDate(createdAt: Date) {
+  const date = new Date(createdAt).toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  return date;
+}
+
 export function formatInterviewDate(inputDate: Date): string {
   const today = new Date();
   const tomorrow = new Date(today);
@@ -173,14 +192,14 @@ export function formatInterviewDate(inputDate: Date): string {
   }
 }
 
-type SalaryPeriod = "month" | "year";
-
-export function formatSalary(
-  amount: number,
-  salaryPeriod: SalaryPeriod
-): string {
+export function formatSalary(amount: number, salaryPeriod: string): string {
   const formattedSalary =
     amount >= 1000 ? `${(amount / 1000).toFixed(0)}k` : amount.toString();
   const periodSuffix = salaryPeriod === "month" ? "/mo" : "/year";
   return formattedSalary + periodSuffix;
+}
+
+export function capitalise(str: string) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

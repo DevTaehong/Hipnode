@@ -1,50 +1,39 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import GroupPostIcons from "@/components/group-page/group-post/GroupPostIcons";
+import { Card, CardFooter } from "@/components/ui/card";
+import { ExtendedPost } from "@/types/models";
+import { Post } from "@prisma/client";
+import { formatPostDate } from "@/utils";
+import GroupPostHeader from "@/components/group-page/group-post/GroupPostHeader";
+import GroupPostContent from "@/components/group-page/group-post/GroupPostContent";
 
-const GroupPost = () => {
+const GroupPost = (post: Post) => {
+  const { id, author, group, image, content, createdAt, heading } =
+    post as ExtendedPost;
+
+  const date = formatPostDate(createdAt);
+
   return (
-    <Card className="bg-light_dark-3 mb-5 text-sc-2 dark:text-light-2 2xl:max-w-[15.5rem]">
-      <CardHeader className="flex flex-row items-center gap-[0.62rem]">
-        <Avatar className="h-[2.125rem] w-[2.125rem]">
-          <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
-          <AvatarFallback>H</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col">
-          <p className="semibold-12">Looking to Partner Up</p>
-          <p className="regular-10">Sayem Ahmed</p>
-        </div>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-[0.62rem]">
-        <Image
-          className="w-full rounded-[0.65rem]"
-          src="/images/group-post.svg"
-          width={315}
-          height={146}
-          alt="Post Image"
+    <Link
+      href={`/posts/${id}`}
+      className="hover:opacity-80 hover:transition-opacity"
+    >
+      <Card className="bg-light_dark-3 mb-5 break-inside-avoid text-sc-2 dark:text-light-2 2xl:max-w-[15.5rem]">
+        <GroupPostHeader
+          authorName={author.username}
+          groupName={group?.name as string}
+          authorPicture={author.picture as string}
         />
-        <GroupPostIcons />
-        <h6 className="semibold-14 font-feature">
-          Meeting Cofounders: 27 places to find them - James Fleischmann
-        </h6>
-        <p className="regular-12">
-          Hoping to meet your cofounder? As a followup to my post about getting
-          a techni...
-        </p>
-      </CardContent>
-      <CardFooter>
-        <p className="regular-12 text-sc-3">wed, 15 February 2022</p>
-      </CardFooter>
-    </Card>
+        <GroupPostContent
+          {...{ image, groupName: group?.name as string, heading, content }}
+        />
+        <CardFooter>
+          <p className="regular-12 text-sc-3">{date}</p>
+        </CardFooter>
+      </Card>
+    </Link>
   );
 };
 

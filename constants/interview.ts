@@ -1,25 +1,40 @@
 import { christopher, interviewTestImage } from "@/public/assets";
-import { StaticImageData } from "next/image";
+import { Interview } from "@prisma/client";
 
 type SalaryPeriod = "month" | "year";
 
 const interviewTags = ["technology", "diversity", "hr"];
 
-export interface InterviewProps {
-  interviewData: {
-    id: number;
-    username: string;
-    userImage: string | StaticImageData;
-    title: string;
-    bannerImage: string | StaticImageData;
-    details: string;
-    websiteLink: string;
-    salary: number;
-    salaryPeriod: SalaryPeriod;
-    updates: number;
-    tags: string[];
-    date: Date;
-  };
+export interface Creator {
+  name: string;
+  picture: string;
+}
+export interface InterviewProps extends Interview {
+  creator: Creator;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+}
+
+export interface TagOnInterview {
+  tag: Tag;
+}
+
+export interface InterviewPageFilterProps extends Interview {
+  creator: Creator;
+  tags: TagOnInterview[];
+}
+
+export interface InterviewCardProps {
+  interviewData: InterviewProps;
+  tags?: string[];
+}
+
+export interface LargeInterviewCardProps {
+  interviewData: Interview;
+  tags?: string[];
 }
 
 export const dummyInterviewData = {
@@ -36,4 +51,31 @@ export const dummyInterviewData = {
   updates: 45,
   tags: interviewTags,
   date: new Date(),
+};
+
+export const interviewTagsSeed = [
+  "Innovation",
+  "Tech",
+  "Startup",
+  "Venture",
+  "Code",
+  "Data",
+  "Design",
+  "Product",
+  "Growth",
+  "Strategy",
+];
+
+export const interviewFormLinkProps = {
+  title: "Start Your Interview",
+  description:
+    "Working on your own internet business? We'd love to interview you!",
+  codeOfConductButton: {
+    title: "Code of Conduct",
+    link: "/",
+  },
+  linkToFormButton: {
+    title: "Submit a Podcast",
+    link: "/",
+  },
 };

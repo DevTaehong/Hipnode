@@ -3,7 +3,7 @@ import { EditorState } from "lexical";
 import type { UseFormSetValue } from "react-hook-form";
 
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { PostFormValuesType } from "../create-post-form";
+import { PostFormValuesType } from "../posts";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 export type LexicalEditorProps = {

@@ -244,6 +244,22 @@ export interface SocialIconsProps {
 export interface UserButtonProps {
   userImg: string | undefined;
 }
+export interface PerformanceProps {
+  data: {
+    contentImg: string;
+    views: number;
+    likes: number;
+    comments: number;
+  }[];
+}
+
+export interface PerformanceCardProps {
+  contentImg: string;
+  views: number;
+  likes: number;
+  comments: number;
+}
+
 export interface ContentCardProps {
   contentImg: string;
   userImg: string;
