@@ -25,7 +25,7 @@ const Navbar = async () => {
 
       <NavLinks />
 
-      <section className="hidden w-full max-w-[400px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4 lg:flex">
+      <section className="hidden w-full max-w-[350px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4 lg:flex">
         <Input
           type="text"
           placeholder="Type here to search..."
