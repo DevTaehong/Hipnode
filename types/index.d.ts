@@ -241,6 +241,9 @@ export interface SocialIconsProps {
   socials: { name: string; link: string }[];
 }
 
+export interface UserButtonProps {
+  userImg: string | undefined;
+}
 export interface PerformanceProps {
   data: {
     contentImg: string;
