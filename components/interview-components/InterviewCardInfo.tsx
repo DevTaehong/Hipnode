@@ -9,7 +9,7 @@ const InterviewCardInfo = ({
   websiteLink,
 }: InterviewCardButtonsType) => {
   return (
-    <section className="flex">
+    <section className="flex w-fit">
       <figure className="flex flex-col justify-between">
         <figcaption className="bold-14 text-sc-2_light-2">
           {interviewSalary}

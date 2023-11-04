@@ -32,7 +32,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           width={560}
         />
         <h2 className="semibold-16 sm:semibold-18 ">{title}</h2>
-        <div className="flex flex-col justify-between gap-5 sm:flex-row">
+        <div className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-0">
           <InterviewCardInfo
             interviewSalary={interviewSalary}
             updates={updates}
@@ -40,7 +40,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           />
           <Link
             href={`/interviews/${id}`}
-            className="flex-center semibold-14 h-[2.375rem] w-[5.9375rem] rounded bg-blue text-white sm:h-full"
+            className="semibold-14 flex-center h-[2.375rem] w-[5.9375rem] rounded bg-blue text-white sm:h-full xl:ml-[-1rem]"
           >
             Full Details
           </Link>

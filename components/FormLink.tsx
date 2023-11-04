@@ -26,7 +26,7 @@ const FormLink = ({
 
   return (
     <div
-      className={`${className} h-fit w-full flex-col rounded-2xl bg-host-meetup bg-cover bg-no-repeat p-5 lg:max-w-[20.3125rem]`}
+      className={`${className} h-fit w-full flex-col rounded-2xl bg-host-meetup bg-cover bg-no-repeat p-5 lg:w-[20.3125rem]`}
     >
       <p className="semibold-18 text-white">{title}</p>
       <p className="base-12 mt-1.5 text-white">{description}</p>
