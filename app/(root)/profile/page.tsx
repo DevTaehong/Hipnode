@@ -1,10 +1,10 @@
 import ContentCard from "@/components/profile/ContentCard";
 import HostMeetupCard from "@/components/profile/HostMeetupCard";
-import PerformanceCard from "@/components/profile/PerformanceCard";
+import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 
-import { profileData } from "@/constants";
+import { profileData, performanceData } from "@/constants";
 
 const ProfilePage = () => {
   return (
@@ -52,7 +52,7 @@ const ProfilePage = () => {
           leftBtn="Code of Conduct"
           rightBtn="Submit a Story"
         />
-        <PerformanceCard />
+        <Performance data={performanceData} />
       </section>
     </div>
   );
