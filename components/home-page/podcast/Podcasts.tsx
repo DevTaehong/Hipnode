@@ -8,12 +8,14 @@ const Podcasts = ({ podcasts }: PodcastsProps) => {
   const podcastArray = podcasts.slice(0, 4);
   return (
     <RightSidebarWrapper>
-      <Link href="/podcasts">
-        <RightSidebarHeader heading={"Podcasts"} />
-      </Link>
-      {podcastArray.map((podcast) => (
-        <PodcastItem key={podcast.id} podcast={podcast} />
-      ))}
+      <>
+        <Link href="/podcasts">
+          <RightSidebarHeader heading={"Podcasts"} />
+        </Link>
+        {podcastArray.map((podcast) => (
+          <PodcastItem key={podcast.id} podcast={podcast} />
+        ))}
+      </>
     </RightSidebarWrapper>
   );
 };

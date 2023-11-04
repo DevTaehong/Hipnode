@@ -31,8 +31,8 @@ const Interviews = async ({ searchParams }: { searchParams: SearchProps }) => {
   });
 
   return (
-    <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[1.875rem]">
-      <div className="mt-16 flex max-w-[85rem] flex-col gap-5 lg:flex-row">
+    <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center px-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[1.875rem]">
+      <div className="mt-16 flex max-w-[85rem] flex-col gap-5 lg:flex-row xl:w-full">
         <section
           className="
       flex w-full flex-col gap-5 lg:w-[13.125rem]"
@@ -49,7 +49,7 @@ const Interviews = async ({ searchParams }: { searchParams: SearchProps }) => {
           interviews={interviewsExample}
           interviewArray={interviewArray}
         />
-        <section className="flex w-full flex-col lg:w-fit">
+        <section className="flex w-full max-w-[20.135rem] flex-col overflow-y-scroll">
           <FormLink {...interviewFormLinkProps} />
           <Podcasts podcasts={podcasts} />
         </section>
