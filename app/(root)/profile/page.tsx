@@ -8,7 +8,7 @@ import { profileData, performanceData } from "@/constants";
 
 const ProfilePage = () => {
   return (
-    <div className="flex w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
+    <div className="flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
       <section>
         <ProfileInfo
@@ -45,7 +45,7 @@ const ProfilePage = () => {
       </section>
 
       {/* HostMeetup Card & Performance Card */}
-      <section>
+      <section className="hidden min-w-[315px] flex-col gap-5 xl:flex">
         <HostMeetupCard
           title="Start Your Interview"
           desc="Working on your own internet business? We'd love to interview you!"

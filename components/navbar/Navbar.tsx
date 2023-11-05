@@ -1,15 +1,17 @@
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
-import Theme from "@/components/navbar/Theme";
 import OutlineIcons from "@/components/icons/outline-icons";
 import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
+import UserButton from "@/components/navbar/UserButton";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const user = await currentUser();
+
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
@@ -23,7 +25,7 @@ const Navbar = () => {
 
       <NavLinks />
 
-      <section className="hidden w-full max-w-[400px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4 lg:flex">
+      <section className="hidden w-full max-w-[350px] items-center gap-2 rounded-lg bg-light-2 px-3 dark:bg-dark-4 lg:flex">
         <Input
           type="text"
           placeholder="Type here to search..."
@@ -34,8 +36,7 @@ const Navbar = () => {
       </section>
 
       <section className="flex items-center gap-6">
-        {/* Commented out until I get to refactoring the navbar so it doesn't overflow */}
-        {/* <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
         </div>
 
@@ -44,11 +45,9 @@ const Navbar = () => {
             className="fill-sc-4 dark:fill-sc-6"
             notifcation
           />
-        </div> */}
+        </div>
 
-        <UserButton />
-
-        <Theme />
+        <UserButton userImg={user?.imageUrl} />
       </section>
     </nav>
   );
