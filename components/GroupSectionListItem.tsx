@@ -1,16 +1,21 @@
 import Image from "next/image";
-
-import { GroupSectionGroupType } from "@/types";
+import Link from "next/link";
 
 const GroupSectionListItem = ({
-  group: { groupName, groupDescription, icon },
+  id,
+  groupName,
+  logo,
+  description,
 }: {
-  group: GroupSectionGroupType;
+  id: number;
+  groupName: string;
+  logo: string;
+  description: string;
 }) => {
   return (
-    <li className="flex items-center gap-2">
+    <Link href={`/group/${id}`} className="group flex items-center gap-2">
       <Image
-        src={icon}
+        src={logo}
         height={34}
         width={34}
         style={{
@@ -20,10 +25,12 @@ const GroupSectionListItem = ({
         className="h-[2.125rem] w-[2.125rem] rounded-full border border-purple-20"
       />
       <div className="flex w-full flex-col truncate">
-        <h5 className="semibold-12 text-sc-2_light-2">{groupName}</h5>
-        <p className="base-10 truncate text-sc-3">{groupDescription}</p>
+        <h5 className="semibold-12 text-sc-2_light-2 group-hover:text-blue">
+          {groupName}
+        </h5>
+        <p className="base-10 truncate text-sc-3">{description}</p>
       </div>
-    </li>
+    </Link>
   );
 };
 

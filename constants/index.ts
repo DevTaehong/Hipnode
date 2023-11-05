@@ -1,14 +1,37 @@
 import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
-import { christopher, santiago, negan } from "@/public/assets";
+import { christopher } from "@/public/assets";
 import { newest, popular, followers } from "@/public/images";
 import {
   ColorVariantsOnboardingType,
-  GroupData,
   NotificationPopoverProps,
   NotificationTab,
 } from "@/types";
+
+export const groupHeaderData = {
+  "fastest-growing": {
+    header: {
+      color: "bg-yellow-10",
+      icon: FillIcon.Rocket,
+      title: "Fastest Growing",
+    },
+  },
+  "Most Popular": {
+    header: {
+      color: "bg-red-10",
+      icon: FillIcon.Fire,
+      title: "Most Popular",
+    },
+  },
+  "Newly Launched": {
+    header: {
+      color: "bg-blue-10",
+      icon: FillIcon.Rocket,
+      title: "Newly Launched",
+    },
+  },
+};
 
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
@@ -183,130 +206,21 @@ export const fastestGrowingGroups = [
   },
 ];
 
-export const mostPopularGroups = [
-  {
-    icon: santiago,
-    groupDescription: "Praesent sapien massa, convallis a pellentesque",
-    groupName: "Vivamus suscipit tortor",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Donec sollicitudin molestie malesuada curabitur",
-    groupName: "Non nulla sit",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Nulla porttitor accumsan tincidunt vestibulum",
-    groupName: "Ac felis donec",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Sed augue lacus viverra vitae congue",
-    groupName: "Eu augue ut",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Eu sem integer vitae justo eget",
-    groupName: "Magnis dis parturient",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Felis bibendum ut tristique et egestas",
-    groupName: "Purus viverra accumsan",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Pellentesque elit eget gravida cum sociis",
-    groupName: "Natoque penatibus magnis",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Purus in mollis nunc sed id",
-    groupName: "Semper risus in",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Donec pretium vulputate sapien nec sagittis",
-    groupName: "Aliquam malesuada bibendum",
-  },
-  {
-    icon: santiago,
-    groupDescription: "Aliquam faucibus purus in massa tempor",
-    groupName: "Nec dui nunc",
-  },
-];
-
-export const newlyLaunchedGroups = [
-  {
-    icon: negan,
-    groupDescription: "Viverra mauris in aliquam sem fringilla",
-    groupName: "Ullamcorper dignissim cras",
-  },
-  {
-    icon: negan,
-    groupDescription: "Risus pretium quam vulputate dignissim suspendisse",
-    groupName: "Ultrices gravida dictum",
-  },
-  {
-    icon: negan,
-    groupDescription: "Nisl purus in mollis nunc sed",
-    groupName: "Id interdum velit",
-  },
-  {
-    icon: negan,
-    groupDescription: "Enim nunc faucibus a pellentesque sit",
-    groupName: "Amet tellus cras",
-  },
-  {
-    icon: negan,
-    groupDescription: "Feugiat in ante metus dictum at",
-    groupName: "Tempor commodo ullamcorper",
-  },
-  {
-    icon: negan,
-    groupDescription: "Turpis egestas maecenas pharetra convallis posuere",
-    groupName: "Morbi tristique senectus",
-  },
-  {
-    icon: negan,
-    groupDescription: "Consequat semper viverra nam libero justo",
-    groupName: "Laoreet sit amet",
-  },
-  {
-    icon: negan,
-    groupDescription: "Leo urna molestie at elementum eu",
-    groupName: "Facilisis lacinia egestas",
-  },
-  {
-    icon: negan,
-    groupDescription: "Eros donec ac odio tempor orci",
-    groupName: "Dapibus ultrices in",
-  },
-  {
-    icon: negan,
-    groupDescription: "Ac orci phasellus egestas tellus rutrum",
-    groupName: "Consectetur adipiscing elit",
-  },
-];
-
 export const sectionHeadings = [
   {
     title: "Fastest Growing",
     icon: FillIcon.Growing,
     bgColor: "bgYellow",
-    groups: fastestGrowingGroups,
   },
   {
     title: "Most Popular",
     icon: FillIcon.Fire,
     bgColor: "bgRed",
-    groups: mostPopularGroups,
   },
   {
     title: "Newly Launched",
     icon: FillIcon.Rocket,
     bgColor: "bgBlue",
-    groups: newlyLaunchedGroups,
   },
 ];
 
@@ -668,29 +582,6 @@ export const profileData = {
       link: "https://instagram.com/",
     },
   ],
-};
-
-export const groupData: GroupData = {
-  "fastest-growing": {
-    header: {
-      color: "bg-yellow-10",
-      icon: FillIcon.Rocket,
-      title: "Fastest Growing",
-    },
-    groups: fastestGrowingGroups,
-  },
-  "Most Popular": {
-    header: { color: "bg-red-10", icon: FillIcon.Fire, title: "Most Popular" },
-    groups: mostPopularGroups,
-  },
-  "Newly Launched": {
-    header: {
-      color: "bg-blue-10",
-      icon: FillIcon.Rocket,
-      title: "Newly Launched",
-    },
-    groups: newlyLaunchedGroups,
-  },
 };
 
 export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];

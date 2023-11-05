@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-import OutlineIcons from "./icons/outline-icons";
-import { sectionHeadings } from "@/constants";
-import { HeadingsType } from "@/types";
-import SectionGroup from "./SectionGroup";
+import OutlineIcons from "@/components/icons/outline-icons";
+import { GroupSectionProps, HeadingsType } from "@/types";
+import SectionGroup from "@/components/SectionGroup";
+import { GetSectionHeadings } from "@/utils";
 
 const TopPointDecoration = () => {
   const pathName = usePathname();
@@ -24,10 +24,21 @@ const TopPointDecoration = () => {
   );
 };
 
-const GroupSection = () => {
+const GroupSection = ({
+  fastestGrowingGroups,
+  mostPopularGroups,
+  newlyLaunchedGroups,
+}: GroupSectionProps) => {
   const [expandedGroupIndex, setExpandedGroupIndex] = useState<null | number>(
     null
   );
+
+  const sectionHeadings = GetSectionHeadings(
+    fastestGrowingGroups,
+    mostPopularGroups,
+    newlyLaunchedGroups
+  );
+
   return (
     <aside
       className={`bg-light_dark-4 relative flex w-56 flex-col rounded-2xl p-2.5 ${

@@ -1,10 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
-import { User } from "@prisma/client";
+import { Group, User } from "@prisma/client";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
+import { GroupProps } from "@types/models";
+
+export type GroupSectionProps = {
+  fastestGrowingGroups?: GroupProps & { growthRate: number };
+  mostPopularGroups?: GroupProps;
+  newlyLaunchedGroups?: GroupProps;
+};
 
 export type ColorVariantsType = {
   [key: string]: string;
@@ -19,6 +26,7 @@ export interface GroupSectionHeaderProps {
   title: string;
   bgColor: ColorVariantKeys;
   icon: FC;
+  groups?: GroupProps;
 }
 
 export type GroupData = {
@@ -121,17 +129,11 @@ export interface IconProps {
   className?: string;
 }
 
-export type GroupSectionGroupType = {
-  icon: StaticImageData;
-  groupDescription: string;
-  groupName: string;
-};
-
 export type HeadingsType = {
   title: string;
-  bgColor: string;
   icon: FC;
-  groups: GroupSectionGroupType[];
+  bgColor: string;
+  groups: GroupProps;
 };
 
 export interface ChatMessageProps {

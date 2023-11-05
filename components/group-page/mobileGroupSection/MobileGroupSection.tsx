@@ -9,15 +9,28 @@ import PopularAndNewGroups from "@/components/group-page/mobileGroupSection/Popu
 import GroupHeader from "@/components/group-page/mobileGroupSection/GroupHeader";
 import CollapsibleHeader from "@/components/group-page/mobileGroupSection/CollapsibleHeader";
 import SeeAllGroups from "@/components/group-page/mobileGroupSection/SeeAllGroups";
-import { groupData } from "@/constants";
-import { GroupData } from "@/types";
+import { GroupData, GroupSectionProps } from "@/types";
+import { groupHeaderData } from "@/constants";
 
-const MobileGroupSection = () => {
+const MobileGroupSection = ({
+  fastestGrowingGroups,
+  mostPopularGroups,
+  newlyLaunchedGroups,
+}: GroupSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
 
   const groups = searchParams.get("groups") ?? "N/A";
+
+  const groupData = {
+    // NOTE - cannot be exportable because of passed group data
+    "fastest-growing": fastestGrowingGroups,
+    "Most Popular": mostPopularGroups,
+    "Newly Launched": newlyLaunchedGroups,
+  };
+
   const selectedGroup = groupData[groups as keyof GroupData];
+  const selectedGroupHeader = groupHeaderData[groups as keyof GroupData];
 
   return (
     <section className="block p-5 lg:hidden">
@@ -27,11 +40,11 @@ const MobileGroupSection = () => {
         className={`bg-light_dark-3 rounded-2xl p-2.5 ${isOpen && "pb-3.5"}`}
       >
         {/* // NOTE - When a user click the See all button, the GroupHeader will be rendered. */}
-        {selectedGroup ? (
+        {selectedGroupHeader ? (
           <GroupHeader
-            color={selectedGroup.header.color}
-            Icon={selectedGroup.header.icon}
-            title={selectedGroup.header.title}
+            color={selectedGroupHeader.header.color}
+            Icon={selectedGroupHeader.header.icon}
+            title={selectedGroupHeader.header.title}
           />
         ) : (
           // NOTE - Default GroupHeader that can be toggled.
@@ -40,12 +53,17 @@ const MobileGroupSection = () => {
         <CollapsibleContent>
           {/* // NOTE - When a user click the See all button, the SeeAllGroups will be rendered. */}
           {selectedGroup ? (
-            <SeeAllGroups allGroups={selectedGroup.groups} />
+            <SeeAllGroups allGroups={selectedGroup} />
           ) : (
             <>
               {/* // NOTE - Default three groups showing */}
-              <FastestGrowingGroups />
-              <PopularAndNewGroups />
+              <FastestGrowingGroups
+                fastestGrowingGroups={fastestGrowingGroups}
+              />
+              <PopularAndNewGroups
+                mostPopularGroups={mostPopularGroups}
+                newlyLaunchedGroups={newlyLaunchedGroups}
+              />
             </>
           )}
         </CollapsibleContent>

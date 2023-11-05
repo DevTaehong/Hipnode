@@ -1,12 +1,64 @@
 import { v4 as uuidv4 } from "uuid";
-import { supabase } from "@/utils/supabaseClient";
 import {
   ImVolumeLow,
   ImVolumeMedium,
   ImVolumeMute2,
   ImVolumeHigh,
 } from "react-icons/im";
+
+import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
+import FillIcon from "@/components/icons/fill-icons";
+import { GroupProps } from "@/types/models";
+
+export const getNewPopularSectionHeadings = (
+  mostPopularGroups: GroupProps,
+  newlyLaunchedGroups: GroupProps
+) => {
+  const sectionHeadings = [
+    {
+      title: "Most Popular",
+      icon: FillIcon.Fire,
+      bgColor: "bgRed",
+      groups: mostPopularGroups,
+    },
+    {
+      title: "Newly Launched",
+      icon: FillIcon.Rocket,
+      bgColor: "bgBlue",
+      groups: newlyLaunchedGroups,
+    },
+  ];
+  return sectionHeadings;
+};
+
+export const GetSectionHeadings = (
+  fastestGrowingGroups: GroupProps,
+  mostPopularGroups: GroupProps,
+  newlyLaunchedGroups: GroupProps
+) => {
+  const headings = [
+    {
+      title: "Fastest Growing",
+      icon: FillIcon.Growing,
+      bgColor: "bgYellow",
+      groups: fastestGrowingGroups,
+    },
+    {
+      title: "Most Popular",
+      icon: FillIcon.Fire,
+      bgColor: "bgRed",
+      groups: mostPopularGroups,
+    },
+    {
+      title: "Newly Launched",
+      icon: FillIcon.Rocket,
+      bgColor: "bgBlue",
+      groups: newlyLaunchedGroups,
+    },
+  ];
+  return headings;
+};
 
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
