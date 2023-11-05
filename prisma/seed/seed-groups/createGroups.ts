@@ -28,6 +28,7 @@ export async function createGroups(users: User[]) {
         posts: {
           createMany: {
             data: Array.from({ length: 5 }).map(() => ({
+              heading: faker.lorem.sentence(),
               content: faker.lorem.paragraph({ min: 2, max: 10 }),
               authorId: user.id,
               viewCount: faker.number.int({ min: 0, max: 1000 }),
