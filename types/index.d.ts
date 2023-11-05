@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
-import { Group, User } from "@prisma/client";
+import { User } from "@prisma/client";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
