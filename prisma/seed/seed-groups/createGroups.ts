@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
 
 import prisma from "../../../lib/prisma";
-import { User } from "@prisma/client";
 
-export async function createGroups(users: User[]) {
-  const groupCount = 15;
+export async function createGroups() {
+  const groupCount = 50;
+  const users = await prisma.user.findMany();
 
   const adminsToConnect = [users[0], users[1], users[2]];
   const membersToConnect = [...adminsToConnect, users[3], users[4], users[5]];
@@ -29,6 +29,7 @@ export async function createGroups(users: User[]) {
           createMany: {
             data: Array.from({ length: 5 }).map(() => ({
               content: faker.lorem.paragraph({ min: 2, max: 10 }),
+              heading: faker.lorem.sentence(),
               authorId: user.id,
               viewCount: faker.number.int({ min: 0, max: 1000 }),
               isEdited: faker.datatype.boolean(),
