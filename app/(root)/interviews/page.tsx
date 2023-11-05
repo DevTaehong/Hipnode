@@ -50,7 +50,7 @@ const Interviews = async ({ searchParams }: { searchParams: SearchProps }) => {
           interviewArray={interviewArray}
         />
         <section className="flex w-full lg:max-w-[20.3125rem]">
-          <div className="flex w-full flex-col overflow-scroll">
+          <div className="flex w-full flex-col gap-5 overflow-scroll">
             <FormLink {...interviewFormLinkProps} />
             <Podcasts podcasts={podcasts} />
           </div>

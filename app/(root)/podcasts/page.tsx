@@ -9,6 +9,9 @@ import FormLink from "@/components/FormLink";
 import { podcastFormLinkProps } from "@/constants";
 import { redirect } from "next/navigation";
 import { Categories, PodcastPageFilter } from "@/components/podcast-components";
+import Meetups from "@/components/home-page/meetup/Meetups";
+import { getAllMeetUps } from "@/lib/actions/meetup.actions";
+
 interface SearchProps {
   show: string | string[];
   amount: string;
@@ -16,6 +19,7 @@ interface SearchProps {
 
 const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   const topFiveShows = await getTopFiveShowIds();
+  const meetups = await getAllMeetUps();
   const user = await currentUser();
 
   if (!user) {
@@ -72,8 +76,9 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
             userShowsIds={usersShowsIds}
           />
         </section>
-        <section className="flex w-full lg:w-fit">
+        <section className="flex w-full flex-col gap-5 lg:w-fit">
           <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
+          <Meetups meetUps={meetups} />
         </section>
       </div>
     </main>

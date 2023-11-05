@@ -74,7 +74,7 @@ const PodcastPageFilter = ({
   return (
     <article className="relative flex h-full w-full flex-col">
       <BoxShading />
-      <section className="no-scrollbar flex w-full flex-col pb-10 md:h-screen md:overflow-scroll">
+      <section className="no-scrollbar flex w-full flex-col lg:h-screen lg:overflow-scroll lg:pb-10">
         <div className="flex flex-col gap-5 xl:flex-row">
           {displayedPodcasts.map((podcasts) => (
             <PodcastListColumn key={podcasts.listNumber} podcasts={podcasts} />
