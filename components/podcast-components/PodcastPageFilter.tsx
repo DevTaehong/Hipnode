@@ -80,7 +80,11 @@ const PodcastPageFilter = ({
             <PodcastListColumn key={podcasts.listNumber} podcasts={podcasts} />
           ))}
         </div>
-        <SeeMoreButton array={podcasts} setLoadMore={setLoadMore} />
+        <SeeMoreButton
+          array={podcasts}
+          setLoadMore={setLoadMore}
+          className="mt-5"
+        />
         <p
           ref={ref}
           className={`${
