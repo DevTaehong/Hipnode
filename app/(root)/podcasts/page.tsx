@@ -9,6 +9,9 @@ import FormLink from "@/components/FormLink";
 import { podcastFormLinkProps } from "@/constants";
 import { redirect } from "next/navigation";
 import { Categories, PodcastPageFilter } from "@/components/podcast-components";
+import Meetups from "@/components/home-page/meetup/Meetups";
+import { getAllMeetUps } from "@/lib/actions/meetup.actions";
+
 interface SearchProps {
   show: string | string[];
   amount: string;
@@ -16,6 +19,7 @@ interface SearchProps {
 
 const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   const topFiveShows = await getTopFiveShowIds();
+  const meetups = await getAllMeetUps();
   const user = await currentUser();
 
   if (!user) {
@@ -54,7 +58,7 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
 
   return (
     <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[1.875rem]">
-      <div className=" mt-16 flex max-w-[85rem] flex-col gap-5 lg:flex-row">
+      <div className=" mt-16 flex max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
         <section className="flex w-full flex-col gap-5 lg:w-[13.125rem]">
           <FormLink {...podcastFormLinkProps} className="flex lg:hidden" />
           <div className="hidden overflow-scroll lg:flex">
@@ -72,8 +76,9 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
             userShowsIds={usersShowsIds}
           />
         </section>
-        <section className="flex w-full lg:w-fit">
+        <section className="flex w-full flex-col gap-5 lg:w-fit">
           <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
+          <Meetups meetUps={meetups} />
         </section>
       </div>
     </main>

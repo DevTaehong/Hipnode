@@ -75,7 +75,7 @@ export const interviewFormLinkProps = {
     link: "/",
   },
   linkToFormButton: {
-    title: "Submit a Podcast",
+    title: "Submit a Story",
     link: "/",
   },
 };

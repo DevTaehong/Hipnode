@@ -11,6 +11,7 @@ import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { getAllPosts } from "@/lib/actions/post.action";
+import { RightSidebarWrapper } from "@/components/home-page/shared-components";
 
 export default async function Home() {
   const { userId } = auth();
@@ -46,11 +47,13 @@ export default async function Home() {
         </div>
 
         <div className="flex flex-col sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:flex-col">
-          <div className="w-full sm:w-1/2 lg:w-full">
+          <div className="w-full px-5 pt-5 sm:w-1/2 lg:w-full">
             <Meetups meetUps={meetups} />
           </div>
           <div className="w-full sm:w-1/2 lg:w-full">
-            <Podcasts podcasts={podcasts} />
+            <RightSidebarWrapper>
+              <Podcasts podcasts={podcasts} />
+            </RightSidebarWrapper>
           </div>
         </div>
       </div>

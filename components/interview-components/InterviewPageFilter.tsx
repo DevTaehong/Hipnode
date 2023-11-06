@@ -66,9 +66,9 @@ const InterviewPageFilter = ({
   }, [interviews, queryString]);
 
   return (
-    <article className="relative flex">
+    <article className="relative flex xl:w-full">
       <BoxShading />
-      <section className="flex w-fit flex-col gap-5 overflow-y-scroll">
+      <section className="flex w-fit flex-col gap-5 overflow-y-scroll xl:w-full">
         {interviewList.map((interview) => (
           <InterviewCard key={interview.id} interviewData={interview} />
         ))}

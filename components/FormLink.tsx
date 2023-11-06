@@ -37,7 +37,7 @@ const FormLink = ({
             key={button.title}
             className={cn(
               "semibold-14 flex-center w-full rounded py-2.5",
-              buttonStyles[index] // Add the conditionally applied class here
+              buttonStyles[index]
             )}
           >
             {button.title}
