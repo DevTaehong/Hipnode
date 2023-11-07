@@ -5,7 +5,7 @@ import { GroupProps } from "@/types/models";
 const FastestGrowingGroups = ({
   fastestGrowingGroups,
 }: {
-  fastestGrowingGroups: GroupProps[];
+  fastestGrowingGroups: GroupProps;
 }) => {
   return (
     <div className="m-2.5 mb-5 flex flex-col gap-2.5">
@@ -15,8 +15,8 @@ const FastestGrowingGroups = ({
             id={group.id}
             key={group.name}
             groupName={group.name}
-            logo={group.logo}
-            description={group.description}
+            logo={group.logo ?? "/images/hipnode.svg"}
+            description={group.description ?? "N/A"}
           />
         ))}
       </ul>

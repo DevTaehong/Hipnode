@@ -14,21 +14,15 @@ import {
 } from "@/lib/actions/group.actions";
 
 const GroupPage = async () => {
-  const [
-    meetups,
-    podcasts,
-    posts,
-    fastestGrowingGroups,
-    newlyLaunchedGroups,
-    mostPopularGroups,
-  ] = await Promise.all([
+  const [meetups, podcasts, posts] = await Promise.all([
     getAllMeetUps(),
     getAllPodcastsWithUserInfo(),
     getPostsFromGroups(),
-    getFastestGrowingGroups(),
-    getNewlyLaunchedGroups(),
-    getMostPopularGroups(),
   ]);
+
+  const fastestGrowingGroupsPromise = getFastestGrowingGroups();
+  const newlyLaunchedGroupsPromise = getNewlyLaunchedGroups();
+  const mostPopularGroupsPromise = getMostPopularGroups();
 
   return (
     <main className="bg-light-2_dark-2">
@@ -36,15 +30,15 @@ const GroupPage = async () => {
         <div className="flex flex-col lg:flex-row">
           <div className="hidden lg:sticky lg:top-[5.755rem] lg:block lg:h-[90vh]">
             <GroupSection
-              fastestGrowingGroups={fastestGrowingGroups}
-              newlyLaunchedGroups={newlyLaunchedGroups}
-              mostPopularGroups={mostPopularGroups}
+              fastestGrowingGroupsPromise={fastestGrowingGroupsPromise}
+              newlyLaunchedGroupsPromise={newlyLaunchedGroupsPromise}
+              mostPopularGroupsPromise={mostPopularGroupsPromise}
             />
           </div>
           <MobileGroupSection
-            fastestGrowingGroups={fastestGrowingGroups}
-            newlyLaunchedGroups={newlyLaunchedGroups}
-            mostPopularGroups={mostPopularGroups}
+            fastestGrowingGroupsPromise={fastestGrowingGroupsPromise}
+            newlyLaunchedGroupsPromise={newlyLaunchedGroupsPromise}
+            mostPopularGroupsPromise={mostPopularGroupsPromise}
           />
           <article>
             <InfiniteScroll

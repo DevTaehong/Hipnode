@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { usePathname } from "next/navigation";
 
 import OutlineIcons from "@/components/icons/outline-icons";
@@ -25,13 +25,17 @@ const TopPointDecoration = () => {
 };
 
 const GroupSection = ({
-  fastestGrowingGroups,
-  mostPopularGroups,
-  newlyLaunchedGroups,
+  fastestGrowingGroupsPromise,
+  mostPopularGroupsPromise,
+  newlyLaunchedGroupsPromise,
 }: GroupSectionProps) => {
   const [expandedGroupIndex, setExpandedGroupIndex] = useState<null | number>(
     null
   );
+
+  const fastestGrowingGroups = use(fastestGrowingGroupsPromise);
+  const mostPopularGroups = use(mostPopularGroupsPromise);
+  const newlyLaunchedGroups = use(newlyLaunchedGroupsPromise);
 
   const sectionHeadings = GetSectionHeadings(
     fastestGrowingGroups,

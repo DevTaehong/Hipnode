@@ -7,10 +7,10 @@ import {
 
 export type GroupProps = {
   id: number;
-  description: string;
+  description: string | null;
   name: string;
-  logo: string;
-};
+  logo: string | null;
+}[];
 
 export type ExtendedUser = {
   id: number;

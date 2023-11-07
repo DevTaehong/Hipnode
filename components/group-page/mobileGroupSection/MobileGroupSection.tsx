@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
@@ -13,14 +13,18 @@ import { GroupData, GroupSectionProps } from "@/types";
 import { groupHeaderData } from "@/constants";
 
 const MobileGroupSection = ({
-  fastestGrowingGroups,
-  mostPopularGroups,
-  newlyLaunchedGroups,
+  fastestGrowingGroupsPromise,
+  mostPopularGroupsPromise,
+  newlyLaunchedGroupsPromise,
 }: GroupSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
 
   const groups = searchParams.get("groups") ?? "N/A";
+
+  const fastestGrowingGroups = use(fastestGrowingGroupsPromise);
+  const mostPopularGroups = use(mostPopularGroupsPromise);
+  const newlyLaunchedGroups = use(newlyLaunchedGroupsPromise);
 
   const groupData = {
     // NOTE - cannot be exportable because of passed group data
