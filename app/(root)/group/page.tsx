@@ -20,25 +20,21 @@ const GroupPage = async () => {
     getPostsFromGroups(),
   ]);
 
-  const fastestGrowingGroupsPromise = getFastestGrowingGroups();
-  const newlyLaunchedGroupsPromise = getNewlyLaunchedGroups();
-  const mostPopularGroupsPromise = getMostPopularGroups();
-
   return (
     <main className="bg-light-2_dark-2">
       <div className="lg:pl-5 2xl:mx-auto 2xl:max-w-[90rem] 2xl:px-10">
         <div className="flex flex-col lg:flex-row">
           <div className="hidden lg:sticky lg:top-[5.755rem] lg:block lg:h-[90vh]">
             <GroupSection
-              fastestGrowingGroupsPromise={fastestGrowingGroupsPromise}
-              newlyLaunchedGroupsPromise={newlyLaunchedGroupsPromise}
-              mostPopularGroupsPromise={mostPopularGroupsPromise}
+              fastestGrowingGroupsPromise={getFastestGrowingGroups()}
+              newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
+              mostPopularGroupsPromise={getMostPopularGroups()}
             />
           </div>
           <MobileGroupSection
-            fastestGrowingGroupsPromise={fastestGrowingGroupsPromise}
-            newlyLaunchedGroupsPromise={newlyLaunchedGroupsPromise}
-            mostPopularGroupsPromise={mostPopularGroupsPromise}
+            fastestGrowingGroupsPromise={getFastestGrowingGroups()}
+            newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
+            mostPopularGroupsPromise={getMostPopularGroups()}
           />
           <article>
             <InfiniteScroll
