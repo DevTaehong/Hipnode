@@ -27,15 +27,9 @@ const formatDate = (dateString: Date) => {
 };
 
 const Comment = ({
-  id,
   content,
-  authorId,
-  postId,
-  parentId,
   createdAt,
-  updatedAt,
   isEdited,
-  author,
   author: { picture, username },
 }: CommentProps) => {
   return (

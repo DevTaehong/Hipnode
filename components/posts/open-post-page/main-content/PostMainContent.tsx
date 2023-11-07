@@ -4,7 +4,7 @@ import PostDescription from "./PostDescription";
 import PostImage from "./PostImage";
 import PostTitle from "./PostTitle";
 import TagsList from "./TagsList";
-import CommentList from "./CommentList";
+import CommentList from "../../comment/CommentList";
 
 const PostMainContent = () => {
   const { currentPost, currentUser, rootComments } = usePost();
