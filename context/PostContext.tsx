@@ -82,11 +82,16 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     }
   }, [id]);
 
+  const getRepliesToComments = (parentId: any) => {
+    return commentsByParentId[parentId];
+  };
+
   const value = {
     currentPost,
     setCurrentPost,
     currentUser,
     commentsByParentId,
+    getRepliesToComments,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;

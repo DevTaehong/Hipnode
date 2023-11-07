@@ -1,3 +1,4 @@
+import { usePost } from "@/context/PostContext";
 import CommentBox from "./CommentBox";
 import PostDescription from "./PostDescription";
 import PostImage from "./PostImage";
