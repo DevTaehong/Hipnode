@@ -1,11 +1,12 @@
+import { usePost } from "@/context/PostContext";
 import { formatDatePostFormat } from "@/utils";
 
-interface AuthorDetailsProps {
-  username: string | null;
-  createdAt: Date | null;
-}
-
-const AuthorDetails = ({ username, createdAt }: AuthorDetailsProps) => {
+const AuthorDetails = () => {
+  const { currentPost, currentUser } = usePost();
+  if (!currentPost) return null;
+  const { createdAt } = currentPost;
+  if (!currentUser) return null;
+  const { username } = currentUser;
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   return (
     <aside className="mb-[1.25rem] flex min-w-[13rem] flex-col justify-start rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
