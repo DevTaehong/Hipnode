@@ -101,7 +101,7 @@ export async function getPostById(id: number): Promise<ExtendedPost> {
           include: {
             author: {
               select: {
-                name: true,
+                username: true,
                 picture: true,
               },
             },

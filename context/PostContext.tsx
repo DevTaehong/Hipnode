@@ -14,6 +14,11 @@ import { useParams } from "next/navigation";
 import { getPostById } from "@/lib/actions/post.action";
 import { ExtendedPost, User } from "@/types/models";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
+interface Author {
+  username: string;
+  picture: string;
+}
+
 interface Comment {
   id: number;
   content: string;
@@ -23,6 +28,7 @@ interface Comment {
   createdAt: Date;
   updatedAt: Date;
   isEdited: boolean;
+  author: Author;
 }
 interface PostContextType {
   currentPost: ExtendedPost | null;
@@ -60,9 +66,10 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     });
     return group;
   }, [comments]);
+
   useEffect(() => {
     if (currentPost?.comments == null) return;
-    setComments(currentPost.comments);
+    setComments(currentPost.comments as Comment[]);
   }, [currentPost?.comments]);
 
   useEffect(() => {

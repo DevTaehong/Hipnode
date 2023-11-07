@@ -9,6 +9,10 @@ interface CommentProps {
   createdAt: Date;
   updatedAt: Date;
   isEdited: boolean;
+  author: {
+    picture: string;
+    username: string;
+  };
 }
 
 interface CommentListProps {
