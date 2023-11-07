@@ -42,6 +42,11 @@ export interface IPodcast extends Podcast {
   };
 }
 
+export interface AudioPlayerProps {
+  podcast: IPodcast;
+  url: string;
+}
+
 export type SavePodcastTypeProps = {
   isPlaying: boolean;
   currentTime: any;

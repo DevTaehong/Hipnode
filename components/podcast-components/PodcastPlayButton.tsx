@@ -1,14 +1,37 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+} from "react-share";
 
-import OutlineIcon from "../icons/outline-icons";
-import { Button } from "../ui/button";
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
 import { formatPodcastDuration, setToLocalStorage } from "@/utils";
 import usePodcastStore from "@/app/store";
 import { PodcastPlayButtonProps } from "@/types/podcast.index";
+import ShareButtons from "../ShareButtons";
+import SocialIcon from "../icons/outline-icons/SocialIcon";
+
+const shareIcons = [
+  {
+    name: "facebook",
+    wrapper: FacebookShareButton,
+    icon: SocialIcon.Facebook,
+  },
+  {
+    name: "twitter",
+    wrapper: TwitterShareButton,
+    icon: SocialIcon.Twitter,
+  },
+  {
+    name: "linkedIn",
+    wrapper: LinkedinShareButton,
+    icon: SocialIcon.LinkedIn,
+  },
+];
 
 const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
   const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =
@@ -65,12 +88,7 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
           className={`semibold-14 md:regular-16 items-end rounded-[1.25rem] transition duration-500 ${playbackInfo.bgColor} px-4 py-2 text-light`}
           onClick={handleClick}
         />
-        <Button
-          size="icon"
-          className="rounded-full border border-sc-2 dark:border-sc-3"
-        >
-          <OutlineIcon.Share />
-        </Button>
+        <ShareButtons title={podcast.title} shareIcons={shareIcons} />
       </div>
     </div>
   );
