@@ -19,12 +19,13 @@ const PostPage = () => {
 };
 
 const PostPageContent = () => {
-  const { currentPost, currentUser } = usePost();
+  const { currentPost, currentUser, commentsByParentId } = usePost();
 
   if (!currentPost) return null;
   const { author, createdAt, heading, content, image, tags } = currentPost;
+  if (!currentUser) return null;
   const { picture } = currentUser;
-
+  console.log(commentsByParentId);
   return (
     <main className="flex h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
       <div className="mx-auto flex h-full max-w-[85rem] flex-col lg:flex-row">
