@@ -232,7 +232,6 @@ export async function getPostsFromGroups(myCursorId?: number) {
     }
 
     const postsFromGroups = await prisma.post.findMany(queryOptions);
-    console.log(postsFromGroups);
     return postsFromGroups;
   } catch (error) {
     console.error("Error finding posts from groups:", error);
