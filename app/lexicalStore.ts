@@ -2,7 +2,7 @@ import { z } from "zod";
 import { create } from "zustand";
 
 import { postFormValidationSchema } from "@/lib/validations";
-import { POST_FORM_DEFAULT_VALUES } from "@/constants";
+import { POST_FORM_DEFAULT_VALUES } from "@/constants/posts";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
