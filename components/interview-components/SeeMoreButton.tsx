@@ -7,12 +7,17 @@ import OutlineIcon from "../icons/outline-icons";
 interface SeeMoreButtonProps {
   array: InterviewPageFilterProps[] | PodcastUserInfo[] | undefined;
   setLoadMore: Dispatch<SetStateAction<boolean>>;
+  className?: string;
 }
 
-const SeeMoreButton = ({ array, setLoadMore }: SeeMoreButtonProps) => {
+const SeeMoreButton = ({
+  array,
+  setLoadMore,
+  className,
+}: SeeMoreButtonProps) => {
   return (
     <button
-      className={`mt-3 flex w-fit items-center gap-2.5 lg:hidden ${
+      className={`${className} flex w-fit items-center gap-2.5 lg:hidden ${
         array && array.length < 20 && "hidden lg:hidden"
       }`}
       onClick={() => setLoadMore(true)}

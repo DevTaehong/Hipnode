@@ -6,7 +6,7 @@ import prisma from "../../../lib/prisma";
 export async function createInterviews(users: User[]) {
   const salaryPeriodArray = ["monthly", "yearly"];
   const interviewPromises = users.map(async (user) => {
-    const interviewCount = faker.datatype.number({ min: 1, max: 5 });
+    const interviewCount = faker.number.int({ min: 1, max: 5 });
     const userInterviews = Array.from({ length: interviewCount }).map(
       async () => {
         const randomSalaryPeriod =

@@ -28,6 +28,7 @@ export async function createGroups() {
         posts: {
           createMany: {
             data: Array.from({ length: 5 }).map(() => ({
+              heading: faker.lorem.sentence(),
               content: faker.lorem.paragraph({ min: 2, max: 10 }),
               heading: faker.lorem.sentence(),
               authorId: user.id,

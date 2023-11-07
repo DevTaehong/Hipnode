@@ -54,7 +54,7 @@ const GroupPage = async () => {
               className="mx-5 columns-1 gap-5 sm:columns-2 lg:mb-10 lg:mr-0 lg:pt-[1.88rem] 2xl:columns-3"
             />
           </article>
-          <aside className="mb-5 flex flex-col lg:sticky lg:top-[4.63rem] lg:h-[90vh]">
+          <aside className="mb-5 flex flex-col gap-5 p-5 lg:sticky lg:top-[4.63rem] lg:h-[90vh]">
             <Meetups meetUps={meetups} />
             <Podcasts podcasts={podcasts} />
           </aside>
