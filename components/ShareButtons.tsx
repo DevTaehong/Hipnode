@@ -10,11 +10,7 @@ import {
 import OutlineIcon from "./icons/outline-icons";
 import { Popover } from "./ui/popover";
 import { Button } from "./ui/button";
-
-interface ShareButtonsProps {
-  title: string;
-  shareIcons: any[];
-}
+import { ShareButtonsProps } from "@/types/podcast.index";
 
 const ShareButtons = ({ title, shareIcons }: ShareButtonsProps) => {
   const [isMounted, setIsMounted] = useState(false);
