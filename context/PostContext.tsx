@@ -29,8 +29,10 @@ interface PostContextType {
   setCurrentPost: React.Dispatch<React.SetStateAction<ExtendedPost | null>>;
   currentUser: User | null;
   commentsByParentId: {
-    [key: number]: Comment[];
+    [key: string]: Comment[];
   };
+  getRepliesToComments: (parentId: string) => Comment[] | undefined;
+  rootComments: Comment[];
 }
 
 const PostContext = createContext<PostContextType | null>(null);
@@ -39,7 +41,7 @@ interface PostProviderProps {
   children: ReactNode;
 }
 
-export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
+export const PostProvider = ({ children }: PostProviderProps) => {
   const [currentPost, setCurrentPost] = useState<ExtendedPost | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -47,18 +49,17 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   const { isLoaded, userId } = useAuth();
 
   const commentsByParentId = useMemo(() => {
-    const group: { [parentId: number]: Comment[] } = {};
+    const group: Record<string, Comment[]> = {};
     comments.forEach((comment) => {
-      if (comment.parentId !== null) {
-        if (!group[comment.parentId]) {
-          group[comment.parentId] = [];
-        }
-        group[comment.parentId].push(comment);
+      const key =
+        comment.parentId === null ? "null" : comment.parentId.toString();
+      if (!group[key]) {
+        group[key] = [];
       }
+      group[key].push(comment);
     });
     return group;
   }, [comments]);
-
   useEffect(() => {
     if (currentPost?.comments == null) return;
     setComments(currentPost.comments);
@@ -92,6 +93,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     currentUser,
     commentsByParentId,
     getRepliesToComments,
+    rootComments: commentsByParentId.null,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;

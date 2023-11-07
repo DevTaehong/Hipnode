@@ -54,6 +54,7 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
     author: {
       id: post.author.id,
       username: post.author.username,
+      picture: post.author.picture,
     },
     comments: post.comments.map((comment: any) => ({
       id: comment.id,
@@ -64,6 +65,11 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
       createdAt: comment.createdAt,
       updatedAt: comment.updatedAt,
       isEdited: comment.isEdited,
+      author: {
+        id: comment.author.id,
+        username: comment.author.username,
+        picture: comment.author.picture,
+      },
     })),
     likes: post.likes.map((like: any) => ({
       id: like.id,
@@ -71,6 +77,10 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
       liked: like.liked,
       postId: like.postId,
       commentId: like.commentId,
+      user: {
+        id: like.user.id,
+        username: like.user.username,
+      },
     })),
     tags: post.tags.map((tagOnPost: any) => ({
       tag: {
@@ -87,7 +97,16 @@ export async function getPostById(id: number): Promise<ExtendedPost> {
       where: { id },
       include: {
         author: true,
-        comments: true,
+        comments: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                picture: true,
+              },
+            },
+          },
+        },
         likes: {
           include: {
             user: true,

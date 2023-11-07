@@ -4,22 +4,38 @@ import PostDescription from "./PostDescription";
 import PostImage from "./PostImage";
 import PostTitle from "./PostTitle";
 import TagsList from "./TagsList";
+import CommentList from "./CommentList";
 
 const PostMainContent = () => {
-  const { currentPost, currentUser } = usePost();
+  const { currentPost, currentUser, rootComments } = usePost();
 
-  if (!currentPost) return null;
+  if (!currentPost || !currentUser) return null;
+
   const { heading, content, image, tags } = currentPost;
-  if (!currentUser) return null;
+
   const tagNames = tags?.map((tagRelation) => tagRelation.tag.name) || [];
 
   return (
     <main className="rounded-2xl bg-light dark:bg-dark-3">
-      <PostImage src={image || ""} alt="post-image" width={335} height={117} />
-      <PostTitle title={heading || ""} />
-      <TagsList tags={tagNames} />
-      <PostDescription description={content || ""} />
-      <CommentBox placeholder="Say something nice ....." value="" />
+      <section>
+        <PostImage
+          src={image || ""}
+          alt="post-image"
+          width={335}
+          height={117}
+        />
+        <PostTitle title={heading || ""} />
+        <TagsList tags={tagNames} />
+        <PostDescription description={content || ""} />
+        <CommentBox placeholder="Say something nice ....." value="" />
+      </section>
+      <section>
+        {rootComments && rootComments?.length > 0 && (
+          <div>
+            <CommentList comments={rootComments} />
+          </div>
+        )}
+      </section>
     </main>
   );
 };
