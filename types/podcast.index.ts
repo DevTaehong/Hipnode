@@ -1,7 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { Podcast } from "@prisma/client";
 import { Action, State } from "@/components/podcast-components/podcastReducer";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+} from "react-share";
 
 export interface QueryObject {
   show?: string | string[];
@@ -40,6 +45,11 @@ export interface IPodcast extends Podcast {
   show: {
     name: string;
   };
+}
+
+export interface AudioPlayerProps {
+  podcast: IPodcast;
+  url: string;
 }
 
 export type SavePodcastTypeProps = {
@@ -148,3 +158,19 @@ export type LargePodcastCardType = {
   details: string;
   episodeNumber: number;
 };
+
+type ShareIconType = FC<{ className?: string }>;
+
+interface ShareIconConfig {
+  name: string;
+  wrapper:
+    | typeof FacebookShareButton
+    | typeof TwitterShareButton
+    | typeof LinkedinShareButton;
+  icon: ShareIconType;
+}
+
+export interface ShareButtonsProps {
+  title: string;
+  shareIcons: ShareIconConfig[];
+}
