@@ -5,7 +5,6 @@ import React, {
   useState,
   useContext,
   useEffect,
-  ReactNode,
   useMemo,
 } from "react";
 import { useAuth } from "@clerk/nextjs";
@@ -14,62 +13,36 @@ import { useParams } from "next/navigation";
 import { getPostById } from "@/lib/actions/post.action";
 import { ExtendedPost, User } from "@/types/models";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
-interface Author {
-  username: string;
-  picture: string;
-}
-
-interface Comment {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: number | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  author: Author;
-}
-interface PostContextType {
-  currentPost: ExtendedPost | null;
-  setCurrentPost: React.Dispatch<React.SetStateAction<ExtendedPost | null>>;
-  currentUser: User | null;
-  commentsByParentId: {
-    [key: string]: Comment[];
-  };
-  getRepliesToComments: (parentId: string) => Comment[] | undefined;
-  rootComments: Comment[];
-}
+import {
+  CommentProps,
+  PostContextType,
+  PostProviderProps,
+} from "@/types/posts";
+import {
+  groupCommentsByParentId,
+  getRepliesToComments as getReplies,
+} from "./PostContext.utils";
 
 const PostContext = createContext<PostContextType | null>(null);
-
-interface PostProviderProps {
-  children: ReactNode;
-}
 
 export const PostProvider = ({ children }: PostProviderProps) => {
   const [currentPost, setCurrentPost] = useState<ExtendedPost | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<CommentProps[]>([]);
   const { id } = useParams();
   const { isLoaded, userId } = useAuth();
 
-  const commentsByParentId = useMemo(() => {
-    const group: Record<string, Comment[]> = {};
-    comments.forEach((comment) => {
-      const key =
-        comment.parentId === null ? "null" : comment.parentId.toString();
-      if (!group[key]) {
-        group[key] = [];
-      }
-      group[key].push(comment);
-    });
-    return group;
-  }, [comments]);
+  const commentsByParentId = useMemo(
+    () => groupCommentsByParentId(comments),
+    [comments]
+  );
+
+  const getRepliesToComments = (parentId: string | null) =>
+    getReplies(commentsByParentId, parentId);
 
   useEffect(() => {
     if (currentPost?.comments == null) return;
-    setComments(currentPost.comments as Comment[]);
+    setComments(currentPost.comments as CommentProps[]);
   }, [currentPost?.comments]);
 
   useEffect(() => {
@@ -89,10 +62,6 @@ export const PostProvider = ({ children }: PostProviderProps) => {
       fetchCurrentUser();
     }
   }, [id]);
-
-  const getRepliesToComments = (parentId: any) => {
-    return commentsByParentId[parentId];
-  };
 
   const value = {
     currentPost,

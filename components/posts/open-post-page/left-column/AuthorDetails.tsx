@@ -1,4 +1,4 @@
-import { usePost } from "@/context/PostContext";
+import { usePost } from "@/context/posts-context/PostContext";
 import { formatDatePostFormat } from "@/utils";
 
 const AuthorDetails = () => {

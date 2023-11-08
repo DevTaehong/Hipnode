@@ -1,7 +1,7 @@
-import MoreInformationItem from "./MoreInformationItem";
 import { devInfo } from "@/constants";
 import RightColumnWrapper from "./RightColumnWrapper";
-import { usePost } from "@/context/PostContext";
+import { usePost } from "@/context/posts-context/PostContext";
+import DevelopmentInfo from "./DevelopmentInformation";
 
 const MoreInformation = () => {
   const { currentPost } = usePost();
@@ -16,14 +16,7 @@ const MoreInformation = () => {
       </h2>
 
       <div className="flex flex-col items-start">
-        {devInfo.map((item) => (
-          <>
-            <div className="my-[0.94rem] h-[0.05rem] w-full dark:bg-sc-3" />
-            <div key={item.title}>
-              <MoreInformationItem item={item} />
-            </div>
-          </>
-        ))}
+        <DevelopmentInfo devInfo={devInfo} />
       </div>
     </RightColumnWrapper>
   );
