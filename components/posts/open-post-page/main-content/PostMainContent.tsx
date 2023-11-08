@@ -1,4 +1,4 @@
-import { usePost } from "@/context/PostContext";
+import { usePost } from "@/context/posts-context/PostContext";
 import CommentBox from "./CommentBox";
 import PostDescription from "./PostDescription";
 import PostImage from "./PostImage";
@@ -31,9 +31,7 @@ const PostMainContent = () => {
       </section>
       <section>
         {rootComments && rootComments?.length > 0 && (
-          <div>
-            <CommentList comments={rootComments} />
-          </div>
+          <CommentList comments={rootComments} />
         )}
       </section>
     </main>

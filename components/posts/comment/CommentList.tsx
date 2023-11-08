@@ -1,29 +1,12 @@
 import Comment from "./Comment";
 
-interface CommentProps {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: number | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  author: {
-    picture: string;
-    username: string;
-  };
-}
-
-interface CommentListProps {
-  comments: CommentProps[];
-}
+import { CommentListProps } from "@/types/posts";
 
 const CommentList = ({ comments }: CommentListProps) => {
   return (
     <>
       {comments.map((comment) => (
-        <div key={comment.id} className="">
+        <div key={comment.id} className="mt-2">
           <Comment {...comment} />
         </div>
       ))}

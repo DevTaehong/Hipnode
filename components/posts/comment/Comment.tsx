@@ -1,21 +1,6 @@
 import Image from "next/image";
 
-interface AuthorProps {
-  picture: string;
-  username: string;
-}
-
-interface CommentProps {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: number | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  author: AuthorProps;
-}
+import { CommentProps } from "@/types/posts";
 
 const formatDate = (dateString: Date) => {
   const date = new Date(dateString);
