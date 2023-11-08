@@ -1,11 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-} from "react-share";
 
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
@@ -13,25 +8,7 @@ import { formatPodcastDuration, setToLocalStorage } from "@/utils";
 import usePodcastStore from "@/app/store";
 import { PodcastPlayButtonProps } from "@/types/podcast.index";
 import ShareButtons from "../ShareButtons";
-import SocialIcon from "../icons/outline-icons/SocialIcon";
-
-const shareIcons = [
-  {
-    name: "facebook",
-    wrapper: FacebookShareButton,
-    icon: SocialIcon.Facebook,
-  },
-  {
-    name: "twitter",
-    wrapper: TwitterShareButton,
-    icon: SocialIcon.Twitter,
-  },
-  {
-    name: "linkedIn",
-    wrapper: LinkedinShareButton,
-    icon: SocialIcon.LinkedIn,
-  },
-];
+import { shareIcons } from "@/constants/podcast";
 
 const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
   const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =
@@ -52,11 +29,8 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
 
   const handleClick = useCallback(() => {
     setPodcast(podcast);
-
-    if (isPlaying && url === songUrl) {
-      setSongUrl(url);
-    } else {
-      setSongUrl(url);
+    setSongUrl(url);
+    if (!(isPlaying && url === songUrl)) {
       togglePlay();
     }
     setToLocalStorage("selectedPodcastId", podcast.id);
