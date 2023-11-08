@@ -1,9 +1,10 @@
 "use server";
 
-import { type Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
 import { getPostsFromGroupsQueryOptions } from "@/lib/actions/shared.types";
+import { CommentProps } from "@/types/posts";
 
 export async function createPost(data: Post): Promise<Post> {
   try {
@@ -255,6 +256,70 @@ export async function getPostsFromGroups(myCursorId?: number) {
     return postsFromGroups;
   } catch (error) {
     console.error("Error finding posts from groups:", error);
+    throw error;
+  }
+}
+
+export interface ExtendedComment extends CommentProps {
+  parent?: CommentProps;
+  path?: string;
+}
+
+const mapCommentToExtendedComment = (comment: any): ExtendedComment => {
+  return {
+    ...comment,
+    author: {
+      username: comment.author.username,
+      picture: comment.author.picture,
+    },
+    parent: comment.parent
+      ? {
+          id: comment.parent.id,
+          content: comment.parent.content,
+          authorId: comment.parent.authorId,
+          postId: comment.parent.postId,
+          parentId: comment.parent.parentId,
+          createdAt: comment.parent.createdAt,
+          updatedAt: comment.parent.updatedAt,
+          isEdited: comment.parent.isEdited,
+          author: {
+            username: comment.parent.author.username,
+            picture: comment.parent.author.picture,
+          },
+        }
+      : undefined,
+  };
+};
+
+export async function addCommentOrReply(
+  userId: number,
+  postId: number,
+  content: string,
+  parentId: number | null,
+  path?: string
+): Promise<ExtendedComment> {
+  try {
+    const newComment = await prisma.comment.create({
+      data: {
+        content,
+        postId,
+        authorId: userId,
+        parentId,
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        parent: true,
+      },
+    });
+
+    return mapCommentToExtendedComment(newComment);
+  } catch (error) {
+    console.error("Error adding comment or reply:", error);
     throw error;
   }
 }

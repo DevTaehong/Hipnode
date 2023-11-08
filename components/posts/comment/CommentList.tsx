@@ -6,7 +6,7 @@ const CommentList = ({ comments }: CommentListProps) => {
   return (
     <>
       {comments.map((comment) => (
-        <div key={comment.id} className="mt-2">
+        <div key={comment.id} className="mt-2 flex flex-col">
           <Comment {...comment} />
         </div>
       ))}

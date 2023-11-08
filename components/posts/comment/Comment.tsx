@@ -2,9 +2,10 @@ import Image from "next/image";
 
 import { CommentProps } from "@/types/posts";
 import { usePost } from "@/context/posts-context/PostContext";
-import FillIcon from "@/components/icons/fill-icons";
-import { Delete, Reply, Trash, Heart } from "lucide-react";
+import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 import CommentIconButton from "./CommentIconButton";
+import CommentList from "./CommentList";
+import { useState } from "react";
 
 const formatDate = (dateString: Date) => {
   const date = new Date(dateString);
@@ -24,6 +25,7 @@ const Comment = ({
 }: CommentProps) => {
   const { getRepliesToComments } = usePost();
   const childComments = getRepliesToComments(String(id)) || [];
+  const [showChildren, setShowChildren] = useState<boolean>(false);
 
   return (
     <>
@@ -58,15 +60,22 @@ const Comment = ({
             <CommentIconButton Icon={Reply} color="text-blue" />
             <CommentIconButton Icon={Heart} color="text-red" />
             <CommentIconButton Icon={Trash} color="text-red-80" />
+            <CommentIconButton
+              Icon={MoreHorizontal}
+              color="text-red-80"
+              onClick={() => setShowChildren((previous) => !previous)}
+            />
           </div>
         </div>
       </section>
       {childComments.length > 0 && (
-        <section className="pl-[1.25rem]">
-          {childComments.map((comment) => (
-            <Comment key={comment.id} {...comment} />
-          ))}
-        </section>
+        <>
+          <div className={`${showChildren ? "hidden" : ""}`}>
+            <div className="flex grow flex-col pl-[2.25rem]">
+              <CommentList comments={childComments} />
+            </div>
+          </div>
+        </>
       )}
     </>
   );

@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
-import { ExtendedPost, User } from "@/types/models";
+import { ExtendedPost } from "@/types/models";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
@@ -71,11 +71,6 @@ export type PostDescriptionProps = {
   description: string;
 };
 
-export type CommentBoxProps = {
-  placeholder: string;
-  value: string;
-};
-
 export interface AuthorProps {
   picture: string;
   username: string;
@@ -103,6 +98,7 @@ interface CommentAuthorProps {
   updatedAt: Date;
   isEdited: boolean;
   author: {
+    id?: number;
     picture: string;
     username: string;
   };
@@ -115,7 +111,16 @@ export interface CommentListProps {
 export interface PostContextType {
   currentPost: ExtendedPost | null;
   setCurrentPost: React.Dispatch<React.SetStateAction<ExtendedPost | null>>;
-  currentUser: User | null;
+
+  comments: CommentProps[];
+  setComments: React.Dispatch<React.SetStateAction<CommentProps[]>>;
+
+  currentUser: {
+    id?: number;
+    picture: string;
+    username: string;
+  };
+
   commentsByParentId: {
     [key: string]: CommentProps[];
   };

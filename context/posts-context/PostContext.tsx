@@ -69,6 +69,8 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     currentUser,
     commentsByParentId,
     getRepliesToComments,
+    setComments,
+    comments,
     rootComments: commentsByParentId.null,
   };
 
