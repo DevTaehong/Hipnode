@@ -1,6 +1,6 @@
 import PopularAndNewGroup from "@/components/group-page/mobileGroupSection/PopularAndNewGroup";
+import { sectionHeadings } from "@/constants";
 import { GroupProps } from "@/types/models";
-import { getNewPopularSectionHeadings } from "@/utils";
 
 const PopularAndNewGroups = ({
   mostPopularGroups,
@@ -9,14 +9,11 @@ const PopularAndNewGroups = ({
   mostPopularGroups: GroupProps;
   newlyLaunchedGroups: GroupProps;
 }) => {
-  const sectionHeadings = getNewPopularSectionHeadings(
-    mostPopularGroups,
-    newlyLaunchedGroups
-  );
+  const headings = sectionHeadings(mostPopularGroups, newlyLaunchedGroups);
 
   return (
     <>
-      {sectionHeadings.map((group) => (
+      {headings.map((group) => (
         <PopularAndNewGroup group={group} key={group.title} />
       ))}
     </>

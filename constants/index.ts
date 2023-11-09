@@ -8,6 +8,50 @@ import {
   NotificationPopoverProps,
   NotificationTab,
 } from "@/types";
+import { GroupProps } from "@/types/models";
+
+export const headings = (
+  fastestGrowingGroups: GroupProps,
+  mostPopularGroups: GroupProps,
+  newlyLaunchedGroups: GroupProps
+) => [
+  {
+    title: "Fastest Growing",
+    icon: FillIcon.Growing,
+    bgColor: "bgYellow",
+    groups: fastestGrowingGroups,
+  },
+  {
+    title: "Most Popular",
+    icon: FillIcon.Fire,
+    bgColor: "bgRed",
+    groups: mostPopularGroups,
+  },
+  {
+    title: "Newly Launched",
+    icon: FillIcon.Rocket,
+    bgColor: "bgBlue",
+    groups: newlyLaunchedGroups,
+  },
+];
+
+export const sectionHeadings = (
+  mostPopularGroups: GroupProps,
+  newlyLaunchedGroups: GroupProps
+) => [
+  {
+    title: "Most Popular",
+    icon: FillIcon.Fire,
+    bgColor: "bgRed",
+    groups: mostPopularGroups,
+  },
+  {
+    title: "Newly Launched",
+    icon: FillIcon.Rocket,
+    bgColor: "bgBlue",
+    groups: newlyLaunchedGroups,
+  },
+];
 
 export const groupHeaderData = {
   "fastest-growing": {
@@ -206,21 +250,11 @@ export const fastestGrowingGroups = [
   },
 ];
 
-export const sectionHeadings = [
+export const fastestGrowingSectionHeading = [
   {
     title: "Fastest Growing",
     icon: FillIcon.Growing,
     bgColor: "bgYellow",
-  },
-  {
-    title: "Most Popular",
-    icon: FillIcon.Fire,
-    bgColor: "bgRed",
-  },
-  {
-    title: "Newly Launched",
-    icon: FillIcon.Rocket,
-    bgColor: "bgBlue",
   },
 ];
 

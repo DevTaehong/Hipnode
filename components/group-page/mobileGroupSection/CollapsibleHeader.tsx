@@ -1,10 +1,10 @@
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { Button } from "@/components/ui/button";
-import { sectionHeadings } from "@/constants";
+import { fastestGrowingSectionHeading } from "@/constants";
 
 const CollapsibleHeader = ({ isOpen }: { isOpen: boolean }) => {
-  const { icon: Icon, title } = sectionHeadings[0];
+  const { icon: Icon, title } = fastestGrowingSectionHeading[0];
 
   return (
     <div className="flex flex-row justify-between rounded-[0.625rem] bg-yellow-10 p-[0.62rem]">
