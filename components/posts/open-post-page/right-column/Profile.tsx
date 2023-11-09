@@ -29,7 +29,7 @@ const Profile = () => {
       </p>
       <CustomButton
         label="Follow"
-        className="flex w-full mb-[1.25rem] items-center bg-blue leading-{1.625rem] rounded-md p-[0.625rem] text-[1.125rem] text-light"
+        className="mb-[1.25rem] flex w-full items-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
       />
       <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
         joined 6 months ago

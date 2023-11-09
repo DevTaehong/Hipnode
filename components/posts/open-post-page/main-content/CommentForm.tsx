@@ -39,7 +39,7 @@ const CommentForm = ({ className, placeholder }: CommentFormProps) => {
     try {
       if (comments && currentPost && currentUser?.id) {
         const userId = currentUser?.id;
-        const newComment: any = await addCommentOrReply(
+        const newComment = await addCommentOrReply(
           userId,
           currentPost.id,
           values.comment,

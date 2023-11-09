@@ -1,11 +1,11 @@
+import { useState } from "react";
 import Image from "next/image";
+import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 
 import { CommentProps } from "@/types/posts";
 import { usePost } from "@/context/posts-context/PostContext";
-import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 import CommentIconButton from "./CommentIconButton";
 import CommentList from "./CommentList";
-import { useState } from "react";
 
 const formatDate = (dateString: Date) => {
   const date = new Date(dateString);
@@ -24,7 +24,7 @@ const Comment = ({
   id,
 }: CommentProps) => {
   const { getRepliesToComments } = usePost();
-  const childComments = getRepliesToComments(String(id)) || [];
+  const childComments = getRepliesToComments(String(id)) ?? [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
 
   return (
@@ -68,14 +68,10 @@ const Comment = ({
           </div>
         </div>
       </section>
-      {childComments.length > 0 && (
-        <>
-          <div className={`${showChildren ? "hidden" : ""}`}>
-            <div className="flex grow flex-col pl-[2.25rem]">
-              <CommentList comments={childComments} />
-            </div>
-          </div>
-        </>
+      {childComments.length > 0 && !showChildren && (
+        <div className="flex grow flex-col pl-[2.25rem]">
+          <CommentList comments={childComments} />
+        </div>
       )}
     </>
   );

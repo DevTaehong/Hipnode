@@ -13,7 +13,7 @@ const PostMainContent = () => {
 
   const { heading, content, image, tags } = currentPost;
 
-  const tagNames = tags?.map((tagRelation: any) => tagRelation.tag.name) || [];
+  const tagNames = tags?.map((tagRelation: any) => tagRelation.tag.name) ?? [];
 
   return (
     <main className="rounded-2xl bg-light dark:bg-dark-3">

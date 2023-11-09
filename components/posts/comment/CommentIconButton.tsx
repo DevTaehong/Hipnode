@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
+import { cn, cn } from "@/lib/utils";
 
 type CommentIconButtonProps = {
   Icon: ComponentType;
@@ -15,10 +16,7 @@ const CommentIconButton = ({
   ...props
 }: CommentIconButtonProps) => {
   return (
-    <button
-      className={`${isActive ? "bg-red-60" : ""} ${color || ""}`}
-      {...props}
-    >
+    <button className={cn(isActive && "bg-red-60", color)} {...props}>
       <span className={`${children ? "mr-1" : ""}`}>
         <Icon />
       </span>
