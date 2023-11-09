@@ -1,18 +1,25 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import OutlineIcon from "@/components/icons/outline-icons";
 
-const Admins = () => {
+const Admins = ({
+  adminsList,
+}: {
+  adminsList: { avatar: string; name: string }[];
+}) => {
   return (
     <div className="flex flex-col gap-2.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div className="flex flex-row items-center justify-between" key={i}>
+      {adminsList.map((admin: { avatar: string; name: string }) => (
+        <div
+          className="flex flex-row items-center justify-between"
+          key={admin.name}
+        >
           <div className="flex items-center gap-2.5">
             <Avatar className="h-[1.875rem] w-[1.875rem]">
-              <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src={admin.avatar} alt={admin.name} />
+              <AvatarFallback>{admin.name}</AvatarFallback>
             </Avatar>
             <p className="semibold-14 font-feature text-sc-2 dark:text-light-2">
-              Taehong
+              {admin.name}
             </p>
           </div>
           <div className="flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-full bg-blue-10">
