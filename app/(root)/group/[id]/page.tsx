@@ -1,7 +1,9 @@
+import GroupAbout from "@/components/group-detail-page/GroupAbout";
+
 const GroupDetailPage = () => {
   return (
-    <div>
-      <p>Group Detail Page</p>
+    <div className="bg-light-2_dark-2 flex h-screen flex-col p-5">
+      <GroupAbout />
     </div>
   );
 };

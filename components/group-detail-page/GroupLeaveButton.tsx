@@ -9,8 +9,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import FillIcon from "./icons/fill-icons";
-import LeaveIcon from "./icons/fill-icons/LeaveIcon";
+import FillIcon from "@/components/icons/fill-icons";
+import LeaveIcon from "@/components/icons/fill-icons/LeaveIcon";
 
 const GroupLeaveButton = () => {
   return (

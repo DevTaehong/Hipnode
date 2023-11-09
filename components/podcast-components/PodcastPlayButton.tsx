@@ -2,13 +2,13 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 
-import OutlineIcon from "../icons/outline-icons";
-import { Button } from "../ui/button";
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
 import { formatPodcastDuration, setToLocalStorage } from "@/utils";
 import usePodcastStore from "@/app/store";
 import { PodcastPlayButtonProps } from "@/types/podcast.index";
+import ShareButtons from "../ShareButtons";
+import { shareIcons } from "@/constants/podcast";
 
 const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
   const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =
@@ -29,11 +29,8 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
 
   const handleClick = useCallback(() => {
     setPodcast(podcast);
-
-    if (isPlaying && url === songUrl) {
-      setSongUrl(url);
-    } else {
-      setSongUrl(url);
+    setSongUrl(url);
+    if (!(isPlaying && url === songUrl)) {
       togglePlay();
     }
     setToLocalStorage("selectedPodcastId", podcast.id);
@@ -65,12 +62,7 @@ const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
           className={`semibold-14 md:regular-16 items-end rounded-[1.25rem] transition duration-500 ${playbackInfo.bgColor} px-4 py-2 text-light`}
           onClick={handleClick}
         />
-        <Button
-          size="icon"
-          className="rounded-full border border-sc-2 dark:border-sc-3"
-        >
-          <OutlineIcon.Share />
-        </Button>
+        <ShareButtons title={podcast.title} shareIcons={shareIcons} />
       </div>
     </div>
   );
