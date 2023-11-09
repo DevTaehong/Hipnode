@@ -1,7 +1,6 @@
 import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
 
-import { christopher } from "@/public/assets";
 import { newest, popular, followers } from "@/public/images";
 import {
   ColorVariantsOnboardingType,
@@ -197,66 +196,11 @@ export const onboardingSideScreenInfo = {
   ],
 };
 
-export const fastestGrowingGroups = [
-  {
-    icon: christopher,
-    groupDescription: "Lorem ipsum dolor sit amet consectetur",
-    groupName: "Lorem ipsum dolor",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Adipiscing elit, sed do eiusmod tempor",
-    groupName: "Sit amet consectetur",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Incididunt ut labore et dolore magna",
-    groupName: "Adipiscing elit duis",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Aliqua enim ad minim veniam quis",
-    groupName: "Tristique sollicitudin nibh",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Nostrud exercitation ullamco laboris nisi ut",
-    groupName: "Sit amet commodo",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Nostrud exercitation ex ea commodo",
-    groupName: "Odio aenean sed",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Aliquip ex ea commodo consequat duis",
-    groupName: "Adipiscing diam donec",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Aute irure dolor in reprehenderit in",
-    groupName: "Amet venenatis urna",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Voluptate velit esse cillum dolore eu",
-    groupName: "Cursus eget nunc",
-  },
-  {
-    icon: christopher,
-    groupDescription: "Fugiat nulla pariatur excepteur sint occaeca",
-    groupName: "Scelerisque viverra mauris",
-  },
-];
-
-export const fastestGrowingSectionHeading = [
-  {
-    title: "Fastest Growing",
-    icon: FillIcon.Growing,
-    bgColor: "bgYellow",
-  },
-];
+export const fastestGrowingSectionHeading = {
+  title: "Fastest Growing",
+  icon: FillIcon.Growing,
+  bgColor: "bgYellow",
+};
 
 export const navLinks = [
   {
