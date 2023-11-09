@@ -79,6 +79,25 @@ export const groupHeaderData = {
 export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 
+export const admins = [
+  {
+    name: "Taehong",
+    avatar: "/negan.png",
+  },
+  {
+    name: "Taehong",
+    avatar: "/negan.png",
+  },
+  {
+    name: "Taehong",
+    avatar: "/negan.png",
+  },
+  {
+    name: "Taehong",
+    avatar: "/negan.png",
+  },
+];
+
 export const colorVariants: ColorVariantsOnboardingType = {
   fillRed: "fill-red",
   fillBlue: "fill-blue",
