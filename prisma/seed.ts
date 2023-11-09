@@ -15,7 +15,7 @@ import prisma from "../lib/prisma";
 async function main() {
   const tags = await createTags();
   const users = await createUsers();
-  const groups = await createGroups(users);
+  const groups = await createGroups();
   await createOnboarding(users);
   await seedInterviewTags();
   await createInterviews(users);

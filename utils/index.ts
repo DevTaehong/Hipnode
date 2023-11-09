@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import { supabase } from "@/utils/supabaseClient";
 import {
   ImVolumeLow,
   ImVolumeMedium,
   ImVolumeMute2,
   ImVolumeHigh,
 } from "react-icons/im";
+
+import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
 
 export function getFormattedDateMeetUpCard(dateString: string) {

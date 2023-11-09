@@ -1,8 +1,8 @@
 import { colorVariants } from "@/components/GroupSectionHeader";
 import GroupSectionListItem from "@/components/GroupSectionListItem";
-import { mostPopularGroups, newlyLaunchedGroups } from "@/constants";
-import { GroupSectionGroupType, GroupSectionHeaderProps } from "@/types";
+import { GroupSectionHeaderProps } from "@/types";
 import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
+import { GroupProps } from "@/types/models";
 
 const PopularAndNewGroup = ({ group }: { group: GroupSectionHeaderProps }) => {
   const Icon = group.icon;
@@ -26,15 +26,27 @@ const PopularAndNewGroup = ({ group }: { group: GroupSectionHeaderProps }) => {
       </div>
       <ul className="my-2.5 flex flex-col gap-2.5 px-2.5">
         {group.title === "Most Popular"
-          ? mostPopularGroups
+          ? group.groups
               .slice(0, 3)
-              .map((group: GroupSectionGroupType) => (
-                <GroupSectionListItem key={group.groupName} group={group} />
+              .map((group: GroupProps) => (
+                <GroupSectionListItem
+                  id={group.id}
+                  key={group.name}
+                  groupName={group.name}
+                  logo={group.logo}
+                  description={group.description}
+                />
               ))
-          : newlyLaunchedGroups
+          : group.groups
               .slice(0, 3)
-              .map((group: GroupSectionGroupType) => (
-                <GroupSectionListItem key={group.groupName} group={group} />
+              .map((group: GroupProps) => (
+                <GroupSectionListItem
+                  id={group.id}
+                  key={group.name}
+                  groupName={group.name}
+                  logo={group.logo}
+                  description={group.description}
+                />
               ))}
       </ul>
       <div className="px-2.5">

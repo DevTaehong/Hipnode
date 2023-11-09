@@ -5,6 +5,24 @@ import { User } from "@prisma/client";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
+import { GroupProps } from "@types/models";
+
+type GroupPromiseProps = {
+  id: number;
+  createdAt?: Date;
+  description: string | null;
+  name: string;
+  updatedAt?: Date;
+  createdBy?: number;
+  coverImage?: string | null;
+  logo: string | null;
+}[];
+
+export type GroupSectionProps = {
+  fastestGrowingGroupsPromise: Promise<GroupPromiseProps>;
+  mostPopularGroupsPromise: Promise<GroupPromiseProps>;
+  newlyLaunchedGroupsPromise: Promise<GroupPromiseProps>;
+};
 
 export type ColorVariantsType = {
   [key: string]: string;
@@ -19,6 +37,7 @@ export interface GroupSectionHeaderProps {
   title: string;
   bgColor: ColorVariantKeys;
   icon: FC;
+  groups?: GroupProps;
 }
 
 export type GroupData = {
@@ -121,17 +140,11 @@ export interface IconProps {
   className?: string;
 }
 
-export type GroupSectionGroupType = {
-  icon: StaticImageData;
-  groupDescription: string;
-  groupName: string;
-};
-
 export type HeadingsType = {
   title: string;
-  bgColor: string;
   icon: FC;
-  groups: GroupSectionGroupType[];
+  bgColor: string;
+  groups: GroupProps;
 };
 
 export interface ChatMessageProps {
