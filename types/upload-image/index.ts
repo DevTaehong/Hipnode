@@ -1,7 +1,7 @@
 import { ChangeEvent, ReactNode } from "react";
 
 export interface ImageUploadProps {
-  bucketName: string;
+  bucketName?: string;
   folderName?: string;
   onFileSelected: (file: File) => void;
   children: ReactNode;
