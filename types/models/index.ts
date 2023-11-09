@@ -5,6 +5,13 @@ import {
   Like as LikeType,
 } from "@prisma/client";
 
+export type GroupProps = {
+  id: number;
+  description: string | null;
+  name: string;
+  logo: string | null;
+}[];
+
 export type ExtendedUser = {
   id: number;
   clerkId: string;

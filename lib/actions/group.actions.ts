@@ -139,3 +139,75 @@ export async function deleteGroup(params: DeleteGroupParams) {
     throw error;
   }
 }
+
+export async function getNewlyLaunchedGroups() {
+  try {
+    const groups = await prisma.group.findMany({
+      take: 11,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return groups;
+  } catch (error) {
+    console.error("Error finding newly launched groups:", error);
+    throw error;
+  }
+}
+
+export async function getMostPopularGroups() {
+  try {
+    const groups = await prisma.group.findMany({
+      take: 11,
+      orderBy: {
+        members: {
+          _count: "desc",
+        },
+      },
+    });
+
+    return groups;
+  } catch (error) {
+    console.error("Error finding most popular groups:", error);
+    throw error;
+  }
+}
+
+export async function getFastestGrowingGroups() {
+  try {
+    const groups = await prisma.group.findMany({
+      include: {
+        members: true,
+      },
+    });
+
+    const growthRates = groups.map((group) => {
+      const createdAt = new Date(group.createdAt);
+      const currentMembersCount = group.members.length;
+
+      const daysSinceCreation = Math.floor(
+        (new Date().getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24) //  (1000 * 60 * 60 * 24) equals the number of milliseconds in a day.
+      );
+
+      const growthRate = currentMembersCount / daysSinceCreation;
+      return {
+        id: group.id,
+        name: group.name,
+        logo: group.logo,
+        description: group.description,
+        growthRate,
+      };
+    });
+
+    // Sort groups by growth rate in descending order
+    growthRates.sort((a, b) => b.growthRate - a.growthRate);
+
+    // Get the fastest-growing groups
+    const fastestGrowingGroups = growthRates.slice(0, 11); // Get top 11 fastest-growing groups
+
+    return fastestGrowingGroups;
+  } catch (error) {
+    console.error("Error finding fastest-growing groups:", error);
+    throw error;
+  }
+}

@@ -1,6 +1,7 @@
-import { GroupSectionGroupType, HeadingsType } from "@/types";
+import { HeadingsType } from "@/types";
 import GroupSectionHeader from "./GroupSectionHeader";
 import GroupSectionListItem from "./GroupSectionListItem";
+import { GroupProps } from "@/types/models";
 
 type SectionGroupProps = {
   section: HeadingsType;
@@ -27,8 +28,14 @@ const SectionGroup = ({
     >
       <GroupSectionHeader title={title} bgColor={bgColor} icon={icon} />
       <ul className="flex flex-col gap-2.5">
-        {mappedGroups.map((group: GroupSectionGroupType) => (
-          <GroupSectionListItem key={group.groupName} group={group} />
+        {mappedGroups.map((group: GroupProps) => (
+          <GroupSectionListItem
+            id={group.id}
+            key={group.name}
+            logo={group.logo}
+            description={group.description}
+            groupName={group.name}
+          />
         ))}
       </ul>
       <button

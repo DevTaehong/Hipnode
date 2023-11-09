@@ -1,33 +1,32 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useState, use } from "react";
 
-import OutlineIcons from "./icons/outline-icons";
-import { sectionHeadings } from "@/constants";
-import { HeadingsType } from "@/types";
-import SectionGroup from "./SectionGroup";
+import OutlineIcons from "@/components/icons/outline-icons";
+import { GroupSectionProps, HeadingsType } from "@/types";
+import SectionGroup from "@/components/SectionGroup";
+import TopPointDecoration from "@/components/TopPointDecoration";
+import { headings } from "@/constants";
 
-const TopPointDecoration = () => {
-  const pathName = usePathname();
-  const isGroupPage = pathName === "/group" ? "hidden" : "block";
-
-  return (
-    <div className={isGroupPage}>
-      <div
-        className={` bg-light_dark-4 absolute left-12 top-[-0.3rem] h-3 w-3 rotate-45 rounded-sm`}
-      />
-      <div className="bg-light_dark-4 absolute left-[3.27rem] top-[-0.45rem] h-[0.125rem] w-[0.2rem] rounded-t-full" />
-      <div className="bg-light-2_dark-2 absolute left-[2.53rem] top-[-0.5rem] h-2 w-[0.75rem] rounded-b-full" />
-      <div className="bg-light-2_dark-2 absolute left-[3.46rem] top-[-0.5rem] h-2 w-[0.75rem] rounded-b-full" />
-    </div>
-  );
-};
-
-const GroupSection = () => {
+const GroupSection = ({
+  fastestGrowingGroupsPromise,
+  mostPopularGroupsPromise,
+  newlyLaunchedGroupsPromise,
+}: GroupSectionProps) => {
   const [expandedGroupIndex, setExpandedGroupIndex] = useState<null | number>(
     null
   );
+
+  const fastestGrowingGroups = use(fastestGrowingGroupsPromise);
+  const mostPopularGroups = use(mostPopularGroupsPromise);
+  const newlyLaunchedGroups = use(newlyLaunchedGroupsPromise);
+
+  const sectionHeadings = headings(
+    fastestGrowingGroups,
+    mostPopularGroups,
+    newlyLaunchedGroups
+  );
+
   return (
     <aside
       className={`bg-light_dark-4 relative flex w-56 flex-col rounded-2xl p-2.5 ${
