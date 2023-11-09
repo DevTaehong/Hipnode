@@ -269,22 +269,22 @@ const mapCommentToExtendedComment = (comment: any): ExtendedComment => {
   return {
     ...comment,
     author: {
-      username: comment.author.username,
-      picture: comment.author.picture,
+      username: comment?.author?.username,
+      picture: comment?.author?.picture,
     },
-    parent: comment.parent
+    parent: comment?.parent
       ? {
-          id: comment.parent.id,
-          content: comment.parent.content,
-          authorId: comment.parent.authorId,
-          postId: comment.parent.postId,
-          parentId: comment.parent.parentId,
-          createdAt: comment.parent.createdAt,
-          updatedAt: comment.parent.updatedAt,
-          isEdited: comment.parent.isEdited,
+          id: comment?.parent?.id,
+          content: comment?.parent?.content,
+          authorId: comment?.parent?.authorId,
+          postId: comment?.parent?.postId,
+          parentId: comment?.parent?.parentId,
+          createdAt: comment?.parent?.createdAt,
+          updatedAt: comment?.parent?.updatedAt,
+          isEdited: comment?.parent?.isEdited,
           author: {
-            username: comment.parent.author.username,
-            picture: comment.parent.author.picture,
+            username: comment?.parent?.author?.username,
+            picture: comment?.parent?.author?.picture,
           },
         }
       : undefined,

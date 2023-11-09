@@ -86,6 +86,15 @@ export const formatDate = (date: Date) => {
   return { monthText, day };
 };
 
+export const formatDateShort = (dateString: Date) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 export const formatDatePostFormat = (date: Date) => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",

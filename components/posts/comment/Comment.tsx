@@ -6,15 +6,8 @@ import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 import CommentIconButton from "./CommentIconButton";
 import CommentList from "./CommentList";
 import { useState } from "react";
-
-const formatDate = (dateString: Date) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
+import CommentForm from "../open-post-page/main-content/CommentForm";
+import { formatDateShort } from "@/utils";
 
 const Comment = ({
   content,
@@ -26,6 +19,7 @@ const Comment = ({
   const { getRepliesToComments } = usePost();
   const childComments = getRepliesToComments(String(id)) || [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
+  const [isReplying, setIsReplying] = useState<boolean>(false);
 
   return (
     <>
@@ -46,7 +40,7 @@ const Comment = ({
             </p>
             <span className="flex flex-row text-[0.875rem] leading-[1.375rem] text-light">
               <span className="px-2">•</span>
-              {formatDate(createdAt)}
+              {formatDateShort(createdAt)}
               <span className="px-2">•</span>
             </span>
             {isEdited && (
@@ -57,7 +51,11 @@ const Comment = ({
             {content}
           </div>
           <div className="flex flex-row justify-start gap-4">
-            <CommentIconButton Icon={Reply} color="text-blue" />
+            <CommentIconButton
+              Icon={Reply}
+              color="text-blue"
+              onClick={() => setIsReplying((previous) => !previous)}
+            />
             <CommentIconButton Icon={Heart} color="text-red" />
             <CommentIconButton Icon={Trash} color="text-red-80" />
             <CommentIconButton
@@ -66,8 +64,10 @@ const Comment = ({
               onClick={() => setShowChildren((previous) => !previous)}
             />
           </div>
+          {isReplying && <CommentForm parentId={String(id)} />}
         </div>
       </section>
+
       {childComments.length > 0 && (
         <>
           <div className={`${showChildren ? "hidden" : ""}`}>

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import React, { ReactNode } from "react";
+import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
@@ -81,7 +81,7 @@ export interface CommentProps {
   content: string;
   authorId: number;
   postId: number;
-  parentId: number | null;
+  parentId: string | null;
   createdAt: Date;
   updatedAt: Date;
   isEdited: boolean;
@@ -93,7 +93,7 @@ interface CommentAuthorProps {
   content: string;
   authorId: number;
   postId: number;
-  parentId: number | null;
+  parentId: string | null;
   createdAt: Date;
   updatedAt: Date;
   isEdited: boolean;
@@ -131,3 +131,19 @@ export interface PostContextType {
 export interface PostProviderProps {
   children: ReactNode;
 }
+
+export type CommentIconButtonProps = {
+  Icon: ComponentType;
+  isActive?: boolean;
+  color?: string;
+  children?: ReactNode;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+type DevInfoItem = {
+  title: string;
+  tags: string;
+};
+
+export type DevelopmentInfoProps = {
+  devInfo: DevInfoItem[];
+};

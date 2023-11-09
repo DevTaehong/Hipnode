@@ -1,14 +1,7 @@
 import React from "react";
 import MoreInformationItem from "./MoreInformationItem";
 
-type DevInfoItem = {
-  title: string;
-  tags: string;
-};
-
-type DevelopmentInfoProps = {
-  devInfo: DevInfoItem[];
-};
+import { DevelopmentInfoProps } from "@/types/posts";
 
 const DevelopmentInfo = ({ devInfo }: DevelopmentInfoProps) => {
   return (

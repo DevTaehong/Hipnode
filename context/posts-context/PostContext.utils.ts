@@ -6,7 +6,7 @@ export const groupCommentsByParentId = (
   const group: Record<string, CommentProps[]> = {};
   comments.forEach((comment) => {
     const key =
-      comment?.parentId === null ? "null" : comment.parentId.toString();
+      comment?.parentId === null ? "null" : comment?.parentId?.toString();
     if (!group[key]) {
       group[key] = [];
     }

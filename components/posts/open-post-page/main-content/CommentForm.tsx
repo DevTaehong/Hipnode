@@ -23,9 +23,14 @@ const formSchema = z.object({
 interface CommentFormProps {
   className?: string;
   placeholder?: string;
+  parentId?: string;
 }
 
-const CommentForm = ({ className, placeholder }: CommentFormProps) => {
+const CommentForm = ({
+  className,
+  placeholder,
+  parentId,
+}: CommentFormProps) => {
   const { setComments, comments, currentUser, currentPost } = usePost();
 
   const form = useForm({
@@ -43,8 +48,12 @@ const CommentForm = ({ className, placeholder }: CommentFormProps) => {
           userId,
           currentPost.id,
           values.comment,
-          null
+          Number(parentId) || null
         );
+        console.log(userId);
+        console.log(currentPost.id);
+        console.log(values.comment);
+        console.log(parentId);
 
         setComments([...comments, newComment]);
       }
