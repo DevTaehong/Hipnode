@@ -7,6 +7,7 @@ const CommentBox = () => (
       <Image src="/images/emoji_2.png" alt="emoji" width={40} height={40} />
     </div>
     <div className="flex grow justify-between rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
+      {/* @ts-ignore */}
       <CommentForm />
       <Image
         src="/smiley.svg"

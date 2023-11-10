@@ -1,3 +1,6 @@
+// eslint-disable-next-line
+import { experimental_useOptimistic as useOptimistic } from "react";
+
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,15 +30,12 @@ const CommentForm = ({
   value = ``,
   isEditing = false,
   commentId,
+  setIsEditing,
+  setIsReplying,
 }: CommentFormProps) => {
-  const {
-    setComments,
-    comments,
-    currentUser,
-    currentPost,
-    setIsEditing,
-    setIsReplying,
-  } = usePost();
+  const { setComments, comments, currentUser, currentPost } = usePost();
+  const [optimisticComments, setOptimisticComments] =
+    useOptimistic<CommentFormProps[]>(comments);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,20 +48,31 @@ const CommentForm = ({
     try {
       if (isEditing) {
         const commentID: number = Number(commentId);
-        await updateComment(commentID, values.comment);
-        setComments(
-          comments?.map((comment) => {
-            if (comment.id === commentID) {
-              return {
-                ...comment,
-                content: values.comment,
-              };
-            }
-            return comment;
-          })
+        const updatedComments = optimisticComments.map(
+          (comment: CommentFormProps) =>
+            Number(comment.id) === commentID
+              ? { ...comment, content: values.comment }
+              : comment
         );
+        setOptimisticComments((prevs: CommentFormProps[]) => [
+          ...prevs,
+          updatedComments,
+        ]);
+        await updateComment(commentID, values.comment);
+        setComments(updatedComments);
         setIsEditing(false);
       } else if (comments && currentPost && currentUser?.id) {
+        const newCommentData = {
+          content: values.comment,
+          authorId: currentUser?.id,
+          postId: currentPost.id,
+          parentId: Number(parentId) || null,
+        };
+        setOptimisticComments((prevs: CommentFormProps[]) => [
+          ...prevs,
+          newCommentData,
+        ]);
+
         const userId = currentUser?.id;
         const newComment = await addCommentOrReply(
           userId,
@@ -69,7 +80,7 @@ const CommentForm = ({
           values.comment,
           Number(parentId) || null
         );
-        setComments([...comments, newComment]);
+        setComments([...optimisticComments, newComment]);
       }
       setIsReplying(false);
     } catch (error) {

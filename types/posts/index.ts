@@ -155,10 +155,34 @@ export type DevelopmentInfoProps = {
 };
 
 export interface CommentFormProps {
+  id?: string;
   className?: string;
   placeholder?: string;
   parentId?: string;
   value?: string;
   isEditing?: boolean;
   commentId?: string;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface AuthorAvatarProps {
+  picture: string;
+}
+
+export interface CommentActionsProps {
+  onReplyClick: () => void;
+  onDeleteClick: () => void;
+  onEditClick: () => void;
+  onShowChildrenClick: () => void;
+}
+
+export interface CommentContentProps {
+  content: string;
+}
+
+export interface CommentHeaderProps {
+  username: string;
+  createdAt: Date;
+  isEdited: boolean;
 }

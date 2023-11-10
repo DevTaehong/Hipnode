@@ -1,13 +1,11 @@
 import { formatDateShort } from "@/utils";
-import { AuthorProps } from "@/types/posts";
+import { CommentHeaderProps } from "@/types/posts";
 
-type CommentMetaProps = {
-  username: AuthorProps["username"];
-  createdAt: Date;
-  isEdited: boolean;
-};
-
-const CommentMeta = ({ username, createdAt, isEdited }: CommentMetaProps) => (
+const CommentHeader = ({
+  username,
+  createdAt,
+  isEdited,
+}: CommentHeaderProps) => (
   <div className="mb-[1.25rem] flex flex-row">
     <p className="pr-[0.625rem] text-[1rem] leading-[1.375rem] text-light">
       {username}
@@ -23,4 +21,4 @@ const CommentMeta = ({ username, createdAt, isEdited }: CommentMetaProps) => (
   </div>
 );
 
-export default CommentMeta;
+export default CommentHeader;

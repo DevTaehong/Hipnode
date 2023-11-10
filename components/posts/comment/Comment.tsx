@@ -1,14 +1,16 @@
 import { useState } from "react";
-import Image from "next/image";
-import { Reply, Trash, Heart, MoreHorizontal, Edit } from "lucide-react";
 
 import { CommentProps } from "@/types/posts";
-import CommentIconButton from "./CommentIconButton";
-import CommentList from "./CommentList";
 import CommentForm from "../open-post-page/main-content/CommentForm";
-import { formatDateShort } from "@/utils";
 import { usePost } from "@/hooks/context/usePost";
 import { deleteCommentOrReply } from "@/lib/actions/post.action";
+import {
+  CommentHeader,
+  CommentActions,
+  CommentContent,
+  CommentList,
+  AuthorAvatar,
+} from "./index";
 
 const Comment = ({
   content,
@@ -17,12 +19,7 @@ const Comment = ({
   author: { picture, username },
   id,
 }: CommentProps) => {
-  const {
-    getRepliesToComments,
-
-    setComments,
-    comments,
-  } = usePost();
+  const { getRepliesToComments, setComments, comments } = usePost();
   const childComments = getRepliesToComments(String(id)) ?? [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,62 +37,35 @@ const Comment = ({
   return (
     <>
       <section className="flex py-[1.25rem] pr-[1.25rem]">
-        <div className="flex items-start justify-center px-[1.25rem]">
-          <Image
-            src={picture}
-            alt="comment author image"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-        </div>
+        <AuthorAvatar picture={picture} />
         <div className="flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
-          <div className="mb-[1.25rem] flex flex-row">
-            <p className="pr-[0.625rem] text-[1rem] leading-[1.375rem] text-light">
-              {username}
-            </p>
-            <span className="flex flex-row text-[0.875rem] leading-[1.375rem] text-light">
-              <span className="px-2">•</span>
-              {formatDateShort(createdAt)}
-              <span className="px-2">•</span>
-            </span>
-            {isEdited && (
-              <p className="text-[1rem] leading-[1.5rem] text-sc-3">Edited</p>
-            )}
-          </div>
-          <div className="flex text-[1rem] leading-[1.5rem] text-sc-3">
-            {content}
-          </div>
-          <div className="flex flex-row justify-start gap-4">
-            <CommentIconButton
-              Icon={Reply}
-              color="text-blue"
-              onClick={() => setIsReplying((previous) => !previous)}
+          <CommentHeader
+            username={username}
+            createdAt={createdAt}
+            isEdited={isEdited}
+          />
+          <CommentContent content={content} />
+          <CommentActions
+            onReplyClick={() => setIsReplying((previous) => !previous)}
+            onDeleteClick={handleDelete}
+            onEditClick={() => setIsEditing((previous) => !previous)}
+            onShowChildrenClick={() => setShowChildren((previous) => !previous)}
+          />
+          {isReplying && (
+            <CommentForm
+              parentId={String(id)}
+              setIsReplying={setIsReplying}
+              setIsEditing={setIsEditing}
             />
-            <CommentIconButton Icon={Heart} color="text-red" />
-            <CommentIconButton
-              Icon={Trash}
-              color="text-red-80"
-              onClick={handleDelete}
-            />
-            <CommentIconButton
-              Icon={Edit}
-              color="text-red-80"
-              onClick={() => setIsEditing((previous) => !previous)}
-            />
-            <CommentIconButton
-              Icon={MoreHorizontal}
-              color="text-red-80"
-              onClick={() => setShowChildren((previous) => !previous)}
-            />
-          </div>
-          {isReplying && <CommentForm parentId={String(id)} />}
+          )}
           {isEditing && (
             <CommentForm
               parentId={String(id)}
               value={content}
               isEditing={true}
               commentId={String(id)}
+              setIsEditing={setIsEditing}
+              setIsReplying={setIsReplying}
             />
           )}
         </div>

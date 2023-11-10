@@ -1,11 +1,12 @@
-import CommentBox from "./CommentBox";
-import PostDescription from "./PostDescription";
-import PostImage from "./PostImage";
-import PostTitle from "./PostTitle";
-import TagsList from "./TagsList";
-import CommentList from "../../comment/CommentList";
+import CommentList from "@/components/posts/comment/CommentList";
 import { usePost } from "@/hooks/context/usePost";
-
+import {
+  TagsList,
+  PostTitle,
+  PostImage,
+  PostDescription,
+  CommentBox,
+} from "./index";
 const PostMainContent = () => {
   const { currentPost, currentUser, rootComments } = usePost();
 
