@@ -22,7 +22,7 @@ import {
   Seo,
   Share,
   View,
-  Trash,
+  TrashIcon,
 } from "./Icon";
 import IconAlt from "./IconAlt";
 import NewIcon from "./NewIcon";
@@ -64,7 +64,7 @@ OutlineIcon.Trash = function Icon({ className }: OutlineIconProps) {
     <OutlineIcon
       className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
     >
-      <Trash />
+      <TrashIcon />
     </OutlineIcon>
   );
 };

@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import OutlineIcon from "@/components/icons/outline-icons";
-import { Trash } from "@/components/icons/outline-icons/Icon";
+import { TrashIcon } from "@/components/icons/outline-icons/Icon";
 import { deleteGroup } from "@/lib/actions/group.actions";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -58,7 +58,7 @@ const MoreButton = ({ groupId }: { groupId: number }) => {
           onSelect={handleDeleteGroup}
         >
           <OutlineIcon className="fill-none">
-            <Trash />
+            <TrashIcon />
           </OutlineIcon>
           Delete Group
         </DropdownMenuItem>
