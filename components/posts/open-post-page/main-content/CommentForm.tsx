@@ -1,4 +1,4 @@
-// eslint-disable-next-line
+// @ts-ignore
 import { experimental_useOptimistic as useOptimistic } from "react";
 
 import { useForm } from "react-hook-form";
