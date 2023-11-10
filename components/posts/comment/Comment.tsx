@@ -27,7 +27,7 @@ const Comment = ({
 
   const handleDelete = async () => {
     try {
-      await deleteCommentOrReply(id);
+      await deleteCommentOrReply(Number(id));
       setComments(comments.filter((comment) => comment.id !== id));
     } catch (error) {
       console.error("Error deleting comment:", error);
