@@ -9,6 +9,11 @@ interface ChatUser {
   image: string;
 }
 
+interface ChatProps {
+  username: string;
+  userImage: string;
+}
+
 interface ChatMessage {
   data: {
     text: string;
@@ -17,7 +22,7 @@ interface ChatMessage {
   connectionId: string;
 }
 
-const ChatBox = () => {
+const ChatBox = ({ username, userImage }: ChatProps) => {
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
@@ -36,8 +41,8 @@ const ChatBox = () => {
 
   const currentUser = {
     id: "1",
-    name: "Christopher",
-    image: christopher,
+    name: username,
+    image: userImage,
   };
 
   const sendChatMessage = (messageText: string) => {
@@ -69,7 +74,7 @@ const ChatBox = () => {
   };
 
   channel.presence.subscribe("enter", function (member) {
-    alert("Member " + currentUser.name + " entered");
+    console.log("Member " + currentUser.name + " entered");
   });
   channel.presence.enter();
 
