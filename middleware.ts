@@ -9,7 +9,7 @@ export default authMiddleware({
     "/api/webhook/clerk",
     "/api/webhooks/user",
     "/test",
-    "posts/[id]",
+    "/posts/[id]",
   ],
 });
 
