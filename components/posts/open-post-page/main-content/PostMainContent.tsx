@@ -10,7 +10,7 @@ import {
 const PostMainContent = () => {
   const { currentPost, currentUser, rootComments } = usePost();
 
-  if (!currentPost || !currentUser) return null;
+  if (!currentPost || !currentUser) return <p>Loading...</p>;
 
   const { heading, content, image, tags } = currentPost;
 

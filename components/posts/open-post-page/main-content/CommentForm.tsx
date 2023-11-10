@@ -1,6 +1,3 @@
-// @ts-ignore
-import { experimental_useOptimistic as useOptimistic } from "react";
-
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,8 +31,6 @@ const CommentForm = ({
   setIsReplying,
 }: CommentFormProps) => {
   const { setComments, comments, currentUser, currentPost } = usePost();
-  const [optimisticComments, setOptimisticComments] =
-    useOptimistic<CommentFormProps[]>(comments);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,21 +43,7 @@ const CommentForm = ({
     try {
       if (isEditing) {
         const commentID: number = Number(commentId);
-        setOptimisticComments((prevs: CommentFormProps[]) => {
-          const updatedIndex = prevs.findIndex(
-            (comment) => Number(comment.id) === commentID
-          );
-          if (updatedIndex !== -1) {
-            prevs[updatedIndex] = {
-              ...prevs[updatedIndex],
-              content: values?.comment,
-            };
-          }
-          return [...prevs];
-        });
-
         await updateComment(commentID, values.comment);
-
         setComments((prevComments) => {
           return prevComments.map((comment) => {
             if (Number(comment?.id) === commentID) {
@@ -75,17 +56,6 @@ const CommentForm = ({
 
         setIsEditing(false);
       } else if (comments && currentPost && currentUser?.id) {
-        const newCommentData = {
-          content: values.comment,
-          authorId: currentUser?.id,
-          postId: currentPost.id,
-          parentId: Number(parentId) || null,
-        };
-        setOptimisticComments((prevs: CommentFormProps[]) => [
-          ...prevs,
-          newCommentData,
-        ]);
-
         const userId = currentUser?.id;
         const newComment = await addCommentOrReply(
           userId,
@@ -93,7 +63,7 @@ const CommentForm = ({
           values.comment,
           Number(parentId) || null
         );
-        setComments([...optimisticComments, newComment]);
+        setComments([...comments, newComment]);
       }
     } catch (error) {
       console.error("Error processing comment:", error);
