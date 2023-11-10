@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useChannel } from "ably/react";
-import { christopher } from "@/public/assets";
 import Image from "next/image";
 
 interface ChatUser {
@@ -28,6 +27,8 @@ const ChatBox = ({ username, userImage }: ChatProps) => {
   const messageTextIsEmpty = messageText.trim().length === 0;
   const inputBox = useRef<HTMLTextAreaElement>(null);
   const messageEnd = useRef<HTMLDivElement>(null);
+  const [users, setUsers] = useState<string[]>([]);
+  console.log(users);
 
   const { channel, ably } = useChannel("chat-demo", (message: ChatMessage) => {
     const history = receivedMessages.slice(-199);
@@ -74,8 +75,20 @@ const ChatBox = ({ username, userImage }: ChatProps) => {
   };
 
   channel.presence.subscribe("enter", function (member) {
+    console.log(member.data);
     console.log("Member " + currentUser.name + " entered");
+    setUsers((prevUsers) => {
+      const memberName = currentUser.name; // Assuming clientId is the username
+      if (!prevUsers.includes(memberName)) {
+        console.log(users);
+        return [...prevUsers, memberName];
+      } else {
+        console.log(users);
+        return prevUsers;
+      }
+    });
   });
+
   channel.presence.enter();
 
   channel.presence.get(function (err, members) {
@@ -120,6 +133,9 @@ const ChatBox = ({ username, userImage }: ChatProps) => {
   return (
     <div className="flex-center fixed bottom-10 right-10 h-[450px] w-[450px] flex-col bg-white">
       <div className="flex w-full flex-col">
+        {users.map((user) => (
+          <p key={user}>{user}</p>
+        ))}
         {messages}
         <div ref={messageEnd} />
       </div>
