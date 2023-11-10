@@ -119,7 +119,7 @@ export interface PostContextType {
     id?: number;
     picture: string;
     username: string;
-  };
+  } | null;
 
   commentsByParentId: {
     [key: string]: CommentProps[];
