@@ -64,8 +64,8 @@ const Comment = ({
               value={content}
               isEditing={true}
               commentId={String(id)}
-              setIsEditing={setIsEditing}
               setIsReplying={setIsReplying}
+              setIsEditing={setIsEditing}
             />
           )}
         </div>

@@ -59,8 +59,8 @@ const CommentForm = ({
           updatedComments,
         ]);
         await updateComment(commentID, values.comment);
-        setComments(updatedComments);
-        setIsEditing(false);
+        setComments([...optimisticComments, updatedComments]);
+        setIsEditing((previous) => !previous);
       } else if (comments && currentPost && currentUser?.id) {
         const newCommentData = {
           content: values.comment,
@@ -82,7 +82,7 @@ const CommentForm = ({
         );
         setComments([...optimisticComments, newComment]);
       }
-      setIsReplying(false);
+      setIsEditing((previous) => !previous);
     } catch (error) {
       console.error("Error processing comment:", error);
     }
