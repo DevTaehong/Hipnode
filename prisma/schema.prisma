@@ -88,7 +88,7 @@ model Comment {
   updatedAt DateTime  @updatedAt
   isEdited  Boolean   @default(false)
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
   replies   Comment[] @relation("CommentToComment")
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   likes     Like[]

@@ -115,6 +115,12 @@ export interface PostContextType {
   comments: CommentProps[];
   setComments: React.Dispatch<React.SetStateAction<CommentProps[]>>;
 
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+
+  isReplying: boolean;
+  setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
+
   currentUser: {
     id?: number;
     picture: string;
@@ -147,3 +153,12 @@ type DevInfoItem = {
 export type DevelopmentInfoProps = {
   devInfo: DevInfoItem[];
 };
+
+export interface CommentFormProps {
+  className?: string;
+  placeholder?: string;
+  parentId?: string;
+  value?: string;
+  isEditing?: boolean;
+  commentId?: string;
+}

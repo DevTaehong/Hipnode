@@ -23,6 +23,9 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   const [currentPost, setCurrentPost] = useState<ExtendedPost | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isReplying, setIsReplying] = useState<boolean>(false);
+
   const { id } = useParams();
   const { isLoaded, userId } = useAuth();
 
@@ -66,6 +69,10 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     setComments,
     comments,
     rootComments: commentsByParentId.null,
+    isEditing,
+    setIsEditing,
+    isReplying,
+    setIsReplying,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;

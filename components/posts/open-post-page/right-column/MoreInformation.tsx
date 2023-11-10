@@ -1,7 +1,7 @@
 import { devInfo } from "@/constants";
 import RightColumnWrapper from "./RightColumnWrapper";
-import { usePost } from "@/context/posts-context/PostContext";
 import DevelopmentInfo from "./DevelopmentInformation";
+import { usePost } from "@/hooks/context/usePost";
 
 const MoreInformation = () => {
   const { currentPost } = usePost();

@@ -30,7 +30,6 @@ export async function createGroups() {
             data: Array.from({ length: 5 }).map(() => ({
               heading: faker.lorem.sentence(),
               content: faker.lorem.paragraph({ min: 2, max: 10 }),
-              heading: faker.lorem.sentence(),
               authorId: user.id,
               viewCount: faker.number.int({ min: 0, max: 1000 }),
               isEdited: faker.datatype.boolean(),

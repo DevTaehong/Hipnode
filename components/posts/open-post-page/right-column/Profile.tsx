@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "./RightColumnWrapper";
-import { usePost } from "@/context/posts-context/PostContext";
+import { usePost } from "@/hooks/context/usePost";
 
 const Profile = () => {
   const { currentUser } = usePost();

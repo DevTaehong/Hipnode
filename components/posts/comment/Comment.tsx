@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
+import { Reply, Trash, Heart, MoreHorizontal, Edit } from "lucide-react";
 
 import { CommentProps } from "@/types/posts";
 import CommentIconButton from "./CommentIconButton";
@@ -8,6 +8,7 @@ import CommentList from "./CommentList";
 import CommentForm from "../open-post-page/main-content/CommentForm";
 import { formatDateShort } from "@/utils";
 import { usePost } from "@/hooks/context/usePost";
+import { deleteCommentOrReply } from "@/lib/actions/post.action";
 
 const Comment = ({
   content,
@@ -16,10 +17,25 @@ const Comment = ({
   author: { picture, username },
   id,
 }: CommentProps) => {
-  const { getRepliesToComments } = usePost();
+  const {
+    getRepliesToComments,
+
+    setComments,
+    comments,
+  } = usePost();
   const childComments = getRepliesToComments(String(id)) ?? [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
-  const [isReplying, setIsReplying] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      await deleteCommentOrReply(id);
+      setComments(comments.filter((comment) => comment.id !== id));
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
 
   return (
     <>
@@ -57,7 +73,16 @@ const Comment = ({
               onClick={() => setIsReplying((previous) => !previous)}
             />
             <CommentIconButton Icon={Heart} color="text-red" />
-            <CommentIconButton Icon={Trash} color="text-red-80" />
+            <CommentIconButton
+              Icon={Trash}
+              color="text-red-80"
+              onClick={handleDelete}
+            />
+            <CommentIconButton
+              Icon={Edit}
+              color="text-red-80"
+              onClick={() => setIsEditing((previous) => !previous)}
+            />
             <CommentIconButton
               Icon={MoreHorizontal}
               color="text-red-80"
@@ -65,6 +90,14 @@ const Comment = ({
             />
           </div>
           {isReplying && <CommentForm parentId={String(id)} />}
+          {isEditing && (
+            <CommentForm
+              parentId={String(id)}
+              value={content}
+              isEditing={true}
+              commentId={String(id)}
+            />
+          )}
         </div>
       </section>
       {childComments.length > 0 && !showChildren && (

@@ -11,8 +11,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { addCommentOrReply } from "@/lib/actions/post.action";
-import { usePost } from "@/context/posts-context/PostContext";
+import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
+import { usePost } from "@/hooks/context/usePost";
+import { CommentFormProps } from "@/types/posts";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -20,29 +21,47 @@ const formSchema = z.object({
   }),
 });
 
-interface CommentFormProps {
-  className?: string;
-  placeholder?: string;
-  parentId?: string;
-}
-
 const CommentForm = ({
   className,
-  placeholder,
   parentId,
+  value = ``,
+  isEditing = false,
+  commentId,
 }: CommentFormProps) => {
-  const { setComments, comments, currentUser, currentPost } = usePost();
+  const {
+    setComments,
+    comments,
+    currentUser,
+    currentPost,
+    setIsEditing,
+    setIsReplying,
+  } = usePost();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      comment: "",
+      comment: value,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      if (comments && currentPost && currentUser?.id) {
+      if (isEditing) {
+        const commentID: number = Number(commentId);
+        await updateComment(commentID, values.comment);
+        setComments(
+          comments?.map((comment) => {
+            if (comment.id === commentID) {
+              return {
+                ...comment,
+                content: values.comment,
+              };
+            }
+            return comment;
+          })
+        );
+        setIsEditing(false);
+      } else if (comments && currentPost && currentUser?.id) {
         const userId = currentUser?.id;
         const newComment = await addCommentOrReply(
           userId,
@@ -50,15 +69,11 @@ const CommentForm = ({
           values.comment,
           Number(parentId) || null
         );
-        console.log(userId);
-        console.log(currentPost.id);
-        console.log(values.comment);
-        console.log(parentId);
-
         setComments([...comments, newComment]);
       }
+      setIsReplying(false);
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error("Error processing comment:", error);
     }
     form.reset();
   };

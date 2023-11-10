@@ -294,8 +294,7 @@ export async function addCommentOrReply(
   userId: number,
   postId: number,
   content: string,
-  parentId: number | null,
-  path?: string
+  parentId: number | null
 ): Promise<ExtendedComment> {
   try {
     const newComment = await prisma.comment.create({
@@ -319,6 +318,52 @@ export async function addCommentOrReply(
     return mapCommentToExtendedComment(newComment);
   } catch (error) {
     console.error("Error adding comment or reply:", error);
+    throw error;
+  }
+}
+
+export async function updateComment(
+  commentId: number,
+  content: string
+): Promise<ExtendedComment> {
+  try {
+    const comment = await prisma.comment.update({
+      where: { id: commentId },
+      data: {
+        content,
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        parent: true,
+      },
+    });
+
+    console.log("Comment updated successfully:", comment);
+    return mapCommentToExtendedComment(comment);
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    throw error;
+  }
+}
+
+export async function deleteCommentOrReply(commentId: number): Promise<void> {
+  try {
+    await prisma.comment.deleteMany({
+      where: { parentId: commentId },
+    });
+
+    await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    console.log("Comment and its replies deleted successfully");
+  } catch (error) {
+    console.error("Error deleting comment or replies:", error);
     throw error;
   }
 }
