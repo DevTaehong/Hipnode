@@ -49,7 +49,7 @@ const PodcastPageFilter = ({
           setHasMoreItems(false);
         } else {
           setPodcasts((prevPodcasts) => [
-            ...(prevPodcasts || []),
+            ...(prevPodcasts ?? []),
             ...morePodcasts,
           ]);
           setPodcastAmount((prevValue) => prevValue + 20);

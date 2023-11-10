@@ -1,13 +1,13 @@
+import { useState } from "react";
 import Image from "next/image";
+import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 
 import { CommentProps } from "@/types/posts";
-import { usePost } from "@/context/posts-context/PostContext";
-import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 import CommentIconButton from "./CommentIconButton";
 import CommentList from "./CommentList";
-import { useState } from "react";
 import CommentForm from "../open-post-page/main-content/CommentForm";
 import { formatDateShort } from "@/utils";
+import { usePost } from "@/hooks/context/usePost";
 
 const Comment = ({
   content,
@@ -17,7 +17,7 @@ const Comment = ({
   id,
 }: CommentProps) => {
   const { getRepliesToComments } = usePost();
-  const childComments = getRepliesToComments(String(id)) || [];
+  const childComments = getRepliesToComments(String(id)) ?? [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isReplying, setIsReplying] = useState<boolean>(false);
 
@@ -67,15 +67,10 @@ const Comment = ({
           {isReplying && <CommentForm parentId={String(id)} />}
         </div>
       </section>
-
-      {childComments.length > 0 && (
-        <>
-          <div className={`${showChildren ? "hidden" : ""}`}>
-            <div className="flex grow flex-col pl-[2.25rem]">
-              <CommentList comments={childComments} />
-            </div>
-          </div>
-        </>
+      {childComments.length > 0 && !showChildren && (
+        <div className="flex grow flex-col pl-[2.25rem]">
+          <CommentList comments={childComments} />
+        </div>
       )}
     </>
   );

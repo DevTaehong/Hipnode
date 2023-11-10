@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 import { useAuth } from "@clerk/nextjs";
 
 import { useParams } from "next/navigation";
@@ -23,7 +17,7 @@ import {
   getRepliesToComments as getReplies,
 } from "./PostContext.utils";
 
-const PostContext = createContext<PostContextType | null>(null);
+export const PostContext = createContext<PostContextType | null>(null);
 
 export const PostProvider = ({ children }: PostProviderProps) => {
   const [currentPost, setCurrentPost] = useState<ExtendedPost | null>(null);
@@ -75,12 +69,4 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
-};
-
-export const usePost = (): PostContextType => {
-  const context = useContext(PostContext);
-  if (!context) {
-    throw new Error("usePost must be used within a PostProvider");
-  }
-  return context;
 };
