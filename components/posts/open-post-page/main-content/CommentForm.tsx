@@ -48,18 +48,31 @@ const CommentForm = ({
     try {
       if (isEditing) {
         const commentID: number = Number(commentId);
-        const updatedComments = optimisticComments.map(
-          (comment: CommentFormProps) =>
-            Number(comment.id) === commentID
-              ? { ...comment, content: values.comment }
-              : comment
-        );
-        setOptimisticComments((prevs: CommentFormProps[]) => [
-          ...prevs,
-          updatedComments,
-        ]);
+        setOptimisticComments((prevs: CommentFormProps[]) => {
+          const updatedIndex = prevs.findIndex(
+            (comment) => Number(comment.id) === commentID
+          );
+          if (updatedIndex !== -1) {
+            prevs[updatedIndex] = {
+              ...prevs[updatedIndex],
+              content: values?.comment,
+            };
+          }
+          return [...prevs];
+        });
+
         await updateComment(commentID, values.comment);
-        setComments([...optimisticComments, updatedComments]);
+
+        setComments((prevComments) => {
+          return prevComments.map((comment) => {
+            if (Number(comment?.id) === commentID) {
+              return { ...comment, content: values.comment };
+            } else {
+              return comment;
+            }
+          });
+        });
+
         setIsEditing(false);
       } else if (comments && currentPost && currentUser?.id) {
         const newCommentData = {
