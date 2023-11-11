@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CommentProps } from "@/types/posts";
 import CommentForm from "../open-post-page/main-content/CommentForm";
 import { usePost } from "@/hooks/context/usePost";
-import { deleteCommentOrReply } from "@/utils/server-actions";
+
 import {
   CommentHeader,
   CommentActions,
@@ -11,6 +11,7 @@ import {
   CommentList,
   AuthorAvatar,
 } from "./index";
+import { deleteCommentOrReply } from "@/lib/actions/post.action";
 
 const Comment = ({
   content,
@@ -19,7 +20,7 @@ const Comment = ({
   author: { picture, username },
   id,
 }: CommentProps) => {
-  const { getRepliesToComments } = usePost();
+  const { getRepliesToComments, comments, setComments } = usePost();
   const childComments = getRepliesToComments(String(id)) ?? [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +28,8 @@ const Comment = ({
 
   const handleDelete = async () => {
     try {
-      await deleteCommentOrReply(Number(id));
+      await deleteCommentOrReply(id);
+      setComments(comments.filter((comment) => comment.id !== id));
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
