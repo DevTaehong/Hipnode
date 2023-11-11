@@ -55,6 +55,9 @@ export async function getGroupById(params: GetGroupByIdParams) {
       where: {
         id: groupId,
       },
+      include: {
+        posts: true,
+      },
     });
 
     return group;
