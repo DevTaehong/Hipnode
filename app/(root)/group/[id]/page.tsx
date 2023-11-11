@@ -1,3 +1,4 @@
+import ActiveMembers from "@/components/group-detail-page/active-members/ActiveMembers";
 import GroupAbout from "@/components/group-detail-page/GroupAbout";
 import GroupAdmins from "@/components/group-detail-page/GroupAdmins";
 import GroupCover from "@/components/group-detail-page/GroupCover";
@@ -13,6 +14,7 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
       <GroupCover group={group} />
       <GroupAbout />
       <GroupAdmins />
+      <ActiveMembers members={group?.members ?? []} />
 
       <RecentMedia media={group?.posts ?? []} />
     </div>
