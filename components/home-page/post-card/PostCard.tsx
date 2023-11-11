@@ -19,7 +19,7 @@ const PostCard = ({
   },
 }: PostCardProps) => (
   <article className="px-[1.25rem] lg:px-[0]">
-    <Link href={`/posts/${id}`}>
+    <Link href={`/post/${id}`}>
       <div className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
         <PostImage postImage={image} />
         <div className="ml-[0.875rem] flex grow flex-col justify-between">
