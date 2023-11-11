@@ -13,7 +13,7 @@ const CommentHeader = ({
     <span className="flex flex-row text-[0.875rem] leading-[1.375rem] text-light">
       <span className="px-2">•</span>
       {formatDateShort(createdAt)}
-      <span className="px-2">•</span>
+      <div className="px-2">•</div>
     </span>
     {isEdited && (
       <p className="text-[1rem] leading-[1.5rem] text-sc-3">Edited</p>
