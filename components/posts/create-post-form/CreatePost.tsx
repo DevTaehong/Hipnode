@@ -80,7 +80,9 @@ const CreatePost = () => {
         "posts",
         "images"
       );
+      console.log(uploadedURL);
       setValue("image", uploadedURL);
+      return uploadedURL;
     }
   };
 
@@ -117,12 +119,14 @@ const CreatePost = () => {
   };
 
   const processForm: SubmitHandler<PostFormValuesType> = async (data: any) => {
+    const postImage = await handleUpload();
     console.log(data);
     if (isLoaded && isSignedIn) {
       const { post, tags, group, ...postData } = data;
 
       postData.authorId = 11;
       postData.groupId = valueOfGroup(data);
+      postData.image = postImage;
 
       console.log(tags);
       console.log(postData);
