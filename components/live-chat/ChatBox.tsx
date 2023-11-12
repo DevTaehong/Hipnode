@@ -1,122 +1,151 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useChannel } from "ably/react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import { useChannel, useAbly, usePresence } from "ably/react";
 import Image from "next/image";
-
-interface ChatUser {
-  id: string;
-  name: string;
-  image: string;
-}
 
 interface ChatProps {
   username: string;
   userImage: string;
+  userId: number;
 }
 
 interface ChatMessage {
-  data: {
-    text: string;
-    user: ChatUser;
-  };
   connectionId: string;
+  data: {
+    user: {
+      id: string;
+      username: string;
+      image: string;
+    };
+    text: string;
+  };
 }
 
-const ChatBox = ({ username, userImage }: ChatProps) => {
+const ChatBox = ({ username, userImage, userId }: ChatProps) => {
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
   const inputBox = useRef<HTMLTextAreaElement>(null);
   const messageEnd = useRef<HTMLDivElement>(null);
-  const [users, setUsers] = useState<string[]>([]);
-  console.log(users);
+  const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel, ably } = useChannel("chat-demo", (message: ChatMessage) => {
-    const history = receivedMessages.slice(-199);
-    const formattedMessage = {
-      ...message,
-      user: message.data.user,
-      text: message.data.text,
-    };
-    setMessages([...history, formattedMessage]);
+  const { channel } = useChannel("chat-demo", (message: ChatMessage) => {
+    setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
   });
 
-  const currentUser = {
-    id: "1",
-    name: username,
-    image: userImage,
-  };
+  const { presenceData, updateStatus } = usePresence("chat-demo", {
+    data: "Online",
+  });
 
-  const sendChatMessage = (messageText: string) => {
+  useEffect(() => {
+    const newUserList = presenceData
+      .map((data) => {
+        if (data.data) {
+          try {
+            const userData = JSON.parse(JSON.stringify(data.data));
+            return userData;
+          } catch (error) {
+            console.error("Error parsing presence data: ", error);
+            return null; // In case of error, return null or some default value
+          }
+        }
+        return null;
+      })
+      .filter((user) => user !== null); // Filter out null or undefined values
+
+    setUsers(newUserList);
+  }, [presenceData]);
+
+  const ablyClient = useAbly().connection.id;
+
+  const currentUser = useMemo(
+    () => ({
+      id: userId,
+      username,
+      image: userImage,
+    }),
+    [username, userImage, userId]
+  );
+
+  const sendChatMessage = async (messageText: string) => {
+    if (messageText.trim().length === 0) return;
+
     const chatMessage = {
       text: messageText,
-      user: {
-        id: currentUser.id,
-        name: currentUser.name,
-        image: currentUser.image,
-      },
+      user: currentUser,
     };
 
-    channel.publish({ name: "chat-message", data: chatMessage });
-    setMessageText("");
+    try {
+      await channel.publish("chat-message", chatMessage);
+      setMessageText("");
+    } catch (error) {
+      console.error("Error sending message: ", error);
+    }
+
     inputBox.current?.focus();
   };
 
-  const handleFormSubmission = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmission = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
-    sendChatMessage(messageText);
+    await sendChatMessage(messageText);
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.charCode !== 13 || messageTextIsEmpty) {
-      return;
+  const handleKeyDown = async (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter" && !messageTextIsEmpty) {
+      event.preventDefault(); // Prevent default to avoid newline in textarea
+      await sendChatMessage(messageText);
+      setMessageText(""); // Clear the message input after sending
     }
-    sendChatMessage(messageText);
-    event.preventDefault();
   };
 
-  channel.presence.subscribe("enter", function (member) {
-    console.log(member.data);
-    console.log("Member " + currentUser.name + " entered");
-    setUsers((prevUsers) => {
-      const memberName = currentUser.name; // Assuming clientId is the username
-      if (!prevUsers.includes(memberName)) {
-        console.log(users);
-        return [...prevUsers, memberName];
-      } else {
-        console.log(users);
-        return prevUsers;
-      }
-    });
-  });
+  useEffect(() => {
+    const enterPresence = () => {
+      channel.presence.enter(currentUser);
+    };
 
-  channel.presence.enter();
+    enterPresence();
 
-  channel.presence.get(function (err, members) {
-    if (err) {
-      console.error("Error fetching channel presence:", err);
-      return;
-    }
-    console.log("There are " + members.length + " members on this channel");
-    if (members.length > 0) {
-      console.log("The first member has client ID: " + members[0].clientId);
-    }
-  });
+    return () => {
+      channel.presence.leave();
+    };
+  }, [channel.presence, currentUser]);
+
+  useEffect(() => {
+    messageEnd.current?.scrollIntoView({ behavior: "smooth" });
+  }, [receivedMessages]);
 
   const messages = receivedMessages.map((message, index) => {
-    const author = message.connectionId === ably.connection.id ? "me" : "other";
+    const author = message.connectionId === ablyClient ? "me" : "other";
+    const name = message.data.user.username;
+    const text = message.data.text;
+    const image = message.data.user.image;
+
+    // Check if the user is present in the chat
+    const isUserPresent = users.some((user) => user.username === name);
+
     return (
       <div
         key={index}
         className={`flex w-fit gap-1 ${
-          author === "me" ? "self-end text-green" : "self-start text-red"
+          author === "me"
+            ? "self-end text-green-500"
+            : "self-start text-red-500"
         }`}
         data-author={author}
       >
-        <strong>{message.data.user.name}: </strong> {message.data.text}
+        <div
+          className={`h-2.5 w-2.5 self-center rounded-full bg-green ${
+            isUserPresent ? "flex" : "hidden"
+          }`}
+        />
+        <strong>{name}: </strong> {text}
         <figure className="h-5 w-5 rounded-full">
           <Image
-            src={message.data.user.image}
-            alt={message.data.user.name}
+            src={image}
+            alt={name}
             height={20}
             width={20}
             className="rounded-full"
@@ -126,15 +155,12 @@ const ChatBox = ({ username, userImage }: ChatProps) => {
     );
   });
 
-  useEffect(() => {
-    messageEnd.current?.scrollIntoView({ behavior: "smooth" });
-  }, [receivedMessages]);
-
   return (
     <div className="flex-center fixed bottom-10 right-10 h-[450px] w-[450px] flex-col bg-white">
       <div className="flex w-full flex-col">
+        <p>Online</p>
         {users.map((user) => (
-          <p key={user}>{user}</p>
+          <p key={user.userId}>{user.username} </p>
         ))}
         {messages}
         <div ref={messageEnd} />
@@ -145,10 +171,14 @@ const ChatBox = ({ username, userImage }: ChatProps) => {
           value={messageText}
           placeholder="Type a message..."
           onChange={(e) => setMessageText(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyDown}
           className="h-10 w-40"
         ></textarea>
-        <button type="submit" className="bg-red" disabled={messageTextIsEmpty}>
+        <button
+          type="submit"
+          className="bg-red-500"
+          disabled={messageTextIsEmpty}
+        >
           Send
         </button>
       </form>

@@ -8,8 +8,8 @@ const ChatUserInfo = async () => {
   if (!clerkUser) return null;
   const user = await getUserByClerkId(clerkUser?.id);
   if (!user) return null;
-  const { username, picture } = user;
-  return <Chat username={username} userImage={picture} />;
+  const { username, picture, id } = user;
+  return <Chat username={username} userImage={picture} userId={id} />;
 };
 
 export default ChatUserInfo;
