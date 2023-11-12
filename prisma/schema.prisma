@@ -219,8 +219,8 @@ model Chatroom {
 model ChatroomUsers {
   userId          Int
   chatroomId      Int
-  user            User            @relation(fields: [userId], references: [id])
-  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id])
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
 
   @@id([userId, chatroomId])
 }
@@ -231,8 +231,8 @@ model Message {
   createdAt       DateTime        @default(now())
   userId          Int
   chatroomId      Int
-  user            User            @relation(fields: [userId], references: [id])
-  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id])
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
 }
 
 
