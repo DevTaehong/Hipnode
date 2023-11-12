@@ -16,7 +16,7 @@ export const iconData = [
 export const GROUP = ["Alex", "Glen", "Taehong", "Tye", "Jay"];
 export const POST = ["Newest", "New", "Old", "Older", "Oldest"];
 export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
-  title: "",
+  heading: "",
   mainText: "",
   coverImage: "",
   group: "",

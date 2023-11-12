@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const postFormValidationSchema = z.object({
-  title: z.string().min(1, {
+  heading: z.string().min(1, {
     message: "Name is required",
   }),
   mainText: z.string().min(1, { message: "Main Text is required" }),
