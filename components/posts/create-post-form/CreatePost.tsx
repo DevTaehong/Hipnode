@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from "@clerk/nextjs";
 
 import {
   Form,
@@ -22,9 +23,13 @@ import {
   SelectController,
 } from ".";
 import { postFormValidationSchema } from "@/lib/validations";
-import { PostFormValuesType } from "@/types/posts/index";
+import { PostFormValuesType, GroupsType } from "@/types/posts/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
-import { POST_FORM_DEFAULT_VALUES, GROUP, POST } from "@/constants/posts";
+import { POST_FORM_DEFAULT_VALUES } from "@/constants/posts";
+import { createPostWithTags } from "@/lib/actions/post.action";
+import { getGroups } from "@/lib/actions/group.actions";
+import { Group } from "@prisma/client";
+import FillIcon from "@/components/icons/fill-icons";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
@@ -33,6 +38,32 @@ const LexicalEditor = dynamic(
 
 const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+  const [groups, setGroups] = useState<GroupsType[]>([]);
+
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      const fetchedGroups = await getGroups();
+      const GROUP_OPTIONS = fetchedGroups?.map((group: Group) => {
+        return {
+          label: group.name,
+          value: group.id,
+        };
+      });
+      return setGroups(GROUP_OPTIONS);
+    };
+    fetchGroups();
+  }, []);
+
+  console.log(groups);
+
+  const SELECTION_OPTIONS = [
+    { option: "Post", icon: <FillIcon.Post /> },
+    { option: "Meetup", icon: <FillIcon.Calendar /> },
+    { option: "Podcasts", icon: <FillIcon.Podcasts /> },
+    { option: "Interviews", icon: <FillIcon.Interviews /> },
+  ];
 
   const {
     imagePreviewUrl,
@@ -49,7 +80,7 @@ const CreatePost = () => {
         "posts",
         "images"
       );
-      setValue("coverImage", uploadedURL);
+      setValue("image", uploadedURL);
     }
   };
 
@@ -80,12 +111,37 @@ const CreatePost = () => {
     console.log(watchedData);
   }, [watchedData]);
 
+  const valueOfGroup = (data: any) => {
+    const matchedGroup = groups.find((group) => group.label === data.group);
+    return matchedGroup ? matchedGroup.value : null;
+  };
+
+  const processForm: SubmitHandler<PostFormValuesType> = async (data: any) => {
+    console.log(data);
+    if (isLoaded && isSignedIn) {
+      const { post, tags, group, ...postData } = data;
+
+      postData.authorId = 11;
+      postData.groupId = valueOfGroup(data);
+
+      console.log(tags);
+      console.log(postData);
+
+      try {
+        const result = await createPostWithTags(postData, tags);
+        console.log(result);
+      } catch (error) {
+        console.error("Error creating post:", error);
+      }
+    }
+  };
+
   return (
     <div className="flex max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
           action=""
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(processForm)}
           className="rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
@@ -103,14 +159,14 @@ const CreatePost = () => {
                 control={form.control}
                 name={"group"}
                 placeholder={"Select Group"}
-                options={GROUP}
+                options={groups}
               />
 
               <SelectController
                 control={form.control}
                 name={"post"}
                 placeholder={"Create Post"}
-                options={POST}
+                options={SELECTION_OPTIONS}
               />
             </div>
             <div className="mr-[1.25rem] mt-[1.25rem] flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[1rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0">
@@ -138,13 +194,13 @@ const CreatePost = () => {
           <div className="relative flex flex-col pb-[2.5rem]">
             <div className="min-h-[22rem]">
               <FormField
-                name="mainText"
+                name="content"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <LexicalEditor
-                        name="mainText"
+                        name="content"
                         updateField={setValue}
                         onSubmitPreview={onSubmitPreview}
                       />

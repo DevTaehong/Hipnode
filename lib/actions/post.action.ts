@@ -6,15 +6,68 @@ import { ExtendedPost } from "@/types/models";
 import { getPostsFromGroupsQueryOptions } from "@/lib/actions/shared.types";
 import { CommentProps } from "@/types/posts";
 
-export async function createPost(data: Post): Promise<Post> {
+export async function createPostWithTags(
+  postData: {
+    heading: string;
+    content: string;
+    authorId: number;
+    image: string;
+    groupId?: number;
+  },
+  tagNames: string[]
+): Promise<ExtendedPost> {
+  console.log("Post Data:", postData);
+  console.log("Tag Names:", tagNames);
   try {
-    const post = await prisma.post.create({
-      data,
+    const existingTags = await prisma.tag.findMany({
+      where: {
+        name: { in: tagNames },
+      },
     });
 
-    return post;
+    console.log("Existing Tags:", existingTags);
+
+    const existingTagIds = existingTags.map((tag) => ({ id: tag.id }));
+    console.log("Existing Tag IDs:", existingTagIds);
+
+    const existingTagNames = new Set(existingTags.map((tag) => tag.name));
+    console.log("Existing Tag Names:", existingTagNames);
+
+    const newTagNames = tagNames.filter((name) => !existingTagNames.has(name));
+    console.log("New Tag Names:", newTagNames);
+
+    for (const name of newTagNames) {
+      const newTag = await prisma.tag.create({
+        data: { name },
+      });
+      existingTagIds.push({ id: newTag.id });
+      console.log("Created New Tag:", newTag);
+    }
+
+    console.log("Final Tag IDs to Connect:", existingTagIds);
+
+    const newPost = await prisma.post.create({
+      data: {
+        ...postData,
+        tags: {
+          connect: existingTagIds,
+        },
+      },
+      include: {
+        author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    console.log("New Post Created:", newPost);
+
+    return mapPostToExtendedPost(newPost);
   } catch (error) {
-    console.error("Error creating post:", error);
+    console.error("Error creating post with tags:", error);
     throw error;
   }
 }
@@ -52,12 +105,14 @@ export async function deletePost(id: number): Promise<Post> {
 const mapPostToExtendedPost = (post: any): ExtendedPost => {
   return {
     ...post,
-    author: {
-      id: post.author.id,
-      username: post.author.username,
-      picture: post.author.picture,
-    },
-    comments: post.comments.map((comment: any) => ({
+    author: post.author
+      ? {
+          id: post.author.id,
+          username: post.author.username,
+          picture: post.author.picture,
+        }
+      : null,
+    comments: post.comments?.map((comment: any) => ({
       id: comment.id,
       content: comment.content,
       authorId: comment.authorId,
@@ -72,7 +127,7 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
         picture: comment.author.picture,
       },
     })),
-    likes: post.likes.map((like: any) => ({
+    likes: post.likes?.map((like: any) => ({
       id: like.id,
       userId: like.userId,
       liked: like.liked,

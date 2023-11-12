@@ -22,11 +22,21 @@ export type CreatePostTitleProps = {
   control: Control<PostFormValuesType>;
 };
 
+interface PostSelectionOptions {
+  option: string;
+  icon: React.ReactNode;
+}
+
+interface GroupsType {
+  label: string;
+  value: number;
+}
+
 export type SelectControllerProps = {
   control: Control<PostFormValuesType>;
   name: keyof PostFormValuesType;
   placeholder: string;
-  options: string[];
+  options: GroupsType[] | PostSelectionOptions[];
 };
 
 export type PostPreviewProps = {
