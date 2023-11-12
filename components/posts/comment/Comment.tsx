@@ -3,9 +3,9 @@ import Image from "next/image";
 import { Reply, Trash, Heart, MoreHorizontal } from "lucide-react";
 
 import { CommentProps } from "@/types/posts";
-import { usePost } from "@/context/posts-context/PostContext";
 import CommentIconButton from "./CommentIconButton";
 import CommentList from "./CommentList";
+import { usePost } from "@/hooks/context/usePost";
 
 const formatDate = (dateString: Date) => {
   const date = new Date(dateString);

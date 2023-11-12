@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { addCommentOrReply } from "@/lib/actions/post.action";
-import { usePost } from "@/context/posts-context/PostContext";
+import { usePost } from "@/hooks/context/usePost";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
