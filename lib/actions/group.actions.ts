@@ -57,6 +57,7 @@ export async function getGroupById(params: GetGroupByIdParams) {
       },
       include: {
         members: true,
+        posts: true,
       },
     });
 

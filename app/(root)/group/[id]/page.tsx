@@ -2,6 +2,7 @@ import ActiveMembers from "@/components/group-detail-page/active-members/ActiveM
 import GroupAbout from "@/components/group-detail-page/GroupAbout";
 import GroupAdmins from "@/components/group-detail-page/GroupAdmins";
 import GroupCover from "@/components/group-detail-page/GroupCover";
+import RecentMedia from "@/components/group-detail-page/RecentMedia";
 import { getGroupById } from "@/lib/actions/group.actions";
 
 const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
@@ -14,6 +15,8 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
       <GroupAbout />
       <GroupAdmins />
       <ActiveMembers members={group?.members ?? []} />
+
+      <RecentMedia media={group?.posts ?? []} />
     </div>
   );
 };
