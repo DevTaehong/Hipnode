@@ -15,57 +15,80 @@ export async function createPostWithTags(
     groupId?: number;
   },
   tagNames: string[]
-): Promise<ExtendedPost> {
+) {
   console.log("Post Data:", postData);
   console.log("Tag Names:", tagNames);
+
   try {
     const existingTags = await prisma.tag.findMany({
       where: {
         name: { in: tagNames },
       },
     });
-
     console.log("Existing Tags:", existingTags);
 
+    // Map existing tags to their IDs for connection
     const existingTagIds = existingTags.map((tag) => ({ id: tag.id }));
     console.log("Existing Tag IDs:", existingTagIds);
 
+    // Create a set of existing tag names
     const existingTagNames = new Set(existingTags.map((tag) => tag.name));
     console.log("Existing Tag Names:", existingTagNames);
 
+    // Filter out the new tag names that do not exist already
     const newTagNames = tagNames.filter((name) => !existingTagNames.has(name));
     console.log("New Tag Names:", newTagNames);
 
-    for (const name of newTagNames) {
-      const newTag = await prisma.tag.create({
-        data: { name },
-      });
-      existingTagIds.push({ id: newTag.id });
-      console.log("Created New Tag:", newTag);
-    }
+    // Use a transaction to handle tag creation and post creation atomically
+    const newPost = await prisma.$transaction(async (prisma) => {
+      // Create new tags and collect their IDs
+      const newTagIds = await Promise.all(
+        newTagNames.map(async (name) => {
+          try {
+            const tag = await prisma.tag.create({ data: { name } });
+            console.log("Created New Tag:", tag);
+            return { id: tag.id };
+          } catch (error) {
+            // If the tag already exists, we catch the error and return null
+            console.error(`Error creating tag '${name}':`, error);
+            return null;
+          }
+        })
+      );
 
-    console.log("Final Tag IDs to Connect:", existingTagIds);
+      // Filter out any nulls that resulted from caught errors
+      const validNewTagIds = newTagIds.filter((tag) => tag !== null);
+      console.log(validNewTagIds);
+      console.log(existingTagIds);
 
-    const newPost = await prisma.post.create({
-      data: {
-        ...postData,
-        tags: {
-          connect: existingTagIds,
-        },
-      },
-      include: {
-        author: true,
-        tags: {
-          include: {
-            tag: true,
+      // Combine existing tag IDs with new tag IDs
+      const allTagIdsToConnect = existingTagIds.concat(validNewTagIds);
+      console.log("All Tag IDs to Connect:", allTagIdsToConnect);
+
+      // Create the new post with connected tags
+      return prisma.post.create({
+        data: {
+          ...postData,
+          tags: {
+            connectOrCreate: allTagIdsToConnect.map((tagId) => ({
+              where: { id: tagId.id },
+              create: { tag: { connect: { id: tagId.id } } },
+            })),
           },
         },
-      },
+        include: {
+          author: true,
+          tags: {
+            include: {
+              tag: true,
+            },
+          },
+        },
+      });
     });
 
     console.log("New Post Created:", newPost);
-
-    return mapPostToExtendedPost(newPost);
+    return JSON.parse(JSON.stringify(newPost));
   } catch (error) {
     console.error("Error creating post with tags:", error);
     throw error;
@@ -102,51 +125,6 @@ export async function deletePost(id: number): Promise<Post> {
   }
 }
 
-const mapPostToExtendedPost = (post: any): ExtendedPost => {
-  return {
-    ...post,
-    author: post.author
-      ? {
-          id: post.author.id,
-          username: post.author.username,
-          picture: post.author.picture,
-        }
-      : null,
-    comments: post.comments?.map((comment: any) => ({
-      id: comment.id,
-      content: comment.content,
-      authorId: comment.authorId,
-      postId: comment.postId,
-      parentId: comment.parentId,
-      createdAt: comment.createdAt,
-      updatedAt: comment.updatedAt,
-      isEdited: comment.isEdited,
-      author: {
-        id: comment.author.id,
-        username: comment.author.username,
-        picture: comment.author.picture,
-      },
-    })),
-    likes: post.likes?.map((like: any) => ({
-      id: like.id,
-      userId: like.userId,
-      liked: like.liked,
-      postId: like.postId,
-      commentId: like.commentId,
-      user: {
-        id: like.user.id,
-        username: like.user.username,
-      },
-    })),
-    tags: post.tags.map((tagOnPost: any) => ({
-      tag: {
-        id: tagOnPost.tag.id,
-        name: tagOnPost.tag.name,
-      },
-    })),
-  };
-};
-
 export async function getPostById(id: number): Promise<ExtendedPost> {
   try {
     const post = await prisma.post.findUnique({
@@ -179,8 +157,8 @@ export async function getPostById(id: number): Promise<ExtendedPost> {
     if (post === null) {
       throw new Error(`Post with id ${id} not found`);
     }
-
-    return mapPostToExtendedPost(post);
+    return JSON.parse(JSON.stringify(post));
+    // return mapPostToExtendedPost(post);
   } catch (error) {
     console.error("Error retrieving post:", error);
     throw error;
@@ -194,8 +172,10 @@ export async function getAllPosts({
 }): Promise<ExtendedPost[]> {
   try {
     const posts = await prisma.post.findMany({
-      skip: page * 5,
       take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
       include: {
         author: true,
         comments: {
@@ -219,6 +199,7 @@ export async function getAllPosts({
         },
       },
     });
+
     return JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -319,32 +300,6 @@ export interface ExtendedComment extends CommentProps {
   path?: string;
 }
 
-const mapCommentToExtendedComment = (comment: any): ExtendedComment => {
-  return {
-    ...comment,
-    author: {
-      username: comment.author.username,
-      picture: comment.author.picture,
-    },
-    parent: comment.parent
-      ? {
-          id: comment.parent.id,
-          content: comment.parent.content,
-          authorId: comment.parent.authorId,
-          postId: comment.parent.postId,
-          parentId: comment.parent.parentId,
-          createdAt: comment.parent.createdAt,
-          updatedAt: comment.parent.updatedAt,
-          isEdited: comment.parent.isEdited,
-          author: {
-            username: comment.parent.author.username,
-            picture: comment.parent.author.picture,
-          },
-        }
-      : undefined,
-  };
-};
-
 export async function addCommentOrReply(
   userId: number,
   postId: number,
@@ -370,8 +325,7 @@ export async function addCommentOrReply(
         parent: true,
       },
     });
-
-    return mapCommentToExtendedComment(newComment);
+    return JSON.parse(JSON.stringify(newComment));
   } catch (error) {
     console.error("Error adding comment or reply:", error);
     throw error;

@@ -27,8 +27,6 @@ const PostCard = ({
     setHtmlString(sanitizedHtml);
   }, [content]);
 
-  console.log(htmlString);
-
   return (
     <article className="px-[1.25rem] lg:px-[0]">
       <Link href={`/posts/post/${id}`}>
@@ -39,13 +37,18 @@ const PostCard = ({
               <PostText postContent={htmlString} />
               <div className="flex flex-row">
                 <div className="flex md:hidden">
-                  <SocialMediaIcon authorPicture={picture} />
+                  <SocialMediaIcon
+                    authorPicture={picture ?? "/public/emoji.png"}
+                  />
                 </div>
                 <FillIcon.Heart className="hidden fill-sc-5 md:flex" />
               </div>
             </div>
             <PostLabels />
-            <CardFooterDesktop authorPicture={picture} username={username} />
+            <CardFooterDesktop
+              authorPicture={picture ?? "/public/emoji.png"}
+              username={username}
+            />
             <div className="flex md:hidden">
               <SocialStatistics />
             </div>

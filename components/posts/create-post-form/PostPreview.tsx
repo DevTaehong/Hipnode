@@ -16,7 +16,6 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
   const { imagePreviewUrl, previewValues } = useCreatePostStore(
     (state) => state
   );
-
   return (
     <Dialog>
       <DialogTrigger asChild>

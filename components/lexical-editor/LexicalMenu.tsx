@@ -130,7 +130,7 @@ const LexicalMenu = ({
       <LexicalWritePreviewToggle
         autoFocus={autoFocus}
         setAutoFocus={setAutoFocus}
-        htmlString={htmlString}
+        htmlString={editorHtmlString}
         onSubmitPreview={onSubmitPreview}
       />
 
