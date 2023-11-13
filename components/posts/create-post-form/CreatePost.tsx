@@ -23,8 +23,8 @@ import {
 } from ".";
 import { postFormValidationSchema } from "@/lib/validations";
 import { PostFormValuesType } from "@/types/posts/index";
-import { POST, GROUP, POST_FORM_DEFAULT_VALUES } from "@/constants/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
+import { POST_FORM_DEFAULT_VALUES, GROUP, POST } from "@/constants/posts";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),

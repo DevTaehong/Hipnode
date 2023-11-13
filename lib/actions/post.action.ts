@@ -1,9 +1,10 @@
 "use server";
 
-import { type Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
 import { getPostsFromGroupsQueryOptions } from "@/lib/actions/shared.types";
+import { CommentProps } from "@/types/posts";
 
 export async function createPost(data: Post): Promise<Post> {
   try {
@@ -54,6 +55,7 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
     author: {
       id: post.author.id,
       username: post.author.username,
+      picture: post.author.picture,
     },
     comments: post.comments.map((comment: any) => ({
       id: comment.id,
@@ -64,6 +66,11 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
       createdAt: comment.createdAt,
       updatedAt: comment.updatedAt,
       isEdited: comment.isEdited,
+      author: {
+        id: comment.author.id,
+        username: comment.author.username,
+        picture: comment.author.picture,
+      },
     })),
     likes: post.likes.map((like: any) => ({
       id: like.id,
@@ -71,6 +78,10 @@ const mapPostToExtendedPost = (post: any): ExtendedPost => {
       liked: like.liked,
       postId: like.postId,
       commentId: like.commentId,
+      user: {
+        id: like.user.id,
+        username: like.user.username,
+      },
     })),
     tags: post.tags.map((tagOnPost: any) => ({
       tag: {
@@ -87,7 +98,16 @@ export async function getPostById(id: number): Promise<ExtendedPost> {
       where: { id },
       include: {
         author: true,
-        comments: true,
+        comments: {
+          include: {
+            author: {
+              select: {
+                username: true,
+                picture: true,
+              },
+            },
+          },
+        },
         likes: {
           include: {
             user: true,
@@ -235,6 +255,70 @@ export async function getPostsFromGroups(myCursorId?: number) {
     return postsFromGroups;
   } catch (error) {
     console.error("Error finding posts from groups:", error);
+    throw error;
+  }
+}
+
+export interface ExtendedComment extends CommentProps {
+  parent?: CommentProps;
+  path?: string;
+}
+
+const mapCommentToExtendedComment = (comment: any): ExtendedComment => {
+  return {
+    ...comment,
+    author: {
+      username: comment.author.username,
+      picture: comment.author.picture,
+    },
+    parent: comment.parent
+      ? {
+          id: comment.parent.id,
+          content: comment.parent.content,
+          authorId: comment.parent.authorId,
+          postId: comment.parent.postId,
+          parentId: comment.parent.parentId,
+          createdAt: comment.parent.createdAt,
+          updatedAt: comment.parent.updatedAt,
+          isEdited: comment.parent.isEdited,
+          author: {
+            username: comment.parent.author.username,
+            picture: comment.parent.author.picture,
+          },
+        }
+      : undefined,
+  };
+};
+
+export async function addCommentOrReply(
+  userId: number,
+  postId: number,
+  content: string,
+  parentId: number | null,
+  path?: string
+): Promise<ExtendedComment> {
+  try {
+    const newComment = await prisma.comment.create({
+      data: {
+        content,
+        postId,
+        authorId: userId,
+        parentId,
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        parent: true,
+      },
+    });
+
+    return mapCommentToExtendedComment(newComment);
+  } catch (error) {
+    console.error("Error adding comment or reply:", error);
     throw error;
   }
 }

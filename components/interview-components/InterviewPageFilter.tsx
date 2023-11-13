@@ -43,7 +43,7 @@ const InterviewPageFilter = ({
           setHasMoreInterviews(false);
         } else {
           setInterviewList((prevInterviews) => [
-            ...(prevInterviews || []),
+            ...(prevInterviews ?? []),
             ...moreInterviews,
           ]);
           setInterviewAmount((prevValue) => prevValue + 20);

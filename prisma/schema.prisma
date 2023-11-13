@@ -32,6 +32,8 @@ model User {
   shows           Shows[]
   groupAdmin      Group[]                  @relation("GroupAdmins")
   groups          Group[]                  @relation("UserGroups")
+  chatrooms       ChatroomUsers[] // Relation to chatrooms via the joiner table
+  messages        Message[]       // Relation to messages
 }
 
 model Onboarding {
@@ -206,8 +208,36 @@ model Interview {
   creator      User             @relation(fields: [creatorId], references: [id]) 
 }
 
+model Chatroom {
+  id              Int             @id @default(autoincrement())
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  users           ChatroomUsers[] 
+  messages        Message[]       
+}
+
+model ChatroomUsers {
+  userId          Int
+  chatroomId      Int
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+
+  @@id([userId, chatroomId])
+}
+
+model Message {
+  id              Int             @id @default(autoincrement())
+  text            String
+  createdAt       DateTime        @default(now())
+  userId          Int
+  chatroomId      Int
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+}
+
 
 enum Role {
   ADMIN
   USER
 }
+
