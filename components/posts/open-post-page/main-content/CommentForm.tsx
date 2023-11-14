@@ -1,6 +1,8 @@
 "use client";
-import { useAuth } from "@clerk/nextjs";
 
+import { useState, useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,13 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
-
 import { CommentFormProps } from "@/types/posts";
-import { useState, useEffect } from "react";
 import { User } from "@prisma/client";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { useCreatePostStore } from "@/app/lexicalStore";
-import { usePathname } from "next/navigation";
+import Spinner from "@/components/Spinner";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -39,6 +39,7 @@ const CommentForm = ({
   setIsReplying,
 }: CommentFormProps) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoaded, userId: clerkId } = useAuth();
   const { postId } = useCreatePostStore();
   const path = usePathname();
@@ -65,21 +66,24 @@ const CommentForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       if (isEditing) {
+        setIsLoading(true);
         const commentID: number = Number(commentId);
         await updateComment(commentID, values.comment, path);
         setIsEditing(false);
+        setIsLoading(false);
       } else if (currentUser?.id) {
+        setIsLoading(true);
         const userId = currentUser?.id;
-        const newComment = await addCommentOrReply(
+        await addCommentOrReply(
           userId,
           postId,
           values.comment,
           Number(parentId) || null,
           path
         );
-
-        console.log(newComment);
       }
+      setIsLoading(false);
+      setIsReplying(false);
     } catch (error) {
       console.error("Error processing comment:", error);
     }
@@ -91,30 +95,33 @@ const CommentForm = ({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
-        <FormField
-          control={form.control}
-          name="comment"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="text"
-                  placeholder="Say something cool.... 🔥"
-                  className="bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="hidden" type="submit">
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+          <FormField
+            control={form.control}
+            name="comment"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Say something cool.... 🔥"
+                    className="bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="hidden" type="submit">
+            Submit
+          </Button>
+        </form>
+      </Form>
+      {isLoading && <Spinner />}
+    </>
   );
 };
 

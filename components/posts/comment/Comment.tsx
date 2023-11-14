@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 import { CommentProps } from "@/types/posts";
 import CommentForm from "../open-post-page/main-content/CommentForm";
@@ -15,6 +16,10 @@ import { deleteCommentOrReply } from "@/lib/actions/post.action";
 import { usePathname } from "next/navigation";
 import { useCreatePostStore } from "@/app/lexicalStore";
 import { getRepliesToComments as getReplies } from "@/utils";
+import FillIcon from "@/components/icons/fill-icons";
+import OutlineIcon from "@/components/icons/outline-icons";
+import clsx from "clsx";
+import { text } from "stream/consumers";
 
 const Comment = ({
   content,
@@ -24,6 +29,7 @@ const Comment = ({
   id,
 }: CommentProps) => {
   const [showChildren, setShowChildren] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const { commentsByParentId } = useCreatePostStore();
@@ -32,7 +38,9 @@ const Comment = ({
 
   const handleDelete = async () => {
     try {
+      setIsDeleting(true);
       await deleteCommentOrReply(id, path);
+      setIsDeleting(false);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -47,6 +55,7 @@ const Comment = ({
     <>
       <section className="flex py-[1.25rem] pr-[1.25rem]">
         <AuthorAvatar picture={picture} />
+
         <div className="flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
           <CommentHeader
             username={username}
@@ -60,6 +69,7 @@ const Comment = ({
             onEditClick={() => setIsEditing((previous) => !previous)}
             onShowChildrenClick={() => setShowChildren((previous) => !previous)}
           />
+          {isDeleting && <div className="text-white">Deleting...</div>}
           {isReplying && (
             <CommentForm
               parentId={String(id)}
@@ -79,6 +89,7 @@ const Comment = ({
           )}
         </div>
       </section>
+
       {childComments.length > 0 && !showChildren && (
         <div className="flex grow flex-col pl-[2.25rem]">
           <CommentList comments={childComments} />
