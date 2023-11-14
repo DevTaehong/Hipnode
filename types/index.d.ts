@@ -288,4 +288,5 @@ export interface ContentCardProps {
 
 export interface StatsDescriptionProps {
   children: React.ReactNode;
+  className?: string;
 }
