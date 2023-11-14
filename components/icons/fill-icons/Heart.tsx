@@ -25,7 +25,7 @@ const Heart = ({ className }: { className: string }) => {
         width="30"
         height="30"
         rx="15"
-        className={isLiked ? "fill-red-10" : "fill-[#F4F6F8]"}
+        className={isLiked ? "fill-red-10" : "fill-[#F4F6F8] dark:fill-dark-4"}
       />
       <g filter={`${isLiked ? "url(#filter0_d_15412_138)" : ""}`}>
         <path
