@@ -28,6 +28,7 @@ module.exports = {
       screens: {
         "2xl": "1440px",
         xxs: "460px",
+        xs: "376px",
       },
       boxShadow: {
         contentCard: "0px 2px 6px 0px rgba(43, 0, 212, 0.06)",
