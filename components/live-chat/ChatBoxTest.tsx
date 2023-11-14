@@ -20,7 +20,7 @@ interface ChatMessage {
   };
 }
 
-const ChatBox = ({ username, userImage, userId }: ChatProps) => {
+const ChatBoxTest = ({ username, userImage, userId }: ChatProps) => {
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
@@ -32,7 +32,7 @@ const ChatBox = ({ username, userImage, userId }: ChatProps) => {
     setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
   });
 
-  const { presenceData, updateStatus } = usePresence("chat-demo", {
+  const { presenceData } = usePresence("chat-demo", {
     data: "Online",
   });
 
@@ -186,4 +186,4 @@ const ChatBox = ({ username, userImage, userId }: ChatProps) => {
   );
 };
 
-export default ChatBox;
+export default ChatBoxTest;

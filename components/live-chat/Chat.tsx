@@ -2,7 +2,7 @@
 
 import * as Ably from "ably";
 import { AblyProvider } from "ably/react";
-import ChatBox from "./ChatBox";
+import ChatBoxTestfrom "./ChatBox";
 
 interface ChatProps {
   username: string;
@@ -18,7 +18,7 @@ export default function Chat({ username, userImage, userId }: ChatProps) {
 
   return (
     <AblyProvider client={client}>
-      <ChatBox username={username} userImage={userImage} userId={userId} />
+      <ChatBoxTestusername={username} userImage={userImage} userId={userId} />
     </AblyProvider>
   );
 }

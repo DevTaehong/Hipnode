@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -8,9 +9,15 @@ import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
 import UserButton from "@/components/navbar/UserButton";
+import MessageList from "../live-chat/MessageList";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
 
 const Navbar = async () => {
   const user = await currentUser();
+  if (!user) {
+    throw Error("User not found");
+  }
+  const userFromDB = await getUserByClerkId(user.id);
 
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
@@ -36,9 +43,22 @@ const Navbar = async () => {
       </section>
 
       <section className="flex items-center gap-6">
-        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
-          <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
-        </div>
+        <Popover>
+          <PopoverTrigger>
+            <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+              <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent>
+            {userFromDB && (
+              <MessageList
+                userId={userFromDB?.id}
+                username={userFromDB?.username}
+                userImage={userFromDB?.picture}
+              />
+            )}
+          </PopoverContent>
+        </Popover>
 
         <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Notification
