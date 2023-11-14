@@ -1,5 +1,6 @@
+import { useEffect, useMemo } from "react";
+
 import CommentList from "@/components/posts/comment/CommentList";
-import { usePost } from "@/hooks/context/usePost";
 import {
   TagsList,
   PostTitle,
@@ -7,14 +8,30 @@ import {
   PostDescription,
   CommentBox,
 } from "./index";
-const PostMainContent = () => {
-  const { currentPost, currentUser, rootComments } = usePost();
+import { groupCommentsByParentId } from "@/utils";
+import { useCreatePostStore } from "@/app/lexicalStore";
 
-  if (!currentPost || !currentUser) return <p>Loading...</p>;
+const PostMainContent = ({ postData }: any) => {
+  const { tags, image, heading, content, id } = postData;
+  const { setPostId, setCommentsByParentId } = useCreatePostStore(
+    (state) => state
+  );
 
-  const { heading, content, image, tags } = currentPost;
+  useEffect(() => {
+    setPostId(id);
+  }, [id]);
 
   const tagNames = tags?.map((tagRelation: any) => tagRelation.tag.name) ?? [];
+  const rootComments = groupCommentsByParentId(postData.comments)?.null;
+
+  const commentsId = useMemo(
+    () => groupCommentsByParentId(postData.comments),
+    [postData]
+  );
+
+  useEffect(() => {
+    setCommentsByParentId(commentsId);
+  }, [commentsId]);
 
   return (
     <main className="rounded-2xl bg-light dark:bg-dark-3">

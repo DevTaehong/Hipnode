@@ -8,6 +8,7 @@ import {
 
 import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
+import { CommentProps } from "@/types/posts";
 
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
@@ -213,3 +214,25 @@ export function capitalise(str: string) {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+export const groupCommentsByParentId = (
+  comments: CommentProps[]
+): Record<string, CommentProps[]> => {
+  const group: Record<string, CommentProps[]> = {};
+  comments.forEach((comment) => {
+    const key =
+      comment?.parentId === null ? "null" : comment?.parentId?.toString();
+    if (!group[key]) {
+      group[key] = [];
+    }
+    group[key].push(comment);
+  });
+  return group;
+};
+
+export const getRepliesToComments = (
+  commentsByParentId: Record<string, CommentProps[]>,
+  parentId?: string | null
+) => {
+  return commentsByParentId[parentId ?? "null"];
+};

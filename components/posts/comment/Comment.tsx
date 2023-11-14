@@ -1,9 +1,9 @@
+"use client";
+
 import { useState } from "react";
 
 import { CommentProps } from "@/types/posts";
 import CommentForm from "../open-post-page/main-content/CommentForm";
-import { usePost } from "@/hooks/context/usePost";
-
 import {
   CommentHeader,
   CommentActions,
@@ -12,6 +12,9 @@ import {
   AuthorAvatar,
 } from "./index";
 import { deleteCommentOrReply } from "@/lib/actions/post.action";
+import { usePathname } from "next/navigation";
+import { useCreatePostStore } from "@/app/lexicalStore";
+import { getRepliesToComments as getReplies } from "@/utils";
 
 const Comment = ({
   content,
@@ -20,20 +23,25 @@ const Comment = ({
   author: { picture, username },
   id,
 }: CommentProps) => {
-  const { getRepliesToComments, comments, setComments } = usePost();
-  const childComments = getRepliesToComments(String(id)) ?? [];
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
+  const { commentsByParentId } = useCreatePostStore();
+
+  const path = usePathname();
 
   const handleDelete = async () => {
     try {
-      await deleteCommentOrReply(id);
-      setComments(comments.filter((comment) => comment.id !== id));
+      await deleteCommentOrReply(id, path);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
   };
+
+  const getRepliesToComments = (parentId: string | null) =>
+    getReplies(commentsByParentId, parentId);
+
+  const childComments = getRepliesToComments(String(id)) ?? [];
 
   return (
     <>

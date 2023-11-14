@@ -5,6 +5,7 @@ import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
 import { getPostsFromGroupsQueryOptions } from "@/lib/actions/shared.types";
 import { CommentProps } from "@/types/posts";
+import { revalidatePath } from "next/cache";
 
 export async function createPost(data: Post): Promise<Post> {
   try {
@@ -49,49 +50,6 @@ export async function deletePost(id: number): Promise<Post> {
   }
 }
 
-const mapPostToExtendedPost = (post: any): ExtendedPost => {
-  return {
-    ...post,
-    author: {
-      id: post.author.id,
-      username: post.author.username,
-      picture: post.author.picture,
-    },
-    comments: post.comments.map((comment: any) => ({
-      id: comment.id,
-      content: comment.content,
-      authorId: comment.authorId,
-      postId: comment.postId,
-      parentId: comment.parentId,
-      createdAt: comment.createdAt,
-      updatedAt: comment.updatedAt,
-      isEdited: comment.isEdited,
-      author: {
-        id: comment.author.id,
-        username: comment.author.username,
-        picture: comment.author.picture,
-      },
-    })),
-    likes: post.likes.map((like: any) => ({
-      id: like.id,
-      userId: like.userId,
-      liked: like.liked,
-      postId: like.postId,
-      commentId: like.commentId,
-      user: {
-        id: like.user.id,
-        username: like.user.username,
-      },
-    })),
-    tags: post.tags.map((tagOnPost: any) => ({
-      tag: {
-        id: tagOnPost.tag.id,
-        name: tagOnPost.tag.name,
-      },
-    })),
-  };
-};
-
 export async function getPostById(id: number): Promise<ExtendedPost> {
   try {
     const post = await prisma.post.findUnique({
@@ -124,8 +82,7 @@ export async function getPostById(id: number): Promise<ExtendedPost> {
     if (post === null) {
       throw new Error(`Post with id ${id} not found`);
     }
-
-    return mapPostToExtendedPost(post);
+    return JSON.parse(JSON.stringify(post));
   } catch (error) {
     console.error("Error retrieving post:", error);
     throw error;
@@ -264,37 +221,12 @@ export interface ExtendedComment extends CommentProps {
   path?: string;
 }
 
-const mapCommentToExtendedComment = (comment: any): ExtendedComment => {
-  return {
-    ...comment,
-    author: {
-      username: comment?.author?.username,
-      picture: comment?.author?.picture,
-    },
-    parent: comment?.parent
-      ? {
-          id: comment?.parent?.id,
-          content: comment?.parent?.content,
-          authorId: comment?.parent?.authorId,
-          postId: comment?.parent?.postId,
-          parentId: comment?.parent?.parentId,
-          createdAt: comment?.parent?.createdAt,
-          updatedAt: comment?.parent?.updatedAt,
-          isEdited: comment?.parent?.isEdited,
-          author: {
-            username: comment?.parent?.author?.username,
-            picture: comment?.parent?.author?.picture,
-          },
-        }
-      : undefined,
-  };
-};
-
 export async function addCommentOrReply(
   userId: number,
   postId: number,
   content: string,
-  parentId: number | null
+  parentId: number | null,
+  path: string
 ): Promise<ExtendedComment> {
   try {
     const newComment = await prisma.comment.create({
@@ -315,7 +247,8 @@ export async function addCommentOrReply(
       },
     });
 
-    return mapCommentToExtendedComment(newComment);
+    revalidatePath(path);
+    return JSON.parse(JSON.stringify(newComment));
   } catch (error) {
     console.error("Error adding comment or reply:", error);
     throw error;
@@ -324,7 +257,8 @@ export async function addCommentOrReply(
 
 export async function updateComment(
   commentId: number,
-  content: string
+  content: string,
+  path: string
 ): Promise<ExtendedComment> {
   try {
     const comment = await prisma.comment.update({
@@ -343,15 +277,18 @@ export async function updateComment(
       },
     });
 
-    console.log("Comment updated successfully:", comment);
-    return mapCommentToExtendedComment(comment);
+    revalidatePath(path);
+    return JSON.parse(JSON.stringify(comment));
   } catch (error) {
     console.error("Error updating comment:", error);
     throw error;
   }
 }
 
-export async function deleteCommentOrReply(commentId: number): Promise<void> {
+export async function deleteCommentOrReply(
+  commentId: number,
+  path: string
+): Promise<void> {
   try {
     await prisma.comment.deleteMany({
       where: { parentId: commentId },
@@ -360,7 +297,7 @@ export async function deleteCommentOrReply(commentId: number): Promise<void> {
     await prisma.comment.delete({
       where: { id: commentId },
     });
-
+    revalidatePath(path);
     console.log("Comment and its replies deleted successfully");
   } catch (error) {
     console.error("Error deleting comment or replies:", error);

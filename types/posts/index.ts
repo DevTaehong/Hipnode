@@ -88,7 +88,7 @@ export interface CommentProps {
   author: AuthorProps;
 }
 
-interface CommentAuthorProps {
+export interface CommentAuthorProps {
   id: number;
   content: string;
   authorId: number;

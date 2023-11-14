@@ -1,3 +1,6 @@
+"use client";
+import { useAuth } from "@clerk/nextjs";
+
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,8 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
-import { usePost } from "@/hooks/context/usePost";
+
 import { CommentFormProps } from "@/types/posts";
+import { useState, useEffect } from "react";
+import { User } from "@prisma/client";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
+import { useCreatePostStore } from "@/app/lexicalStore";
+import { usePathname } from "next/navigation";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -30,7 +38,22 @@ const CommentForm = ({
   setIsEditing,
   setIsReplying,
 }: CommentFormProps) => {
-  const { setComments, comments, currentUser, currentPost } = usePost();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const { isLoaded, userId: clerkId } = useAuth();
+  const { postId } = useCreatePostStore();
+  const path = usePathname();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      if (!clerkId) return;
+      const user = await getUserByClerkId(clerkId);
+      setCurrentUser(user);
+    };
+    if (clerkId && isLoaded) {
+      fetchCurrentUser();
+    }
+    fetchCurrentUser();
+  }, [clerkId]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -43,33 +66,29 @@ const CommentForm = ({
     try {
       if (isEditing) {
         const commentID: number = Number(commentId);
-        await updateComment(commentID, values.comment);
-        setComments((prevComments) => {
-          return prevComments.map((comment) => {
-            if (Number(comment?.id) === commentID) {
-              return { ...comment, content: values.comment };
-            } else {
-              return comment;
-            }
-          });
-        });
-
+        await updateComment(commentID, values.comment, path);
         setIsEditing(false);
-      } else if (comments && currentPost && currentUser?.id) {
+      } else if (currentUser?.id) {
         const userId = currentUser?.id;
         const newComment = await addCommentOrReply(
           userId,
-          currentPost.id,
+          postId,
           values.comment,
-          Number(parentId) || null
+          Number(parentId) || null,
+          path
         );
-        setComments([...comments, newComment]);
+
+        console.log(newComment);
       }
     } catch (error) {
       console.error("Error processing comment:", error);
     }
     form.reset();
   };
+
+  if (!isLoaded || !clerkId) {
+    return null;
+  }
 
   return (
     <Form {...form}>

@@ -2,17 +2,17 @@ import Image from "next/image";
 
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "./RightColumnWrapper";
-import { usePost } from "@/hooks/context/usePost";
+// import { usePost } from "@/hooks/context/usePost";
 
 const Profile = () => {
-  const { currentUser } = usePost();
+  // const { currentUser } = usePost();
 
-  if (!currentUser) return null;
-  const { username, picture } = currentUser;
+  // if (!currentUser) return null;
+  // const { username, picture } = currentUser;
 
   return (
     <RightColumnWrapper>
-      <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
+      {/* <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
         <Image
           src={picture}
           alt="profile-image"
@@ -33,7 +33,7 @@ const Profile = () => {
       />
       <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
         joined 6 months ago
-      </p>
+      </p> */}
     </RightColumnWrapper>
   );
 };
