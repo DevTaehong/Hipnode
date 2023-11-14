@@ -42,6 +42,27 @@ export interface GetGroupsQueryOptions {
   };
 }
 
+export interface getPostsByGroupIdQueryOptions {
+  take: number;
+  skip?: number;
+  cursor?: {
+    id: number;
+  };
+  where?: {
+    groupId: number;
+  };
+  include?: {
+    author: boolean;
+    comments: boolean;
+    likes: boolean;
+    tags: {
+      include: {
+        tag: boolean;
+      };
+    };
+  };
+}
+
 export interface getPostsFromGroupsQueryOptions {
   take: number;
   skip?: number;
