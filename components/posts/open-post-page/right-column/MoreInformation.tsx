@@ -4,7 +4,7 @@ import { useUser } from "@clerk/nextjs";
 
 import { devInfo } from "@/constants";
 import RightColumnWrapper from "./RightColumnWrapper";
-import DevelopmentInfo from "./DevelopmentInformation";
+import DevelopmentInformation from "./DevelopmentInformation";
 
 const MoreInformation = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -22,7 +22,7 @@ const MoreInformation = () => {
       </h2>
 
       <div className="flex flex-col items-start">
-        <DevelopmentInfo devInfo={devInfo} />
+        <DevelopmentInformation devInfo={devInfo} />
       </div>
     </RightColumnWrapper>
   );

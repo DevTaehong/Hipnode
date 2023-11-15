@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import Image from "next/image";
 import CommentForm from "./CommentForm";
 import CommentList from "@/components/posts/comment/CommentList";
-import { TagsList, PostImage } from "./index";
+import { TagsList } from "./index";
 import { groupCommentsByParentId } from "@/utils";
 import { useCreatePostStore } from "@/app/lexicalStore";
 
@@ -32,12 +32,9 @@ const PostMainContent = ({ postData }: any) => {
     <main className="rounded-2xl bg-light dark:bg-dark-3">
       <section>
         {!postData && <PostMainContentSkeleton />}
-        <PostImage
-          src={image || ""}
-          alt="post-image"
-          width={335}
-          height={117}
-        />
+        <div className="flex justify-center pb-[1.25rem]">
+          <Image src={image || ""} alt="post-image" width={335} height={117} />
+        </div>
         <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
           {heading}
         </h1>
