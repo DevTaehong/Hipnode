@@ -21,7 +21,6 @@ import { CommentFormProps } from "@/types/posts";
 import { User } from "@prisma/client";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { useCreatePostStore } from "@/app/lexicalStore";
-import Spinner from "@/components/Spinner";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -120,7 +119,7 @@ const CommentForm = ({
           </Button>
         </form>
       </Form>
-      {isLoading && <Spinner />}
+      {isLoading && <p className="pl-2 text-sc-5">Adding comment...</p>}
     </>
   );
 };

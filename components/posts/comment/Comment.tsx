@@ -50,42 +50,7 @@ const Comment = ({
       <section className="flex py-[1.25rem] pr-[1.25rem]">
         <div className="flex flex-col">
           <AuthorAvatar picture={picture} />
-          {childComments.length > 0 && !showChildren && (
-            <div className="relative flex h-full flex-col items-center">
-              <svg className="h-full w-10 grow basis-0">
-                <line
-                  x1="50%"
-                  y1="0%"
-                  x2="50%"
-                  y2="100%"
-                  strokeWidth="1"
-                  className="dark:stroke-sc-3"
-                />
-              </svg>
-              <svg className="absolute h-full w-10 grow basis-0 translate-y-[3.2rem]">
-                <line
-                  x1="50%"
-                  y1="0%"
-                  x2="50%"
-                  y2="100%"
-                  strokeWidth="1"
-                  className="dark:stroke-sc-3"
-                />
-              </svg>
-              <div className="flex translate-y-[4.45rem]">
-                <div className="w-10">
-                  <svg height="100%" width="100%" viewBox="0 0 100 51">
-                    <path
-                      d="M 50 0 Q 50 50, 100 50"
-                      fill="none"
-                      strokeWidth="2"
-                      className="dark:stroke-sc-3"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          )}
+          {childComments.length > 0 && !showChildren && <AvatarJoinLine />}
         </div>
         <div className="flex w-full flex-col gap-[1rem]">
           <div className="flex  grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
@@ -116,6 +81,7 @@ const Comment = ({
               />
             )}
           </div>
+
           {isDeleting || isEditing ? (
             <div className="text-white">
               {isDeleting ? "Deleting..." : "Editing..."}
@@ -143,3 +109,40 @@ const Comment = ({
 };
 
 export default Comment;
+
+const AvatarJoinLine = () => (
+  <div className="relative flex h-full flex-col items-center">
+    <svg className="h-full w-10 grow basis-0">
+      <line
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        strokeWidth="1"
+        className="dark:stroke-sc-3"
+      />
+    </svg>
+    <svg className="absolute h-full w-10 grow basis-0 translate-y-[3.2rem]">
+      <line
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        strokeWidth="1"
+        className="dark:stroke-sc-3"
+      />
+    </svg>
+    <div className="flex translate-y-[4.45rem]">
+      <div className="w-10">
+        <svg height="100%" width="100%" viewBox="0 0 100 51">
+          <path
+            d="M 50 0 Q 50 50, 100 50"
+            fill="none"
+            strokeWidth="2"
+            className="dark:stroke-sc-3"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+);
