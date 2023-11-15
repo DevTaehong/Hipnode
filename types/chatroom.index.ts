@@ -21,13 +21,14 @@ export interface OnlineUserProps {
 }
 
 export interface ChatMessage {
-  connectionId: string;
+  connectionId?: string;
   data: {
     user: {
       id: string;
       username: string;
       image: string;
     };
+    chatroomId?: number;
     text: string;
   };
 }

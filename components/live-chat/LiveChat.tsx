@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { createMessage } from "@/lib/actions/chatroom.actions";
+import {
+  createMessage,
+  getMessagesForChatroom,
+} from "@/lib/actions/chatroom.actions";
 import { useChannel } from "ably/react";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage, MessageToSend } from "@/types/chatroom.index";
@@ -18,8 +21,38 @@ const LiveChat = () => {
   const { showChat, setShowChat, chatroomUsers, chatroomId } = useChatStore();
 
   const { channel } = useChannel("chat-demo", (message: ChatMessage) => {
-    setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
+    const channelId = message.data.chatroomId;
+    if (channelId === chatroomId) {
+      setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
+    }
   });
+
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (chatroomId !== null) {
+        try {
+          const messages = await getMessagesForChatroom(chatroomId);
+
+          const transformedMessages = messages.map((message) => ({
+            data: {
+              user: {
+                id: message.userId.toString(),
+                username: "",
+                image: "",
+              },
+              text: message.text,
+            },
+          }));
+
+          setMessages(transformedMessages);
+        } catch (error) {
+          console.error("Error fetching messages for chatroom:", error);
+        }
+      }
+    };
+
+    loadMessages();
+  }, [chatroomId]);
 
   const userInfo = useMemo(() => {
     if (!chatroomUsers || !chatroomUsers[1]) {
@@ -42,6 +75,7 @@ const LiveChat = () => {
         const chatMessage = {
           text: messageToSend.text,
           user: currentUser,
+          chatroomId,
         };
         if (messageToSend.userId && messageToSend.chatroomId) {
           try {
@@ -93,10 +127,20 @@ const LiveChat = () => {
       }`}
     >
       <div className="flex w-full flex-col">
-        {receivedMessages.map((message) => message.data.text)}
+        {receivedMessages.map((message) => {
+          const messageId = parseInt(message.data.user.id);
+          const currentUserId = chatroomUsers[1].id;
+          const messageAlign =
+            messageId === currentUserId ? "self-end" : "self-start";
+          return (
+            <p className={`${messageAlign}`} key={message.data.text}>
+              {message.data.text}
+            </p>
+          );
+        })}
         <div ref={messageEnd} />
       </div>
-      <form onSubmit={handleFormSubmission} className="flex h-20 w-80">
+      <form onSubmit={handleFormSubmission} className="flex h-10 w-80 gap-2">
         <textarea
           ref={inputBox}
           value={messageText}
@@ -107,12 +151,17 @@ const LiveChat = () => {
         ></textarea>
         <button
           type="submit"
-          className="bg-red-500"
+          className="rounded-lg bg-red-500"
           disabled={messageTextIsEmpty}
         >
           Send
         </button>
-        <button onClick={() => setShowChat(false)}>Close</button>
+        <button
+          className="rounded-lg bg-green-500"
+          onClick={() => setShowChat(false)}
+        >
+          Close
+        </button>
       </form>
     </div>
   );
