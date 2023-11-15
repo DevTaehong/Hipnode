@@ -1,9 +1,7 @@
-import React from "react";
 import MoreInformationItem from "./MoreInformationItem";
-
 import { DevelopmentInfoProps } from "@/types/posts";
 
-const DevelopmentInfo = ({ devInfo }: DevelopmentInfoProps) => {
+const DevelopmentInformation = ({ devInfo }: DevelopmentInfoProps) => {
   return (
     <>
       {devInfo.map((item) => (
@@ -13,4 +11,4 @@ const DevelopmentInfo = ({ devInfo }: DevelopmentInfoProps) => {
   );
 };
 
-export default DevelopmentInfo;
+export default DevelopmentInformation;
