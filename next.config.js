@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
   images: {
-    domains: [
-      "cloudflare-ipfs.com",
-      "avatars.githubusercontent.com",
-      "loremflickr.com",
-      "jjxiydcvcwtbswunystj.supabase.co",
-      "img.clerk.com",
+    remotePatterns: [
+      { protocol: "https", hostname: "cloudflare-ipfs.com" },
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+      { protocol: "https", hostname: "loremflickr.com" },
+      { protocol: "https", hostname: "jjxiydcvcwtbswunystj.supabase.co" },
+      { protocol: "https", hostname: "img.clerk.com" },
     ],
   },
 };

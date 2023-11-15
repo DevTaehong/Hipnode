@@ -7,7 +7,6 @@ import CommentForm from "../open-post-page/main-content/CommentForm";
 import {
   CommentHeader,
   CommentActions,
-  CommentContent,
   CommentList,
   AuthorAvatar,
 } from "./index";
@@ -95,7 +94,9 @@ const Comment = ({
               createdAt={createdAt}
               isEdited={isEdited}
             />
-            <CommentContent content={content} />
+            <div className="flex flex-wrap text-[1rem] leading-[1.5rem] text-sc-3">
+              {content}
+            </div>
 
             {isReplying && (
               <CommentForm

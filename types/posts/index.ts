@@ -178,10 +178,6 @@ export interface CommentActionsProps {
   onShowChildrenClick: () => void;
 }
 
-export interface CommentContentProps {
-  content: string;
-}
-
 export interface CommentHeaderProps {
   username: string;
   createdAt: Date;

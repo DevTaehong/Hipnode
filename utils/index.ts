@@ -236,3 +236,19 @@ export const getRepliesToComments = (
 ) => {
   return commentsByParentId[parentId ?? "null"];
 };
+
+export const howManyMonthsAgo = (dateStr: Date | null) => {
+  if (dateStr === null) {
+    return "Date not available";
+  }
+
+  const dateGiven = new Date(dateStr);
+  const currentDate = new Date();
+
+  const yearDiff = currentDate.getFullYear() - dateGiven.getFullYear();
+  const monthDiff = currentDate.getMonth() - dateGiven.getMonth();
+
+  const totalMonths = yearDiff * 12 + monthDiff;
+
+  return totalMonths;
+};
