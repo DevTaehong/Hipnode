@@ -28,7 +28,7 @@ const PostMainContent = ({ postData }: any) => {
     setCommentsByParentId(commentsId);
   }, [commentsId]);
 
-  if (postData) {
+  if (!postData) {
     return <PostMainContentSkeleton />;
   }
 
