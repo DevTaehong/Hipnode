@@ -18,7 +18,7 @@ const PostPageContent = ({ postData }: { postData: any }) => {
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
-      <div className="mx-auto flex h-full max-w-[85rem] flex-col lg:flex-row">
+      <div className="mx-auto flex h-full w-full max-w-[85rem] flex-col lg:flex-row">
         <div className="order-2 flex flex-col gap-[1.25rem] lg:order-1">
           <LeftActionBar />
           <aside className="mb-[1.25rem] flex min-w-[13rem] flex-col justify-start rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
@@ -30,7 +30,7 @@ const PostPageContent = ({ postData }: { postData: any }) => {
             </p>
           </aside>
         </div>
-        <div className="order-1 pb-[1.25rem] lg:order-2 lg:mx-[1.25rem]">
+        <div className="order-1 flex h-fit w-full pb-[1.25rem] lg:order-2 lg:mx-[1.25rem]">
           <PostMainContent postData={postData} />
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">
