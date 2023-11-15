@@ -19,3 +19,21 @@ export interface OnlineUserProps {
   username: string;
   userImage: string;
 }
+
+export interface ChatMessage {
+  connectionId: string;
+  data: {
+    user: {
+      id: string;
+      username: string;
+      image: string;
+    };
+    text: string;
+  };
+}
+
+export interface MessageToSend {
+  text: string;
+  userId: number | null;
+  chatroomId: number | null;
+}

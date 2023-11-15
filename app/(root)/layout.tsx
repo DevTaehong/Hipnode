@@ -3,7 +3,7 @@ import React from "react";
 import Navbar from "@/components/navbar/Navbar";
 import PodcastPlayer from "@/components/podcast-components/PodcastPlayer";
 import { Toaster } from "@/components/ui/toaster";
-import LiveChat from "@/components/live-chat/LiveChat";
+import LiveChatWrapper from "@/components/live-chat/LiveChatWrapper";
 
 export default function RootLayout({
   children,
@@ -14,7 +14,7 @@ export default function RootLayout({
     <main>
       <Navbar />
       {children}
-      <LiveChat />
+      <LiveChatWrapper />
       <PodcastPlayer />
       <Toaster />
     </main>
