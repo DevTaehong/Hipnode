@@ -22,6 +22,7 @@ import {
   Seo,
   Share,
   View,
+  TrashIcon,
 } from "./Icon";
 import IconAlt from "./IconAlt";
 import NewIcon from "./NewIcon";
@@ -55,6 +56,16 @@ const OutlineIcon = ({ children, className }: OutlineIconProps) => {
     >
       {children}
     </svg>
+  );
+};
+
+OutlineIcon.Trash = function Icon({ className }: OutlineIconProps) {
+  return (
+    <OutlineIcon
+      className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
+    >
+      <TrashIcon />
+    </OutlineIcon>
   );
 };
 

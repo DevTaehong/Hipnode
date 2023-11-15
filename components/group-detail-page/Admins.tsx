@@ -16,7 +16,7 @@ const Admins = ({
           <div className="flex items-center gap-2.5">
             <Avatar className="h-[1.875rem] w-[1.875rem]">
               <AvatarImage src={admin.avatar} alt={admin.name} />
-              <AvatarFallback>{admin.name}</AvatarFallback>
+              <AvatarFallback>{admin.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <p className="semibold-14 font-feature text-sc-2 dark:text-light-2">
               {admin.name}
