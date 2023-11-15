@@ -1,13 +1,8 @@
 import { useEffect, useMemo } from "react";
-
+import Image from "next/image";
+import CommentForm from "./CommentForm";
 import CommentList from "@/components/posts/comment/CommentList";
-import {
-  TagsList,
-  PostTitle,
-  PostImage,
-  PostDescription,
-  CommentBox,
-} from "./index";
+import { TagsList, PostImage } from "./index";
 import { groupCommentsByParentId } from "@/utils";
 import { useCreatePostStore } from "@/app/lexicalStore";
 
@@ -36,17 +31,43 @@ const PostMainContent = ({ postData }: any) => {
   return (
     <main className="rounded-2xl bg-light dark:bg-dark-3">
       <section>
+        {!postData && <PostMainContentSkeleton />}
         <PostImage
           src={image || ""}
           alt="post-image"
           width={335}
           height={117}
         />
-        <PostTitle title={heading || ""} />
+        <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+          {heading}
+        </h1>
         <TagsList tags={tagNames} />
-        <PostDescription description={content || ""} />
-        <CommentBox />
+        <p className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
+          {content}
+        </p>
+        <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
+          <div className="flex items-center justify-center px-[1.25rem]">
+            <Image
+              src="/images/emoji_2.png"
+              alt="emoji"
+              width={40}
+              height={40}
+            />
+          </div>
+          <div className="flex grow justify-between rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
+            {/* @ts-ignore */}
+            <CommentForm />
+            <Image
+              src="/smiley.svg"
+              alt="smiley"
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
+          </div>
+        </div>
       </section>
+
       <section>
         {rootComments && rootComments?.length > 0 && (
           <CommentList comments={rootComments} />
@@ -57,3 +78,15 @@ const PostMainContent = ({ postData }: any) => {
 };
 
 export default PostMainContent;
+
+const PostMainContentSkeleton = () => (
+  <section className="flex flex-col items-center justify-center rounded-2xl bg-light dark:bg-dark-3">
+    <div className="mb-[2rem] mt-[1.25rem] h-[8rem] w-[90%] animate-pulse rounded-t-2xl bg-gray-200" />
+    <div className="mb-[2rem] h-6 w-3/4 animate-pulse rounded-sm bg-gray-200 pb-[0.875rem] pl-[4.8rem]" />
+    <div className="h-[6rem] w-3/4 animate-pulse rounded-sm bg-gray-200 pb-[1.875rem] pl-[4.8rem]" />
+    <div className="flex w-full flex-row items-center justify-between p-[1.25rem]">
+      <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200 px-[1.25rem]" />
+      <div className=" mx-[1.25rem] flex h-10 w-full grow animate-pulse rounded-2xl bg-gray-200 pb-[0.875rem] " />
+    </div>
+  </section>
+);

@@ -59,16 +59,8 @@ export type PostImageProps = {
   height: number;
 };
 
-export type PostTitleProps = {
-  title: string;
-};
-
 export type TagsListProps = {
   tags: string[];
-};
-
-export type PostDescriptionProps = {
-  description: string;
 };
 
 export interface AuthorProps {
