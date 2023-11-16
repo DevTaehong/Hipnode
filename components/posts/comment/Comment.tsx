@@ -35,7 +35,6 @@ const Comment = ({
   const { commentsByParentId } = useCreatePostStore();
 
   const path = usePathname();
-  console.log(path);
 
   const extractPostId = (str: string) => {
     const parts = str.split("/");
