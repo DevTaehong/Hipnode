@@ -1,12 +1,5 @@
-"use client";
-
-import {
-  LeftActionBar,
-  PostMainContent,
-  Profile,
-  MoreInformation,
-} from "@/components/posts/open-post-page";
 import { formatDatePostFormat } from "@/utils";
+import { LeftActionBar, PostMainContent, Profile, MoreInformation } from ".";
 
 const PostPageContent = ({ postData }: { postData: any }) => {
   const {

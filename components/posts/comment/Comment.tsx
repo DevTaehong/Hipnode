@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+// import Image from "next/image";
 
 import { CommentProps } from "@/types/posts";
-import CommentForm from "../open-post-page/main-content/CommentForm";
 import {
   CommentHeader,
   CommentActions,
@@ -11,9 +12,14 @@ import {
   AuthorAvatar,
 } from "./index";
 import { deleteCommentOrReply } from "@/lib/actions/post.action";
-import { usePathname } from "next/navigation";
+
 import { useCreatePostStore } from "@/app/lexicalStore";
 import { getRepliesToComments as getReplies } from "@/utils";
+import {
+  StraightLine,
+  CurveLine,
+} from "@/components/icons/outline-icons/LineIcons";
+import { CommentForm } from "../post-by-id/main-content";
 
 const Comment = ({
   content,
@@ -112,37 +118,48 @@ export default Comment;
 
 const AvatarJoinLine = () => (
   <div className="relative flex h-full flex-col items-center">
-    <svg className="h-full w-10 grow basis-0">
-      <line
-        x1="50%"
-        y1="0%"
-        x2="50%"
-        y2="100%"
-        strokeWidth="1"
-        className="dark:stroke-sc-3"
-      />
-    </svg>
-    <svg className="absolute h-full w-10 grow basis-0 translate-y-[3.2rem]">
-      <line
-        x1="50%"
-        y1="0%"
-        x2="50%"
-        y2="100%"
-        strokeWidth="1"
-        className="dark:stroke-sc-3"
-      />
-    </svg>
+    <StraightLine className="h-full w-10 grow basis-0" />
+    <StraightLine className="absolute h-full w-10 grow basis-0 translate-y-[3.2rem]" />
     <div className="flex translate-y-[4.45rem]">
       <div className="w-10">
-        <svg height="100%" width="100%" viewBox="0 0 100 51">
-          <path
-            d="M 50 0 Q 50 50, 100 50"
-            fill="none"
-            strokeWidth="2"
-            className="dark:stroke-sc-3"
-          />
-        </svg>
+        <CurveLine />
       </div>
     </div>
   </div>
 );
+
+// const AvatarJoinLine = () => (
+//   <div className="relative flex h-full flex-col items-center">
+//     <div className="relative h-32 w-10 dark:stroke-sc-3">
+//       <Image
+//         src="/svg/straightLine.svg"
+//         alt="Vertical Line"
+//         layout="fill"
+//         objectFit="contain"
+//       />
+//     </div>
+//     <div className="absolute h-full w-10 grow basis-0 translate-y-[3.2rem]">
+//       <Image
+//         src="/svg/straightLine.svg"
+//         alt="Vertical Line"
+//         layout="fill"
+//         objectFit="contain"
+//       />
+//     </div>
+//     {/* <div className="flex translate-y-[4.45rem]">
+//       <div className="w-10">
+//         <Image
+//           src="/svg/curvedLine.svg"
+//           alt="Curved Line"
+//           layout="fill"
+//           objectFit="contain"
+//         />
+//       </div>
+//     </div> */}
+//     <div className="flex translate-y-[4.45rem]">
+//       <div className="w-10">
+//         <CurveLine />
+//       </div>
+//     </div>
+//   </div>
+// );

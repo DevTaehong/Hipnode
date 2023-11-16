@@ -2,6 +2,7 @@ import { Reply, Heart, Trash, Edit, MoreHorizontal } from "lucide-react";
 import React from "react";
 import CommentIconButton from "./CommentIconButton";
 import { CommentActionsProps } from "@/types/posts";
+
 const CommentActions = ({
   onReplyClick,
   onDeleteClick,

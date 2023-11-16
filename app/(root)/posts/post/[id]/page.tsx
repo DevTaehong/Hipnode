@@ -1,4 +1,4 @@
-import PostPageContent from "@/components/posts/open-post-page/PostPageContent";
+import PostPageContent from "@/components/posts/post-by-id/PostPageContent";
 import { getPostById } from "@/lib/actions/post.action";
 
 const PostPage = async ({ params }: { params: { id: string } }) => {

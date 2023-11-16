@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { devInfo } from "@/constants";
 import RightColumnWrapper from "./RightColumnWrapper";
 import DevelopmentInformation from "./DevelopmentInformation";
+import MoreInformationItemSkeleton from "@/components/Skeleton/MoreInformationItemSkeleton";
 
 const MoreInformation = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -29,13 +30,3 @@ const MoreInformation = () => {
 };
 
 export default MoreInformation;
-
-const MoreInformationItemSkeleton = () => {
-  return (
-    <RightColumnWrapper>
-      <div className="mb-[1.25rem] h-2 w-full animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
-      <div className="mb-[1.25rem] h-2 w-full animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
-      <div className="h-4 w-full animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
-    </RightColumnWrapper>
-  );
-};

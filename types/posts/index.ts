@@ -175,3 +175,13 @@ export interface CommentHeaderProps {
   createdAt: Date;
   isEdited: boolean;
 }
+
+export interface CommentDataHandlerProps {
+  postId: number;
+  comments: CommentProps[];
+}
+
+export interface PostCommentLogicProps {
+  comments: CommentAuthorProps[];
+  postId: number;
+}
