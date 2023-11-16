@@ -257,3 +257,9 @@ export const howManyMonthsAgo = (dateStr: Date | null) => {
 
   return totalMonths;
 };
+
+export const extractPostId = (str: string) => {
+  const parts = str.split("/");
+  const number = parts[3];
+  return +number;
+};

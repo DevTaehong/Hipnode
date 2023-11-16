@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-// import Image from "next/image";
 
 import { CommentProps } from "@/types/posts";
 import {
@@ -12,9 +11,8 @@ import {
   AuthorAvatar,
 } from "./index";
 import { deleteCommentOrReply } from "@/lib/actions/post.action";
-
 import { useCreatePostStore } from "@/app/lexicalStore";
-import { getRepliesToComments as getReplies } from "@/utils";
+import { extractPostId, getRepliesToComments as getReplies } from "@/utils";
 import {
   StraightLine,
   CurveLine,
@@ -35,12 +33,6 @@ const Comment = ({
   const { commentsByParentId } = useCreatePostStore();
 
   const path = usePathname();
-
-  const extractPostId = (str: string) => {
-    const parts = str.split("/");
-    const number = parts[3];
-    return +number;
-  };
 
   const postId = extractPostId(path);
 
