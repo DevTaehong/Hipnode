@@ -48,7 +48,7 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
           <OutlineIcon.ArrowLargeDown className="stroke-sc-2 dark:stroke-light-2" />
         </div>
       </div>
-      <div className="flex h-full w-full flex-col gap-5 overflow-y-scroll p-5">
+      <div className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
         {messages.map((message: ChatMessage) => {
           const messageId = parseInt(message.data.user.id);
           const imageSrc = message.data.user.image;

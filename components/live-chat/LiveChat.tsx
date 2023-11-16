@@ -9,6 +9,7 @@ import { useChannel } from "ably/react";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage, MessageToSend } from "@/types/chatroom.index";
 import LiveChatMessageList from "./LiveChatMessageList";
+import FillIcon from "../icons/fill-icons";
 
 const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
@@ -17,7 +18,7 @@ const LiveChat = () => {
     null
   );
   const messageTextIsEmpty = messageText.trim().length === 0;
-  const inputBox = useRef<HTMLTextAreaElement>(null);
+  const inputBox = useRef<HTMLInputElement>(null);
   const { showChat, chatroomUsers, chatroomId } = useChatStore();
 
   const { channel } = useChannel("chat-demo", (message: ChatMessage) => {
@@ -40,7 +41,7 @@ const LiveChat = () => {
                 user: {
                   id: message.userId.toString(),
                   username: user?.username || "Unknown User",
-                  image: user?.picture || "default-image-url",
+                  image: user?.picture || "/public/christopher.png",
                 },
                 text: message.text,
               },
@@ -102,6 +103,7 @@ const LiveChat = () => {
 
   const handleFormSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setMessageText("");
     if (messageText.trim().length > 0) {
       setMessageToSend({
         text: messageText,
@@ -111,15 +113,15 @@ const LiveChat = () => {
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && !messageTextIsEmpty) {
+      setMessageText("");
       event.preventDefault();
       setMessageToSend({
         text: messageText,
         userId: currentUser.id,
         chatroomId,
       });
-      setMessageText("");
     }
   };
 
@@ -130,21 +132,26 @@ const LiveChat = () => {
       }`}
     >
       <LiveChatMessageList messages={receivedMessages} />
-      <form onSubmit={handleFormSubmission} className="flex h-10 w-80 gap-2">
-        <textarea
-          ref={inputBox}
-          value={messageText}
-          placeholder="Type a message..."
-          onChange={(e) => setMessageText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="h-10 w-40"
-        ></textarea>
+      <form
+        onSubmit={handleFormSubmission}
+        className="flex w-full gap-5 px-5 pb-5"
+      >
+        <div className="w-full rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
+          <input
+            ref={inputBox}
+            value={messageText}
+            placeholder="Type here your message..."
+            onChange={(e) => setMessageText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="bg-light_dark-4 w-full text-sc-4 outline-none"
+          />
+        </div>
         <button
           type="submit"
-          className="rounded-lg bg-red-500"
           disabled={messageTextIsEmpty}
+          className="h-fit cursor-pointer self-center"
         >
-          Send
+          <FillIcon.Send className="fill-sc-2 dark:fill-light-2" />
         </button>
       </form>
     </div>
