@@ -8,6 +8,7 @@ import {
 import { useChannel } from "ably/react";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage, MessageToSend } from "@/types/chatroom.index";
+import LiveChatMessageList from "./LiveChatMessageList";
 
 const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
@@ -17,8 +18,7 @@ const LiveChat = () => {
   );
   const messageTextIsEmpty = messageText.trim().length === 0;
   const inputBox = useRef<HTMLTextAreaElement>(null);
-  const messageEnd = useRef<HTMLDivElement>(null);
-  const { showChat, setShowChat, chatroomUsers, chatroomId } = useChatStore();
+  const { showChat, chatroomUsers, chatroomId } = useChatStore();
 
   const { channel } = useChannel("chat-demo", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
@@ -33,16 +33,19 @@ const LiveChat = () => {
         try {
           const messages = await getMessagesForChatroom(chatroomId);
 
-          const transformedMessages = messages.map((message) => ({
-            data: {
-              user: {
-                id: message.userId.toString(),
-                username: "",
-                image: "",
+          const transformedMessages = messages.map((message) => {
+            const user = chatroomUsers.find((u) => u.id === message.userId);
+            return {
+              data: {
+                user: {
+                  id: message.userId.toString(),
+                  username: user?.username || "Unknown User",
+                  image: user?.picture || "default-image-url",
+                },
+                text: message.text,
               },
-              text: message.text,
-            },
-          }));
+            };
+          });
 
           setMessages(transformedMessages);
         } catch (error) {
@@ -52,13 +55,13 @@ const LiveChat = () => {
     };
 
     loadMessages();
-  }, [chatroomId]);
+  }, [chatroomId, chatroomUsers]);
 
   const userInfo = useMemo(() => {
-    if (!chatroomUsers || !chatroomUsers[1]) {
+    if (!chatroomUsers || !chatroomUsers[0]) {
       return { id: null, username: "", picture: "" };
     }
-    return chatroomUsers[1];
+    return chatroomUsers[0];
   }, [chatroomUsers]);
 
   const currentUser = useMemo(
@@ -122,24 +125,11 @@ const LiveChat = () => {
 
   return (
     <div
-      className={`fixed bottom-10 right-10 h-[450px] w-[450px] flex-col items-end justify-end bg-white ${
+      className={`bg-light_dark-4 fixed bottom-10 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl bg-white ${
         showChat ? "flex" : "hidden"
       }`}
     >
-      <div className="flex w-full flex-col">
-        {receivedMessages.map((message) => {
-          const messageId = parseInt(message.data.user.id);
-          const currentUserId = chatroomUsers[1].id;
-          const messageAlign =
-            messageId === currentUserId ? "self-end" : "self-start";
-          return (
-            <p className={`${messageAlign}`} key={message.data.text}>
-              {message.data.text}
-            </p>
-          );
-        })}
-        <div ref={messageEnd} />
-      </div>
+      <LiveChatMessageList messages={receivedMessages} />
       <form onSubmit={handleFormSubmission} className="flex h-10 w-80 gap-2">
         <textarea
           ref={inputBox}
@@ -155,12 +145,6 @@ const LiveChat = () => {
           disabled={messageTextIsEmpty}
         >
           Send
-        </button>
-        <button
-          className="rounded-lg bg-green-500"
-          onClick={() => setShowChat(false)}
-        >
-          Close
         </button>
       </form>
     </div>

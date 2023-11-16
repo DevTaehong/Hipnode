@@ -26,12 +26,12 @@ const UsersToMessage = ({ userId, username, userImage }: OnlineUserProps) => {
 
     if (clickedUser) {
       const chatroomUsers = [
+        { id: userId, username, picture: userImage },
         {
           id: clickedUser.id,
           username: clickedUser.username,
           picture: clickedUser.picture,
         },
-        { id: userId, username, picture: userImage },
       ];
 
       setChatroomUsers(chatroomUsers);
