@@ -44,7 +44,6 @@ const Comment = ({
   };
 
   const postId = extractPostId(path);
-  console.log(postId);
 
   const handleDelete = async () => {
     try {
