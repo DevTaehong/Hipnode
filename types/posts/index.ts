@@ -157,6 +157,7 @@ export interface CommentFormProps {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
   content?: string;
+  postId: number;
 }
 
 export interface AuthorAvatarProps {

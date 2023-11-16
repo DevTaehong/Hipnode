@@ -20,7 +20,6 @@ import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
 import { CommentFormProps } from "@/types/posts";
 import { User } from "@prisma/client";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
-import { useCreatePostStore } from "@/app/lexicalStore";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -36,11 +35,12 @@ const CommentForm = ({
   commentId,
   setIsEditing,
   setIsReplying,
+  postId,
 }: CommentFormProps) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoaded, userId: clerkId } = useAuth();
-  const { postId } = useCreatePostStore();
+
   const path = usePathname();
 
   useEffect(() => {

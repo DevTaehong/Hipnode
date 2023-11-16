@@ -6,13 +6,7 @@ import { useCreatePostStore } from "@/app/lexicalStore";
 import { CommentDataHandlerProps } from "@/types/posts";
 
 const CommentDataHandler = ({ postId, comments }: CommentDataHandlerProps) => {
-  const { setPostId, setCommentsByParentId } = useCreatePostStore(
-    (state) => state
-  );
-
-  useEffect(() => {
-    setPostId(postId);
-  }, [postId, setPostId]);
+  const { setCommentsByParentId } = useCreatePostStore((state) => state);
 
   const commentsId = useMemo(
     () => groupCommentsByParentId(comments),

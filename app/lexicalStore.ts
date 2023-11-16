@@ -18,9 +18,6 @@ type CreatePostStore = {
   setPreviewValues: (values: PostFormValuesType | null) => void;
   clearEditor: boolean;
   setClearEditor: (value: boolean) => void;
-  postId: number;
-  setPostId: (value: number) => void;
-
   commentsByParentId: CommentsByParentId;
   setCommentsByParentId: (comments: CommentsByParentId) => void;
 };
@@ -32,9 +29,6 @@ export const useCreatePostStore = create<CreatePostStore>((set) => ({
   setPreviewValues: (values) => set({ previewValues: values }),
   clearEditor: false,
   setClearEditor: (value) => set({ clearEditor: value }),
-  postId: 0,
-  setPostId: (value) => set({ postId: value }),
-
   commentsByParentId: {},
   setCommentsByParentId: (comments) => set({ commentsByParentId: comments }),
 }));

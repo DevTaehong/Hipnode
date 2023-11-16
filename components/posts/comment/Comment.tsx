@@ -35,6 +35,16 @@ const Comment = ({
   const { commentsByParentId } = useCreatePostStore();
 
   const path = usePathname();
+  console.log(path);
+
+  const extractPostId = (str: string) => {
+    const parts = str.split("/");
+    const number = parts[3];
+    return +number;
+  };
+
+  const postId = extractPostId(path);
+  console.log(postId);
 
   const handleDelete = async () => {
     try {
@@ -74,6 +84,7 @@ const Comment = ({
                 parentId={String(id)}
                 setIsReplying={setIsReplying}
                 setIsEditing={setIsEditing}
+                postId={postId}
               />
             )}
             {isEditing && (
@@ -84,6 +95,7 @@ const Comment = ({
                 commentId={String(id)}
                 setIsReplying={setIsReplying}
                 setIsEditing={setIsEditing}
+                postId={postId}
               />
             )}
           </div>
