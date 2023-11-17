@@ -1,6 +1,6 @@
 "use server";
 
-import { Post } from "@prisma/client";
+import { Post, Comment } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
 import {

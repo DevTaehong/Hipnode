@@ -178,11 +178,15 @@ export interface CommentHeaderProps {
 }
 
 export interface CommentDataHandlerProps {
-  postId: number;
   comments: CommentProps[];
+  postId: number;
 }
 
 export interface PostCommentLogicProps {
   comments: CommentAuthorProps[];
   postId: number;
+}
+
+export interface PostMainContentProps {
+  postData: ExtendedPost;
 }

@@ -29,7 +29,7 @@ const Comment = ({
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isReplying, setIsReplying] = useState(false);
+  const [isReplying, setIsReplying] = useState(true);
   const { commentsByParentId } = useCreatePostStore();
 
   const path = usePathname();

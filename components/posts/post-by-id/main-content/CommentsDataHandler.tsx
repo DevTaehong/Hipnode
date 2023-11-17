@@ -5,7 +5,7 @@ import { groupCommentsByParentId } from "@/utils";
 import { useCreatePostStore } from "@/app/lexicalStore";
 import { CommentDataHandlerProps } from "@/types/posts";
 
-const CommentDataHandler = ({ postId, comments }: CommentDataHandlerProps) => {
+const CommentDataHandler = ({ comments }: CommentDataHandlerProps) => {
   const { setCommentsByParentId } = useCreatePostStore((state) => state);
 
   const commentsId = useMemo(

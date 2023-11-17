@@ -16,12 +16,13 @@ const PostCommentLogic = ({ comments, postId }: PostCommentLogicProps) => {
   }, [comments]);
 
   return (
-    <>
+    <section>
       <CommentDataHandler postId={postId} comments={comments} />
       {rootComments && rootComments.length > 0 && (
         <CommentList comments={rootComments} />
       )}
-    </>
+      
+    </section>
   );
 };
 
