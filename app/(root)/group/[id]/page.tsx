@@ -18,8 +18,10 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
   const groupId = Number(params.id);
   const group = await getGroupById({ groupId });
   const admins = await getGroupAdmins(groupId);
-  const newPosts = await getNewPostsByGroupId(groupId);
-  const popularPosts = await getPopularGroupPosts(groupId);
+  // NOTE - Since this is the first query, there is no cursor to pass in.
+  const defaultMyCursorId = undefined;
+  const newPosts = await getNewPostsByGroupId(defaultMyCursorId, groupId);
+  const popularPosts = await getPopularGroupPosts(defaultMyCursorId, groupId);
 
   return (
     <main className="bg-light-2_dark-2">
@@ -45,15 +47,15 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
           lg:max-w-[20.3125rem] lg:grow lg:flex-col lg:overflow-y-auto lg:py-[1.875rem]"
         >
           <FormLink {...groupFormLinkProps} className="hidden lg:flex" />
-          <ActiveMembers members={group?.members ?? []} />
-          <RecentMedia media={group?.posts ?? []} />
+          <ActiveMembers members={group.members} />
+          <RecentMedia media={group.posts} />
         </aside>
 
         <aside
           className="flex flex-col gap-5 lg:order-first lg:h-screen lg:max-w-[13.125rem] 
           lg:overflow-y-auto lg:py-[1.875rem]"
         >
-          <GroupAbout />
+          <GroupAbout description={group.description ?? group.name} />
           <GroupAdmins admins={admins} />
           <Tags className="px-0" />
         </aside>
