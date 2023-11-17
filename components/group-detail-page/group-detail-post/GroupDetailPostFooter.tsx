@@ -32,7 +32,7 @@ const GroupDetailPostFooter = ({
         {Array.from({ length: 3 }, (_, i) => (
           <StatsDescription
             key={i}
-            className={`md:text-[0.875rem] md:leading-[1.375rem] lg:text-[0.5625rem] lg:leading-[0.875rem] xl:text-[0.875rem] xl:leading-[1.375rem]`}
+            className={`line-clamp-1 md:text-[0.875rem] md:leading-[1.375rem] lg:text-[0.5625rem] lg:leading-[0.875rem] xl:text-[0.875rem] xl:leading-[1.375rem]`}
           >
             {"651,324"} Views
           </StatsDescription>
