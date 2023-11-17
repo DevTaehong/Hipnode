@@ -15,8 +15,8 @@ const FetchGroupDetailPosts = ({
 }: {
   initialNewPost: Post[];
   initialPopularPost: Post[];
-  fetchNewPost: (myCursorId: number, groupId?: number) => Promise<Post[]>;
-  fetchPopularPost: (myCursorId: number, groupId?: number) => Promise<Post[]>;
+  fetchNewPost: (myCursorId?: number, groupId?: number) => Promise<Post[]>;
+  fetchPopularPost: (myCursorId?: number, groupId?: number) => Promise<Post[]>;
   groupId: number;
 }) => {
   const searchParams = useSearchParams();
