@@ -1,7 +1,14 @@
 import { User } from "@prisma/client";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TotalMembers from "@/components/group-detail-page/active-members/TotalMembers";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const ActiveMembers = ({ members }: { members: User[] }) => {
   return (
@@ -12,13 +19,30 @@ const ActiveMembers = ({ members }: { members: User[] }) => {
           i === 9 ? (
             <TotalMembers member={member} members={members} key={member.id} />
           ) : (
-            <Avatar className="h-10 w-10" key={member.id}>
-              <AvatarImage
-                src={member.picture}
-                alt={`${member.name}'s avatar`}
-              />
-              <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-            </Avatar>
+            <TooltipProvider key={member.id} delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={`/profile/${member.id}`}
+                    className="hover:opacity-80 hover:transition-opacity"
+                  >
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage
+                        src={member.picture}
+                        alt={`${member.name}'s avatar`}
+                      />
+                      <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent
+                  className="border-none bg-dark-3 text-light-2 opacity-80"
+                  side="bottom"
+                >
+                  <p>{member.username}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )
         )}
       </div>
