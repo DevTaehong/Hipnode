@@ -11,6 +11,50 @@ import {
   GetGroupsQueryOptions,
 } from "./shared.types";
 
+export async function leaveGroup(userId: number, groupId: number) {
+  try {
+    const group = await prisma.group.findUnique({
+      where: {
+        id: groupId,
+      },
+      include: {
+        admins: true,
+      },
+    });
+
+    if (!group) {
+      throw new Error("Group not found");
+    }
+    const { admins } = group;
+    const isUserAdmin = admins.some((admin) => admin.id === userId);
+
+    const updateData = isUserAdmin
+      ? {
+          admins: {
+            disconnect: { id: userId },
+          },
+          members: {
+            disconnect: { id: userId },
+          },
+        }
+      : {
+          members: {
+            disconnect: { id: userId },
+          },
+        };
+    await prisma.group.update({
+      where: {
+        id: groupId,
+      },
+      data: updateData,
+    });
+    console.log(updateData);
+    console.log("left the group");
+  } catch (error) {
+    console.error("Error leaving a group:", error);
+  }
+}
+
 // LINK - https://github.com/adrianhajdin/stack_overflow_nextjs13/blob/main/lib/actions/question.action.ts#L229
 export async function createGroup(params: CreateGroupParams) {
   try {
@@ -43,6 +87,34 @@ export async function createGroup(params: CreateGroupParams) {
     revalidatePath(path);
   } catch (error) {
     console.error("Error creating a group:", error);
+    throw error;
+  }
+}
+
+export async function getGroupAdmins(groupId: number) {
+  try {
+    const group = await prisma.group.findUnique({
+      where: {
+        id: groupId,
+      },
+      select: {
+        admins: {
+          select: {
+            picture: true,
+            username: true,
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (!group) {
+      throw new Error("Admins not found");
+    }
+    const { admins } = group;
+    return admins;
+  } catch (error) {
+    console.error("Error retrieving admins of a group:", error);
     throw error;
   }
 }
