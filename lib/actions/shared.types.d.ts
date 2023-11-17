@@ -1,4 +1,4 @@
-import { Post, User } from "@prisma/client";
+import { Post, Prisma, User } from "@prisma/client";
 
 // LINK - https://github.com/adrianhajdin/stack_overflow_nextjs13/blob/main/lib/actions/shared.types.d.ts#L69
 export interface CreateGroupParams {
@@ -61,6 +61,7 @@ export interface getPostsByGroupIdQueryOptions {
       };
     };
   };
+  orderBy: Prisma.PostOrderByInput;
 }
 
 export interface getPostsFromGroupsQueryOptions {
