@@ -48,8 +48,6 @@ export async function leaveGroup(userId: number, groupId: number) {
       },
       data: updateData,
     });
-    console.log(updateData);
-    console.log("left the group");
   } catch (error) {
     console.error("Error leaving a group:", error);
   }
