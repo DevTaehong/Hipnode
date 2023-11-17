@@ -131,6 +131,10 @@ export async function getGroupById(params: GetGroupByIdParams) {
       },
     });
 
+    if (!group) {
+      throw new Error("Group not found");
+    }
+
     return group;
   } catch (error) {
     console.error("Error retrieving a group:", error);
