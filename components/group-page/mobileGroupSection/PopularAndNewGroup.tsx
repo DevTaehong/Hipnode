@@ -33,8 +33,8 @@ const PopularAndNewGroup = ({ group }: { group: GroupSectionHeaderProps }) => {
                   id={group.id}
                   key={group.name}
                   groupName={group.name}
-                  logo={group.logo}
-                  description={group.description}
+                  logo={group.logo ?? ""}
+                  description={group.description ?? ""}
                 />
               ))
           : group.groups
@@ -44,8 +44,8 @@ const PopularAndNewGroup = ({ group }: { group: GroupSectionHeaderProps }) => {
                   id={group.id}
                   key={group.name}
                   groupName={group.name}
-                  logo={group.logo}
-                  description={group.description}
+                  logo={group.logo ?? ""}
+                  description={group.description ?? ""}
                 />
               ))}
       </ul>
