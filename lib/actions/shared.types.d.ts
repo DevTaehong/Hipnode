@@ -49,7 +49,7 @@ export interface getPostsByGroupIdQueryOptions {
     id: number;
   };
   where?: {
-    groupId: number;
+    groupId: number | undefined;
   };
   include?: {
     author: boolean;
