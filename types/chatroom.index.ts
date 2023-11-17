@@ -1,3 +1,5 @@
+import { User } from "@prisma/client";
+
 export type ChatroomType = {
   userId: number;
   chatroomId: number;
@@ -37,4 +39,8 @@ export interface MessageToSend {
   text: string;
   userId: number | null;
   chatroomId: number | null;
+}
+
+export interface ChatProps extends User {
+  online?: boolean;
 }
