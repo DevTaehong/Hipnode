@@ -107,7 +107,7 @@ export async function getGroupAdmins(groupId: number) {
     });
 
     if (!group) {
-      throw new Error("Admins not found");
+      throw new Error("Group not found");
     }
     const { admins } = group;
     return admins;
