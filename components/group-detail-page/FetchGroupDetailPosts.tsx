@@ -4,7 +4,7 @@ import { Post } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 
 import InfiniteScroll from "@/components/InfiniteScroll";
-import GroupDetailPost from "./group-detail-post/GroupDetailPost";
+import GroupDetailPost from "@/components/group-detail-page/group-detail-post/GroupDetailPost";
 
 const FetchGroupDetailPosts = ({
   initialNewPost,
