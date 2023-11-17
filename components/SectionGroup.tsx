@@ -32,8 +32,8 @@ const SectionGroup = ({
           <GroupSectionListItem
             id={group.id}
             key={group.name}
-            logo={group.logo}
-            description={group.description}
+            logo={group.logo ?? ""}
+            description={group.description ?? ""}
             groupName={group.name}
           />
         ))}
