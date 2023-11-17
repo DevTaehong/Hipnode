@@ -20,6 +20,10 @@ export async function getUserByClerkId(clerkId: string) {
       },
     });
 
+    if (!user) {
+      throw new Error(`No user found for clerkId: ${clerkId}`);
+    }
+
     return user;
   } catch (error) {
     console.error("Error fetching user by ID:", error);
@@ -34,6 +38,10 @@ export async function getUserById(id: number) {
         id,
       },
     });
+
+    if (!user) {
+      throw new Error(`No user found for id: ${id}`);
+    }
 
     return user;
   } catch (error) {
