@@ -29,6 +29,7 @@ const GroupDetailPostFooter = ({
         </div>
       </div>
       <div className="flex flex-row gap-[1.875rem] xl:items-center xl:gap-10">
+        {/* // TODO - the counts of add views, likes, and comments */}
         {Array.from({ length: 3 }, (_, i) => (
           <StatsDescription
             key={i}
