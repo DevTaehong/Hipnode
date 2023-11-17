@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import { usePresence } from "ably/react";
 import useChatStore from "@/app/chatStore";
+
 import { ChatMessage } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
@@ -10,19 +12,33 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
 
   let secondUserUsername = "";
   let secondUserPicture;
+  let secondUserId: number | null = null;
 
   if (chatroomUsers[1]) {
     secondUserUsername = chatroomUsers[1].username;
     secondUserPicture = chatroomUsers[1].picture;
+    secondUserId = chatroomUsers[1].id;
   }
 
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
+  const { presenceData } = usePresence("chat-demo");
+
+  const isSecondUserOnline = presenceData.some(
+    (presence) => presence.data && presence.data.id === secondUserId
+  );
 
   useEffect(() => {
     if (endOfMessagesRef.current) {
       endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  const onlineStatus = isSecondUserOnline ? (
+    <p className="semibold-9 md:semibold-10 text-green">Online</p>
+  ) : (
+    <p className="semibold-9 md:semibold-10 text-slate-400">Offline</p>
+  );
 
   return (
     <>
@@ -41,7 +57,7 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
             <p className="base-14 md:base-18 text-sc-2_light-2">
               {secondUserUsername}
             </p>
-            <p className="semibold-9 md:semibold-10 text-green">Online</p>
+            {onlineStatus}
           </div>
         </div>
         <div className="flex cursor-pointer" onClick={() => setShowChat(false)}>
@@ -79,9 +95,9 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                 />
               </div>
               <div
-                className={`${messageStyles.divStyles} flex-center semibold-16 break-words rounded-lg p-3.5`}
+                className={`${messageStyles.divStyles} flex-center break-words rounded-lg p-3.5`}
               >
-                <p>{message.data.text}</p>
+                <p className="semibold-16">{message.data.text}</p>
               </div>
             </div>
           );

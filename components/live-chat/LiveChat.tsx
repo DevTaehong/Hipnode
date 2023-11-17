@@ -6,6 +6,7 @@ import {
   getMessagesForChatroom,
 } from "@/lib/actions/chatroom.actions";
 import { useChannel } from "ably/react";
+
 import useChatStore from "@/app/chatStore";
 import { ChatMessage, MessageToSend } from "@/types/chatroom.index";
 import LiveChatMessageList from "./LiveChatMessageList";
@@ -31,9 +32,10 @@ const LiveChat = () => {
   useEffect(() => {
     const loadMessages = async () => {
       if (chatroomId !== null) {
+        setMessages([]);
+
         try {
           const messages = await getMessagesForChatroom(chatroomId);
-
           const transformedMessages = messages.map((message) => {
             const user = chatroomUsers.find((u) => u.id === message.userId);
             return {
@@ -47,16 +49,14 @@ const LiveChat = () => {
               },
             };
           });
-
           setMessages(transformedMessages);
         } catch (error) {
           console.error("Error fetching messages for chatroom:", error);
         }
       }
     };
-
     loadMessages();
-  }, [chatroomId, chatroomUsers]);
+  }, [chatroomId, chatroomUsers, showChat]);
 
   const userInfo = useMemo(() => {
     if (!chatroomUsers || !chatroomUsers[0]) {
@@ -73,6 +73,7 @@ const LiveChat = () => {
     }),
     [userInfo]
   );
+
   useEffect(() => {
     if (messageToSend) {
       const sendChatMessage = async () => {

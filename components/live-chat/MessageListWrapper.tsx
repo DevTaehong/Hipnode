@@ -2,6 +2,7 @@
 
 import * as Ably from "ably";
 import { AblyProvider } from "ably/react";
+
 import { OnlineUserProps } from "@/types/chatroom.index";
 import MessageList from "./MessageList";
 
@@ -11,8 +12,8 @@ const MessageListWrapper = ({
   userImage,
 }: OnlineUserProps) => {
   const client = new Ably.Realtime.Promise({
-    key: "A5FjpQ.XY-aHQ:tMthK9szJfPHim5Fj7JulLYbQCViUdWdC4oXoWMqyAA",
-    clientId: "your-ably-client-id",
+    key: process.env.NEXT_PUBLIC_ABLY_API_KEY,
+    clientId: "hipnode",
   });
 
   return (

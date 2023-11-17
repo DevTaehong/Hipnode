@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PopoverClose } from "@radix-ui/react-popover";
+
 import { OnlineUserProps, ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
 
