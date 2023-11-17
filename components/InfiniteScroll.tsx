@@ -6,7 +6,7 @@ import { useInView } from "react-intersection-observer";
 import Spinner from "@/components/Spinner";
 import OutlineIcon from "@/components/icons/outline-icons";
 interface InfiniteScrollProps<T extends { id: number }> {
-  fetchData: (myCursorId: number, groupId?: number) => Promise<T[]>;
+  fetchData: (myCursorId?: number, groupId?: number) => Promise<T[]>;
   initialData: T[];
   renderItem: (item: T) => ReactNode;
   className: string;
@@ -30,7 +30,7 @@ const InfiniteScroll = <T extends { id: number }>({
     setIsLoading(true);
 
     const myCursorId = data[data.length - 1]?.id;
-    const newData = await fetchData(groupId ?? -1, myCursorId);
+    const newData = await fetchData(myCursorId, groupId);
     setData((prevData: T[]) => [...prevData, ...newData]);
 
     setIsLoading(false);
