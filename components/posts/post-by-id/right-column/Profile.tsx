@@ -6,7 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "./RightColumnWrapper";
 import { howManyMonthsAgo } from "@/utils";
-import ProfileSkeleton from "@/components/Skeleton/ProfileSkeleton";
+import ProfileSkeleton from "@/components/skeleton/ProfileSkeleton";
 
 const Profile = () => {
   const { isLoaded, isSignedIn, user } = useUser();

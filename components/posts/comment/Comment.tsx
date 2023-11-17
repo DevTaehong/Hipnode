@@ -40,7 +40,6 @@ const Comment = ({
     try {
       setIsDeleting(true);
       await deleteCommentOrReply(id, path);
-      setIsDeleting(false);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }

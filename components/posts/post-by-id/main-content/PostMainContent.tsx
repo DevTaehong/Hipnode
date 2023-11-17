@@ -7,7 +7,7 @@ import { ExtendedPost } from "@/types/models";
 import { CommentAuthorProps } from "@/types/posts";
 
 import PostCommentLogic from "./PostCommentLogic";
-import PostMainContentSkeleton from "@/components/Skeleton/PostMainContentSkeleton";
+import PostMainContentSkeleton from "@/components/skeleton/PostMainContentSkeleton";
 
 interface PostMainContentProps {
   postData: ExtendedPost;

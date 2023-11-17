@@ -5,7 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { devInfo } from "@/constants";
 import RightColumnWrapper from "./RightColumnWrapper";
 import DevelopmentInformation from "./DevelopmentInformation";
-import MoreInformationItemSkeleton from "@/components/Skeleton/MoreInformationItemSkeleton";
+import MoreInformationItemSkeleton from "@/components/skeleton/MoreInformationItemSkeleton";
 
 const MoreInformation = () => {
   const { isLoaded, isSignedIn, user } = useUser();

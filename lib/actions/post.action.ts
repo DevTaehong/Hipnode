@@ -92,6 +92,59 @@ export async function getPostById(id: number): Promise<ExtendedPost> {
   }
 }
 
+export async function getPostContentById(id: number): Promise<ExtendedPost> {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        author: true,
+        likes: {
+          include: {
+            user: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    if (post === null) {
+      throw new Error(`Post with id ${id} not found`);
+    }
+    return JSON.parse(JSON.stringify(post));
+  } catch (error) {
+    console.error("Error retrieving post content:", error);
+    throw error;
+  }
+}
+
+export async function getPostCommentsById(id: number): Promise<Comment[]> {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { postId: id },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+      },
+    });
+
+    if (!comments) {
+      throw new Error(`Comments for post with id ${id} not found`);
+    }
+    return JSON.parse(JSON.stringify(comments));
+  } catch (error) {
+    console.error("Error retrieving post comments:", error);
+    throw error;
+  }
+}
+
 export async function getAllPosts({
   page = 1,
 }: {
