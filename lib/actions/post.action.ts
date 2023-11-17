@@ -232,8 +232,8 @@ export async function getAllPostsExtended({
 }
 
 export async function getPopularGroupPosts(
-  groupId: number,
-  myCursorId?: number
+  myCursorId?: number,
+  groupId?: number
 ) {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
@@ -275,8 +275,8 @@ export async function getPopularGroupPosts(
 }
 
 export async function getNewPostsByGroupId(
-  groupId: number,
-  myCursorId?: number
+  myCursorId?: number,
+  groupId?: number
 ) {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
