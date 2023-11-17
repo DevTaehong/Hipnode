@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import FillIcon from "@/components/icons/fill-icons";
 import LeaveIcon from "@/components/icons/fill-icons/LeaveIcon";
-import GroupLeaveButton from "./group-detail-post/GroupLeaveButton";
+import GroupLeaveButton from "@/components/group-detail-page/group-detail-post/GroupLeaveButton";
 
 const GroupLeaveModal = ({
   userId,
