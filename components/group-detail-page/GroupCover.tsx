@@ -44,6 +44,7 @@ const GroupCover = async ({ group }: { group: Group | null }) => {
         <GroupCoverButtons
           isGroupOwner={isGroupOwner}
           groupId={group?.id ?? -1}
+          userId={user?.id ?? -1}
         />
       </div>
     </div>
