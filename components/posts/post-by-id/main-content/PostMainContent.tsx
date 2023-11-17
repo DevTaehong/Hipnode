@@ -7,17 +7,12 @@ import { ExtendedPost } from "@/types/models";
 import { CommentAuthorProps } from "@/types/posts";
 
 import PostCommentLogic from "./PostCommentLogic";
-import PostMainContentSkeleton from "@/components/skeleton/PostMainContentSkeleton";
 
 interface PostMainContentProps {
   postData: ExtendedPost;
 }
 
 const PostMainContent = ({ postData }: PostMainContentProps) => {
-  if (!postData) {
-    return <PostMainContentSkeleton />;
-  }
-
   const { tags, image, heading, content, id, comments } = postData;
   const tagNames = tags?.map((tagRelation) => tagRelation.tag.name) ?? [];
 

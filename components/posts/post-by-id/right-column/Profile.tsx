@@ -6,13 +6,12 @@ import { useUser } from "@clerk/nextjs";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "./RightColumnWrapper";
 import { howManyMonthsAgo } from "@/utils";
-import ProfileSkeleton from "@/components/skeleton/ProfileSkeleton";
 
 const Profile = () => {
   const { isLoaded, isSignedIn, user } = useUser();
 
   if (!isLoaded || !isSignedIn) {
-    return <ProfileSkeleton />;
+    return null;
   }
 
   const { username, imageUrl: picture } = user;
