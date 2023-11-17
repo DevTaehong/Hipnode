@@ -1,11 +1,11 @@
 import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
 import GroupSectionListItem from "@/components/GroupSectionListItem";
-import { GroupProps } from "@/types/models";
+import { GroupPromiseProps } from "@/types";
 
 const FastestGrowingGroups = ({
   fastestGrowingGroups,
 }: {
-  fastestGrowingGroups: GroupProps;
+  fastestGrowingGroups: GroupPromiseProps;
 }) => {
   return (
     <div className="m-2.5 mb-5 flex flex-col gap-2.5">
