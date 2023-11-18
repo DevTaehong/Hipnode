@@ -12,7 +12,7 @@ import { devInfo } from "@/constants";
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
-
+  console.log(postData);
   const {
     author: { username },
     createdAt,

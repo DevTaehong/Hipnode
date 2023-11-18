@@ -58,7 +58,12 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
     const post = await prisma.post.findUnique({
       where: { id },
       include: {
-        author: true,
+        author: {
+          select: {
+            username: true,
+            createdAt: true,
+          },
+        },
         likes: {
           include: {
             user: true,
