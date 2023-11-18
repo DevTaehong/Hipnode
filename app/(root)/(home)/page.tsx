@@ -12,11 +12,8 @@ import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { getAllPosts } from "@/lib/actions/post.action";
 import { RightSidebarWrapper } from "@/components/home-page/shared-components";
-import { getMessagesForChatroom } from "@/lib/actions/chatroom.actions";
 
 export default async function Home() {
-  const messages = await getMessagesForChatroom(19);
-  console.log(messages);
   const { userId } = auth();
   let userImage: string = "";
   if (userId) {
