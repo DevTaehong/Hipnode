@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
@@ -16,11 +16,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
 import { CommentFormProps } from "@/types/posts";
 import { User } from "@prisma/client";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -89,6 +89,13 @@ const CommentForm = ({
     form.reset();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
+
   if (!isLoaded || !clerkId) {
     return null;
   }
@@ -96,20 +103,21 @@ const CommentForm = ({
   return (
     <div className="flex w-full flex-col gap-2">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+        <form className={className}>
           <div className="flex w-full items-center justify-between">
-            <div className="flex">
+            <div className="flex w-full">
               <FormField
                 control={form.control}
                 name="comment"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormControl>
-                      <Input
+                      <Textarea
+                        resetHeight={onSubmit}
                         {...field}
-                        type="text"
+                        onKeyDown={handleKeyDown}
                         placeholder="Say something cool.... 🔥"
-                        className="flex bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                        className="flex h-[45px] w-full resize-none items-center bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
                       />
                     </FormControl>
                     <FormMessage />
@@ -117,8 +125,7 @@ const CommentForm = ({
                 )}
               />
             </div>
-
-            <div className="flex h-10 w-10 items-center justify-center">
+            <div className="flex h-6 w-6 items-center justify-center">
               <Image
                 src="/smiley.svg"
                 alt="smiley"

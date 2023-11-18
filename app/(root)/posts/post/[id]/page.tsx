@@ -63,7 +63,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                     height={40}
                   />
                 </div>
-                <div className="flex grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
+                <div className="flex h-fit grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
                   {/* @ts-ignore */}
                   <CommentForm postId={postData.id} />
                 </div>
