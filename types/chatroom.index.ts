@@ -16,12 +16,6 @@ export type EditMessageType = {
   newText: string;
 };
 
-export interface OnlineUserProps {
-  userId: number;
-  username: string;
-  userImage: string;
-}
-
 export interface ChatMessage {
   connectionId?: string;
   data: {

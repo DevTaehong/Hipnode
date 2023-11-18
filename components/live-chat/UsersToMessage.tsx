@@ -1,27 +1,24 @@
 import Image from "next/image";
 import { PopoverClose } from "@radix-ui/react-popover";
 
-import { OnlineUserProps, ChatProps } from "@/types/chatroom.index";
+import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
 
-interface UsersToMessageProps extends OnlineUserProps {
+interface UsersToMessageProps {
   users: ChatProps[];
 }
 
-const UsersToMessage = ({
-  users,
-  userId,
-  username,
-  userImage,
-}: UsersToMessageProps) => {
-  const { setChatroomUsers, setShowChat, createNewChatroom } = useChatStore();
+const UsersToMessage = ({ users }: UsersToMessageProps) => {
+  const { setChatroomUsers, setShowChat, createNewChatroom, userInfo } =
+    useChatStore();
+  const { id, username, image } = userInfo;
 
   const handleUserClick = (clickedUserId: number) => {
     const clickedUser = users.find((user) => user.id === clickedUserId);
 
     if (clickedUser) {
       const chatroomUsers = [
-        { id: userId, username, picture: userImage },
+        { id, username, picture: image },
         {
           id: clickedUser.id,
           username: clickedUser.username,

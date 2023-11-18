@@ -14,6 +14,12 @@ interface ChatroomMap {
   [chatroomId: number]: Set<number>;
 }
 
+interface UserInfo {
+  id: number;
+  username: string;
+  image: string;
+}
+
 interface ChatStoreState {
   chatroomUsers: ChatroomUser[];
   setChatroomUsers: (users: ChatroomUser[]) => void;
@@ -22,6 +28,8 @@ interface ChatStoreState {
   setShowChat: (show: boolean) => void;
   chatroomId: number | null;
   setChatroomId: (id: number | null) => void;
+  userInfo: UserInfo;
+  setUserInfo: (userInfo: UserInfo) => void;
 }
 
 const useChatStore = create<ChatStoreState>((set) => ({
@@ -68,6 +76,8 @@ const useChatStore = create<ChatStoreState>((set) => ({
   setShowChat: (show: boolean) => set({ showChat: show }),
   chatroomId: null,
   setChatroomId: (id: number | null) => set({ chatroomId: id }),
+  userInfo: { id: 0, username: "", image: "" },
+  setUserInfo: (userInfo: UserInfo) => set({ userInfo }),
 }));
 
 export default useChatStore;

@@ -18,6 +18,15 @@ const Navbar = async () => {
   }
   const userFromDB = await getUserByClerkId(user.id);
 
+  if (!userFromDB) {
+    throw Error("User not found");
+  }
+  const userInfo = {
+    id: userFromDB.id,
+    username: userFromDB.username,
+    image: userFromDB.picture,
+  };
+
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
@@ -42,13 +51,7 @@ const Navbar = async () => {
       </section>
 
       <section className="flex items-center gap-6">
-        {userFromDB && (
-          <MessageListWrapper
-            userId={userFromDB?.id}
-            username={userFromDB?.username}
-            userImage={userFromDB?.picture}
-          />
-        )}
+        {userFromDB && <MessageListWrapper userInfo={userInfo} />}
 
         <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Notification

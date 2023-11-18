@@ -5,14 +5,17 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import FillIcon from "../icons/fill-icons";
 import UsersToMessage from "./UsersToMessage";
 import { getAllUsers } from "@/lib/actions/user.actions";
-import { ChatProps, OnlineUserProps } from "@/types/chatroom.index";
+import { ChatProps } from "@/types/chatroom.index";
+import useChatStore from "@/app/chatStore";
 
-const MessageList = ({ userId, username, userImage }: OnlineUserProps) => {
+const MessageList = () => {
+  const { userInfo } = useChatStore();
+  const { id, username, image } = userInfo;
   const [users, setUsers] = useState<ChatProps[]>([]);
 
   const { channel } = useChannel("hipnode-livechat", () => {});
   const { presenceData } = usePresence("hipnode-livechat", {
-    data: { id: userId, username, image: userImage },
+    data: { id, username, image },
   });
 
   useEffect(() => {
@@ -49,15 +52,15 @@ const MessageList = ({ userId, username, userImage }: OnlineUserProps) => {
 
   useEffect(() => {
     channel.presence.enter({
-      id: userId,
+      id,
       username,
-      image: userImage,
+      image,
     });
 
     return () => {
       channel.presence.leave();
     };
-  }, [channel.presence, userId, username, userImage]);
+  }, [channel.presence, id, username, image]);
 
   return (
     <Popover>
@@ -68,12 +71,7 @@ const MessageList = ({ userId, username, userImage }: OnlineUserProps) => {
       </PopoverTrigger>
       <PopoverContent>
         <div className="h-fit w-48 bg-white p-3">
-          <UsersToMessage
-            users={users}
-            userId={userId}
-            username={username}
-            userImage={userImage}
-          />
+          <UsersToMessage users={users} />
         </div>
       </PopoverContent>
     </Popover>
