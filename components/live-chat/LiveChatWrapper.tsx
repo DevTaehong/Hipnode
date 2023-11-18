@@ -6,7 +6,7 @@ import LiveChat from "./LiveChat";
 
 const LiveChatWrapper = () => {
   const client = new Ably.Realtime.Promise({
-    key: "A5FjpQ.XY-aHQ:tMthK9szJfPHim5Fj7JulLYbQCViUdWdC4oXoWMqyAA",
+    key: process.env.NEXT_PUBLIC_ABLY_API_KEY,
     clientId: "hipnode",
   });
   return (
