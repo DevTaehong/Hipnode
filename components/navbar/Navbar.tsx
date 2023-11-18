@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser, SignedIn, SignedOut } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -13,19 +13,19 @@ import MessageListWrapper from "../live-chat/MessageListWrapper";
 
 const Navbar = async () => {
   const user = await currentUser();
-  if (!user) {
-    throw Error("User not found");
-  }
-  const userFromDB = await getUserByClerkId(user.id);
+  let userFromDB;
+  let userInfo;
 
-  if (!userFromDB) {
-    throw Error("User not found");
+  if (user) {
+    userFromDB = await getUserByClerkId(user.id);
+    if (userFromDB) {
+      userInfo = {
+        id: userFromDB.id,
+        username: userFromDB.username,
+        image: userFromDB.picture,
+      };
+    }
   }
-  const userInfo = {
-    id: userFromDB.id,
-    username: userFromDB.username,
-    image: userFromDB.picture,
-  };
 
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
@@ -51,8 +51,12 @@ const Navbar = async () => {
       </section>
 
       <section className="flex items-center gap-6">
-        {userFromDB && <MessageListWrapper userInfo={userInfo} />}
-
+        <SignedIn>
+          {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
+        </SignedIn>
+        <SignedOut>
+          <Link href="/sign-in">Login</Link>
+        </SignedOut>
         <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Notification
             className="fill-sc-4 dark:fill-sc-6"

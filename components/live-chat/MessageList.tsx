@@ -15,7 +15,9 @@ const MessageList = () => {
 
   const { channel } = useChannel("hipnode-livechat", () => {});
   const { presenceData } = usePresence("hipnode-livechat", {
-    data: { id, username, image },
+    id,
+    username,
+    image,
   });
 
   useEffect(() => {
@@ -23,18 +25,7 @@ const MessageList = () => {
       try {
         const allUsers = await getAllUsers();
         const onlineUserIds = new Set(
-          presenceData
-            .map((presence) => {
-              if (
-                presence.data &&
-                typeof presence.data === "object" &&
-                "id" in presence.data
-              ) {
-                return presence.data.id;
-              }
-              return null;
-            })
-            .filter((id) => id !== null)
+          presenceData.map((presence) => presence.data?.id).filter(Boolean)
         );
         const combinedUsers = allUsers.map((user) => ({
           ...user,
