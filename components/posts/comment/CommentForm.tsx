@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, KeyboardEvent } from "react";
 import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
@@ -89,7 +89,7 @@ const CommentForm = ({
     form.reset();
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       form.handleSubmit(onSubmit)();

@@ -15,16 +15,19 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       const adjustHeight = () => {
         const textarea = textareaRef.current;
         if (textarea) {
+          // @ts-ignore
           textarea.style.height = "22px";
+          // @ts-ignore
           textarea.style.height = `${textarea.scrollHeight}px`;
         }
       };
 
       adjustHeight();
-
+      // @ts-ignore
       textareaRef.current?.addEventListener("input", adjustHeight);
 
       return () => {
+        // @ts-ignore
         textareaRef.current?.removeEventListener("input", adjustHeight);
       };
     }, [resetHeight]);
