@@ -5,9 +5,14 @@ import {
   ImVolumeMute2,
   ImVolumeHigh,
 } from "react-icons/im";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
+
+export function formatGroupDetailPostDate(createdAt: Date) {
+  return formatDistanceToNow(createdAt, { addSuffix: true });
+}
 
 export function getFormattedDateMeetUpCard(dateString: string) {
   const date = new Date(dateString);
