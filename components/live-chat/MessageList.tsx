@@ -10,8 +10,8 @@ import { ChatProps, OnlineUserProps } from "@/types/chatroom.index";
 const MessageList = ({ userId, username, userImage }: OnlineUserProps) => {
   const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel } = useChannel("chat-demo", () => {});
-  const { presenceData } = usePresence("chat-demo", {
+  const { channel } = useChannel("hipnode-livechat", () => {});
+  const { presenceData } = usePresence("hipnode-livechat", {
     data: { id: userId, username, image: userImage },
   });
 

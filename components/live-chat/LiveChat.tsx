@@ -22,7 +22,7 @@ const LiveChat = () => {
   const inputBox = useRef<HTMLInputElement>(null);
   const { showChat, chatroomUsers, chatroomId } = useChatStore();
 
-  const { channel } = useChannel("chat-demo", (message: ChatMessage) => {
+  const { channel } = useChannel("hipnode-livechat", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
     if (channelId === chatroomId) {
       setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
@@ -128,7 +128,7 @@ const LiveChat = () => {
 
   return (
     <div
-      className={`bg-light_dark-4 fixed bottom-10 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl bg-white ${
+      className={`bg-light_dark-4 fixed bottom-20 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl bg-white ${
         showChat ? "flex" : "hidden"
       }`}
     >

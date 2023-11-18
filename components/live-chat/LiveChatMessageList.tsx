@@ -22,7 +22,7 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
 
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
-  const { presenceData } = usePresence("chat-demo");
+  const { presenceData } = usePresence("hipnode-livechat");
 
   const isSecondUserOnline = presenceData.some(
     (presence) => presence.data && presence.data.id === secondUserId
