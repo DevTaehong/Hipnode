@@ -177,16 +177,12 @@ export interface CommentHeaderProps {
   isEdited: boolean;
 }
 
-export interface CommentDataHandlerProps {
-  comments: CommentProps[];
-  postId: number;
-}
-
-export interface PostCommentLogicProps {
+export interface RenderRootCommentsProps {
   comments: CommentAuthorProps[];
   postId: number;
 }
 
-export interface PostMainContentProps {
-  postData: ExtendedPost;
+export interface ExtendedComment extends CommentProps {
+  parent?: CommentProps;
+  path?: string;
 }

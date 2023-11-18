@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -52,7 +53,6 @@ const CommentForm = ({
     if (clerkId && isLoaded) {
       fetchCurrentUser();
     }
-    fetchCurrentUser();
   }, [clerkId]);
 
   const form = useForm({
@@ -94,33 +94,42 @@ const CommentForm = ({
   }
 
   return (
-    <>
+    <div className="flex w-full flex-col gap-2">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
-          <FormField
-            control={form.control}
-            name="comment"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="Say something cool.... 🔥"
-                    className="bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button className="hidden" type="submit">
-            Submit
-          </Button>
+          <div className="flex items-center justify-between">
+            <FormField
+              control={form.control}
+              name="comment"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="text"
+                      placeholder="Say something cool.... 🔥"
+                      className="flex w-[30rem] grow bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Image
+              src="/smiley.svg"
+              alt="smiley"
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
+            <Button className="hidden" type="submit">
+              Submit
+            </Button>
+          </div>
         </form>
       </Form>
       {isLoading && <p className="pl-2 text-sc-5">Adding comment...</p>}
-    </>
+    </div>
   );
 };
 

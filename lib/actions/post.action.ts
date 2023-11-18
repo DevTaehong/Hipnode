@@ -1,13 +1,13 @@
 "use server";
 
-import { Post, Comment } from "@prisma/client";
+import { Post } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
 import {
   getPostsByGroupIdQueryOptions,
   getPostsFromGroupsQueryOptions,
 } from "@/lib/actions/shared.types";
-import { CommentProps } from "@/types/posts";
+import { CommentAuthorProps, CommentProps } from "@/types/posts";
 import { revalidatePath } from "next/cache";
 
 export async function createPost(data: Post): Promise<Post> {
@@ -53,45 +53,6 @@ export async function deletePost(id: number): Promise<Post> {
   }
 }
 
-export async function getPostById(id: number): Promise<ExtendedPost> {
-  try {
-    const post = await prisma.post.findUnique({
-      where: { id },
-      include: {
-        author: true,
-        comments: {
-          include: {
-            author: {
-              select: {
-                username: true,
-                picture: true,
-              },
-            },
-          },
-        },
-        likes: {
-          include: {
-            user: true,
-          },
-        },
-        tags: {
-          include: {
-            tag: true,
-          },
-        },
-      },
-    });
-
-    if (post === null) {
-      throw new Error(`Post with id ${id} not found`);
-    }
-    return JSON.parse(JSON.stringify(post));
-  } catch (error) {
-    console.error("Error retrieving post:", error);
-    throw error;
-  }
-}
-
 export async function getPostContentById(id: number): Promise<ExtendedPost> {
   try {
     const post = await prisma.post.findUnique({
@@ -111,7 +72,7 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
       },
     });
 
-    if (post === null) {
+    if (!post) {
       throw new Error(`Post with id ${id} not found`);
     }
     return JSON.parse(JSON.stringify(post));
@@ -121,7 +82,9 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
   }
 }
 
-export async function getPostCommentsById(id: number): Promise<Comment[]> {
+export async function getPostCommentsById(
+  id: number
+): Promise<CommentAuthorProps[]> {
   try {
     const comments = await prisma.comment.findMany({
       where: { postId: id },

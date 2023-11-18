@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 
 import { CommentProps } from "@/types/posts";
 import {
@@ -12,7 +12,7 @@ import {
 } from "./index";
 import { deleteCommentOrReply } from "@/lib/actions/post.action";
 import { useCreatePostStore } from "@/app/lexicalStore";
-import { extractPostId, getRepliesToComments as getReplies } from "@/utils";
+import { getRepliesToComments as getReplies } from "@/utils";
 import {
   StraightLine,
   CurveLine,
@@ -33,8 +33,8 @@ const Comment = ({
   const { commentsByParentId } = useCreatePostStore();
 
   const path = usePathname();
-
-  const postId = extractPostId(path);
+  const params = useParams();
+  const postId = +params.id;
 
   const handleDelete = async () => {
     try {
