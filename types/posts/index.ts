@@ -160,10 +160,6 @@ export interface CommentFormProps {
   postId: number;
 }
 
-export interface AuthorAvatarProps {
-  picture: string;
-}
-
 export interface CommentActionsProps {
   onReplyClick: () => void;
   onDeleteClick: () => void;

@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import { usePathname, useParams } from "next/navigation";
+import Image from "next/image";
 
 import { CommentProps } from "@/types/posts";
-import {
-  CommentHeader,
-  CommentActions,
-  CommentList,
-  AuthorAvatar,
-} from "./index";
+import { CommentHeader, CommentActions, CommentList } from "./index";
 import { deleteCommentOrReply } from "@/lib/actions/post.action";
 import { useCreatePostStore } from "@/app/lexicalStore";
 import { getRepliesToComments as getReplies } from "@/utils";
@@ -54,7 +50,17 @@ const Comment = ({
     <>
       <section className="flex py-[1.25rem] pr-[1.25rem]">
         <div className="flex flex-col">
-          <AuthorAvatar picture={picture} />
+          <div className="flex items-start justify-center px-[1.25rem]">
+            <div className="h-10 w-10">
+              <Image
+                src={picture}
+                alt="comment author image"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            </div>
+          </div>
           {childComments.length > 0 && !showChildren && <AvatarJoinLine />}
         </div>
         <div className="flex w-full flex-col gap-[1rem]">

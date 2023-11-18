@@ -97,31 +97,36 @@ const CommentForm = ({
     <div className="flex w-full flex-col gap-2">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
-          <div className="flex items-center justify-between">
-            <FormField
-              control={form.control}
-              name="comment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Say something cool.... 🔥"
-                      className="flex w-[30rem] grow bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Image
-              src="/smiley.svg"
-              alt="smiley"
-              width={24}
-              height={24}
-              className="rounded-full"
-            />
+          <div className="flex w-full items-center justify-between">
+            <div className="flex">
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Say something cool.... 🔥"
+                        className="flex bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="flex h-10 w-10 items-center justify-center">
+              <Image
+                src="/smiley.svg"
+                alt="smiley"
+                width={24}
+                height={24}
+                className="rounded-full"
+              />
+            </div>
             <Button className="hidden" type="submit">
               Submit
             </Button>

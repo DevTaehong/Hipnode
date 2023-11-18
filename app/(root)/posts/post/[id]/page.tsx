@@ -5,7 +5,7 @@ import { LeftActionBar, Profile } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
 import { getPostContentById } from "@/lib/actions/post.action";
 import { formatDatePostFormat } from "@/utils";
-import CommentForm from "@/components/posts/post-by-id/main-content/CommentForm";
+import CommentForm from "@/components/posts/comment/CommentForm";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
 import { devInfo } from "@/constants";
 

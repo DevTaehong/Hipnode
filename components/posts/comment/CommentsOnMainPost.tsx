@@ -1,5 +1,5 @@
 import { getPostCommentsById } from "@/lib/actions/post.action";
-import SetCommentsByParentIdHandler from "@/components/posts/post-by-id/main-content/SetCommentsByParentIdHandler";
+import SetCommentsByParentIdHandler from "@/components/posts/comment/SetCommentsByParentIdHandler";
 import RenderRootComments from "@/components/posts/post-by-id/main-content/RenderRootComments";
 
 const CommentsOnMainPost = async ({ postId }: { postId: number }) => {
