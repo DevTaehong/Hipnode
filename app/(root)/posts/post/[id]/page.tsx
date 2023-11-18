@@ -37,7 +37,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
           </aside>
         </div>
         <div className="order-1 flex h-fit w-full pb-[1.25rem] lg:order-2 lg:mx-[1.25rem]">
-          <section className="rounded-2xl bg-light dark:bg-dark-3">
+          <section className="w-full rounded-2xl bg-light dark:bg-dark-3">
             <div>
               <div className="flex justify-center pb-[1.25rem]">
                 <Image
