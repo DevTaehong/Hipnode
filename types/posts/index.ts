@@ -1,5 +1,5 @@
 import { z } from "zod";
-import React, { ReactNode } from "react";
+import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
@@ -27,7 +27,7 @@ interface PostSelectionOptions {
   icon: React.ReactNode;
 }
 
-interface GroupsType {
+export interface GroupsType {
   label: string;
   value: number;
 }
@@ -69,16 +69,8 @@ export type PostImageProps = {
   height: number;
 };
 
-export type PostTitleProps = {
-  title: string;
-};
-
 export type TagsListProps = {
   tags: string[];
-};
-
-export type PostDescriptionProps = {
-  description: string;
 };
 
 export interface AuthorProps {
@@ -91,19 +83,19 @@ export interface CommentProps {
   content: string;
   authorId: number;
   postId: number;
-  parentId: number | null;
+  parentId: string | null;
   createdAt: Date;
   updatedAt: Date;
   isEdited: boolean;
   author: AuthorProps;
 }
 
-interface CommentAuthorProps {
+export interface CommentAuthorProps {
   id: number;
   content: string;
   authorId: number;
   postId: number;
-  parentId: number | null;
+  parentId: string | null;
   createdAt: Date;
   updatedAt: Date;
   isEdited: boolean;
@@ -125,11 +117,17 @@ export interface PostContextType {
   comments: CommentProps[];
   setComments: React.Dispatch<React.SetStateAction<CommentProps[]>>;
 
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+
+  isReplying: boolean;
+  setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
+
   currentUser: {
     id?: number;
     picture: string;
     username: string;
-  };
+  } | null;
 
   commentsByParentId: {
     [key: string]: CommentProps[];
@@ -140,4 +138,59 @@ export interface PostContextType {
 
 export interface PostProviderProps {
   children: ReactNode;
+}
+
+export type CommentIconButtonProps = {
+  Icon: ComponentType;
+  isActive?: boolean;
+  color?: string;
+  children?: ReactNode;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+type DevInfoItem = {
+  title: string;
+  tags: string;
+};
+
+export type DevelopmentInfoProps = {
+  devInfo: DevInfoItem[];
+};
+
+export interface CommentFormProps {
+  id?: string;
+  className?: string;
+  placeholder?: string;
+  parentId?: string;
+  value?: string;
+  isEditing?: boolean;
+  isReplying?: boolean;
+  commentId?: string;
+  setIsEditing: (isEditing: boolean) => void;
+  setIsReplying: (isReplying: boolean) => void;
+  content?: string;
+  postId: number;
+}
+
+export interface CommentActionsProps {
+  onReplyClick: () => void;
+  onDeleteClick: () => void;
+  onEditClick: () => void;
+  onShowChildrenClick: () => void;
+  isReplying: boolean;
+}
+
+export interface CommentHeaderProps {
+  username: string;
+  createdAt: Date;
+  isEdited: boolean;
+}
+
+export interface RenderRootCommentsProps {
+  comments: CommentAuthorProps[];
+  postId: number;
+}
+
+export interface ExtendedComment extends CommentProps {
+  parent?: CommentProps;
+  path?: string;
 }

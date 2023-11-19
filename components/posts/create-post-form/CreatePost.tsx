@@ -40,7 +40,7 @@ const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [groups, setGroups] = useState<GroupsType[]>([]);
 
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -94,13 +94,13 @@ const CreatePost = () => {
 
   const { setValue, watch } = form;
 
-  const onSubmit = async (values: PostFormValuesType) => {
-    await handleUpload();
-    setClearEditor(true);
-    const finalValues = form.getValues();
-    console.log(finalValues);
-    form.reset();
-  };
+  // const onSubmit = async (values: PostFormValuesType) => {
+  //   await handleUpload();
+  //   setClearEditor(true);
+  //   const finalValues = form.getValues();
+  //   console.log(finalValues);
+  //   form.reset();
+  // };
 
   const onSubmitPreview = async () => {
     const previewValues = form.getValues();
@@ -134,6 +134,8 @@ const CreatePost = () => {
       try {
         const result = await createPostWithTags(postData, tags);
         console.log(result);
+        setClearEditor(true);
+        form.reset();
       } catch (error) {
         console.error("Error creating post:", error);
       }

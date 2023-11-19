@@ -9,7 +9,7 @@ import {
 } from ".";
 import FillIcon from "../../icons/fill-icons";
 import { PostCardProps } from "@/types/homepage";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { useEffect, useState } from "react";
 
 const PostCard = ({
