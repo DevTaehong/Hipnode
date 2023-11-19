@@ -13,19 +13,20 @@ import CustomButton from "@/components/CustomButton";
 const PostCardList = ({ posts }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPost[]>(posts);
   const [page, setPage] = useState(1);
-  const [loadMore, setLoadMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadMore, setLoadMore] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [amountToSkip, setAmountAmountToSkip] = useState<number>(10);
 
   const { ref, inView } = useInView();
 
   const loadMoreData = async () => {
     setIsLoading(true);
-
     try {
-      const next = page + 1;
-      const posts = await getAllPosts({ page: next });
+      const nextPage = page + 1;
+      const posts = await getAllPosts({ numberToSkip: amountToSkip });
       if (posts?.length) {
-        setPage(next);
+        setAmountAmountToSkip((previous) => previous + 10);
+        setPage(nextPage);
         setPostData((prev: ExtendedPost[]) => [...prev, ...posts]);
       }
     } catch (error) {

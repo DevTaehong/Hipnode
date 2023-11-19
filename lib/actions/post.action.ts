@@ -190,12 +190,13 @@ export async function getPostCommentsById(
 }
 
 export async function getAllPosts({
-  page = 1,
+  numberToSkip = 0,
 }: {
-  page?: number;
+  numberToSkip?: number;
 }): Promise<ExtendedPost[]> {
   try {
     const posts = await prisma.post.findMany({
+      skip: numberToSkip,
       take: 10,
       orderBy: {
         createdAt: "desc",
