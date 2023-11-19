@@ -8,7 +8,7 @@ import { formatDatePostFormat } from "@/utils";
 import CommentForm from "@/components/posts/comment/CommentForm";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
 import { devInfo } from "@/constants";
-import SanatisedString from "@/components/posts/post-by-id/main-content/SanatisedString";
+import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
@@ -53,7 +53,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               </h1>
               <TagsList tags={tagNames} />
               <p className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
-                <SanatisedString content={content} />
+                <SanatizedHtml content={content} />
               </p>
               <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
                 <div className="flex items-center justify-center px-[1.25rem]">

@@ -2,11 +2,11 @@
 
 import DOMPurify from "isomorphic-dompurify";
 
-interface SanatisedStringProps {
+interface SanatizedHtmlProps {
   content: string;
 }
 
-const SanatisedString = ({ content }: SanatisedStringProps) => {
+const SanatizedHtml = ({ content }: SanatizedHtmlProps) => {
   function cleanString(inputString: string) {
     let result = inputString.replace(/^['"]|['"]$/g, "");
     result = result.replace(/\\"/g, '"');
@@ -18,4 +18,4 @@ const SanatisedString = ({ content }: SanatisedStringProps) => {
   return <div dangerouslySetInnerHTML={{ __html: contentToDisplay }} />;
 };
 
-export default SanatisedString;
+export default SanatizedHtml;
