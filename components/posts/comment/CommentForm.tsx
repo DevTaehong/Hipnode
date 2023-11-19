@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -134,9 +133,6 @@ const CommentForm = ({
                 className="rounded-full"
               />
             </div>
-            <Button className="hidden" type="submit">
-              Submit
-            </Button>
           </div>
         </form>
       </Form>
