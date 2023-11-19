@@ -3,7 +3,10 @@
 import { Post } from "@prisma/client";
 import prisma from "../prisma";
 import { ExtendedPost } from "@/types/models";
-import { getPostsFromGroupsQueryOptions } from "@/lib/actions/shared.types";
+import {
+  getPostsByGroupIdQueryOptions,
+  getPostsFromGroupsQueryOptions,
+} from "@/lib/actions/shared.types";
 import { CommentProps } from "@/types/posts";
 
 export async function createPostWithTags(
@@ -260,6 +263,41 @@ export async function getAllPostsExtended({
     return JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function getPostsByGroupId(groupId: number, myCursorId?: number) {
+  try {
+    let queryOptions: getPostsByGroupIdQueryOptions = {
+      take: 3,
+      where: {
+        groupId,
+      },
+      include: {
+        author: true,
+        comments: true,
+        likes: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+    };
+
+    if (myCursorId !== undefined) {
+      queryOptions = {
+        ...queryOptions,
+        skip: 1, // Skip the first result
+        cursor: { id: myCursorId },
+      };
+    }
+
+    const postsByGroupId = await prisma.post.findMany(queryOptions);
+    return postsByGroupId;
+  } catch (error) {
+    console.error("Error finding posts by group id:", error);
     throw error;
   }
 }

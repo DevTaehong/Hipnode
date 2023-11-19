@@ -476,6 +476,20 @@ export const dummyNotifications: NotificationPopoverProps[] = [
   },
 ];
 
+export const groupFormLinkProps = {
+  title: "Create Group",
+  description:
+    "Create a community and unite with like-minded individuals. Embark on exciting journeys together.",
+  codeOfConductButton: {
+    title: "Code of Conduct",
+    link: "/",
+  },
+  linkToFormButton: {
+    title: "Create Group",
+    link: "/",
+  },
+};
+
 // Add real links once they're available
 export const podcastFormLinkProps = {
   title: "Start your Podcast",
