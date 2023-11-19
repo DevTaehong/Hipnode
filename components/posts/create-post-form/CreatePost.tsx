@@ -124,7 +124,7 @@ const CreatePost = () => {
     if (isLoaded && isSignedIn) {
       const { post, tags, group, ...postData } = data;
 
-      postData.authorId = 11;
+      postData.authorId = 19;
       postData.groupId = valueOfGroup(data);
       postData.image = postImage;
 
