@@ -77,8 +77,8 @@ const Comment = ({
             {isReplying && (
               <CommentForm
                 parentId={String(id)}
-                setIsReplying={setIsReplying}
-                setIsEditing={setIsEditing}
+                setReplying={setIsReplying}
+                setEditing={setIsEditing}
                 postId={postId}
               />
             )}
@@ -88,8 +88,8 @@ const Comment = ({
                 value={content}
                 isEditing={true}
                 commentId={String(id)}
-                setIsReplying={setIsReplying}
-                setIsEditing={setIsEditing}
+                setReplying={setIsReplying}
+                setEditing={setIsEditing}
                 postId={postId}
               />
             )}

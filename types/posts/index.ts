@@ -154,8 +154,8 @@ export interface CommentFormProps {
   value?: string;
   isEditing?: boolean;
   commentId?: string;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setReplying: React.Dispatch<React.SetStateAction<boolean>>;
   content?: string;
   postId: number;
 }

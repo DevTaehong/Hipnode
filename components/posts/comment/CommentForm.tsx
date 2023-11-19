@@ -33,13 +33,14 @@ const CommentForm = ({
   value = ``,
   isEditing = false,
   commentId,
-  setIsEditing,
-  setIsReplying,
+  setEditing,
+  setReplying,
   postId,
 }: CommentFormProps) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoaded, userId: clerkId } = useAuth();
+  const [textAreaHeight, setTextAreaHeight] = useState<boolean>(false);
 
   const path = usePathname();
 
@@ -62,12 +63,13 @@ const CommentForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setTextAreaHeight(true);
     try {
       if (isEditing) {
         setIsLoading(true);
         const commentID: number = Number(commentId);
         await updateComment(commentID, values.comment, path);
-        setIsEditing(false);
+        setEditing(false);
         setIsLoading(false);
       } else if (currentUser?.id) {
         setIsLoading(true);
@@ -81,7 +83,7 @@ const CommentForm = ({
         );
       }
       setIsLoading(false);
-      setIsReplying(false);
+      setReplying(false);
     } catch (error) {
       console.error("Error processing comment:", error);
     }
@@ -96,7 +98,7 @@ const CommentForm = ({
   };
 
   if (!isLoaded || !clerkId) {
-    return null;
+    return <p>Returning null</p>;
   }
 
   return (
@@ -112,11 +114,11 @@ const CommentForm = ({
                   <FormItem className="w-full">
                     <FormControl>
                       <Textarea
-                        resetHeight={onSubmit}
+                        resetheight={textAreaHeight}
                         {...field}
                         onKeyDown={handleKeyDown}
                         placeholder="Say something cool.... 🔥"
-                        className="flex h-[45px] w-full resize-none items-center bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                        className="flex h-[45px] w-full resize-none items-center whitespace-pre-line bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
                       />
                     </FormControl>
                     <FormMessage />
