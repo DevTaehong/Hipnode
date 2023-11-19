@@ -32,9 +32,10 @@ const CommentForm = ({
   parentId,
   value = ``,
   isEditing = false,
+  isReplying,
   commentId,
-  setEditing,
-  setReplying,
+  setIsEditing,
+  setIsReplying,
   postId,
 }: CommentFormProps) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -69,7 +70,7 @@ const CommentForm = ({
         setIsLoading(true);
         const commentID: number = Number(commentId);
         await updateComment(commentID, values.comment, path);
-        setEditing(false);
+        setIsEditing(false);
         setIsLoading(false);
       } else if (currentUser?.id) {
         setIsLoading(true);
@@ -83,7 +84,7 @@ const CommentForm = ({
         );
       }
       setIsLoading(false);
-      setReplying(false);
+      setIsReplying(false);
     } catch (error) {
       console.error("Error processing comment:", error);
     }
@@ -96,10 +97,6 @@ const CommentForm = ({
       form.handleSubmit(onSubmit)();
     }
   };
-
-  if (!isLoaded || !clerkId) {
-    return <p>Returning null</p>;
-  }
 
   return (
     <div className="flex w-full flex-col gap-2">

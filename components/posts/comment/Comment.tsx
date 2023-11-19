@@ -24,8 +24,8 @@ const Comment = ({
 }: CommentProps) => {
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isReplying, setIsReplying] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isReplying, setIsReplying] = useState<boolean>(false);
   const { commentsByParentId } = useCreatePostStore();
 
   const path = usePathname();
@@ -77,8 +77,9 @@ const Comment = ({
             {isReplying && (
               <CommentForm
                 parentId={String(id)}
-                setReplying={setIsReplying}
-                setEditing={setIsEditing}
+                isReplying={true}
+                setIsReplying={setIsReplying}
+                setIsEditing={setIsEditing}
                 postId={postId}
               />
             )}
@@ -88,8 +89,8 @@ const Comment = ({
                 value={content}
                 isEditing={true}
                 commentId={String(id)}
-                setReplying={setIsReplying}
-                setEditing={setIsEditing}
+                setIsReplying={setIsReplying}
+                setIsEditing={setIsEditing}
                 postId={postId}
               />
             )}
@@ -101,6 +102,7 @@ const Comment = ({
             </div>
           ) : (
             <CommentActions
+              isReplying={isReplying}
               onReplyClick={() => setIsReplying((previous) => !previous)}
               onDeleteClick={handleDelete}
               onEditClick={() => setIsEditing((previous) => !previous)}

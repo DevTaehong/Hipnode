@@ -153,9 +153,10 @@ export interface CommentFormProps {
   parentId?: string;
   value?: string;
   isEditing?: boolean;
+  isReplying?: boolean;
   commentId?: string;
-  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  setReplying: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditing: (isEditing: boolean) => void;
+  setIsReplying: (isReplying: boolean) => void;
   content?: string;
   postId: number;
 }
@@ -165,6 +166,7 @@ export interface CommentActionsProps {
   onDeleteClick: () => void;
   onEditClick: () => void;
   onShowChildrenClick: () => void;
+  isReplying: boolean;
 }
 
 export interface CommentHeaderProps {
