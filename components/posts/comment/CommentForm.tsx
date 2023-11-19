@@ -41,7 +41,7 @@ const CommentForm = ({
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoaded, userId: clerkId } = useAuth();
-  const [textAreaHeight, setTextAreaHeight] = useState<boolean>(false);
+  const [textAreaHeight, setTextAreaHeight] = useState<number>(0);
 
   const path = usePathname();
 
@@ -64,7 +64,7 @@ const CommentForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setTextAreaHeight(true);
+    setTextAreaHeight((previous) => previous + 1);
     try {
       if (isEditing) {
         setIsLoading(true);

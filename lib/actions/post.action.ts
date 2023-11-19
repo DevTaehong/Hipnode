@@ -305,7 +305,7 @@ export async function addCommentOrReply(
         parent: true,
       },
     });
-    console.log(newComment);
+
     revalidatePath(path);
     return JSON.parse(JSON.stringify(newComment));
   } catch (error) {
