@@ -1,10 +1,10 @@
 "use client";
 
-import { Post } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 
 import InfiniteScroll from "@/components/InfiniteScroll";
 import GroupDetailPost from "@/components/group-detail-page/group-detail-post/GroupDetailPost";
+import { FetchGroupDetailPostsProps } from "@/types";
 
 const FetchGroupDetailPosts = ({
   initialNewPost,
@@ -12,13 +12,7 @@ const FetchGroupDetailPosts = ({
   fetchNewPost,
   fetchPopularPost,
   groupId,
-}: {
-  initialNewPost: Post[];
-  initialPopularPost: Post[];
-  fetchNewPost: (myCursorId?: number, groupId?: number) => Promise<Post[]>;
-  fetchPopularPost: (myCursorId?: number, groupId?: number) => Promise<Post[]>;
-  groupId: number;
-}) => {
+}: FetchGroupDetailPostsProps) => {
   const searchParams = useSearchParams();
   const explore = searchParams.get("posts");
 
