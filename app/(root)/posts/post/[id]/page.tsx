@@ -82,7 +82,6 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               <DevelopmentInformation devInfo={devInfo} />
             </div>
           </aside>
-          s
         </div>
       </div>
     </main>
