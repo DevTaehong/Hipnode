@@ -3,6 +3,8 @@
 import { type User } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { UserAnswersType } from "@/types";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 type createUserType = {
   clerkId: string;
@@ -18,6 +20,9 @@ export async function getUserByClerkId(clerkId: string) {
       where: {
         clerkId,
       },
+      include: {
+        onboarding: true,
+      }
     });
 
     return user;
@@ -176,11 +181,12 @@ export async function createOnboarding(clerkId: string, data: UserAnswersType) {
       isOnboarded: true,
     };
 
-    const onboarding = await prisma.onboarding.create({
+    await prisma.onboarding.create({
       data: onboardingData,
     });
 
-    return onboarding;
+    revalidatePath('/');
+    redirect('/');
   } catch (error) {
     console.error("Error creating Onboarding:", error);
     throw error;

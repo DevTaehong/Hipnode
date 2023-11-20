@@ -10,7 +10,7 @@ const ImageWithCaption = ({
   className = "",
   caption = "",
 }: ImageWithCaptionProps) => (
-  <figure className="flex items-center">
+  <figure className="flex items-center flex-shrink-0">
     <Image
       src={imageSrc}
       alt={imageAlt}
