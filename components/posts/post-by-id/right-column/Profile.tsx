@@ -1,20 +1,27 @@
+"use client";
+
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
 
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "./RightColumnWrapper";
-import { usePost } from "@/context/posts-context/PostContext";
+import { howManyMonthsAgo } from "@/utils";
 
 const Profile = () => {
-  const { currentUser } = usePost();
+  const { isLoaded, isSignedIn, user } = useUser();
 
-  if (!currentUser) return null;
-  const { username, picture } = currentUser;
+  if (!isLoaded || !isSignedIn) {
+    return null;
+  }
+
+  const { username, imageUrl: picture } = user;
+  const calculatedDate = howManyMonthsAgo(user?.createdAt);
 
   return (
     <RightColumnWrapper>
       <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
         <Image
-          src={picture}
+          src={picture ?? "/images/emoji_2.png"}
           alt="profile-image"
           height={100}
           width={100}
@@ -32,7 +39,9 @@ const Profile = () => {
         className="mb-[1.25rem] flex w-full items-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
       />
       <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
-        joined 6 months ago
+        {+calculatedDate > 0
+          ? `joined ${calculatedDate} months ago`
+          : "joined this month"}
       </p>
     </RightColumnWrapper>
   );
