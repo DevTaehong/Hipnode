@@ -1,11 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
-import { User } from "@prisma/client";
+import { Post, User } from "@prisma/client";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
 import { GroupProps } from "@types/models";
+
+export type FetchGroupDetailPostsProps = {
+  initialNewPost: Post[];
+  initialPopularPost: Post[];
+  fetchNewPost: (myCursorId?: number, groupId?: number) => Promise<Post[]>;
+  fetchPopularPost: (myCursorId?: number, groupId?: number) => Promise<Post[]>;
+  groupId: number;
+};
 
 type GroupPromiseProps = {
   id: number;
