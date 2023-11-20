@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SignedIn, SignedOut, currentUser, useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -26,7 +26,6 @@ const Navbar = async () => {
       };
     }
   }
-  const { user } = useUser();
 
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
@@ -65,7 +64,7 @@ const Navbar = async () => {
           />
         </div>
 
-        <UserButton userImg={user?.imageUrl} />
+        <UserButton />
       </section>
     </nav>
   );
