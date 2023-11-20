@@ -23,9 +23,7 @@ export async function handleTags(tagNames: string[]) {
   });
 
   const existingTagIds = existingTags.map((tag) => ({ id: tag.id }));
-
   const existingTagNames = new Set(existingTags.map((tag) => tag.name));
-
   const newTagNames = tagNames.filter((name) => !existingTagNames.has(name));
 
   const newTagIds = (
@@ -43,7 +41,6 @@ export async function handleTags(tagNames: string[]) {
   ).filter((tag) => tag !== null) as { id: number }[];
 
   const allTagIdsToConnect = existingTagIds.concat(newTagIds);
-  console.log(allTagIdsToConnect);
   return allTagIdsToConnect;
 }
 
@@ -81,8 +78,7 @@ export async function createPostWithTags(
     });
 
     revalidatePath("/");
-    console.log(newPost);
-    return JSON.parse(JSON.stringify(newPost));
+    return newPost;
   } catch (error) {
     console.error("Error creating post with tags:", error);
     throw error;
