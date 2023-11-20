@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
-import { ExtendedPost } from "@/types/models";
+import { Comment } from "@prisma/client";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
@@ -74,70 +74,17 @@ export type TagsListProps = {
 };
 
 export interface AuthorProps {
+  id?: number;
   picture: string;
   username: string;
 }
 
-export interface CommentProps {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
+export interface CommentAuthorProps extends Comment {
   author: AuthorProps;
-}
-
-export interface CommentAuthorProps {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  author: {
-    id?: number;
-    picture: string;
-    username: string;
-  };
 }
 
 export interface CommentListProps {
   comments: CommentAuthorProps[];
-}
-
-export interface PostContextType {
-  currentPost: ExtendedPost | null;
-  setCurrentPost: React.Dispatch<React.SetStateAction<ExtendedPost | null>>;
-
-  comments: CommentProps[];
-  setComments: React.Dispatch<React.SetStateAction<CommentProps[]>>;
-
-  isEditing: boolean;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-
-  isReplying: boolean;
-  setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
-
-  currentUser: {
-    id?: number;
-    picture: string;
-    username: string;
-  } | null;
-
-  commentsByParentId: {
-    [key: string]: CommentProps[];
-  };
-  getRepliesToComments: (parentId: string) => CommentProps[] | undefined;
-  rootComments: CommentProps[];
-}
-
-export interface PostProviderProps {
-  children: ReactNode;
 }
 
 export type CommentIconButtonProps = {

@@ -33,7 +33,8 @@ model User {
   groupAdmin      Group[]                  @relation("GroupAdmins")
   groups          Group[]                  @relation("UserGroups")
   chatrooms       ChatroomUsers[] // Relation to chatrooms via the joiner table
-  messages        Message[]       // Relation to messages
+  messages        Message[] // Relation to messages
+  Share           Share[]
 }
 
 model Onboarding {
@@ -60,6 +61,7 @@ model Post {
   image     String
   comments  Comment[]
   likes     Like[]
+  shares    Share[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   groupId   Int?
   group     Group?      @relation(fields: [groupId], references: [id])
@@ -78,6 +80,15 @@ model Like {
 
   @@unique([userId, postId])
   @@unique([userId, commentId])
+}
+
+model Share {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
 }
 
 model Comment {
@@ -195,7 +206,7 @@ model TagOnInterview {
 model Interview {
   id           Int              @id @default(autoincrement())
   createdAt    DateTime         @default(now())
-  creatorId    Int              
+  creatorId    Int
   title        String
   bannerImage  String
   details      String
@@ -205,39 +216,37 @@ model Interview {
   updates      Int
   updatedAt    DateTime         @updatedAt
   tags         TagOnInterview[]
-  creator      User             @relation(fields: [creatorId], references: [id]) 
+  creator      User             @relation(fields: [creatorId], references: [id])
 }
 
 model Chatroom {
-  id              Int             @id @default(autoincrement())
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  users           ChatroomUsers[] 
-  messages        Message[]       
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  users     ChatroomUsers[]
+  messages  Message[]
 }
 
 model ChatroomUsers {
-  userId          Int
-  chatroomId      Int
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  userId     Int
+  chatroomId Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
 
   @@id([userId, chatroomId])
 }
 
 model Message {
-  id              Int             @id @default(autoincrement())
-  text            String
-  createdAt       DateTime        @default(now())
-  userId          Int
-  chatroomId      Int
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement())
+  text       String
+  createdAt  DateTime @default(now())
+  userId     Int
+  chatroomId Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
 }
-
 
 enum Role {
   ADMIN
   USER
 }
-

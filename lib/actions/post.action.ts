@@ -1,14 +1,15 @@
 "use server";
 
-import { Post } from "@prisma/client";
+import { Post, User, Tag, Comment, Share } from "@prisma/client";
 import prisma from "../prisma";
-import { ExtendedPost } from "@/types/models";
+
 import {
   getPostsByGroupIdQueryOptions,
   getPostsFromGroupsQueryOptions,
 } from "@/lib/actions/shared.types";
-import { CommentAuthorProps, CommentProps } from "@/types/posts";
+import { CommentAuthorProps } from "@/types/posts";
 import { revalidatePath } from "next/cache";
+import { Share } from "lucide-react";
 
 export async function createPostWithTags(
   postData: {
@@ -129,25 +130,49 @@ export async function deletePost(id: number): Promise<Post> {
   }
 }
 
+type ExtendedPost = {
+  id: Post["id"];
+  image: Post["image"];
+  content: Post["content"];
+  viewCount: Post["viewCount"];
+  author: Pick<User, "username" | "picture">;
+  likesCount: number;
+  commentsCount: number;
+  tags: Tag["name"][];
+};
+
 export async function getPostContentById(id: number): Promise<ExtendedPost> {
   try {
     const post = await prisma.post.findUnique({
       where: { id },
-      include: {
+      select: {
         author: {
           select: {
             username: true,
-            createdAt: true,
           },
         },
-        likes: {
-          include: {
-            user: true,
-          },
-        },
+        createdAt: true,
         tags: {
-          include: {
+          select: {
             tag: true,
+          },
+        },
+        image: true,
+        heading: true,
+        content: true,
+        likes: {
+          select: {
+            id: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+          },
+        },
+        shares: {
+          select: {
+            id: true,
           },
         },
       },
@@ -156,7 +181,16 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
     if (!post) {
       throw new Error(`Post with id ${id} not found`);
     }
-    return JSON.parse(JSON.stringify(post));
+
+    const extendedPost = {
+      ...post,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      likesCount: post.likes.length,
+      commentsCount: post.comments.length,
+      sharesCount: post.shares.length,
+    };
+
+    return extendedPost;
   } catch (error) {
     console.error("Error retrieving post content:", error);
     throw error;
@@ -182,7 +216,7 @@ export async function getPostCommentsById(
     if (!comments) {
       throw new Error(`Comments for post with id ${id} not found`);
     }
-    return JSON.parse(JSON.stringify(comments));
+    return comments;
   } catch (error) {
     console.error("Error retrieving post comments:", error);
     throw error;
@@ -201,88 +235,43 @@ export async function getAllPosts({
       orderBy: {
         createdAt: "desc",
       },
-      include: {
-        author: true,
-        comments: {
-          include: {
-            author: true,
-            likes: true,
-            parent: true,
-            replies: true,
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
           },
         },
         likes: {
-          include: {
-            user: true,
+          select: {
+            id: true,
           },
         },
-        group: true,
+        comments: {
+          select: {
+            id: true,
+          },
+        },
         tags: {
-          include: {
+          select: {
             tag: true,
           },
         },
       },
     });
 
-    return JSON.parse(JSON.stringify(posts));
-  } catch (error) {
-    console.error("Error retrieving posts:", error);
-    throw error;
-  }
-}
+    const postsWithCounts = posts.map((post) => ({
+      ...post,
+      likesCount: post.likes.length,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+    }));
 
-export async function getAllPostsExtended({
-  page = 1,
-}: {
-  page?: number;
-}): Promise<ExtendedPost[]> {
-  try {
-    const posts = await prisma.post.findMany({
-      skip: (page - 1) * 10,
-      take: 10,
-      include: {
-        author: true,
-        comments: {
-          include: {
-            author: true,
-            likes: {
-              include: {
-                user: true,
-              },
-            },
-            parent: true,
-            replies: {
-              include: {
-                author: true,
-                likes: {
-                  include: {
-                    user: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-        likes: {
-          include: {
-            user: true,
-          },
-        },
-        group: {
-          include: {
-            admins: true,
-            members: true,
-          },
-        },
-        tags: {
-          include: {
-            tag: true,
-          },
-        },
-      },
-    });
-    return JSON.parse(JSON.stringify(posts));
+    return postsWithCounts;
   } catch (error) {
     console.error("Error retrieving posts:", error);
     throw error;
@@ -355,8 +344,8 @@ export async function getPostsFromGroups(myCursorId?: number) {
   }
 }
 
-export interface ExtendedComment extends CommentProps {
-  parent?: CommentProps;
+export interface ExtendedComment extends CommentAuthorProps {
+  parent?: Comment | null;
   path?: string;
 }
 
@@ -387,7 +376,7 @@ export async function addCommentOrReply(
     });
 
     revalidatePath(path);
-    return JSON.parse(JSON.stringify(newComment));
+    return newComment;
   } catch (error) {
     console.error("Error adding comment or reply:", error);
     throw error;
@@ -398,7 +387,7 @@ export async function updateComment(
   commentId: number,
   content: string,
   path: string
-): Promise<ExtendedComment> {
+): Promise<CommentAuthorProps> {
   try {
     const comment = await prisma.comment.update({
       where: { id: commentId },
@@ -408,6 +397,7 @@ export async function updateComment(
       include: {
         author: {
           select: {
+            id: true,
             username: true,
             picture: true,
           },
@@ -417,7 +407,7 @@ export async function updateComment(
     });
 
     revalidatePath(path);
-    return JSON.parse(JSON.stringify(comment));
+    return comment;
   } catch (error) {
     console.error("Error updating comment:", error);
     throw error;
@@ -440,6 +430,25 @@ export async function deleteCommentOrReply(
     console.log("Comment and its replies deleted successfully");
   } catch (error) {
     console.error("Error deleting comment or replies:", error);
+    throw error;
+  }
+}
+
+export async function sharePost(
+  userId: number,
+  postId: number
+): Promise<Share> {
+  try {
+    const share = await prisma.share.create({
+      data: {
+        userId,
+        postId,
+      },
+    });
+
+    return share;
+  } catch (error) {
+    console.error("Error sharing post:", error);
     throw error;
   }
 }
