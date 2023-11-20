@@ -21,13 +21,16 @@ model User {
   location        String?
   createdAt       DateTime                 @default(now())
   updatedAt       DateTime                 @updatedAt
+  ChatroomUsers   ChatroomUsers[]
   comments        Comment[]
   interviews      Interview[]
   likes           Like[]
   meetup          MeetUp[]
+  Message         Message[]
   onboarding      Onboarding?
   podcasts        Podcast[]
   posts           Post[]
+  Share           Share[]
   shows           Shows[]
   subscribedShows UsersSubscribedToShows[]
   groupAdmin      Group[]                  @relation("GroupAdmins")
@@ -61,6 +64,7 @@ model Post {
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   group     Group?      @relation(fields: [groupId], references: [id])
+  Share     Share[]
   tags      TagOnPost[]
 }
 
@@ -204,6 +208,42 @@ model Interview {
   updatedAt    DateTime         @updatedAt
   creator      User             @relation(fields: [creatorId], references: [id])
   tags         TagOnInterview[]
+}
+
+model Chatroom {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime
+  ChatroomUsers ChatroomUsers[]
+  Message       Message[]
+}
+
+model ChatroomUsers {
+  userId     Int
+  chatroomId Int
+  Chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, chatroomId])
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  text       String
+  createdAt  DateTime @default(now())
+  userId     Int
+  chatroomId Int
+  Chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Share {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  Post      Post     @relation(fields: [postId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {
