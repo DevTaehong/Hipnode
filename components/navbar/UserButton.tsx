@@ -14,12 +14,12 @@ import UserButtonLink from "./UserButtonLink";
 
 const UserButton = () => {
   const { user } = useUser();
-
+  const userImg = user?.imageUrl;
   return (
     <Popover>
       <PopoverTrigger className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
         <Image
-          src={user?.imageUrl ?? "/christopher.png"}
+          src={userImg ?? "/christopher.png"}
           alt="User Image"
           width={30}
           height={30}
