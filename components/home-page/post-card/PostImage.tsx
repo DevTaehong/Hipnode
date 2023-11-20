@@ -10,7 +10,7 @@ const PostImage = ({ postImage }: PostImageProps) => (
         alt="post-card-placeholder"
         width={156}
         height={156}
-        className="rounded-2xl"
+        className="rounded-md border-2   object-fill dark:border-light-3"
       />
       <figcaption className="sr-only">
         Placeholder image for a social media post
