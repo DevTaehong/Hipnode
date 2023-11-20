@@ -9,8 +9,13 @@ interface UsersToMessageProps {
 }
 
 const UsersToMessage = ({ users }: UsersToMessageProps) => {
-  const { setChatroomUsers, setShowChat, createNewChatroom, userInfo } =
-    useChatStore();
+  const {
+    setChatroomUsers,
+    setShowChat,
+    createNewChatroom,
+    userInfo,
+    setChatroomId,
+  } = useChatStore();
   const { id, username, image } = userInfo;
 
   const handleUserClick = (clickedUserId: number) => {
@@ -25,7 +30,7 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
           picture: clickedUser.picture,
         },
       ];
-
+      setChatroomId(null);
       setChatroomUsers(chatroomUsers);
       setShowChat(true);
       createNewChatroom();
