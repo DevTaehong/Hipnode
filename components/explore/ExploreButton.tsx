@@ -8,9 +8,8 @@ import { exploreIcons } from "@/constants";
 const ExploreButton = ({ groupId }: { groupId: number }) => {
   const searchParams = useSearchParams();
   const search = searchParams.get("posts");
+  const searchForNew = search !== "Popular";
   const searchForPopular = search === "Popular";
-  // NOTE - !search is for when a user is on the group detail page at the first time
-  const searchForNew = search === "New" || !search;
 
   const colorVariants: { [key: string]: string } = {
     // NOTE - newIcon is the star symbol
