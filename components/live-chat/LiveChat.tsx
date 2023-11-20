@@ -31,9 +31,8 @@ const LiveChat = () => {
 
   useEffect(() => {
     const loadMessages = async () => {
+      setMessages([]);
       if (chatroomId !== null) {
-        setMessages([]);
-
         try {
           const messages = await getMessagesForChatroom(chatroomId);
           const transformedMessages = messages.map((message) => {
