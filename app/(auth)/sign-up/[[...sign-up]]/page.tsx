@@ -11,7 +11,7 @@ export default function Page() {
       <section className="clerk-modal-background">
         <div className="clerk-modal-container">
           <SignUp
-            afterSignUpUrl="/onboarding"
+            afterSignUpUrl="/"
             appearance={{
               elements: {
                 rootBox: "w-full flex h-fit",
