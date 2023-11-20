@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { currentUser, SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -12,12 +12,12 @@ import { getUserByClerkId } from "@/lib/actions/user.actions";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 
 const Navbar = async () => {
-  const user = await currentUser();
+  const clerkUser = await currentUser();
   let userFromDB;
   let userInfo;
 
-  if (user) {
-    userFromDB = await getUserByClerkId(user.id);
+  if (clerkUser) {
+    userFromDB = await getUserByClerkId(clerkUser.id);
     if (userFromDB) {
       userInfo = {
         id: userFromDB.id,
@@ -64,7 +64,7 @@ const Navbar = async () => {
           />
         </div>
 
-        <UserButton userImg={user?.imageUrl} />
+        <UserButton />
       </section>
     </nav>
   );

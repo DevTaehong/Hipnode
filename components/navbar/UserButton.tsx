@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 
+import { useUser } from "@clerk/nextjs";
 import {
   Popover,
   PopoverContent,
@@ -7,10 +10,11 @@ import {
 } from "@/components/ui/popover";
 import Theme from "@/components/navbar/Theme";
 
-import { UserButtonProps } from "@/types";
 import UserButtonLink from "./UserButtonLink";
 
-const UserButton = ({ userImg }: UserButtonProps) => {
+const UserButton = () => {
+  const { user } = useUser();
+  const userImg = user?.imageUrl;
   return (
     <Popover>
       <PopoverTrigger className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
