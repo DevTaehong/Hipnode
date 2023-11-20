@@ -89,34 +89,6 @@ export async function createGroup(params: CreateGroupParams) {
   }
 }
 
-export async function getGroupAdmins(groupId: number) {
-  try {
-    const group = await prisma.group.findUnique({
-      where: {
-        id: groupId,
-      },
-      select: {
-        admins: {
-          select: {
-            picture: true,
-            username: true,
-            id: true,
-          },
-        },
-      },
-    });
-
-    if (!group) {
-      throw new Error("Group not found");
-    }
-    const { admins } = group;
-    return admins;
-  } catch (error) {
-    console.error("Error retrieving admins of a group:", error);
-    throw error;
-  }
-}
-
 export async function getGroupById(params: GetGroupByIdParams) {
   try {
     const { groupId } = params;
@@ -128,12 +100,9 @@ export async function getGroupById(params: GetGroupByIdParams) {
       include: {
         members: true,
         posts: true,
+        admins: true,
       },
     });
-
-    if (!group) {
-      throw new Error("Group not found");
-    }
 
     return group;
   } catch (error) {
