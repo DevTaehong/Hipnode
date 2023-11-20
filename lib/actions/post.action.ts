@@ -11,9 +11,9 @@ import {
   CommentAuthorProps,
   ExtendedComment,
   ExtendedPostById,
+  ExtendedPost,
 } from "@/types/posts";
 import { revalidatePath } from "next/cache";
-import { ExtendedPost } from "@/types/models";
 
 export async function handleTags(tagNames: string[]) {
   const existingTags = await prisma.tag.findMany({
@@ -153,11 +153,11 @@ export async function getPostContentById(
             id: true,
           },
         },
-        // shares: {
-        //   select: {
-        //     id: true,
-        //   },
-        // },
+        shares: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
@@ -170,7 +170,7 @@ export async function getPostContentById(
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
-      // sharesCount: post.shares.length,
+      sharesCount: post.shares.length,
     };
 
     return extendedPost;
@@ -223,6 +223,8 @@ export async function getAllPosts({
         image: true,
         content: true,
         viewCount: true,
+        createdAt: true,
+        heading: true,
         author: {
           select: {
             username: true,
@@ -412,27 +414,27 @@ export async function deleteCommentOrReply(
   }
 }
 
-// export async function sharePostAndCountShares(
-//   userId: number,
-//   postId: number
-// ): Promise<number> {
-//   try {
-//     await prisma.share.create({
-//       data: {
-//         userId,
-//         postId,
-//       },
-//     });
+export async function sharePostAndCountShares(
+  userId: number,
+  postId: number
+): Promise<number> {
+  try {
+    await prisma.share.create({
+      data: {
+        userId,
+        postId,
+      },
+    });
 
-//     const shares = await prisma.share.findMany({
-//       where: {
-//         postId,
-//       },
-//     });
+    const shares = await prisma.share.findMany({
+      where: {
+        postId,
+      },
+    });
 
-//     return shares.length;
-//   } catch (error) {
-//     console.error("Error sharing post:", error);
-//     throw error;
-//   }
-// }
+    return shares.length;
+  } catch (error) {
+    console.error("Error sharing post:", error);
+    throw error;
+  }
+}
