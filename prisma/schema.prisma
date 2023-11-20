@@ -21,19 +21,17 @@ model User {
   location        String?
   createdAt       DateTime                 @default(now())
   updatedAt       DateTime                 @updatedAt
-  interviews      Interview[]
-  subscribedShows UsersSubscribedToShows[]
   comments        Comment[]
+  interviews      Interview[]
   likes           Like[]
   meetup          MeetUp[]
   onboarding      Onboarding?
   podcasts        Podcast[]
   posts           Post[]
   shows           Shows[]
+  subscribedShows UsersSubscribedToShows[]
   groupAdmin      Group[]                  @relation("GroupAdmins")
   groups          Group[]                  @relation("UserGroups")
-  chatrooms       ChatroomUsers[] // Relation to chatrooms via the joiner table
-  messages        Message[]       // Relation to messages
 }
 
 model Onboarding {
@@ -50,7 +48,6 @@ model Onboarding {
 
 model Post {
   id        Int         @id @default(autoincrement())
-  heading   String
   content   String
   authorId  Int
   createdAt DateTime    @default(now())
@@ -58,10 +55,11 @@ model Post {
   isEdited  Boolean     @default(false)
   viewCount Int         @default(0)
   image     String
+  groupId   Int?
+  heading   String
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  groupId   Int?
   group     Group?      @relation(fields: [groupId], references: [id])
   tags      TagOnPost[]
 }
@@ -90,7 +88,7 @@ model Comment {
   updatedAt DateTime  @updatedAt
   isEdited  Boolean   @default(false)
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
   replies   Comment[] @relation("CommentToComment")
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   likes     Like[]
@@ -118,9 +116,9 @@ model Shows {
   userId      Int
   createdAt   DateTime                 @default(now())
   updatedAt   DateTime                 @updatedAt
-  subscribers UsersSubscribedToShows[]
   podcasts    Podcast[]
   user        User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscribers UsersSubscribedToShows[]
 }
 
 model Podcast {
@@ -142,8 +140,8 @@ model UsersSubscribedToShows {
   id     Int   @id @default(autoincrement())
   userId Int
   showId Int
-  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   show   Shows @relation(fields: [showId], references: [id])
+  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, showId])
 }
@@ -151,15 +149,15 @@ model UsersSubscribedToShows {
 model Group {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
+  coverImage  String?
+  createdBy   Int
   description String?  @db.VarChar(300)
+  logo        String?
   name        String   @unique
   updatedAt   DateTime @updatedAt
-  members     User[]   @relation("UserGroups")
   posts       Post[]
-  createdBy   Int
   admins      User[]   @relation("GroupAdmins")
-  coverImage  String?
-  logo        String?
+  members     User[]   @relation("UserGroups")
 }
 
 model MeetUp {
@@ -195,7 +193,7 @@ model TagOnInterview {
 model Interview {
   id           Int              @id @default(autoincrement())
   createdAt    DateTime         @default(now())
-  creatorId    Int              
+  creatorId    Int
   title        String
   bannerImage  String
   details      String
@@ -204,40 +202,11 @@ model Interview {
   salaryPeriod String
   updates      Int
   updatedAt    DateTime         @updatedAt
+  creator      User             @relation(fields: [creatorId], references: [id])
   tags         TagOnInterview[]
-  creator      User             @relation(fields: [creatorId], references: [id]) 
 }
-
-model Chatroom {
-  id              Int             @id @default(autoincrement())
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  users           ChatroomUsers[] 
-  messages        Message[]       
-}
-
-model ChatroomUsers {
-  userId          Int
-  chatroomId      Int
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-
-  @@id([userId, chatroomId])
-}
-
-model Message {
-  id              Int             @id @default(autoincrement())
-  text            String
-  createdAt       DateTime        @default(now())
-  userId          Int
-  chatroomId      Int
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chatroom        Chatroom        @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-}
-
 
 enum Role {
   ADMIN
   USER
 }
-
