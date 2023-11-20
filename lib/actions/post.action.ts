@@ -1,15 +1,51 @@
 "use server";
 
-import { Post, User, Tag, Comment, Share } from "@prisma/client";
-import prisma from "../prisma";
+import { Post } from "@prisma/client";
 
+import prisma from "../prisma";
 import {
   getPostsByGroupIdQueryOptions,
   getPostsFromGroupsQueryOptions,
 } from "@/lib/actions/shared.types";
-import { CommentAuthorProps } from "@/types/posts";
+import {
+  CommentAuthorProps,
+  ExtendedComment,
+  ExtendedPostById,
+} from "@/types/posts";
 import { revalidatePath } from "next/cache";
-import { Share } from "lucide-react";
+import { ExtendedPost } from "@/types/models";
+
+export async function handleTags(tagNames: string[]) {
+  const existingTags = await prisma.tag.findMany({
+    where: {
+      name: { in: tagNames },
+    },
+  });
+
+  const existingTagIds = existingTags.map((tag) => ({ id: tag.id }));
+
+  const existingTagNames = new Set(existingTags.map((tag) => tag.name));
+
+  const newTagNames = tagNames.filter((name) => !existingTagNames.has(name));
+
+  const newTagIds = (
+    await Promise.all(
+      newTagNames.map(async (name) => {
+        try {
+          const tag = await prisma.tag.create({ data: { name } });
+          return { id: tag.id };
+        } catch (error) {
+          console.error(`Error creating tag '${name}':`, error);
+          return null;
+        }
+      })
+    )
+  ).filter((tag) => tag !== null) as { id: number }[];
+
+  const allTagIdsToConnect = existingTagIds.concat(newTagIds);
+  console.log(allTagIdsToConnect);
+  return allTagIdsToConnect;
+}
 
 export async function createPostWithTags(
   postData: {
@@ -21,78 +57,31 @@ export async function createPostWithTags(
   },
   tagNames: string[]
 ) {
-  console.log("Post Data:", postData);
-  console.log("Tag Names:", tagNames);
-
   try {
-    const existingTags = await prisma.tag.findMany({
-      where: {
-        name: { in: tagNames },
+    const allTagIdsToConnect = await handleTags(tagNames);
+
+    const newPost = await prisma.post.create({
+      data: {
+        ...postData,
+        tags: {
+          connectOrCreate: allTagIdsToConnect.map((tagId) => ({
+            where: { id: tagId.id },
+            create: { tag: { connect: { id: tagId.id } } },
+          })),
+        },
+      },
+      include: {
+        author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     });
-    console.log("Existing Tags:", existingTags);
 
-    // Map existing tags to their IDs for connection
-    const existingTagIds = existingTags.map((tag) => ({ id: tag.id }));
-    console.log("Existing Tag IDs:", existingTagIds);
-
-    // Create a set of existing tag names
-    const existingTagNames = new Set(existingTags.map((tag) => tag.name));
-    console.log("Existing Tag Names:", existingTagNames);
-
-    // Filter out the new tag names that do not exist already
-    const newTagNames = tagNames.filter((name) => !existingTagNames.has(name));
-    console.log("New Tag Names:", newTagNames);
-
-    // Use a transaction to handle tag creation and post creation atomically
-    const newPost = await prisma.$transaction(async (prisma) => {
-      // Create new tags and collect their IDs
-      const newTagIds = await Promise.all(
-        newTagNames.map(async (name) => {
-          try {
-            const tag = await prisma.tag.create({ data: { name } });
-            console.log("Created New Tag:", tag);
-            return { id: tag.id };
-          } catch (error) {
-            // If the tag already exists, we catch the error and return null
-            console.error(`Error creating tag '${name}':`, error);
-            return null;
-          }
-        })
-      );
-
-      // Filter out any nulls that resulted from caught errors
-      const validNewTagIds = newTagIds.filter((tag) => tag !== null);
-      console.log(validNewTagIds);
-      console.log(existingTagIds);
-
-      // Combine existing tag IDs with new tag IDs
-      const allTagIdsToConnect = existingTagIds.concat(validNewTagIds);
-      console.log("All Tag IDs to Connect:", allTagIdsToConnect);
-
-      // Create the new post with connected tags
-      return prisma.post.create({
-        data: {
-          ...postData,
-          tags: {
-            connectOrCreate: allTagIdsToConnect.map((tagId) => ({
-              where: { id: tagId.id },
-              create: { tag: { connect: { id: tagId.id } } },
-            })),
-          },
-        },
-        include: {
-          author: true,
-          tags: {
-            include: {
-              tag: true,
-            },
-          },
-        },
-      });
-    });
-
-    console.log("New Post Created:", newPost);
+    revalidatePath("/");
+    console.log(newPost);
     return JSON.parse(JSON.stringify(newPost));
   } catch (error) {
     console.error("Error creating post with tags:", error);
@@ -130,24 +119,16 @@ export async function deletePost(id: number): Promise<Post> {
   }
 }
 
-type ExtendedPost = {
-  id: Post["id"];
-  image: Post["image"];
-  content: Post["content"];
-  viewCount: Post["viewCount"];
-  author: Pick<User, "username" | "picture">;
-  likesCount: number;
-  commentsCount: number;
-  tags: Tag["name"][];
-};
-
-export async function getPostContentById(id: number): Promise<ExtendedPost> {
+export async function getPostContentById(
+  id: number
+): Promise<ExtendedPostById> {
   try {
     const post = await prisma.post.findUnique({
       where: { id },
       select: {
         author: {
           select: {
+            picture: true,
             username: true,
           },
         },
@@ -160,6 +141,8 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
         image: true,
         heading: true,
         content: true,
+        viewCount: true,
+        id: true,
         likes: {
           select: {
             id: true,
@@ -170,11 +153,11 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
             id: true,
           },
         },
-        shares: {
-          select: {
-            id: true,
-          },
-        },
+        // shares: {
+        //   select: {
+        //     id: true,
+        //   },
+        // },
       },
     });
 
@@ -187,7 +170,7 @@ export async function getPostContentById(id: number): Promise<ExtendedPost> {
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
-      sharesCount: post.shares.length,
+      // sharesCount: post.shares.length,
     };
 
     return extendedPost;
@@ -344,11 +327,6 @@ export async function getPostsFromGroups(myCursorId?: number) {
   }
 }
 
-export interface ExtendedComment extends CommentAuthorProps {
-  parent?: Comment | null;
-  path?: string;
-}
-
 export async function addCommentOrReply(
   userId: number,
   postId: number,
@@ -434,21 +412,27 @@ export async function deleteCommentOrReply(
   }
 }
 
-export async function sharePost(
-  userId: number,
-  postId: number
-): Promise<Share> {
-  try {
-    const share = await prisma.share.create({
-      data: {
-        userId,
-        postId,
-      },
-    });
+// export async function sharePostAndCountShares(
+//   userId: number,
+//   postId: number
+// ): Promise<number> {
+//   try {
+//     await prisma.share.create({
+//       data: {
+//         userId,
+//         postId,
+//       },
+//     });
 
-    return share;
-  } catch (error) {
-    console.error("Error sharing post:", error);
-    throw error;
-  }
-}
+//     const shares = await prisma.share.findMany({
+//       where: {
+//         postId,
+//       },
+//     });
+
+//     return shares.length;
+//   } catch (error) {
+//     console.error("Error sharing post:", error);
+//     throw error;
+//   }
+// }

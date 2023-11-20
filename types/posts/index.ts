@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
-import { Comment } from "@prisma/client";
+import { Comment, Post, Tag, User } from "@prisma/client";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
@@ -73,19 +73,7 @@ export type TagsListProps = {
   tags: string[];
 };
 
-export interface AuthorProps {
-  id?: number;
-  picture: string;
-  username: string;
-}
 
-export interface CommentAuthorProps extends Comment {
-  author: AuthorProps;
-}
-
-export interface CommentListProps {
-  comments: CommentAuthorProps[];
-}
 
 export type CommentIconButtonProps = {
   Icon: ComponentType;
@@ -132,12 +120,43 @@ export interface CommentHeaderProps {
   isEdited: boolean;
 }
 
+export interface AuthorProps {
+  id?: number;
+  picture: string;
+  username: string;
+}
+
+export interface CommentAuthorProps extends Comment {
+  author: AuthorProps;
+}
+
+export interface CommentListProps {
+  comments: CommentAuthorProps[];
+}
+
+
 export interface RenderRootCommentsProps {
   comments: CommentAuthorProps[];
   postId: number;
 }
 
-export interface ExtendedComment extends CommentProps {
-  parent?: CommentProps;
+export interface ExtendedComment extends CommentAuthorProps {
+  parent?: Comment | null;
   path?: string;
 }
+
+exprt type ExtendedPost = {
+  id: Post["id"];
+  image: Post["image"];
+  content: Post["content"];
+  viewCount: Post["viewCount"];
+  author: Pick<User, "username" | "picture">;
+  likesCount: number;
+  commentsCount: number;
+  tags: Tag["name"][];
+};
+
+export type ExtendedPostById = ExtendedPost & {
+  // shares: Pick<Share, "id">[];
+};
+

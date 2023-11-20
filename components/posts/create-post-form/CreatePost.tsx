@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -39,6 +40,7 @@ const LexicalEditor = dynamic(
 const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [groups, setGroups] = useState<GroupsType[]>([]);
+  const router = useRouter();
 
   const { isLoaded, isSignedIn } = useUser();
 
@@ -138,6 +140,8 @@ const CreatePost = () => {
         form.reset();
       } catch (error) {
         console.error("Error creating post:", error);
+      } finally {
+        router.push("/");
       }
     }
   };
