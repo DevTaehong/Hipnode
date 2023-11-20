@@ -11,7 +11,7 @@ const GroupCover = async ({ group }: { group: Group }) => {
   const { userId: clerkId } = auth();
 
   const user = await getUserByClerkId(clerkId ?? "");
-  const isGroupOwner = groupOwner.id === user.id;
+  const isGroupOwner = groupOwner?.id === user?.id;
 
   return (
     <div className="bg-light_dark-3 flex flex-col gap-3.5 rounded-2xl p-2.5 sm:h-[18.375rem] sm:gap-5">
@@ -37,14 +37,14 @@ const GroupCover = async ({ group }: { group: Group }) => {
             </p>
             <p className="regular-10 sm:regular-14 flex items-start gap-0.5 text-sc-3">
               Create by
-              <span className="semibold-12 sm:semibold-14 text-sc-2 dark:text-light-2">{` ${groupOwner.username}`}</span>
+              <span className="semibold-12 sm:semibold-14 text-sc-2 dark:text-light-2">{` ${groupOwner?.username}`}</span>
             </p>
           </div>
         </div>
         <GroupCoverButtons
           isGroupOwner={isGroupOwner}
           groupId={group.id}
-          userId={user.id}
+          userId={user?.id ?? -1}
         />
       </div>
     </div>
