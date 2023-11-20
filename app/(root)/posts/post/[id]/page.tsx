@@ -13,7 +13,6 @@ import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedH
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
-  console.log("POST DATA", postData);
   const {
     author: { username },
     createdAt,
