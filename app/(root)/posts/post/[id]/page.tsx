@@ -13,7 +13,7 @@ import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedH
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
-
+  console.log("POST DATA", postData);
   const {
     author: { username },
     createdAt,
@@ -21,7 +21,6 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
 
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content } = postData;
-  const tagNames = tags?.map((tagRelation) => tagRelation.tag.name) ?? [];
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
@@ -51,7 +50,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
                 {heading}
               </h1>
-              <TagsList tags={tagNames} />
+              <TagsList tags={tags} />
               <p className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
                 <SanatizedHtml content={content} />
               </p>

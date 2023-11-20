@@ -73,8 +73,6 @@ export type TagsListProps = {
   tags: string[];
 };
 
-
-
 export type CommentIconButtonProps = {
   Icon: ComponentType;
   isActive?: boolean;
@@ -120,6 +118,8 @@ export interface CommentHeaderProps {
   isEdited: boolean;
 }
 
+// TYPES FOR post.action
+
 export interface AuthorProps {
   id?: number;
   picture: string;
@@ -134,7 +134,6 @@ export interface CommentListProps {
   comments: CommentAuthorProps[];
 }
 
-
 export interface RenderRootCommentsProps {
   comments: CommentAuthorProps[];
   postId: number;
@@ -145,7 +144,7 @@ export interface ExtendedComment extends CommentAuthorProps {
   path?: string;
 }
 
-exprt type ExtendedPost = {
+export type ExtendedPost = {
   id: Post["id"];
   image: Post["image"];
   content: Post["content"];
@@ -154,9 +153,10 @@ exprt type ExtendedPost = {
   likesCount: number;
   commentsCount: number;
   tags: Tag["name"][];
+  createdAt: Post["createdAt"];
+  heading: Post["heading"];
 };
 
 export type ExtendedPostById = ExtendedPost & {
   // shares: Pick<Share, "id">[];
 };
-
