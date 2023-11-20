@@ -1,4 +1,4 @@
-import { UserProfile } from "@clerk/nextjs";
+import { UserProfile, SignOutButton } from "@clerk/nextjs";
 
 const Page = () => {
   return (
@@ -43,6 +43,9 @@ const Page = () => {
             },
           }}
         />
+        <div className="flex self-start">
+          <SignOutButton />
+        </div>
       </section>
     </main>
   );
