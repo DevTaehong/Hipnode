@@ -10,7 +10,7 @@ export type GroupProps = {
   description: string | null;
   name: string;
   logo: string | null;
-}[];
+};
 
 export type ExtendedUser = {
   id: number;

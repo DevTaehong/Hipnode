@@ -28,7 +28,7 @@ const MoreButton = ({ groupId }: { groupId: number }) => {
         variant: "destructive",
       });
     } catch (error) {
-      console.log("Failed to delete a group, error: ", error);
+      console.error("Failed to delete a group, error: ", error);
     }
   };
 

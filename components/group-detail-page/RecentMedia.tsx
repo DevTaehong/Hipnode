@@ -15,7 +15,7 @@ const RecentMedia = ({ media }: { media: Post[] }) => {
             key={post.id}
             className={`${i === 2 && rowSpan2} ${
               i === 6 && rowSpan2
-            } w-[5.5rem] rounded-[0.25rem] border border-media shadow-media`}
+            } w-[5.5rem] rounded-[0.25rem] border border-media shadow-media hover:opacity-80 hover:transition-opacity`}
           >
             <Image
               width={88}
