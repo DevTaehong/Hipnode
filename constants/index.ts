@@ -425,7 +425,7 @@ export const groupFormLinkProps = {
   },
   linkToFormButton: {
     title: "Create Group",
-    link: "/",
+    link: "/group/create-group",
   },
 };
 
