@@ -25,6 +25,7 @@ const PostCard = ({
     commentsCount = 0,
     viewCount = 1,
     author: { picture, username },
+    createdAt,
   },
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
@@ -61,6 +62,8 @@ const PostCard = ({
             <CardFooterDesktop
               authorPicture={picture ?? "/public/emoji.png"}
               username={username}
+              createdAt={createdAt}
+              socialCounts={socialCounts}
             />
             <div className="flex">
               <SocialStatistics socialCounts={socialCounts} />

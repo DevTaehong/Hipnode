@@ -4,6 +4,7 @@ import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
 import { Comment, Post, Tag, User } from "@prisma/client";
+import { SocialCountTuple } from "../homepage";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
@@ -176,4 +177,11 @@ export type PostDataType = {
   image: string;
   authorId: number;
   groupId: number;
+};
+
+export type CardFooterDesktopProps = {
+  authorPicture: string;
+  username: string;
+  createdAt: Date;
+  socialCounts: SocialCountTuple[];
 };

@@ -78,7 +78,7 @@ export async function createPostWithTags(
 
       return post;
     });
-
+    
     revalidatePath("/");
     redirect("/");
     return newPost;
