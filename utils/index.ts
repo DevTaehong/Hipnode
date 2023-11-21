@@ -9,6 +9,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
+import { CommentProps } from "@/types/posts";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -90,6 +91,15 @@ export const formatDate = (date: Date) => {
   const day = updatedDate.getDate();
 
   return { monthText, day };
+};
+
+export const formatDateShort = (dateString: Date) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 };
 
 export const formatDatePostFormat = (date: Date) => {
@@ -209,3 +219,41 @@ export function capitalise(str: string) {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+export const groupCommentsByParentId = (
+  comments: CommentProps[]
+): Record<string, CommentProps[]> => {
+  const group: Record<string, CommentProps[]> = {};
+  comments.forEach((comment) => {
+    const key =
+      comment?.parentId === null ? "null" : comment?.parentId?.toString();
+    if (!group[key]) {
+      group[key] = [];
+    }
+    group[key].push(comment);
+  });
+  return group;
+};
+
+export const getRepliesToComments = (
+  commentsByParentId: Record<string, CommentProps[]>,
+  parentId?: string | null
+) => {
+  return commentsByParentId[parentId ?? "null"];
+};
+
+export const howManyMonthsAgo = (dateStr: Date | null) => {
+  if (dateStr === null) {
+    return "Date not available";
+  }
+
+  const dateGiven = new Date(dateStr);
+  const currentDate = new Date();
+
+  const yearDiff = currentDate.getFullYear() - dateGiven.getFullYear();
+  const monthDiff = currentDate.getMonth() - dateGiven.getMonth();
+
+  const totalMonths = yearDiff * 12 + monthDiff;
+
+  return totalMonths;
+};

@@ -1,12 +1,5 @@
-import { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
+import { CommentIconButtonProps } from "@/types/posts";
 import { cn } from "@/lib/utils";
-
-type CommentIconButtonProps = {
-  Icon: ComponentType;
-  isActive?: boolean;
-  color?: string;
-  children?: ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const CommentIconButton = ({
   Icon,
