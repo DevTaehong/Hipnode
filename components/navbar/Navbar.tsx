@@ -1,8 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+
+import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -11,33 +9,25 @@ import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
 import UserButton from "@/components/navbar/UserButton";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
+
 import MessageListWrapper from "../live-chat/MessageListWrapper";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
 
-const Navbar = () => {
-  const { user: clerkUser } = useUser();
-  const [userInfo, setUserInfo] = useState<{
-    id: number;
-    username: string;
-    image: string;
-  } | null>(null);
+const Navbar = async () => {
+  const clerkUser = await currentUser();
+  let userFromDB;
+  let userInfo;
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (clerkUser) {
-        const userFromDB = await getUserByClerkId(clerkUser.id);
-        if (userFromDB) {
-          setUserInfo({
-            id: userFromDB.id,
-            username: userFromDB.username,
-            image: userFromDB.picture,
-          });
-        }
-      }
-    };
-
-    fetchUser();
-  }, [clerkUser]);
+  if (clerkUser) {
+    userFromDB = await getUserByClerkId(clerkUser.id);
+    if (userFromDB) {
+      userInfo = {
+        id: userFromDB.id,
+        username: userFromDB.username,
+        image: userFromDB.picture,
+      };
+    }
+  }
 
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
@@ -64,7 +54,7 @@ const Navbar = () => {
 
       <section className="flex items-center gap-6">
         <SignedIn>
-          {userInfo && userInfo && <MessageListWrapper userInfo={userInfo} />}
+          {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
         </SignedIn>
         <SignedOut>
           <Link href="/sign-in">Login</Link>
