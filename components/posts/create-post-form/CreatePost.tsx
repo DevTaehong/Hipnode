@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -24,12 +23,18 @@ import {
   SelectController,
 } from ".";
 import { postFormValidationSchema } from "@/lib/validations";
-import { PostFormValuesType, GroupsType } from "@/types/posts/index";
+import {
+  PostFormValuesType,
+  GroupsType,
+  PostDataType,
+  createPostFormType,
+} from "@/types/posts/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
 import { POST_FORM_DEFAULT_VALUES } from "@/constants/posts";
 import { createPostWithTags } from "@/lib/actions/post.action";
 import { getGroups } from "@/lib/actions/group.actions";
 import { Group } from "@prisma/client";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
 import FillIcon from "@/components/icons/fill-icons";
 
 const LexicalEditor = dynamic(
@@ -37,12 +42,36 @@ const LexicalEditor = dynamic(
   { ssr: false }
 );
 
+const SELECTION_OPTIONS = [
+  { option: "Post", icon: <FillIcon.Post /> },
+  { option: "Meetup", icon: <FillIcon.Calendar /> },
+  { option: "Podcasts", icon: <FillIcon.Podcasts /> },
+  { option: "Interviews", icon: <FillIcon.Interviews /> },
+];
+
 const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [groups, setGroups] = useState<GroupsType[]>([]);
-  const router = useRouter();
 
-  const { isLoaded, isSignedIn } = useUser();
+  const { user: clerkUser, isLoaded, isSignedIn } = useUser();
+  const [userInfo, setUserInfo] = useState<{
+    id: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (clerkUser) {
+        const userFromDB = await getUserByClerkId(clerkUser.id);
+        if (userFromDB) {
+          setUserInfo({
+            id: userFromDB.id,
+          });
+        }
+      }
+    };
+
+    fetchUser();
+  }, [clerkUser]);
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -58,19 +87,9 @@ const CreatePost = () => {
     fetchGroups();
   }, []);
 
-  console.log(groups);
-
-  const SELECTION_OPTIONS = [
-    { option: "Post", icon: <FillIcon.Post /> },
-    { option: "Meetup", icon: <FillIcon.Calendar /> },
-    { option: "Podcasts", icon: <FillIcon.Podcasts /> },
-    { option: "Interviews", icon: <FillIcon.Interviews /> },
-  ];
-
   const {
     imagePreviewUrl,
     setImagePreviewUrl,
-    previewValues,
     setPreviewValues,
     setClearEditor,
   } = useCreatePostStore((state) => state);
@@ -82,7 +101,6 @@ const CreatePost = () => {
         "posts",
         "images"
       );
-      console.log(uploadedURL);
       setValue("image", uploadedURL);
       return uploadedURL;
     }
@@ -94,54 +112,43 @@ const CreatePost = () => {
     defaultValues: POST_FORM_DEFAULT_VALUES,
   });
 
-  const { setValue, watch } = form;
-
-  // const onSubmit = async (values: PostFormValuesType) => {
-  //   await handleUpload();
-  //   setClearEditor(true);
-  //   const finalValues = form.getValues();
-  //   console.log(finalValues);
-  //   form.reset();
-  // };
+  const { setValue } = form;
 
   const onSubmitPreview = async () => {
     const previewValues = form.getValues();
     setPreviewValues(previewValues);
   };
 
-  const watchedData = watch();
-  console.log(previewValues);
-  useEffect(() => {
-    console.log(watchedData);
-  }, [watchedData]);
-
-  const valueOfGroup = (data: any) => {
+  const valueOfGroup = (data: createPostFormType) => {
     const matchedGroup = groups.find((group) => group.label === data.group);
-    return matchedGroup ? matchedGroup.value : null;
+    return matchedGroup ? matchedGroup.value : 0;
   };
 
-  const processForm: SubmitHandler<PostFormValuesType> = async (data: any) => {
+  const processForm: SubmitHandler<PostFormValuesType> = async (
+    data: createPostFormType
+  ): Promise<void> => {
     const postImage = await handleUpload();
-    console.log(data);
     if (isLoaded && isSignedIn) {
-      const { post, tags, group, ...postData } = data;
+      const { contentType, tags, group, ...postData } = data;
 
-      postData.authorId = 19;
-      postData.groupId = valueOfGroup(data);
-      postData.image = postImage;
+      if (!userInfo?.id || !valueOfGroup(data) || !postImage) {
+        throw new Error("Required data is missing");
+      }
 
-      console.log(tags);
-      console.log(postData);
+      const postDataWithAuthor: PostDataType = {
+        ...postData,
+        authorId: userInfo?.id,
+        groupId: valueOfGroup(data),
+        image: postImage,
+      };
 
       try {
-        const result = await createPostWithTags(postData, tags);
-        console.log(result);
+        await createPostWithTags(postDataWithAuthor, tags);
         setClearEditor(true);
+        setValue("image", "");
         form.reset();
       } catch (error) {
         console.error("Error creating post:", error);
-      } finally {
-        router.push("/");
       }
     }
   };
@@ -150,7 +157,6 @@ const CreatePost = () => {
     <div className="flex max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
-          action=""
           onSubmit={form.handleSubmit(processForm)}
           className="rounded-md p-[1.25rem] dark:bg-dark-3"
         >
@@ -174,7 +180,7 @@ const CreatePost = () => {
 
               <SelectController
                 control={form.control}
-                name={"post"}
+                name={"contentType"}
                 placeholder={"Create Post"}
                 options={SELECTION_OPTIONS}
               />

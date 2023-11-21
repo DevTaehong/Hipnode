@@ -7,6 +7,8 @@ export const postFormValidationSchema = z.object({
   content: z.string().min(1, { message: "Main Text is required" }),
   image: z.any(),
   group: z.string().min(1, { message: "Select Group is required" }),
-  post: z.string().min(1, { message: "Select Post is required" }),
+  contentType: z
+    .string()
+    .min(1, { message: "Select Content Type is required" }),
   tags: z.array(z.string().min(1).max(10)).min(1).max(5),
 });

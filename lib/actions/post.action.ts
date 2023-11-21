@@ -1,6 +1,8 @@
 "use server";
 
 import { Post } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import prisma from "../prisma";
 import {
@@ -13,7 +15,6 @@ import {
   ExtendedPostById,
   ExtendedPost,
 } from "@/types/posts";
-import { revalidatePath } from "next/cache";
 
 export async function handleTags(tagNames: string[]) {
   const existingTags = await prisma.tag.findMany({
@@ -78,6 +79,7 @@ export async function createPostWithTags(
     });
 
     revalidatePath("/");
+    redirect("/");
     return newPost;
   } catch (error) {
     console.error("Error creating post with tags:", error);

@@ -160,3 +160,20 @@ export type ExtendedPost = {
 export type ExtendedPostById = ExtendedPost & {
   // shares: Pick<Share, "id">[];
 };
+
+export type createPostFormType = {
+  heading: string;
+  content: string;
+  image?: string;
+  group: string;
+  contentType: string;
+  tags: string[];
+};
+
+export type PostDataType = {
+  heading: string;
+  content: string;
+  image: string;
+  authorId: number;
+  groupId: number;
+};

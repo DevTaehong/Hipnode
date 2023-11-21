@@ -20,6 +20,6 @@ export const POST_FORM_DEFAULT_VALUES: PostFormValuesType = {
   content: "",
   image: "",
   group: "",
-  post: "",
+  contentType: "",
   tags: [],
 };

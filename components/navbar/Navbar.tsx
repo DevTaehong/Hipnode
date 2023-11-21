@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -11,21 +14,30 @@ import UserButton from "@/components/navbar/UserButton";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 
-const Navbar = async () => {
-  const clerkUser = await currentUser();
-  let userFromDB;
-  let userInfo;
+const Navbar = () => {
+  const { user: clerkUser } = useUser();
+  const [userInfo, setUserInfo] = useState<{
+    id: number;
+    username: string;
+    image: string;
+  } | null>(null);
 
-  if (clerkUser) {
-    userFromDB = await getUserByClerkId(clerkUser.id);
-    if (userFromDB) {
-      userInfo = {
-        id: userFromDB.id,
-        username: userFromDB.username,
-        image: userFromDB.picture,
-      };
-    }
-  }
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (clerkUser) {
+        const userFromDB = await getUserByClerkId(clerkUser.id);
+        if (userFromDB) {
+          setUserInfo({
+            id: userFromDB.id,
+            username: userFromDB.username,
+            image: userFromDB.picture,
+          });
+        }
+      }
+    };
+
+    fetchUser();
+  }, [clerkUser]);
 
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
@@ -52,7 +64,7 @@ const Navbar = async () => {
 
       <section className="flex items-center gap-6">
         <SignedIn>
-          {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
+          {userInfo && userInfo && <MessageListWrapper userInfo={userInfo} />}
         </SignedIn>
         <SignedOut>
           <Link href="/sign-in">Login</Link>
