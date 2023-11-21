@@ -11,6 +11,7 @@ import { seedInterviewTags } from "./seed/seed-interviews/createInterviewTag";
 import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 import prisma from "../lib/prisma";
 import { createShares } from "./seed/seed-posts/createPostShares";
+import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
 
 async function main() {
   const tags = await createTags();
@@ -31,6 +32,11 @@ async function main() {
   }[];
   for (const show of shows) {
     await createPodcastsForShows(show);
+  }
+
+  // @ts-ignore
+  for (const post of posts) {
+    await createLikesForPost(post, users);
   }
 
   await createMeetUps(users);
