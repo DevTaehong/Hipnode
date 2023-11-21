@@ -3,12 +3,10 @@
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import Link from "next/link";
 
 import { Form } from "@/components/ui/form";
 import CustomButton from "../CustomButton";
-
 import FormFieldComponent from "./FormFieldComponent";
 import SetCoverComponent from "./SetCoverComponent";
 import SetProfilePhotoComponent from "./SetProfilePhotoComponent";
