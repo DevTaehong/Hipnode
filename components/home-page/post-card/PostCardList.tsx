@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { getAllPosts } from "@/lib/actions/post.action";
-import { ExtendedPost } from "@/types/models";
+import { ExtendedPost } from "@/types/posts";
 import { PostCard } from ".";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
@@ -16,7 +16,6 @@ const PostCardList = ({ posts }: PostCardListProps) => {
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountAmountToSkip] = useState<number>(10);
-
   const { ref, inView } = useInView();
 
   const loadMoreData = async () => {

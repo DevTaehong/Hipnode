@@ -1,4 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import DOMPurify from "isomorphic-dompurify";
+
 import {
   PostImage,
   PostText,
@@ -8,19 +13,27 @@ import {
   SocialStatistics,
 } from ".";
 import FillIcon from "../../icons/fill-icons";
-import { PostCardProps } from "@/types/homepage";
-import DOMPurify from "isomorphic-dompurify";
-import { useEffect, useState } from "react";
+import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
 const PostCard = ({
   post: {
     image,
     content,
     id,
+    tags,
+    likesCount = 0,
+    commentsCount = 0,
+    viewCount = 1,
     author: { picture, username },
   },
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
+
+  const socialCounts: SocialCountTuple[] = [
+    ["views", viewCount],
+    ["likes", likesCount],
+    ["comments", commentsCount],
+  ];
 
   useEffect(() => {
     const sanitizedHtml = DOMPurify.sanitize(content);
@@ -44,13 +57,13 @@ const PostCard = ({
                 <FillIcon.Heart className="hidden fill-sc-5 md:flex" />
               </div>
             </div>
-            <PostLabels />
+            <PostLabels tags={tags} />
             <CardFooterDesktop
               authorPicture={picture ?? "/public/emoji.png"}
               username={username}
             />
-            <div className="flex md:hidden">
-              <SocialStatistics />
+            <div className="flex">
+              <SocialStatistics socialCounts={socialCounts} />
             </div>
           </div>
         </div>

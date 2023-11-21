@@ -1,9 +1,4 @@
-import {
-  User as PrismaUser,
-  Post as PrismaPost,
-  Comment as CommentType,
-  Like as LikeType,
-} from "@prisma/client";
+import { User as PrismaUser, Post as PrismaPost } from "@prisma/client";
 
 export type GroupProps = {
   id: number;
@@ -35,23 +30,6 @@ type TagType = {
 type TagOnPostWithTags = {
   tag: TagType;
 };
-
-export type ExtendedPost = PrismaPost & {
-  author: {
-    id: number;
-    username: string;
-    picture?: string;
-  };
-  comments?: CommentType[];
-  likes?: LikeType[];
-  tags: TagOnPostWithTags[];
-  heading?: string;
-  group?: {
-    name: string;
-  };
-};
-
-export type GetPostByIdType = ExtendedPost | null;
 
 interface Onboarding {
   id: number;
