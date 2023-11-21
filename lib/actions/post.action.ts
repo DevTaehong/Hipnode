@@ -58,24 +58,25 @@ export async function createPostWithTags(
   try {
     const allTagIdsToConnect = await handleTags(tagNames);
 
-    const newPost = await prisma.post.create({
-      data: {
-        ...postData,
-        tags: {
-          connectOrCreate: allTagIdsToConnect.map((tagId) => ({
-            where: { id: tagId.id },
-            create: { tag: { connect: { id: tagId.id } } },
-          })),
+    const newPost = await prisma.$transaction(async (prisma) => {
+      const post = await prisma.post.create({
+        data: {
+          ...postData,
         },
-      },
-      include: {
-        author: true,
-        tags: {
-          include: {
-            tag: true,
-          },
+        include: {
+          author: true,
         },
-      },
+      });
+
+      await prisma.tagOnPost.createMany({
+        data: allTagIdsToConnect.map((tagId) => ({
+          postId: post.id,
+          tagId: tagId.id,
+        })),
+        skipDuplicates: true,
+      });
+
+      return post;
     });
 
     revalidatePath("/");
