@@ -1,17 +1,18 @@
-import GroupPost from "@/components/group-page/group-post/GroupPost";
-import MobileGroupSection from "@/components/group-page/mobileGroupSection/MobileGroupSection";
-import InfiniteScroll from "@/components/InfiniteScroll";
-import GroupSection from "@/components/GroupSection";
-import { getAllMeetUps } from "@/lib/actions/meetup.actions";
-import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
-import Podcasts from "@/components/home-page/podcast/Podcasts";
-import Meetups from "@/components/home-page/meetup/Meetups";
-import { getPostsFromGroups } from "@/lib/actions/post.action";
 import {
   getFastestGrowingGroups,
   getMostPopularGroups,
   getNewlyLaunchedGroups,
 } from "@/lib/actions/group.actions";
+import { getAllMeetUps } from "@/lib/actions/meetup.actions";
+import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
+import { getPostsFromGroups } from "@/lib/actions/post.action";
+
+import GroupPost from "@/components/group-page/group-post/GroupPost";
+import MobileGroupSection from "@/components/group-page/mobileGroupSection/MobileGroupSection";
+import InfiniteScroll from "@/components/InfiniteScroll";
+import GroupSection from "@/components/GroupSection";
+import Podcasts from "@/components/home-page/podcast/Podcasts";
+import Meetups from "@/components/home-page/meetup/Meetups";
 
 const GroupPage = async () => {
   const [meetups, podcasts, posts] = await Promise.all([
