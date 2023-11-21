@@ -1,3 +1,10 @@
+import {
+  getNewPostsByGroupId,
+  getPopularGroupPosts,
+} from "@/lib/actions/post.action";
+import { groupFormLinkProps } from "@/constants";
+import { getGroupById } from "@/lib/actions/group.actions";
+
 import FormLink from "@/components/FormLink";
 import ActiveMembers from "@/components/group-detail-page/active-members/ActiveMembers";
 import Explore from "@/components/explore/Explore";
@@ -7,12 +14,6 @@ import GroupCover from "@/components/group-detail-page/GroupCover";
 import Tags from "@/components/home-page/tags/Tags";
 import RecentMedia from "@/components/group-detail-page/RecentMedia";
 import FetchGroupDetailPosts from "@/components/group-detail-page/FetchGroupDetailPosts";
-import { groupFormLinkProps } from "@/constants";
-import { getGroupById } from "@/lib/actions/group.actions";
-import {
-  getNewPostsByGroupId,
-  getPopularGroupPosts,
-} from "@/lib/actions/post.action";
 
 const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
   const groupId = Number(params.id);
