@@ -50,6 +50,17 @@ export async function addUserToChatroom(data: ChatroomType) {
   }
 }
 
+export async function getAllChatroomUsers() {
+  try {
+    const chatroomUsers = await prisma.chatroomUsers.findMany();
+
+    return chatroomUsers;
+  } catch (error) {
+    console.error("Error fetching chatroom users:", error);
+    throw error;
+  }
+}
+
 export async function removeUserFromChatroom(data: ChatroomType) {
   try {
     const { userId, chatroomId } = data;

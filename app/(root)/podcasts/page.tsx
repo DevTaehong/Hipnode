@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 import {
   getFilterPodcastsUserInfo,
@@ -7,7 +8,6 @@ import {
 import { getAllUsersShows, getTopFiveShows } from "@/lib/actions/show.actions";
 import FormLink from "@/components/FormLink";
 import { podcastFormLinkProps } from "@/constants";
-import { redirect } from "next/navigation";
 import { Categories, PodcastPageFilter } from "@/components/podcast-components";
 import Meetups from "@/components/home-page/meetup/Meetups";
 import { getAllMeetUps } from "@/lib/actions/meetup.actions";

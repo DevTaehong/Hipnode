@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import FillIcon from "@/components/icons/fill-icons";
@@ -10,9 +8,24 @@ import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
 import UserButton from "@/components/navbar/UserButton";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
+import MessageListWrapper from "../live-chat/MessageListWrapper";
 
-const Navbar = () => {
-  const { user } = useUser();
+const Navbar = async () => {
+  const clerkUser = await currentUser();
+  let userFromDB;
+  let userInfo;
+
+  if (clerkUser) {
+    userFromDB = await getUserByClerkId(clerkUser.id);
+    if (userFromDB) {
+      userInfo = {
+        id: userFromDB.id,
+        username: userFromDB.username,
+        image: userFromDB.picture,
+      };
+    }
+  }
 
   return (
     <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
@@ -38,10 +51,12 @@ const Navbar = () => {
       </section>
 
       <section className="flex items-center gap-6">
-        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
-          <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
-        </div>
-
+        <SignedIn>
+          {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
+        </SignedIn>
+        <SignedOut>
+          <Link href="/sign-in">Login</Link>
+        </SignedOut>
         <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Notification
             className="fill-sc-4 dark:fill-sc-6"
@@ -49,7 +64,7 @@ const Navbar = () => {
           />
         </div>
 
-        <UserButton userImg={user?.imageUrl} />
+        <UserButton />
       </section>
     </nav>
   );
