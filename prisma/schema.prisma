@@ -51,7 +51,8 @@ model Onboarding {
 
 model Post {
   id        Int         @id @default(autoincrement())
-   heading   String
+  heading   String
+  clerkId   String?    
   content   String
   authorId  Int
   createdAt DateTime    @default(now())

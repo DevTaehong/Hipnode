@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
+import { useUser } from "@clerk/nextjs";
 
 import {
   PostImage,
@@ -26,9 +27,15 @@ const PostCard = ({
     viewCount = 1,
     author: { picture, username },
     createdAt,
+    clerkId,
   },
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
+  const { user } = useUser();
+  const currentLoggedInUserId = user?.id;
+
+  const heartIconClass =
+    currentLoggedInUserId === clerkId ? "fill-red" : "fill-sc-5";
 
   const socialCounts: SocialCountTuple[] = [
     ["views", viewCount],
@@ -55,7 +62,9 @@ const PostCard = ({
                     authorPicture={picture ?? "/public/emoji.png"}
                   />
                 </div>
-                <FillIcon.Heart className="hidden fill-sc-5 md:flex" />
+                <FillIcon.Heart
+                  className={`hidden md:flex ${heartIconClass}`}
+                />
               </div>
             </div>
             <PostLabels tags={tags} />

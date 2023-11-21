@@ -52,6 +52,7 @@ export async function createPostWithTags(
     authorId: number;
     image: string;
     groupId?: number;
+    clerkId?: string;
   },
   tagNames: string[]
 ) {
@@ -141,6 +142,7 @@ export async function getPostContentById(
         heading: true,
         content: true,
         viewCount: true,
+        clerkId: true,
         id: true,
         likes: {
           select: {
@@ -224,6 +226,7 @@ export async function getAllPosts({
         viewCount: true,
         createdAt: true,
         heading: true,
+        clerkId: true,
         author: {
           select: {
             username: true,

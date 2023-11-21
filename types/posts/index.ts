@@ -177,6 +177,7 @@ export type PostDataType = {
   image: string;
   authorId: number;
   groupId: number;
+  clerkId: string;
 };
 
 export type CardFooterDesktopProps = {

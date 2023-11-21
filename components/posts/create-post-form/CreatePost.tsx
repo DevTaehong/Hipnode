@@ -140,6 +140,7 @@ const CreatePost = () => {
         authorId: userInfo?.id,
         groupId: valueOfGroup(data),
         image: postImage,
+        clerkId: clerkUser?.id,
       };
 
       try {
