@@ -46,7 +46,10 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
           className="flex flex-col gap-5 lg:order-last lg:h-screen 
           lg:max-w-[20.3125rem] lg:grow lg:flex-col lg:overflow-y-auto lg:py-[1.875rem]"
         >
-          <FormLink {...groupFormLinkProps} className="hidden lg:flex" />
+          <FormLink
+            {...groupFormLinkProps}
+            className="hidden lg:flex lg:w-full lg:max-w-[20.3125rem]"
+          />
           <ActiveMembers members={group?.members ?? []} />
           <RecentMedia media={group?.posts ?? []} />
         </aside>
@@ -59,7 +62,7 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
             description={group?.description ?? group?.name ?? "N/A"}
           />
           <GroupAdmins admins={group?.admins ?? []} />
-          <Tags className="px-0" />
+          <Tags className="w-full min-w-0 px-0" />
         </aside>
       </div>
     </main>

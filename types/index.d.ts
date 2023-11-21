@@ -2,10 +2,19 @@
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 import { Post, User } from "@prisma/client";
+import { Control } from "react-hook-form";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
 import { GroupProps } from "@types/models";
+
+export interface FormFieldComponentProps {
+  control: Control<{ groupName: string }>;
+  name: string;
+  label: string;
+  placeholder: string;
+  fieldType?: "input" | "textarea";
+}
 
 export type FetchGroupDetailPostsProps = {
   initialNewPost: Post[];
