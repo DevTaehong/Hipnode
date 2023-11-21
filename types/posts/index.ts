@@ -145,7 +145,7 @@ export interface ExtendedComment extends CommentAuthorProps {
   path?: string;
 }
 
-export type ExtendedPost = {
+export type ExtendedPrismaPost = {
   id: Post["id"];
   image: Post["image"];
   content: Post["content"];
@@ -158,7 +158,7 @@ export type ExtendedPost = {
   heading: Post["heading"];
 };
 
-export type ExtendedPostById = ExtendedPost & {
+export type ExtendedPostById = ExtendedPrismaPost & {
   // shares: Pick<Share, "id">[];
 };
 

@@ -13,7 +13,7 @@ import {
   CommentAuthorProps,
   ExtendedComment,
   ExtendedPostById,
-  ExtendedPost,
+  ExtendedPrismaPost,
 } from "@/types/posts";
 
 export async function handleTags(tagNames: string[]) {
@@ -78,7 +78,7 @@ export async function createPostWithTags(
 
       return post;
     });
-    
+
     revalidatePath("/");
     redirect("/");
     return newPost;
@@ -209,7 +209,7 @@ export async function getAllPosts({
   numberToSkip = 0,
 }: {
   numberToSkip?: number;
-}): Promise<ExtendedPost[]> {
+}): Promise<ExtendedPrismaPost[]> {
   try {
     const posts = await prisma.post.findMany({
       skip: numberToSkip,
