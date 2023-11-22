@@ -75,7 +75,6 @@ const CommentForm = ({
           Number(parentId) || null,
           path
         );
-
         setIsReplying(false);
       }
     } catch (error) {

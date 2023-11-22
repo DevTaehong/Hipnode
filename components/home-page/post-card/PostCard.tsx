@@ -17,6 +17,7 @@ import FillIcon from "../../icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
 import { getUserByClerkId } from "@/lib/actions/user.actions";
+import { userHasLikedPost } from "@/utils";
 
 const PostCard = ({
   post: {
@@ -46,13 +47,6 @@ const PostCard = ({
       fetchCurrentUser();
     }
   }, [clerkId]);
-
-  const userHasLikedPost = (
-    userId: number,
-    postLikes: { userId: number }[]
-  ): boolean => {
-    return postLikes.some((like) => like.userId === userId);
-  };
 
   const hasLiked = userHasLikedPost(currentUserId, likes);
   const heartIconClass = hasLiked ? "fill-red" : "fill-sc-5";
