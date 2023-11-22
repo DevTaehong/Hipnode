@@ -20,6 +20,8 @@ type CreatePostStore = {
   setClearEditor: (value: boolean) => void;
   commentsByParentId: CommentsByParentId;
   setCommentsByParentId: (comments: CommentsByParentId) => void;
+  currentLoggedInUser: number | null;
+  setCurrentLoggedInUser: (user: number | null) => void;
 };
 
 export const useCreatePostStore = create<CreatePostStore>((set) => ({
@@ -31,4 +33,6 @@ export const useCreatePostStore = create<CreatePostStore>((set) => ({
   setClearEditor: (value) => set({ clearEditor: value }),
   commentsByParentId: {},
   setCommentsByParentId: (comments) => set({ commentsByParentId: comments }),
+  currentLoggedInUser: null,
+  setCurrentLoggedInUser: (user) => set({ currentLoggedInUser: user }),
 }));

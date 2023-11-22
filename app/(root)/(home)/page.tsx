@@ -21,7 +21,6 @@ export default async function Home() {
     userImage = user?.picture || "/public/emoji.png";
   }
   const meetups = await getAllMeetUps();
-  console.log(meetups);
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
 

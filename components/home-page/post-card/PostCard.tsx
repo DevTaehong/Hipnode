@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 import {
   PostImage,
@@ -16,6 +16,8 @@ import {
 import FillIcon from "../../icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
+import { getUserByClerkId } from "@/lib/actions/user.actions";
+
 const PostCard = ({
   post: {
     image,
@@ -27,15 +29,33 @@ const PostCard = ({
     viewCount = 1,
     author: { picture, username },
     createdAt,
-    clerkId,
+    likes,
   },
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
-  const { user } = useUser();
-  const currentLoggedInUserId = user?.id;
+  const [currentUserId, setCurrentUserId] = useState<number>(0);
+  const { isLoaded, userId: clerkId } = useAuth();
 
-  const heartIconClass =
-    currentLoggedInUserId === clerkId ? "fill-red" : "fill-sc-5";
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      if (!clerkId) return;
+      const user = await getUserByClerkId(clerkId);
+      if (user) setCurrentUserId(user?.id);
+    };
+    if (clerkId && isLoaded) {
+      fetchCurrentUser();
+    }
+  }, [clerkId]);
+
+  const userHasLikedPost = (
+    userId: number,
+    postLikes: { userId: number }[]
+  ): boolean => {
+    return postLikes.some((like) => like.userId === userId);
+  };
+
+  const hasLiked = userHasLikedPost(currentUserId, likes);
+  const heartIconClass = hasLiked ? "fill-red" : "fill-sc-5";
 
   const socialCounts: SocialCountTuple[] = [
     ["views", viewCount],

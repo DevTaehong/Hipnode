@@ -16,7 +16,6 @@ export default async function RootLayout({
   const { userId } = auth();
   if (userId) {
     const user = await getUserByClerkId(userId);
-    console.log(user?.onboarding);
     if (!user?.onboarding) redirect("/onboarding");
   }
 

@@ -146,7 +146,7 @@ export async function getPostContentById(
         id: true,
         likes: {
           select: {
-            id: true,
+            userId: true,
           },
         },
         comments: {
@@ -235,7 +235,7 @@ export async function getAllPosts({
         },
         likes: {
           select: {
-            id: true,
+            userId: true,
           },
         },
         comments: {
