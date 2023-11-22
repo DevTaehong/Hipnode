@@ -24,13 +24,14 @@ export type CreatePostTitleProps = {
 };
 
 interface PostSelectionOptions {
-  option: string;
+  label: string;
   icon: React.ReactNode;
 }
 
 export interface GroupsType {
   label: string;
   value: number;
+  icon?: React.ReactNode;
 }
 
 export type SelectControllerProps = {

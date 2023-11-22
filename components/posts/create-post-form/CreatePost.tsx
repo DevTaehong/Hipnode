@@ -43,10 +43,10 @@ const LexicalEditor = dynamic(
 );
 
 const SELECTION_OPTIONS = [
-  { option: "Post", icon: <FillIcon.Post /> },
-  { option: "Meetup", icon: <FillIcon.Calendar /> },
-  { option: "Podcasts", icon: <FillIcon.Podcasts /> },
-  { option: "Interviews", icon: <FillIcon.Interviews /> },
+  { label: "Post", icon: <FillIcon.Post /> },
+  { label: "Meetup", icon: <FillIcon.Calendar /> },
+  { label: "Podcasts", icon: <FillIcon.Podcasts /> },
+  { label: "Interviews", icon: <FillIcon.Interviews /> },
 ];
 
 const CreatePost = () => {

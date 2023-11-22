@@ -58,36 +58,30 @@ const SelectController = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {options?.map((option, index) => {
-                if ("icon" in option && "option" in option) {
-                  return (
-                    <SelectItem
-                      className="flex justify-between gap-2 bg-light dark:bg-dark-4 dark:text-light-2"
-                      key={index}
-                      value={option.option}
-                    >
-                      <div className="flex flex-row justify-between gap-2  dark:bg-dark-4">
-                        <div className="fill-sc-2 stroke-sc-2 dark:fill-light-2 dark:stroke-light-2">
-                          {option.icon}
-                        </div>
-                        <span className="ml-2">{option.option}</span>
+              {options?.map((option, index) => (
+                <SelectItem
+                  className="flex justify-between gap-2 bg-light dark:bg-dark-4 dark:text-light-2"
+                  key={index}
+                  value={option.label}
+                >
+                  <div className="flex flex-row justify-between gap-2 dark:bg-dark-4">
+                    {option.icon && (
+                      <div className="fill-sc-2 stroke-sc-2 dark:fill-light-2 dark:stroke-light-2">
+                        {option.icon}
                       </div>
-                    </SelectItem>
-                  );
-                } else {
-                  return (
-                    <SelectItem
-                      className="flex justify-between gap-2 bg-light dark:bg-dark-4 dark:text-light-2"
-                      key={index}
-                      value={option.label}
+                    )}
+                    <p
+                      className={`${
+                        option.icon
+                          ? "ml-2"
+                          : "text-[1rem] font-semibold capitalize leading-[1.5rem] text-sc-3"
+                      }`}
                     >
-                      <p className="text-[1rem] font-semibold capitalize leading-[1.5rem] text-sc-3">
-                        {option.label}
-                      </p>
-                    </SelectItem>
-                  );
-                }
-              })}
+                      {option.label}
+                    </p>
+                  </div>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <FormMessage className="capitalize text-red-500">
