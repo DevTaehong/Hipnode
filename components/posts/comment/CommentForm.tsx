@@ -53,7 +53,7 @@ const CommentForm = ({
     if (clerkId && isLoaded) {
       fetchCurrentUser();
     }
-  }, [clerkId]);
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -76,6 +76,7 @@ const CommentForm = ({
           Number(parentId) || null,
           path
         );
+
         setIsReplying(false);
       }
     } catch (error) {

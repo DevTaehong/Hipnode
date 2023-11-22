@@ -50,9 +50,9 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 {heading}
               </h1>
               <TagsList tags={tags} />
-              <p className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
+              <div className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
                 <SanatizedHtml content={content} />
-              </p>
+              </div>
               <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
                 <div className="flex items-center justify-center px-[1.25rem]">
                   <Image
