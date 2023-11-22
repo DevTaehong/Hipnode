@@ -32,7 +32,6 @@ const CommentForm = ({
   parentId,
   value = ``,
   isEditing = false,
-  isReplying,
   commentId,
   setIsEditing,
   setIsReplying,
@@ -53,7 +52,7 @@ const CommentForm = ({
     if (clerkId && isLoaded) {
       fetchCurrentUser();
     }
-  }, []);
+  }, [isLoaded, clerkId]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
