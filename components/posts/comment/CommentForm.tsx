@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import TextareaAutosize from "react-textarea-autosize";
 
 import {
   Form,
@@ -19,7 +20,6 @@ import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
 import { CommentFormProps } from "@/types/posts";
 import { User } from "@prisma/client";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
-import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -41,7 +41,6 @@ const CommentForm = ({
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoaded, userId: clerkId } = useAuth();
-  const [textAreaHeight, setTextAreaHeight] = useState<number>(0);
 
   const path = usePathname();
 
@@ -64,31 +63,27 @@ const CommentForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setTextAreaHeight((previous) => previous + 1);
+    setIsLoading(true);
     try {
       if (isEditing) {
-        setIsLoading(true);
-        const commentID: number = Number(commentId);
-        await updateComment(commentID, values.comment, path);
+        await updateComment(Number(commentId), values.comment, path);
         setIsEditing(false);
-        setIsLoading(false);
       } else if (currentUser?.id) {
-        setIsLoading(true);
-        const userId = currentUser?.id;
         await addCommentOrReply(
-          userId,
+          currentUser?.id,
           postId,
           values.comment,
           Number(parentId) || null,
           path
         );
+        setIsReplying(false);
       }
-      setIsLoading(false);
-      setIsReplying(false);
     } catch (error) {
       console.error("Error processing comment:", error);
+    } finally {
+      setIsLoading(false);
+      form.reset();
     }
-    form.reset();
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -110,8 +105,8 @@ const CommentForm = ({
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
-                      <Textarea
-                        resetheight={textAreaHeight}
+                      <TextareaAutosize
+                        maxRows={5}
                         {...field}
                         onKeyDown={handleKeyDown}
                         placeholder="Say something cool.... 🔥"

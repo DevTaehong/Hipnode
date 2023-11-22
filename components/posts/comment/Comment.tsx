@@ -4,7 +4,6 @@ import { useState } from "react";
 import { usePathname, useParams } from "next/navigation";
 import Image from "next/image";
 
-import { CommentProps } from "@/types/posts";
 import CommentList from "./CommentList";
 import { useCreatePostStore } from "@/app/lexicalStore";
 import {
@@ -15,6 +14,7 @@ import { deleteCommentOrReply } from "@/lib/actions/post.action";
 import { CommentHeader, CommentActions } from ".";
 import CommentForm from "./CommentForm";
 import { getRepliesToComments as getReplies } from "@/utils/index";
+import { CommentAuthorProps } from "@/types/posts";
 
 const Comment = ({
   content,
@@ -22,7 +22,7 @@ const Comment = ({
   isEdited,
   author: { picture, username },
   id,
-}: CommentProps) => {
+}: CommentAuthorProps) => {
   const [showChildren, setShowChildren] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
