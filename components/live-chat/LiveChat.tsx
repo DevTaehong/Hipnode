@@ -31,9 +31,8 @@ const LiveChat = () => {
 
   useEffect(() => {
     const loadMessages = async () => {
+      setMessages([]);
       if (chatroomId !== null) {
-        setMessages([]);
-
         try {
           const messages = await getMessagesForChatroom(chatroomId);
           const transformedMessages = messages.map((message) => {
@@ -84,13 +83,13 @@ const LiveChat = () => {
         };
         if (messageToSend.userId && messageToSend.chatroomId) {
           try {
+            setMessageText("");
             await channel.publish("chat-message", chatMessage);
             await createMessage({
               text: messageToSend.text,
               userId: messageToSend.userId,
               chatroomId: parseInt(messageToSend.chatroomId.toString()),
             });
-            setMessageText("");
           } catch (error) {
             console.error("Error sending or creating message: ", error);
           }
@@ -149,7 +148,7 @@ const LiveChat = () => {
         </div>
         <button
           type="submit"
-          disabled={messageTextIsEmpty}
+          disabled={messageTextIsEmpty || chatroomId === null}
           className="h-fit cursor-pointer self-center"
         >
           <FillIcon.Send className="fill-sc-2 dark:fill-light-2" />

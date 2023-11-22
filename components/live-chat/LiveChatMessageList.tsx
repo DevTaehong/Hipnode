@@ -8,7 +8,7 @@ import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 
 const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
-  const { chatroomUsers, setShowChat } = useChatStore();
+  const { chatroomUsers, setShowChat, chatroomId } = useChatStore();
 
   let secondUserUsername = "";
   let secondUserPicture;
@@ -65,43 +65,47 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
         </div>
       </div>
       <div className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
-        {messages.map((message: ChatMessage) => {
-          const messageId = parseInt(message.data.user.id);
-          const imageSrc = message.data.user.image;
-          const imageAlt = message.data.user.username;
-          const currentUserId = chatroomUsers[0].id;
-          const messageStyles = {
-            messageAlign:
-              messageId === currentUserId
-                ? "self-end flex-row-reverse"
-                : "self-start flex-row",
-            divStyles:
-              messageId === currentUserId
-                ? "bg-red-80 text-white"
-                : "bg-red-10 text-red-80",
-          };
-          return (
-            <div
-              className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
-              key={message.data.text}
-            >
-              <div className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
-                <Image
-                  src={imageSrc}
-                  alt={`Profile image for ${imageAlt}`}
-                  height={40}
-                  width={40}
-                  className="rounded-full"
-                />
-              </div>
+        {chatroomId === null ? (
+          <p>Loading</p>
+        ) : (
+          messages.map((message: ChatMessage) => {
+            const messageId = parseInt(message.data.user.id);
+            const imageSrc = message.data.user.image;
+            const imageAlt = message.data.user.username;
+            const currentUserId = chatroomUsers[0].id;
+            const messageStyles = {
+              messageAlign:
+                messageId === currentUserId
+                  ? "self-end flex-row-reverse"
+                  : "self-start flex-row",
+              divStyles:
+                messageId === currentUserId
+                  ? "bg-red-80 text-white"
+                  : "bg-red-10 text-red-80",
+            };
+            return (
               <div
-                className={`${messageStyles.divStyles} flex-center break-words rounded-lg p-3.5`}
+                className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
+                key={message.data.text}
               >
-                <p className="semibold-16">{message.data.text}</p>
+                <div className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
+                  <Image
+                    src={imageSrc}
+                    alt={`Profile image for ${imageAlt}`}
+                    height={40}
+                    width={40}
+                    className="rounded-full"
+                  />
+                </div>
+                <div
+                  className={`${messageStyles.divStyles} flex-center break-words rounded-lg p-3.5`}
+                >
+                  <p className="semibold-16">{message.data.text}</p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
         <div ref={endOfMessagesRef} />
       </div>
     </>

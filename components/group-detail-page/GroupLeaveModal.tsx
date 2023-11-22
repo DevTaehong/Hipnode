@@ -1,6 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -11,15 +10,26 @@ import {
 import { Button } from "@/components/ui/button";
 import FillIcon from "@/components/icons/fill-icons";
 import LeaveIcon from "@/components/icons/fill-icons/LeaveIcon";
+import GroupLeaveButton from "@/components/group-detail-page/group-detail-post/GroupLeaveButton";
 
-const GroupLeaveButton = () => {
+const GroupLeaveModal = ({
+  userId,
+  groupId,
+}: {
+  userId: number;
+  groupId: number;
+}) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="semibold-12 flex items-center gap-2 rounded bg-light-2 p-2 text-sc-3 dark:bg-dark-4">
+        <Button
+          className="semibold-12 flex items-center gap-2 rounded bg-light-2 p-2 text-sc-3 
+            hover:opacity-80 hover:transition-opacity dark:bg-dark-4"
+        >
           <FillIcon className="fill-sc-3">
             <LeaveIcon />
           </FillIcon>
+          {/* // TODO - add conditional rendering for this button whether user is joined or not */}
           Leave
         </Button>
       </AlertDialogTrigger>
@@ -33,10 +43,8 @@ const GroupLeaveButton = () => {
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-row items-center gap-5">
-          <AlertDialogAction className="flex h-[2.875rem] w-40 items-center justify-center rounded-md bg-blue p-[0.62rem]">
-            <span className="semibold-18 text-light">Leave Group</span>
-          </AlertDialogAction>
-          <AlertDialogCancel className="m-0 border-none p-0 py-[0.62rem] dark:bg-dark-4">
+          <GroupLeaveButton userId={userId} groupId={groupId} />
+          <AlertDialogCancel className="m-0 border-none p-0 py-[0.62rem] hover:opacity-80 hover:transition-opacity dark:bg-dark-4">
             <span className="regular-18 text-sc-3">Cancel</span>
           </AlertDialogCancel>
         </AlertDialogFooter>
@@ -45,4 +53,4 @@ const GroupLeaveButton = () => {
   );
 };
 
-export default GroupLeaveButton;
+export default GroupLeaveModal;

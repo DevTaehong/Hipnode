@@ -4,15 +4,15 @@ import OutlineIcon from "@/components/icons/outline-icons";
 import { newest, popular, followers } from "@/public/images";
 import {
   ColorVariantsOnboardingType,
+  GroupPromiseProps,
   NotificationPopoverProps,
   NotificationTab,
 } from "@/types";
-import { GroupProps } from "@/types/models";
 
 export const headings = (
-  fastestGrowingGroups: GroupProps,
-  mostPopularGroups: GroupProps,
-  newlyLaunchedGroups: GroupProps
+  fastestGrowingGroups: GroupPromiseProps,
+  mostPopularGroups: GroupPromiseProps,
+  newlyLaunchedGroups: GroupPromiseProps
 ) => [
   {
     title: "Fastest Growing",
@@ -35,8 +35,8 @@ export const headings = (
 ];
 
 export const sectionHeadings = (
-  mostPopularGroups: GroupProps,
-  newlyLaunchedGroups: GroupProps
+  mostPopularGroups: GroupPromiseProps,
+  newlyLaunchedGroups: GroupPromiseProps
 ) => [
   {
     title: "Most Popular",
@@ -244,67 +244,6 @@ export const navLinks = [
   },
 ];
 
-// NOTE - Delete this dummy data when we have real data
-export const dummyMessages = [
-  {
-    name: "Wade Warren",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 0,
-  },
-  {
-    name: "Wade Warren 1",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 1,
-  },
-  {
-    name: "Wade 22 Warren 2",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 2,
-  },
-  {
-    name: "Wade 222 Warren Warren Warren",
-    date: "20 minutes ago",
-    message:
-      "Congrats on your work anniversary! Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 0,
-  },
-  {
-    name: "Wade  22Warren 3",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 4,
-  },
-  {
-    name: "Wade  22Warren 4",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 5,
-  },
-  {
-    name: "Wade  22Warren 5",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    avatar: "https://github.com/shadcn.png",
-    avatarFallback: "CN",
-    newMessageCounts: 2,
-  },
-];
-
 export const tags = [
   {
     name: "javascript",
@@ -478,7 +417,7 @@ export const groupFormLinkProps = {
   },
   linkToFormButton: {
     title: "Create Group",
-    link: "/",
+    link: "/group/create-group",
   },
 };
 

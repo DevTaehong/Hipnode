@@ -24,8 +24,8 @@ const GroupPostContent = ({
         alt={`Post image from a ${groupName} group`}
       />
       <GroupPostIcons />
-      <h6 className="semibold-14 font-feature line-clamp-2">{heading}</h6>
-      <p className="regular-12">{content}</p>
+      <h6 className="semibold-14 font-feature line-clamp-3">{heading}</h6>
+      <p className="regular-12 line-clamp-6">{content}</p>
     </CardContent>
   );
 };

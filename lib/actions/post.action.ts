@@ -265,7 +265,10 @@ export async function getAllPosts({
   }
 }
 
-export async function getPostsByGroupId(groupId: number, myCursorId?: number) {
+export async function getPopularGroupPosts(
+  myCursorId?: number,
+  groupId?: number
+) {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
       take: 3,
@@ -281,6 +284,52 @@ export async function getPostsByGroupId(groupId: number, myCursorId?: number) {
             tag: true,
           },
         },
+      },
+      orderBy: {
+        likes: {
+          _count: "desc",
+        },
+      },
+    };
+
+    if (myCursorId !== undefined) {
+      queryOptions = {
+        ...queryOptions,
+        skip: 1, // Skip the first result
+        cursor: { id: myCursorId },
+      };
+    }
+
+    const popularPosts = await prisma.post.findMany(queryOptions);
+    return popularPosts;
+  } catch (error) {
+    console.error("Error finding posts by group id:", error);
+    throw error;
+  }
+}
+
+export async function getNewPostsByGroupId(
+  myCursorId?: number,
+  groupId?: number
+) {
+  try {
+    let queryOptions: getPostsByGroupIdQueryOptions = {
+      take: 3,
+      where: {
+        groupId,
+      },
+      include: {
+        author: true,
+        comments: true,
+        likes: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     };
 
