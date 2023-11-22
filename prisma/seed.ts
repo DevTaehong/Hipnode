@@ -12,8 +12,10 @@ import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 import prisma from "../lib/prisma";
 import { createShares } from "./seed/seed-posts/createPostShares";
 import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
+import { Shows } from "@prisma/client";
 
 async function main() {
+  console.time("Execution Time");
   const tags = await createTags();
   const users = await createUsers();
   const groups = await createGroups();
@@ -23,25 +25,21 @@ async function main() {
   await seedTagOnInterview();
   const posts = await createPosts(users, tags, groups);
 
-  const shows = (await createShows(users)) as {
-    id: number;
-    name: string;
-    userId: number;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
+  const shows = (await createShows(users)) as Shows[];
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
 
-  // @ts-ignore
-  for (const post of posts) {
-    await createLikesForPost(post, users);
+  if (posts) {
+    for (const post of posts) {
+      await createLikesForPost(post, users);
+    }
+    await createShares(users, posts);
   }
 
   await createMeetUps(users);
-  // @ts-ignore
-  await createShares(users, posts);
+
+  console.timeEnd("Execution Time");
 }
 
 main()

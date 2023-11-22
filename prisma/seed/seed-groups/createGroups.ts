@@ -25,20 +25,6 @@ export async function createGroups() {
         members: {
           connect: membersToConnect,
         },
-        posts: {
-          createMany: {
-            data: Array.from({ length: 5 }).map(() => ({
-              heading: faker.lorem.sentence(),
-              content: faker.lorem.paragraph({ min: 2, max: 10 }),
-              authorId: user.id,
-              viewCount: faker.number.int({ min: 0, max: 1000 }),
-              isEdited: faker.datatype.boolean(),
-              image: faker.image.urlLoremFlickr({ category: "nature" }),
-              createdAt: faker.date.past(),
-              updatedAt: faker.date.recent(),
-            })),
-          },
-        },
       },
     });
     return group;
