@@ -24,10 +24,8 @@ const FormFieldComponent: FC<FormFieldComponentProps> = ({
       <FormItem className="flex flex-col gap-2.5">
         <FormLabel>
           {label}
-          {label === "Group Name" || label === "Description" ? (
+          {(label === "Group Name" || label === "Description") && (
             <span className="text-red">*</span>
-          ) : (
-            ""
           )}
         </FormLabel>
         <FormControl>
