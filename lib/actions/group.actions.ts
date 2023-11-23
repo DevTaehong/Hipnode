@@ -67,6 +67,13 @@ export async function createGroup(params: CreateGroupParams) {
       members,
     } = params;
 
+    // Check if a group with the same name already exists
+    const existingGroup = await prisma.group.findUnique({ where: { name } });
+
+    if (existingGroup) {
+      throw new Error("a group with the same name already exists.");
+    }
+
     await prisma.group.create({
       data: {
         name,
