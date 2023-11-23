@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${font.className} overscroll-none`}>
+      <body className={`${font.className} bg-light-2_dark-2 overscroll-none`}>
         <ClerkProvider>
           <ThemeProvider>{children}</ThemeProvider>
         </ClerkProvider>
