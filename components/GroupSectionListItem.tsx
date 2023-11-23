@@ -24,8 +24,8 @@ const GroupSectionListItem = ({
         alt={`logo of the group ${groupName}`}
         className="h-[2.125rem] w-[2.125rem] rounded-full border border-purple-20"
       />
-      <div className="flex w-full flex-col truncate">
-        <h5 className="semibold-12 text-sc-2_light-2 group-hover:text-blue">
+      <div className="line-clamp-1 flex w-full flex-col">
+        <h5 className="semibold-12 text-sc-2_light-2 truncate group-hover:text-blue">
           {groupName}
         </h5>
         <p className="base-10 truncate text-sc-3">{description}</p>
