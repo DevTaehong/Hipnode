@@ -15,7 +15,7 @@ const CreateGroupPage = async () => {
 
   if (clerkId) user = await getUserByClerkId(clerkId);
 
-  // NOTE - To add a user to a group as an admin, member, and creator
+  // NOTE - To add a user to a group as an admin, member, and creator, get the user data
   const currentUser = await getUserById(user?.id ?? -1);
 
   if (!currentUser) throw new Error("User not found");
