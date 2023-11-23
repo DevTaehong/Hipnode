@@ -41,6 +41,7 @@ export const uploadImageToSupabase = async (
     const fileExtension = file.name.split(".").pop();
     const prefix = folderName && folderName.trim() ? `${folderName}/` : "";
     const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
+    console.log("we are here");
 
     const { error } = await supabase.storage
       .from(bucketName)
@@ -257,3 +258,24 @@ export const howManyMonthsAgo = (dateStr: Date | null) => {
 
   return totalMonths;
 };
+
+export async function uploadLivechatAttachment(files) {
+  const bucket = "livechat"; // Static bucket name
+  const folder = "attachments"; // Static folder name
+  const file = files[0]; // Assuming single file upload, adjust as needed
+  const filePath = `${folder}/${Date.now()}_${file.name}`;
+
+  const { error, data } = await supabase.storage
+    .from(bucket)
+    .upload(filePath, file);
+
+  if (error) {
+    throw error;
+  }
+  const publicURL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/livechat/${data.path}`;
+
+  return {
+    ...data,
+    publicURL, // Return the public URL along with other data
+  };
+}

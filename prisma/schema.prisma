@@ -60,6 +60,7 @@ model Post {
   image     String
   groupId   Int?
   heading   String
+  clerkId   String?
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -229,10 +230,11 @@ model ChatroomUsers {
 
 model Message {
   id         Int      @id @default(autoincrement())
-  text       String
+  text       String?
   createdAt  DateTime @default(now())
   userId     Int
   chatroomId Int
+  attachment String?
   Chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
   User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

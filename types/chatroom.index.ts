@@ -6,9 +6,10 @@ export type ChatroomType = {
 };
 
 export type CreateMessageType = {
-  text: string;
+  text?: string;
   userId: number;
   chatroomId: number;
+  attachment: string;
 };
 
 export type EditMessageType = {
@@ -24,15 +25,17 @@ export interface ChatMessage {
       username: string;
       image: string;
     };
+    attachment?: string | null;
     chatroomId?: number;
-    text: string;
+    text: string | null;
   };
 }
 
 export interface MessageToSend {
-  text: string;
+  text?: string;
   userId: number | null;
   chatroomId: number | null;
+  attachment?: string;
 }
 
 export interface ChatProps extends User {

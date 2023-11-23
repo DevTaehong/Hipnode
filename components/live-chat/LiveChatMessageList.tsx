@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePresence } from "ably/react";
 import useChatStore from "@/app/chatStore";
+import Link from "next/link";
 
 import { ChatMessage } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
@@ -83,6 +84,10 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                   ? "bg-red-80 text-white"
                   : "bg-red-10 text-red-80",
             };
+            const padding = message.data.attachment ? "p-0" : "p-3.5";
+            const childPadding = message.data.attachment
+              ? "px-3.5 pb-3.5"
+              : "p-0";
             return (
               <div
                 className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
@@ -98,9 +103,32 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                   />
                 </div>
                 <div
-                  className={`${messageStyles.divStyles} flex-center break-words rounded-lg p-3.5`}
+                  className={`${messageStyles.divStyles} ${padding} flex max-w-[250px] flex-col break-words rounded-lg`}
                 >
-                  <p className="semibold-16">{message.data.text}</p>
+                  {message.data.attachment && (
+                    <Link
+                      href={message.data.attachment}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex w-full cursor-pointer flex-col justify-center overflow-hidden"
+                    >
+                      <Image
+                        src={message.data.attachment}
+                        height={250}
+                        width={250}
+                        alt="Attachment"
+                        className="max-h-80 max-w-[250px] rounded-t-lg object-contain"
+                      />
+                      <div className="flex-center h-4 w-full -translate-y-4 overflow-hidden bg-red-80/50 text-sm">
+                        <p className="max-w-full truncate text-white">
+                          {message.data.attachment}
+                        </p>
+                      </div>
+                    </Link>
+                  )}
+                  <div className={`${childPadding} flex w-full`}>
+                    <p className="semibold-16">{message.data.text}</p>
+                  </div>
                 </div>
               </div>
             );
