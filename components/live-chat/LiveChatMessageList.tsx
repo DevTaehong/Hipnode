@@ -17,7 +17,7 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
 
   if (chatroomUsers[1]) {
     secondUserUsername = chatroomUsers[1].username;
-    secondUserPicture = chatroomUsers[1].picture;
+    secondUserPicture = chatroomUsers[1].image;
     secondUserId = chatroomUsers[1].id;
   }
 
@@ -85,9 +85,7 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                   : "bg-red-10 text-red-80",
             };
             const padding = message.data.attachment ? "p-0" : "p-3.5";
-            const childPadding = message.data.attachment
-              ? "px-3.5 pb-3.5"
-              : "p-0";
+            const childPadding = message.data.attachment ? "p-3.5" : "p-0";
             return (
               <div
                 className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
@@ -119,11 +117,11 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                         alt="Attachment"
                         className="max-h-80 max-w-[250px] rounded-t-lg object-contain"
                       />
-                      <div className="flex-center h-4 w-full -translate-y-4 overflow-hidden bg-red-80/50 text-sm">
+                      {/* <div className="flex-center h-4 w-full -translate-y-4 overflow-hidden bg-red-80/50 text-sm">
                         <p className="max-w-full truncate text-white">
                           {message.data.attachment}
                         </p>
-                      </div>
+                      </div> */}
                     </Link>
                   )}
                   <div className={`${childPadding} flex w-full`}>

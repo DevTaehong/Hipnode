@@ -15,18 +15,17 @@ import Image from "next/image";
 import { uploadLivechatAttachment } from "@/utils";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
+import { IoClose } from "react-icons/io5";
 
 import useChatStore from "@/app/chatStore";
-import { ChatMessage, MessageToSend } from "@/types/chatroom.index";
+import { ChatMessage } from "@/types/chatroom.index";
 import LiveChatMessageList from "./LiveChatMessageList";
 import FillIcon from "../icons/fill-icons";
+import OutlineIcon from "../icons/outline-icons";
 
 const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
-  const [messageToSend, setMessageToSend] = useState<MessageToSend | null>(
-    null
-  );
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [droppedFile, setDroppedFile] = useState<File | null>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
@@ -47,7 +46,7 @@ const LiveChat = () => {
     setDroppedFile(file);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     noClick: true,
   });
@@ -65,9 +64,9 @@ const LiveChat = () => {
                 user: {
                   id: message.userId.toString(),
                   username: user?.username || "Unknown User",
-                  image: user?.picture || "/public/christopher.png",
+                  image: user?.image || "/public/christopher.png",
                 },
-                attachment: message.attachment || undefined, // Convert 'null' to 'undefined'
+                attachment: message.attachment || undefined,
                 text: message.text,
               },
             };
@@ -83,7 +82,7 @@ const LiveChat = () => {
 
   const userInfo = useMemo(() => {
     if (!chatroomUsers || !chatroomUsers[0]) {
-      return { id: null, username: "", picture: "" };
+      return { id: null, username: "", image: "" };
     }
     return chatroomUsers[0];
   }, [chatroomUsers]);
@@ -92,40 +91,10 @@ const LiveChat = () => {
     () => ({
       id: userInfo?.id,
       username: userInfo?.username || "",
-      image: userInfo?.picture || "",
+      image: userInfo?.image || "",
     }),
     [userInfo]
   );
-
-  useEffect(() => {
-    if (messageToSend) {
-      const sendChatMessage = async () => {
-        const chatMessage = {
-          text: messageToSend.text || "",
-          user: currentUser,
-          chatroomId,
-          attachment: messageToSend.attachment,
-        };
-        if (messageToSend.userId && messageToSend.chatroomId) {
-          try {
-            setMessageText("");
-            await channel.publish("chat-message", chatMessage);
-            await createMessage({
-              text: messageToSend.text || "",
-              userId: messageToSend.userId,
-              chatroomId: parseInt(messageToSend.chatroomId.toString()),
-              attachment: messageToSend.attachment || "",
-            });
-          } catch (error) {
-            console.error("Error sending or creating message: ", error);
-          }
-        }
-        inputBox.current?.focus();
-      };
-      sendChatMessage();
-      setMessageToSend(null);
-    }
-  }, [messageToSend, currentUser, channel, setMessageText, inputBox]);
 
   const handleFormSubmission = async (
     event:
@@ -133,6 +102,7 @@ const LiveChat = () => {
       | React.KeyboardEvent<HTMLInputElement>
   ) => {
     event.preventDefault();
+
     let attachmentURL = null;
     const messageContent = messageText.trim();
     if (droppedFile) {
@@ -148,25 +118,36 @@ const LiveChat = () => {
     }
 
     if (attachmentURL || messageContent.length > 0) {
-      const messageToSendData = {
+      const chatMessage = {
         text: messageContent || "attachment",
-        userId: currentUser.id,
+        user: currentUser,
         chatroomId,
         attachment: attachmentURL || "",
       };
 
-      setMessageToSend(messageToSendData);
+      try {
+        if (chatroomId && currentUser.id) {
+          await channel.publish("chat-message", chatMessage);
+          await createMessage({
+            text: chatMessage.text,
+            userId: currentUser.id,
+            chatroomId,
+            attachment: chatMessage.attachment,
+          });
+          setMessageText("");
+          inputBox.current?.focus();
+        }
+      } catch (error) {
+        console.error("Error sending or creating message:", error);
+      }
     } else {
       console.log("No message content or attachment to send");
-      return;
     }
-
-    setMessageText("");
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Prevent default to avoid new line on 'Enter'
+      event.preventDefault();
       if (!messageTextIsEmpty) {
         handleFormSubmission(event);
       }
@@ -186,27 +167,39 @@ const LiveChat = () => {
         onSubmit={handleFormSubmission}
         className="flex w-full gap-5 px-5 pb-5"
       >
-        <div className="flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
+        <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
           {imagePreview && (
-            <Image
-              src={imagePreview}
-              height={250}
-              width={250}
-              className="mb-3"
-              alt="Image preview"
-              onClick={() => {
-                setImagePreview(null);
-                setDroppedFile(null);
-              }}
-            />
+            <div className="relative flex w-fit">
+              <div className="flex-center absolute right-0 top-0 h-5 w-5 bg-white/80">
+                <IoClose
+                  className="cursor-pointer text-[20px]"
+                  onClick={() => {
+                    setImagePreview(null);
+                    setDroppedFile(null);
+                  }}
+                />
+              </div>
+              <Image
+                src={imagePreview}
+                height={250}
+                width={250}
+                className="mb-3"
+                alt="Image preview"
+              />
+            </div>
           )}
-          <input
-            value={messageText}
-            placeholder="Type here your message..."
-            onChange={(e) => setMessageText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="bg-light_dark-4 w-full text-sc-4 outline-none"
-          />
+          <div className="flex gap-1">
+            <button className="flex-center" type="button" onClick={open}>
+              <OutlineIcon.Link />
+            </button>
+            <input
+              value={messageText}
+              placeholder="Type here your message..."
+              onChange={(e) => setMessageText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="bg-light_dark-4 w-full text-sc-4 outline-none"
+            />
+          </div>
         </div>
         <button
           type="submit"

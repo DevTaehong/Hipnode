@@ -16,18 +16,17 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
     userInfo,
     setChatroomId,
   } = useChatStore();
-  const { id, username, image } = userInfo;
 
   const handleUserClick = (clickedUserId: number) => {
     const clickedUser = users.find((user) => user.id === clickedUserId);
 
     if (clickedUser) {
       const chatroomUsers = [
-        { id, username, picture: image },
+        userInfo,
         {
           id: clickedUser.id,
           username: clickedUser.username,
-          picture: clickedUser.picture,
+          image: clickedUser.picture,
         },
       ];
       setChatroomId(null);

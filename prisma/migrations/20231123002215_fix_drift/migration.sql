@@ -1,2 +1,2 @@
--- AlterTable
-ALTER TABLE "Post" ADD COLUMN     "clerkId" TEXT;
+-- ALTER TABLE "Post" ADD COLUMN     "clerkId" TEXT;-- AlterTable
+

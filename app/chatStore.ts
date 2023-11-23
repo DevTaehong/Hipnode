@@ -3,12 +3,11 @@ import {
   getAllChatroomUsers,
 } from "@/lib/actions/chatroom.actions";
 import { create } from "zustand";
-import { Types } from "ably";
 
 interface ChatroomUser {
   id: number;
   username: string;
-  picture: string;
+  image: string;
 }
 
 interface ChatroomMap {
@@ -31,8 +30,6 @@ interface ChatStoreState {
   setChatroomId: (id: number | null) => void;
   userInfo: UserInfo;
   setUserInfo: (userInfo: UserInfo) => void;
-  ablyClient: Types.RealtimePromise | null;
-  setAblyClient: (client: Types.RealtimePromise) => void;
 }
 
 const useChatStore = create<ChatStoreState>((set) => ({
@@ -81,8 +78,6 @@ const useChatStore = create<ChatStoreState>((set) => ({
   setChatroomId: (id: number | null) => set({ chatroomId: id }),
   userInfo: { id: 0, username: "", image: "" },
   setUserInfo: (userInfo: UserInfo) => set({ userInfo }),
-  ablyClient: null,
-  setAblyClient: (client: Types.RealtimePromise) => set({ ablyClient: client }),
 }));
 
 export default useChatStore;
