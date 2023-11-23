@@ -1,6 +1,5 @@
 import { ReactTags, Tag } from "react-tag-autocomplete";
 import { User } from "@prisma/client";
-import { useCallback } from "react";
 
 import { CustomTagSuggestion } from "@/types";
 import CustomTag from "./CustomTag";
@@ -26,19 +25,13 @@ const AddAdminsOrMembers = ({
     };
   });
 
-  const onAdd = useCallback(
-    (newTag: Tag) => {
-      setSelected([...selected, newTag]);
-    },
-    [selected, setSelected]
-  );
+  const onAdd = (newTag: Tag) => {
+    setSelected([...selected, newTag]);
+  };
 
-  const onDelete = useCallback(
-    (tagIndex: number) => {
-      setSelected(selected.filter((_, i) => i !== tagIndex));
-    },
-    [selected, setSelected]
-  );
+  const onDelete = (tagIndex: number) => {
+    setSelected(selected.filter((_, i) => i !== tagIndex));
+  };
 
   return (
     <ReactTags
