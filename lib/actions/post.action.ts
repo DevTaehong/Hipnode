@@ -154,7 +154,7 @@ export async function getPostContentById(
             id: true,
           },
         },
-        shares: {
+        Share: {
           select: {
             id: true,
           },
@@ -171,7 +171,7 @@ export async function getPostContentById(
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
-      sharesCount: post.shares.length,
+      sharesCount: post.Share.length,
     };
 
     return extendedPost;
