@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 import GroupForm from "@/components/group-form/GroupForm";
 import {
@@ -9,16 +10,16 @@ import {
 
 const CreateGroupPage = async () => {
   const users = await getAllUsers();
-  const { userId: clerkId } = await auth();
 
-  let user;
+  const { userId: clerkId } = auth();
+  if (!clerkId) redirect("/sign-in");
 
-  if (clerkId) user = await getUserByClerkId(clerkId);
+  const user = await getUserByClerkId(clerkId);
+  if (!user) redirect("/sign-in");
 
   // NOTE - To add a user to a group as an admin, member, and creator, get the user data
-  const currentUser = await getUserById(user?.id ?? -1);
-
-  if (!currentUser) throw new Error("User not found");
+  const currentUser = await getUserById(user.id);
+  if (!currentUser) redirect("/sign-in");
 
   return (
     <div className="bg-light-2_dark-2">
