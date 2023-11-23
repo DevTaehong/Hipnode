@@ -46,7 +46,7 @@ const PostCard = ({
     if (clerkId && isLoaded) {
       fetchCurrentUser();
     }
-  }, [clerkId]);
+  }, [clerkId, isLoaded]);
 
   const hasLiked = userHasLikedPost(currentUserId, likes);
   const heartIconClass = hasLiked ? "fill-red" : "fill-sc-5";
