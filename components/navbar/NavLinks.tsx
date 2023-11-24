@@ -11,7 +11,7 @@ const NavLinks = () => {
   const pathname = usePathname();
 
   return (
-    <section className="hidden lg:flex lg:items-center lg:gap-5">
+    <section className="fixed inset-x-0 bottom-0 flex h-[68px] items-center justify-center gap-5 bg-light dark:bg-dark-3 md:relative md:h-auto">
       {navLinks.map(({ name, link }) => {
         const Icon = FillIcon[name as keyof typeof FillIcon];
 

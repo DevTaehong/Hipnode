@@ -28,7 +28,7 @@ const Navbar = async () => {
   }
 
   return (
-    <nav className="flex-between sticky inset-x-0 top-0 z-50 flex  gap-5 bg-light px-5 py-3 dark:bg-dark-3">
+    <nav className="flex-between sticky inset-x-0 top-0 z-50 flex gap-5 bg-light px-5 py-3 dark:bg-dark-3">
       <section className="flex items-center gap-5">
         <Link href="/">
           <HipnodeIcon styles="lg:hidden" />
@@ -40,7 +40,7 @@ const Navbar = async () => {
 
       <NavLinks />
 
-      <section className="hidden w-full max-w-[350px] items-center gap-2 rounded-lg bg-light-2 px-5 py-2  dark:bg-dark-4 lg:flex">
+      <section className="hidden w-full max-w-[350px] items-center gap-2 rounded-lg bg-light-2 px-5 py-2 dark:bg-dark-4 lg:flex">
         <Input
           type="text"
           placeholder="Type here to search..."
