@@ -11,17 +11,17 @@ import {
   createMessage,
   getMessagesForChatroom,
 } from "@/lib/actions/chatroom.actions";
-import Image from "next/image";
 import { uploadLivechatAttachment } from "@/utils";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
-import { IoClose } from "react-icons/io5";
 
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import LiveChatMessageList from "./LiveChatMessageList";
+import HoverScreen from "./HoverScreen";
 import FillIcon from "../icons/fill-icons";
 import OutlineIcon from "../icons/outline-icons";
+import ImagePreview from "./ImagePreview";
 
 const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
@@ -155,12 +155,13 @@ const LiveChat = () => {
   };
 
   return (
-    <div
+    <section
       {...getRootProps()}
-      className={`fixed bottom-20 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl  ${
+      className={`bg-light_dark-4 fixed bottom-20 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl  ${
         showChat ? "flex" : "hidden"
-      } ${isDragActive ? "bg-green-100" : "bg-light_dark-4"}`}
+      }`}
     >
+      {isDragActive && <HoverScreen />}
       <input {...getInputProps()} />
       <LiveChatMessageList messages={receivedMessages} />
       <form
@@ -169,24 +170,11 @@ const LiveChat = () => {
       >
         <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
           {imagePreview && (
-            <div className="relative flex w-fit">
-              <div className="flex-center absolute right-0 top-0 h-5 w-5 bg-white/80">
-                <IoClose
-                  className="cursor-pointer text-[20px]"
-                  onClick={() => {
-                    setImagePreview(null);
-                    setDroppedFile(null);
-                  }}
-                />
-              </div>
-              <Image
-                src={imagePreview}
-                height={250}
-                width={250}
-                className="mb-3"
-                alt="Image preview"
-              />
-            </div>
+            <ImagePreview
+              setImagePreview={setImagePreview}
+              setDroppedFile={setDroppedFile}
+              imagePreview={imagePreview}
+            />
           )}
           <div className="flex gap-1">
             <button className="flex-center" type="button" onClick={open}>
@@ -210,7 +198,7 @@ const LiveChat = () => {
           <FillIcon.Send className="fill-sc-2 dark:fill-light-2" />
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

@@ -61,9 +61,9 @@ const MessageList = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        <div className="h-fit w-48 bg-white p-3">
+        <section className="h-fit w-48 bg-white p-3">
           <UsersToMessage users={users} />
-        </div>
+        </section>
       </PopoverContent>
     </Popover>
   );

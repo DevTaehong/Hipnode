@@ -43,29 +43,27 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
 
   return (
     <>
-      <div className="flex w-full items-center justify-between border-b border-sc-6 p-4 dark:border-sc-2">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-10 w-10">
-            <Image
-              src={secondUserPicture || christopher}
-              alt={`image of ${secondUserUsername}`}
-              height={40}
-              width={40}
-              className="rounded-full"
-            />
-          </div>
-          <div className="flex flex-col">
+      <section className="flex w-full items-center justify-between border-b border-sc-6 p-4 dark:border-sc-2">
+        <figure className="flex items-center gap-2.5">
+          <Image
+            src={secondUserPicture || christopher}
+            alt={`image of ${secondUserUsername}`}
+            height={40}
+            width={40}
+            className="h-10 w-10 shrink-0 rounded-full"
+          />
+          <figcaption className="flex flex-col">
             <p className="base-14 md:base-18 text-sc-2_light-2">
               {secondUserUsername}
             </p>
             {onlineStatus}
-          </div>
-        </div>
+          </figcaption>
+        </figure>
         <div className="flex cursor-pointer" onClick={() => setShowChat(false)}>
           <OutlineIcon.ArrowLargeDown className="stroke-sc-2 dark:stroke-light-2" />
         </div>
-      </div>
-      <div className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
+      </section>
+      <ul className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
         {chatroomId === null ? (
           <p>Loading</p>
         ) : (
@@ -87,11 +85,11 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
             const padding = message.data.attachment ? "p-0" : "p-3.5";
             const childPadding = message.data.attachment ? "p-3.5" : "p-0";
             return (
-              <div
+              <li
                 className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
                 key={message.data.text}
               >
-                <div className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
+                <figure className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
                   <Image
                     src={imageSrc}
                     alt={`Profile image for ${imageAlt}`}
@@ -99,8 +97,8 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                     width={40}
                     className="rounded-full"
                   />
-                </div>
-                <div
+                </figure>
+                <figure
                   className={`${messageStyles.divStyles} ${padding} flex max-w-[250px] flex-col break-words rounded-lg`}
                 >
                   {message.data.attachment && (
@@ -117,23 +115,18 @@ const LiveChatMessageList = ({ messages }: { messages: ChatMessage[] }) => {
                         alt="Attachment"
                         className="max-h-80 max-w-[250px] rounded-t-lg object-contain"
                       />
-                      {/* <div className="flex-center h-4 w-full -translate-y-4 overflow-hidden bg-red-80/50 text-sm">
-                        <p className="max-w-full truncate text-white">
-                          {message.data.attachment}
-                        </p>
-                      </div> */}
                     </Link>
                   )}
-                  <div className={`${childPadding} flex w-full`}>
+                  <figcaption className={`${childPadding} flex w-full`}>
                     <p className="semibold-16">{message.data.text}</p>
-                  </div>
-                </div>
-              </div>
+                  </figcaption>
+                </figure>
+              </li>
             );
           })
         )}
         <div ref={endOfMessagesRef} />
-      </div>
+      </ul>
     </>
   );
 };
