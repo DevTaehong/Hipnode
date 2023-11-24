@@ -38,14 +38,11 @@ const PostCard = ({
   const { isLoaded, userId: clerkId } = useAuth();
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      if (!clerkId) return;
+    (async () => {
+      if (!clerkId || !isLoaded) return;
       const user = await getUserByClerkId(clerkId);
       if (user) setCurrentUserId(user?.id);
-    };
-    if (clerkId && isLoaded) {
-      fetchCurrentUser();
-    }
+    })();
   }, [clerkId, isLoaded]);
 
   const hasLiked = userHasLikedPost(currentUserId, likes);

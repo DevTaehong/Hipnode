@@ -12,7 +12,6 @@ import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 import prisma from "../lib/prisma";
 import { createShares } from "./seed/seed-posts/createPostShares";
 import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
-import { Shows } from "@prisma/client";
 
 async function main() {
   console.time("Execution Time");
@@ -25,7 +24,7 @@ async function main() {
   await seedTagOnInterview();
   const posts = await createPosts(users, tags, groups);
 
-  const shows = (await createShows(users)) as Shows[];
+  const shows = await createShows(users);
   for (const show of shows) {
     await createPodcastsForShows(show);
   }

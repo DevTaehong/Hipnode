@@ -23,26 +23,23 @@ export async function handleTags(tagNames: string[]) {
     },
   });
 
-  const existingTagIds = existingTags.map((tag) => ({ id: tag.id }));
   const existingTagNames = new Set(existingTags.map((tag) => tag.name));
   const newTagNames = tagNames.filter((name) => !existingTagNames.has(name));
 
-  const newTagIds = (
-    await Promise.all(
-      newTagNames.map(async (name) => {
-        try {
-          const tag = await prisma.tag.create({ data: { name } });
-          return { id: tag.id };
-        } catch (error) {
-          console.error(`Error creating tag '${name}':`, error);
-          return null;
-        }
-      })
-    )
-  ).filter((tag) => tag !== null) as { id: number }[];
+  if (newTagNames.length > 0) {
+    await prisma.tag.createMany({
+      data: newTagNames.map((name) => ({ name })),
+      skipDuplicates: true,
+    });
+  }
 
-  const allTagIdsToConnect = existingTagIds.concat(newTagIds);
-  return allTagIdsToConnect;
+  const allTags = await prisma.tag.findMany({
+    where: {
+      name: { in: tagNames },
+    },
+  });
+
+  return allTags.map((tag) => ({ id: tag.id }));
 }
 
 export async function createPostWithTags(
@@ -251,14 +248,12 @@ export async function getAllPosts({
       },
     });
 
-    const postsWithCounts = posts.map((post) => ({
+    return posts.map((post) => ({
       ...post,
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
     }));
-
-    return postsWithCounts;
   } catch (error) {
     console.error("Error retrieving posts:", error);
     throw error;

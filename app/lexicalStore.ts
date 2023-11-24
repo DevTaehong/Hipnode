@@ -2,7 +2,7 @@ import { z } from "zod";
 import { create } from "zustand";
 
 import { postFormValidationSchema } from "@/lib/validations";
-import { POST_FORM_DEFAULT_VALUES } from "@/constants/posts";
+import { PostFormDefaultValues } from "@/constants/posts";
 import { CommentAuthorProps } from "@/types/posts";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
@@ -27,7 +27,7 @@ type CreatePostStore = {
 export const useCreatePostStore = create<CreatePostStore>((set) => ({
   imagePreviewUrl: null || "",
   setImagePreviewUrl: (url) => set({ imagePreviewUrl: url }),
-  previewValues: POST_FORM_DEFAULT_VALUES,
+  previewValues: PostFormDefaultValues,
   setPreviewValues: (values) => set({ previewValues: values }),
   clearEditor: false,
   setClearEditor: (value) => set({ clearEditor: value }),

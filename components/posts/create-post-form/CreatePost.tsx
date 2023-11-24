@@ -30,10 +30,9 @@ import {
   createPostFormType,
 } from "@/types/posts/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
-import { POST_FORM_DEFAULT_VALUES } from "@/constants/posts";
+import { PostFormDefaultValues } from "@/constants/posts";
 import { createPostWithTags } from "@/lib/actions/post.action";
 import { getGroups } from "@/lib/actions/group.actions";
-import { Group } from "@prisma/client";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import FillIcon from "@/components/icons/fill-icons";
 
@@ -42,7 +41,7 @@ const LexicalEditor = dynamic(
   { ssr: false }
 );
 
-const SELECTION_OPTIONS = [
+const SelectionOptions = [
   { label: "Post", icon: <FillIcon.Post /> },
   { label: "Meetup", icon: <FillIcon.Calendar /> },
   { label: "Podcasts", icon: <FillIcon.Podcasts /> },
@@ -59,7 +58,7 @@ const CreatePost = () => {
   } | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    (async () => {
       if (clerkUser) {
         const userFromDB = await getUserByClerkId(clerkUser.id);
         if (userFromDB) {
@@ -68,23 +67,18 @@ const CreatePost = () => {
           });
         }
       }
-    };
-
-    fetchUser();
+    })();
   }, [clerkUser]);
 
   useEffect(() => {
-    const fetchGroups = async () => {
+    (async () => {
       const fetchedGroups = await getGroups();
-      const GROUP_OPTIONS = fetchedGroups?.map((group: Group) => {
-        return {
-          label: group.name,
-          value: group.id,
-        };
-      });
-      return setGroups(GROUP_OPTIONS);
-    };
-    fetchGroups();
+      const groupOptions = fetchedGroups?.map((group) => ({
+        label: group.name,
+        value: group.id,
+      }));
+      setGroups(groupOptions);
+    })();
   }, []);
 
   const {
@@ -109,7 +103,7 @@ const CreatePost = () => {
   const form = useForm<PostFormValuesType>({
     resolver: zodResolver(postFormValidationSchema),
     mode: "onBlur",
-    defaultValues: POST_FORM_DEFAULT_VALUES,
+    defaultValues: PostFormDefaultValues,
   });
 
   const { setValue } = form;
@@ -127,30 +121,31 @@ const CreatePost = () => {
   const processForm: SubmitHandler<PostFormValuesType> = async (
     data: createPostFormType
   ): Promise<void> => {
+    if (!isLoaded || !isSignedIn) return;
+
     const postImage = await handleUpload();
-    if (isLoaded && isSignedIn) {
-      const { contentType, tags, group, ...postData } = data;
 
-      if (!userInfo?.id || !valueOfGroup(data) || !postImage) {
-        throw new Error("Required data is missing");
-      }
+    const { contentType, tags, group, ...postData } = data;
 
-      const postDataWithAuthor: PostDataType = {
-        ...postData,
-        authorId: userInfo?.id,
-        groupId: valueOfGroup(data),
-        image: postImage,
-        clerkId: clerkUser?.id,
-      };
+    if (!userInfo?.id || !valueOfGroup(data) || !postImage) {
+      throw new Error("Required data is missing");
+    }
 
-      try {
-        await createPostWithTags(postDataWithAuthor, tags);
-        setClearEditor(true);
-        setValue("image", "");
-        form.reset();
-      } catch (error) {
-        console.error("Error creating post:", error);
-      }
+    const postDataWithAuthor: PostDataType = {
+      ...postData,
+      authorId: userInfo?.id,
+      groupId: valueOfGroup(data),
+      image: postImage,
+      clerkId: clerkUser?.id,
+    };
+
+    try {
+      await createPostWithTags(postDataWithAuthor, tags);
+      setClearEditor(true);
+      setValue("image", "");
+      form.reset();
+    } catch (error) {
+      console.error("Error creating post:", error);
     }
   };
 
@@ -183,7 +178,7 @@ const CreatePost = () => {
                 control={form.control}
                 name={"contentType"}
                 placeholder={"Create Post"}
-                options={SELECTION_OPTIONS}
+                options={SelectionOptions}
               />
             </div>
             <div className="mr-[1.25rem] mt-[1.25rem] flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[1rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0">
