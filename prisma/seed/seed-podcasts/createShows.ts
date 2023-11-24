@@ -1,8 +1,8 @@
 import prisma from "../../../lib/prisma";
 import { faker } from "@faker-js/faker";
-import { User } from "@prisma/client";
+import { Shows, User } from "@prisma/client";
 
-export async function createShows(users: User[]) {
+export async function createShows(users: User[]): Promise<Shows[]> {
   try {
     const showCount = 12;
     const minSubscriptionsPerUser = 3;
@@ -41,5 +41,6 @@ export async function createShows(users: User[]) {
     return Promise.all(showsPromises);
   } catch (error) {
     console.error(`Failed to create shows:`, error);
+    return [];
   }
 }

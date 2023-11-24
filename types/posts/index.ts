@@ -3,7 +3,8 @@ import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
-import { ExtendedPost } from "@/types/models";
+import { Comment, Post, Tag, User } from "@prisma/client";
+import { SocialCountTuple } from "../homepage";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
@@ -22,11 +23,22 @@ export type CreatePostTitleProps = {
   control: Control<PostFormValuesType>;
 };
 
+interface PostSelectionOptions {
+  label: string;
+  icon: React.ReactNode;
+}
+
+export interface GroupsType {
+  label: string;
+  value: number;
+  icon?: React.ReactNode;
+}
+
 export type SelectControllerProps = {
   control: Control<PostFormValuesType>;
   name: keyof PostFormValuesType;
   placeholder: string;
-  options: string[];
+  options: GroupsType[] | PostSelectionOptions[];
 };
 
 export type PostPreviewProps = {
@@ -62,73 +74,6 @@ export type PostImageProps = {
 export type TagsListProps = {
   tags: string[];
 };
-
-export interface AuthorProps {
-  picture: string;
-  username: string;
-}
-
-export interface CommentProps {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  author: AuthorProps;
-}
-
-export interface CommentAuthorProps {
-  id: number;
-  content: string;
-  authorId: number;
-  postId: number;
-  parentId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isEdited: boolean;
-  author: {
-    id?: number;
-    picture: string;
-    username: string;
-  };
-}
-
-export interface CommentListProps {
-  comments: CommentAuthorProps[];
-}
-
-export interface PostContextType {
-  currentPost: ExtendedPost | null;
-  setCurrentPost: React.Dispatch<React.SetStateAction<ExtendedPost | null>>;
-
-  comments: CommentProps[];
-  setComments: React.Dispatch<React.SetStateAction<CommentProps[]>>;
-
-  isEditing: boolean;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-
-  isReplying: boolean;
-  setIsReplying: React.Dispatch<React.SetStateAction<boolean>>;
-
-  currentUser: {
-    id?: number;
-    picture: string;
-    username: string;
-  } | null;
-
-  commentsByParentId: {
-    [key: string]: CommentProps[];
-  };
-  getRepliesToComments: (parentId: string) => CommentProps[] | undefined;
-  rootComments: CommentProps[];
-}
-
-export interface PostProviderProps {
-  children: ReactNode;
-}
 
 export type CommentIconButtonProps = {
   Icon: ComponentType;
@@ -175,12 +120,70 @@ export interface CommentHeaderProps {
   isEdited: boolean;
 }
 
+// TYPES FOR post.action
+
+export interface AuthorProps {
+  id?: number;
+  picture: string;
+  username: string;
+}
+
+export interface CommentAuthorProps extends Comment {
+  author: AuthorProps;
+}
+
+export interface CommentListProps {
+  comments: CommentAuthorProps[];
+}
+
 export interface RenderRootCommentsProps {
   comments: CommentAuthorProps[];
   postId: number;
 }
 
-export interface ExtendedComment extends CommentProps {
-  parent?: CommentProps;
+export interface ExtendedComment extends CommentAuthorProps {
+  parent?: Comment | null;
   path?: string;
 }
+
+export type ExtendedPrismaPost = {
+  id: Post["id"];
+  image: Post["image"];
+  content: Post["content"];
+  viewCount: Post["viewCount"];
+  author: Pick<User, "username" | "picture">;
+  likesCount: number;
+  commentsCount: number;
+  tags: Tag["name"][];
+  createdAt: Post["createdAt"];
+  heading: Post["heading"];
+};
+
+export type ExtendedPostById = ExtendedPrismaPost & {
+  // shares: Pick<Share, "id">[];
+};
+
+export type createPostFormType = {
+  heading: string;
+  content: string;
+  image?: string;
+  group: string;
+  contentType: string;
+  tags: string[];
+};
+
+export type PostDataType = {
+  heading: string;
+  content: string;
+  image: string;
+  authorId: number;
+  groupId: number;
+  clerkId: string;
+};
+
+export type CardFooterDesktopProps = {
+  authorPicture: string;
+  username: string;
+  createdAt: Date;
+  socialCounts: SocialCountTuple[];
+};

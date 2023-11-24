@@ -8,11 +8,11 @@ import { formatDatePostFormat } from "@/utils";
 import CommentForm from "@/components/posts/comment/CommentForm";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
 import { devInfo } from "@/constants";
+import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
-
   const {
     author: { username },
     createdAt,
@@ -20,7 +20,6 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
 
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content } = postData;
-  const tagNames = tags?.map((tagRelation) => tagRelation.tag.name) ?? [];
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
@@ -50,10 +49,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
                 {heading}
               </h1>
-              <TagsList tags={tagNames} />
-              <p className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
-                {content}
-              </p>
+              <TagsList tags={tags} />
+              <div className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
+                <SanatizedHtml content={content} />
+              </div>
               <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
                 <div className="flex items-center justify-center px-[1.25rem]">
                   <Image

@@ -40,22 +40,27 @@ async function handleInteractionsForPost(post: Post, user: User) {
 
 export async function createPosts(users: User[], tags: Tag[], groups: Group[]) {
   try {
+    const allPosts = [];
+
     for (const user of users) {
       const postCount = faker.number.int({ min: 1, max: 3 });
-      const postPromises = Array.from({ length: postCount }).map(
-        async (_, index) => {
-          const randomGroup = groups[Math.floor(Math.random() * groups.length)];
-          const post = await createPostForUser(user, randomGroup.id);
-          if (!post) {
-            return;
-          }
-          await assignTagsToPost(post, tags);
-          await handleInteractionsForPost(post, user);
-          return post;
+
+      for (let i = 0; i < postCount; i++) {
+        const randomGroup = groups[Math.floor(Math.random() * groups.length)];
+        const post = await createPostForUser(user, randomGroup.id);
+        if (!post) {
+          console.error(`Failed to create post for user ${user.id}`);
+          continue;
         }
-      );
-      await Promise.all(postPromises);
+
+        await assignTagsToPost(post, tags);
+        await handleInteractionsForPost(post, user);
+
+        allPosts.push(post);
+      }
     }
+
+    return allPosts;
   } catch (error) {
     console.error(`Failed to create posts:`, error);
   }

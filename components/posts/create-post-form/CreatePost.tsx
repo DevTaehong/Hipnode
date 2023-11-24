@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from "@clerk/nextjs";
 
 import {
   Form,
@@ -22,22 +23,67 @@ import {
   SelectController,
 } from ".";
 import { postFormValidationSchema } from "@/lib/validations";
-import { PostFormValuesType } from "@/types/posts/index";
+import {
+  PostFormValuesType,
+  GroupsType,
+  PostDataType,
+  createPostFormType,
+} from "@/types/posts/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
-import { POST_FORM_DEFAULT_VALUES, GROUP, POST } from "@/constants/posts";
+import { PostFormDefaultValues } from "@/constants/posts";
+import { createPostWithTags } from "@/lib/actions/post.action";
+import { getGroups } from "@/lib/actions/group.actions";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
+import FillIcon from "@/components/icons/fill-icons";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
   { ssr: false }
 );
 
+const SelectionOptions = [
+  { label: "Post", icon: <FillIcon.Post /> },
+  { label: "Meetup", icon: <FillIcon.Calendar /> },
+  { label: "Podcasts", icon: <FillIcon.Podcasts /> },
+  { label: "Interviews", icon: <FillIcon.Interviews /> },
+];
+
 const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+  const [groups, setGroups] = useState<GroupsType[]>([]);
+
+  const { user: clerkUser, isLoaded, isSignedIn } = useUser();
+  const [userInfo, setUserInfo] = useState<{
+    id: number;
+  } | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      if (clerkUser) {
+        const userFromDB = await getUserByClerkId(clerkUser.id);
+        if (userFromDB) {
+          setUserInfo({
+            id: userFromDB.id,
+          });
+        }
+      }
+    })();
+  }, [clerkUser]);
+
+  useEffect(() => {
+    (async () => {
+      const fetchedGroups = await getGroups();
+      const groupOptions = fetchedGroups?.map((group) => ({
+        label: group.name,
+        value: group.id,
+      }));
+      setGroups(groupOptions);
+    })();
+  }, []);
 
   const {
     imagePreviewUrl,
     setImagePreviewUrl,
-    previewValues,
     setPreviewValues,
     setClearEditor,
   } = useCreatePostStore((state) => state);
@@ -49,43 +95,65 @@ const CreatePost = () => {
         "posts",
         "images"
       );
-      setValue("coverImage", uploadedURL);
+      setValue("image", uploadedURL);
+      return uploadedURL;
     }
   };
 
   const form = useForm<PostFormValuesType>({
     resolver: zodResolver(postFormValidationSchema),
     mode: "onBlur",
-    defaultValues: POST_FORM_DEFAULT_VALUES,
+    defaultValues: PostFormDefaultValues,
   });
 
-  const { setValue, watch } = form;
-
-  const onSubmit = async (values: PostFormValuesType) => {
-    await handleUpload();
-    setClearEditor(true);
-    const finalValues = form.getValues();
-    console.log(finalValues);
-    form.reset();
-  };
+  const { setValue } = form;
 
   const onSubmitPreview = async () => {
     const previewValues = form.getValues();
     setPreviewValues(previewValues);
   };
 
-  const watchedData = watch();
-  console.log(previewValues);
-  useEffect(() => {
-    console.log(watchedData);
-  }, [watchedData]);
+  const valueOfGroup = (data: createPostFormType) => {
+    const matchedGroup = groups.find((group) => group.label === data.group);
+    return matchedGroup ? matchedGroup.value : 0;
+  };
+
+  const processForm: SubmitHandler<PostFormValuesType> = async (
+    data: createPostFormType
+  ): Promise<void> => {
+    if (!isLoaded || !isSignedIn) return;
+
+    const postImage = await handleUpload();
+
+    const { contentType, tags, group, ...postData } = data;
+
+    if (!userInfo?.id || !valueOfGroup(data) || !postImage) {
+      throw new Error("Required data is missing");
+    }
+
+    const postDataWithAuthor: PostDataType = {
+      ...postData,
+      authorId: userInfo?.id,
+      groupId: valueOfGroup(data),
+      image: postImage,
+      clerkId: clerkUser?.id,
+    };
+
+    try {
+      await createPostWithTags(postDataWithAuthor, tags);
+      setClearEditor(true);
+      setValue("image", "");
+      form.reset();
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
+  };
 
   return (
     <div className="flex max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3">
       <Form {...form}>
         <form
-          action=""
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(processForm)}
           className="rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
@@ -103,14 +171,14 @@ const CreatePost = () => {
                 control={form.control}
                 name={"group"}
                 placeholder={"Select Group"}
-                options={GROUP}
+                options={groups}
               />
 
               <SelectController
                 control={form.control}
-                name={"post"}
+                name={"contentType"}
                 placeholder={"Create Post"}
-                options={POST}
+                options={SelectionOptions}
               />
             </div>
             <div className="mr-[1.25rem] mt-[1.25rem] flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[1rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0">
@@ -138,13 +206,13 @@ const CreatePost = () => {
           <div className="relative flex flex-col pb-[2.5rem]">
             <div className="min-h-[22rem]">
               <FormField
-                name="mainText"
+                name="content"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <LexicalEditor
-                        name="mainText"
+                        name="content"
                         updateField={setValue}
                         onSubmitPreview={onSubmitPreview}
                       />

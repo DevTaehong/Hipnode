@@ -22,7 +22,7 @@ export async function getUserByClerkId(clerkId: string) {
       },
       include: {
         onboarding: true,
-      }
+      },
     });
 
     return user;
@@ -185,8 +185,8 @@ export async function createOnboarding(clerkId: string, data: UserAnswersType) {
       data: onboardingData,
     });
 
-    revalidatePath('/');
-    redirect('/');
+    revalidatePath("/");
+    redirect("/");
   } catch (error) {
     console.error("Error creating Onboarding:", error);
     throw error;

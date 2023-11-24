@@ -7,9 +7,9 @@ export async function createUsers() {
       data: {
         clerkId: faker.string.uuid(),
         name: faker.internet.userName(),
-        username: faker.internet.userName(),
-        email: faker.internet.email(),
-        password: faker.internet.password(),
+        username: `${faker.internet.userName()}${index}`,
+        email: `${faker.internet.email()}${index}`,
+        password: `${faker.internet.password()}${index}`,
         role: "USER",
         bio: faker.lorem.sentence(),
         picture: faker.image.avatar(),
