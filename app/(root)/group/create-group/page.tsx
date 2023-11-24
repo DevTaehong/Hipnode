@@ -12,13 +12,13 @@ const CreateGroupPage = async () => {
   if (!clerkId) redirect("/sign-in");
 
   // NOTE - To add a user to a group as an admin, member, and creator, get the user data
-  const user = await getUserByClerkId(clerkId, false);
-  if (!user) redirect("/sign-in");
+  const currentUser = await getUserByClerkId(clerkId, false);
+  if (!currentUser) redirect("/sign-in");
 
   return (
     <div className="bg-light-2_dark-2">
       <div className="p-5 sm:pt-[1.875rem]">
-        <GroupForm users={users} currentUser={user} />
+        <GroupForm users={users} currentUser={currentUser} />
       </div>
     </div>
   );
