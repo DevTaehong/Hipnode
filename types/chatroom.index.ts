@@ -41,3 +41,16 @@ export interface MessageToSend {
 export interface ChatProps extends User {
   online?: boolean;
 }
+
+export interface ImagePreviewProps {
+  setImagePreview: (value: string | null) => void;
+  setDroppedFile: (value: File | null) => void;
+  imagePreview: string;
+  mediaType: string;
+}
+
+export interface LiveChatAudioPlayerProps {
+  displayTime: number;
+  isPlaying: boolean;
+  togglePlayPause: () => void;
+}

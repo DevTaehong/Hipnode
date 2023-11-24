@@ -27,8 +27,9 @@ const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [droppedFile, setDroppedFile] = useState<File | null>(null);
+  const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
+  const [mediaType, setMediaType] = useState("");
   const inputBox = useRef<HTMLInputElement | HTMLFormElement>(null);
   const { showChat, chatroomUsers, chatroomId } = useChatStore();
 
@@ -40,10 +41,29 @@ const LiveChat = () => {
   });
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    const previewUrl = URL.createObjectURL(file);
-    setImagePreview(previewUrl);
-    setDroppedFile(file);
+    if (acceptedFiles.length === 1) {
+      const file = acceptedFiles[0];
+      const previewUrl = URL.createObjectURL(file);
+      if (file.type.startsWith("image")) {
+        setMediaType("image");
+      } else if (file.type.startsWith("video")) {
+        setMediaType("video");
+      } else if (file.type.startsWith("audio")) {
+        setMediaType("audio");
+      } else if (
+        file.type.includes("application") ||
+        file.type.includes("text")
+      ) {
+        setMediaType("document");
+      }
+      setDroppedFile(file);
+      setImagePreview(previewUrl);
+    } else if (acceptedFiles.length > 1) {
+      const files = acceptedFiles;
+      setMediaType("folder");
+      setDroppedFile(files);
+      setImagePreview("folder");
+    }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
@@ -174,6 +194,7 @@ const LiveChat = () => {
               setImagePreview={setImagePreview}
               setDroppedFile={setDroppedFile}
               imagePreview={imagePreview}
+              mediaType={mediaType}
             />
           )}
           <div className="flex gap-1">
