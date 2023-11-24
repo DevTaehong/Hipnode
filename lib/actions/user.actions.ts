@@ -14,15 +14,18 @@ type createUserType = {
   email: string;
 };
 
-export async function getUserByClerkId(clerkId: string) {
+export async function getUserByClerkId(
+  clerkId: string,
+  includeOnboarding = true
+) {
   try {
     const user = await prisma.user.findUnique({
       where: {
         clerkId,
       },
       include: {
-        onboarding: true,
-      }
+        onboarding: includeOnboarding,
+      },
     });
 
     return user;
@@ -185,8 +188,8 @@ export async function createOnboarding(clerkId: string, data: UserAnswersType) {
       data: onboardingData,
     });
 
-    revalidatePath('/');
-    redirect('/');
+    revalidatePath("/");
+    redirect("/");
   } catch (error) {
     console.error("Error creating Onboarding:", error);
     throw error;
