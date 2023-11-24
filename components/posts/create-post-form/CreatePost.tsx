@@ -128,7 +128,7 @@ const CreatePost = () => {
     data: createPostFormType
   ): Promise<void> => {
     const postImage = await handleUpload();
-    if (isLoaded && isSignedIn) {
+    if (i!sLoaded || !isSignedIn) return;
       const { contentType, tags, group, ...postData } = data;
 
       if (!userInfo?.id || !valueOfGroup(data) || !postImage) {
