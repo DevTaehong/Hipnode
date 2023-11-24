@@ -2,15 +2,33 @@
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
 import { Post, User } from "@prisma/client";
-import { Control } from "react-hook-form";
+import { Control, FieldValues } from "react-hook-form";
+import { TagSuggestion } from "react-tag-autocomplete";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/GroupSectionHeader";
 import { GroupProps } from "@types/models";
 
+export type UserSuggestion = {
+  user: User;
+};
+
+export type CustomTagSuggestion = TagSuggestion & UserSuggestion;
+
+export type Tag = {
+  label: string;
+  value: string | number | symbol | null;
+  user?: User;
+};
+
+type FieldName = "groupName" | "description";
+
 export interface FormFieldComponentProps {
-  control: Control<{ groupName: string }>;
-  name: string;
+  control: Control<{
+    groupName: string;
+    description: string;
+  }>;
+  name: FieldName;
   label: string;
   placeholder: string;
   fieldType?: "input" | "textarea";

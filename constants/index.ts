@@ -9,6 +9,8 @@ import {
   NotificationTab,
 } from "@/types";
 
+export const PLACEHOLDER_IMAGE_URL = "/images/hipnode.svg";
+
 export const headings = (
   fastestGrowingGroups: GroupPromiseProps,
   mostPopularGroups: GroupPromiseProps,

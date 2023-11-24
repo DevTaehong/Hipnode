@@ -231,6 +231,18 @@
   .questionnaire-footer-span-text {
     @apply semibold-14 cursor-pointer text-red-80;
   }
+
+  .react-tags__combobox-input {
+    @apply placeholder:text-sc-3 placeholder:regular-12 placeholder:sm:regular-14;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: none;
+    font-size: inherit;
+    line-height: inherit;
+  }
 }
 
 .font-feature {

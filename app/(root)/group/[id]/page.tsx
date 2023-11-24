@@ -33,13 +33,22 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
           {group && <GroupCover group={group} />}
           <FormLink {...groupFormLinkProps} className="flex lg:hidden" />
           <Explore groupId={groupId} />
-          <FetchGroupDetailPosts
-            initialNewPost={newPosts}
-            initialPopularPost={popularPosts}
-            fetchNewPost={getNewPostsByGroupId}
-            fetchPopularPost={getPopularGroupPosts}
-            groupId={groupId}
-          />
+          {newPosts.length > 0 ? (
+            <FetchGroupDetailPosts
+              initialNewPost={newPosts}
+              initialPopularPost={popularPosts}
+              fetchNewPost={getNewPostsByGroupId}
+              fetchPopularPost={getPopularGroupPosts}
+              groupId={groupId}
+            />
+          ) : (
+            <div className="mt-5 flex flex-col items-center justify-center">
+              <h1 className="semibold-18 dark:text-light-2">No posts yet</h1>
+              <p className="regular-16 text-sc-3">
+                Be the first to post in this group!
+              </p>
+            </div>
+          )}
         </section>
 
         <aside
