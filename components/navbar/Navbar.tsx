@@ -53,18 +53,32 @@ const Navbar = async () => {
       <section className="flex items-center gap-6">
         <SignedIn>
           {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
-        </SignedIn>
-        <SignedOut>
-          <Link href="/sign-in">Login</Link>
-        </SignedOut>
-        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
-          <FillIcon.Notification
-            className="fill-sc-4 dark:fill-sc-6"
-            notifcation
-          />
-        </div>
 
-        <UserButton />
+          <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+            <FillIcon.Notification
+              className="fill-sc-4 dark:fill-sc-6"
+              notifcation
+            />
+          </div>
+
+          <UserButton />
+        </SignedIn>
+
+        <SignedOut>
+          <Link
+            href="/sign-up"
+            className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2"
+          >
+            Signup
+          </Link>
+
+          <Link
+            href="/sign-in"
+            className="rounded-lg bg-red-80 px-6 py-2 text-[0.875rem] font-semibold leading-[1.375rem] text-white hover:bg-red-80/80"
+          >
+            Login
+          </Link>
+        </SignedOut>
       </section>
     </nav>
   );
