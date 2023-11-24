@@ -1,22 +1,60 @@
-import Image from "next/image";
+"use client";
 
-import CustomButton from "../CustomButton";
+import Image from "next/image";
+import { ChangeEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { SetCoverIcon } from "../icons/outline-icons/Icon";
 import OutlineIcon from "../icons/outline-icons";
+import { Input } from "@/components/ui/input";
+import { uploadImageToSupabase } from "@/utils";
 
 const SetCoverComponent = () => {
-  const coverImageURL = "";
+  const router = useRouter();
+  const search = useSearchParams();
+  const profilePhotoURL = search.get("profilePhotoUrl");
+  const coverUrl = search.get("coverUrl");
+
+  const handleSetCover = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const uploadedURL = await uploadImageToSupabase(
+        file,
+        "group-cover",
+        "cover"
+      );
+      router.push(
+        `/group/create-group?coverUrl=${uploadedURL}&profilePhotoUrl=${
+          profilePhotoURL ?? ""
+        }`
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col items-start gap-5">
-      <CustomButton
-        icon={SetCoverIcon}
-        label="Set Cover"
-        className="semibold-10 flex h-7 items-center gap-2.5 rounded-[0.25rem] bg-light-2 px-2.5 py-1 text-sc-2 dark:bg-dark-4 dark:text-light-2"
-      />
-      {coverImageURL ? (
+      <div className="flex gap-2.5">
+        <label
+          htmlFor="cover"
+          className="semibold-10 flex h-7 cursor-pointer items-center gap-2.5 rounded-[0.25rem] bg-light-2 px-2.5 py-1 
+            text-sc-2 hover:opacity-80 hover:transition-opacity dark:bg-dark-4 dark:text-light-2"
+        >
+          <SetCoverIcon />
+          {coverUrl ? "Change Cover" : "Set Cover"}
+        </label>
+        <Input
+          id="cover"
+          type="file"
+          name="cover"
+          accept="image/*"
+          onChange={handleSetCover}
+          className="hidden"
+        />
+      </div>
+      {coverUrl ? (
         <Image
-          className="w-full rounded-lg brightness-0"
-          src="/images/hipnode.svg"
+          className="h-[8.25rem] w-full rounded-lg object-cover sm:h-[10.4375rem]"
+          src={coverUrl}
           width={295}
           height={132}
           alt="cover image"

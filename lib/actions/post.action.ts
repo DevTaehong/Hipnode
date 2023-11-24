@@ -266,7 +266,7 @@ export async function getPopularGroupPosts(
 ) {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
-      take: 3,
+      take: 4,
       where: {
         groupId,
       },
@@ -309,7 +309,7 @@ export async function getNewPostsByGroupId(
 ) {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
-      take: 3,
+      take: 4,
       where: {
         groupId,
       },

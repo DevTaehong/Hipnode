@@ -6,8 +6,7 @@ export async function createGroups() {
   const groupCount = 50;
   const users = await prisma.user.findMany();
 
-  const adminsToConnect = [users[0], users[1], users[2]];
-  const membersToConnect = [...adminsToConnect, users[3], users[4], users[5]];
+  const membersToConnect = [users[0], users[1], users[2]];
 
   const groupPromises = users.slice(0, groupCount).map(async (user) => {
     const group = await prisma.group.create({
@@ -20,10 +19,10 @@ export async function createGroups() {
         coverImage: faker.image.urlLoremFlickr({ category: "nature" }),
         logo: faker.image.urlLoremFlickr({ category: "business" }),
         admins: {
-          connect: adminsToConnect,
+          connect: user,
         },
         members: {
-          connect: membersToConnect,
+          connect: [user, ...membersToConnect],
         },
       },
     });
