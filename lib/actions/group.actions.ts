@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 
 import prisma from "@/lib/prisma";
 import {
@@ -67,13 +68,6 @@ export async function createGroup(params: CreateGroupParams) {
       members,
     } = params;
 
-    // Check if a group with the same name already exists
-    const existingGroup = await prisma.group.findUnique({ where: { name } });
-
-    if (existingGroup) {
-      throw new Error("a group with the same name already exists.");
-    }
-
     await prisma.group.create({
       data: {
         name,
@@ -91,8 +85,12 @@ export async function createGroup(params: CreateGroupParams) {
     });
     revalidatePath(path);
   } catch (error) {
-    console.error("Error creating a group:", error);
-    throw error;
+    // LINK - https://www.prisma.io/docs/concepts/components/prisma-client/handling-exceptions-and-errors
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        throw new Error("a group with the same name already exists.");
+      }
+    }
   }
 }
 
