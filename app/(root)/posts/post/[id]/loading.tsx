@@ -2,7 +2,7 @@ import {
   MoreInformationItemSkeleton,
   PostMainContentSkeleton,
   ProfileSkeleton,
-} from "@/components/skeleton";
+} from "@/components/Skeleton";
 
 const Loading = () => {
   return (

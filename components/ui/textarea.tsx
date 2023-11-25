@@ -1,45 +1,24 @@
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  resetheight: number;
-}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, resetheight) => {
-    const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-
-    React.useEffect(() => {
-      const adjustHeight = () => {
-        const textarea = textareaRef.current;
-        if (textarea) {
-          textarea.style.height = "22px";
-
-          textarea.style.height = `${textarea.scrollHeight}px`;
-        }
-      };
-
-      adjustHeight();
-
-      textareaRef.current?.addEventListener("input", adjustHeight);
-
-      return () => {
-        textareaRef.current?.removeEventListener("input", adjustHeight);
-      };
-    }, [resetheight]);
-
+  ({ className, ...props }, ref) => {
     return (
       <textarea
-        ref={textareaRef}
-        className={cn("flex  w-full", className)}
+        className={cn(
+          "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
+        ref={ref}
         {...props}
       />
-    );
+    )
   }
-);
+)
+Textarea.displayName = "Textarea"
 
-Textarea.displayName = "Textarea";
-
-export { Textarea };
+export { Textarea }

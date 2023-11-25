@@ -30,7 +30,7 @@ const SelectController = ({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, formState: { errors } }) => (
         <FormItem>
           <Select
             onOpenChange={() => handleOpenChange(name)}
@@ -57,15 +57,37 @@ const SelectController = ({
                 )}
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="z-50 cursor-pointer border-none text-[0.563rem] dark:bg-dark-3 dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-              {options.map((item) => (
-                <SelectItem key={item} value={item}>
-                  {item}
+            <SelectContent>
+              {options?.map((option, index) => (
+                <SelectItem
+                  className="flex justify-between gap-2 bg-light dark:bg-dark-4 dark:text-light-2"
+                  key={index}
+                  value={option.label}
+                >
+                  <div className="flex flex-row justify-between gap-2 dark:bg-dark-4">
+                    {option.icon && (
+                      <div className="fill-sc-2 stroke-sc-2 dark:fill-light-2 dark:stroke-light-2">
+                        {option.icon}
+                      </div>
+                    )}
+                    <p
+                      className={`${
+                        option.icon
+                          ? "ml-2"
+                          : "text-[1rem] font-semibold capitalize leading-[1.5rem] text-sc-3"
+                      }`}
+                    >
+                      {option.label}
+                    </p>
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <FormMessage className="capitalize text-red-500" />
+          <FormMessage className="capitalize text-red-500">
+            {/* @ts-ignore */}
+            {errors?.[name]?.message ? (errors[name].message as string) : null}
+          </FormMessage>
         </FormItem>
       )}
     />

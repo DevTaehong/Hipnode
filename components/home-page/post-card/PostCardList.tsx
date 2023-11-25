@@ -4,29 +4,29 @@ import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { getAllPosts } from "@/lib/actions/post.action";
-import { ExtendedPost } from "@/types/models";
+import { ExtendedPrismaPost } from "@/types/posts";
 import { PostCard } from ".";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
 
 const PostCardList = ({ posts }: PostCardListProps) => {
-  const [postData, setPostData] = useState<ExtendedPost[]>(posts);
+  const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [page, setPage] = useState(1);
-  const [loadMore, setLoadMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [loadMore, setLoadMore] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [amountToSkip, setAmountAmountToSkip] = useState<number>(10);
   const { ref, inView } = useInView();
 
   const loadMoreData = async () => {
     setIsLoading(true);
-
     try {
-      const next = page + 1;
-      const posts = await getAllPosts({ page: next });
+      const nextPage = page + 1;
+      const posts = await getAllPosts({ numberToSkip: amountToSkip });
       if (posts?.length) {
-        setPage(next);
-        setPostData((prev: ExtendedPost[]) => [...prev, ...posts]);
+        setAmountAmountToSkip((previous) => previous + 10);
+        setPage(nextPage);
+        setPostData((prev: ExtendedPrismaPost[]) => [...prev, ...posts]);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
