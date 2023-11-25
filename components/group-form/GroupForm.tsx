@@ -41,7 +41,6 @@ const GroupForm = ({
   const profilePhotoURL = search.get("profilePhotoUrl");
   const coverUrl = search.get("coverUrl");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const pathName = usePathname();
 
   // NOTE - These states are for the AddAdminsOrMembers component
   const [adminSelected, setAdminSelected] = useState<Tag[]>([]);

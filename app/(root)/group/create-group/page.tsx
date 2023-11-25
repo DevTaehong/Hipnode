@@ -2,23 +2,17 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import GroupForm from "@/components/group-form/GroupForm";
-import {
-  getAllUsers,
-  getUserByClerkId,
-  getUserById,
-} from "@/lib/actions/user.actions";
+import { getAllUsers, getUserByClerkId } from "@/lib/actions/user.actions";
 
 const CreateGroupPage = async () => {
+  // NOTE - Get all users to be used in the AddAdminsOrMembers component
   const users = await getAllUsers();
 
   const { userId: clerkId } = auth();
   if (!clerkId) redirect("/sign-in");
 
-  const user = await getUserByClerkId(clerkId);
-  if (!user) redirect("/sign-in");
-
   // NOTE - To add a user to a group as an admin, member, and creator, get the user data
-  const currentUser = await getUserById(user.id);
+  const currentUser = await getUserByClerkId(clerkId, false);
   if (!currentUser) redirect("/sign-in");
 
   return (

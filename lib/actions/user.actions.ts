@@ -14,14 +14,17 @@ type createUserType = {
   email: string;
 };
 
-export async function getUserByClerkId(clerkId: string) {
+export async function getUserByClerkId(
+  clerkId: string,
+  includeOnboarding = true
+) {
   try {
     const user = await prisma.user.findUnique({
       where: {
         clerkId,
       },
       include: {
-        onboarding: true,
+        onboarding: includeOnboarding,
       },
     });
 
