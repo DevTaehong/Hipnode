@@ -9,7 +9,7 @@ import { CreatePostTitleProps } from "@/types/posts";
 
 const CreatePostTitle = ({ control }: CreatePostTitleProps) => (
   <FormField
-    name="title"
+    name="heading"
     control={control}
     render={({ field }) => (
       <FormItem>

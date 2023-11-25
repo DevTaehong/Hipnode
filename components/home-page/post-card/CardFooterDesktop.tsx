@@ -1,14 +1,13 @@
+import { formatDatePostFormat } from "@/utils";
 import SocialMediaIcon from "./SocialMediaIcon";
 import SocialStatistics from "./SocialStatistics";
-
-type CardFooterDesktopProps = {
-  authorPicture: string;
-  username: string;
-};
+import { CardFooterDesktopProps } from "@/types/posts";
 
 const CardFooterDesktop = ({
   authorPicture,
   username,
+  createdAt,
+  socialCounts,
 }: CardFooterDesktopProps) => (
   <section className="hidden items-center justify-between md:flex">
     <div className="flex items-center">
@@ -18,12 +17,12 @@ const CardFooterDesktop = ({
           {username}
         </p>
         <p className="text-[0.625rem] leading-[1rem] text-sc-3 dark:text-sc-5">
-          3 Weeks ago
+          {formatDatePostFormat(createdAt)}
         </p>
       </div>
     </div>
     <div>
-      <SocialStatistics />
+      <SocialStatistics socialCounts={socialCounts} />
     </div>
   </section>
 );

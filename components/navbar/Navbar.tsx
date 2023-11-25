@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
@@ -8,8 +9,9 @@ import HipnodeIcon from "@/components/icons/HipnodeIcon";
 import { Input } from "@/components/ui/input";
 import NavLinks from "@/components/navbar/NavLinks";
 import UserButton from "@/components/navbar/UserButton";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
+
 import MessageListWrapper from "../live-chat/MessageListWrapper";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
 
 const Navbar = async () => {
   const clerkUser = await currentUser();

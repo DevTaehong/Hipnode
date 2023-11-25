@@ -9,10 +9,12 @@ import { createMeetUps } from "./seed/seed-meetup/index";
 import { createInterviews } from "./seed/seed-interviews/createInterview";
 import { seedInterviewTags } from "./seed/seed-interviews/createInterviewTag";
 import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
-
 import prisma from "../lib/prisma";
+import { createShares } from "./seed/seed-posts/createPostShares";
+import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
 
 async function main() {
+  console.time("Execution Time");
   const tags = await createTags();
   const users = await createUsers();
   const groups = await createGroups();
@@ -20,20 +22,23 @@ async function main() {
   await seedInterviewTags();
   await createInterviews(users);
   await seedTagOnInterview();
-  await createPosts(users, tags, groups);
+  const posts = await createPosts(users, tags, groups);
 
-  const shows = (await createShows(users)) as {
-    id: number;
-    name: string;
-    userId: number;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
+  const shows = await createShows(users);
   for (const show of shows) {
     await createPodcastsForShows(show);
   }
 
+  if (posts) {
+    for (const post of posts) {
+      await createLikesForPost(post, users);
+    }
+    await createShares(users, posts);
+  }
+
   await createMeetUps(users);
+
+  console.timeEnd("Execution Time");
 }
 
 main()

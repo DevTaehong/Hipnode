@@ -5,12 +5,16 @@ import { Group } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import GroupCoverButtons from "@/components/group-detail-page/GroupCoverButtons";
 import { getUserByClerkId, getUserById } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 
 const GroupCover = async ({ group }: { group: Group }) => {
   const groupOwner = await getUserById(group.createdBy);
   const { userId: clerkId } = auth();
+  if (!clerkId) return redirect("/sign-in");
 
-  const user = await getUserByClerkId(clerkId ?? "");
+  const user = await getUserByClerkId(clerkId);
+  if (!user) return redirect("/sign-in");
+
   const isGroupOwner = groupOwner?.id === user?.id;
 
   return (
@@ -44,7 +48,7 @@ const GroupCover = async ({ group }: { group: Group }) => {
         <GroupCoverButtons
           isGroupOwner={isGroupOwner}
           groupId={group.id}
-          userId={user?.id ?? -1}
+          userId={user.id}
         />
       </div>
     </div>
