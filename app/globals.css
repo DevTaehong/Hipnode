@@ -488,6 +488,7 @@ code {
   100% {
     height: 12px;
   }
+}
 /* NOTE - https://github.com/i-like-robots/react-tag-autocomplete/blob/main/example/src/styles.css */
 .react-tags {
   @apply dark:border-dark-4 sm:bg-light-2 dark:bg-dark-3 border-2 rounded-lg border-light-2 sm:min-h-[2.875rem] min-h-[2.625rem];

@@ -18,7 +18,7 @@ CREATE TABLE "ChatroomUsers" (
 -- CreateTable
 CREATE TABLE "Message" (
     "id" SERIAL NOT NULL,
-    "text" TEXT NOT NULL,
+    "text" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" INTEGER NOT NULL,
     "chatroomId" INTEGER NOT NULL,

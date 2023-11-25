@@ -30,6 +30,7 @@ model User {
   onboarding      Onboarding?
   podcasts        Podcast[]
   posts           Post[]
+  Share           Share[]
   shows           Shows[]
   subscribedShows UsersSubscribedToShows[]
   groupAdmin      Group[]                  @relation("GroupAdmins")
@@ -64,6 +65,7 @@ model Post {
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   group     Group?      @relation(fields: [groupId], references: [id])
+  Share     Share[]
   tags      TagOnPost[]
 }
 

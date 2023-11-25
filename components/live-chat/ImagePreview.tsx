@@ -95,7 +95,7 @@ const ImagePreview = ({
           src={imagePreview}
           height={250}
           width={250}
-          className="mb-3"
+          className="mb-3 h-full max-h-[15rem] w-fit max-w-[18rem]"
           controls
         />
       )}
