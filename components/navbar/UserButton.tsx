@@ -41,7 +41,7 @@ const UserButton = () => {
           />
         </p>
       </PopoverTrigger>
-      <PopoverContent className="relative right-[20px] top-[15px] flex h-[187px] w-[182px] flex-col justify-center gap-5 bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')]">
+      <PopoverContent className="relative right-[20px] top-[17px] flex h-[187px] w-[182px] flex-col justify-center gap-5 bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[50px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <div className="relative top-[5px] flex flex-col gap-5">
           <UserButtonLink link="/profile" text="Profile" />
 
