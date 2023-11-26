@@ -37,7 +37,7 @@ const HorizontalScrollList = () => {
 
   return (
     <div
-      className="flex cursor-pointer select-none gap-[1.625rem] overflow-x-auto"
+      className="flex h-full cursor-pointer select-none justify-center gap-[1.625rem] overflow-x-auto px-8"
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
@@ -50,8 +50,8 @@ const HorizontalScrollList = () => {
         return (
           <p
             key={tab.title}
-            className={`flex items-center justify-start gap-2 whitespace-nowrap text-start ${
-              tab.active && "border-b-[0.063rem] border-blue"
+            className={`flex h-full items-center justify-start gap-2 whitespace-nowrap pb-2 text-start ${
+              tab.active && "border-b border-blue"
             }`}
           >
             {IconComponent && <IconComponent />}
