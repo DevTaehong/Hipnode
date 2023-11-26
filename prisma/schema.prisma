@@ -51,6 +51,8 @@ model Onboarding {
 
 model Post {
   id        Int         @id @default(autoincrement())
+  heading   String
+  clerkId   String?    
   content   String
   authorId  Int
   createdAt DateTime    @default(now())
@@ -59,7 +61,6 @@ model Post {
   viewCount Int         @default(0)
   image     String
   groupId   Int?
-  heading   String
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -80,6 +81,15 @@ model Like {
 
   @@unique([userId, postId])
   @@unique([userId, commentId])
+}
+
+model Share {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
 }
 
 model Comment {
@@ -233,17 +243,8 @@ model Message {
   createdAt  DateTime @default(now())
   userId     Int
   chatroomId Int
-  Chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Share {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  postId    Int
-  createdAt DateTime @default(now())
-  Post      Post     @relation(fields: [postId], references: [id])
-  User      User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

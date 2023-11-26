@@ -33,20 +33,32 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
           {group && <GroupCover group={group} />}
           <FormLink {...groupFormLinkProps} className="flex lg:hidden" />
           <Explore groupId={groupId} />
-          <FetchGroupDetailPosts
-            initialNewPost={newPosts}
-            initialPopularPost={popularPosts}
-            fetchNewPost={getNewPostsByGroupId}
-            fetchPopularPost={getPopularGroupPosts}
-            groupId={groupId}
-          />
+          {newPosts.length > 0 ? (
+            <FetchGroupDetailPosts
+              initialNewPost={newPosts}
+              initialPopularPost={popularPosts}
+              fetchNewPost={getNewPostsByGroupId}
+              fetchPopularPost={getPopularGroupPosts}
+              groupId={groupId}
+            />
+          ) : (
+            <div className="mt-5 flex flex-col items-center justify-center">
+              <h1 className="semibold-18 dark:text-light-2">No posts yet</h1>
+              <p className="regular-16 text-sc-3">
+                Be the first to post in this group!
+              </p>
+            </div>
+          )}
         </section>
 
         <aside
           className="flex flex-col gap-5 lg:order-last lg:h-screen 
           lg:max-w-[20.3125rem] lg:grow lg:flex-col lg:overflow-y-auto lg:py-[1.875rem]"
         >
-          <FormLink {...groupFormLinkProps} className="hidden lg:flex" />
+          <FormLink
+            {...groupFormLinkProps}
+            className="hidden lg:flex lg:w-full lg:max-w-[20.3125rem]"
+          />
           <ActiveMembers members={group?.members ?? []} />
           <RecentMedia media={group?.posts ?? []} />
         </aside>
@@ -59,7 +71,7 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
             description={group?.description ?? group?.name ?? "N/A"}
           />
           <GroupAdmins admins={group?.admins ?? []} />
-          <Tags className="px-0" />
+          <Tags className="w-full min-w-0 px-0" />
         </aside>
       </div>
     </main>

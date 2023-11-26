@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-
 import { useUser } from "@clerk/nextjs";
+
 import {
   Popover,
   PopoverContent,

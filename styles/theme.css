@@ -40,7 +40,7 @@
   }
 
   .regular-16 {
-    @apply text-[16px] font-medium leading-[24px];
+    @apply text-[16px] font-normal leading-[24px];
   }
 
   .bold-14 {
@@ -52,7 +52,7 @@
   }
 
   .regular-14 {
-    @apply text-[14px] font-medium leading-[22px];
+    @apply text-[14px] font-normal leading-[22px];
   }
 
   .base-14 {
@@ -88,7 +88,7 @@
   }
 
   .regular-9 {
-    @apply text-[9px] font-semibold leading-[14px];
+    @apply text-[9px] font-normal leading-[14px];
   }
 
   .base-9 {
@@ -230,6 +230,18 @@
 
   .questionnaire-footer-span-text {
     @apply semibold-14 cursor-pointer text-red-80;
+  }
+
+  .react-tags__combobox-input {
+    @apply placeholder:text-sc-3 placeholder:regular-12 placeholder:sm:regular-14;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: none;
+    font-size: inherit;
+    line-height: inherit;
   }
 }
 

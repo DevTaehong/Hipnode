@@ -15,7 +15,7 @@ const CoverImageUpload = ({
 }: CoverImageUploadProps) => (
   <FormField
     control={control}
-    name="coverImage"
+    name="image"
     render={() => (
       <FormItem>
         <FormControl>

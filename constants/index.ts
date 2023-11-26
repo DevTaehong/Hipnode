@@ -9,6 +9,8 @@ import {
   NotificationTab,
 } from "@/types";
 
+export const PLACEHOLDER_IMAGE_URL = "/images/hipnode.svg";
+
 export const headings = (
   fastestGrowingGroups: GroupPromiseProps,
   mostPopularGroups: GroupPromiseProps,
@@ -322,14 +324,6 @@ export const srcArray = [
   "/emoji_2.png",
 ];
 
-export const socialStats = {
-  views: "651,764",
-  likes: "365,987",
-  comments: "58",
-};
-
-export const postTabs = ["finance", "bitcoin", "crypto"];
-
 export const sidebarItems = [
   {
     imgSrc: newest,
@@ -425,7 +419,7 @@ export const groupFormLinkProps = {
   },
   linkToFormButton: {
     title: "Create Group",
-    link: "/",
+    link: "/group/create-group",
   },
 };
 

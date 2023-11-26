@@ -39,7 +39,7 @@ const SectionGroup = ({
         ))}
       </ul>
       <button
-        className={`semibold-9 flex h-3.5 w-fit rounded-full bg-purple-20 px-1 text-purple ${
+        className={`semibold-9 flex h-3.5 w-fit rounded-full bg-purple-20 px-1 text-purple hover:opacity-80 hover:transition-opacity ${
           expandedGroupIndex !== null && "hidden"
         }`}
         onClick={() => setExpandedGroupIndex(index)}

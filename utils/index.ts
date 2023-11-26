@@ -257,3 +257,10 @@ export const howManyMonthsAgo = (dateStr: Date | null) => {
 
   return totalMonths;
 };
+
+export const userHasLikedPost = (
+  userId: number,
+  postLikes: { userId: number }[]
+): boolean => {
+  return postLikes.some((like) => like.userId === userId);
+};
