@@ -10,6 +10,7 @@ import NavLinks from "@/components/navbar/NavLinks";
 import UserButton from "@/components/navbar/UserButton";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
+import NotificationButton from "./NotificationButton";
 
 const Navbar = async () => {
   const clerkUser = await currentUser();
@@ -44,7 +45,7 @@ const Navbar = async () => {
         <Input
           type="text"
           placeholder="Type here to search..."
-          className="no-focus border-none bg-light-2  shadow-none outline-none dark:bg-dark-4 dark:text-white"
+          className="no-focus border-none bg-light-2 shadow-none outline-none dark:bg-dark-4 dark:text-white"
         />
 
         <OutlineIcons.Search className="cursor-pointer stroke-sc-4" />
@@ -54,12 +55,7 @@ const Navbar = async () => {
         <SignedIn>
           {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
 
-          <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
-            <FillIcon.Notification
-              className="fill-sc-4 dark:fill-sc-6"
-              notifcation
-            />
-          </div>
+          <NotificationButton />
 
           <UserButton />
         </SignedIn>

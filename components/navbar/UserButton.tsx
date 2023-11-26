@@ -29,8 +29,10 @@ const UserButton = () => {
           />
         </div>
 
-        <p className="hidden items-center justify-center gap-2.5 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2 xl:flex">
-          {user?.username}
+        <p className="hidden w-[100px] items-center justify-center gap-2.5 xl:flex">
+          <span className="line-clamp-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
+            {user?.username}
+          </span>
 
           <Image
             src="/navbar/triangle_down.svg"
@@ -41,7 +43,7 @@ const UserButton = () => {
           />
         </p>
       </PopoverTrigger>
-      <PopoverContent className="relative right-[20px] top-[17px] flex h-[187px] w-[182px] flex-col justify-center gap-5 bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[50px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
+      <PopoverContent className="relative right-[20px] top-[17px] flex h-[187px] w-[182px] flex-col justify-center gap-5 bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[57px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <div className="relative top-[5px] flex flex-col gap-5">
           <UserButtonLink link="/profile" text="Profile" />
 

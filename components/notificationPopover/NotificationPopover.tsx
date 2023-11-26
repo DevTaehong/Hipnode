@@ -7,8 +7,8 @@ import NotificationComment from "./NotificationComment";
 
 const NotificationPopover = () => {
   return (
-    <section className="mx-10 mt-20 flex w-[500px] flex-col rounded-lg px-7 py-[1.875rem]">
-      <div className="flex items-center justify-between">
+    <section className="relative top-[5px] flex flex-col gap-5 bg-white dark:bg-dark-3">
+      <div className="flex h-[189px] w-[589px] items-center justify-between bg-[url('/navbar/notification_bg_light.svg')] bg-center dark:bg-[url('/navbar/notification_bg_dark.svg')]">
         <h1 className="semibold-26 text-sc-2 dark:text-light-2">
           3 Notifications
         </h1>
@@ -18,9 +18,9 @@ const NotificationPopover = () => {
           className="semibold-16 bg-blue-10 px-[0.625rem] py-[0.438rem] text-blue"
         />
       </div>
-      <Separator className="my-[1.875rem] bg-light-2 " />
+      <Separator className="my-[1.875rem] bg-light-2 dark:bg-dark-3" />
       <HorizontalScrollList />
-      <Separator className="mb-5 mt-[0.688rem] bg-light-2 " />
+      <Separator className="mb-5 mt-[0.688rem] bg-light-2" />
       <div className="flex flex-col gap-[1.875rem]">
         {dummyNotifications.map((notification) => (
           <NotificationComment
