@@ -6,10 +6,11 @@ export type ChatroomType = {
 };
 
 export type CreateMessageType = {
-  text?: string;
+  text?: string | null;
   userId: number;
   chatroomId: number;
-  attachment: string;
+  attachment: string | null;
+  attachmentType: string | null;
 };
 
 export type EditMessageType = {
@@ -26,6 +27,7 @@ export interface ChatMessage {
       image: string;
     };
     attachment?: string | null;
+    attachmentType?: string | null;
     chatroomId?: number;
     text: string | null;
   };
@@ -42,10 +44,10 @@ export interface ChatProps extends User {
   online?: boolean;
 }
 
-export interface ImagePreviewProps {
-  setImagePreview: (value: string | null) => void;
+export interface AttachmentPreviewProps {
+  setAttachmentPreview: (value: string | null) => void;
   setDroppedFile: (value: File | null) => void;
-  imagePreview: string;
+  attachmentPreview: string;
   mediaType: string;
 }
 

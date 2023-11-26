@@ -7,11 +7,6 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import {
-  createMessage,
-  getMessagesForChatroom,
-} from "@/lib/actions/chatroom.actions";
-import { uploadLivechatAttachment } from "@/utils";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
 
@@ -21,12 +16,15 @@ import LiveChatMessageList from "./LiveChatMessageList";
 import HoverScreen from "./HoverScreen";
 import FillIcon from "../icons/fill-icons";
 import OutlineIcon from "../icons/outline-icons";
-import ImagePreview from "./ImagePreview";
+import AttachmentPreview from "./AttachmentPreview";
+import { loadMessages, liveChatSubmission } from ".";
 
 const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [attachmentPreview, setAttachmentPreview] = useState<string | null>(
+    null
+  );
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
   const [mediaType, setMediaType] = useState("");
@@ -57,12 +55,12 @@ const LiveChat = () => {
         setMediaType("document");
       }
       setDroppedFile(file);
-      setImagePreview(previewUrl);
+      setAttachmentPreview(previewUrl);
     } else if (acceptedFiles.length > 1) {
       const files = acceptedFiles;
       setMediaType("folder");
       setDroppedFile(files);
-      setImagePreview("folder");
+      setAttachmentPreview("folder");
     }
   }, []);
 
@@ -72,32 +70,7 @@ const LiveChat = () => {
   });
 
   useEffect(() => {
-    const loadMessages = async () => {
-      setMessages([]);
-      if (chatroomId !== null) {
-        try {
-          const messages = await getMessagesForChatroom(chatroomId);
-          const transformedMessages = messages.map((message) => {
-            const user = chatroomUsers.find((u) => u.id === message.userId);
-            return {
-              data: {
-                user: {
-                  id: message.userId.toString(),
-                  username: user?.username || "Unknown User",
-                  image: user?.image || "/public/christopher.png",
-                },
-                attachment: message.attachment || undefined,
-                text: message.text,
-              },
-            };
-          });
-          setMessages(transformedMessages);
-        } catch (error) {
-          console.error("Error fetching messages for chatroom:", error);
-        }
-      }
-    };
-    loadMessages();
+    loadMessages({ setMessages, chatroomId, chatroomUsers });
   }, [chatroomId, chatroomUsers, showChat]);
 
   const userInfo = useMemo(() => {
@@ -116,55 +89,6 @@ const LiveChat = () => {
     [userInfo]
   );
 
-  const handleFormSubmission = async (
-    event:
-      | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    event.preventDefault();
-
-    let attachmentURL = null;
-    const messageContent = messageText.trim();
-    if (droppedFile) {
-      try {
-        const uploadResult = await uploadLivechatAttachment([droppedFile]);
-        attachmentURL = uploadResult.publicURL;
-        setImagePreview(null);
-        setDroppedFile(null);
-      } catch (error) {
-        console.error("Error uploading:", error);
-        return;
-      }
-    }
-
-    if (attachmentURL || messageContent.length > 0) {
-      const chatMessage = {
-        text: messageContent || "attachment",
-        user: currentUser,
-        chatroomId,
-        attachment: attachmentURL || "",
-      };
-
-      try {
-        if (chatroomId && currentUser.id) {
-          await channel.publish("chat-message", chatMessage);
-          await createMessage({
-            text: chatMessage.text,
-            userId: currentUser.id,
-            chatroomId,
-            attachment: chatMessage.attachment,
-          });
-          setMessageText("");
-          inputBox.current?.focus();
-        }
-      } catch (error) {
-        console.error("Error sending or creating message:", error);
-      }
-    } else {
-      console.log("No message content or attachment to send");
-    }
-  };
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -172,6 +96,27 @@ const LiveChat = () => {
         handleFormSubmission(event);
       }
     }
+  };
+
+  const handleFormSubmission = (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    liveChatSubmission({
+      event,
+      messageText,
+      setMessageText,
+      droppedFile,
+      setDroppedFile,
+      setAttachmentPreview,
+      setMediaType,
+      mediaType,
+      channel,
+      chatroomId,
+      inputBox,
+      currentUser,
+    });
   };
 
   return (
@@ -185,15 +130,15 @@ const LiveChat = () => {
       <input {...getInputProps()} />
       <LiveChatMessageList messages={receivedMessages} />
       <form
-        onSubmit={handleFormSubmission}
+        onSubmit={(event) => handleFormSubmission(event)}
         className="flex w-full gap-5 px-5 pb-5"
       >
         <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
-          {imagePreview && (
-            <ImagePreview
-              setImagePreview={setImagePreview}
+          {attachmentPreview && (
+            <AttachmentPreview
+              setAttachmentPreview={setAttachmentPreview}
               setDroppedFile={setDroppedFile}
-              imagePreview={imagePreview}
+              attachmentPreview={attachmentPreview}
               mediaType={mediaType}
             />
           )}
@@ -206,7 +151,7 @@ const LiveChat = () => {
               placeholder="Type here your message..."
               onChange={(e) => setMessageText(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="bg-light_dark-4 w-full text-sc-4 outline-none"
+              className="bg-light_dark-4 z-10 w-full text-sc-4 outline-none"
             />
           </div>
         </div>

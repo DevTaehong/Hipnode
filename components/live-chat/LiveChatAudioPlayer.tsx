@@ -1,16 +1,61 @@
 import Image from "next/image";
+import { useRef, useEffect, useState } from "react";
 
 import { playButton, timerImage, pauseButton } from "@/public/assets";
 import LiveChatAudioAnimation from "./LiveChatAudioAnimation";
 import { formatTime } from "@/utils";
-import { LiveChatAudioPlayerProps } from "@/types/chatroom.index";
 
-const LiveChatAudioPlayer = ({
-  displayTime,
-  isPlaying,
-  togglePlayPause,
-}: LiveChatAudioPlayerProps) => {
+const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [displayTime, setDisplayTime] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const time = formatTime(displayTime);
+
+  useEffect(() => {
+    audioRef.current = new Audio(songUrl);
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [songUrl]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement !== null) {
+      const handleMetadataLoaded = () => setDisplayTime(audioElement.duration);
+      const handleTimeUpdate = () => setDisplayTime(audioElement.currentTime);
+      const handleAudioEnd = () => setIsPlaying(false);
+
+      audioElement.addEventListener("loadedmetadata", handleMetadataLoaded);
+      audioElement.addEventListener("timeupdate", handleTimeUpdate);
+      audioElement.addEventListener("ended", () => setIsPlaying(false));
+
+      return () => {
+        audioElement.removeEventListener(
+          "loadedmetadata",
+          handleMetadataLoaded
+        );
+        audioElement.removeEventListener("timeupdate", handleTimeUpdate);
+        audioElement.removeEventListener("ended", handleAudioEnd);
+      };
+    }
+  }, []);
+
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      const audioElement = audioRef.current;
+      if (isPlaying) {
+        audioElement.pause();
+        setIsPlaying(false);
+      } else {
+        audioElement.play();
+        setIsPlaying(true);
+      }
+    }
+  };
 
   return (
     <div className="flex-center mb-3 h-[3.125rem] w-[12rem] rounded-lg bg-red-80 px-3 py-2.5">

@@ -102,15 +102,8 @@ export async function deleteChatroom(chatroomId: number) {
 
 export async function createMessage(data: CreateMessageType) {
   try {
-    const { text, userId, chatroomId, attachment } = data;
-
     const message = await prisma.message.create({
-      data: {
-        text: text || "",
-        userId,
-        chatroomId,
-        attachment,
-      },
+      data,
     });
 
     return message;

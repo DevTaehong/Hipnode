@@ -6,10 +6,10 @@ import {
   ImVolumeHigh,
 } from "react-icons/im";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { Comment } from "@prisma/client";
 
 import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
-import { CommentProps } from "@/types/posts";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -222,9 +222,9 @@ export function capitalise(str: string) {
 }
 
 export const groupCommentsByParentId = (
-  comments: CommentProps[]
-): Record<string, CommentProps[]> => {
-  const group: Record<string, CommentProps[]> = {};
+  comments: Comment[]
+): Record<string, Comment[]> => {
+  const group: Record<string, Comment[]> = {};
   comments.forEach((comment) => {
     const key =
       comment?.parentId === null ? "null" : comment?.parentId?.toString();
@@ -237,7 +237,7 @@ export const groupCommentsByParentId = (
 };
 
 export const getRepliesToComments = (
-  commentsByParentId: Record<string, CommentProps[]>,
+  commentsByParentId: Record<string, Comment[]>,
   parentId?: string | null
 ) => {
   return commentsByParentId[parentId ?? "null"];
