@@ -1,4 +1,6 @@
 import React, { SetStateAction, useCallback } from "react";
+import { Types } from "ably";
+
 import {
   createMessage,
   getMessagesForChatroom,
@@ -8,7 +10,6 @@ import {
   loadMessagesProps,
   useDropzoneHandlerProps,
 } from "@/types/chatroom.index";
-import { Types } from "ably";
 
 export const loadMessages = async ({
   setMessages,
