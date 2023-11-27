@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePresence } from "ably/react";
-import useChatStore from "@/app/chatStore";
 
+import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";

@@ -124,7 +124,5 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
     } catch (error) {
       console.error("Error sending or creating message:", error);
     }
-  } else {
-    console.log("No message content or attachment to send");
   }
 };
