@@ -81,3 +81,8 @@ export interface useDropzoneHandlerProps {
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
   setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
 }
+
+export interface RenderPreviewProps {
+  mediaType: string;
+  attachmentPreview: string;
+}
