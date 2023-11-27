@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import { Dispatch, SetStateAction } from "react";
 
 export type ChatroomType = {
   userId: number;
@@ -17,21 +18,6 @@ export type EditMessageType = {
   messageId: number;
   newText: string;
 };
-
-export interface ChatMessage {
-  connectionId?: string;
-  data: {
-    user: {
-      id: string;
-      username: string;
-      image: string;
-    };
-    attachment?: string | null;
-    attachmentType?: string | null;
-    chatroomId?: number;
-    text: string | null;
-  };
-}
 
 export interface MessageToSend {
   text?: string;
@@ -55,4 +41,43 @@ export interface LiveChatAudioPlayerProps {
   displayTime: number;
   isPlaying: boolean;
   togglePlayPause: () => void;
+}
+
+export interface ChatroomUser {
+  id: number;
+  username: string | undefined;
+  image: string;
+}
+
+export interface ChatroomMap {
+  [chatroomId: number]: Set<number>;
+}
+
+export interface UserInfo {
+  id: number;
+  username: string;
+  image: string;
+}
+
+export interface ChatMessage {
+  connectionId?: string;
+  data: {
+    user: ChatroomUser;
+    messageId: number;
+    attachment?: string | null;
+    attachmentType?: string | null;
+    chatroomId?: number;
+    text: string | null;
+  };
+}
+export interface loadMessagesProps {
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+  chatroomId: number | null;
+  chatroomUsers: ChatroomUser[];
+}
+
+export interface useDropzoneHandlerProps {
+  setMediaType: Dispatch<SetStateAction<string>>;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
 }

@@ -1,17 +1,14 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { SetStateAction, useCallback } from "react";
 import {
   createMessage,
   getMessagesForChatroom,
 } from "@/lib/actions/chatroom.actions";
 import { uploadLivechatAttachment } from "@/utils";
-import { ChatMessage } from "@/types/chatroom.index";
+import {
+  loadMessagesProps,
+  useDropzoneHandlerProps,
+} from "@/types/chatroom.index";
 import { Types } from "ably";
-
-interface loadMessagesProps {
-  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
-  chatroomId: number | null;
-  chatroomUsers: any[];
-}
 
 export const loadMessages = async ({
   setMessages,
@@ -27,10 +24,11 @@ export const loadMessages = async ({
         return {
           data: {
             user: {
-              id: message.userId.toString(),
-              username: user?.username || "Unknown User",
-              image: user?.image || "/public/christopher.png",
+              id: message.userId,
+              username: user?.username,
+              image: user?.image || "/christopher.png",
             },
+            messageId: message.id,
             attachment: message.attachment || null,
             attachmentType: message.attachmentType || null,
             text: message.text || null,
@@ -125,4 +123,49 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       console.error("Error sending or creating message:", error);
     }
   }
+};
+
+export const useDropzoneHandler = ({
+  setMediaType,
+  setDroppedFile,
+  setAttachmentPreview,
+}: useDropzoneHandlerProps) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length === 1) {
+        const file = acceptedFiles[0];
+        const previewUrl = URL.createObjectURL(file);
+        let mediaType = "";
+
+        switch (true) {
+          case file.type.startsWith("image"):
+            mediaType = "image";
+            break;
+          case file.type.startsWith("video"):
+            mediaType = "video";
+            break;
+          case file.type.startsWith("audio"):
+            mediaType = "audio";
+            break;
+          case file.type.includes("application") || file.type.includes("text"):
+            mediaType = "document";
+            break;
+          default:
+            mediaType = "unknown";
+            break;
+        }
+
+        setMediaType(mediaType);
+        setDroppedFile(file);
+        setAttachmentPreview(previewUrl);
+      } else if (acceptedFiles.length > 1) {
+        setMediaType("folder");
+        setDroppedFile(acceptedFiles);
+        setAttachmentPreview("folder");
+      }
+    },
+    [setMediaType, setDroppedFile, setAttachmentPreview]
+  );
+
+  return onDrop;
 };

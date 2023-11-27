@@ -17,7 +17,7 @@ import HoverScreen from "./HoverScreen";
 import FillIcon from "../icons/fill-icons";
 import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "./AttachmentPreview";
-import { loadMessages, liveChatSubmission } from ".";
+import { loadMessages, liveChatSubmission, useDropzoneHandler } from ".";
 
 const LiveChat = () => {
   const [messageText, setMessageText] = useState("");
@@ -38,31 +38,11 @@ const LiveChat = () => {
     }
   });
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length === 1) {
-      const file = acceptedFiles[0];
-      const previewUrl = URL.createObjectURL(file);
-      if (file.type.startsWith("image")) {
-        setMediaType("image");
-      } else if (file.type.startsWith("video")) {
-        setMediaType("video");
-      } else if (file.type.startsWith("audio")) {
-        setMediaType("audio");
-      } else if (
-        file.type.includes("application") ||
-        file.type.includes("text")
-      ) {
-        setMediaType("document");
-      }
-      setDroppedFile(file);
-      setAttachmentPreview(previewUrl);
-    } else if (acceptedFiles.length > 1) {
-      const files = acceptedFiles;
-      setMediaType("folder");
-      setDroppedFile(files);
-      setAttachmentPreview("folder");
-    }
-  }, []);
+  const onDrop = useDropzoneHandler({
+    setMediaType,
+    setDroppedFile,
+    setAttachmentPreview,
+  });
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
@@ -89,35 +69,49 @@ const LiveChat = () => {
     [userInfo]
   );
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && !event.shiftKey) {
+  const handleFormSubmission = useCallback(
+    (
+      event:
+        | React.FormEvent<HTMLFormElement>
+        | React.KeyboardEvent<HTMLInputElement>
+    ) => {
       event.preventDefault();
       if (!messageTextIsEmpty) {
+        liveChatSubmission({
+          event,
+          messageText,
+          setMessageText,
+          droppedFile,
+          setDroppedFile,
+          setAttachmentPreview,
+          setMediaType,
+          mediaType,
+          channel,
+          chatroomId,
+          inputBox,
+          currentUser,
+        });
+      }
+    },
+    [
+      chatroomId,
+      channel,
+      currentUser,
+      droppedFile,
+      mediaType,
+      messageTextIsEmpty,
+      messageText,
+    ]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter" && !event.shiftKey) {
         handleFormSubmission(event);
       }
-    }
-  };
-
-  const handleFormSubmission = (
-    event:
-      | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    liveChatSubmission({
-      event,
-      messageText,
-      setMessageText,
-      droppedFile,
-      setDroppedFile,
-      setAttachmentPreview,
-      setMediaType,
-      mediaType,
-      channel,
-      chatroomId,
-      inputBox,
-      currentUser,
-    });
-  };
+    },
+    [handleFormSubmission]
+  );
 
   return (
     <section

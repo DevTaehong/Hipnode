@@ -42,7 +42,7 @@ const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
         audioElement.removeEventListener("ended", handleAudioEnd);
       };
     }
-  }, []);
+  }, [audioRef, songUrl]);
 
   const togglePlayPause = () => {
     if (audioRef.current) {
