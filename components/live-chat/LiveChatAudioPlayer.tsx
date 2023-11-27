@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 
 import { playButton, timerImage, pauseButton } from "@/public/assets";
 import LiveChatAudioAnimation from "./LiveChatAudioAnimation";
