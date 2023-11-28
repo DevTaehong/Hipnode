@@ -6,10 +6,10 @@ import {
   ImVolumeHigh,
 } from "react-icons/im";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { Comment } from "@prisma/client";
 
 import { supabase } from "@/utils/supabaseClient";
 import { monthNames } from "@/constants";
-import { CommentProps } from "@/types/posts";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -41,6 +41,7 @@ export const uploadImageToSupabase = async (
     const fileExtension = file.name.split(".").pop();
     const prefix = folderName && folderName.trim() ? `${folderName}/` : "";
     const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
+    console.log("we are here");
 
     const { error } = await supabase.storage
       .from(bucketName)
@@ -221,9 +222,9 @@ export function capitalise(str: string) {
 }
 
 export const groupCommentsByParentId = (
-  comments: CommentProps[]
-): Record<string, CommentProps[]> => {
-  const group: Record<string, CommentProps[]> = {};
+  comments: Comment[]
+): Record<string, Comment[]> => {
+  const group: Record<string, Comment[]> = {};
   comments.forEach((comment) => {
     const key =
       comment?.parentId === null ? "null" : comment?.parentId?.toString();
@@ -236,7 +237,7 @@ export const groupCommentsByParentId = (
 };
 
 export const getRepliesToComments = (
-  commentsByParentId: Record<string, CommentProps[]>,
+  commentsByParentId: Record<string, Comment[]>,
   parentId?: string | null
 ) => {
   return commentsByParentId[parentId ?? "null"];
@@ -256,6 +257,33 @@ export const howManyMonthsAgo = (dateStr: Date | null) => {
   const totalMonths = yearDiff * 12 + monthDiff;
 
   return totalMonths;
+};
+
+export async function uploadLivechatAttachment(files) {
+  const bucket = "livechat"; // Static bucket name
+  const folder = "attachments"; // Static folder name
+  const file = files[0]; // Assuming single file upload, adjust as needed
+  const filePath = `${folder}/${Date.now()}_${file.name}`;
+
+  const { error, data } = await supabase.storage
+    .from(bucket)
+    .upload(filePath, file);
+
+  if (error) {
+    throw error;
+  }
+  const publicURL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/livechat/${data.path}`;
+
+  return {
+    ...data,
+    publicURL, // Return the public URL along with other data
+  };
+}
+
+export const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
 export const userHasLikedPost = (

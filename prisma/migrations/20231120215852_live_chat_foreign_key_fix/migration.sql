@@ -18,7 +18,7 @@ CREATE TABLE "ChatroomUsers" (
 -- CreateTable
 CREATE TABLE "Message" (
     "id" SERIAL NOT NULL,
-    "text" TEXT NOT NULL,
+    "text" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" INTEGER NOT NULL,
     "chatroomId" INTEGER NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE "Message" (
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
+-- -- CreateTable
 -- CREATE TABLE "Share" (
 --     "id" SERIAL NOT NULL,
 --     "userId" INTEGER NOT NULL,
