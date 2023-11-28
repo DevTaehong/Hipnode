@@ -23,7 +23,7 @@ const NotificationPopover = ({ notifications }: NotificationProps) => {
         </section>
       </div>
 
-      <div className="relative top-[-100px] rounded-b-lg bg-white dark:bg-[#2C353D]">
+      <div className="relative top-[-100px] rounded-b-lg bg-white dark:bg-dark-4">
         <Separator className="my-[1.875rem] bg-light-2 dark:bg-dark-3" />
 
         <HorizontalScrollList />
