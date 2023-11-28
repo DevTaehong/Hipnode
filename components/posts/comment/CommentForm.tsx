@@ -66,7 +66,7 @@ const CommentForm = ({
     try {
       if (isEditing) {
         await updateComment(Number(commentId), values.comment, path);
-        setIsEditing(false);
+        setIsEditing?.(false);
       } else if (currentUser?.id) {
         await addCommentOrReply(
           currentUser?.id,
@@ -75,7 +75,7 @@ const CommentForm = ({
           Number(parentId) || null,
           path
         );
-        setIsReplying(false);
+        setIsReplying?.(false);
       }
     } catch (error) {
       console.error("Error processing comment:", error);

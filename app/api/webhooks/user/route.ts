@@ -2,7 +2,7 @@
 import { IncomingHttpHeaders } from "http";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import type { UserJSON } from "@clerk/nextjs/server";
+import { clerkClient, type UserJSON } from "@clerk/nextjs/server";
 import { Webhook, WebhookRequiredHeaders } from "svix";
 
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
@@ -90,6 +90,13 @@ async function handler(request: Request) {
       username,
       picture: image_url,
       email: emailAddress,
+    });
+
+
+    await clerkClient.users.updateUserMetadata(id, {
+      publicMetadata: {
+        userId: user.id,
+      }
     });
 
     if (user) {

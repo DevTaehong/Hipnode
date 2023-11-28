@@ -15,6 +15,8 @@ import {
   ExtendedPostById,
   ExtendedPrismaPost,
 } from "@/types/posts";
+import { auth, clerkClient } from "@clerk/nextjs/server";
+import { verifyAuth } from "../auth";
 
 export async function handleTags(tagNames: string[]) {
   const existingTags = await prisma.tag.findMany({
@@ -383,6 +385,8 @@ export async function addCommentOrReply(
   path: string
 ): Promise<ExtendedComment> {
   try {
+    verifyAuth("You must be logged in to comment or reply to a post.");
+
     const newComment = await prisma.comment.create({
       data: {
         content,
@@ -415,8 +419,14 @@ export async function updateComment(
   path: string
 ): Promise<CommentAuthorProps> {
   try {
+    const user = verifyAuth("You must be logged in to update a comment.");
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
+    if (!dbUserID) throw new Error("User not found");
+
     const comment = await prisma.comment.update({
-      where: { id: commentId },
+      where: { id: commentId, authorId: dbUserID },
       data: {
         content,
       },
@@ -431,6 +441,8 @@ export async function updateComment(
         parent: true,
       },
     });
+
+    if (!comment) throw new Error("Comment not found.");
 
     revalidatePath(path);
     return comment;
