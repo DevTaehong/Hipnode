@@ -14,35 +14,36 @@ import UserButtonLink from "./UserButtonLink";
 
 const UserButton = () => {
   const { user } = useUser();
-  const userImg = user?.imageUrl;
 
   return (
     <Popover>
-      <PopoverTrigger className="flex items-center justify-center gap-4">
-        <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
-          <Image
-            src={userImg ?? "/christopher.png"}
-            alt="User Image"
-            width={30}
-            height={30}
-            className="m-[2px] rounded-[0.375rem] bg-yellow-30"
-          />
-        </div>
+      {user && (
+        <PopoverTrigger className="flex items-center justify-center gap-4">
+          <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
+            <Image
+              src={user?.imageUrl}
+              alt="User Image"
+              width={30}
+              height={30}
+              className="m-[2px] rounded-[0.375rem] bg-yellow-30"
+            />
+          </div>
 
-        <p className="hidden w-[100px] items-center justify-center gap-2.5 xl:flex">
-          <span className="line-clamp-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
-            {user?.username}
-          </span>
+          <p className="hidden w-[100px] items-center justify-center gap-2.5 xl:flex">
+            <span className="line-clamp-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
+              {user?.username}
+            </span>
 
-          <Image
-            src="/navbar/triangle_down.svg"
-            alt="User Image"
-            width={20}
-            height={20}
-            className="shrink-0"
-          />
-        </p>
-      </PopoverTrigger>
+            <Image
+              src="/navbar/triangle_down.svg"
+              alt="User Image"
+              width={20}
+              height={20}
+              className="shrink-0"
+            />
+          </p>
+        </PopoverTrigger>
+      )}
       <PopoverContent className="relative right-[20px] top-[17px] flex h-[187px] w-[182px] flex-col justify-center gap-5 bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[57px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <div className="relative top-[5px] flex flex-col gap-5">
           <UserButtonLink link="/profile" text="Profile" />
