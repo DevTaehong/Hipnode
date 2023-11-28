@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/popover";
 import FillIcon from "../icons/fill-icons";
 import NotificationPopover from "../notificationPopover/NotificationPopover";
+import { dummyNotifications } from "@/constants";
 
 const NotificationButton = () => {
   return (
@@ -20,7 +21,7 @@ const NotificationButton = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        <NotificationPopover />
+        <NotificationPopover notifications={dummyNotifications} />
       </PopoverContent>
     </Popover>
   );

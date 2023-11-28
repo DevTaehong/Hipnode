@@ -1,17 +1,18 @@
-import { dummyNotifications } from "@/constants";
 import CustomButton from "../CustomButton";
 import OutlineIcon from "../icons/outline-icons";
 import { Separator } from "../ui/separator";
 import HorizontalScrollList from "./HorizontalScrollList";
 import NotificationComment from "./NotificationComment";
 
-const NotificationPopover = () => {
+import { NotificationProps } from "@/types";
+
+const NotificationPopover = ({ notifications }: NotificationProps) => {
   return (
     <section className="relative right-[294px] w-[589px]">
-      <div className="flex h-[187px] w-[589px] flex-col items-start justify-between bg-[url('/navbar/notification_bg_light.svg')] bg-center  dark:bg-[url('/navbar/notification_bg_dark.svg')]">
+      <div className="flex h-[187px] w-[589px] flex-col items-start justify-between bg-[url('/navbar/notification_bg_light.svg')] bg-center dark:bg-[url('/navbar/notification_bg_dark.svg')]">
         <section className="mt-11 flex w-full items-center justify-between px-8">
           <h1 className="text-[1.625rem] font-semibold leading-[2.375rem] text-sc-2 dark:text-light-2">
-            3 Notifications
+            {notifications.length} Notifications
           </h1>
 
           <CustomButton
@@ -30,7 +31,7 @@ const NotificationPopover = () => {
         <Separator className="mb-5 bg-light-2 dark:bg-dark-3" />
 
         <div className="flex flex-col gap-[1.875rem] px-4 pb-4">
-          {dummyNotifications.map((notification) => (
+          {notifications.map((notification) => (
             <NotificationComment
               key={notification.name}
               name={notification.name}
