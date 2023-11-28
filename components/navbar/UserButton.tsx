@@ -15,7 +15,7 @@ import UserButtonLink from "./UserButtonLink";
 const UserButton = () => {
   const { user } = useUser();
   const userImg = user?.imageUrl;
-  console.log(user);
+
   return (
     <Popover>
       <PopoverTrigger className="flex items-center justify-center gap-4">
