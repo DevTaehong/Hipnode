@@ -238,13 +238,15 @@ model ChatroomUsers {
 }
 
 model Message {
-  id         Int      @id @default(autoincrement())
-  text       String
-  createdAt  DateTime @default(now())
-  userId     Int
-  chatroomId Int
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  id              Int      @id @default(autoincrement())
+  text            String?
+  createdAt       DateTime @default(now())
+  userId          Int
+  chatroomId      Int
+  attachment      String?
+  attachmentType  String?
+  Chatroom        Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

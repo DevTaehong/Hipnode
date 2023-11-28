@@ -1,4 +1,12 @@
 import { User } from "@prisma/client";
+import {
+  Dispatch,
+  SetStateAction,
+  FormEvent,
+  KeyboardEvent,
+  RefObject,
+} from "react";
+import { Types } from "ably";
 
 export type ChatroomType = {
   userId: number;
@@ -6,9 +14,11 @@ export type ChatroomType = {
 };
 
 export type CreateMessageType = {
-  text: string;
+  text?: string | null;
   userId: number;
   chatroomId: number;
+  attachment: string | null;
+  attachmentType: string | null;
 };
 
 export type EditMessageType = {
@@ -16,25 +26,91 @@ export type EditMessageType = {
   newText: string;
 };
 
-export interface ChatMessage {
-  connectionId?: string;
-  data: {
-    user: {
-      id: string;
-      username: string;
-      image: string;
-    };
-    chatroomId?: number;
-    text: string;
-  };
-}
-
 export interface MessageToSend {
-  text: string;
+  text?: string;
   userId: number | null;
   chatroomId: number | null;
+  attachment?: string;
 }
 
 export interface ChatProps extends User {
   online?: boolean;
+}
+
+export interface AttachmentPreviewProps {
+  setAttachmentPreview: (value: string | null) => void;
+  setDroppedFile: (value: File | null) => void;
+  attachmentPreview: string;
+  mediaType: string;
+}
+
+export interface LiveChatAudioPlayerProps {
+  displayTime: number;
+  isPlaying: boolean;
+  togglePlayPause: () => void;
+}
+
+export interface ChatroomUser {
+  id: number;
+  username: string | undefined;
+  image: string;
+}
+
+export interface ChatroomMap {
+  [chatroomId: number]: Set<number>;
+}
+
+export interface UserInfo {
+  id: number;
+  username: string;
+  image: string;
+}
+
+export interface ChatMessage {
+  connectionId?: string;
+  data: {
+    user: ChatroomUser;
+    messageId: number;
+    attachment?: string | null;
+    attachmentType?: string | null;
+    chatroomId?: number;
+    text: string | null;
+  };
+}
+export interface loadMessagesProps {
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+  chatroomId: number | null;
+  chatroomUsers: ChatroomUser[];
+}
+
+export interface useDropzoneHandlerProps {
+  setMediaType: Dispatch<SetStateAction<string>>;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
+}
+
+export interface RenderPreviewProps {
+  mediaType: string;
+  attachmentPreview: string;
+}
+
+export interface CurrentUser {
+  id: number | null;
+  username: string;
+  image: string;
+}
+
+export interface LiveChatSubmissionProps {
+  event: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>;
+  messageText: string;
+  setMessageText: Dispatch<SetStateAction<string>>;
+  droppedFile: File | File[] | null;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
+  setMediaType: Dispatch<SetStateAction<string>>;
+  mediaType: string | null;
+  channel: Types.RealtimeChannelPromise;
+  chatroomId: number | null;
+  inputBox: RefObject<HTMLFormElement | HTMLInputElement>;
+  currentUser: CurrentUser;
 }

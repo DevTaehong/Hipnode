@@ -16,18 +16,17 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
     userInfo,
     setChatroomId,
   } = useChatStore();
-  const { id, username, image } = userInfo;
 
   const handleUserClick = (clickedUserId: number) => {
     const clickedUser = users.find((user) => user.id === clickedUserId);
 
     if (clickedUser) {
       const chatroomUsers = [
-        { id, username, picture: image },
+        userInfo,
         {
           id: clickedUser.id,
           username: clickedUser.username,
-          picture: clickedUser.picture,
+          image: clickedUser.picture,
         },
       ];
       setChatroomId(null);
@@ -38,18 +37,18 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <ul className="flex flex-col gap-1">
       {users &&
         users.map((user) => {
           const { id, username, picture, online } = user;
           return (
             <PopoverClose key={id}>
-              <div
+              <li
                 className="flex cursor-pointer items-center justify-between gap-2"
                 onClick={() => handleUserClick(id)}
               >
-                <p>{username}</p>
-                <div className="flex h-5 w-5">
+                <span>{username}</span>
+                <figure className="flex h-5 w-5">
                   <Image
                     src={picture}
                     alt={`profile image for ${username}`}
@@ -57,17 +56,17 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
                     width={20}
                     className="rounded-full"
                   />
-                </div>
+                </figure>
                 <div
                   className={`h-3.5 w-3.5 rounded-full ${
                     online ? "bg-green-500" : "bg-slate-400"
                   }`}
                 />
-              </div>
+              </li>
             </PopoverClose>
           );
         })}
-    </div>
+    </ul>
   );
 };
 

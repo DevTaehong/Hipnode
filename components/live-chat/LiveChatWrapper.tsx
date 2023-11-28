@@ -1,14 +1,10 @@
 "use client";
 
-import * as Ably from "ably";
 import { AblyProvider } from "ably/react";
 import LiveChat from "./LiveChat";
+import { client } from "@/lib/ably";
 
 const LiveChatWrapper = () => {
-  const client = new Ably.Realtime.Promise({
-    key: process.env.NEXT_PUBLIC_ABLY_API_KEY,
-    clientId: "hipnode",
-  });
   return (
     <AblyProvider client={client}>
       <LiveChat />

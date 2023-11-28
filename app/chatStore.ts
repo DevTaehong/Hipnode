@@ -7,7 +7,7 @@ import { create } from "zustand";
 interface ChatroomUser {
   id: number;
   username: string;
-  picture: string;
+  image: string;
 }
 
 interface ChatroomMap {
