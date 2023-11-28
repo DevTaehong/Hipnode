@@ -24,11 +24,11 @@ const NotificationPopover = ({ notifications }: NotificationProps) => {
       </div>
 
       <div className="relative top-[-100px] rounded-b-lg bg-white dark:bg-dark-4">
-        <Separator className="my-[1.875rem] bg-light-2 dark:bg-dark-3" />
+        <Separator className="seperator-light2-dark3 my-[1.875rem]" />
 
         <HorizontalScrollList />
 
-        <Separator className="mb-5 bg-light-2 dark:bg-dark-3" />
+        <Separator className="seperator-light2-dark3 mb-5" />
 
         <div className="flex flex-col gap-[1.875rem] px-4 pb-4">
           {notifications.map((notification) => (

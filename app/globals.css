@@ -10,6 +10,12 @@
   }
 }
 
+@layer utilities {
+  .seperator-light2-dark3 {
+    @apply bg-light-2 dark:bg-dark-3;
+  }
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
