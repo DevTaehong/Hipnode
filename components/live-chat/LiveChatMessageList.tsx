@@ -17,7 +17,7 @@ const LiveChatMessageList = React.memo(
       username: secondUserUsername = "",
       image: secondUserPicture = christopher,
       id: secondUserId = null,
-    } = secondUser || {};
+    } = secondUser ?? {};
 
     const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +44,7 @@ const LiveChatMessageList = React.memo(
         <section className="flex w-full items-center justify-between border-b border-sc-6 p-4 dark:border-sc-2">
           <figure className="flex items-center gap-2.5">
             <Image
-              src={secondUserPicture || christopher}
+              src={secondUserPicture}
               alt={`image of ${secondUserUsername}`}
               height={40}
               width={40}

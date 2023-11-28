@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 import MessageAttachment from "./MessageAttachment";
@@ -21,8 +20,9 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
         ? "bg-red-80 text-white"
         : "bg-red-10 text-red-80",
   };
-  const padding = message.data.attachment ? "p-0" : "p-3.5";
-  const childPadding = message.data.attachment ? "p-3.5" : "p-0";
+  const hasAttachment = message.data.attachment;
+  const padding = hasAttachment ? "p-0" : "p-3.5";
+  const childPadding = hasAttachment ? "p-3.5" : "p-0";
   return (
     <li
       className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}

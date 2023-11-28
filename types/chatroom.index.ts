@@ -1,5 +1,12 @@
 import { User } from "@prisma/client";
-import { Dispatch, SetStateAction } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  FormEvent,
+  KeyboardEvent,
+  RefObject,
+} from "react";
+import { Types } from "ably";
 
 export type ChatroomType = {
   userId: number;
@@ -85,4 +92,25 @@ export interface useDropzoneHandlerProps {
 export interface RenderPreviewProps {
   mediaType: string;
   attachmentPreview: string;
+}
+
+export interface CurrentUser {
+  id: number | null;
+  username: string;
+  image: string;
+}
+
+export interface LiveChatSubmissionProps {
+  event: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>;
+  messageText: string;
+  setMessageText: Dispatch<SetStateAction<string>>;
+  droppedFile: File | File[] | null;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
+  setMediaType: Dispatch<SetStateAction<string>>;
+  mediaType: string | null;
+  channel: Types.RealtimeChannelPromise;
+  chatroomId: number | null;
+  inputBox: RefObject<HTMLFormElement | HTMLInputElement>;
+  currentUser: CurrentUser;
 }

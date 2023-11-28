@@ -1,5 +1,4 @@
-import React, { SetStateAction, useCallback } from "react";
-import { Types } from "ably";
+import { useCallback } from "react";
 
 import {
   createMessage,
@@ -7,6 +6,7 @@ import {
 } from "@/lib/actions/chatroom.actions";
 import { uploadLivechatAttachment } from "@/utils";
 import {
+  LiveChatSubmissionProps,
   loadMessagesProps,
   useDropzoneHandlerProps,
 } from "@/types/chatroom.index";
@@ -42,29 +42,6 @@ export const loadMessages = async ({
     }
   }
 };
-
-interface CurrentUser {
-  id: number | null;
-  username: string;
-  image: string;
-}
-
-interface LiveChatSubmissionProps {
-  event:
-    | React.FormEvent<HTMLFormElement>
-    | React.KeyboardEvent<HTMLInputElement>;
-  messageText: string;
-  setMessageText: React.Dispatch<React.SetStateAction<string>>;
-  droppedFile: File | File[] | null;
-  setDroppedFile: React.Dispatch<SetStateAction<File | File[] | null>>;
-  setAttachmentPreview: React.Dispatch<React.SetStateAction<string | null>>;
-  setMediaType: React.Dispatch<SetStateAction<string>>;
-  mediaType: string | null;
-  channel: Types.RealtimeChannelPromise;
-  chatroomId: number | null;
-  inputBox: React.RefObject<HTMLFormElement | HTMLInputElement>;
-  currentUser: CurrentUser;
-}
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   const {

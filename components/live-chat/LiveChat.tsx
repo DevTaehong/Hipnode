@@ -53,12 +53,14 @@ const LiveChat = () => {
     loadMessages({ setMessages, chatroomId, chatroomUsers });
   }, [chatroomId, chatroomUsers, showChat]);
 
-  const userInfo = useMemo(() => {
-    if (!chatroomUsers || !chatroomUsers[0]) {
-      return { id: null, username: "", image: "" };
-    }
-    return chatroomUsers[0];
-  }, [chatroomUsers]);
+  useEffect(() => {
+    setMessageText("");
+  }, [chatroomId]);
+
+  const userInfo = useMemo(
+    () => chatroomUsers?.[0] || { id: null, username: "", image: "" },
+    [chatroomUsers]
+  );
 
   const currentUser = useMemo(
     () => ({
@@ -124,7 +126,7 @@ const LiveChat = () => {
       <input {...getInputProps()} />
       <LiveChatMessageList messages={receivedMessages} />
       <form
-        onSubmit={(event) => handleFormSubmission(event)}
+        onSubmit={handleFormSubmission}
         className="flex w-full gap-5 px-5 pb-5"
       >
         <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">

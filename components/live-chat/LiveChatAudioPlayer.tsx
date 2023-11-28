@@ -60,7 +60,11 @@ const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
   return (
     <div className="flex-center mb-3 h-[3.125rem] w-[12rem] rounded-lg bg-red-80 px-3 py-2.5">
       <div className="flex w-full justify-between gap-5">
-        <div onClick={togglePlayPause} className="cursor-pointer rounded-full">
+        <button
+          type="button"
+          onClick={togglePlayPause}
+          className="cursor-pointer rounded-full"
+        >
           <Image
             src={isPlaying ? pauseButton : playButton}
             alt={isPlaying ? "Pause" : "Play"}
@@ -68,7 +72,7 @@ const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
             width={30}
             className="rounded-full"
           />
-        </div>
+        </button>
         <figure className="flex-center">
           {isPlaying ? (
             <LiveChatAudioAnimation />
