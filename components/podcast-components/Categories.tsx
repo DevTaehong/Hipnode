@@ -44,32 +44,36 @@ const Categories = ({
       className={`bg-light_dark-3 flex h-fit w-full flex-col gap-3 rounded-2xl p-5 ${className}`}
     >
       <h2 className="semibold-18 text-sc-2_light">Filter by {title}</h2>
-      {filters.map((category) => (
-        <div key={category.id} className="flex w-full justify-between gap-2">
-          <label
-            className="text-sc-2_light semibold-12"
-            htmlFor={category.name}
-          >
-            {category.name}
-          </label>
+      {filters.map((category) => {
+        const isSelected = selectFilters.includes(category.id);
+        return (
           <div
-            className={cn(
-              "mt-0.5 flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200",
-              selectFilters.includes(category.id) && "border-red bg-red",
-              !selectFilters.includes(category.id) && "border-sc-3"
-            )}
+            key={category.id}
+            className="flex w-full cursor-pointer justify-between gap-2"
             onClick={() => toggleCategory(category.id)}
           >
-            <OutlineIcon.Success
+            <label
               className={`${
-                !selectFilters.includes(category.id)
-                  ? "fill-none"
-                  : "fill-white"
-              }`}
-            />
+                isSelected ? "text-sc-2_light" : "text-sc-3"
+              } semibold-12 cursor-pointer`}
+              htmlFor={category.name}
+            >
+              {category.name}
+            </label>
+            <div
+              className={cn(
+                "mt-0.5 flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200",
+                selectFilters.includes(category.id) && "border-red bg-red",
+                !selectFilters.includes(category.id) && "border-sc-3"
+              )}
+            >
+              <OutlineIcon.Success
+                className={`${isSelected ? "fill-white" : "fill-none"}`}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

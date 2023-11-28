@@ -29,7 +29,7 @@ const ShareButtons = ({ title, shareIcons }: ShareButtonsProps) => {
       <PopoverTrigger>
         <Button
           size="icon"
-          className="rounded-full border border-sc-2 dark:border-sc-3"
+          className="rounded-full border border-sc-2 hover:bg-light-2 dark:border-sc-3 dark:hover:bg-dark-4"
         >
           <OutlineIcon.Share />
         </Button>

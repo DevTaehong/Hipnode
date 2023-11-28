@@ -161,6 +161,7 @@ export interface QuestionnaireFormProps {
   handleNextClick: () => void;
   selectedAnswers: AnswersType[];
   questionSet: number;
+  shouldOnboard: boolean;
 }
 
 export interface OnboardingSideScreenProps {

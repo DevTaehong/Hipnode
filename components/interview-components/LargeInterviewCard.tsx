@@ -37,7 +37,10 @@ const LargeInterviewCard = ({
           />
           <div className="flex gap-6">
             {tags?.map((tag: string) => (
-              <span className="base-12 text-yellow-90 md:text-base" key={tag}>
+              <span
+                className="base-12 cursor-pointer text-yellow-90 hover:text-red-60 md:text-base"
+                key={tag}
+              >
                 #{tag}
               </span>
             ))}

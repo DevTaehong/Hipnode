@@ -34,6 +34,7 @@ const PodcastProgressBar = ({
       <Progress
         value={percentagePlayed}
         onClick={(percentage) => handleProgressClick({ audioRef, percentage })}
+        className="cursor-pointer"
       />
       <p className="text-sc-1_light-2 text-xs">{formattedLength}</p>
     </div>

@@ -29,9 +29,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
         await createOnboarding(userClerkId, userAnswers);
         router.push("/");
       };
-
       doOnboarding();
-      setShouldOnboard(false);
     }
   }, [shouldOnboard]);
 
@@ -57,12 +55,12 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
   const handleNextClick = () => {
     if (selectedAnswers.length) {
       if (questionSet === 2) {
+        setShouldOnboard(true);
         const allAnswers = {
           ...userAnswers,
           answersQuestion3: selectedAnswers as string[],
         };
         setUserAnswers(allAnswers);
-        setShouldOnboard(true);
       } else {
         const questionKeysMap: QuestionKeysMapType = {
           0: "answerQuestion1",
@@ -109,6 +107,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
       handleNextClick={handleNextClick}
       selectedAnswers={selectedAnswers}
       questionSet={questionSet}
+      shouldOnboard={shouldOnboard}
     />
   );
 };
