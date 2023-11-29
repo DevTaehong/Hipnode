@@ -8,10 +8,10 @@ import { NotificationProps } from "@/types";
 
 const NotificationPopover = ({ notifications }: NotificationProps) => {
   return (
-    <section className="relative right-[294px] w-[589px]">
-      <div className="flex h-[187px] w-[589px] flex-col items-start justify-between bg-[url('/navbar/notification_bg_light.svg')] bg-center dark:bg-[url('/navbar/notification_bg_dark.svg')]">
+    <section className="relative right-[124px] w-[335px] rounded-lg xl:right-[294px] xl:w-[589px]">
+      <div className="flex h-[203px] w-[335px] flex-col items-start justify-between rounded-lg bg-[url('/navbar/notification_bg_mobile_light.svg')] bg-center dark:bg-[url('/navbar/notification_bg_mobile_dark.svg')] xl:h-[187px] xl:w-[589px] xl:bg-[url('/navbar/notification_bg_light.svg')] dark:xl:bg-[url('/navbar/notification_bg_dark.svg')]">
         <section className="mt-11 flex w-full items-center justify-between px-8">
-          <h1 className="text-[1.625rem] font-semibold leading-[2.375rem] text-sc-2 dark:text-light-2">
+          <h1 className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 xl:text-[1.625rem] xl:leading-[2.375rem]">
             {notifications.length} Notifications
           </h1>
 
@@ -23,7 +23,7 @@ const NotificationPopover = ({ notifications }: NotificationProps) => {
         </section>
       </div>
 
-      <div className="relative top-[-100px] rounded-b-lg bg-white dark:bg-dark-4">
+      <div className="relative top-[-125px] rounded-b-lg bg-white dark:bg-dark-4 xl:top-[-100px]">
         <Separator className="seperator-light2-dark3 my-[1.875rem]" />
 
         <HorizontalScrollList />
