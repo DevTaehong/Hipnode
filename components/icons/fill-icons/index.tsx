@@ -36,7 +36,7 @@ import MoreVerticalIcon from "./MoreVerticalIcon";
 interface FillIconProps {
   children?: ReactNode;
   className?: string;
-  notifcation?: boolean;
+  notification?: boolean;
 }
 
 const FillIcon = ({ children, className }: FillIconProps) => {
@@ -119,10 +119,10 @@ FillIcon.Google = function Icon({ className }: FillIconProps) {
   );
 };
 
-FillIcon.Group = function Icon({ className, notifcation }: FillIconProps) {
+FillIcon.Group = function Icon({ className, notification }: FillIconProps) {
   return (
     <FillIcon className={className ?? "fill-[#C5D0E6] dark:fill-[#F4F6F8]"}>
-      <GroupIcon notifcation={notifcation} />
+      <GroupIcon notification={notification} />
     </FillIcon>
   );
 };
@@ -209,11 +209,11 @@ FillIcon.MoreVertical = function Icon({ className }: FillIconProps) {
 
 FillIcon.Notification = function Icon({
   className,
-  notifcation,
+  notification,
 }: FillIconProps) {
   return (
     <FillIcon className={className ?? "fill-[#858EAD] dark:fill-[#F4F6F8]"}>
-      <NotificationIcon notifcation={notifcation} />
+      <NotificationIcon notification={notification} />
     </FillIcon>
   );
 };

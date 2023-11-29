@@ -16,7 +16,7 @@ const NotificationButton = () => {
         <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
           <FillIcon.Notification
             className="fill-sc-4 dark:fill-sc-6"
-            notifcation
+            notification
           />
         </div>
       </PopoverTrigger>

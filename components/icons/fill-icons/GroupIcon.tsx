@@ -1,4 +1,8 @@
-export default function GroupIcon({ notifcation }: { notifcation?: boolean }) {
+export default function GroupIcon({
+  notification,
+}: {
+  notification?: boolean;
+}) {
   return (
     <>
       <ellipse cx="10" cy="15" rx="6" ry="3" />
@@ -23,7 +27,7 @@ export default function GroupIcon({ notifcation }: { notifcation?: boolean }) {
         clipRule="evenodd"
         d="M4.50018 12C4.50012 12 4.50006 12 4.5 12C3.11929 12 2 13.1193 2 14.5C2 15.0628 2.18598 15.5822 2.49982 16C1.11919 15.9999 0 14.8807 0 13.5C0 12.1193 1.11929 11 2.5 11C3.31791 11 4.04408 11.3928 4.50018 12Z"
       />
-      {notifcation && (
+      {notification && (
         <circle cx="16.5" cy="3.5" r="3" fill="#FF6934" stroke="white" />
       )}
     </>
