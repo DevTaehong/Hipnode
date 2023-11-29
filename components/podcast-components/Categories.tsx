@@ -2,21 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import OutlineIcon from "../icons/outline-icons";
-import { cn } from "@/lib/utils";
+
 import { capitalise } from "@/utils";
+import FilterCategory from "./FilterCategory";
+import { CategoriesProps } from "@/types";
 
 const Categories = ({
   filters,
   page,
   urlFilter,
   className,
-}: {
-  filters: any[];
-  page: string;
-  urlFilter: string;
-  className: string;
-}) => {
+}: CategoriesProps) => {
   const router = useRouter();
   const [selectFilters, setSelectFilters] = useState<number[]>([]);
 
@@ -47,31 +43,12 @@ const Categories = ({
       {filters.map((category) => {
         const isSelected = selectFilters.includes(category.id);
         return (
-          <div
+          <FilterCategory
             key={category.id}
-            className="flex w-full cursor-pointer justify-between gap-2"
-            onClick={() => toggleCategory(category.id)}
-          >
-            <label
-              className={`${
-                isSelected ? "text-sc-2_light" : "text-sc-3"
-              } semibold-12 cursor-pointer`}
-              htmlFor={category.name}
-            >
-              {category.name}
-            </label>
-            <div
-              className={cn(
-                "mt-0.5 flex h-4 min-h-[1rem] w-4 min-w-[1rem] cursor-pointer items-center justify-center rounded-sm border transition duration-200",
-                selectFilters.includes(category.id) && "border-red bg-red",
-                !selectFilters.includes(category.id) && "border-sc-3"
-              )}
-            >
-              <OutlineIcon.Success
-                className={`${isSelected ? "fill-white" : "fill-none"}`}
-              />
-            </div>
-          </div>
+            category={category}
+            isSelected={isSelected}
+            toggleCategory={toggleCategory}
+          />
         );
       })}
     </div>

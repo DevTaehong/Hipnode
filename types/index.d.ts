@@ -326,3 +326,21 @@ export interface StatsDescriptionProps {
   children: React.ReactNode;
   className?: string;
 }
+
+export interface FilterType {
+  id: number;
+  name: string;
+}
+
+export interface FilterCategoryProps {
+  category: FilterType;
+  isSelected: boolean;
+  toggleCategory: (category: number) => void;
+}
+
+export interface CategoriesProps {
+  filters: FilterType[];
+  page: string;
+  urlFilter: string;
+  className: string;
+}
