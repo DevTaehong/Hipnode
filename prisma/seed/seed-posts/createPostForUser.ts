@@ -16,7 +16,7 @@ export async function createPostForUser(user: User, groupId: number) {
         image: faker.image.urlLoremFlickr({ category: "nature" }),
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
-        clerkId: faker.string.uuid(),
+        clerkId: user.clerkId,
       },
     });
     return post;

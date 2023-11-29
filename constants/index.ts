@@ -78,7 +78,7 @@ export const groupHeaderData = {
   },
 };
 
-export const meetUpsCardPills = ["Remote", "Part-time", "Worldwide"];
+export const meetUpsCardPills = ["Remote", "Part", "World"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
 
 export const admins = [
@@ -285,6 +285,39 @@ export const tags = [
   {
     name: "seo",
     views: "82,152 Posted by this tag",
+    icon: OutlineIcon.Popular,
+    iconBgColor: "bgRed",
+    iconFillColor: "fillRed",
+  },
+];
+
+export const homePageTags = [
+  {
+    icon: OutlineIcon.Dev,
+    iconBgColor: "bgYellow",
+    iconFillColor: "fillYellow",
+  },
+  {
+    icon: OutlineIcon.Popular,
+    iconBgColor: "bgRed",
+    iconFillColor: "fillRed",
+  },
+  {
+    icon: OutlineIcon.Popular,
+    iconBgColor: "bgBlue",
+    iconFillColor: "fillBlue",
+  },
+  {
+    icon: OutlineIcon.Dev,
+    iconBgColor: "bgYellow",
+    iconFillColor: "fillYellow",
+  },
+  {
+    icon: OutlineIcon.Dev,
+    iconBgColor: "bgGreen",
+    iconFillColor: "fillGreen",
+  },
+  {
     icon: OutlineIcon.Popular,
     iconBgColor: "bgRed",
     iconFillColor: "fillRed",
@@ -557,20 +590,6 @@ export const performanceData = [
   },
 ];
 
-export const devInfo = [
-  {
-    title: "Self-taught developer Journal, Day 51",
-    tags: "#webdev #beginners #codenewbie #devjournal",
-  },
-  {
-    title: "Coding Bootcamp Journey, Day 51",
-    tags: "#webdev #beginners #codenewbie #devjournal",
-  },
-  {
-    title: "Formal Education Pathway, Day 51",
-    tags: "#webdev #beginners #codenewbie #devjournal",
-  },
-];
 export interface HostMeetupCardProps {
   title: string;
   desc: string;

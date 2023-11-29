@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs";
 
-import Tags from "@/components/home-page/tags/Tags";
 import Podcasts from "@/components/home-page/podcast/Podcasts";
 import CreatePostInput from "@/components/home-page/CreatePostInput";
 import Meetups from "@/components/home-page/meetup/Meetups";
@@ -10,8 +9,9 @@ import Sidebar from "@/components/home-page/sidebar/Sidebar";
 import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
-import { getAllPosts } from "@/lib/actions/post.action";
+import { getAllPosts, getPopularTags } from "@/lib/actions/post.action";
 import { RightSidebarWrapper } from "@/components/home-page/shared-components";
+import PopularTags from "@/components/home-page/tags/PopularTags";
 
 export default async function Home() {
   const { userId } = auth();
@@ -23,6 +23,7 @@ export default async function Home() {
   const meetups = await getAllMeetUps();
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
+  const tagsData = await getPopularTags();
 
   return (
     <section className="flex w-full bg-light-2  dark:bg-dark-2">
@@ -33,7 +34,7 @@ export default async function Home() {
             <CreatePostInput userImage={userImage} />
           </div>
           <div className="hidden w-full lg:block">
-            <Tags />
+            <PopularTags tagsData={tagsData} />
           </div>
         </div>
 
