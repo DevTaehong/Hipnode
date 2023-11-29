@@ -9,7 +9,10 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { Comment } from "@prisma/client";
 
 import { supabase } from "@/utils/supabaseClient";
-import { monthNames } from "@/constants";
+import { homePageTags, monthNames } from "@/constants";
+import { GetActionBarDataProps } from "@/types/posts";
+import { Comment } from "@prisma/client";
+import { TagIconConfig } from "@/types/homepage";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -291,4 +294,24 @@ export const userHasLikedPost = (
   postLikes: { userId: number }[]
 ): boolean => {
   return postLikes.some((like) => like.userId === userId);
+};
+
+export const getActionBarData = (postData: GetActionBarDataProps) => {
+  const actionBarData = {
+    likesCount: postData.likesCount,
+    commentsCount: postData.commentsCount,
+    sharesCount: postData.sharesCount,
+  };
+  return actionBarData;
+};
+
+export const getIconConfig = (tagName: string): TagIconConfig => {
+  const hash = tagName
+    .split("")
+    .reduce(
+      (acc: number, char: string) => char.charCodeAt(0) + ((acc << 5) - acc),
+      0
+    );
+  const index = Math.abs(hash) % homePageTags.length;
+  return homePageTags[index];
 };

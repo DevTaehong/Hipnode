@@ -237,9 +237,7 @@ OutlineIcon.FrameNumber = function Icon({
 
 OutlineIcon.Heart = function Icon({ className }: OutlineIconProps) {
   return (
-    <HeartIcon
-      className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7] dark:invert"}
-    />
+    <HeartIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"} />
   );
 };
 

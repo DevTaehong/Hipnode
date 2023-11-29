@@ -256,6 +256,18 @@ export interface NotificationTab {
   active: boolean;
 }
 
+export interface NotificationProps {
+  notifications: {
+    name: string;
+    type: "comment" | "reaction" | "mention";
+    comment?: string;
+    read: boolean;
+    title: string;
+    date: string;
+    image: string;
+  }[];
+}
+
 export interface NotificationPopoverProps {
   name: string;
   type: "comment" | "reaction" | "mention";

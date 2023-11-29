@@ -83,8 +83,8 @@ export type CommentIconButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 type DevInfoItem = {
-  title: string;
-  tags: string;
+  heading: string;
+  tags: string[];
 };
 
 export type DevelopmentInfoProps = {
@@ -157,6 +157,7 @@ export type ExtendedPrismaPost = {
   tags: Tag["name"][];
   createdAt: Post["createdAt"];
   heading: Post["heading"];
+  likes: { userId: number }[];
 };
 
 export type ExtendedPostById = ExtendedPrismaPost & {
@@ -186,4 +187,18 @@ export type CardFooterDesktopProps = {
   username: string;
   createdAt: Date;
   socialCounts: SocialCountTuple[];
+};
+
+export type LeftActionBarProps = {
+  actionBarData: {
+    likesCount: number;
+    commentsCount: number;
+    sharesCount?: number;
+  };
+};
+
+export type GetActionBarDataProps = {
+  likesCount: number;
+  commentsCount: number;
+  sharesCount?: number;
 };

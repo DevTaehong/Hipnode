@@ -1,8 +1,8 @@
 import { Group, MeetUp, Podcast } from "@prisma/client";
 import { StaticImageData } from "next/image";
-import { ReactNode } from "react";
-import { ExtendedPost } from "../posts";
+import React, { ReactNode } from "react";
 import { tags } from "@/constants";
+import { ExtendedPrismaPost } from "../posts";
 
 export interface MeetupImageInterface {
   imageSrc: string;
@@ -37,7 +37,8 @@ export type CreatePostInputProps = {
 };
 
 export type PostCardProps = {
-  post: ExtendedPost;
+  post: ExtendedPrismaPost;
+  likes?: number;
 };
 
 export type SocialCountTuple = [string, number];
@@ -103,5 +104,11 @@ export type PodcastItemProps = {
 };
 
 export type PostCardListProps = {
-  posts: ExtendedPost[];
+  posts: ExtendedPrismaPost[];
 };
+
+export interface TagIconConfig {
+  icon: React.ComponentType<{ className?: string }>;
+  iconBgColor: string;
+  iconFillColor: string;
+}

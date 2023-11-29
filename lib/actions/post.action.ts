@@ -15,7 +15,6 @@ import {
   ExtendedPostById,
   ExtendedPrismaPost,
 } from "@/types/posts";
-import { auth, clerkClient } from "@clerk/nextjs/server";
 import { verifyAuth } from "../auth";
 
 export async function handleTags(tagNames: string[]) {
@@ -253,6 +252,7 @@ export async function getAllPosts({
     return posts.map((post) => ({
       ...post,
       likesCount: post.likes.length,
+      likes: post.likes,
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
     }));
@@ -493,6 +493,73 @@ export async function sharePostAndCountShares(
     return shares.length;
   } catch (error) {
     console.error("Error sharing post:", error);
+    throw error;
+  }
+}
+
+export async function getPostsByUserClerkId(
+  clerkId: string
+): Promise<{ heading: string; tags: string[] }[]> {
+  try {
+    const posts = await prisma.post.findMany({
+      where: { clerkId },
+      include: {
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    return posts.map((post) => ({
+      heading: post.heading,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts by user ID:", error);
+    throw error;
+  }
+}
+
+export async function getPopularTags(): Promise<
+  { name: string; views: number }[]
+> {
+  try {
+    const tagCounts = await prisma.tagOnPost.groupBy({
+      by: ["tagId"],
+      _count: {
+        postId: true,
+      },
+      orderBy: {
+        _count: {
+          postId: "desc",
+        },
+      },
+      take: 6,
+    });
+
+    const tagIds = tagCounts.map((tagCount) => tagCount.tagId);
+    const tags = await prisma.tag.findMany({
+      where: {
+        id: {
+          in: tagIds,
+        },
+      },
+    });
+
+    const tagNameMap: Record<number, string> = {};
+
+    tags.forEach((tag) => {
+      tagNameMap[tag.id] = tag.name;
+    });
+
+    return tagCounts.map((tagCount) => ({
+      name: tagNameMap[tagCount.tagId],
+      views: tagCount._count.postId,
+    }));
+  } catch (error) {
+    console.error("Error retrieving popular tags:", error);
     throw error;
   }
 }
