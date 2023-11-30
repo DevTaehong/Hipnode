@@ -267,7 +267,7 @@ export const userHasLikedComment = (
   return comments.some((comment) => comment.authorId === currentUserId);
 };
 
-export async function uploadLivechatAttachment(files) {
+export async function uploadLivechatAttachment(files: File[]) {
   const bucket = "livechat"; // Static bucket name
   const folder = "attachments"; // Static folder name
   const file = files[0]; // Assuming single file upload, adjust as needed
@@ -313,3 +313,19 @@ export const getIconConfig = (tagName: string): TagIconConfig => {
   const index = Math.abs(hash) % homePageTags.length;
   return homePageTags[index];
 };
+
+export function formatRelativeTime(dateString: Date): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}sec ago`;
+  } else if (diffInSeconds < 3600) {
+    return `${Math.floor(diffInSeconds / 60)}min ago`;
+  } else if (diffInSeconds < 86400) {
+    return `${Math.floor(diffInSeconds / 3600)}hour ago`;
+  } else {
+    return `${Math.floor(diffInSeconds / 86400)}day ago`;
+  }
+}

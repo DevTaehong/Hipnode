@@ -61,6 +61,74 @@ export async function getAllChatroomUsers() {
   }
 }
 
+export async function getUserChatrooms(userId: number) {
+  try {
+    const userChatrooms = await prisma.chatroomUsers.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        Chatroom: {
+          include: {
+            Message: {
+              take: 1,
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+            ChatroomUsers: {
+              where: {
+                userId: {
+                  not: userId,
+                },
+              },
+              include: {
+                User: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                    picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const chatroomsWithDetails = userChatrooms.map(({ Chatroom }) => {
+      const recentMessage = Chatroom.Message[0] || null;
+      const otherUser = Chatroom.ChatroomUsers[0]?.User || null;
+
+      return {
+        id: Chatroom.id,
+        createdAt: Chatroom.createdAt,
+        updatedAt: Chatroom.updatedAt,
+        recentMessage,
+        otherUser,
+      };
+    });
+
+    chatroomsWithDetails.sort((a, b) => {
+      const dateA = a.recentMessage
+        ? new Date(a.recentMessage.createdAt).getTime()
+        : 0;
+      const dateB = b.recentMessage
+        ? new Date(b.recentMessage.createdAt).getTime()
+        : 0;
+
+      return dateB - dateA;
+    });
+
+    return chatroomsWithDetails;
+  } catch (error) {
+    console.error("Error fetching chatrooms for user:", error);
+    throw error;
+  }
+}
+
 export async function removeUserFromChatroom(data: ChatroomType) {
   try {
     const { userId, chatroomId } = data;

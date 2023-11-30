@@ -114,3 +114,28 @@ export interface LiveChatSubmissionProps {
   inputBox: RefObject<HTMLFormElement | HTMLInputElement>;
   currentUser: CurrentUser;
 }
+
+interface RecentMessage {
+  id: number;
+  text: string | null;
+  createdAt: Date;
+  userId: number;
+  chatroomId: number;
+  attachment: string | null;
+  attachmentType: string | null;
+}
+
+interface OtherUser {
+  id: number;
+  name: string;
+  username: string;
+  picture: string;
+}
+
+export interface ChatroomDetail {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  recentMessage: RecentMessage;
+  otherUser: OtherUser;
+}
