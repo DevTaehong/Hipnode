@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 import { createOnboarding } from "@/lib/actions/user.actions";
 import {
@@ -14,7 +13,6 @@ import { QuestionnaireForm } from ".";
 import { onboardingQuestions } from "@/constants";
 
 const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
-  const router = useRouter();
   const [questionSet, setQuestionSet] = useState(0);
   const [animateIn, setAnimateIn] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<AnswersType[]>([]);
@@ -27,16 +25,13 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
       const doOnboarding = async () => {
         setSelectedAnswers([]);
         await createOnboarding(userClerkId, userAnswers);
-        router.push("/");
       };
-
       doOnboarding();
-      setShouldOnboard(false);
     }
   }, [shouldOnboard]);
 
   const handleQuestionClick = (question: AnswersType) => {
-    if (questionSet === 2) {
+    if (questionSet >= 2) {
       setSelectedAnswers((prevAnswers) =>
         prevAnswers.includes(question)
           ? prevAnswers.filter((q) => q !== question)
@@ -56,13 +51,13 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
 
   const handleNextClick = () => {
     if (selectedAnswers.length) {
-      if (questionSet === 2) {
+      if (questionSet >= 2) {
+        setShouldOnboard(true);
         const allAnswers = {
           ...userAnswers,
           answersQuestion3: selectedAnswers as string[],
         };
         setUserAnswers(allAnswers);
-        setShouldOnboard(true);
       } else {
         const questionKeysMap: QuestionKeysMapType = {
           0: "answerQuestion1",
@@ -109,6 +104,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
       handleNextClick={handleNextClick}
       selectedAnswers={selectedAnswers}
       questionSet={questionSet}
+      shouldOnboard={shouldOnboard}
     />
   );
 };

@@ -39,7 +39,7 @@ const FormLink = ({
             href={button.link}
             key={button.title}
             className={cn(
-              "semibold-14 flex-center w-full rounded py-2.5",
+              "semibold-14 flex-center w-full rounded py-2.5 hover:scale-105 transition duration-200",
               buttonStyles[index]
             )}
           >

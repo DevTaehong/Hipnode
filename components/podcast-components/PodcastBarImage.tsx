@@ -23,7 +23,7 @@ const PodcastBarImage = ({ id, podcastUserImage }: PodcastBarImageProps) => {
         />
       </Link>
       {isPlaying && (
-        <div className="absolute -right-2 top-2">
+        <div className="absolute -top-10 right-[2.3rem] sm:-right-2 sm:top-2">
           <AudioAnimation />
         </div>
       )}
