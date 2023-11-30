@@ -100,17 +100,19 @@ export interface CommentFormProps {
   isEditing?: boolean;
   isReplying?: boolean;
   commentId?: string;
-  setIsEditing: (isEditing: boolean) => void;
-  setIsReplying: (isReplying: boolean) => void;
+  setIsEditing?: (isEditing: boolean) => void;
+  setIsReplying?: (isReplying: boolean) => void;
   content?: string;
   postId: number;
 }
 
 export interface CommentActionsProps {
-  onReplyClick: () => void;
-  onDeleteClick: () => void;
-  onEditClick: () => void;
-  onShowChildrenClick: () => void;
+  onToggleLike: () => void;
+  onToggleReply: () => void;
+  onDelete: () => void;
+  onEdit: () => void;
+  onToggleChildren: () => void;
+  isLiked: boolean;
   isReplying: boolean;
 }
 
@@ -130,6 +132,8 @@ export interface AuthorProps {
 
 export interface CommentAuthorProps extends Comment {
   author: AuthorProps;
+  likedByCurrentUser: boolean;
+  userId: number;
 }
 
 export interface CommentListProps {
@@ -146,6 +150,11 @@ export interface ExtendedComment extends CommentAuthorProps {
   path?: string;
 }
 
+export interface AddCommentOrReply
+  extends Omit<ExtendedComment, "likedByCurrentUser"> {
+  userId: number;
+}
+
 export type ExtendedPrismaPost = {
   id: Post["id"];
   image: Post["image"];
@@ -158,6 +167,7 @@ export type ExtendedPrismaPost = {
   createdAt: Post["createdAt"];
   heading: Post["heading"];
   likes: { userId: number }[];
+  clerkId: Post["clerkId"];
 };
 
 export type ExtendedPostById = ExtendedPrismaPost & {

@@ -27,7 +27,7 @@ const MessageList = () => {
         const onlineUserIds = new Set(
           presenceData.map((presence) => presence.data?.id).filter(Boolean)
         );
-        const combinedUsers = allUsers.map((user) => ({
+        const combinedUsers = allUsers?.map((user) => ({
           ...user,
           online: onlineUserIds.has(user.id),
         }));

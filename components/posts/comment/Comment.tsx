@@ -1,20 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useParams } from "next/navigation";
+import { useReducer } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
-import CommentList from "./CommentList";
-import { useCreatePostStore } from "@/app/lexicalStore";
 import {
   StraightLine,
   CurveLine,
 } from "@/components/icons/outline-icons/LineIcons";
-import { deleteCommentOrReply } from "@/lib/actions/post.action";
-import { CommentHeader, CommentActions } from ".";
+import {
+  deleteCommentOrReply,
+  toggleLikeComment,
+} from "@/lib/actions/post.action";
+import { CommentActions, CommentHeader } from ".";
 import CommentForm from "./CommentForm";
 import { getRepliesToComments as getReplies } from "@/utils/index";
 import { CommentAuthorProps } from "@/types/posts";
+import useCommentGrouping from "./useCommentGrouping";
+import { commentReducer } from "@/lib/reducer";
+
+const initialState = {
+  showChildren: false,
+  isDeleting: false,
+  isEditing: false,
+  isReplying: false,
+  isLiked: false,
+};
 
 const Comment = ({
   content,
@@ -22,23 +33,39 @@ const Comment = ({
   isEdited,
   author: { picture, username },
   id,
+  postId,
+  likedByCurrentUser,
+  userId,
 }: CommentAuthorProps) => {
-  const [showChildren, setShowChildren] = useState<boolean>(false);
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isReplying, setIsReplying] = useState<boolean>(false);
-  const { commentsByParentId } = useCreatePostStore();
-
   const path = usePathname();
-  const params = useParams();
-  const postId = +params.id;
+
+  const [commentsByParentId] = useCommentGrouping({
+    postId,
+    userId,
+  });
+
+  const [state, dispatch] = useReducer(commentReducer, {
+    ...initialState,
+    isLiked: likedByCurrentUser,
+  });
 
   const handleDelete = async () => {
     try {
-      setIsDeleting(true);
+      dispatch({ type: "SET_IS_DELETING", payload: true });
       await deleteCommentOrReply(id, path);
+      dispatch({ type: "SET_IS_DELETING", payload: false });
     } catch (error) {
       console.error("Error deleting comment:", error);
+      dispatch({ type: "SET_IS_DELETING", payload: false });
+    }
+  };
+
+  const toggleLikeHandler = async () => {
+    try {
+      await toggleLikeComment(userId, id);
+      dispatch({ type: "TOGGLE_IS_LIKED" });
+    } catch (error) {
+      console.error("Error toggling like:", error);
     }
   };
 
@@ -62,10 +89,12 @@ const Comment = ({
               />
             </div>
           </div>
-          {childComments.length > 0 && !showChildren && <AvatarJoinLine />}
+          {childComments.length > 0 && !state.showChildren && (
+            <AvatarJoinLine />
+          )}
         </div>
         <div className="flex w-full flex-col gap-[1rem]">
-          <div className="flex  grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
+          <div className="flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
             <CommentHeader
               username={username}
               createdAt={createdAt}
@@ -75,49 +104,55 @@ const Comment = ({
               {content}
             </div>
 
-            {isReplying && (
+            {state.isReplying && (
               <CommentForm
                 parentId={String(id)}
                 isReplying={true}
-                setIsReplying={setIsReplying}
-                setIsEditing={setIsEditing}
+                setIsReplying={() => dispatch({ type: "TOGGLE_IS_REPLYING" })}
+                setIsEditing={() => dispatch({ type: "TOGGLE_IS_EDITING" })}
                 postId={postId}
               />
             )}
-            {isEditing && (
+            {state.isEditing && (
               <CommentForm
                 parentId={String(id)}
                 value={content}
                 isEditing={true}
                 commentId={String(id)}
-                setIsReplying={setIsReplying}
-                setIsEditing={setIsEditing}
+                setIsReplying={() => dispatch({ type: "TOGGLE_IS_REPLYING" })}
+                setIsEditing={() => dispatch({ type: "TOGGLE_IS_EDITING" })}
                 postId={postId}
               />
             )}
           </div>
 
-          {isDeleting || isEditing ? (
+          {state.isDeleting || state.isEditing ? (
             <div className="text-white">
-              {isDeleting ? "Deleting..." : "Editing..."}
+              {state.isDeleting ? "Deleting..." : "Editing..."}
             </div>
           ) : (
             <CommentActions
-              isReplying={isReplying}
-              onReplyClick={() => setIsReplying((previous) => !previous)}
-              onDeleteClick={handleDelete}
-              onEditClick={() => setIsEditing((previous) => !previous)}
-              onShowChildrenClick={() =>
-                setShowChildren((previous) => !previous)
+              onToggleLike={toggleLikeHandler}
+              onToggleReply={() => dispatch({ type: "TOGGLE_IS_REPLYING" })}
+              onDelete={handleDelete}
+              onEdit={() => dispatch({ type: "TOGGLE_IS_EDITING" })}
+              onToggleChildren={() =>
+                dispatch({ type: "TOGGLE_SHOW_CHILDREN" })
               }
+              isLiked={state.isLiked}
+              isReplying={state.isReplying}
             />
           )}
         </div>
       </section>
 
-      {childComments.length > 0 && !showChildren && (
+      {childComments.length > 0 && !state.showChildren && (
         <div className="flex grow flex-col pl-[2.25rem]">
-          <CommentList comments={childComments} />
+          {childComments.map((comment: Partial<CommentAuthorProps>) => (
+            <div key={comment.id} className="mt-2 flex flex-col">
+              <Comment {...comment} />
+            </div>
+          ))}
         </div>
       )}
     </>

@@ -1,6 +1,6 @@
 "use server";
 
-import { Post } from "@prisma/client";
+import { Like, Post } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -10,8 +10,8 @@ import {
   getPostsFromGroupsQueryOptions,
 } from "@/lib/actions/shared.types";
 import {
+  AddCommentOrReply,
   CommentAuthorProps,
-  ExtendedComment,
   ExtendedPostById,
   ExtendedPrismaPost,
 } from "@/types/posts";
@@ -150,6 +150,7 @@ export async function getPostContentById(
         comments: {
           select: {
             id: true,
+            authorId: true,
           },
         },
         Share: {
@@ -175,32 +176,6 @@ export async function getPostContentById(
     return extendedPost;
   } catch (error) {
     console.error("Error retrieving post content:", error);
-    throw error;
-  }
-}
-
-export async function getPostCommentsById(
-  id: number
-): Promise<CommentAuthorProps[]> {
-  try {
-    const comments = await prisma.comment.findMany({
-      where: { postId: id },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-      },
-    });
-
-    if (!comments) {
-      throw new Error(`Comments for post with id ${id} not found`);
-    }
-    return comments;
-  } catch (error) {
-    console.error("Error retrieving post comments:", error);
     throw error;
   }
 }
@@ -239,6 +214,7 @@ export async function getAllPosts({
         comments: {
           select: {
             id: true,
+            authorId: true,
           },
         },
         tags: {
@@ -383,7 +359,7 @@ export async function addCommentOrReply(
   content: string,
   parentId: number | null,
   path: string
-): Promise<ExtendedComment> {
+): Promise<AddCommentOrReply> {
   try {
     verifyAuth("You must be logged in to comment or reply to a post.");
 
@@ -406,7 +382,10 @@ export async function addCommentOrReply(
     });
 
     revalidatePath(path);
-    return newComment;
+    return {
+      ...newComment,
+      userId,
+    };
   } catch (error) {
     console.error("Error adding comment or reply:", error);
     throw error;
@@ -417,7 +396,7 @@ export async function updateComment(
   commentId: number,
   content: string,
   path: string
-): Promise<CommentAuthorProps> {
+): Promise<AddCommentOrReply> {
   try {
     const user = verifyAuth("You must be logged in to update a comment.");
 
@@ -445,7 +424,7 @@ export async function updateComment(
     if (!comment) throw new Error("Comment not found.");
 
     revalidatePath(path);
-    return comment;
+    return { ...comment, userId: dbUserID };
   } catch (error) {
     console.error("Error updating comment:", error);
     throw error;
@@ -493,6 +472,93 @@ export async function sharePostAndCountShares(
     return shares.length;
   } catch (error) {
     console.error("Error sharing post:", error);
+    throw error;
+  }
+}
+
+export async function toggleLikePost(
+  userId: number,
+  postId: number
+): Promise<Like | null> {
+  try {
+    const existingLike = await prisma.like.findUnique({
+      where: { userId_postId: { userId, postId } },
+    });
+
+    if (existingLike) {
+      await prisma.like.delete({ where: { id: existingLike.id } });
+      return null;
+    } else {
+      const newLike = await prisma.like.create({ data: { userId, postId } });
+      return newLike;
+    }
+  } catch (error) {
+    console.error("Error toggling like on post:", error);
+    throw error;
+  }
+}
+
+export async function toggleLikeComment(
+  userId: number,
+  commentId: number
+): Promise<Like | null> {
+  try {
+    const existingLike = await prisma.like.findUnique({
+      where: { userId_commentId: { userId, commentId } },
+    });
+    if (existingLike) {
+      await prisma.like.delete({ where: { id: existingLike.id } });
+      return null;
+    } else {
+      const newLike = await prisma.like.create({ data: { userId, commentId } });
+      return newLike;
+    }
+  } catch (error) {
+    console.error("Error toggling like on comment:", error);
+    throw error;
+  }
+}
+
+export async function getPostCommentsById(
+  id: number,
+  userId: number
+): Promise<CommentAuthorProps[]> {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { postId: id },
+      include: {
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+      },
+    });
+
+    if (!comments) {
+      throw new Error(`Comments for post with id ${id} not found`);
+    }
+
+    const commentsWithLikes = comments.map((comment) => {
+      const likedByCurrentUser = comment.likes.some(
+        (like) => like.userId === userId
+      );
+      return {
+        ...comment,
+        likedByCurrentUser,
+        userId,
+      };
+    });
+
+    return commentsWithLikes;
+  } catch (error) {
+    console.error("Error retrieving post comments:", error);
     throw error;
   }
 }

@@ -10,7 +10,7 @@ import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
 
-const PostCardList = ({ posts }: PostCardListProps) => {
+const PostCardList = ({ posts, userId }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState<boolean>(false);
@@ -46,7 +46,7 @@ const PostCardList = ({ posts }: PostCardListProps) => {
     <main className="flex h-fit flex-col">
       {postData.map((post) => (
         <section className="pb-[1.25rem]" key={post.id}>
-          <PostCard post={post} />
+          <PostCard post={post} userId={userId} />
         </section>
       ))}
       <div

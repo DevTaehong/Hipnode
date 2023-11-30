@@ -1,16 +1,13 @@
 "use client";
 
-import { useState } from "react";
-
 import { cn } from "@/lib/utils";
 
-const Heart = ({ className }: { className: string }) => {
-  const [isLiked, setIsLiked] = useState(false);
+type HeartProps = {
+  className: string;
+  isLiked: boolean;
+};
 
-  const handleLikeClick = () => {
-    setIsLiked((prev) => !prev);
-  };
-
+const Heart = ({ className, isLiked }: HeartProps) => {
   return (
     <svg
       width="30"
@@ -19,7 +16,6 @@ const Heart = ({ className }: { className: string }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn("shrink-0 cursor-pointer", className)}
-      onClick={handleLikeClick}
     >
       <rect
         width="30"

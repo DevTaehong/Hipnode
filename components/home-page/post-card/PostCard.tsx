@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
-import { useAuth } from "@clerk/nextjs";
 
 import {
   PostImage,
@@ -13,11 +12,10 @@ import {
   CardFooterDesktop,
   SocialStatistics,
 } from ".";
-import FillIcon from "../../icons/fill-icons";
+import FillIcon from "@/components/icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
-import { getUserByClerkId } from "@/lib/actions/user.actions";
-import { userHasLikedPost } from "@/utils";
+import { userHasLikedComment } from "@/utils";
 
 const PostCard = ({
   post: {
@@ -30,23 +28,11 @@ const PostCard = ({
     viewCount = 1,
     author: { picture, username },
     createdAt,
-    likes,
+    comments,
   },
+  userId,
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
-  const [currentUserId, setCurrentUserId] = useState<number>(0);
-  const { isLoaded, userId: clerkId } = useAuth();
-
-  useEffect(() => {
-    (async () => {
-      if (!clerkId || !isLoaded) return;
-      const user = await getUserByClerkId(clerkId);
-      if (user) setCurrentUserId(user?.id);
-    })();
-  }, [clerkId, isLoaded]);
-
-  const hasLiked = userHasLikedPost(currentUserId, likes);
-  const heartIconClass = hasLiked ? "fill-red" : "fill-sc-5";
 
   const socialCounts: SocialCountTuple[] = [
     ["views", viewCount],
@@ -58,6 +44,10 @@ const PostCard = ({
     const sanitizedHtml = DOMPurify.sanitize(content);
     setHtmlString(sanitizedHtml);
   }, [content]);
+
+  if (!userId) return null;
+  const hasLiked = userHasLikedComment(userId, comments);
+  const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
 
   return (
     <article className="px-[1.25rem] lg:px-[0]">

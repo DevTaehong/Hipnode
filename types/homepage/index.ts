@@ -39,6 +39,8 @@ export type CreatePostInputProps = {
 export type PostCardProps = {
   post: ExtendedPrismaPost;
   likes?: number;
+  clerkId?: string;
+  userId: number;
 };
 
 export type SocialCountTuple = [string, number];
@@ -105,6 +107,7 @@ export type PodcastItemProps = {
 
 export type PostCardListProps = {
   posts: ExtendedPrismaPost[];
+  userId: number;
 };
 
 export interface TagIconConfig {

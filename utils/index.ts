@@ -11,7 +11,6 @@ import { Comment } from "@prisma/client";
 import { supabase } from "@/utils/supabaseClient";
 import { homePageTags, monthNames } from "@/constants";
 import { GetActionBarDataProps } from "@/types/posts";
-import { Comment } from "@prisma/client";
 import { TagIconConfig } from "@/types/homepage";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
@@ -44,7 +43,6 @@ export const uploadImageToSupabase = async (
     const fileExtension = file.name.split(".").pop();
     const prefix = folderName && folderName.trim() ? `${folderName}/` : "";
     const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
-    console.log("we are here");
 
     const { error } = await supabase.storage
       .from(bucketName)
@@ -262,6 +260,13 @@ export const howManyMonthsAgo = (dateStr: Date | null) => {
   return totalMonths;
 };
 
+export const userHasLikedComment = (
+  currentUserId: number,
+  comments: { id: number; authorId: number }[]
+): boolean => {
+  return comments.some((comment) => comment.authorId === currentUserId);
+};
+
 export async function uploadLivechatAttachment(files) {
   const bucket = "livechat"; // Static bucket name
   const folder = "attachments"; // Static folder name
@@ -287,13 +292,6 @@ export const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-};
-
-export const userHasLikedPost = (
-  userId: number,
-  postLikes: { userId: number }[]
-): boolean => {
-  return postLikes.some((like) => like.userId === userId);
 };
 
 export const getActionBarData = (postData: GetActionBarDataProps) => {

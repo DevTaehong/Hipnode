@@ -13,12 +13,14 @@ import { getAllPosts, getPopularTags } from "@/lib/actions/post.action";
 import { RightSidebarWrapper } from "@/components/home-page/shared-components";
 import PopularTags from "@/components/home-page/tags/PopularTags";
 
-export default async function Home() {
-  const { userId } = auth();
+const Home = async () => {
+  const { userId: clerkUserId } = auth();
   let userImage: string = "";
-  if (userId) {
-    const user = await getUserByClerkId(userId);
+  let userId;
+  if (clerkUserId) {
+    const user = await getUserByClerkId(clerkUserId);
     userImage = user?.picture || "/public/emoji.png";
+    userId = user?.id || 0;
   }
   const meetups = await getAllMeetUps();
   const podcasts = await getAllPodcastsWithUserInfo();
@@ -43,7 +45,7 @@ export default async function Home() {
             <CreatePostInput userImage={userImage} />
           </div>
           <div className="flex h-full overflow-scroll">
-            <PostCardList posts={posts} />
+            <PostCardList posts={posts} userId={userId} />
           </div>
         </div>
 
@@ -60,4 +62,6 @@ export default async function Home() {
       </div>
     </section>
   );
-}
+};
+
+export default Home;

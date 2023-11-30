@@ -64,19 +64,22 @@ const CommentForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
+      if (!currentUser?.id) return;
+
       if (isEditing) {
         await updateComment(Number(commentId), values.comment, path);
         setIsEditing?.(false);
-      } else if (currentUser?.id) {
-        await addCommentOrReply(
-          currentUser?.id,
-          postId,
-          values.comment,
-          Number(parentId) || null,
-          path
-        );
-        setIsReplying?.(false);
+        return;
       }
+
+      await addCommentOrReply(
+        currentUser.id,
+        postId,
+        values.comment,
+        Number(parentId) || null,
+        path
+      );
+      setIsReplying?.(false);
     } catch (error) {
       console.error("Error processing comment:", error);
     } finally {

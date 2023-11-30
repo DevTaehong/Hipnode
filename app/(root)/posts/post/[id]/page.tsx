@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { auth } from "@clerk/nextjs";
 
-import CommentsOnMainPost from "@/components/posts/comment/CommentsOnMainPost";
 import { LeftActionBar, Profile } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
 import {
@@ -11,20 +11,25 @@ import { formatDatePostFormat, getActionBarData } from "@/utils";
 import CommentForm from "@/components/posts/comment/CommentForm";
 import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
+import { getUserByClerkId } from "@/lib/actions/user.actions";
+import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
-  const { id } = params;
-  const postData = await getPostContentById(+id);
-
+  const { id: postId } = params;
+  const postData = await getPostContentById(+postId);
+  const { userId } = auth();
+  let user;
+  if (userId) {
+    user = await getUserByClerkId(userId);
+  }
   const {
     author: { username },
     createdAt,
   } = postData;
-
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content } = postData;
   const actionBarData = getActionBarData(postData);
-  const devInfo = await getPostsByUserClerkId(postData.clerkId);
+  const devInfo = await getPostsByUserClerkId(postData.clerkId || "");
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
@@ -68,11 +73,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 />
               </div>
               <div className="flex h-fit grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
-                {/* @ts-ignore */}
                 <CommentForm postId={postData.id} />
               </div>
             </div>
-            <CommentsOnMainPost postId={id} />
+            <CommentList postId={+postId} userId={user?.id as number} />
           </section>
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">
