@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { ChatroomDetail } from "@/types/chatroom.index";
 import { formatRelativeTime } from "@/utils";
+import useChatStore from "@/app/chatStore";
 
 const ChatroomListItem = ({
   chatroom,
@@ -10,7 +11,9 @@ const ChatroomListItem = ({
   chatroom: ChatroomDetail;
   onlineUsers?: number[];
 }) => {
+  const { setChatroomId } = useChatStore();
   const {
+    id: chatroomListId,
     recentMessage: {
       text: recentMessageText,
       createdAt: recentMessageCreatedAt,
@@ -26,8 +29,16 @@ const ChatroomListItem = ({
   const isOtherUserOnline = onlineUsers ? onlineUsers.includes(id) : false;
   const formattedTime = formatRelativeTime(recentMessageCreatedAt);
 
+  const handleChatroomClick = () => {
+    setChatroomId(chatroomListId);
+  };
+
   return (
-    <li className="flex cursor-pointer flex-col gap-4 border-b border-sc-6 p-4 hover:bg-light-2 dark:border-dark-4 hover:dark:bg-dark-4">
+    <li
+      className="flex cursor-pointer flex-col gap-4 border-b border-sc-6 bg-light p-4 hover:bg-light-2 dark:border-dark-4 dark:bg-dark-2
+    hover:dark:bg-dark-4"
+      onClick={handleChatroomClick}
+    >
       <div className="flex w-full justify-between">
         <div className="flex gap-3">
           <div className="relative flex h-10 w-10">

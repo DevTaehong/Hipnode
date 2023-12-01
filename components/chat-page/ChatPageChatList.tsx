@@ -10,11 +10,11 @@ const ChatPageChatList = ({
   onlineUsers: number[] | undefined;
 }) => {
   return (
-    <section
-      className="flex h-full w-full max-w-[27.5rem] flex-col bg-light
+    <section className="flex h-full w-full max-w-[27.5rem] flex-col">
+      <div
+        className="bg-light p-4
     dark:bg-dark-2"
-    >
-      <div className="p-4">
+      >
         <p className="bold-18 text-sc-2_light">Messages</p>
       </div>
       <ChatPageSearchBar />
