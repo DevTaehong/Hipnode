@@ -107,13 +107,16 @@ export interface CommentFormProps {
 }
 
 export interface CommentActionsProps {
+  onReplyClick: () => void;
+  onDeleteClick: () => void;
+  onEditClick: () => void;
+  onShowChildrenClick: () => void;
   onToggleLike: () => void;
-  onToggleReply: () => void;
-  onDelete: () => void;
-  onEdit: () => void;
-  onToggleChildren: () => void;
   isLiked: boolean;
   isReplying: boolean;
+  canReply: boolean;
+  hasChildComments: boolean;
+  showChildren: boolean;
 }
 
 export interface CommentHeaderProps {
@@ -134,6 +137,8 @@ export interface CommentAuthorProps extends Comment {
   author: AuthorProps;
   likedByCurrentUser: boolean;
   userId: number;
+  depth: number;
+  isLastComment: boolean;
 }
 
 export interface CommentListProps {

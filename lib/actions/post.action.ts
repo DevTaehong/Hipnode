@@ -12,10 +12,12 @@ import {
 import {
   AddCommentOrReply,
   CommentAuthorProps,
+  CommentAuthorProps,
   ExtendedPostById,
   ExtendedPrismaPost,
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
+import { groupCommentsByParentId } from "@/utils";
 
 export async function handleTags(tagNames: string[]) {
   const existingTags = await prisma.tag.findMany({
@@ -520,9 +522,14 @@ export async function toggleLikeComment(
 }
 
 export async function getPostCommentsById(
-  id: number,
-  userId: number
-): Promise<CommentAuthorProps[]> {
+  id: number
+): Promise<Record<string, CommentAuthorProps[]>> {
+  const user = verifyAuth("You must be logged in to update a comment.");
+
+  const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
+  if (!dbUserID) throw new Error("User not found");
+
   try {
     const comments = await prisma.comment.findMany({
       where: { postId: id },
@@ -545,18 +552,17 @@ export async function getPostCommentsById(
       throw new Error(`Comments for post with id ${id} not found`);
     }
 
-    const commentsWithLikes = comments.map((comment) => {
+    const commentsWithLikes = (comments as any).map((comment) => {
       const likedByCurrentUser = comment.likes.some(
-        (like) => like.userId === userId
+        (like) => like.userId === dbUserID
       );
       return {
         ...comment,
         likedByCurrentUser,
-        userId,
+        userId: dbUserID,
       };
     });
-
-    return commentsWithLikes;
+    return groupCommentsByParentId(commentsWithLikes);
   } catch (error) {
     console.error("Error retrieving post comments:", error);
     throw error;

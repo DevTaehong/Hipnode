@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -16,16 +16,8 @@ import { CommentActions, CommentHeader } from ".";
 import CommentForm from "./CommentForm";
 import { getRepliesToComments as getReplies } from "@/utils/index";
 import { CommentAuthorProps } from "@/types/posts";
-import useCommentGrouping from "./useCommentGrouping";
-import { commentReducer } from "@/lib/reducer";
 
-const initialState = {
-  showChildren: false,
-  isDeleting: false,
-  isEditing: false,
-  isReplying: false,
-  isLiked: false,
-};
+import { Record } from "@prisma/client/runtime/library";
 
 const Comment = ({
   content,
@@ -36,41 +28,41 @@ const Comment = ({
   postId,
   likedByCurrentUser,
   userId,
-}: CommentAuthorProps) => {
+  depth = 0,
+  isLastComment,
+  postComments,
+}: CommentAuthorProps & {
+  postComments: Record<string, CommentAuthorProps[]>;
+}) => {
+  const [showChildren, setShowChildren] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
+  const [isLiked, setIsLiked] = useState(likedByCurrentUser);
   const path = usePathname();
-
-  const [commentsByParentId] = useCommentGrouping({
-    postId,
-    userId,
-  });
-
-  const [state, dispatch] = useReducer(commentReducer, {
-    ...initialState,
-    isLiked: likedByCurrentUser,
-  });
+  const canReply = depth < 2;
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
-      dispatch({ type: "SET_IS_DELETING", payload: true });
       await deleteCommentOrReply(id, path);
-      dispatch({ type: "SET_IS_DELETING", payload: false });
     } catch (error) {
       console.error("Error deleting comment:", error);
-      dispatch({ type: "SET_IS_DELETING", payload: false });
     }
+    setIsDeleting(false);
   };
 
   const toggleLikeHandler = async () => {
     try {
       await toggleLikeComment(userId, id);
-      dispatch({ type: "TOGGLE_IS_LIKED" });
+      setIsLiked(!isLiked);
     } catch (error) {
       console.error("Error toggling like:", error);
     }
   };
 
   const getRepliesToComments = (parentId: string | null) =>
-    getReplies(commentsByParentId, parentId);
+    getReplies(postComments, parentId);
 
   const childComments = getRepliesToComments(String(id)) ?? [];
 
@@ -89,9 +81,10 @@ const Comment = ({
               />
             </div>
           </div>
-          {childComments.length > 0 && !state.showChildren && (
-            <AvatarJoinLine />
-          )}
+          {childComments.length > 0 && !showChildren && <AvatarJoinLine />}
+        </div>
+        <div className="grow">
+          {depth > 0 && !isLastComment && <AvatarJoinStraight />}
         </div>
         <div className="flex w-full flex-col gap-[1rem]">
           <div className="flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
@@ -104,53 +97,67 @@ const Comment = ({
               {content}
             </div>
 
-            {state.isReplying && (
+            {isReplying && (
               <CommentForm
                 parentId={String(id)}
                 isReplying={true}
-                setIsReplying={() => dispatch({ type: "TOGGLE_IS_REPLYING" })}
-                setIsEditing={() => dispatch({ type: "TOGGLE_IS_EDITING" })}
+                setIsReplying={setIsReplying}
+                setIsEditing={setIsEditing}
                 postId={postId}
               />
             )}
-            {state.isEditing && (
+            {isEditing && (
               <CommentForm
                 parentId={String(id)}
                 value={content}
                 isEditing={true}
                 commentId={String(id)}
-                setIsReplying={() => dispatch({ type: "TOGGLE_IS_REPLYING" })}
-                setIsEditing={() => dispatch({ type: "TOGGLE_IS_EDITING" })}
+                setIsReplying={setIsReplying}
+                setIsEditing={setIsEditing}
                 postId={postId}
               />
             )}
           </div>
 
-          {state.isDeleting || state.isEditing ? (
-            <div className="text-white">
-              {state.isDeleting ? "Deleting..." : "Editing..."}
+          {isDeleting || isEditing ? (
+            <div className="flex justify-between text-sc-3 dark:text-white">
+              {isDeleting ? "Deleting..." : "Editing..."}
+              <p
+                className="cursor-pointer pr-[0.5rem]"
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                Cancel edit
+              </p>
             </div>
           ) : (
             <CommentActions
-              onToggleLike={toggleLikeHandler}
-              onToggleReply={() => dispatch({ type: "TOGGLE_IS_REPLYING" })}
-              onDelete={handleDelete}
-              onEdit={() => dispatch({ type: "TOGGLE_IS_EDITING" })}
-              onToggleChildren={() =>
-                dispatch({ type: "TOGGLE_SHOW_CHILDREN" })
+              canReply={canReply}
+              isReplying={isReplying}
+              hasChildComments={childComments.length > 0}
+              onReplyClick={() => setIsReplying((previous) => !previous)}
+              onDeleteClick={handleDelete}
+              onEditClick={() => setIsEditing((previous) => !previous)}
+              onShowChildrenClick={() =>
+                setShowChildren((previous) => !previous)
               }
-              isLiked={state.isLiked}
-              isReplying={state.isReplying}
+              showChildren={showChildren}
+              onToggleLike={toggleLikeHandler}
+              isLiked={isLiked}
             />
           )}
         </div>
       </section>
 
-      {childComments.length > 0 && !state.showChildren && (
+      {childComments.length > 0 && !showChildren && (
         <div className="flex grow flex-col pl-[2.25rem]">
-          {childComments.map((comment: Partial<CommentAuthorProps>) => (
+          {childComments.map((comment, index) => (
             <div key={comment.id} className="mt-2 flex flex-col">
-              <Comment {...comment} />
+              <Comment
+                {...comment}
+                depth={depth + 1}
+                isLastComment={index === childComments.length - 1}
+                postComments={postComments}
+              />
             </div>
           ))}
         </div>
@@ -170,5 +177,12 @@ const AvatarJoinLine = () => (
         <CurveLine />
       </div>
     </div>
+  </div>
+);
+
+const AvatarJoinStraight = () => (
+  <div className="relative z-20 flex h-full flex-col items-center">
+    <StraightLine className="absolute h-full w-10 translate-x-[-2.55rem] translate-y-[2.5rem]" />
+    <StraightLine className="absolute h-full w-10 translate-x-[-2.55rem] translate-y-[3rem]" />
   </div>
 );
