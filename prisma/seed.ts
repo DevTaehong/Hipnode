@@ -12,6 +12,8 @@ import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 import prisma from "../lib/prisma";
 import { createShares } from "./seed/seed-posts/createPostShares";
 import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
+import { seedMeetupsTags } from "./seed/seed-meetup/createMeetupTag";
+import { seedTagOnMeetup } from "./seed/seed-meetup/seedTagOnMeetup";
 
 async function main() {
   console.time("Execution Time");
@@ -36,7 +38,9 @@ async function main() {
     await createShares(users, posts);
   }
 
+  await seedMeetupsTags();
   await createMeetUps(users);
+  await seedTagOnMeetup();
 
   console.timeEnd("Execution Time");
 }

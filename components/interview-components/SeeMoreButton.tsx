@@ -3,9 +3,14 @@ import { Dispatch, SetStateAction } from "react";
 import { InterviewPageFilterProps } from "@/constants/interview";
 import { PodcastUserInfo } from "@/types/podcast.index";
 import OutlineIcon from "../icons/outline-icons";
+import { MeetUpExtended } from "@/types/meetups.index";
 
 interface SeeMoreButtonProps {
-  array: InterviewPageFilterProps[] | PodcastUserInfo[] | undefined;
+  array:
+    | InterviewPageFilterProps[]
+    | PodcastUserInfo[]
+    | MeetUpExtended[]
+    | undefined;
   setLoadMore: Dispatch<SetStateAction<boolean>>;
   className?: string;
 }

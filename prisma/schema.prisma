@@ -186,6 +186,23 @@ model MeetUp {
   title               String
   updatedAt           DateTime @updatedAt
   responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
+  tags                TagOnMeetup[]
+}
+
+model MeetupTag {
+  id         Int              @id @default(autoincrement())
+  name       String           @unique
+  meetups TagOnMeetup[]
+}
+
+model TagOnMeetup {
+  id          Int          @id @default(autoincrement())
+  meetupId    Int
+  tagId       Int
+  meetup      MeetUp    @relation(fields: [meetupId], references: [id], onDelete: Cascade)
+  tag         MeetupTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([meetupId, tagId])
 }
 
 model InterviewTag {

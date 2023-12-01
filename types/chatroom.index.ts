@@ -38,10 +38,8 @@ export interface ChatProps extends User {
 }
 
 export interface AttachmentPreviewProps {
-  setAttachmentPreview: (value: string | null) => void;
+  droppedFile: File | File[];
   setDroppedFile: (value: File | null) => void;
-  attachmentPreview: string;
-  mediaType: string;
 }
 
 export interface LiveChatAudioPlayerProps {
@@ -84,9 +82,7 @@ export interface loadMessagesProps {
 }
 
 export interface useDropzoneHandlerProps {
-  setMediaType: Dispatch<SetStateAction<string>>;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
-  setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
 }
 
 export interface RenderPreviewProps {
@@ -103,12 +99,7 @@ export interface CurrentUser {
 export interface LiveChatSubmissionProps {
   event: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>;
   messageText: string;
-  setMessageText: Dispatch<SetStateAction<string>>;
   droppedFile: File | File[] | null;
-  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
-  setAttachmentPreview: Dispatch<SetStateAction<string | null>>;
-  setMediaType: Dispatch<SetStateAction<string>>;
-  mediaType: string | null;
   channel: Types.RealtimeChannelPromise;
   chatroomId: number | null;
   inputBox: RefObject<HTMLFormElement | HTMLInputElement>;

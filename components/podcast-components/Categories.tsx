@@ -8,6 +8,7 @@ import FilterCategory from "./FilterCategory";
 import { CategoriesProps } from "@/types";
 
 const Categories = ({
+  setLoading,
   filters,
   page,
   urlFilter,
@@ -30,6 +31,7 @@ const Categories = ({
     } else {
       setSelectFilters([...selectFilters, category]);
     }
+    setLoading(true);
     router.push(`/${page}?${queryString}`);
   };
 
