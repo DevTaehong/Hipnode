@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextareaAutosize from "react-textarea-autosize";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 import {
   Form,
@@ -27,6 +29,10 @@ const formSchema = z.object({
   }),
 });
 
+type EmojiData = {
+  native: string;
+};
+
 const CommentForm = ({
   className,
   parentId,
@@ -39,6 +45,7 @@ const CommentForm = ({
 }: CommentFormProps) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const { isLoaded, userId: clerkId } = useAuth();
 
   const path = usePathname();
@@ -64,22 +71,19 @@ const CommentForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      if (!currentUser?.id) return;
-
       if (isEditing) {
         await updateComment(Number(commentId), values.comment, path);
         setIsEditing?.(false);
-        return;
+      } else if (currentUser?.id) {
+        await addCommentOrReply(
+          currentUser?.id,
+          postId,
+          values.comment,
+          Number(parentId) || null,
+          path
+        );
+        setIsReplying?.(false);
       }
-
-      await addCommentOrReply(
-        currentUser.id,
-        postId,
-        values.comment,
-        Number(parentId) || null,
-        path
-      );
-      setIsReplying?.(false);
     } catch (error) {
       console.error("Error processing comment:", error);
     } finally {
@@ -93,6 +97,13 @@ const CommentForm = ({
       event.preventDefault();
       form.handleSubmit(onSubmit)();
     }
+  };
+
+  const handleEmojiSelect = (emoji: EmojiData) => {
+    const emojiNative = emoji.native;
+    const currentValue = form.getValues("comment");
+    const updatedValue = currentValue + emojiNative;
+    form.setValue("comment", updatedValue);
   };
 
   return (
@@ -120,14 +131,25 @@ const CommentForm = ({
                 )}
               />
             </div>
-            <div className="flex h-6 w-6 items-center justify-center">
+            <div className="relative flex h-6 w-6 items-center justify-center">
               <Image
                 src="/smiley.svg"
                 alt="smiley"
                 width={24}
                 height={24}
                 className="rounded-full"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
               />
+              {showEmojiPicker && (
+                <div className="absolute right-0 top-[2.5rem]">
+                  <Picker
+                    data={data}
+                    onEmojiSelect={handleEmojiSelect}
+                    onClickOutside={() => setShowEmojiPicker(false)}
+                    perLine={6}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </form>

@@ -6,10 +6,9 @@ import {
   ImVolumeHigh,
 } from "react-icons/im";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { Comment } from "@prisma/client";
 
 import { supabase } from "@/utils/supabaseClient";
-import { homePageTags, monthNames } from "@/constants";
+import { homePageTags, monthNames, abbMonthNames } from "@/constants";
 import { GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
 
@@ -17,11 +16,11 @@ export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
 }
 
-export function getFormattedDateMeetUpCard(dateString: string) {
+export function getFormattedDateMeetUpCard(dateString: Date) {
   const date = new Date(dateString);
   const day = date.getDate();
   const month = date.getMonth();
-  const monthText = monthNames[month];
+  const monthText = abbMonthNames[month];
 
   return {
     day,
@@ -226,7 +225,7 @@ export const groupCommentsByParentId = (
   comments: Comment[]
 ): Record<string, Comment[]> => {
   const group: Record<string, Comment[]> = {};
-  comments.forEach((comment) => {
+  comments?.forEach((comment) => {
     const key =
       comment?.parentId === null ? "null" : comment?.parentId?.toString();
     if (!group[key]) {
@@ -359,3 +358,19 @@ export function formatChatBoxDate(date: Date) {
     return timeFormatted;
   }
 }
+export const getMediaType = (file: File | File[]) => {
+  const fileType = Array.isArray(file) ? file[0].type : file.type;
+
+  switch (true) {
+    case fileType.startsWith("image"):
+      return "image";
+    case fileType.startsWith("video"):
+      return "video";
+    case fileType.startsWith("audio"):
+      return "audio";
+    case fileType.includes("application") || fileType.includes("text"):
+      return "document";
+    default:
+      return "unknown";
+  }
+};

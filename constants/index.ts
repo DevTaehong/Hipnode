@@ -230,7 +230,7 @@ export const navLinks = [
   },
   {
     name: "Calendar",
-    link: "/calendar",
+    link: "/meet-ups",
   },
   {
     name: "Group",
@@ -611,3 +611,32 @@ export const monthNames = [
   "November",
   "December",
 ];
+
+export const abbMonthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+export const meetupFormLinkProps = {
+  title: "Host a Meetup",
+  description:
+    "Find other Hipnoders in your area so you can learn, share, and work together.",
+  codeOfConductButton: {
+    title: "Code of Conduct",
+    link: "/",
+  },
+  linkToFormButton: {
+    title: "Host a Meetup",
+    link: "/",
+  },
+};

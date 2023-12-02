@@ -5,18 +5,16 @@ import { useSearchParams } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 
 import { InterviewCard } from ".";
-import { InterviewPageFilterProps } from "@/constants/interview";
 import { extractArray } from "@/utils";
 import { getFilteredInterviews } from "@/lib/actions/interview.actions";
 import SeeMoreButton from "./SeeMoreButton";
 import BoxShading from "./BoxShading";
-
-interface InterviewPageProps {
-  interviews: InterviewPageFilterProps[];
-  interviewArray: number[] | undefined;
-}
+import OnboardingLoader from "../onboarding-components/OnboardingLoader";
+import { InterviewPageProps } from "@/types/interview.index";
 
 const InterviewPageFilter = ({
+  loading,
+  setLoading,
   interviews,
   interviewArray,
 }: InterviewPageProps) => {
@@ -63,7 +61,16 @@ const InterviewPageFilter = ({
     setInterviewList(interviews);
     setInterviewAmount(20);
     setHasMoreInterviews(true);
+    setLoading(false);
   }, [interviews, queryString]);
+
+  if (loading) {
+    return (
+      <div className="flex-center flex w-full">
+        <OnboardingLoader />
+      </div>
+    );
+  }
 
   return (
     <article className="relative flex xl:w-full">

@@ -81,7 +81,6 @@ async function handler(request: Request) {
   } else if (eventType === "user.created") {
     const { id, username, first_name, last_name, image_url, email_addresses } =
       event.data;
-
     const emailAddress = email_addresses[0].email_address;
 
     const user = await createUser({
@@ -92,11 +91,10 @@ async function handler(request: Request) {
       email: emailAddress,
     });
 
-
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {
         userId: user.id,
-      }
+      },
     });
 
     if (user) {

@@ -4,7 +4,7 @@ import {
   createMessage,
   getMessagesForChatroom,
 } from "@/lib/actions/chatroom.actions";
-import { uploadLivechatAttachment } from "@/utils";
+import { uploadLivechatAttachment, getMediaType } from "@/utils";
 import {
   LiveChatSubmissionProps,
   loadMessagesProps,
@@ -44,16 +44,16 @@ export const loadMessages = async ({
   }
 };
 
+export enum API_RESULT {
+  SUCCESS,
+  FAILURE,
+}
+
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   const {
     event,
     messageText,
-    setMessageText,
     droppedFile,
-    setDroppedFile,
-    setAttachmentPreview,
-    setMediaType,
-    mediaType,
     channel,
     chatroomId,
     inputBox,
@@ -61,14 +61,14 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   } = args;
   event.preventDefault();
 
+  const mediaType = droppedFile ? getMediaType(droppedFile) : null;
+
   let attachmentURL = null;
   const messageContent = messageText.trim();
   if (droppedFile) {
     try {
       const uploadResult = await uploadLivechatAttachment([droppedFile]);
       attachmentURL = uploadResult.publicURL;
-      setAttachmentPreview(null);
-      setDroppedFile(null);
     } catch (error) {
       console.error("Error uploading:", error);
       return;
@@ -81,7 +81,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       user: currentUser,
       chatroomId,
       attachment: attachmentURL || null,
-      attachmentType: mediaType || null,
+      attachmentType: mediaType,
     };
 
     try {
@@ -94,56 +94,29 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
           attachment: chatMessage.attachment,
           attachmentType: chatMessage.attachmentType,
         });
-        setMessageText("");
-        setMediaType("");
         inputBox.current?.focus();
+        return API_RESULT.SUCCESS;
       }
     } catch (error) {
       console.error("Error sending or creating message:", error);
+      return API_RESULT.FAILURE;
     }
   }
 };
 
 export const useDropzoneHandler = ({
-  setMediaType,
   setDroppedFile,
-  setAttachmentPreview,
 }: useDropzoneHandlerProps) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 1) {
         const file = acceptedFiles[0];
-        const previewUrl = URL.createObjectURL(file);
-        let mediaType = "";
-
-        switch (true) {
-          case file.type.startsWith("image"):
-            mediaType = "image";
-            break;
-          case file.type.startsWith("video"):
-            mediaType = "video";
-            break;
-          case file.type.startsWith("audio"):
-            mediaType = "audio";
-            break;
-          case file.type.includes("application") || file.type.includes("text"):
-            mediaType = "document";
-            break;
-          default:
-            mediaType = "unknown";
-            break;
-        }
-
-        setMediaType(mediaType);
         setDroppedFile(file);
-        setAttachmentPreview(previewUrl);
       } else if (acceptedFiles.length > 1) {
-        setMediaType("folder");
         setDroppedFile(acceptedFiles);
-        setAttachmentPreview("folder");
       }
     },
-    [setMediaType, setDroppedFile, setAttachmentPreview]
+    [setDroppedFile]
   );
 
   return onDrop;

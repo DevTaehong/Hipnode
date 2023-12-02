@@ -351,6 +351,7 @@ export interface FilterCategoryProps {
 }
 
 export interface CategoriesProps {
+  setLoading: (loading: boolean) => void;
   filters: FilterType[];
   page: string;
   urlFilter: string;

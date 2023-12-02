@@ -9,6 +9,8 @@ import {
   AttachmentPreviewProps,
   RenderPreviewProps,
 } from "@/types/chatroom.index";
+import { getMediaType } from "@/utils";
+import { useMemo } from "react";
 
 const RenderPreview = ({
   mediaType,
@@ -58,11 +60,19 @@ const RenderPreview = ({
 };
 
 const AttachmentPreview = ({
-  setAttachmentPreview,
+  droppedFile,
   setDroppedFile,
-  attachmentPreview,
-  mediaType,
 }: AttachmentPreviewProps) => {
+  const mediaType = getMediaType(droppedFile);
+
+  const previewUrl = useMemo(() => {
+    if (droppedFile) {
+      const file = Array.isArray(droppedFile) ? droppedFile[0] : droppedFile;
+      return URL.createObjectURL(file);
+    }
+    return null;
+  }, [droppedFile]);
+
   return (
     <figure className="relative flex w-fit">
       <button
@@ -70,16 +80,14 @@ const AttachmentPreview = ({
           mediaType === "audio" ? "-right-5 -top-3" : "right-0 top-0"
         }`}
         onClick={() => {
-          setAttachmentPreview(null);
           setDroppedFile(null);
         }}
       >
         <IoClose className="z-10 cursor-pointer text-[20px]" />
       </button>
-      <RenderPreview
-        mediaType={mediaType}
-        attachmentPreview={attachmentPreview}
-      />
+      {previewUrl && (
+        <RenderPreview mediaType={mediaType} attachmentPreview={previewUrl} />
+      )}
     </figure>
   );
 };

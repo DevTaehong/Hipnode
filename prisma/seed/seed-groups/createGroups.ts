@@ -14,7 +14,6 @@ export async function createGroups() {
         name: faker.lorem.words(2),
         description: faker.lorem.sentence(),
         createdAt: faker.date.past(),
-        updatedAt: faker.date.recent(),
         createdBy: user.id,
         coverImage: faker.image.urlLoremFlickr({ category: "nature" }),
         logo: faker.image.urlLoremFlickr({ category: "business" }),

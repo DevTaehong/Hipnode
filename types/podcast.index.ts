@@ -7,6 +7,7 @@ import {
   TwitterShareButton,
   LinkedinShareButton,
 } from "react-share";
+import { FilterType } from ".";
 
 export interface QueryObject {
   show?: string | string[];
@@ -21,6 +22,8 @@ export interface PodcastUserInfo extends Podcast {
 }
 
 export interface PodcastPageFilterProps {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   listedPodcasts: PodcastUserInfo[] | undefined;
   userShowsIds: number[];
 }
@@ -173,4 +176,10 @@ interface ShareIconConfig {
 export interface ShareButtonsProps {
   title: string;
   shareIcons: ShareIconConfig[];
+}
+
+export interface PodcastFilterAndContentWrapperProps {
+  listOfShows: FilterType[];
+  listedPodcasts: PodcastUserInfo[] | undefined;
+  usersShowsIds: number[];
 }

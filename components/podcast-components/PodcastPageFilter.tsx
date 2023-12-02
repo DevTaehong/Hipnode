@@ -10,8 +10,11 @@ import { PodcastPageFilterProps } from "@/types/podcast.index";
 import PodcastListColumn from "./PodcastListColumn";
 import SeeMoreButton from "../interview-components/SeeMoreButton";
 import BoxShading from "../interview-components/BoxShading";
+import OnboardingLoader from "../onboarding-components/OnboardingLoader";
 
 const PodcastPageFilter = ({
+  loading,
+  setLoading,
   listedPodcasts,
   userShowsIds,
 }: PodcastPageFilterProps) => {
@@ -69,8 +72,16 @@ const PodcastPageFilter = ({
     setPodcasts(listedPodcasts);
     setPodcastAmount(20);
     setHasMoreItems(true);
+    setLoading(false);
   }, [listedPodcasts, queryString]);
 
+  if (loading) {
+    return (
+      <div className="flex-center flex h-full w-full">
+        <OnboardingLoader />
+      </div>
+    );
+  }
   return (
     <article className="relative flex h-full w-full flex-col">
       <BoxShading />

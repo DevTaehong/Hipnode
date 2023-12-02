@@ -47,6 +47,7 @@ export type ExtendedPost = PrismaPost & {
   tags: TagOnPostWithTags[];
   heading?: string;
   group?: {
+    id: number;
     name: string;
   };
 };

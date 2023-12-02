@@ -19,7 +19,7 @@ const useCommentGrouping = ({
   useEffect(() => {
     (async () => {
       const postComments = await getPostCommentsById(+postId, userId);
-      const postCommentsWithUser = postComments.map((comment) => {
+      const postCommentsWithUser = postComments?.map((comment) => {
         return {
           ...comment,
           userId,

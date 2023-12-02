@@ -8,9 +8,9 @@ import {
 import { getAllUsersShows, getTopFiveShows } from "@/lib/actions/show.actions";
 import FormLink from "@/components/FormLink";
 import { podcastFormLinkProps } from "@/constants";
-import { Categories, PodcastPageFilter } from "@/components/podcast-components";
 import Meetups from "@/components/home-page/meetup/Meetups";
 import { getAllMeetUps } from "@/lib/actions/meetup.actions";
+import PodcastFilterAndContentWrapper from "@/components/podcast-components/PodcastFilterAndContentWrapper";
 
 interface SearchProps {
   show: string | string[];
@@ -58,24 +58,13 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
 
   return (
     <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[1.875rem]">
-      <div className=" mt-16 flex max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
-        <section className="flex w-full flex-col gap-5 lg:w-[13.125rem]">
-          <FormLink {...podcastFormLinkProps} className="flex lg:hidden" />
-          <div className="hidden overflow-scroll lg:flex">
-            <Categories
-              filters={listOfShows}
-              page="podcasts"
-              urlFilter="show"
-              className="md:w-[13.125rem]"
-            />
-          </div>
-        </section>
-        <section className="flex w-full flex-col">
-          <PodcastPageFilter
-            listedPodcasts={listedPodcasts}
-            userShowsIds={usersShowsIds}
-          />
-        </section>
+      <div className=" mt-16 flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
+        <PodcastFilterAndContentWrapper
+          listOfShows={listOfShows}
+          listedPodcasts={listedPodcasts}
+          usersShowsIds={usersShowsIds}
+        />
+
         <section className="flex w-full flex-col gap-5 lg:w-fit">
           <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
           <Meetups meetUps={meetups} />
