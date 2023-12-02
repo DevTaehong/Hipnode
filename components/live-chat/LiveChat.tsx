@@ -24,7 +24,7 @@ const LiveChat = () => {
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
-  const inputBox = useRef<HTMLInputElement | HTMLFormElement>(null);
+  const inputBox = useRef<HTMLInputElement>(null);
   const { showChat, chatroomUsers, chatroomId } = useChatStore();
   const path = usePathname();
 
@@ -115,6 +115,7 @@ const LiveChat = () => {
               <OutlineIcon.Link />
             </button>
             <input
+              ref={inputBox}
               value={messageText}
               placeholder="Type here your message..."
               onChange={(e) => setMessageText(e.target.value)}
@@ -127,7 +128,6 @@ const LiveChat = () => {
           type="submit"
           disabled={messageTextIsEmpty || chatroomId === null}
           className="h-fit cursor-pointer self-center"
-          onClick={() => handleFormSubmission}
         >
           <FillIcon.Send className="fill-sc-2 dark:fill-light-2" />
         </button>

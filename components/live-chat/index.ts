@@ -80,7 +80,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       text: messageContent || null,
       user: currentUser,
       chatroomId,
-      attachment: attachmentURL || null,
+      attachment: attachmentURL,
       attachmentType: mediaType,
     };
 

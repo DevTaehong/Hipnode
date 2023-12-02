@@ -15,14 +15,20 @@ import { useMemo } from "react";
 const RenderPreview = ({
   mediaType,
   attachmentPreview,
+  chatPage = false,
 }: RenderPreviewProps) => {
+  const dimensions = chatPage ? 400 : 250;
+  const dimensionsRem = chatPage
+    ? "max-w-[25rem] max-h-[25rem]"
+    : "max-h-[15rem] max-w-[18rem]";
+
   switch (mediaType) {
     case "image":
       return (
         <Image
           src={attachmentPreview}
-          height={250}
-          width={250}
+          height={dimensions}
+          width={dimensions}
           className="mb-3"
           alt="Image preview"
         />
@@ -31,9 +37,9 @@ const RenderPreview = ({
       return (
         <video
           src={attachmentPreview}
-          height={250}
-          width={250}
-          className="mb-3 h-full max-h-[15rem] w-fit max-w-[18rem]"
+          height={dimensions}
+          width={dimensions}
+          className={`mb-3 h-full w-fit ${dimensionsRem}`}
           controls
         />
       );
@@ -62,6 +68,7 @@ const RenderPreview = ({
 const AttachmentPreview = ({
   droppedFile,
   setDroppedFile,
+  chatPage = false,
 }: AttachmentPreviewProps) => {
   const mediaType = getMediaType(droppedFile);
 
@@ -86,7 +93,11 @@ const AttachmentPreview = ({
         <IoClose className="z-10 cursor-pointer text-[20px]" />
       </button>
       {previewUrl && (
-        <RenderPreview mediaType={mediaType} attachmentPreview={previewUrl} />
+        <RenderPreview
+          mediaType={mediaType}
+          attachmentPreview={previewUrl}
+          chatPage={chatPage}
+        />
       )}
     </figure>
   );

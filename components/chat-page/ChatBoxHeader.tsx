@@ -11,7 +11,7 @@ const ChatBoxHeader = ({ otherUser, isUserOnline }: ChatBoxHeaderProps) => {
   );
 
   return (
-    <header className="flex w-full items-center justify-between bg-light-2 px-6 py-8 dark:bg-dark-2">
+    <header className="flex w-full items-center justify-between bg-light-2 px-6 py-5 dark:bg-dark-2">
       <figure className="relative flex h-14 w-14 gap-4">
         <Image
           src={otherUser.image}

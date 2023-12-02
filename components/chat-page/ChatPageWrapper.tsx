@@ -1,8 +1,8 @@
 "use client";
 
 import { AblyProvider } from "ably/react";
-import { client } from "@/lib/ably";
 
+import { client } from "@/lib/ably";
 import { LiveChatPageLayout } from ".";
 import { ChatPageProps } from "@/types/chatroom.index";
 

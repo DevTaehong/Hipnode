@@ -40,6 +40,7 @@ export interface ChatProps extends User {
 export interface AttachmentPreviewProps {
   droppedFile: File | File[];
   setDroppedFile: (value: File | null) => void;
+  chatPage?: boolean;
 }
 
 export interface LiveChatAudioPlayerProps {
@@ -91,6 +92,7 @@ export interface useDropzoneHandlerProps {
 export interface RenderPreviewProps {
   mediaType: string;
   attachmentPreview: string;
+  chatPage?: boolean;
 }
 
 export interface CurrentUser {
@@ -139,9 +141,20 @@ export interface ChatBoxHeaderProps {
   isUserOnline: boolean;
 }
 
+type HandleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => void;
+
 export interface ChatPageChatBoxProps {
   onlineUsers: number[];
   messages: ChatMessage[];
+  inputProps: object;
+  open: () => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  messageText: string;
+  setMessageText: Dispatch<SetStateAction<string>>;
+  handleKeyDown: HandleKeyDown;
+  handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
+  inputBox: RefObject<HTMLInputElement>;
 }
 
 export interface ChatPageProps {
@@ -152,6 +165,8 @@ export interface ChatPageProps {
 export interface ChatPageChatListProps {
   chatrooms: ChatroomDetail[];
   onlineUsers: number[] | undefined;
+  messages: ChatMessage[];
+  userInfo: UserInfo;
 }
 
 export interface ChatroomListItemProps {
@@ -164,4 +179,18 @@ export interface ChatPageLiveChatProps {
   onlineUsers: number[];
   otherUser: UserInfo;
   defaultChatroomId: number;
+  messages: ChatMessage[];
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+}
+
+export interface ChatPageInputProps {
+  inputProps: object;
+  open: () => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  messageText: string;
+  setMessageText: Dispatch<SetStateAction<string>>;
+  handleKeyDown: HandleKeyDown;
+  handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
+  inputBox: RefObject<HTMLInputElement>;
 }
