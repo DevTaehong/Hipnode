@@ -53,13 +53,13 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <p className="semibold-16 text-sc-2_light-2">{displayName}</p>
           <p className="semibold-16 text-sc-4">{chatboxDate}</p>
         </div>
-        <figure className="flex max-w-[400px] flex-col gap-2 break-words">
+        <figure className="flex max-w-[31.7rem] flex-col gap-2 break-words">
           <MessageAttachment message={message} chatPage={true} />
           <figcaption
-            className={`${childPadding} ${messageStyles.divStyles} flex w-fit rounded-lg`}
+            className={`${childPadding} ${messageStyles.divStyles} flex w-fit rounded-lg `}
           >
             <p
-              className={`regular-16 ${messageStyles.divStyles} ${padding} w-fit rounded-lg`}
+              className={`regular-16 ${messageStyles.divStyles} ${padding} w-full rounded-lg`}
             >
               {message.data.text}
             </p>
