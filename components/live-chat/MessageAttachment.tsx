@@ -18,7 +18,7 @@ const MessageAttachment = ({
 
   const { attachmentType, attachment } = message.data;
 
-  const imageAndVideoDims = chatPage ? 400 : 250;
+  const imageAndVideoDims = chatPage ? 507 : 250;
 
   switch (attachmentType) {
     case "image":
@@ -36,7 +36,7 @@ const MessageAttachment = ({
             alt="Attachment"
             className={`${
               chatPage
-                ? "max-h-[25rem] max-w-[25rem]"
+                ? "max-h-[31.6875rem] max-w-[31.6875rem]"
                 : "max-h-80 max-w-[250px]"
             } rounded-lg object-contain`}
           />
@@ -51,7 +51,7 @@ const MessageAttachment = ({
           width={imageAndVideoDims}
           className={`${
             chatPage
-              ? "max-h-[25rem] max-w-[25rem]"
+              ? "max-h-[31.6875rem] max-w-[31.6875rem]"
               : "max-h-[15rem] max-w-[15rem]"
           }h-full  w-fit  rounded-lg`}
           controls

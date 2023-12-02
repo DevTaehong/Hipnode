@@ -59,7 +59,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
             className={`${childPadding} ${messageStyles.divStyles} flex w-fit rounded-lg `}
           >
             <p
-              className={`regular-16 ${messageStyles.divStyles} ${padding} w-full rounded-lg`}
+              className={`regular-16 ${messageStyles.divStyles} ${padding} w-fit rounded-lg`}
             >
               {message.data.text}
             </p>
