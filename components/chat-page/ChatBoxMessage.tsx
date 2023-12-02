@@ -16,7 +16,6 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const chatboxDate = createdAt ? formatChatBoxDate(createdAt) : "";
   const { chatroomUsers } = useChatStore();
 
-  const userId = chatroomUsers[0].id;
   const currentUserId = chatroomUsers[0].id;
   const messageStyles = {
     messageAlign:
@@ -38,7 +37,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
       className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
       key={message.data.messageId}
     >
-      {userId !== id && (
+      {currentUserId !== id && (
         <figure className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
           <Image
             src={image}
@@ -54,7 +53,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <p className="semibold-16 text-sc-2_light-2">{displayName}</p>
           <p className="semibold-16 text-sc-4">{chatboxDate}</p>
         </div>
-        <figure className="flex max-w-[400px] flex-col gap-1 break-words">
+        <figure className="flex max-w-[400px] flex-col gap-2 break-words">
           <MessageAttachment message={message} chatPage={true} />
           <figcaption
             className={`${childPadding} ${messageStyles.divStyles} flex w-fit rounded-lg`}
