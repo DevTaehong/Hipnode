@@ -95,7 +95,7 @@ export interface RenderPreviewProps {
 
 export interface CurrentUser {
   id: number | null;
-  username: string;
+  username: string | undefined;
   image: string;
 }
 
@@ -142,4 +142,26 @@ export interface ChatBoxHeaderProps {
 export interface ChatPageChatBoxProps {
   onlineUsers: number[];
   messages: ChatMessage[];
+}
+
+export interface ChatPageProps {
+  chatrooms: ChatroomDetail[];
+  userInfo: UserInfo;
+}
+
+export interface ChatPageChatListProps {
+  chatrooms: ChatroomDetail[];
+  onlineUsers: number[] | undefined;
+}
+
+export interface ChatroomListItemProps {
+  chatroom: ChatroomDetail;
+  onlineUsers?: number[];
+}
+
+export interface ChatPageLiveChatProps {
+  userInfo: UserInfo;
+  onlineUsers: number[];
+  otherUser: UserInfo;
+  defaultChatroomId: number;
 }

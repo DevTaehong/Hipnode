@@ -48,6 +48,8 @@ const LiveChatMessageList = React.memo(
       router.push(`/chat`);
     };
 
+    console.log(chatroomUsers[0], secondUser);
+
     return (
       <>
         <section className="flex w-full items-center justify-between border-b border-sc-6 p-4 dark:border-sc-2">

@@ -1,13 +1,10 @@
-import { ChatroomDetail } from "@/types/chatroom.index";
+import { ChatPageChatListProps } from "@/types/chatroom.index";
 import { ChatPageSearchBar, ChatroomListItem } from ".";
 
 const ChatPageChatList = ({
   chatrooms,
   onlineUsers,
-}: {
-  chatrooms: ChatroomDetail[];
-  onlineUsers: number[] | undefined;
-}) => {
+}: ChatPageChatListProps) => {
   return (
     <section className="flex h-full w-full max-w-[27.5rem] flex-col">
       <div

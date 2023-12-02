@@ -1,10 +1,21 @@
 import { usePresence } from "ably/react";
 
-import { ChatroomDetail } from "@/types/chatroom.index";
+import { ChatPageProps } from "@/types/chatroom.index";
 import { ChatPageChatList, ChatPageLiveChat } from ".";
 
-const LiveChatPageLayout = ({ chatrooms }: { chatrooms: ChatroomDetail[] }) => {
+const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const { presenceData } = usePresence("hipnode-livechat");
+
+  const otherUser = chatrooms[0].otherUser;
+  const defaultChatroomId = chatrooms[0].recentMessage.chatroomId;
+  const { id, username, picture, name } = otherUser;
+
+  const formattedOtherUser = {
+    id,
+    username,
+    image: picture,
+    name,
+  };
 
   const onlineUserIds =
     presenceData
@@ -18,7 +29,12 @@ const LiveChatPageLayout = ({ chatrooms }: { chatrooms: ChatroomDetail[] }) => {
 dark:border-dark-4"
       >
         <ChatPageChatList chatrooms={chatrooms} onlineUsers={onlineUserIds} />
-        <ChatPageLiveChat onlineUsers={onlineUserIds} />
+        <ChatPageLiveChat
+          userInfo={userInfo}
+          onlineUsers={onlineUserIds}
+          otherUser={formattedOtherUser}
+          defaultChatroomId={defaultChatroomId}
+        />
       </section>
     </main>
   );

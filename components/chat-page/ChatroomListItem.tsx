@@ -1,16 +1,10 @@
 import Image from "next/image";
 
-import { ChatroomDetail } from "@/types/chatroom.index";
 import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
+import { ChatroomListItemProps } from "@/types/chatroom.index";
 
-const ChatroomListItem = ({
-  chatroom,
-  onlineUsers,
-}: {
-  chatroom: ChatroomDetail;
-  onlineUsers?: number[];
-}) => {
+const ChatroomListItem = ({ chatroom, onlineUsers }: ChatroomListItemProps) => {
   const { setChatroomId, setChatroomUsers, chatroomId, userInfo } =
     useChatStore();
 
@@ -56,7 +50,7 @@ const ChatroomListItem = ({
     >
       <div className="flex w-full justify-between">
         <div className="flex gap-3">
-          <div className="relative flex h-10 w-10">
+          <figure className="relative flex h-10 w-10">
             <Image
               src={otherUserPicture}
               alt={`profile image for ${otherUserName}`}
@@ -65,9 +59,9 @@ const ChatroomListItem = ({
               className="shrink-0 rounded-full"
             />
             {isOtherUserOnline && (
-              <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-sc-2 bg-green-500 dark:border-light" />
+              <figcaption className="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-sc-2 bg-green-500 dark:border-light" />
             )}
-          </div>
+          </figure>
           <div className="flex h-full flex-col justify-between">
             <p className="bold-14 text-sc-2_light">{otherUserName}</p>
             <p className="regular-14 text-sc-4 dark:text-light-2">
@@ -75,7 +69,7 @@ const ChatroomListItem = ({
             </p>
           </div>
         </div>
-        <p className="regular-14 text-sc-2_light">{formattedTime}</p>
+        <time className="regular-14 text-sc-2_light">{formattedTime}</time>
       </div>
       <div>
         <p className="regular-14 line-clamp-2 text-sc-4">{recentMessageText}</p>

@@ -5,14 +5,14 @@ import { ChatBoxHeaderProps } from "@/types/chatroom.index";
 
 const ChatBoxHeader = ({ otherUser, isUserOnline }: ChatBoxHeaderProps) => {
   const userOnlineStatus = isUserOnline ? (
-    <p className="semibold-12 text-green">Online</p>
+    <span className="semibold-12 text-green">Online</span>
   ) : (
-    <p className="semibold-12 text-sc-4">Offline</p>
+    <span className="semibold-12 text-sc-4">Offline</span>
   );
 
   return (
-    <div className="flex w-full items-center justify-between bg-light-2 px-6 py-8 dark:bg-dark-2">
-      <div className="relative flex h-14 w-14 gap-4">
+    <header className="flex w-full items-center justify-between bg-light-2 px-6 py-8 dark:bg-dark-2">
+      <figure className="relative flex h-14 w-14 gap-4">
         <Image
           src={otherUser.image}
           alt={`profile image for ${otherUser.name}`}
@@ -20,23 +20,23 @@ const ChatBoxHeader = ({ otherUser, isUserOnline }: ChatBoxHeaderProps) => {
           width={56}
           className="shrink-0 rounded-full"
         />
-        <div className="flex flex-col justify-between whitespace-nowrap">
+        <figcaption className="flex flex-col justify-between whitespace-nowrap">
           <div className="flex items-center gap-2">
-            <p className="bold-18 text-sc-2_light">{otherUser.name}</p>
+            <span className="bold-18 text-sc-2_light">{otherUser.name}</span>
             {userOnlineStatus}
           </div>
           <p className="regular-14 text-sc-4 dark:text-light-2">
             @{otherUser.username}
           </p>
-        </div>
-      </div>
+        </figcaption>
+      </figure>
       <Link
         href={`/profile/${otherUser.id}`}
         className="semibold-14 flex-center h-[2.875rem] w-[6.5rem] rounded-md bg-red-80 text-light"
       >
         View Profile
       </Link>
-    </div>
+    </header>
   );
 };
 
