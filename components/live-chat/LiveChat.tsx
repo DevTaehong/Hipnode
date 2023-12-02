@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
+import { usePathname } from "next/navigation";
 
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
@@ -30,6 +31,7 @@ const LiveChat = () => {
   const [mediaType, setMediaType] = useState("");
   const inputBox = useRef<HTMLInputElement | HTMLFormElement>(null);
   const { showChat, chatroomUsers, chatroomId } = useChatStore();
+  const path = usePathname();
 
   const { channel } = useChannel("hipnode-livechat", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
@@ -120,7 +122,7 @@ const LiveChat = () => {
       {...getRootProps()}
       className={`bg-light_dark-4 fixed bottom-20 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl  ${
         showChat ? "flex" : "hidden"
-      }`}
+      } ${path === "/chat" ? "hidden" : "flex"}`}
     >
       {isDragActive && <HoverScreen />}
       <input {...getInputProps()} />

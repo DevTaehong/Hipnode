@@ -329,3 +329,33 @@ export function formatRelativeTime(dateString: Date): string {
     return `${Math.floor(diffInSeconds / 86400)}day ago`;
   }
 }
+
+export function formatChatBoxDate(date: Date) {
+  function pad(n: number) {
+    return n < 10 ? "0" + n : n;
+  }
+
+  const now = new Date();
+  const providedDate = new Date(date);
+
+  const moreThanADayOld =
+    now.getDate() !== providedDate.getDate() ||
+    now.getMonth() !== providedDate.getMonth() ||
+    now.getFullYear() !== providedDate.getFullYear();
+
+  let hours = providedDate.getHours();
+  const minutes = pad(providedDate.getMinutes());
+  const ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours || 12;
+
+  const timeFormatted = `${hours}:${minutes}${ampm}`;
+
+  if (moreThanADayOld) {
+    const day = pad(providedDate.getDate());
+    const month = pad(providedDate.getMonth() + 1);
+    return `${day}/${month} ${timeFormatted}`;
+  } else {
+    return timeFormatted;
+  }
+}

@@ -5,7 +5,13 @@ import { playButton, timerImage, pauseButton } from "@/public/assets";
 import LiveChatAudioAnimation from "./LiveChatAudioAnimation";
 import { formatTime } from "@/utils";
 
-const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
+const LiveChatAudioPlayer = ({
+  songUrl,
+  chatPage = false,
+}: {
+  songUrl: string;
+  chatPage?: boolean;
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [displayTime, setDisplayTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);

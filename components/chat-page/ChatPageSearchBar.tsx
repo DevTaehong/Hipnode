@@ -1,4 +1,3 @@
-import React from "react";
 import OutlineIcon from "../icons/outline-icons";
 
 const ChatPageSearchBar = () => {

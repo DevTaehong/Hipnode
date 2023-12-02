@@ -54,6 +54,7 @@ export interface ChatroomUser {
   id: number;
   username: string | undefined;
   image: string;
+  name?: string;
 }
 
 export interface ChatroomMap {
@@ -64,6 +65,7 @@ export interface UserInfo {
   id: number;
   username: string;
   image: string;
+  name?: string;
 }
 
 export interface ChatMessage {
@@ -75,6 +77,7 @@ export interface ChatMessage {
     attachmentType?: string | null;
     chatroomId?: number;
     text: string | null;
+    createdAt?: Date;
   };
 }
 export interface loadMessagesProps {
@@ -138,4 +141,14 @@ export interface ChatroomDetail {
   updatedAt: Date;
   recentMessage: RecentMessage;
   otherUser: OtherUser;
+}
+
+export interface ChatBoxHeaderProps {
+  otherUser: ChatroomUser;
+  isUserOnline: boolean;
+}
+
+export interface ChatPageChatBoxProps {
+  onlineUsers: number[];
+  messages: ChatMessage[];
 }

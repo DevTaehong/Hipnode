@@ -5,12 +5,20 @@ import FillIcon from "../icons/fill-icons";
 import LiveChatAudioPlayer from "./LiveChatAudioPlayer";
 import { ChatMessage } from "@/types/chatroom.index";
 
-const MessageAttachment = ({ message }: { message: ChatMessage }) => {
+const MessageAttachment = ({
+  message,
+  chatPage = false,
+}: {
+  message: ChatMessage;
+  chatPage?: boolean;
+}) => {
   if (!message.data.attachment) {
     return null;
   }
 
   const { attachmentType, attachment } = message.data;
+
+  const imageAndVideoDims = chatPage ? 400 : 250;
 
   switch (attachmentType) {
     case "image":
@@ -23,10 +31,14 @@ const MessageAttachment = ({ message }: { message: ChatMessage }) => {
         >
           <Image
             src={attachment}
-            height={250}
-            width={250}
+            height={imageAndVideoDims}
+            width={imageAndVideoDims}
             alt="Attachment"
-            className="max-h-80 max-w-[250px] rounded-lg object-contain"
+            className={`${
+              chatPage
+                ? "max-h-[25rem] max-w-[25rem]"
+                : "max-h-80 max-w-[250px]"
+            } rounded-lg object-contain`}
           />
         </Link>
       );
@@ -35,21 +47,27 @@ const MessageAttachment = ({ message }: { message: ChatMessage }) => {
       return (
         <video
           src={attachment}
-          height={250}
-          width={250}
-          className="h-full max-h-[15rem] w-fit max-w-[15rem] rounded-lg"
+          height={imageAndVideoDims}
+          width={imageAndVideoDims}
+          className={`${
+            chatPage
+              ? "max-h-[25rem] max-w-[25rem]"
+              : "max-h-[15rem] max-w-[15rem]"
+          }h-full  w-fit  rounded-lg`}
           controls
         />
       );
 
     case "audio":
-      return <LiveChatAudioPlayer songUrl={attachment} />;
+      return <LiveChatAudioPlayer songUrl={attachment} chatPage={chatPage} />;
 
     case "document":
       return (
         <Link
           href={attachment}
-          className="flex-center mb-3 h-40 w-40 rounded-xl bg-red-80"
+          className={`flex-center mb-3  rounded-xl bg-red-80 ${
+            chatPage ? "h-60 w-60" : "h-40 w-40"
+          }`}
         >
           <FillIcon.Post className="h-10 w-10 fill-white" />
         </Link>

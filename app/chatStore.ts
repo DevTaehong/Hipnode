@@ -2,13 +2,8 @@ import {
   createChatroom,
   getAllChatroomUsers,
 } from "@/lib/actions/chatroom.actions";
+import { ChatroomUser } from "@/types/chatroom.index";
 import { create } from "zustand";
-
-interface ChatroomUser {
-  id: number;
-  username: string;
-  image: string;
-}
 
 interface ChatroomMap {
   [chatroomId: number]: Set<number>;
@@ -17,10 +12,13 @@ interface ChatroomMap {
 interface UserInfo {
   id: number;
   username: string;
+  name?: string;
   image: string;
 }
 
 interface ChatStoreState {
+  userId: number | null;
+  setUserId: (id: number | null) => void;
   chatroomUsers: ChatroomUser[];
   setChatroomUsers: (users: ChatroomUser[]) => void;
   createNewChatroom: () => Promise<void>;
@@ -33,6 +31,8 @@ interface ChatStoreState {
 }
 
 const useChatStore = create<ChatStoreState>((set) => ({
+  userId: null,
+  setUserId: (id: number | null) => set({ userId: id }),
   chatroomUsers: [],
   setChatroomUsers: (users: ChatroomUser[]) => set({ chatroomUsers: users }),
   createNewChatroom: async () => {

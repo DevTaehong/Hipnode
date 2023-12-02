@@ -1,6 +1,5 @@
 import { ChatroomDetail } from "@/types/chatroom.index";
-import ChatroomListItem from "./ChatroomListItem";
-import ChatPageSearchBar from "./ChatPageSearchBar";
+import { ChatPageSearchBar, ChatroomListItem } from ".";
 
 const ChatPageChatList = ({
   chatrooms,

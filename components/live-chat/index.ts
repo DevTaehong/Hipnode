@@ -33,6 +33,7 @@ export const loadMessages = async ({
             attachment: message.attachment || null,
             attachmentType: message.attachmentType || null,
             text: message.text || null,
+            createdAt: message.createdAt,
           },
         };
       });

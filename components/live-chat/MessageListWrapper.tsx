@@ -12,6 +12,7 @@ interface UserInfo {
     id: number;
     username: string;
     image: string;
+    name: string;
   };
 }
 

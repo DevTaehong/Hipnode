@@ -11,7 +11,9 @@ const ChatroomListItem = ({
   chatroom: ChatroomDetail;
   onlineUsers?: number[];
 }) => {
-  const { setChatroomId } = useChatStore();
+  const { setChatroomId, setChatroomUsers, chatroomId, userInfo } =
+    useChatStore();
+
   const {
     id: chatroomListId,
     recentMessage: {
@@ -30,13 +32,26 @@ const ChatroomListItem = ({
   const formattedTime = formatRelativeTime(recentMessageCreatedAt);
 
   const handleChatroomClick = () => {
-    setChatroomId(chatroomListId);
+    if (userInfo && id) {
+      setChatroomId(chatroomListId);
+      setChatroomUsers([
+        userInfo,
+        {
+          id,
+          username: otherUserUsername,
+          image: otherUserPicture,
+          name: otherUserName,
+        },
+      ]);
+    }
   };
 
   return (
     <li
-      className="flex cursor-pointer flex-col gap-4 border-b border-sc-6 bg-light p-4 hover:bg-light-2 dark:border-dark-4 dark:bg-dark-2
-    hover:dark:bg-dark-4"
+      className={`flex cursor-pointer flex-col gap-4 border-b border-sc-6 bg-light p-4 hover:bg-light-2 dark:border-dark-4 dark:bg-dark-2
+    hover:dark:bg-dark-4 ${
+      chatroomId === chatroomListId && "bg-light-2 dark:bg-dark-4"
+    }`}
       onClick={handleChatroomClick}
     >
       <div className="flex w-full justify-between">

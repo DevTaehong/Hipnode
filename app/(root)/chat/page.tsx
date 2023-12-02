@@ -5,15 +5,22 @@ import { auth } from "@clerk/nextjs";
 
 const Chat = async () => {
   const { userId: clerkUserId } = auth();
-  let userId;
+  let userInfo;
   if (clerkUserId) {
     const user = await getUserByClerkId(clerkUserId);
-    userId = user?.id || 0;
+    if (user) {
+      userInfo = {
+        id: user.id,
+        username: user.username,
+        image: user.picture,
+        name: user.name,
+      };
+    }
   }
-  if (!userId) return null;
+  if (!userInfo) return null;
 
-  const chatrooms = await getUserChatrooms(userId);
-  return <ChatPageWrapper chatrooms={chatrooms} />;
+  const chatrooms = await getUserChatrooms(userInfo.id);
+  return <ChatPageWrapper chatrooms={chatrooms} userInfo={userInfo} />;
 };
 
 export default Chat;
