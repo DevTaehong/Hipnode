@@ -30,7 +30,7 @@ const RenderPreview = ({
           src={attachmentPreview}
           height={attachmentHeight}
           width={attachmentWidth}
-          className={`mb-3 w-fit object-contain ${dimensionsRem}`}
+          className={`mb-3 w-full object-contain ${dimensionsRem}`}
           alt="Image preview"
         />
       );
@@ -82,7 +82,7 @@ const AttachmentPreview = ({
   }, [droppedFile]);
 
   return (
-    <figure className="relative flex w-fit">
+    <figure className="relative flex">
       <button
         className={`flex-center absolute right-0 top-0 h-5 w-5 bg-white/80 ${
           mediaType === "audio" ? "-right-5 -top-3" : "right-0 top-0"

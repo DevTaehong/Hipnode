@@ -37,10 +37,10 @@ const ChatPageInput = ({
   };
 
   return (
-    <div className="bg-light_dark-4 flex justify-between px-8 pb-9 pt-4">
+    <div className="bg-light_dark-4 flex justify-between px-4 pb-9 pt-4 md:px-8">
       <div className="flex w-full flex-col items-center">
         {droppedFile && (
-          <div className="flex h-full max-h-[40rem] w-fit max-w-[25rem] self-start">
+          <div className="flex h-full w-fit self-start">
             <AttachmentPreview
               droppedFile={droppedFile}
               setDroppedFile={setDroppedFile}

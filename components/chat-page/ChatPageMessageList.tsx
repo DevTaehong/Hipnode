@@ -12,12 +12,12 @@ const ChatPageMessageList = ({ messages }: { messages: ChatMessage[] }) => {
   }, [messages]);
 
   return (
-    <ul className="bg-light_dark-4 flex h-full w-full flex-col gap-4 overflow-scroll p-8">
+    <ul className="bg-light_dark-4 flex h-full w-full flex-col gap-4 overflow-scroll p-4 md:p-8">
       {messages &&
         messages.map((message: ChatMessage) => (
           <ChatBoxMessage key={message.data.messageId} message={message} />
         ))}
-      <div ref={endOfMessagesRef} className="mt-1" />
+      <div ref={endOfMessagesRef} className="bottom-0 mt-1" />
     </ul>
   );
 };

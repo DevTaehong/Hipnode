@@ -19,7 +19,7 @@ const MessageAttachment = ({
   const { attachmentType, attachment } = message.data;
 
   const imageAndVideoHeight = chatPage ? 600 : 250;
-  const imageAndVideoWidth = chatPage ? 400 : 200;
+  const imageAndVideoWidth = chatPage ? 600 : 300;
 
   switch (attachmentType) {
     case "image":
@@ -39,7 +39,7 @@ const MessageAttachment = ({
               chatPage
                 ? "max-h-[37.5rem] max-w-[31.6875rem]"
                 : "max-h-80 max-w-[250px]"
-            } rounded-lg object-contain`}
+            } w-full rounded-lg object-contain`}
           />
         </Link>
       );

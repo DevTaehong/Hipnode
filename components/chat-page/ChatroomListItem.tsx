@@ -8,6 +8,7 @@ const ChatroomListItem = ({
   chatroom,
   onlineUsers,
   userInfo,
+  setShowChatRoomList,
 }: ChatroomListItemProps) => {
   const { setChatroomId, setChatroomUsers, chatroomId } = useChatStore();
 
@@ -40,6 +41,9 @@ const ChatroomListItem = ({
           name: otherUserName,
         },
       ]);
+      if (window.innerWidth < 768) {
+        setShowChatRoomList(false);
+      }
     }
   };
 

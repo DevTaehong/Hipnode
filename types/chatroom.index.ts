@@ -173,6 +173,7 @@ export interface ChatroomListItemProps {
   chatroom: ChatroomDetail;
   onlineUsers?: number[];
   userInfo: UserInfo;
+  setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ChatPageLiveChatProps {

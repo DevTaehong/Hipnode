@@ -52,7 +52,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <p className="semibold-16 text-sc-2_light-2">{displayName}</p>
           <p className="semibold-16 text-sc-4">{chatboxDate}</p>
         </div>
-        <figure className="flex max-w-[31.7rem] flex-col gap-2 break-words">
+        <figure className="flex w-full max-w-[31.7rem] flex-col gap-2 break-words">
           <MessageAttachment message={message} chatPage={true} />
           <figcaption
             className={`${
