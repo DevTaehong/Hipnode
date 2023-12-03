@@ -61,7 +61,7 @@ const LiveChat = () => {
       | React.KeyboardEvent<HTMLInputElement>
   ) => {
     event.preventDefault();
-    if (!messageTextIsEmpty) {
+    if (!messageTextIsEmpty || droppedFile) {
       try {
         const result = await liveChatSubmission({
           event,

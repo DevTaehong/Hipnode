@@ -17,19 +17,20 @@ const RenderPreview = ({
   attachmentPreview,
   chatPage = false,
 }: RenderPreviewProps) => {
-  const dimensions = chatPage ? 400 : 250;
+  const attachmentWidth = chatPage ? 400 : 250;
+  const attachmentHeight = chatPage ? 600 : 250;
   const dimensionsRem = chatPage
     ? "max-w-[25rem] max-h-[25rem]"
-    : "max-h-[15rem] max-w-[18rem]";
+    : "max-h-[16rem] max-w-[18rem]";
 
   switch (mediaType) {
     case "image":
       return (
         <Image
           src={attachmentPreview}
-          height={dimensions}
-          width={dimensions}
-          className="mb-3"
+          height={attachmentHeight}
+          width={attachmentWidth}
+          className={`mb-3 w-fit object-contain ${dimensionsRem}`}
           alt="Image preview"
         />
       );
@@ -37,9 +38,9 @@ const RenderPreview = ({
       return (
         <video
           src={attachmentPreview}
-          height={dimensions}
-          width={dimensions}
-          className={`mb-3 h-full w-fit ${dimensionsRem}`}
+          height={attachmentHeight}
+          width={attachmentWidth}
+          className={`mb-3 w-full ${dimensionsRem}`}
           controls
         />
       );

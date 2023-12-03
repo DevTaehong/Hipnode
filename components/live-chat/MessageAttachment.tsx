@@ -18,7 +18,8 @@ const MessageAttachment = ({
 
   const { attachmentType, attachment } = message.data;
 
-  const imageAndVideoDims = chatPage ? 507 : 250;
+  const imageAndVideoHeight = chatPage ? 600 : 250;
+  const imageAndVideoWidth = chatPage ? 400 : 200;
 
   switch (attachmentType) {
     case "image":
@@ -27,16 +28,16 @@ const MessageAttachment = ({
           href={attachment}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full cursor-pointer flex-col justify-center overflow-hidden"
+          className="flex w-fit cursor-pointer flex-col justify-center overflow-hidden"
         >
           <Image
             src={attachment}
-            height={imageAndVideoDims}
-            width={imageAndVideoDims}
+            height={imageAndVideoHeight}
+            width={imageAndVideoWidth}
             alt="Attachment"
             className={`${
               chatPage
-                ? "max-h-[31.6875rem] max-w-[31.6875rem]"
+                ? "max-h-[37.5rem] max-w-[31.6875rem]"
                 : "max-h-80 max-w-[250px]"
             } rounded-lg object-contain`}
           />
@@ -47,13 +48,13 @@ const MessageAttachment = ({
       return (
         <video
           src={attachment}
-          height={imageAndVideoDims}
-          width={imageAndVideoDims}
+          height={imageAndVideoHeight}
+          width={imageAndVideoWidth}
           className={`${
             chatPage
-              ? "max-h-[31.6875rem] max-w-[31.6875rem]"
+              ? "max-h-[37.5rem] max-w-[37.5rem]"
               : "max-h-[15rem] max-w-[15rem]"
-          }h-full  w-fit  rounded-lg`}
+          }h-full w-full rounded-lg`}
           controls
         />
       );

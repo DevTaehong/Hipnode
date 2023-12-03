@@ -9,7 +9,9 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const {
     data: {
       user: { username, image, id },
+      messageId,
       createdAt,
+      text,
     },
   } = message;
 
@@ -27,15 +29,12 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
         ? "bg-red-80 text-white self-end"
         : "bg-red-10 text-red-80",
   };
-  const hasAttachment = message.data.attachment;
-  const padding = hasAttachment ? "p-0" : "p-3.5";
-  const childPadding = hasAttachment ? "p-3.5" : "p-0";
   const displayName = id === currentUserId ? "You" : username;
 
   return (
     <li
       className={`${messageStyles.messageAlign} flex w-full gap-2.5 break-words`}
-      key={message.data.messageId}
+      key={messageId}
     >
       {currentUserId !== id && (
         <figure className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
@@ -56,13 +55,11 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
         <figure className="flex max-w-[31.7rem] flex-col gap-2 break-words">
           <MessageAttachment message={message} chatPage={true} />
           <figcaption
-            className={`${childPadding} ${messageStyles.divStyles} flex w-fit rounded-lg `}
+            className={`${
+              messageStyles.divStyles
+            } regular-16 flex w-fit rounded-lg p-3.5 ${!text && "hidden"}`}
           >
-            <p
-              className={`regular-16 ${messageStyles.divStyles} ${padding} w-fit rounded-lg`}
-            >
-              {message.data.text}
-            </p>
+            {text}
           </figcaption>
         </figure>
       </div>

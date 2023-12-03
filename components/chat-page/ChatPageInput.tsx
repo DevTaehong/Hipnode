@@ -24,7 +24,6 @@ const ChatPageInput = ({
   inputBox,
 }: ChatPageInputProps) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-
   const handleEmojiSelect = (emoji: EmojiData) => {
     const emojiCharacter = emoji.native;
     const currentValue = messageText;
@@ -41,7 +40,7 @@ const ChatPageInput = ({
     <div className="bg-light_dark-4 flex justify-between px-8 pb-9 pt-4">
       <div className="flex w-full flex-col items-center">
         {droppedFile && (
-          <div className="flex h-full max-h-[25rem] w-full max-w-[25rem] self-start">
+          <div className="flex h-full max-h-[40rem] w-fit max-w-[25rem] self-start">
             <AttachmentPreview
               droppedFile={droppedFile}
               setDroppedFile={setDroppedFile}
