@@ -26,9 +26,9 @@ const ChatPageInput = ({
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const handleEmojiSelect = (emoji: EmojiData) => {
-    const emojiNative = emoji.native;
+    const emojiCharacter = emoji.native;
     const currentValue = messageText;
-    const updatedValue = currentValue + emojiNative;
+    const updatedValue = currentValue + emojiCharacter;
     setMessageText(updatedValue);
   };
 
