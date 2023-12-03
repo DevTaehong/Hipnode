@@ -4,9 +4,12 @@ import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
 import { ChatroomListItemProps } from "@/types/chatroom.index";
 
-const ChatroomListItem = ({ chatroom, onlineUsers }: ChatroomListItemProps) => {
-  const { setChatroomId, setChatroomUsers, chatroomId, userInfo } =
-    useChatStore();
+const ChatroomListItem = ({
+  chatroom,
+  onlineUsers,
+  userInfo,
+}: ChatroomListItemProps) => {
+  const { setChatroomId, setChatroomUsers, chatroomId } = useChatStore();
 
   const {
     id: chatroomListId,

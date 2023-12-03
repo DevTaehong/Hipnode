@@ -172,6 +172,7 @@ export interface ChatPageChatListProps {
 export interface ChatroomListItemProps {
   chatroom: ChatroomDetail;
   onlineUsers?: number[];
+  userInfo: UserInfo;
 }
 
 export interface ChatPageLiveChatProps {

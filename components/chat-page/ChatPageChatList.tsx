@@ -36,6 +36,7 @@ const ChatPageChatList = ({
               key={chatroom.id}
               chatroom={chatroom}
               onlineUsers={onlineUsers}
+              userInfo={userInfo}
             />
           ) : null
         )}
