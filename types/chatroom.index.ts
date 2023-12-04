@@ -137,49 +137,16 @@ export interface ChatroomDetail {
   otherUser: OtherUser;
 }
 
-export interface ChatBoxHeaderProps {
-  otherUser: ChatroomUser;
-  isUserOnline: boolean;
-}
-
 type HandleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => void;
-
-export interface ChatPageChatBoxProps {
-  inputProps: object;
-  open: () => void;
-  droppedFile: File | File[] | null;
-  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
-  messageText: string;
-  setMessageText: Dispatch<SetStateAction<string>>;
-  handleKeyDown: HandleKeyDown;
-  handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
-  inputBox: RefObject<HTMLInputElement>;
-}
 
 export interface ChatPageProps {
   chatrooms: ChatroomDetail[];
   userInfo: UserInfo;
 }
 
-export interface ChatPageChatListProps {
-  chatrooms: ChatroomDetail[];
-  onlineUsers: number[] | undefined;
-  messages: ChatMessage[];
-  userInfo: UserInfo;
-}
-
 export interface ChatroomListItemProps {
   chatroom: ChatroomDetail;
   setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface ChatPageLiveChatProps {
-  userInfo: UserInfo;
-  onlineUsers: number[];
-  otherUser: UserInfo;
-  defaultChatroomId: number;
-  messages: ChatMessage[];
-  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
 }
 
 export interface ChatPageContextType {
