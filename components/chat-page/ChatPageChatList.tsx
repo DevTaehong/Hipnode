@@ -34,11 +34,8 @@ const ChatPageChatList = () => {
   }, []);
 
   return (
-    <section className="flex h-full w-full flex-col md:max-w-[27.5rem]">
-      <div
-        className="bg-light p-4 dark:bg-dark-2
-    md:p-6"
-      >
+    <section className="flex h-fit w-full flex-col bg-light dark:bg-dark-2 md:h-full md:max-w-[27.5rem]">
+      <div className="p-4 md:p-6">
         <p className="bold-18 text-sc-2_light">Messages</p>
       </div>
       <ChatPageSearchBar />

@@ -126,7 +126,7 @@ const LiveChat = () => {
         </div>
         <button
           type="submit"
-          disabled={messageTextIsEmpty || chatroomId === null}
+          disabled={messageTextIsEmpty && chatroomId === null}
           className="h-fit cursor-pointer self-center"
         >
           <FillIcon.Send className="fill-sc-2 dark:fill-light-2" />

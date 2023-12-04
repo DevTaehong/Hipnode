@@ -11,13 +11,14 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
     text,
   } = message.data;
   const currentUserId = chatroomUsers[0].id;
+  const currentUserMessage = id === currentUserId;
   const messageStyles = {
-    messageAlign:
-      id === currentUserId
-        ? "self-end flex-row-reverse"
-        : "self-start flex-row",
-    divStyles:
-      id === currentUserId ? "bg-red-80 text-white" : "bg-red-10 text-red-80",
+    messageAlign: currentUserMessage
+      ? "self-end flex-row-reverse"
+      : "self-start flex-row",
+    divStyles: currentUserMessage
+      ? "bg-red-80 text-white"
+      : "bg-red-10 text-red-80",
   };
   return (
     <li
@@ -34,7 +35,10 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
         />
       </figure>
       <figure className="flex w-fit max-w-[250px] flex-col gap-2 break-words">
-        <MessageAttachment message={message} />
+        <MessageAttachment
+          message={message}
+          currentUserMessage={currentUserMessage}
+        />
         <figcaption
           className={`${
             messageStyles.divStyles
