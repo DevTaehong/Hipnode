@@ -3,16 +3,12 @@ import Image from "next/image";
 
 import { playButton, pauseButton } from "@/public/assets";
 import { formatTime } from "@/utils";
+import { LiveChatAudioPlayerProps } from "@/types/chatroom.index";
 
 const LiveChatAudioPlayer = ({
   songUrl,
-  chatPage = false,
   currentUserMessage = false,
-}: {
-  songUrl: string;
-  chatPage?: boolean;
-  currentUserMessage?: boolean;
-}) => {
+}: LiveChatAudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [displayTime, setDisplayTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);

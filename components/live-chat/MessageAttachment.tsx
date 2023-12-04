@@ -3,17 +3,13 @@ import Image from "next/image";
 
 import FillIcon from "../icons/fill-icons";
 import LiveChatAudioPlayer from "./LiveChatAudioPlayer";
-import { ChatMessage } from "@/types/chatroom.index";
+import { MessageAttachmentProps } from "@/types/chatroom.index";
 
 const MessageAttachment = ({
   message,
   chatPage = false,
   currentUserMessage = false,
-}: {
-  message: ChatMessage;
-  chatPage?: boolean;
-  currentUserMessage?: boolean;
-}) => {
+}: MessageAttachmentProps) => {
   if (!message.data.attachment) {
     return null;
   }
@@ -65,7 +61,6 @@ const MessageAttachment = ({
       return (
         <LiveChatAudioPlayer
           songUrl={attachment}
-          chatPage={chatPage}
           currentUserMessage={currentUserMessage}
         />
       );

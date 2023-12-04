@@ -44,9 +44,8 @@ export interface AttachmentPreviewProps {
 }
 
 export interface LiveChatAudioPlayerProps {
-  displayTime: number;
-  isPlaying: boolean;
-  togglePlayPause: () => void;
+  songUrl: string;
+  currentUserMessage?: boolean;
 }
 
 export interface ChatroomUser {
@@ -169,4 +168,10 @@ export interface ChatPageInputContextType {
   handleKeyDown: HandleKeyDown;
   handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
   inputBox: RefObject<HTMLInputElement>;
+}
+
+export interface MessageAttachmentProps {
+  message: ChatMessage;
+  chatPage?: boolean;
+  currentUserMessage?: boolean;
 }

@@ -19,7 +19,6 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
 
   const handleUserClick = (clickedUserId: number) => {
     const clickedUser = users.find((user) => user.id === clickedUserId);
-    console.log(clickedUser);
 
     if (clickedUser) {
       const chatroomUsers = [
