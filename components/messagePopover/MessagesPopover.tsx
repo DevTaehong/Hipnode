@@ -5,14 +5,15 @@ import Message from "@/components/messagePopover/Message";
 const MessagesPopover = () => {
   return (
     <div className="relative w-[21rem]">
-      {/* To make message triangle */}
+      {/* NOTE - To make the triangle */}
       <div
         className="absolute bottom-[14.94rem] z-10 h-[11.6875rem] w-[21rem] bg-message-popover bg-top bg-no-repeat
           dark:bg-dark-message-popover"
       />
-      {/* To make the message box */}
+
+      {/* NOTE - To make the message box */}
       <div
-        className="relative z-10 flex h-[26.125rem] flex-col items-center 
+        className="relative z-10 flex h-[26.125rem] flex-col items-stretch 
           justify-between rounded-lg bg-light pb-5 dark:bg-dark-4"
       >
         <div className="flex flex-col">
@@ -21,15 +22,15 @@ const MessagesPopover = () => {
           </p>
           <Message />
         </div>
-        {/* // TODO - Change this to the real link */}
         <Link
-          href="/"
-          className="semibold-14 font-feature py-0 text-blue hover:underline"
+          href="/chat"
+          className="semibold-14 font-feature inline-flex justify-center py-0 text-blue hover:underline"
         >
           See all in Messenger
         </Link>
       </div>
-      {/* To make the blur effect */}
+
+      {/* NOTE - To make the blur effect */}
       <div
         className="absolute left-[1.44rem] top-[3.81rem] h-[22.9375rem] w-[18rem] shrink-0 bg-sc-3 
           opacity-50 blur-[3.125rem] dark:bg-dark-1"

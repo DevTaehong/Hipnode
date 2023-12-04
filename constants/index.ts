@@ -9,6 +9,57 @@ import {
   NotificationTab,
 } from "@/types";
 
+export const dummyMessages = [
+  {
+    name: "Wade Warren",
+    avatar: "/negan.png",
+    avatarFallback: "/negan.png",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    newMessageCounts: 5,
+  },
+  {
+    name: "Wade Warren",
+    avatar: "/negan.png",
+    avatarFallback: "/negan.png",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    newMessageCounts: 5,
+  },
+  {
+    name: "Wade Warren",
+    avatar: "/negan.png",
+    avatarFallback: "/negan.png",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    newMessageCounts: 5,
+  },
+  {
+    name: "Wade Warren",
+    avatar: "/negan.png",
+    avatarFallback: "/negan.png",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    newMessageCounts: 5,
+  },
+  {
+    name: "Wade Warren",
+    avatar: "/negan.png",
+    avatarFallback: "/negan.png",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    newMessageCounts: 5,
+  },
+  {
+    name: "Wade Warren",
+    avatar: "/negan.png",
+    avatarFallback: "/negan.png",
+    date: "20 minutes ago",
+    message: "Congrats on your work anniversary!",
+    newMessageCounts: 5,
+  },
+];
+
 export const PLACEHOLDER_IMAGE_URL = "/images/hipnode.svg";
 
 export const headings = (
