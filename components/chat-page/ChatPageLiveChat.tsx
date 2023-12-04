@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  FormEvent,
-  KeyboardEvent,
-} from "react";
+import { useState, useEffect, useRef, FormEvent, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
 
@@ -15,19 +9,20 @@ import {
   useDropzoneHandler,
 } from "../live-chat";
 import useChatStore from "@/app/chatStore";
-import { ChatMessage, ChatPageLiveChatProps } from "@/types/chatroom.index";
-import { ChatPageChatBox } from ".";
+import { ChatMessage } from "@/types/chatroom.index";
+import { ChatBoxHeader, ChatPageMessageList } from ".";
 import HoverScreen from "../live-chat/HoverScreen";
+import { useChatPageContext } from "@/app/contexts/ChatPageContext";
+import OnboardingLoader from "../onboarding-components/OnboardingLoader";
+import { ChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
+import ChatPageInput from "./ChatPageInput";
 
-const ChatPageLiveChat = ({
-  userInfo,
-  onlineUsers,
-  otherUser,
-  defaultChatroomId,
-  messages,
-  setMessages,
-}: ChatPageLiveChatProps) => {
+const ChatPageLiveChat = () => {
+  const { userInfo, otherUser, defaultChatroomId, setMessages } =
+    useChatPageContext();
+
   const [messageText, setMessageText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const inputBox = useRef<HTMLInputElement>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
@@ -50,14 +45,13 @@ const ChatPageLiveChat = ({
     noClick: true,
   });
 
-  const idForChatroom = chatroomId ?? defaultChatroomId;
-  const usersForChatroom = chatroomUsers ?? [userInfo, otherUser];
-
   useEffect(() => {
+    setIsLoading(true);
     loadMessages({
+      setIsLoading,
       setMessages,
-      chatroomId: idForChatroom,
-      chatroomUsers: usersForChatroom,
+      chatroomId,
+      chatroomUsers,
     });
   }, [chatroomId, chatroomUsers]);
 
@@ -102,25 +96,37 @@ const ChatPageLiveChat = ({
   };
 
   return (
-    <section
-      className="relative flex h-full w-full max-w-[62.5rem]"
-      {...getRootProps()}
+    <ChatPageInputContext.Provider
+      value={{
+        getInputProps,
+        open,
+        droppedFile,
+        setDroppedFile,
+        messageText,
+        setMessageText,
+        handleKeyDown,
+        handleFormSubmission,
+        inputBox,
+      }}
     >
-      {isDragActive && <HoverScreen />}
-      <ChatPageChatBox
-        onlineUsers={onlineUsers}
-        messages={messages}
-        inputProps={[getInputProps()]}
-        open={open}
-        droppedFile={droppedFile}
-        setDroppedFile={setDroppedFile}
-        messageText={messageText}
-        setMessageText={setMessageText}
-        handleKeyDown={handleKeyDown}
-        handleFormSubmission={handleFormSubmission}
-        inputBox={inputBox}
-      />
-    </section>
+      <section
+        className="relative flex h-full w-full max-w-[62.5rem]"
+        {...getRootProps()}
+      >
+        {isDragActive && <HoverScreen />}
+        {isLoading ? (
+          <div className="flex-center h-full w-full">
+            <OnboardingLoader />
+          </div>
+        ) : (
+          <section className="flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-4">
+            <ChatBoxHeader />
+            <ChatPageMessageList />
+            <ChatPageInput />
+          </section>
+        )}
+      </section>
+    </ChatPageInputContext.Provider>
   );
 };
 

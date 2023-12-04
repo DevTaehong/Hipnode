@@ -1,6 +1,5 @@
 export { default as ChatBoxHeader } from "./ChatBoxHeader";
 export { default as ChatBoxMessage } from "./ChatBoxMessage";
-export { default as ChatPageChatBox } from "./ChatPageChatBox";
 export { default as ChatPageChatList } from "./ChatPageChatList";
 export { default as ChatPageLiveChat } from "./ChatPageLiveChat";
 export { default as ChatPageMessageList } from "./ChatPageMessageList";

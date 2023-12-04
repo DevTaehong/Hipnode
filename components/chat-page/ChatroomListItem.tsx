@@ -3,14 +3,14 @@ import Image from "next/image";
 import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
 import { ChatroomListItemProps } from "@/types/chatroom.index";
+import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 
 const ChatroomListItem = ({
   chatroom,
-  onlineUsers,
-  userInfo,
   setShowChatRoomList,
 }: ChatroomListItemProps) => {
   const { setChatroomId, setChatroomUsers, chatroomId } = useChatStore();
+  const { onlineUsers, userInfo } = useChatPageContext();
 
   const {
     id: chatroomListId,
@@ -31,7 +31,6 @@ const ChatroomListItem = ({
 
   const handleChatroomClick = () => {
     if (userInfo && id) {
-      setChatroomId(chatroomListId);
       setChatroomUsers([
         userInfo,
         {
@@ -41,6 +40,7 @@ const ChatroomListItem = ({
           name: otherUserName,
         },
       ]);
+      setChatroomId(chatroomListId);
       if (window.innerWidth < 768) {
         setShowChatRoomList(false);
       }

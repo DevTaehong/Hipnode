@@ -2,8 +2,10 @@ import { useEffect, useRef } from "react";
 
 import { ChatMessage } from "@/types/chatroom.index";
 import { ChatBoxMessage } from ".";
+import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 
-const ChatPageMessageList = ({ messages }: { messages: ChatMessage[] }) => {
+const ChatPageMessageList = () => {
+  const { messages } = useChatPageContext();
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (endOfMessagesRef.current) {

@@ -13,6 +13,7 @@ import {
 
 export const loadMessages = async ({
   setMessages,
+  setIsLoading,
   chatroomId,
   chatroomUsers,
 }: loadMessagesProps) => {
@@ -38,6 +39,9 @@ export const loadMessages = async ({
         };
       });
       setMessages(transformedMessages);
+      if (setIsLoading) {
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error("Error fetching messages for chatroom:", error);
     }
@@ -82,6 +86,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       chatroomId,
       attachment: attachmentURL,
       attachmentType: mediaType,
+      createdAt: new Date(),
     };
 
     try {

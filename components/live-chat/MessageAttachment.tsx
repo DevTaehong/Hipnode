@@ -8,9 +8,11 @@ import { ChatMessage } from "@/types/chatroom.index";
 const MessageAttachment = ({
   message,
   chatPage = false,
+  currentUserMessage = false,
 }: {
   message: ChatMessage;
   chatPage?: boolean;
+  currentUserMessage?: boolean;
 }) => {
   if (!message.data.attachment) {
     return null;
@@ -60,17 +62,27 @@ const MessageAttachment = ({
       );
 
     case "audio":
-      return <LiveChatAudioPlayer songUrl={attachment} chatPage={chatPage} />;
+      return (
+        <LiveChatAudioPlayer
+          songUrl={attachment}
+          chatPage={chatPage}
+          currentUserMessage={currentUserMessage}
+        />
+      );
 
     case "document":
       return (
         <Link
           href={attachment}
-          className={`flex-center mb-3  rounded-xl bg-red-80 ${
+          className={`flex-center mb-3  rounded-xl ${
             chatPage ? "h-60 w-60" : "h-40 w-40"
-          }`}
+          } ${currentUserMessage ? "bg-red-80" : "bg-red-10"}`}
         >
-          <FillIcon.Post className="h-10 w-10 fill-white" />
+          <FillIcon.Post
+            className={`h-10 w-10 ${
+              currentUserMessage ? "fill-white" : "fill-red-80"
+            }`}
+          />
         </Link>
       );
 

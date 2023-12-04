@@ -1,10 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { ChatBoxHeaderProps } from "@/types/chatroom.index";
+import { useChatPageContext } from "@/app/contexts/ChatPageContext";
+import useChatStore from "@/app/chatStore";
 
-const ChatBoxHeader = ({ otherUser, isUserOnline }: ChatBoxHeaderProps) => {
-  const userOnlineStatus = isUserOnline ? (
+const ChatBoxHeader = () => {
+  const { onlineUsers, otherUser } = useChatPageContext();
+  const { chatroomUsers } = useChatStore();
+
+  const otherUserInfo = chatroomUsers[1] ?? otherUser;
+
+  const isOtherUserOnline = onlineUsers
+    ? onlineUsers.includes(otherUserInfo.id)
+    : false;
+
+  const userOnlineStatus = isOtherUserOnline ? (
     <span className="semibold-12 text-green">Online</span>
   ) : (
     <span className="semibold-12 text-sc-4">Offline</span>
@@ -14,8 +24,8 @@ const ChatBoxHeader = ({ otherUser, isUserOnline }: ChatBoxHeaderProps) => {
     <header className="flex w-full items-center justify-between bg-light-2 px-4 py-3 dark:bg-dark-2 md:px-6 md:py-5">
       <figure className="relative flex gap-3 md:gap-4">
         <Image
-          src={otherUser.image}
-          alt={`profile image for ${otherUser.name}`}
+          src={otherUserInfo.image}
+          alt={`profile image for ${otherUserInfo.name}`}
           height={56}
           width={56}
           className="h-14 w-14 shrink-0 rounded-full"
@@ -23,12 +33,12 @@ const ChatBoxHeader = ({ otherUser, isUserOnline }: ChatBoxHeaderProps) => {
         <figcaption className="flex flex-col justify-between whitespace-nowrap">
           <div className="flex flex-col-reverse lg:flex-row lg:items-center lg:gap-2">
             <span className="bold-14 md:bold-18 text-sc-2_light">
-              {otherUser.name}
+              {otherUserInfo.name}
             </span>
             {userOnlineStatus}
           </div>
           <p className="regular-12 md:regular-14 text-sc-4 dark:text-light-2">
-            @{otherUser.username}
+            @{otherUserInfo.username}
           </p>
         </figcaption>
       </figure>

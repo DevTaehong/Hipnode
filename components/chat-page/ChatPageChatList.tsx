@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { ChatPageChatListProps } from "@/types/chatroom.index";
+import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import OutlineIcon from "../icons/outline-icons";
 import { ChatPageSearchBar, ChatroomListItem } from ".";
 import { getUserChatrooms } from "@/lib/actions/chatroom.actions";
 
-const ChatPageChatList = ({
-  chatrooms,
-  onlineUsers,
-  messages,
-  userInfo,
-}: ChatPageChatListProps) => {
+const ChatPageChatList = () => {
+  const { chatrooms, messages, userInfo } = useChatPageContext();
   const [showChatRoomList, setShowChatRoomList] = useState(false);
   const [chatroomsList, setChatroomsList] = useState(chatrooms);
 
@@ -62,8 +58,6 @@ const ChatPageChatList = ({
               <ChatroomListItem
                 key={chatroom.id}
                 chatroom={chatroom}
-                onlineUsers={onlineUsers}
-                userInfo={userInfo}
                 setShowChatRoomList={setShowChatRoomList}
               />
             ) : null

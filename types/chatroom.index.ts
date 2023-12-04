@@ -83,6 +83,7 @@ export interface loadMessagesProps {
   setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   chatroomId: number | null;
   chatroomUsers: ChatroomUser[];
+  setIsLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface useDropzoneHandlerProps {
@@ -144,8 +145,6 @@ export interface ChatBoxHeaderProps {
 type HandleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => void;
 
 export interface ChatPageChatBoxProps {
-  onlineUsers: number[];
-  messages: ChatMessage[];
   inputProps: object;
   open: () => void;
   droppedFile: File | File[] | null;
@@ -171,8 +170,6 @@ export interface ChatPageChatListProps {
 
 export interface ChatroomListItemProps {
   chatroom: ChatroomDetail;
-  onlineUsers?: number[];
-  userInfo: UserInfo;
   setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -185,8 +182,18 @@ export interface ChatPageLiveChatProps {
   setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
 }
 
-export interface ChatPageInputProps {
-  inputProps: object;
+export interface ChatPageContextType {
+  chatrooms: ChatroomDetail[];
+  onlineUsers: number[];
+  messages: ChatMessage[];
+  userInfo: UserInfo;
+  defaultChatroomId: number;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+  otherUser: ChatroomUser;
+}
+
+export interface ChatPageInputContextType {
+  getInputProps: object;
   open: () => void;
   droppedFile: File | File[] | null;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;

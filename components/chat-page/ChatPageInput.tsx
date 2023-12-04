@@ -3,26 +3,28 @@ import { FormEvent, useState } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
-import { ChatPageInputProps } from "@/types/chatroom.index";
 import FillIcon from "../icons/fill-icons";
 import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "../live-chat/AttachmentPreview";
+import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 
 type EmojiData = {
   native: string;
 };
 
-const ChatPageInput = ({
-  inputProps,
-  open,
-  droppedFile,
-  setDroppedFile,
-  messageText,
-  setMessageText,
-  handleKeyDown,
-  handleFormSubmission,
-  inputBox,
-}: ChatPageInputProps) => {
+const ChatPageInput = () => {
+  const {
+    getInputProps,
+    open,
+    droppedFile,
+    setDroppedFile,
+    messageText,
+    setMessageText,
+    handleKeyDown,
+    handleFormSubmission,
+    inputBox,
+  } = useChatPageInputContext();
+
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const handleEmojiSelect = (emoji: EmojiData) => {
     const emojiCharacter = emoji.native;
@@ -37,7 +39,7 @@ const ChatPageInput = ({
   };
 
   return (
-    <div className="bg-light_dark-4 flex justify-between px-4 pb-9 pt-4 md:px-8">
+    <section className="bg-light_dark-4 flex justify-between px-4 pb-9 pt-4 md:px-8">
       <div className="flex w-full flex-col items-center">
         {droppedFile && (
           <div className="flex h-full w-fit self-start">
@@ -57,7 +59,7 @@ const ChatPageInput = ({
               <OutlineIcon.Link />
             </button>
             <input
-              {...inputProps}
+              {...getInputProps}
               ref={inputBox}
               value={messageText}
               className="bg-light-2_dark-4 w-full text-sc-4 outline-none placeholder:text-sc-4"
@@ -66,7 +68,7 @@ const ChatPageInput = ({
               onKeyDown={handleKeyDown}
             />
             <div className="flex gap-2.5">
-              <div className="relative flex h-6 w-6 cursor-pointer items-center justify-center">
+              <figure className="relative flex h-6 w-6 cursor-pointer items-center justify-center">
                 <Image
                   src="/smiley.svg"
                   alt="smiley"
@@ -85,7 +87,7 @@ const ChatPageInput = ({
                     />
                   </div>
                 )}
-              </div>
+              </figure>
               <button className="flex" type="button">
                 <OutlineIcon.Voice className="stroke-sc-4" />
               </button>
@@ -100,7 +102,7 @@ const ChatPageInput = ({
           </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 
