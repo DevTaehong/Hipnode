@@ -18,7 +18,7 @@ const Message = () => {
           <div className="flex flex-row items-center gap-[0.62rem]">
             <Avatar>
               <AvatarImage src={message.avatar} />
-              <AvatarFallback>{message.avatarFallback}</AvatarFallback>
+              <AvatarFallback>{message.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <div className="flex w-[11.125rem] flex-row items-baseline">
