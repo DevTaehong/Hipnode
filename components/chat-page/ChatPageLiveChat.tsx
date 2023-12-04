@@ -114,17 +114,17 @@ const ChatPageLiveChat = () => {
         {...getRootProps()}
       >
         {isDragActive && <HoverScreen />}
-        {isLoading ? (
-          <div className="flex-center h-full w-full">
-            <OnboardingLoader />
-          </div>
-        ) : (
-          <section className="flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-4">
-            <ChatBoxHeader />
+        <section className="flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-4">
+          <ChatBoxHeader />
+          {isLoading ? (
+            <div className="flex-center bg-light_dark-4 h-full w-full">
+              <OnboardingLoader />
+            </div>
+          ) : (
             <ChatPageMessageList />
-            <ChatPageInput />
-          </section>
-        )}
+          )}
+          <ChatPageInput />
+        </section>
       </section>
     </ChatPageInputContext.Provider>
   );
