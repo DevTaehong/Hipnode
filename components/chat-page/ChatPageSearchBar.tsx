@@ -9,7 +9,8 @@ import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 
 const ChatPageSearchBar = () => {
   const { setChatroomUsers, createNewChatroom } = useChatStore();
-  const { userInfo, setIsLoading, setMessages } = useChatPageContext();
+  const { userInfo, setIsLoading, setMessages, setShowChatRoomList } =
+    useChatPageContext();
   const [searchText, setSearchText] = useState("");
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [displayUsers, setDisplayUsers] = useState<User[]>([]);
@@ -38,6 +39,9 @@ const ChatPageSearchBar = () => {
   }, [searchText]);
 
   const handleUserClick = async (user: User) => {
+    if (window.innerWidth < 768) {
+      setShowChatRoomList(false);
+    }
     setIsLoading(true);
     setMessages([]);
     const { id, name, username, picture: image } = user;
