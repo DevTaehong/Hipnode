@@ -20,7 +20,7 @@ const RenderPreview = ({
   const attachmentWidth = chatPage ? 400 : 250;
   const attachmentHeight = chatPage ? 600 : 250;
   const dimensionsRem = chatPage
-    ? "max-w-[25rem] max-h-[25rem]"
+    ? "md:max-w-[22rem] md:max-h-[25rem] max-w-[18rem]"
     : "max-h-[16rem] max-w-[18rem]";
 
   switch (mediaType) {
@@ -30,7 +30,7 @@ const RenderPreview = ({
           src={attachmentPreview}
           height={attachmentHeight}
           width={attachmentWidth}
-          className={`mb-3 object-contain ${dimensionsRem}`}
+          className={`mb-3 w-full object-contain ${dimensionsRem}`}
           alt="Image preview"
         />
       );

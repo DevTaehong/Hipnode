@@ -43,7 +43,10 @@ const ChatPageInput = () => {
   if (!chatroomId) return null;
 
   return (
-    <section className="bg-light_dark-4 flex justify-between px-4 pb-9 pt-4 md:px-8">
+    <section
+      className="bg-light_dark-4 flex justify-between border-t border-sc-5
+    px-4 pb-9 pt-4 dark:border-sc-2 md:px-8"
+    >
       <div className="flex w-full flex-col items-center">
         {droppedFile && (
           <div className="flex h-full w-fit self-start">
