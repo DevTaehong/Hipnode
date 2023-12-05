@@ -8,7 +8,7 @@ import { MessageAttachmentProps } from "@/types/chatroom.index";
 const MessageAttachment = ({
   message,
   chatPage = false,
-  currentUserMessage = false,
+  isMessageFromCurrentUser = false,
 }: MessageAttachmentProps) => {
   if (!message.data.attachment) {
     return null;
@@ -61,7 +61,7 @@ const MessageAttachment = ({
       return (
         <LiveChatAudioPlayer
           songUrl={attachment}
-          currentUserMessage={currentUserMessage}
+          isMessageFromCurrentUser={isMessageFromCurrentUser}
         />
       );
 
@@ -71,11 +71,11 @@ const MessageAttachment = ({
           href={attachment}
           className={`flex-center mb-3  rounded-xl ${
             chatPage ? "h-60 w-60" : "h-40 w-40"
-          } ${currentUserMessage ? "bg-red-80" : "bg-red-10"}`}
+          } ${isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"}`}
         >
           <FillIcon.Post
             className={`h-10 w-10 ${
-              currentUserMessage ? "fill-white" : "fill-red-80"
+              isMessageFromCurrentUser ? "fill-white" : "fill-red-80"
             }`}
           />
         </Link>

@@ -16,47 +16,5 @@ export function useChatPageContext() {
     );
   }
 
-  const {
-    chatrooms,
-    onlineUsers,
-    messages,
-    userInfo,
-    defaultChatroomId,
-    setMessages,
-    otherUser,
-    showChatRoomList,
-    setShowChatRoomList,
-    isLoading,
-    setIsLoading,
-  } = context;
-
-  if (
-    chatrooms === undefined ||
-    onlineUsers === undefined ||
-    messages === undefined ||
-    userInfo === undefined ||
-    setMessages === undefined ||
-    showChatRoomList === undefined ||
-    setShowChatRoomList === undefined ||
-    isLoading === undefined ||
-    setIsLoading === undefined
-  ) {
-    throw new Error(
-      "useChatPageContextType must be used within a ChatPageContextType that provides data"
-    );
-  }
-
-  return {
-    chatrooms,
-    onlineUsers,
-    messages,
-    userInfo,
-    defaultChatroomId,
-    setMessages,
-    otherUser,
-    showChatRoomList,
-    setShowChatRoomList,
-    isLoading,
-    setIsLoading,
-  };
+  return context;
 }

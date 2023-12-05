@@ -18,12 +18,12 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const chatboxDate = createdAt ? formatChatBoxDate(createdAt) : "";
   const { chatroomUsers } = useChatStore();
   const currentUserId = chatroomUsers[0].id;
-  const currentUserMessage = id === currentUserId;
+  const isMessageFromCurrentUser = id === currentUserId;
   const messageStyles = {
-    messageAlign: currentUserMessage
+    messageAlign: isMessageFromCurrentUser
       ? "self-end flex-row-reverse"
       : "self-start flex-row",
-    divStyles: currentUserMessage
+    divStyles: isMessageFromCurrentUser
       ? "bg-red-80 text-white self-end rounded-l-lg"
       : "bg-red-10 text-red-80 rounded-r-lg",
   };
@@ -54,7 +54,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <MessageAttachment
             message={message}
             chatPage={true}
-            currentUserMessage={currentUserMessage}
+            isMessageFromCurrentUser={isMessageFromCurrentUser}
           />
           <figcaption
             className={`${

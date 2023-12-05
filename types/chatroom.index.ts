@@ -45,7 +45,7 @@ export interface AttachmentPreviewProps {
 
 export interface LiveChatAudioPlayerProps {
   songUrl: string;
-  currentUserMessage?: boolean;
+  isMessageFromCurrentUser?: boolean;
 }
 
 export interface ChatroomUser {
@@ -176,5 +176,5 @@ export interface ChatPageInputContextType {
 export interface MessageAttachmentProps {
   message: ChatMessage;
   chatPage?: boolean;
-  currentUserMessage?: boolean;
+  isMessageFromCurrentUser?: boolean;
 }

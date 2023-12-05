@@ -54,7 +54,6 @@ const ChatPageLiveChat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true);
-      setMessages([]);
       try {
         const response = await loadMessages({
           chatroomId,
@@ -67,6 +66,9 @@ const ChatPageLiveChat = () => {
       } catch (error) {
         console.error("Failed to load messages:", error);
       }
+      //  finally {
+      //   setIsLoading(false);
+      // }
     };
     fetchMessages();
   }, [chatroomId, chatroomUsers]);
@@ -91,24 +93,23 @@ const ChatPageLiveChat = () => {
     event: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>
   ) => {
     event.preventDefault();
-    if (!messageTextIsEmpty || droppedFile) {
-      try {
-        const result = await liveChatSubmission({
-          event,
-          messageText,
-          droppedFile,
-          channel,
-          chatroomId,
-          inputBox,
-          currentUser,
-        });
-        if (result === API_RESULT.SUCCESS) {
-          setMessageText("");
-          setDroppedFile(null);
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
+    if (messageTextIsEmpty && !droppedFile) return;
+    try {
+      const result = await liveChatSubmission({
+        event,
+        messageText,
+        droppedFile,
+        channel,
+        chatroomId,
+        inputBox,
+        currentUser,
+      });
+      if (result === API_RESULT.SUCCESS) {
+        setMessageText("");
+        setDroppedFile(null);
       }
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   };
 

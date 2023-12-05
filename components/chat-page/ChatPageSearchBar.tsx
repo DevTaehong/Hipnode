@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { User } from "@prisma/client";
 import Image from "next/image";
 
@@ -13,7 +13,6 @@ const ChatPageSearchBar = () => {
     useChatPageContext();
   const [searchText, setSearchText] = useState("");
   const [allUsers, setAllUsers] = useState<User[]>([]);
-  const [displayUsers, setDisplayUsers] = useState<User[]>([]);
 
   // temporary solution. Will update to fetch following users with this is integrated. For now will fetch all users
   useEffect(() => {
@@ -24,18 +23,17 @@ const ChatPageSearchBar = () => {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    if (searchText.length > 0) {
-      const filteredUsers = allUsers.filter(
-        (user) =>
-          (user.username.toLowerCase().includes(searchText.toLowerCase()) ||
-            user.name.toLowerCase().includes(searchText.toLowerCase())) &&
-          user.id !== userInfo.id
-      );
-      setDisplayUsers(filteredUsers);
-    } else {
-      setDisplayUsers([]);
-    }
+  const displayUsers = useMemo(() => {
+    if (!searchText.length) return [];
+
+    const filteredUsers = allUsers.filter(
+      (user) =>
+        (user.username.toLowerCase().includes(searchText.toLowerCase()) ||
+          user.name.toLowerCase().includes(searchText.toLowerCase())) &&
+        user.id !== userInfo.id
+    );
+
+    return filteredUsers;
   }, [searchText]);
 
   const handleUserClick = async (user: User) => {
@@ -58,7 +56,6 @@ const ChatPageSearchBar = () => {
     try {
       await createNewChatroom();
       setSearchText("");
-      setDisplayUsers([]);
     } catch (error) {
       console.error("Failed to create new chatroom:", error);
     }

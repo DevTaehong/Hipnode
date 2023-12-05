@@ -16,43 +16,5 @@ export function useChatPageInputContext() {
     );
   }
 
-  const {
-    getInputProps,
-    open,
-    droppedFile,
-    setDroppedFile,
-    messageText,
-    setMessageText,
-    handleKeyDown,
-    handleFormSubmission,
-    inputBox,
-  } = context;
-
-  if (
-    getInputProps === undefined ||
-    open === undefined ||
-    droppedFile === undefined ||
-    setDroppedFile === undefined ||
-    messageText === undefined ||
-    setMessageText === undefined ||
-    handleKeyDown === undefined ||
-    handleFormSubmission === undefined ||
-    inputBox === undefined
-  ) {
-    throw new Error(
-      "useChatPageInputContext must be used within a ChatPageInputContext that provides data"
-    );
-  }
-
-  return {
-    getInputProps,
-    open,
-    droppedFile,
-    setDroppedFile,
-    messageText,
-    setMessageText,
-    handleKeyDown,
-    handleFormSubmission,
-    inputBox,
-  };
+  return context;
 }

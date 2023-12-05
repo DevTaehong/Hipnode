@@ -13,11 +13,7 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 767) {
-        setShowChatRoomList(true);
-      } else {
-        setShowChatRoomList(false);
-      }
+      setShowChatRoomList(window.innerWidth > 767);
     };
 
     window.addEventListener("resize", handleResize);

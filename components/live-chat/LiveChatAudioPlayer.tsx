@@ -7,7 +7,7 @@ import { LiveChatAudioPlayerProps } from "@/types/chatroom.index";
 
 const LiveChatAudioPlayer = ({
   songUrl,
-  currentUserMessage = false,
+  isMessageFromCurrentUser = false,
 }: LiveChatAudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [displayTime, setDisplayTime] = useState(0);
@@ -63,7 +63,7 @@ const LiveChatAudioPlayer = ({
   return (
     <div
       className={`flex-center mb-3 h-[3.125rem] w-[12rem] rounded-lg  ${
-        currentUserMessage ? "bg-red-80" : "bg-red-10"
+        isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"
       } px-3 py-2.5`}
     >
       <div className="flex w-full justify-between gap-5">
@@ -92,7 +92,7 @@ const LiveChatAudioPlayer = ({
                 className={`${
                   isPlaying ? "liveChatAudioAnimation" : "h-3"
                 }  w-0.5 max-w-[2px] rounded-[1px]  ${
-                  currentUserMessage ? "bg-white" : "bg-red-80"
+                  isMessageFromCurrentUser ? "bg-white" : "bg-red-80"
                 }`}
               />
             ))}
