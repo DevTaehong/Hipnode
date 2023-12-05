@@ -33,7 +33,7 @@ import MenuIcon from "./MenuIcon";
 import PlayIcon from "./PlayIcon";
 import MoreVerticalIcon from "./MoreVerticalIcon";
 
-interface FillIconProps {
+export interface FillIconProps {
   children?: ReactNode;
   className?: string;
   notification?: boolean;
@@ -236,7 +236,7 @@ FillIcon.Podcasts = function Icon({ className }: FillIconProps) {
 
 FillIcon.Post = function Icon({ className }: FillIconProps) {
   return (
-    <FillIcon className={className ?? "fill-[#3F4354]"}>
+    <FillIcon className={className ?? "stroke-[#3F4354]"}>
       <PostIcon />
     </FillIcon>
   );

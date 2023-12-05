@@ -16,6 +16,7 @@ const SelectController = ({
   name,
   placeholder,
   options,
+  currentSelection,
 }: SelectControllerProps) => {
   const [openState, setOpenState] = useState<Record<string, boolean>>({});
 
@@ -40,7 +41,7 @@ const SelectController = ({
             }}
           >
             <FormControl>
-              <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] dark:bg-dark-4 dark:text-light-2">
+              <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] text-blue-80 dark:bg-dark-4">
                 <SelectValue
                   placeholder={
                     <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
@@ -58,33 +59,46 @@ const SelectController = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {options?.map((option, index) => (
-                <SelectItem
-                  className="flex justify-between gap-2 bg-light dark:bg-dark-4 dark:text-light-2"
-                  key={index}
-                  value={option.label}
-                >
-                  <div className="flex flex-row justify-between gap-2 dark:bg-dark-4">
-                    {option.icon && (
-                      <div className="fill-sc-2 stroke-sc-2 dark:fill-light-2 dark:stroke-light-2">
-                        {option.icon}
-                      </div>
-                    )}
-                    <p
-                      className={`${
-                        option.icon
-                          ? "ml-2"
-                          : "text-[1rem] font-semibold capitalize leading-[1.5rem] text-sc-3"
-                      }`}
-                    >
-                      {option.label}
-                    </p>
-                  </div>
-                </SelectItem>
-              ))}
+              {options?.map((option, index) => {
+                const selected = currentSelection === option.label;
+                const IconComponent: any = option.icon;
+
+                return (
+                  <SelectItem
+                    className={`flex justify-between gap-2 bg-light dark:bg-dark-4  ${
+                      selected ? "text-blue-80" : "dark:text-light-2"
+                    }`}
+                    key={index}
+                    value={option.label}
+                  >
+                    <div className="flex flex-row justify-between gap-2 dark:bg-dark-4">
+                      {option.icon && (
+                        <IconComponent
+                          className={` ${
+                            selected
+                              ? "fill-blue-80"
+                              : "fill-sc-2 dark:fill-light-2"
+                          }`}
+                        />
+                      )}
+                      <p
+                        className={`${
+                          option.icon
+                            ? "ml-2"
+                            : `text-[1rem] font-semibold capitalize leading-[1.5rem] ${
+                                selected ? "text-blue-80" : "dark:text-light-2"
+                              }`
+                        }`}
+                      >
+                        {option.label}
+                      </p>
+                    </div>
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
-          <FormMessage className="capitalize text-red-500">
+          <FormMessage className="absolute py-2 pl-2 capitalize text-red-500">
             {/* @ts-ignore */}
             {errors?.[name]?.message ? (errors[name].message as string) : null}
           </FormMessage>

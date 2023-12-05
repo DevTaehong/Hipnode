@@ -39,18 +39,25 @@ import {
 } from "@/lib/actions/post.action";
 import { getGroups } from "@/lib/actions/group.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
-import FillIcon from "@/components/icons/fill-icons";
+import FillIcon, { FillIconProps } from "@/components/icons/fill-icons";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
   { ssr: false }
 );
 
-const SelectionOptions = [
-  { label: "Post", icon: <FillIcon.Post /> },
-  { label: "Meetup", icon: <FillIcon.Calendar /> },
-  { label: "Podcasts", icon: <FillIcon.Podcasts /> },
-  { label: "Interviews", icon: <FillIcon.Interviews /> },
+interface SelectionOption {
+  label: string;
+  icon: React.ComponentType<FillIconProps>;
+}
+
+type SelectionOptionsType = SelectionOption[];
+
+const SelectionOptions: SelectionOptionsType = [
+  { label: "Post", icon: FillIcon.Post },
+  { label: "Meetup", icon: FillIcon.Calendar },
+  { label: "Podcasts", icon: FillIcon.Podcasts },
+  { label: "Interviews", icon: FillIcon.Interviews },
 ];
 
 const CreatePost = () => {
@@ -145,6 +152,8 @@ const CreatePost = () => {
   });
 
   const { setValue } = form;
+  const currentFormSelection = form.watch("contentType");
+  const currentGroup = form.watch("group");
 
   const onSubmitPreview = async () => {
     const previewValues = form.getValues();
@@ -197,7 +206,7 @@ const CreatePost = () => {
             <CreatePostTitle control={form.control} />
           </div>
           <div className="flex flex-col justify-between  sm:flex-row">
-            <div className="flex flex-row items-center gap-4 dark:bg-dark-3">
+            <div className="flex flex-row items-center gap-4 pt-2 dark:bg-dark-3">
               <CoverImageUpload
                 control={form.control}
                 setImagePreviewUrl={setImagePreviewUrl}
@@ -209,6 +218,7 @@ const CreatePost = () => {
                 name={"group"}
                 placeholder={"Select Group"}
                 options={groups}
+                currentSelection={currentGroup}
               />
 
               <SelectController
@@ -216,6 +226,7 @@ const CreatePost = () => {
                 name={"contentType"}
                 placeholder={"Create Post"}
                 options={SelectionOptions}
+                currentSelection={currentFormSelection}
               />
             </div>
             <div className="mr-[1.25rem] mt-[1.25rem] flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[1rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0">

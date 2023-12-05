@@ -25,7 +25,7 @@ export type CreatePostTitleProps = {
 
 interface PostSelectionOptions {
   label: string;
-  icon: React.ReactNode;
+  icon: React.JSX.Element;
 }
 
 export interface GroupsType {
@@ -39,6 +39,7 @@ export type SelectControllerProps = {
   name: keyof PostFormValuesType;
   placeholder: string;
   options: GroupsType[] | PostSelectionOptions[];
+  currentSelection?: string;
 };
 
 export type PostPreviewProps = {

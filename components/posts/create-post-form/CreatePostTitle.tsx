@@ -12,7 +12,7 @@ const CreatePostTitle = ({ control }: CreatePostTitleProps) => (
     name="heading"
     control={control}
     render={({ field }) => (
-      <FormItem>
+      <FormItem className="relative">
         <FormControl>
           <Input
             placeholder="Title..."
@@ -22,7 +22,7 @@ const CreatePostTitle = ({ control }: CreatePostTitleProps) => (
           />
         </FormControl>
 
-        <FormMessage className="capitalize text-red-500" />
+        <FormMessage className="absolute py-2 capitalize text-red-500" />
       </FormItem>
     )}
   />
