@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
-import { EditorState } from "lexical";
+import { $getRoot, EditorState } from "lexical";
+
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import { $generateHtmlFromNodes } from "@lexical/html";
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import { TRANSFORMERS } from "@lexical/markdown";
 import { Placeholder } from ".";
 import LexicalMenu from "./LexicalMenu";
@@ -55,7 +56,8 @@ const MainLexicalEditor = ({
   name,
   updateField,
   onSubmitPreview,
-}: LexicalEditorProps) => {
+  defaultContent,
+}: LexicalEditorProps & { defaultContent?: string }) => {
   const [editor] = useLexicalComposerContext();
   const [htmlString, setHtmlString] = useState("");
   const [autoFocus, setAutoFocus] = useState(false);
@@ -63,6 +65,22 @@ const MainLexicalEditor = ({
   const [editorState, setEditorState] = useState<EditorState | undefined>(
     undefined
   );
+
+  useEffect(() => {
+    if (defaultContent && editor) {
+      editor.update(() => {
+        const root = $getRoot();
+        root.clear();
+        const contentWithoutQuotes = defaultContent.slice(1, -1);
+        const parser = new DOMParser();
+
+        const dom = parser.parseFromString(contentWithoutQuotes, "text/html");
+        const nodes = $generateNodesFromDOM(editor, dom);
+        root.append(...nodes);
+      });
+      editor.focus();
+    }
+  }, [editor, defaultContent]);
 
   useEffect(() => {
     return editor?.registerUpdateListener(({ editorState }) => {

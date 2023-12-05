@@ -1,20 +1,14 @@
 import { CommentAuthorProps } from "@/types/posts";
 import Comment from "@/components/posts/comment/Comment";
-import useCommentGrouping from "@/components/posts/comment/useCommentGrouping";
-import { getPostCommentsById } from "@/lib/actions/post.action";
+import { getPostCommentsByParentId } from "@/lib/actions/post.action";
 
 type CommentListProps = {
   postId: number;
-  userId: number;
-};
-
-type CommentsByParentId = {
-  [key: string]: CommentAuthorProps[];
-  null: CommentAuthorProps[];
 };
 
 const CommentList = async ({ postId }: CommentListProps) => {
-  const postComments = await getPostCommentsById(+postId);
+  const postComments = await getPostCommentsByParentId(+postId);
+
   const rootComments = postComments.null;
   return (
     <section>

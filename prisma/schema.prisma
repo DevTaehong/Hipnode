@@ -54,6 +54,7 @@ model Post {
   heading   String
   clerkId   String?    
   content   String
+  contentType String?
   authorId  Int
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt

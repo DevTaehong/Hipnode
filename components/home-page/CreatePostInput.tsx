@@ -39,7 +39,9 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
             onChange={handleInputChange}
           />
         </div>
-        <Link href={`/posts/create-post/${inputValue}`}>
+        <Link
+          href={`/posts/create-post?title=${encodeURIComponent(inputValue)}`}
+        >
           <CustomButton
             label="Create Post"
             className="w-auto shrink-0 truncate rounded-[0.375rem] bg-red-80 px-[0.875rem] py-[0.55rem] text-[0.75rem] font-medium leading-[1.25rem] text-light dark:text-sc-6 md:px-[1rem] md:py-[0.65rem] md:text-[0.875rem]"

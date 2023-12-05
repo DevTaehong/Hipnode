@@ -117,6 +117,8 @@ export interface CommentActionsProps {
   canReply: boolean;
   hasChildComments: boolean;
   showChildren: boolean;
+  userId?: number;
+  authorId?: number;
 }
 
 export interface CommentHeaderProps {
@@ -134,9 +136,9 @@ export interface AuthorProps {
 }
 
 export interface CommentAuthorProps extends Comment {
-  author: AuthorProps;
+  author?: AuthorProps;
   likedByCurrentUser: boolean;
-  userId: number;
+  userId?: number;
   depth: number;
   isLastComment: boolean;
 }
@@ -156,16 +158,22 @@ export interface ExtendedComment extends CommentAuthorProps {
 }
 
 export interface AddCommentOrReply
-  extends Omit<ExtendedComment, "likedByCurrentUser"> {
-  userId: number;
-}
+  extends Omit<
+    ExtendedComment,
+    "likedByCurrentUser" | "depth" | "isLastComment"
+  > {}
+
+export type UpdateCommentType = Omit<
+  ExtendedComment,
+  "likedByCurrentUser" | "depth" | "isLastComment"
+>;
 
 export type ExtendedPrismaPost = {
   id: Post["id"];
   image: Post["image"];
   content: Post["content"];
   viewCount: Post["viewCount"];
-  author: Pick<User, "username" | "picture">;
+  author: Pick<User, "username" | "picture" | "id">;
   likesCount: number;
   commentsCount: number;
   tags: Tag["name"][];
@@ -173,10 +181,13 @@ export type ExtendedPrismaPost = {
   heading: Post["heading"];
   likes: { userId: number }[];
   clerkId: Post["clerkId"];
+  comments: Comment[];
 };
 
 export type ExtendedPostById = ExtendedPrismaPost & {
   // shares: Pick<Share, "id">[];
+  id: Post["id"];
+  loggedInUserId: number;
 };
 
 export type createPostFormType = {
@@ -186,6 +197,7 @@ export type createPostFormType = {
   group: string;
   contentType: string;
   tags: string[];
+  postId?: number;
 };
 
 export type PostDataType = {
@@ -217,3 +229,29 @@ export type GetActionBarDataProps = {
   commentsCount: number;
   sharesCount?: number;
 };
+
+interface CommentAuthor {
+  username: string;
+  picture: string;
+}
+
+interface CommentLike {
+  userId: number;
+}
+
+export interface DetailedComment {
+  id: number;
+  content: string;
+  authorId: number;
+  postId: number;
+  parentId: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  isEdited: boolean;
+  likes: CommentLike[];
+  author: CommentAuthor;
+  likedByCurrentUser: boolean;
+  userId: number;
+}
+
+export type CommentsGroupedByParentId = Record<string, CommentAuthorProps[]>;

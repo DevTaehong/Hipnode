@@ -1,10 +1,14 @@
 import CustomButton from "@/components/CustomButton";
 
-const CreatePostButtons = () => (
+interface CreatePostButtonsProps {
+  postId: number;
+}
+
+const CreatePostButtons = ({ postId }: CreatePostButtonsProps) => (
   <div className="flex flex-row gap-4">
     <CustomButton
       type="submit"
-      label="Publish"
+      label={postId ? "Update" : "Publish"}
       className="rounded-md bg-blue px-[2.5rem] py-[0.625rem] text-[0.875rem] text-blue-10 md:text-[1rem] md:leading-[1.5rem]"
     />
     <CustomButton

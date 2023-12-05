@@ -23,6 +23,7 @@ export const theme = {
   },
   list: {
     nested: {
+      list: "editorListNested",
       listItem: "editorListItem",
     },
     ol: "editorListOl",

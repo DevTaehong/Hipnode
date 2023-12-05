@@ -16,11 +16,12 @@ import PopularTags from "@/components/home-page/tags/PopularTags";
 const Home = async () => {
   const { userId: clerkUserId } = auth();
   let userImage: string = "";
-  let userId;
+  let userId: number = 0;
   if (clerkUserId) {
     const user = await getUserByClerkId(clerkUserId);
-    userImage = user?.picture || "/public/emoji.png";
-    userId = user?.id || 0;
+    if (!user) return null;
+    userImage = user.picture ?? "/public/emoji.png";
+    userId = user.id;
   }
   const meetups = await getAllMeetUps();
   const podcasts = await getAllPodcastsWithUserInfo();

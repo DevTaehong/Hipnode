@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, KeyboardEvent } from "react";
+import { useState, KeyboardEvent } from "react";
 import Image from "next/image";
-import { useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -20,8 +19,6 @@ import {
 } from "@/components/ui/form";
 import { addCommentOrReply, updateComment } from "@/lib/actions/post.action";
 import { CommentFormProps } from "@/types/posts";
-import { User } from "@prisma/client";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
 
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -43,23 +40,10 @@ const CommentForm = ({
   setIsReplying,
   postId,
 }: CommentFormProps) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-  const { isLoaded, userId: clerkId } = useAuth();
 
   const path = usePathname();
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      if (!clerkId) return;
-      const user = await getUserByClerkId(clerkId);
-      setCurrentUser(user);
-    };
-    if (clerkId && isLoaded) {
-      fetchCurrentUser();
-    }
-  }, [isLoaded, clerkId]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -74,9 +58,8 @@ const CommentForm = ({
       if (isEditing) {
         await updateComment(Number(commentId), values.comment, path);
         setIsEditing?.(false);
-      } else if (currentUser?.id) {
+      } else {
         await addCommentOrReply(
-          currentUser?.id,
           postId,
           values.comment,
           Number(parentId) || null,

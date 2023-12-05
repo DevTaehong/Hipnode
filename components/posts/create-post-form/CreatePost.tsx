@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@clerk/nextjs";
@@ -31,7 +32,11 @@ import {
 } from "@/types/posts/index";
 import { useCreatePostStore } from "@/app/lexicalStore";
 import { PostFormDefaultValues } from "@/constants/posts";
-import { createPostWithTags } from "@/lib/actions/post.action";
+import {
+  createPostWithTags,
+  getPostToEditById,
+  updatePost,
+} from "@/lib/actions/post.action";
 import { getGroups } from "@/lib/actions/group.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import FillIcon from "@/components/icons/fill-icons";
@@ -50,7 +55,39 @@ const SelectionOptions = [
 
 const CreatePost = () => {
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+  const [defaultContent, setDefaultContent] = useState("");
+  const [postIdParams, setPostIdParams] = useState<number>(0);
+
   const [groups, setGroups] = useState<GroupsType[]>([]);
+  const searchParams = useSearchParams();
+
+  const title = searchParams.get("title");
+  const postId = searchParams.get("id");
+
+  useEffect(() => {
+    if (title) {
+      setValue("heading", title);
+    } else if (postId) {
+      setPostIdParams(+postId);
+      (async () => {
+        const postToEdit = await getPostToEditById(+postId);
+        if (!postToEdit) return;
+        const { heading, content, image, tags, group } = postToEdit;
+        const matchingGroup = groups.find((g) => g.value === parseInt(group));
+
+        setImagePreviewUrl(image);
+        form.reset({
+          heading,
+          content,
+          image,
+          tags,
+          contentType: "Post",
+          group: matchingGroup?.label,
+        });
+        setDefaultContent(content);
+      })();
+    }
+  }, [searchParams, groups]);
 
   const { user: clerkUser, isLoaded, isSignedIn } = useUser();
   const [userInfo, setUserInfo] = useState<{
@@ -73,13 +110,14 @@ const CreatePost = () => {
   useEffect(() => {
     (async () => {
       const fetchedGroups = await getGroups();
+
       const groupOptions = fetchedGroups?.map((group) => ({
         label: group.name,
         value: group.id,
       }));
       setGroups(groupOptions);
     })();
-  }, []);
+  }, [searchParams]);
 
   const {
     imagePreviewUrl,
@@ -125,27 +163,26 @@ const CreatePost = () => {
 
     const postImage = await handleUpload();
 
-    const { contentType, tags, group, ...postData } = data;
-
-    if (!userInfo?.id || !valueOfGroup(data) || !postImage) {
-      throw new Error("Required data is missing");
-    }
+    const { contentType, tags, group, postId, ...postData } = data;
 
     const postDataWithAuthor: PostDataType = {
       ...postData,
-      authorId: userInfo?.id,
+      authorId: userInfo?.id as number,
       groupId: valueOfGroup(data),
-      image: postImage,
+      image: postImage ?? "",
       clerkId: clerkUser?.id,
     };
-
     try {
-      await createPostWithTags(postDataWithAuthor, tags);
+      if (postIdParams) {
+        await updatePost(postIdParams, postData, tags);
+      } else {
+        await createPostWithTags(postDataWithAuthor, tags);
+      }
+
       setClearEditor(true);
-      setValue("image", "");
       form.reset();
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error creating/updating post:", error);
     }
   };
 
@@ -215,6 +252,7 @@ const CreatePost = () => {
                         name="content"
                         updateField={setValue}
                         onSubmitPreview={onSubmitPreview}
+                        defaultContent={defaultContent || "Working on it"}
                       />
                     </FormControl>
                     <FormMessage className="capitalize text-red-500" />
@@ -224,7 +262,7 @@ const CreatePost = () => {
             </div>
           </div>
           <CreatePostTags control={form.control} form={form} />
-          <CreatePostButtons />
+          <CreatePostButtons postId={postIdParams} />
         </form>
       </Form>
     </div>
