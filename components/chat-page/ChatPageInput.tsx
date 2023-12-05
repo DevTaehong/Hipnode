@@ -7,12 +7,14 @@ import FillIcon from "../icons/fill-icons";
 import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "../live-chat/AttachmentPreview";
 import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
+import useChatStore from "@/app/chatStore";
 
 type EmojiData = {
   native: string;
 };
 
 const ChatPageInput = () => {
+  const { chatroomId } = useChatStore();
   const {
     getInputProps,
     open,
@@ -37,6 +39,8 @@ const ChatPageInput = () => {
     event.preventDefault();
     handleFormSubmission(event);
   };
+
+  if (!chatroomId) return null;
 
   return (
     <section className="bg-light_dark-4 flex justify-between px-4 pb-9 pt-4 md:px-8">
