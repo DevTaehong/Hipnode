@@ -62,17 +62,18 @@ const ChatPageLiveChat = () => {
         });
         if (response) {
           setMessages(response.messages);
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("Failed to load messages:", error);
       }
-      setIsLoading(false);
     };
     fetchMessages();
   }, [chatroomId, chatroomUsers]);
 
   useEffect(() => {
     if (chatroomId === null || !chatroomUsers.length) {
+      setIsLoading(false);
       setChatroomId(defaultChatroomId ?? null);
       if (otherUser) setChatroomUsers([userInfo, otherUser]);
     }
