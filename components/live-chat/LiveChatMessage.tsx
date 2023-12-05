@@ -17,8 +17,8 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
       ? "self-end flex-row-reverse"
       : "self-start flex-row",
     divStyles: currentUserMessage
-      ? "bg-red-80 text-white"
-      : "bg-red-10 text-red-80",
+      ? "bg-red-80 text-white rounded-l-lg rounded-tr-sm"
+      : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm",
   };
   return (
     <li
@@ -42,7 +42,7 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
         <figcaption
           className={`${
             messageStyles.divStyles
-          } semibold-16 flex w-full rounded-lg p-3.5 ${!text && "hidden"}`}
+          } semibold-16 flex w-full rounded-b-lg p-3.5 ${!text && "hidden"}`}
         >
           {text}
         </figcaption>

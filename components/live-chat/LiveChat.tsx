@@ -118,7 +118,8 @@ const LiveChat = () => {
       <LiveChatMessageList messages={receivedMessages} />
       <form
         onSubmit={handleFormSubmission}
-        className="flex w-full gap-5 px-5 pb-5"
+        className="flex w-full gap-5 border-t border-sc-6 p-5
+        dark:border-sc-2"
       >
         <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
           {droppedFile && (

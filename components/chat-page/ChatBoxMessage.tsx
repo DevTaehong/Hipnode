@@ -24,8 +24,8 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
       ? "self-end flex-row-reverse"
       : "self-start flex-row",
     divStyles: currentUserMessage
-      ? "bg-red-80 text-white self-end"
-      : "bg-red-10 text-red-80",
+      ? "bg-red-80 text-white self-end rounded-l-lg"
+      : "bg-red-10 text-red-80 rounded-r-lg",
   };
   const displayName = id === currentUserId ? "You" : username;
 
@@ -59,7 +59,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <figcaption
             className={`${
               messageStyles.divStyles
-            } regular-16 flex w-fit rounded-lg p-3.5 ${!text && "hidden"}`}
+            } regular-16 flex w-fit rounded-b-lg p-3.5 ${!text && "hidden"}`}
           >
             {text}
           </figcaption>

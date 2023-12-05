@@ -21,7 +21,7 @@ const RenderPreview = ({
   const attachmentHeight = chatPage ? 600 : 250;
   const dimensionsRem = chatPage
     ? "md:max-w-[22rem] md:max-h-[25rem] max-w-[18rem]"
-    : "max-h-[16rem] max-w-[18rem]";
+    : "max-h-[12rem] max-w-[18rem]";
 
   switch (mediaType) {
     case "image":
