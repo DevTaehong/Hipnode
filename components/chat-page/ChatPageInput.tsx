@@ -78,12 +78,12 @@ const ChatPageInput = () => {
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 />
                 {showEmojiPicker && (
-                  <div className="absolute bottom-[2.5rem] right-0">
+                  <div className="absolute bottom-[2.5rem] right-[-5.5rem]">
                     <Picker
                       data={data}
                       onEmojiSelect={handleEmojiSelect}
                       onClickOutside={() => setShowEmojiPicker(false)}
-                      perLine={10}
+                      perLine={7}
                     />
                   </div>
                 )}

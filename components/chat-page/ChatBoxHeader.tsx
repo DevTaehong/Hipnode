@@ -9,16 +9,19 @@ const ChatBoxHeader = () => {
   const { chatroomUsers } = useChatStore();
 
   const otherUserInfo = chatroomUsers[1] ?? otherUser;
+  let isOtherUserOnline;
 
-  const isOtherUserOnline = onlineUsers
-    ? onlineUsers.includes(otherUserInfo.id)
-    : false;
+  if (otherUserInfo) {
+    isOtherUserOnline = onlineUsers.includes(otherUserInfo.id);
+  }
 
   const userOnlineStatus = isOtherUserOnline ? (
     <span className="semibold-12 text-green">Online</span>
   ) : (
     <span className="semibold-12 text-sc-4">Offline</span>
   );
+
+  if (!otherUserInfo && !otherUser) return null;
 
   return (
     <header className="flex w-full items-center justify-between bg-light-2 px-4 py-3 dark:bg-dark-2 md:px-6 md:py-5">
@@ -43,7 +46,7 @@ const ChatBoxHeader = () => {
         </figcaption>
       </figure>
       <Link
-        href={`/profile/${otherUser.id}`}
+        href={`/profile/${otherUserInfo.id}`}
         className="semibold-14 flex-center shrink-0 rounded-md bg-red-80 px-3 py-2 text-light md:px-4 md:py-3"
       >
         View Profile

@@ -19,7 +19,7 @@ const Chat = async () => {
   }
   if (!userInfo) return null;
 
-  const chatrooms = await getUserChatrooms(userInfo.id);
+  const chatrooms = (await getUserChatrooms(userInfo.id)) ?? [];
   return <ChatPageWrapper chatrooms={chatrooms} userInfo={userInfo} />;
 };
 

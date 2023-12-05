@@ -1,5 +1,5 @@
 import Link from "next/link";
-import OnboardingLoader from "./OnboardingLoader";
+import LoaderComponent from "./LoaderComponent";
 
 import { QuestionnaireFormProps } from "@/types";
 
@@ -16,7 +16,7 @@ const QuestionnaireForm = ({
   if (shouldOnboard) {
     return (
       <section className="questionnaire-form-background flex-center">
-        <OnboardingLoader />
+        <LoaderComponent />
       </section>
     );
   } else {

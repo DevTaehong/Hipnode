@@ -24,6 +24,10 @@ export function useChatPageContext() {
     defaultChatroomId,
     setMessages,
     otherUser,
+    showChatRoomList,
+    setShowChatRoomList,
+    isLoading,
+    setIsLoading,
   } = context;
 
   if (
@@ -31,9 +35,11 @@ export function useChatPageContext() {
     onlineUsers === undefined ||
     messages === undefined ||
     userInfo === undefined ||
-    defaultChatroomId === undefined ||
     setMessages === undefined ||
-    otherUser === undefined
+    showChatRoomList === undefined ||
+    setShowChatRoomList === undefined ||
+    isLoading === undefined ||
+    setIsLoading === undefined
   ) {
     throw new Error(
       "useChatPageContextType must be used within a ChatPageContextType that provides data"
@@ -48,5 +54,9 @@ export function useChatPageContext() {
     defaultChatroomId,
     setMessages,
     otherUser,
+    showChatRoomList,
+    setShowChatRoomList,
+    isLoading,
+    setIsLoading,
   };
 }

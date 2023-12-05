@@ -45,15 +45,32 @@ const LiveChat = () => {
   });
 
   useEffect(() => {
-    loadMessages({ setMessages, chatroomId, chatroomUsers });
+    const fetchMessages = async () => {
+      setMessages([]);
+      try {
+        const response = await loadMessages({
+          chatroomId,
+          chatroomUsers,
+        });
+        if (response) {
+          setMessages(response.messages);
+        }
+      } catch (error) {
+        console.error("Failed to load messages:", error);
+      }
+    };
+    fetchMessages();
   }, [chatroomId, chatroomUsers, showChat]);
 
   useEffect(() => {
     setMessageText("");
   }, [chatroomId]);
 
-  const userInfo = chatroomUsers?.[0] || { id: null, username: "", image: "" };
-  const currentUser = userInfo;
+  const currentUser = chatroomUsers?.[0] ?? {
+    id: null,
+    username: "",
+    image: "",
+  };
 
   const handleFormSubmission = async (
     event:

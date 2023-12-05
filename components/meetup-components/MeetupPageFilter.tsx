@@ -10,7 +10,7 @@ import BoxShading from "../interview-components/BoxShading";
 import SeeMoreButton from "../interview-components/SeeMoreButton";
 import MeetupsCard from "./MeetupsCard";
 import { MeetUpExtended, MeetupsPageProps } from "@/types/meetups.index";
-import OnboardingLoader from "../onboarding-components/OnboardingLoader";
+import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const MeetupPageFilter = ({
   loading,
@@ -65,7 +65,7 @@ const MeetupPageFilter = ({
   if (loading) {
     return (
       <div className="flex-center flex w-full">
-        <OnboardingLoader />
+        <LoaderComponent />
       </div>
     );
   }

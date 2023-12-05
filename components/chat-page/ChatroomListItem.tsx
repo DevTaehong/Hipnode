@@ -18,26 +18,23 @@ const ChatroomListItem = ({
       text: recentMessageText,
       createdAt: recentMessageCreatedAt,
     },
-    otherUser: {
-      id,
-      name: otherUserName,
-      username: otherUserUsername,
-      picture: otherUserPicture,
-    },
+    otherUser,
   } = chatroom;
 
-  const isOtherUserOnline = onlineUsers ? onlineUsers.includes(id) : false;
+  const isOtherUserOnline = onlineUsers
+    ? onlineUsers.includes(otherUser.id)
+    : false;
   const formattedTime = formatRelativeTime(recentMessageCreatedAt);
 
   const handleChatroomClick = () => {
-    if (userInfo && id) {
+    if (userInfo && otherUser.id) {
       setChatroomUsers([
         userInfo,
         {
-          id,
-          username: otherUserUsername,
-          image: otherUserPicture,
-          name: otherUserName,
+          id: otherUser.id,
+          username: otherUser.username,
+          image: otherUser.picture,
+          name: otherUser.name,
         },
       ]);
       setChatroomId(chatroomListId);
@@ -59,8 +56,8 @@ const ChatroomListItem = ({
         <div className="flex gap-3">
           <figure className="relative flex h-10 w-10">
             <Image
-              src={otherUserPicture}
-              alt={`profile image for ${otherUserName}`}
+              src={otherUser.picture}
+              alt={`profile image for ${otherUser.name}`}
               height={40}
               width={40}
               className="shrink-0 rounded-full"
@@ -70,9 +67,9 @@ const ChatroomListItem = ({
             )}
           </figure>
           <div className="flex h-full flex-col justify-between">
-            <p className="bold-14 text-sc-2_light">{otherUserName}</p>
+            <p className="bold-14 text-sc-2_light">{otherUser.name}</p>
             <p className="regular-14 text-sc-4 dark:text-light-2">
-              @{otherUserUsername}
+              @{otherUser.username}
             </p>
           </div>
         </div>

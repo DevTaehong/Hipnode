@@ -13,16 +13,22 @@ import { ChatMessage } from "@/types/chatroom.index";
 import { ChatBoxHeader, ChatPageMessageList } from ".";
 import HoverScreen from "../live-chat/HoverScreen";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import OnboardingLoader from "../onboarding-components/OnboardingLoader";
+import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { ChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import ChatPageInput from "./ChatPageInput";
 
 const ChatPageLiveChat = () => {
-  const { userInfo, otherUser, defaultChatroomId, setMessages } =
-    useChatPageContext();
+  const {
+    userInfo,
+    otherUser,
+    defaultChatroomId,
+    setMessages,
+    showChatRoomList,
+    isLoading,
+    setIsLoading,
+  } = useChatPageContext();
 
   const [messageText, setMessageText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const inputBox = useRef<HTMLInputElement>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
@@ -46,19 +52,29 @@ const ChatPageLiveChat = () => {
   });
 
   useEffect(() => {
-    setIsLoading(true);
-    loadMessages({
-      setIsLoading,
-      setMessages,
-      chatroomId,
-      chatroomUsers,
-    });
+    const fetchMessages = async () => {
+      setIsLoading(true);
+      setMessages([]);
+      try {
+        const response = await loadMessages({
+          chatroomId,
+          chatroomUsers,
+        });
+        if (response) {
+          setMessages(response.messages);
+        }
+      } catch (error) {
+        console.error("Failed to load messages:", error);
+      }
+      setIsLoading(false);
+    };
+    fetchMessages();
   }, [chatroomId, chatroomUsers]);
 
   useEffect(() => {
     if (chatroomId === null || !chatroomUsers.length) {
-      setChatroomId(defaultChatroomId);
-      setChatroomUsers([userInfo, otherUser]);
+      setChatroomId(defaultChatroomId ?? null);
+      if (otherUser) setChatroomUsers([userInfo, otherUser]);
     }
   }, []);
 
@@ -110,7 +126,9 @@ const ChatPageLiveChat = () => {
       }}
     >
       <section
-        className="relative flex h-full w-full max-w-[62.5rem]"
+        className={`relative flex h-full w-full max-w-[62.5rem] ${
+          showChatRoomList && "hidden md:flex"
+        }`}
         {...getRootProps()}
       >
         {isDragActive && <HoverScreen />}
@@ -118,7 +136,7 @@ const ChatPageLiveChat = () => {
           <ChatBoxHeader />
           {isLoading ? (
             <div className="flex-center bg-light_dark-4 h-full w-full">
-              <OnboardingLoader />
+              <LoaderComponent />
             </div>
           ) : (
             <ChatPageMessageList />

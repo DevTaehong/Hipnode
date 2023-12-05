@@ -79,7 +79,6 @@ export interface ChatMessage {
   };
 }
 export interface loadMessagesProps {
-  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   chatroomId: number | null;
   chatroomUsers: ChatroomUser[];
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
@@ -153,9 +152,13 @@ export interface ChatPageContextType {
   onlineUsers: number[];
   messages: ChatMessage[];
   userInfo: UserInfo;
-  defaultChatroomId: number;
+  defaultChatroomId: number | undefined;
   setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
-  otherUser: ChatroomUser;
+  otherUser: ChatroomUser | undefined;
+  showChatRoomList: boolean;
+  setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ChatPageInputContextType {

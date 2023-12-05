@@ -5,6 +5,8 @@ import {
 import { ChatroomUser } from "@/types/chatroom.index";
 import { create } from "zustand";
 
+import { API_RESULT } from "@/components/live-chat";
+
 interface ChatroomMap {
   [chatroomId: number]: Set<number>;
 }
@@ -21,7 +23,7 @@ interface ChatStoreState {
   setUserId: (id: number | null) => void;
   chatroomUsers: ChatroomUser[];
   setChatroomUsers: (users: ChatroomUser[]) => void;
-  createNewChatroom: () => Promise<void>;
+  createNewChatroom: () => Promise<API_RESULT.SUCCESS | undefined>;
   showChat: boolean;
   setShowChat: (show: boolean) => void;
   chatroomId: number | null;
@@ -66,9 +68,11 @@ const useChatStore = create<ChatStoreState>((set) => ({
 
       if (existingChatroomId !== null) {
         set({ chatroomId: existingChatroomId });
+        return API_RESULT.SUCCESS;
       } else {
         const newChatroomId = await createChatroom(Array.from(userIds));
         set({ chatroomId: newChatroomId.id });
+        return API_RESULT.SUCCESS;
       }
     }
   },

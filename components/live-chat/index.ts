@@ -11,13 +11,15 @@ import {
   useDropzoneHandlerProps,
 } from "@/types/chatroom.index";
 
+export enum API_RESULT {
+  SUCCESS,
+  FAILURE,
+}
+
 export const loadMessages = async ({
-  setMessages,
-  setIsLoading,
   chatroomId,
   chatroomUsers,
 }: loadMessagesProps) => {
-  setMessages([]);
   if (chatroomId !== null) {
     try {
       const messages = await getMessagesForChatroom(chatroomId);
@@ -38,20 +40,15 @@ export const loadMessages = async ({
           },
         };
       });
-      setMessages(transformedMessages);
-      if (setIsLoading) {
-        setIsLoading(false);
-      }
+      return {
+        messages: transformedMessages,
+        success: API_RESULT.SUCCESS,
+      };
     } catch (error) {
       console.error("Error fetching messages for chatroom:", error);
     }
   }
 };
-
-export enum API_RESULT {
-  SUCCESS,
-  FAILURE,
-}
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   const {

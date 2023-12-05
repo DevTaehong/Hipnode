@@ -6,8 +6,13 @@ import { ChatPageSearchBar, ChatroomListItem } from ".";
 import { getUserChatrooms } from "@/lib/actions/chatroom.actions";
 
 const ChatPageChatList = () => {
-  const { chatrooms, messages, userInfo } = useChatPageContext();
-  const [showChatRoomList, setShowChatRoomList] = useState(false);
+  const {
+    chatrooms,
+    messages,
+    userInfo,
+    showChatRoomList,
+    setShowChatRoomList,
+  } = useChatPageContext();
   const [chatroomsList, setChatroomsList] = useState(chatrooms);
 
   useEffect(() => {
@@ -17,21 +22,6 @@ const ChatPageChatList = () => {
     };
     fetchChatrooms();
   }, [messages]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 767) {
-        setShowChatRoomList(true);
-      } else {
-        setShowChatRoomList(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <section className="flex h-fit w-full flex-col bg-light dark:bg-dark-2 md:h-full md:max-w-[27.5rem]">

@@ -8,6 +8,7 @@ import { ChatMessage } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
+import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const LiveChatMessageList = React.memo(
   ({ messages }: { messages: ChatMessage[] }) => {
@@ -80,7 +81,9 @@ const LiveChatMessageList = React.memo(
         </section>
         <ul className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
           {chatroomId === null ? (
-            <p>Loading</p>
+            <div className="flex-center h-full w-full">
+              <LoaderComponent />
+            </div>
           ) : (
             messages.map((message: ChatMessage) => (
               <LiveChatMessage key={message.data.messageId} message={message} />
