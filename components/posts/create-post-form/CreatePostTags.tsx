@@ -103,7 +103,7 @@ const CreatePostTags = ({ control, form }: FromFieldProps) => {
                 />
               </>
             </FormControl>
-            <FormMessage className="capitalize text-red-500" />
+            <FormMessage className="py-1 pl-2 capitalize text-red-500" />
           </FormItem>
         )}
       />

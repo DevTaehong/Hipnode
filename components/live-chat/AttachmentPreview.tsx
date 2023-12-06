@@ -15,15 +15,22 @@ import { useMemo } from "react";
 const RenderPreview = ({
   mediaType,
   attachmentPreview,
+  chatPage = false,
 }: RenderPreviewProps) => {
+  const attachmentWidth = chatPage ? 400 : 250;
+  const attachmentHeight = chatPage ? 600 : 250;
+  const dimensionsRem = chatPage
+    ? "md:max-w-[22rem] md:max-h-[25rem] max-w-[18rem]"
+    : "max-h-[12rem] max-w-[18rem]";
+
   switch (mediaType) {
     case "image":
       return (
         <Image
           src={attachmentPreview}
-          height={250}
-          width={250}
-          className="mb-3"
+          height={attachmentHeight}
+          width={attachmentWidth}
+          className={`mb-3 w-full object-contain ${dimensionsRem}`}
           alt="Image preview"
         />
       );
@@ -31,14 +38,16 @@ const RenderPreview = ({
       return (
         <video
           src={attachmentPreview}
-          height={250}
-          width={250}
-          className="mb-3 h-full max-h-[15rem] w-fit max-w-[18rem]"
+          height={attachmentHeight}
+          width={attachmentWidth}
+          className={`mb-3 w-full ${dimensionsRem}`}
           controls
         />
       );
     case "audio":
-      return <LiveChatAudioPlayer songUrl={attachmentPreview} />;
+      return (
+        <LiveChatAudioPlayer songUrl={attachmentPreview} currentUserMessage />
+      );
     case "document":
       return (
         <Link
@@ -62,6 +71,7 @@ const RenderPreview = ({
 const AttachmentPreview = ({
   droppedFile,
   setDroppedFile,
+  chatPage = false,
 }: AttachmentPreviewProps) => {
   const mediaType = getMediaType(droppedFile);
 
@@ -86,7 +96,11 @@ const AttachmentPreview = ({
         <IoClose className="z-10 cursor-pointer text-[20px]" />
       </button>
       {previewUrl && (
-        <RenderPreview mediaType={mediaType} attachmentPreview={previewUrl} />
+        <RenderPreview
+          mediaType={mediaType}
+          attachmentPreview={previewUrl}
+          chatPage={chatPage}
+        />
       )}
     </figure>
   );

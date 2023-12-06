@@ -11,10 +11,10 @@ import {
 } from "@/lib/actions/shared.types";
 import {
   AddCommentOrReply,
-  CommentAuthorProps,
-  CommentAuthorProps,
+  CommentsGroupedByParentId,
   ExtendedPostById,
   ExtendedPrismaPost,
+  UpdateCommentType,
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
 import { groupCommentsByParentId } from "@/utils";
@@ -91,28 +91,67 @@ export async function createPostWithTags(
 
 export async function updatePost(
   postId: number,
-  data: Partial<Post>
+  data: Partial<Post>,
+  tagNames: string[]
 ): Promise<Post> {
   try {
-    const post = await prisma.post.update({
-      where: { id: postId },
-      data,
+    const user = verifyAuth(
+      "You must be logged in to update a post, and you can only edit your own posts."
+    );
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+    if (!dbUserID) throw new Error("User not found");
+
+    const allTagIdsToConnect = await handleTags(tagNames);
+
+    const post = await prisma.$transaction(async (prisma) => {
+      const updatedPost = await prisma.post.update({
+        where: { id: postId, authorId: dbUserID },
+        data,
+        include: {
+          author: true,
+        },
+      });
+
+      await prisma.tagOnPost.deleteMany({
+        where: { postId },
+      });
+
+      await prisma.tagOnPost.createMany({
+        data: allTagIdsToConnect.map((tagId) => ({
+          postId: updatedPost.id,
+          tagId: tagId.id,
+        })),
+        skipDuplicates: true,
+      });
+
+      return updatedPost;
     });
-    console.log("Post updated successfully:", post);
+
+    revalidatePath("/");
+    redirect("/");
     return post;
   } catch (error) {
-    console.error("Error updating post:", error);
+    console.error("Error updating post with tags:", error);
     throw error;
   }
 }
 
 export async function deletePost(id: number): Promise<Post> {
   try {
-    const post = await prisma.post.delete({
-      where: { id },
-    });
+    const user = verifyAuth(
+      "You must be logged in to delete a post, and you can only delete yor own posts."
+    );
 
-    return post;
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
+    if (!dbUserID) throw new Error("User not found");
+
+    await prisma.post.delete({
+      where: { id, authorId: dbUserID },
+    });
+    revalidatePath("/");
+    redirect("/");
   } catch (error) {
     console.error("Error deleting post:", error);
     throw error;
@@ -123,6 +162,12 @@ export async function getPostContentById(
   id: number
 ): Promise<ExtendedPostById> {
   try {
+    const user = verifyAuth(
+      "We need the logged in user ID for edit and delete CRUD's."
+    );
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
     const post = await prisma.post.findUnique({
       where: { id },
       select: {
@@ -130,6 +175,7 @@ export async function getPostContentById(
           select: {
             picture: true,
             username: true,
+            id: true,
           },
         },
         createdAt: true,
@@ -173,6 +219,7 @@ export async function getPostContentById(
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
       sharesCount: post.Share.length,
+      loggedInUserId: dbUserID,
     };
 
     return extendedPost;
@@ -206,6 +253,7 @@ export async function getAllPosts({
           select: {
             username: true,
             picture: true,
+            id: true,
           },
         },
         likes: {
@@ -356,20 +404,23 @@ export async function getPostsFromGroups(myCursorId?: number) {
 }
 
 export async function addCommentOrReply(
-  userId: number,
   postId: number,
   content: string,
   parentId: number | null,
   path: string
 ): Promise<AddCommentOrReply> {
   try {
-    verifyAuth("You must be logged in to comment or reply to a post.");
+    const user = verifyAuth("You must be logged in to add a comment or reply.");
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
+    if (!dbUserID) throw new Error("User not found");
 
     const newComment = await prisma.comment.create({
       data: {
         content,
         postId,
-        authorId: userId,
+        authorId: dbUserID,
         parentId,
       },
       include: {
@@ -386,7 +437,7 @@ export async function addCommentOrReply(
     revalidatePath(path);
     return {
       ...newComment,
-      userId,
+      userId: dbUserID,
     };
   } catch (error) {
     console.error("Error adding comment or reply:", error);
@@ -398,9 +449,11 @@ export async function updateComment(
   commentId: number,
   content: string,
   path: string
-): Promise<AddCommentOrReply> {
+): Promise<UpdateCommentType> {
   try {
-    const user = verifyAuth("You must be logged in to update a comment.");
+    const user = verifyAuth(
+      "You must be logged in to update a comment, and you can only edit your own comments."
+    );
 
     const dbUserID: number = (user.sessionClaims.metadata as any).userId;
 
@@ -422,7 +475,6 @@ export async function updateComment(
         parent: true,
       },
     });
-
     if (!comment) throw new Error("Comment not found.");
 
     revalidatePath(path);
@@ -438,8 +490,16 @@ export async function deleteCommentOrReply(
   path: string
 ): Promise<void> {
   try {
+    const user = verifyAuth(
+      "You must be logged in to delete a comment or reply, and you can only delete your own comment or reply."
+    );
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
+    if (!dbUserID) throw new Error("User not found");
+
     await prisma.comment.deleteMany({
-      where: { parentId: commentId },
+      where: { parentId: commentId, authorId: dbUserID },
     });
 
     await prisma.comment.delete({
@@ -521,10 +581,10 @@ export async function toggleLikeComment(
   }
 }
 
-export async function getPostCommentsById(
+export async function getPostCommentsByParentId(
   id: number
-): Promise<Record<string, CommentAuthorProps[]>> {
-  const user = verifyAuth("You must be logged in to update a comment.");
+): Promise<CommentsGroupedByParentId> {
+  const user = verifyAuth("You must be logged in to fetch posts.");
 
   const dbUserID: number = (user.sessionClaims.metadata as any).userId;
 
@@ -543,6 +603,7 @@ export async function getPostCommentsById(
           select: {
             username: true,
             picture: true,
+            id: true,
           },
         },
       },
@@ -552,7 +613,7 @@ export async function getPostCommentsById(
       throw new Error(`Comments for post with id ${id} not found`);
     }
 
-    const commentsWithLikes = (comments as any).map((comment) => {
+    const commentsWithLikes = comments.map((comment) => {
       const likedByCurrentUser = comment.likes.some(
         (like) => like.userId === dbUserID
       );
@@ -560,8 +621,11 @@ export async function getPostCommentsById(
         ...comment,
         likedByCurrentUser,
         userId: dbUserID,
+        depth: 0,
+        isLastComment: false,
       };
     });
+
     return groupCommentsByParentId(commentsWithLikes);
   } catch (error) {
     console.error("Error retrieving post comments:", error);
@@ -632,6 +696,51 @@ export async function getPopularTags(): Promise<
     }));
   } catch (error) {
     console.error("Error retrieving popular tags:", error);
+    throw error;
+  }
+}
+
+type PostToEditByIdType = {
+  heading: string;
+  content: string;
+  image: string;
+  group: string;
+  tags: string[];
+};
+
+export async function getPostToEditById(
+  id: number
+): Promise<PostToEditByIdType> {
+  try {
+    const user = verifyAuth("You must be logged in to edit a post.");
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+
+    const post = await prisma.post.findUnique({
+      where: { id, authorId: dbUserID },
+      include: {
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+        group: true,
+      },
+    });
+
+    if (!post) {
+      throw new Error(`Post with id ${id} not found`);
+    }
+
+    return {
+      heading: post.heading,
+      content: post.content,
+      image: post.image,
+      group: post.group?.id.toString() || "",
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+    };
+  } catch (error) {
+    console.error("Error retrieving post to edit:", error);
     throw error;
   }
 }

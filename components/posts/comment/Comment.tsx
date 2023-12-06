@@ -23,7 +23,7 @@ const Comment = ({
   content,
   createdAt,
   isEdited,
-  author: { picture, username },
+  author,
   id,
   postId,
   likedByCurrentUser,
@@ -38,9 +38,9 @@ const Comment = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
-  const [isLiked, setIsLiked] = useState(likedByCurrentUser);
+  const [isLiked, setIsLiked] = useState<boolean>(likedByCurrentUser);
   const path = usePathname();
-  const canReply = depth < 2;
+  const canReply = depth < 1;
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -53,6 +53,7 @@ const Comment = ({
   };
 
   const toggleLikeHandler = async () => {
+    if (!userId) return;
     try {
       await toggleLikeComment(userId, id);
       setIsLiked(!isLiked);
@@ -61,7 +62,7 @@ const Comment = ({
     }
   };
 
-  const getRepliesToComments = (parentId: string | null) =>
+  const getRepliesToComments = (parentId: string) =>
     getReplies(postComments, parentId);
 
   const childComments = getRepliesToComments(String(id)) ?? [];
@@ -73,7 +74,7 @@ const Comment = ({
           <div className="flex items-start justify-center px-[1.25rem]">
             <div className="h-10 w-10">
               <Image
-                src={picture}
+                src={author?.picture ?? "/images/default-avatar.png"}
                 alt="comment author image"
                 width={40}
                 height={40}
@@ -89,7 +90,7 @@ const Comment = ({
         <div className="flex w-full flex-col gap-[1rem]">
           <div className="flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
             <CommentHeader
-              username={username}
+              username={author?.username ?? "The Unknown Soldier"}
               createdAt={createdAt}
               isEdited={isEdited}
             />
@@ -131,6 +132,8 @@ const Comment = ({
             </div>
           ) : (
             <CommentActions
+              userId={userId}
+              authorId={author?.id}
               canReply={canReply}
               isReplying={isReplying}
               hasChildComments={childComments.length > 0}

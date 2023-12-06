@@ -630,3 +630,7 @@ code {
 .react-tags__listbox-option-highlight {
   background-color: #ff8f67;
 }
+
+.scroll {
+  max-height: 50px;
+}

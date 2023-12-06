@@ -8,13 +8,15 @@ const LexicalEditor = ({
   name,
   updateField,
   onSubmitPreview,
-}: LexicalEditorProps) => {
+  defaultContent,
+}: LexicalEditorProps & { defaultContent: string }) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <MainLexicalEditor
         name={name}
         updateField={updateField}
         onSubmitPreview={onSubmitPreview}
+        defaultContent={defaultContent}
       />
     </LexicalComposer>
   );

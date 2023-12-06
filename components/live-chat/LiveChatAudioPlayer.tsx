@@ -1,11 +1,14 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 
-import { playButton, timerImage, pauseButton } from "@/public/assets";
-import LiveChatAudioAnimation from "./LiveChatAudioAnimation";
+import { playButton, pauseButton } from "@/public/assets";
 import { formatTime } from "@/utils";
+import { LiveChatAudioPlayerProps } from "@/types/chatroom.index";
 
-const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
+const LiveChatAudioPlayer = ({
+  songUrl,
+  isMessageFromCurrentUser = false,
+}: LiveChatAudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [displayTime, setDisplayTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -58,7 +61,11 @@ const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
   };
 
   return (
-    <div className="flex-center mb-3 h-[3.125rem] w-[12rem] rounded-lg bg-red-80 px-3 py-2.5">
+    <div
+      className={`flex-center mb-3 h-[3.125rem] w-[12rem] rounded-lg  ${
+        isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"
+      } px-3 py-2.5`}
+    >
       <div className="flex w-full justify-between gap-5">
         <button
           type="button"
@@ -74,11 +81,22 @@ const LiveChatAudioPlayer = ({ songUrl }: { songUrl: string }) => {
           />
         </button>
         <figure className="flex-center">
-          {isPlaying ? (
-            <LiveChatAudioAnimation />
-          ) : (
-            <Image src={timerImage} alt="timer" height={24} width={65} />
-          )}
+          <div
+            className={`${
+              isPlaying && "liveChatAudioAnimation"
+            } flex-center max-h-[0.75rem] gap-[0.25rem]`}
+          >
+            {Array.from({ length: 10 }, (_, index) => (
+              <span
+                key={index}
+                className={`${
+                  isPlaying ? "liveChatAudioAnimation" : "h-3"
+                }  w-0.5 max-w-[2px] rounded-[1px]  ${
+                  isMessageFromCurrentUser ? "bg-white" : "bg-red-80"
+                }`}
+              />
+            ))}
+          </div>
         </figure>
         <figure className="flex-center">
           <time className="semibold-14 text-white">{time}</time>

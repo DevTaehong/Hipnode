@@ -40,18 +40,19 @@ export interface ChatProps extends User {
 export interface AttachmentPreviewProps {
   droppedFile: File | File[];
   setDroppedFile: (value: File | null) => void;
+  chatPage?: boolean;
 }
 
 export interface LiveChatAudioPlayerProps {
-  displayTime: number;
-  isPlaying: boolean;
-  togglePlayPause: () => void;
+  songUrl: string;
+  isMessageFromCurrentUser?: boolean;
 }
 
 export interface ChatroomUser {
   id: number;
   username: string | undefined;
   image: string;
+  name?: string;
 }
 
 export interface ChatroomMap {
@@ -62,6 +63,7 @@ export interface UserInfo {
   id: number;
   username: string;
   image: string;
+  name?: string;
 }
 
 export interface ChatMessage {
@@ -73,12 +75,13 @@ export interface ChatMessage {
     attachmentType?: string | null;
     chatroomId?: number;
     text: string | null;
+    createdAt?: Date;
   };
 }
 export interface loadMessagesProps {
-  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   chatroomId: number | null;
   chatroomUsers: ChatroomUser[];
+  setIsLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface useDropzoneHandlerProps {
@@ -88,11 +91,12 @@ export interface useDropzoneHandlerProps {
 export interface RenderPreviewProps {
   mediaType: string;
   attachmentPreview: string;
+  chatPage?: boolean;
 }
 
 export interface CurrentUser {
   id: number | null;
-  username: string;
+  username: string | undefined;
   image: string;
 }
 
@@ -104,4 +108,73 @@ export interface LiveChatSubmissionProps {
   chatroomId: number | null;
   inputBox: RefObject<HTMLFormElement | HTMLInputElement>;
   currentUser: CurrentUser;
+}
+
+interface RecentMessage {
+  id: number;
+  text: string | null;
+  createdAt: Date;
+  userId: number;
+  chatroomId: number;
+  attachment: string | null;
+  attachmentType: string | null;
+}
+
+interface OtherUser {
+  id: number;
+  name: string;
+  username: string;
+  picture: string;
+}
+
+export interface ChatroomDetail {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  recentMessage: RecentMessage;
+  otherUser: OtherUser;
+}
+
+type HandleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => void;
+
+export interface ChatPageProps {
+  chatrooms: ChatroomDetail[];
+  userInfo: UserInfo;
+}
+
+export interface ChatroomListItemProps {
+  chatroom: ChatroomDetail;
+  setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface ChatPageContextType {
+  chatrooms: ChatroomDetail[];
+  onlineUsers: number[];
+  messages: ChatMessage[];
+  userInfo: UserInfo;
+  defaultChatroomId: number | undefined;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+  otherUser: ChatroomUser | undefined;
+  showChatRoomList: boolean;
+  setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface ChatPageInputContextType {
+  getInputProps: object;
+  open: () => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+  messageText: string;
+  setMessageText: Dispatch<SetStateAction<string>>;
+  handleKeyDown: HandleKeyDown;
+  handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
+  inputBox: RefObject<HTMLInputElement>;
+}
+
+export interface MessageAttachmentProps {
+  message: ChatMessage;
+  chatPage?: boolean;
+  isMessageFromCurrentUser?: boolean;
 }

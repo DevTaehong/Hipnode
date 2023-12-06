@@ -9,7 +9,7 @@ import { extractArray } from "@/utils";
 import { getFilteredInterviews } from "@/lib/actions/interview.actions";
 import SeeMoreButton from "./SeeMoreButton";
 import BoxShading from "./BoxShading";
-import OnboardingLoader from "../onboarding-components/OnboardingLoader";
+import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { InterviewPageProps } from "@/types/interview.index";
 
 const InterviewPageFilter = ({
@@ -67,7 +67,7 @@ const InterviewPageFilter = ({
   if (loading) {
     return (
       <div className="flex-center flex w-full">
-        <OnboardingLoader />
+        <LoaderComponent />
       </div>
     );
   }

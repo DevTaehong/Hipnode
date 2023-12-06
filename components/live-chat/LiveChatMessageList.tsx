@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { usePresence } from "ably/react";
 
@@ -7,10 +8,13 @@ import { ChatMessage } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
+import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const LiveChatMessageList = React.memo(
   ({ messages }: { messages: ChatMessage[] }) => {
-    const { chatroomUsers, setShowChat, chatroomId } = useChatStore();
+    const router = useRouter();
+    const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
+      useChatStore();
 
     const [secondUser] = chatroomUsers.slice(1, 2);
     const {
@@ -39,6 +43,12 @@ const LiveChatMessageList = React.memo(
       <p className="semibold-9 md:semibold-10 text-slate-400">Offline</p>
     );
 
+    const handleChatPageClick = () => {
+      setChatroomUsers([chatroomUsers[0], secondUser]);
+      setShowChat(false);
+      router.push(`/chat`);
+    };
+
     return (
       <>
         <section className="flex w-full items-center justify-between border-b border-sc-6 p-4 dark:border-sc-2">
@@ -57,16 +67,23 @@ const LiveChatMessageList = React.memo(
               {onlineStatus}
             </figcaption>
           </figure>
-          <div
-            className="flex cursor-pointer"
-            onClick={() => setShowChat(false)}
-          >
-            <OutlineIcon.ArrowLargeDown className="stroke-sc-2 dark:stroke-light-2" />
+          <div className="flex gap-5">
+            <button onClick={handleChatPageClick}>
+              <OutlineIcon.Expand />
+            </button>
+            <div
+              className="flex cursor-pointer"
+              onClick={() => setShowChat(false)}
+            >
+              <OutlineIcon.ArrowLargeDown className="stroke-sc-2 dark:stroke-light-2" />
+            </div>
           </div>
         </section>
         <ul className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
           {chatroomId === null ? (
-            <p>Loading</p>
+            <div className="flex-center h-full w-full">
+              <LoaderComponent />
+            </div>
           ) : (
             messages.map((message: ChatMessage) => (
               <LiveChatMessage key={message.data.messageId} message={message} />

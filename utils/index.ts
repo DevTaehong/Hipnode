@@ -9,7 +9,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import { supabase } from "@/utils/supabaseClient";
 import { homePageTags, monthNames, abbMonthNames } from "@/constants";
-import { GetActionBarDataProps } from "@/types/posts";
+import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
@@ -222,12 +222,12 @@ export function capitalise(str: string) {
 }
 
 export const groupCommentsByParentId = (
-  comments: Comment[]
-): Record<string, Comment[]> => {
-  const group: Record<string, Comment[]> = {};
+  comments: CommentAuthorProps[]
+): Record<string, CommentAuthorProps[]> => {
+  const group: Record<string, CommentAuthorProps[]> = {};
   comments?.forEach((comment) => {
     const key =
-      comment?.parentId === null ? "null" : comment?.parentId?.toString();
+      comment.parentId === null ? "null" : comment.parentId.toString();
     if (!group[key]) {
       group[key] = [];
     }
@@ -237,10 +237,10 @@ export const groupCommentsByParentId = (
 };
 
 export const getRepliesToComments = (
-  commentsByParentId: Record<string, Comment[]>,
-  parentId?: string | null
+  commentsByParentId: Record<string, CommentAuthorProps[]>,
+  parentId: string
 ) => {
-  return commentsByParentId[parentId ?? "null"];
+  return commentsByParentId[parentId];
 };
 
 export const howManyMonthsAgo = (dateStr: Date | null) => {
@@ -266,7 +266,7 @@ export const userHasLikedComment = (
   return comments.some((comment) => comment.authorId === currentUserId);
 };
 
-export async function uploadLivechatAttachment(files) {
+export async function uploadLivechatAttachment(files: File[]) {
   const bucket = "livechat"; // Static bucket name
   const folder = "attachments"; // Static folder name
   const file = files[0]; // Assuming single file upload, adjust as needed
@@ -313,6 +313,51 @@ export const getIconConfig = (tagName: string): TagIconConfig => {
   return homePageTags[index];
 };
 
+export function formatRelativeTime(dateString: Date): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}sec ago`;
+  } else if (diffInSeconds < 3600) {
+    return `${Math.floor(diffInSeconds / 60)}min ago`;
+  } else if (diffInSeconds < 86400) {
+    return `${Math.floor(diffInSeconds / 3600)}hour ago`;
+  } else {
+    return `${Math.floor(diffInSeconds / 86400)}day ago`;
+  }
+}
+
+export function formatChatBoxDate(date: Date) {
+  function pad(n: number) {
+    return n < 10 ? "0" + n : n;
+  }
+
+  const now = new Date();
+  const providedDate = new Date(date);
+
+  const moreThanADayOld =
+    now.getDate() !== providedDate.getDate() ||
+    now.getMonth() !== providedDate.getMonth() ||
+    now.getFullYear() !== providedDate.getFullYear();
+
+  let hours = providedDate.getHours();
+  const minutes = pad(providedDate.getMinutes());
+  const ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours || 12;
+
+  const timeFormatted = `${hours}:${minutes}${ampm}`;
+
+  if (moreThanADayOld) {
+    const day = pad(providedDate.getDate());
+    const month = pad(providedDate.getMonth() + 1);
+    return `${day}/${month} ${timeFormatted}`;
+  } else {
+    return timeFormatted;
+  }
+}
 export const getMediaType = (file: File | File[]) => {
   const fileType = Array.isArray(file) ? file[0].type : file.type;
 

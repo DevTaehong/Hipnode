@@ -25,6 +25,7 @@ const Navbar = async () => {
         id: userFromDB.id,
         username: userFromDB.username,
         image: userFromDB.picture,
+        name: userFromDB.name,
       };
     }
   }

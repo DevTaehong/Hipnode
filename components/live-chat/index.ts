@@ -11,12 +11,15 @@ import {
   useDropzoneHandlerProps,
 } from "@/types/chatroom.index";
 
+export enum API_RESULT {
+  SUCCESS,
+  FAILURE,
+}
+
 export const loadMessages = async ({
-  setMessages,
   chatroomId,
   chatroomUsers,
 }: loadMessagesProps) => {
-  setMessages([]);
   if (chatroomId !== null) {
     try {
       const messages = await getMessagesForChatroom(chatroomId);
@@ -33,20 +36,19 @@ export const loadMessages = async ({
             attachment: message.attachment || null,
             attachmentType: message.attachmentType || null,
             text: message.text || null,
+            createdAt: message.createdAt,
           },
         };
       });
-      setMessages(transformedMessages);
+      return {
+        messages: transformedMessages,
+        success: API_RESULT.SUCCESS,
+      };
     } catch (error) {
       console.error("Error fetching messages for chatroom:", error);
     }
   }
 };
-
-export enum API_RESULT {
-  SUCCESS,
-  FAILURE,
-}
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   const {
@@ -79,8 +81,9 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       text: messageContent || null,
       user: currentUser,
       chatroomId,
-      attachment: attachmentURL || null,
+      attachment: attachmentURL,
       attachmentType: mediaType,
+      createdAt: new Date(),
     };
 
     try {

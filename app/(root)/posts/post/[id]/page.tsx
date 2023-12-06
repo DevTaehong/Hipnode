@@ -1,35 +1,45 @@
 import Image from "next/image";
-import { auth } from "@clerk/nextjs";
 
-import { LeftActionBar, Profile } from "@/components/posts/post-by-id";
+import { LeftActionBar } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
 import {
   getPostsByUserClerkId,
   getPostContentById,
 } from "@/lib/actions/post.action";
-import { formatDatePostFormat, getActionBarData } from "@/utils";
+import {
+  formatDatePostFormat,
+  getActionBarData,
+  howManyMonthsAgo,
+} from "@/utils";
 import CommentForm from "@/components/posts/comment/CommentForm";
 import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
+import CustomButton from "@/components/CustomButton";
+import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
+import PostActionPopover from "@/components/posts/action-popover/PostActionPopover";
+import Spinner from "@/components/Spinner";
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
-  const { id: postId } = params;
-  const postData = await getPostContentById(+postId);
-  const { userId } = auth();
-  let user;
-  if (userId) {
-    user = await getUserByClerkId(userId);
-  }
+  const { id } = params;
+  const postData = await getPostContentById(+id);
+
   const {
-    author: { username },
+    author: { username, picture, id: postAuthorId },
     createdAt,
   } = postData;
+
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content } = postData;
   const actionBarData = getActionBarData(postData);
-  const devInfo = await getPostsByUserClerkId(postData.clerkId || "");
+  if (!postData.clerkId)
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  const devInfo = await getPostsByUserClerkId(postData.clerkId);
+  const calculatedDate = howManyMonthsAgo(createdAt);
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
@@ -56,9 +66,17 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 className="w-full rounded-t-2xl object-cover"
               />
             </div>
-            <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
-              {heading}
-            </h1>
+            <div className="flex items-center justify-between">
+              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+                {heading}
+              </h1>
+              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+                {postAuthorId === postData.loggedInUserId && (
+                  <PostActionPopover postId={postData.id} label="Post" />
+                )}
+              </div>
+            </div>
+
             <TagsList tags={tags} />
             <div className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
               <SanatizedHtml content={content} />
@@ -76,11 +94,36 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 <CommentForm postId={postData.id} />
               </div>
             </div>
-            <CommentList postId={+postId} userId={user?.id as number} />
+            <CommentList postId={+id} />
           </section>
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">
-          <Profile />
+          <RightColumnWrapper>
+            <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
+              <Image
+                src={picture ?? "/images/emoji_2.png"}
+                alt="profile-image"
+                height={100}
+                width={100}
+                className="flex-center h-[5rem] w-[5rem] rounded-full"
+              />
+            </div>
+            <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
+              {username}
+            </h2>
+            <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
+              Web Developer
+            </p>
+            <CustomButton
+              label="Follow"
+              className="mb-[1.25rem] flex w-full items-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
+            />
+            <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
+              {+calculatedDate > 0
+                ? `joined ${calculatedDate} months ago`
+                : "joined this month"}
+            </p>
+          </RightColumnWrapper>
           <aside className="flex min-w-[20.3rem] flex-col items-center justify-center rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
             <h2 className="text-[1.125rem] leading-[1.625rem] text-sc-2 dark:text-light-2">
               More from {username}
