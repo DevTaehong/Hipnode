@@ -56,7 +56,7 @@ const MessageList = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <div className="cursor-pointer rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+        <div className="cursor-pointer xl:rounded-lg xl:bg-light-2 xl:p-2 dark:xl:bg-dark-4">
           <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
         </div>
       </PopoverTrigger>
