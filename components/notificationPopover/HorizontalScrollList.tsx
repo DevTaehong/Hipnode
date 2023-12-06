@@ -1,68 +1,54 @@
 "use client";
 
+import { useState } from "react";
+
 import { notificationTabs } from "@/constants";
-import React, { useRef, useState } from "react";
 
 const HorizontalScrollList = () => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-
-    setIsDragging(true);
-    setStartX(e.pageX - containerRef.current.offsetLeft);
-    setScrollLeft(containerRef.current.scrollLeft);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
-    if (!containerRef.current) return;
-
-    e.preventDefault();
-    const x = e.pageX - containerRef.current.offsetLeft;
-    const walk = (x - startX) * 3;
-    containerRef.current.scrollLeft = scrollLeft - walk;
-  };
+  const [selectedTab, setSelectedTab] = useState("All notifications");
 
   return (
     <div
-      className="flex h-full cursor-pointer select-none justify-center gap-[1.625rem] overflow-x-auto px-8"
-      onMouseDown={handleMouseDown}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      ref={containerRef}
+      className="flex h-[2.0625rem] cursor-pointer gap-[1.625rem] border-b
+        border-light-2 px-5 dark:border-dark-3 xl:h-[2.1875rem] xl:px-[2.06rem]"
     >
       {notificationTabs.map((tab) => {
         const IconComponent = tab.icon;
+        const isTabComments = tab.title === "Comments";
 
         return (
-          <p
+          <button
             key={tab.title}
-            className={`flex h-full items-center justify-start gap-2 whitespace-nowrap pb-2 text-start ${
-              tab.active && "border-b border-blue"
-            }`}
+            className={`${
+              selectedTab === tab.title &&
+              "border-b border-blue dark:border-blue-80"
+            } flex h-[2.0625rem] items-center justify-start gap-2 overflow-visible whitespace-nowrap pb-[0.625rem] 
+                text-start hover:opacity-80 hover:transition-opacity xl:h-[2.1875rem]`}
+            onClick={() => setSelectedTab(tab.title)}
           >
-            {IconComponent && <IconComponent />}
+            {IconComponent && (
+              <IconComponent
+                className={`${
+                  selectedTab === tab.title
+                    ? isTabComments
+                      ? "stroke-blue dark:stroke-blue-80"
+                      : "fill-blue dark:fill-blue-80"
+                    : isTabComments
+                      ? "stroke-sc-2 dark:stroke-sc-3"
+                      : "fill-sc-2 dark:fill-sc-3"
+                } shrink-0`}
+              />
+            )}
             <span
-              className={`semibold-16 ${
-                tab.active ? "text-blue" : "text-sc-2 dark:text-sc-3"
+              className={`semibold-14 xl:semibold-16 ${
+                selectedTab === tab.title
+                  ? "text-blue dark:text-blue-80"
+                  : "text-sc-2 dark:text-sc-3"
               }`}
             >
               {tab.title}
             </span>
-          </p>
+          </button>
         );
       })}
     </div>
