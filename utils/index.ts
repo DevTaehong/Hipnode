@@ -313,6 +313,51 @@ export const getIconConfig = (tagName: string): TagIconConfig => {
   return homePageTags[index];
 };
 
+export function formatRelativeTime(dateString: Date): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}sec ago`;
+  } else if (diffInSeconds < 3600) {
+    return `${Math.floor(diffInSeconds / 60)}min ago`;
+  } else if (diffInSeconds < 86400) {
+    return `${Math.floor(diffInSeconds / 3600)}hour ago`;
+  } else {
+    return `${Math.floor(diffInSeconds / 86400)}day ago`;
+  }
+}
+
+export function formatChatBoxDate(date: Date) {
+  function pad(n: number) {
+    return n < 10 ? "0" + n : n;
+  }
+
+  const now = new Date();
+  const providedDate = new Date(date);
+
+  const moreThanADayOld =
+    now.getDate() !== providedDate.getDate() ||
+    now.getMonth() !== providedDate.getMonth() ||
+    now.getFullYear() !== providedDate.getFullYear();
+
+  let hours = providedDate.getHours();
+  const minutes = pad(providedDate.getMinutes());
+  const ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours || 12;
+
+  const timeFormatted = `${hours}:${minutes}${ampm}`;
+
+  if (moreThanADayOld) {
+    const day = pad(providedDate.getDate());
+    const month = pad(providedDate.getMonth() + 1);
+    return `${day}/${month} ${timeFormatted}`;
+  } else {
+    return timeFormatted;
+  }
+}
 export const getMediaType = (file: File | File[]) => {
   const fileType = Array.isArray(file) ? file[0].type : file.type;
 

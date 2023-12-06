@@ -10,7 +10,7 @@ import { PodcastPageFilterProps } from "@/types/podcast.index";
 import PodcastListColumn from "./PodcastListColumn";
 import SeeMoreButton from "../interview-components/SeeMoreButton";
 import BoxShading from "../interview-components/BoxShading";
-import OnboardingLoader from "../onboarding-components/OnboardingLoader";
+import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const PodcastPageFilter = ({
   loading,
@@ -78,7 +78,7 @@ const PodcastPageFilter = ({
   if (loading) {
     return (
       <div className="flex-center flex h-full w-full">
-        <OnboardingLoader />
+        <LoaderComponent />
       </div>
     );
   }

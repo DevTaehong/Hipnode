@@ -107,6 +107,10 @@
     @apply bg-light dark:bg-dark-4;
   }
 
+  .bg-light-2_dark-4 {
+    @apply bg-light-2 dark:bg-dark-4;
+  }
+
   .bg-light-3_dark-3 {
     @apply bg-light-3 dark:bg-dark-3;
   }

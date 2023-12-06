@@ -27,6 +27,7 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
           id: clickedUser.id,
           username: clickedUser.username,
           image: clickedUser.picture,
+          name: clickedUser.name,
         },
       ];
       setChatroomId(null);

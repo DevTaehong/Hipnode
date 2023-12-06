@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
+import { usePathname } from "next/navigation";
 
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
@@ -23,8 +24,9 @@ const LiveChat = () => {
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
-  const inputBox = useRef<HTMLInputElement | HTMLFormElement>(null);
+  const inputBox = useRef<HTMLInputElement>(null);
   const { showChat, chatroomUsers, chatroomId } = useChatStore();
+  const path = usePathname();
 
   const { channel } = useChannel("hipnode-livechat", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
@@ -43,15 +45,32 @@ const LiveChat = () => {
   });
 
   useEffect(() => {
-    loadMessages({ setMessages, chatroomId, chatroomUsers });
+    const fetchMessages = async () => {
+      setMessages([]);
+      try {
+        const response = await loadMessages({
+          chatroomId,
+          chatroomUsers,
+        });
+        if (response) {
+          setMessages(response.messages);
+        }
+      } catch (error) {
+        console.error("Failed to load messages:", error);
+      }
+    };
+    fetchMessages();
   }, [chatroomId, chatroomUsers, showChat]);
 
   useEffect(() => {
     setMessageText("");
   }, [chatroomId]);
 
-  const userInfo = chatroomUsers?.[0] || { id: null, username: "", image: "" };
-  const currentUser = userInfo;
+  const currentUser = chatroomUsers?.[0] ?? {
+    id: null,
+    username: "",
+    image: "",
+  };
 
   const handleFormSubmission = async (
     event:
@@ -59,7 +78,7 @@ const LiveChat = () => {
       | React.KeyboardEvent<HTMLInputElement>
   ) => {
     event.preventDefault();
-    if (!messageTextIsEmpty) {
+    if (!messageTextIsEmpty || droppedFile) {
       try {
         const result = await liveChatSubmission({
           event,
@@ -90,16 +109,17 @@ const LiveChat = () => {
   return (
     <section
       {...getRootProps()}
-      className={`bg-light_dark-4 fixed bottom-20 right-10 h-[450px] w-[450px] flex-col items-end justify-end rounded-2xl  ${
+      className={`bg-light_dark-4 fixed bottom-20 right-0 h-[450px] w-full max-w-[450px] flex-col items-end justify-end rounded-2xl md:right-10  ${
         showChat ? "flex" : "hidden"
-      }`}
+      } ${path === "/chat" ? "hidden" : "flex"}`}
     >
       {isDragActive && <HoverScreen />}
       <input {...getInputProps()} />
       <LiveChatMessageList messages={receivedMessages} />
       <form
         onSubmit={handleFormSubmission}
-        className="flex w-full gap-5 px-5 pb-5"
+        className="flex w-full gap-5 border-t border-sc-6 p-5
+        dark:border-sc-2"
       >
         <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
           {droppedFile && (
@@ -113,6 +133,7 @@ const LiveChat = () => {
               <OutlineIcon.Link />
             </button>
             <input
+              ref={inputBox}
               value={messageText}
               placeholder="Type here your message..."
               onChange={(e) => setMessageText(e.target.value)}
@@ -123,9 +144,8 @@ const LiveChat = () => {
         </div>
         <button
           type="submit"
-          disabled={messageTextIsEmpty || chatroomId === null}
+          disabled={messageTextIsEmpty && chatroomId === null}
           className="h-fit cursor-pointer self-center"
-          onClick={() => handleFormSubmission}
         >
           <FillIcon.Send className="fill-sc-2 dark:fill-light-2" />
         </button>

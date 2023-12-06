@@ -2,13 +2,10 @@ import {
   createChatroom,
   getAllChatroomUsers,
 } from "@/lib/actions/chatroom.actions";
+import { ChatroomUser } from "@/types/chatroom.index";
 import { create } from "zustand";
 
-interface ChatroomUser {
-  id: number;
-  username: string;
-  image: string;
-}
+import { API_RESULT } from "@/components/live-chat";
 
 interface ChatroomMap {
   [chatroomId: number]: Set<number>;
@@ -17,13 +14,16 @@ interface ChatroomMap {
 interface UserInfo {
   id: number;
   username: string;
+  name?: string;
   image: string;
 }
 
 interface ChatStoreState {
+  userId: number | null;
+  setUserId: (id: number | null) => void;
   chatroomUsers: ChatroomUser[];
   setChatroomUsers: (users: ChatroomUser[]) => void;
-  createNewChatroom: () => Promise<void>;
+  createNewChatroom: () => Promise<API_RESULT.SUCCESS | undefined>;
   showChat: boolean;
   setShowChat: (show: boolean) => void;
   chatroomId: number | null;
@@ -33,6 +33,8 @@ interface ChatStoreState {
 }
 
 const useChatStore = create<ChatStoreState>((set) => ({
+  userId: null,
+  setUserId: (id: number | null) => set({ userId: id }),
   chatroomUsers: [],
   setChatroomUsers: (users: ChatroomUser[]) => set({ chatroomUsers: users }),
   createNewChatroom: async () => {
@@ -66,9 +68,11 @@ const useChatStore = create<ChatStoreState>((set) => ({
 
       if (existingChatroomId !== null) {
         set({ chatroomId: existingChatroomId });
+        return API_RESULT.SUCCESS;
       } else {
         const newChatroomId = await createChatroom(Array.from(userIds));
         set({ chatroomId: newChatroomId.id });
+        return API_RESULT.SUCCESS;
       }
     }
   },
