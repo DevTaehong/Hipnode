@@ -65,10 +65,8 @@ const ChatPageLiveChat = () => {
         }
       } catch (error) {
         console.error("Failed to load messages:", error);
+        setIsLoading(false);
       }
-      //  finally {
-      //   setIsLoading(false);
-      // }
     };
     fetchMessages();
   }, [chatroomId, chatroomUsers]);
