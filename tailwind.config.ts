@@ -19,6 +19,15 @@ module.exports = {
       backgroundImage: {
         "message-popover": "url('/images/messagePopover.svg')",
         "dark-message-popover": "url('/images/darkMessagePopover.svg')",
+
+        "notification-popover": "url('/navbar/notification_bg_light.svg')",
+        "dark-notification-popover": "url('/navbar/notification_bg_dark.svg')",
+
+        "mobile-notification-popover":
+          "url('/navbar/notification_bg_mobile_light.svg')",
+        "mobile-dark-notification-popover":
+          "url('/navbar/notification_bg_mobile_dark.svg')",
+
         "profile-modal": "url('/profileModal.png')",
         "host-meetup": "url('/host-meetup.png')",
       },
