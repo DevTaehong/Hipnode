@@ -14,7 +14,7 @@ export default function CheckboxIcon({ checked }: { checked?: boolean }) {
             d="M4 8.5L7 11L12 5"
             stroke="white"
             fill="#FF4401"
-            stroke-width="1.5"
+            strokeWidth="1.5"
           />
         </>
       ) : (
@@ -25,7 +25,7 @@ export default function CheckboxIcon({ checked }: { checked?: boolean }) {
           height="14"
           rx="1"
           stroke="#97989D"
-          stroke-width="2"
+          strokeWidth="2"
         />
       )}
     </svg>
