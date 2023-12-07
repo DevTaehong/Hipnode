@@ -11,12 +11,12 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
     text,
   } = message.data;
   const currentUserId = chatroomUsers[0].id;
-  const currentUserMessage = id === currentUserId;
+  const isMessageFromCurrentUser = id === currentUserId;
   const messageStyles = {
-    messageAlign: currentUserMessage
+    messageAlign: isMessageFromCurrentUser
       ? "self-end flex-row-reverse"
       : "self-start flex-row",
-    divStyles: currentUserMessage
+    divStyles: isMessageFromCurrentUser
       ? "bg-red-80 text-white rounded-l-lg rounded-tr-sm"
       : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm",
   };
@@ -34,15 +34,19 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
           className="rounded-full"
         />
       </figure>
-      <figure className="flex w-fit max-w-[250px] flex-col gap-2 break-words">
+      <figure className="flex w-fit max-w-[250px] flex-col gap-2">
         <MessageAttachment
           message={message}
-          currentUserMessage={currentUserMessage}
+          isMessageFromCurrentUser={isMessageFromCurrentUser}
         />
         <figcaption
           className={`${
             messageStyles.divStyles
-          } semibold-16 flex w-full rounded-b-lg p-3.5 ${!text && "hidden"}`}
+          } semibold-16 flex w-fit max-w-full ${
+            isMessageFromCurrentUser ? "self-end" : "self-start"
+          } overflow-hidden break-words rounded-b-lg p-3.5 ${
+            !text && "hidden"
+          }`}
         >
           {text}
         </figcaption>

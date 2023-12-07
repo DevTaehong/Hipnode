@@ -59,7 +59,9 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <figcaption
             className={`${
               messageStyles.divStyles
-            } regular-16 flex w-fit rounded-b-lg p-3.5 ${!text && "hidden"}`}
+            } regular-16 flex w-fit max-w-[31.7rem] overflow-hidden break-words rounded-b-lg p-3.5 ${
+              !text && "hidden"
+            }`}
           >
             {text}
           </figcaption>
