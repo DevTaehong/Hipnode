@@ -53,7 +53,7 @@ const Navbar = async () => {
         <OutlineIcons.Search className="cursor-pointer stroke-sc-4" />
       </section>
 
-      <section className="flex items-center gap-6">
+      <section className="flex items-center gap-5 md:gap-[1.56rem]">
         <SignedIn>
           {userFromDB && userInfo && <MessageListWrapper userInfo={userInfo} />}
 

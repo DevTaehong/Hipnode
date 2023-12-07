@@ -119,7 +119,7 @@ OutlineIcon.Checkbox = function Icon({ checked }: OutlineIconProps) {
 
 OutlineIcon.Checkmark = function Icon({ className }: OutlineIconProps) {
   return (
-    <OutlineIcon className={className ?? "fill-[#347AE2]"}>
+    <OutlineIcon className={className ?? "fill-blue dark:fill-blue-80"}>
       <CheckmarkIcon />
     </OutlineIcon>
   );

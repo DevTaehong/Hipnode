@@ -253,13 +253,12 @@ export interface SocialIconProps extends IconProps {
 export interface NotificationTab {
   title: string;
   icon?: React.ElementType;
-  active: boolean;
 }
 
 export interface NotificationProps {
   notifications: {
-    name: string;
-    type: "comment" | "reaction" | "mention";
+    userName: string;
+    type: "comment" | "reaction" | "mention" | "meetup";
     comment?: string;
     read: boolean;
     title: string;
@@ -269,8 +268,8 @@ export interface NotificationProps {
 }
 
 export interface NotificationPopoverProps {
-  name: string;
-  type: "comment" | "reaction" | "mention";
+  userName: string;
+  type: "comment" | "reaction" | "mention" | "meetup";
   comment?: string;
   read: boolean;
   title: string;

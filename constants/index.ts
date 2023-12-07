@@ -8,7 +8,6 @@ import {
   ColorVariantsOnboardingType,
   GroupPromiseProps,
   NotificationPopoverProps,
-  NotificationTab,
 } from "@/types";
 
 export const dummyMessages = [
@@ -440,55 +439,51 @@ export const sidebarItems = [
   },
 ];
 
-export const notificationTabs: NotificationTab[] = [
+export const notificationTabs = [
   {
     title: "All notifications",
-    active: true,
   },
   {
     title: "Reactions",
     icon: OutlineIcon.Heart,
-    active: false,
   },
   {
     title: "Comments",
     icon: OutlineIcon.Comment,
-    active: false,
   },
   {
     title: "Mentions",
     icon: OutlineIcon.Mention,
-    active: false,
   },
   {
-    title: "Posts",
+    title: "Meetups",
     icon: OutlineIcon.Post,
-    active: false,
   },
 ];
 
 export const dummyNotifications: NotificationPopoverProps[] = [
   {
-    name: "Mentor Christopher",
+    userName: "Catalin Pit",
     type: "comment",
     comment: "Great ebook & giveaway!",
-    title: "Hipnode. Book Giveaway: The Standout Developer by Randall Kanna",
+    title:
+      "Hipnode. Book Giveaway: The Standout Developer by Randall Kanna Hipnode.",
     date: "16 Oct, 3:26pm",
     read: false,
     image: "/christopher.png",
   },
   {
-    name: "Mentor Santiago",
-    type: "reaction",
-    title: "Argentina Wins World Cup",
+    userName: "Jubed Ahmed",
+    type: "meetup",
+    title: "Best Color Palette Generators For UI Designers And Developers",
     date: "14 Oct, 9:10am",
     read: false,
     image: "/santiago.png",
   },
   {
-    name: "Negan",
-    type: "mention",
-    title: "5 Key UI Design Principle for Beginners",
+    userName: "Tushar Srivastava",
+    type: "reaction",
+    title: "5 Key UI Design Principles for Beginners",
     date: "12 Oct, 12:26pm",
     read: true,
     image: "/negan.png",
