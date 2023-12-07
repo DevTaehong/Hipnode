@@ -41,7 +41,7 @@ const NotificationPopover = ({ notifications }: NotificationProps) => {
         {/* // NOTE - Comments section */}
         <section className="relative z-10 flex flex-col justify-center rounded-b-lg bg-white dark:bg-dark-4">
           <div className="flex flex-col gap-5 px-5 xl:gap-[1.875rem] xl:px-[1.875rem]">
-            {notifications.map((notification, index) => (
+            {notifications.slice(0, maxNotifications).map((notification) => (
               <Fragment key={notification.userName}>
                 <NotificationComment
                   userName={notification.userName}
@@ -52,16 +52,14 @@ const NotificationPopover = ({ notifications }: NotificationProps) => {
                   read={notification.read}
                   image={notification.image}
                 />
-                {index === maxNotifications - 1 && (
-                  <Link
-                    href="/notifications"
-                    className="semibold-14 font-feature mb-[1.625rem] inline-flex justify-center text-blue hover:underline dark:text-blue-80 xl:mb-[1.875rem]"
-                  >
-                    View All Notifications
-                  </Link>
-                )}
               </Fragment>
             ))}
+            <Link
+              href="/notifications"
+              className="semibold-14 font-feature mb-[1.625rem] inline-flex justify-center text-blue hover:underline dark:text-blue-80 xl:mb-[1.875rem]"
+            >
+              View All Notifications
+            </Link>
           </div>
         </section>
       </div>
