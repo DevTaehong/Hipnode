@@ -6,7 +6,6 @@ import {
   ColorVariantsOnboardingType,
   GroupPromiseProps,
   NotificationPopoverProps,
-  NotificationTab,
 } from "@/types";
 
 export const dummyMessages = [
@@ -438,7 +437,7 @@ export const sidebarItems = [
   },
 ];
 
-export const notificationTabs: NotificationTab[] = [
+export const notificationTabs = [
   {
     title: "All notifications",
   },
