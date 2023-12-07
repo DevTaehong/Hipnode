@@ -14,6 +14,7 @@ export async function createUsers() {
         bio: faker.lorem.sentence(),
         picture: faker.image.avatar(),
         location: faker.location.state(),
+        website: faker.internet.url(),
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },

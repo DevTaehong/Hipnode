@@ -15,8 +15,14 @@ model User {
   username        String                   @unique
   email           String                   @unique
   password        String?
+  title           String?
+  points          Int                      @default(0)
   role            Role                     @default(USER)
   bio             String?
+  website         String?
+  facebook        String?
+  twitter         String?
+  instagram       String?
   picture         String
   location        String?
   createdAt       DateTime                 @default(now())
@@ -35,6 +41,19 @@ model User {
   subscribedShows UsersSubscribedToShows[]
   groupAdmin      Group[]                  @relation("GroupAdmins")
   groups          Group[]                  @relation("UserGroups")
+  following       Follower[]               @relation("follower")
+  followBy        Follower[]               @relation("followed")
+}
+
+model Follower {
+  id              Int                      @id @default(autoincrement())
+  followerId      Int                      // ID of the user who follows
+  followedId      Int                      // ID of the user being followed
+
+  follower        User                     @relation(fields: [followerId], references: [id], name: "follower")
+  followed        User                     @relation(fields: [followedId], references: [id], name: "followed")
+
+  @@unique([followerId, followedId]) // Ensures that the same follow relationship can't be created more than once
 }
 
 model Onboarding {
@@ -51,8 +70,6 @@ model Onboarding {
 
 model Post {
   id        Int         @id @default(autoincrement())
-  heading   String
-  clerkId   String?    
   content   String
   contentType String?
   authorId  Int
@@ -62,6 +79,8 @@ model Post {
   viewCount Int         @default(0)
   image     String
   groupId   Int?
+  heading   String
+  clerkId   String?
   comments  Comment[]
   likes     Like[]
   author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -82,15 +101,6 @@ model Like {
 
   @@unique([userId, postId])
   @@unique([userId, commentId])
-}
-
-model Share {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  postId    Int
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  post      Post     @relation(fields: [postId], references: [id])
 }
 
 model Comment {
@@ -256,15 +266,22 @@ model ChatroomUsers {
 }
 
 model Message {
-  id              Int      @id @default(autoincrement())
-  text            String?
-  createdAt       DateTime @default(now())
-  userId          Int
-  chatroomId      Int
-  attachment      String?
-  attachmentType  String?
-  Chatroom        Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-  User            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement())
+  text       String
+  createdAt  DateTime @default(now())
+  userId     Int
+  chatroomId Int
+  Chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Share {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  Post      Post     @relation(fields: [postId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {

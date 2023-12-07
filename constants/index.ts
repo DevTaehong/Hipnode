@@ -1,7 +1,9 @@
 import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
+import newest from "@/public/images/newest.png";
+import popular from "@/public/images/popular.png";
+import followers from "@/public/images/followers.png";
 
-import { newest, popular, followers } from "@/public/images";
 import {
   ColorVariantsOnboardingType,
   GroupPromiseProps,

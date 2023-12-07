@@ -279,23 +279,28 @@ export interface NotificationPopoverProps {
 }
 
 export interface ProfileInfoProps {
-  src: string;
-  name: string;
-  title: string;
-  followers: number;
-  points: string;
-  following: { id: string; name: string; src: string; link: string }[];
-  description: string;
-  website?: string;
+  src: string | undefined;
+  name: string | undefined;
+  title?: string | null;
+  followers: number | undefined;
+  points: number | undefined;
+  following?:
+    | {
+        id: number;
+        name: string;
+        src: string;
+      }[]
+    | undefined;
+  description: string | null | undefined;
+  website?: string | null | undefined;
   socials: { name: string; link: string }[];
-  joinedAt: string;
+  joinedAt: string | null | undefined;
 }
 
 export interface ProfileLinkProps {
-  id: string;
+  id: number;
   name: string;
   src: string;
-  link: string;
 }
 
 export interface SocialIconsProps {

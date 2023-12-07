@@ -43,6 +43,8 @@ async function handler(request: Request) {
 
   const eventType: EventType = event.type;
 
+  console.log("Event type:", eventType);
+
   if (eventType === "user.updated") {
     const { id, username, first_name, last_name, image_url, email_addresses } =
       event.data;
