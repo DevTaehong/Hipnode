@@ -99,7 +99,13 @@ const LiveChatAudioPlayer = ({
           </div>
         </figure>
         <figure className="flex-center">
-          <time className="semibold-14 text-white">{time}</time>
+          <time
+            className={`semibold-14 ${
+              isMessageFromCurrentUser ? "text-white" : "text-red-80"
+            } `}
+          >
+            {time}
+          </time>
         </figure>
       </div>
     </div>

@@ -1,11 +1,5 @@
 import { User } from "@prisma/client";
-import {
-  Dispatch,
-  SetStateAction,
-  FormEvent,
-  KeyboardEvent,
-  RefObject,
-} from "react";
+import { Dispatch, SetStateAction, FormEvent, KeyboardEvent } from "react";
 import { Types } from "ably";
 
 export type ChatroomType = {
@@ -101,12 +95,14 @@ export interface CurrentUser {
 }
 
 export interface LiveChatSubmissionProps {
-  event: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>;
+  event:
+    | FormEvent<HTMLFormElement>
+    | KeyboardEvent<HTMLInputElement>
+    | KeyboardEvent<HTMLTextAreaElement>;
   messageText: string;
   droppedFile: File | File[] | null;
   channel: Types.RealtimeChannelPromise;
   chatroomId: number | null;
-  inputBox: RefObject<HTMLFormElement | HTMLInputElement>;
   currentUser: CurrentUser;
 }
 
@@ -135,7 +131,7 @@ export interface ChatroomDetail {
   otherUser: OtherUser;
 }
 
-type HandleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => void;
+type HandleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
 
 export interface ChatPageProps {
   chatrooms: ChatroomDetail[];
@@ -159,6 +155,8 @@ export interface ChatPageContextType {
   setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  isInputDisabled: boolean;
+  setIsInputDisabled: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ChatPageInputContextType {
@@ -170,11 +168,17 @@ export interface ChatPageInputContextType {
   setMessageText: Dispatch<SetStateAction<string>>;
   handleKeyDown: HandleKeyDown;
   handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
-  inputBox: RefObject<HTMLInputElement>;
 }
 
 export interface MessageAttachmentProps {
   message: ChatMessage;
   chatPage?: boolean;
   isMessageFromCurrentUser?: boolean;
+}
+
+export interface UserTyping {
+  isTyping: boolean;
+  userId: number;
+  username: string;
+  chatroomId: number;
 }

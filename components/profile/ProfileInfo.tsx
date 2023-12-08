@@ -7,15 +7,7 @@ import ProfileLink from "./ProfileLink";
 
 import { ProfileInfoProps } from "@/types";
 import SocialIcons from "./SocialIcons";
-
-const TextDescription = ({ children, className, ...props }: any) => (
-  <p
-    className={`text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6 ${className}`}
-    {...props}
-  >
-    {children}
-  </p>
-);
+import TextDescription from "./TextDescription";
 
 const ProfileModal = ({
   src,
@@ -31,12 +23,10 @@ const ProfileModal = ({
 }: ProfileInfoProps) => {
   return (
     <div className="relative flex flex-col items-center rounded-2xl bg-white p-5 dark:bg-dark-3">
-      {/* Orange background image with absolute positioning */}
       <div className="absolute left-0 top-0 h-[6.50rem] w-full rounded-t-2xl bg-profile-modal bg-cover bg-center bg-no-repeat" />
 
-      {/* Profile Image that changes the border color for light/dark mode */}
       <Image
-        src={src}
+        src={src || "/images/emoji_2.png"}
         alt="profile"
         width={130}
         height={130}
@@ -51,7 +41,6 @@ const ProfileModal = ({
         {title}
       </p>
 
-      {/* Made the Follow & Message buttons into their own components since both will use onClick which requires "use client" */}
       <ProfileBtns />
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
@@ -59,25 +48,23 @@ const ProfileModal = ({
       </TextDescription>
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
-        Following {following.length}
+        Following {following?.length}
       </TextDescription>
 
-      {/* Gets all followers then slice all but 6 to run a map on that then returns clickable images of the users profiles */}
       <div className="mt-4 flex flex-wrap justify-center gap-2.5">
-        {following.slice(0, 6).map((profile) => (
-          <ProfileLink
-            key={profile.id}
-            id={profile.id}
-            name={profile.name}
-            src={profile.src}
-            link={profile.link}
-          />
-        ))}
+        {following
+          ?.slice(0, 6)
+          .map((profile) => (
+            <ProfileLink
+              key={profile.id}
+              id={profile.id}
+              name={profile.name}
+              src={profile.src}
+            />
+          ))}
 
-        {/* If user has more than 6 followings then this shows how many more they are following minus 6 that is already showing */}
-        {following.length > 6 && (
+        {following && following.length > 6 && (
           <Link
-            // TODO: Decide on where to take the user when they click on the + button
             href="/"
             className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
           >
@@ -93,7 +80,6 @@ const ProfileModal = ({
       </TextDescription>
 
       <div className="flex flex-wrap justify-center gap-5 md:flex-col">
-        {/* Website Link */}
         {website && (
           <Link
             href={website}
@@ -104,15 +90,11 @@ const ProfileModal = ({
           </Link>
         )}
 
-        {/* Social Icons */}
         <SocialIcons socials={socials} />
       </div>
 
-      {/* div line that seperates socials from when the user joined */}
       <div className="mt-5 h-[1px] w-full bg-light-2 dark:bg-sc-3 md:mt-7" />
 
-      {/* Shows when the account joined hipnode */}
-      {/* TODO: create a function that returns the proper date format */}
       <TextDescription className="mt-5 text-sc-3 dark:text-sc-6 md:mt-7">
         {joinedAt}
       </TextDescription>

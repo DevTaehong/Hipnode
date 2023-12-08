@@ -1,3 +1,5 @@
+import { currentUser } from "@clerk/nextjs";
+
 import ContentCard from "@/components/profile/ContentCard";
 import HostMeetupCard from "@/components/profile/HostMeetupCard";
 import Performance from "@/components/profile/Performance";
@@ -6,22 +8,37 @@ import ProfileInfo from "@/components/profile/ProfileInfo";
 
 import { profileData, performanceData } from "@/constants";
 
-const ProfilePage = () => {
+import { getProfileDataByClerkId } from "@/lib/actions/profile.actions";
+
+import { formatUserJoinedDate } from "@/lib/utils";
+
+const ProfilePage = async () => {
+  const clerkUser = await currentUser();
+
+  const user = await getProfileDataByClerkId(clerkUser?.id);
+
+  const profileFollowings = user?.following.map((following) => ({
+    id: following.id,
+    name: following.username,
+    src: following.picture,
+  }));
+
   return (
     <div className="flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
       <section>
         <ProfileInfo
-          src={profileData.src}
-          name={profileData.name}
-          title={profileData.title}
-          followers={profileData.followers.length}
-          points={profileData.points}
-          following={profileData.following}
-          description={profileData.description}
-          website={profileData.website}
+          src={user?.picture}
+          name={user?.username}
+          title={user?.title}
+          followers={user?.followBy.length}
+          points={user?.points}
+          following={profileFollowings}
+          description={user?.bio}
+          website={user?.website}
+          // TODO: SEED DATA BASE TO TEST SOCIALS
           socials={profileData.socials}
-          joinedAt={profileData.joinedAt}
+          joinedAt={formatUserJoinedDate(user?.createdAt)}
         />
       </section>
 

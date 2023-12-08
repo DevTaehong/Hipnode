@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useChannel } from "ably/react";
 
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import OutlineIcon from "../icons/outline-icons";
 import { ChatPageSearchBar, ChatroomListItem } from ".";
 import { getUserChatrooms } from "@/lib/actions/chatroom.actions";
+import { ChatMessage } from "@/types/chatroom.index";
 
 const ChatPageChatList = () => {
   const {
@@ -14,6 +16,16 @@ const ChatPageChatList = () => {
     setShowChatRoomList,
   } = useChatPageContext();
   const [chatroomsList, setChatroomsList] = useState(chatrooms);
+  const [recentMessage, setRecentMessage] = useState<String | null>(null);
+
+  useChannel("hipnode-livechat", (message: ChatMessage) => {
+    const chatroomExists = chatroomsList.find(
+      (chatroom) => chatroom.id === message.data.chatroomId
+    );
+    if (chatroomExists) {
+      setRecentMessage(message.data.text);
+    }
+  });
 
   useEffect(() => {
     const fetchChatrooms = async () => {
@@ -21,7 +33,7 @@ const ChatPageChatList = () => {
       setChatroomsList(chatrooms);
     };
     fetchChatrooms();
-  }, [messages]);
+  }, [messages, recentMessage]);
 
   return (
     <section className="flex h-fit w-full flex-col bg-light dark:bg-dark-2 md:h-full md:max-w-[27.5rem]">

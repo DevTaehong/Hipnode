@@ -51,15 +51,8 @@ export const loadMessages = async ({
 };
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
-  const {
-    event,
-    messageText,
-    droppedFile,
-    channel,
-    chatroomId,
-    inputBox,
-    currentUser,
-  } = args;
+  const { event, messageText, droppedFile, channel, chatroomId, currentUser } =
+    args;
   event.preventDefault();
 
   const mediaType = droppedFile ? getMediaType(droppedFile) : null;
@@ -68,7 +61,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   const messageContent = messageText.trim();
   if (droppedFile) {
     try {
-      const uploadResult = await uploadLivechatAttachment([droppedFile]);
+      const uploadResult = await uploadLivechatAttachment(droppedFile);
       attachmentURL = uploadResult.publicURL;
     } catch (error) {
       console.error("Error uploading:", error);
@@ -96,7 +89,6 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
           attachment: chatMessage.attachment,
           attachmentType: chatMessage.attachmentType,
         });
-        inputBox.current?.focus();
         return API_RESULT.SUCCESS;
       }
     } catch (error) {
@@ -113,6 +105,8 @@ export const useDropzoneHandler = ({
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 1) {
         const file = acceptedFiles[0];
+        const mediaType = getMediaType(file);
+        if (mediaType === "unknown") return;
         setDroppedFile(file);
       } else if (acceptedFiles.length > 1) {
         setDroppedFile(acceptedFiles);

@@ -9,6 +9,7 @@ import { createMeetUps } from "./seed/seed-meetup/index";
 import { createInterviews } from "./seed/seed-interviews/createInterview";
 import { seedInterviewTags } from "./seed/seed-interviews/createInterviewTag";
 import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
+
 import prisma from "../lib/prisma";
 import { createShares } from "./seed/seed-posts/createPostShares";
 import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
@@ -17,6 +18,7 @@ import { seedTagOnMeetup } from "./seed/seed-meetup/seedTagOnMeetup";
 
 async function main() {
   console.time("Execution Time");
+
   const tags = await createTags();
   const users = await createUsers();
   const groups = await createGroups();
@@ -24,6 +26,7 @@ async function main() {
   await seedInterviewTags();
   await createInterviews(users);
   await seedTagOnInterview();
+  await createPosts(users, tags, groups);
   const posts = await createPosts(users, tags, groups);
 
   const shows = await createShows(users);

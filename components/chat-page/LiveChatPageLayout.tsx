@@ -8,6 +8,7 @@ import { ChatPageChatList, ChatPageLiveChat } from ".";
 const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
   const { presenceData } = usePresence("hipnode-livechat");
   const [showChatRoomList, setShowChatRoomList] = useState(false);
 
@@ -56,6 +57,8 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
         setShowChatRoomList,
         isLoading,
         setIsLoading,
+        isInputDisabled,
+        setIsInputDisabled,
       }}
     >
       <main className="bg-light-2_dark-2 -mt-16 flex h-screen min-h-screen w-screen justify-center pt-16">

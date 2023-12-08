@@ -266,10 +266,13 @@ export const userHasLikedComment = (
   return comments.some((comment) => comment.authorId === currentUserId);
 };
 
-export async function uploadLivechatAttachment(files: File[]) {
+export async function uploadLivechatAttachment(files: File[] | File) {
   const bucket = "livechat"; // Static bucket name
   const folder = "attachments"; // Static folder name
-  const file = files[0]; // Assuming single file upload, adjust as needed
+
+  // Check if files is an array and handle accordingly
+  const file = Array.isArray(files) ? files[0] : files;
+
   const filePath = `${folder}/${Date.now()}_${file.name}`;
 
   const { error, data } = await supabase.storage
@@ -373,4 +376,10 @@ export const getMediaType = (file: File | File[]) => {
     default:
       return "unknown";
   }
+};
+
+export const adjustHeight = (element: HTMLTextAreaElement | null) => {
+  if (element === null) return;
+  element.style.height = "24px";
+  element.style.height = `${Math.min(element.scrollHeight, 72)}px`; // 72px is the max height
 };

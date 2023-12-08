@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FormEvent, KeyboardEvent } from "react";
+import { useState, useEffect, FormEvent, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
 
@@ -8,7 +8,6 @@ import {
   loadMessages,
   useDropzoneHandler,
 } from "../live-chat";
-import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import { ChatBoxHeader, ChatPageMessageList } from ".";
 import HoverScreen from "../live-chat/HoverScreen";
@@ -16,6 +15,7 @@ import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { ChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import ChatPageInput from "./ChatPageInput";
+import useChatStore from "@/app/chatStore";
 
 const ChatPageLiveChat = () => {
   const {
@@ -26,11 +26,11 @@ const ChatPageLiveChat = () => {
     showChatRoomList,
     isLoading,
     setIsLoading,
+    setIsInputDisabled,
   } = useChatPageContext();
 
   const [messageText, setMessageText] = useState("");
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
-  const inputBox = useRef<HTMLInputElement>(null);
   const messageTextIsEmpty = messageText.trim().length === 0;
   const { chatroomUsers, chatroomId, setChatroomUsers, setChatroomId } =
     useChatStore();
@@ -79,7 +79,7 @@ const ChatPageLiveChat = () => {
     }
   }, []);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       handleFormSubmission(event);
     }
@@ -88,10 +88,14 @@ const ChatPageLiveChat = () => {
   const currentUser = userInfo;
 
   const handleFormSubmission = async (
-    event: FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>
+    event:
+      | FormEvent<HTMLFormElement>
+      | KeyboardEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLTextAreaElement>
   ) => {
     event.preventDefault();
     if (messageTextIsEmpty && !droppedFile) return;
+    setIsInputDisabled(true);
     try {
       const result = await liveChatSubmission({
         event,
@@ -99,17 +103,20 @@ const ChatPageLiveChat = () => {
         droppedFile,
         channel,
         chatroomId,
-        inputBox,
         currentUser,
       });
       if (result === API_RESULT.SUCCESS) {
         setMessageText("");
         setDroppedFile(null);
+        setIsInputDisabled(false);
       }
     } catch (error) {
       console.error("An error occurred:", error);
+      setIsInputDisabled(false);
     }
   };
+
+  if (!chatroomId) return null;
 
   return (
     <ChatPageInputContext.Provider
@@ -122,7 +129,6 @@ const ChatPageLiveChat = () => {
         setMessageText,
         handleKeyDown,
         handleFormSubmission,
-        inputBox,
       }}
     >
       <section
@@ -132,7 +138,7 @@ const ChatPageLiveChat = () => {
         {...getRootProps()}
       >
         {isDragActive && <HoverScreen />}
-        <section className="flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-4">
+        <section className="relative flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-4">
           <ChatBoxHeader />
           {isLoading ? (
             <div className="flex-center bg-light_dark-4 h-full w-full">
