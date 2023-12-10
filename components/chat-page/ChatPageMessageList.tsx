@@ -14,7 +14,7 @@ const ChatPageMessageList = () => {
   }, [messages]);
 
   return (
-    <ul className="bg-light_dark-4 relative flex h-full w-full flex-col gap-4 overflow-scroll p-4 md:p-8">
+    <ul className="relative flex h-full w-full flex-col gap-4 overflow-scroll bg-light p-4 dark:bg-dark-2 md:p-8 md:dark:bg-dark-3">
       {messages &&
         messages.map((message: ChatMessage) => (
           <ChatBoxMessage key={message.data.messageId} message={message} />

@@ -48,12 +48,9 @@ const ChatBoxInputContent = ({
   const { isInputDisabled } = useChatPageContext();
 
   return (
-    <section
-      className="bg-light_dark-4 relative flex justify-between border-t border-sc-6
-    px-4 pb-9 pt-4 dark:border-sc-2 md:px-8"
-    >
+    <section className="relative flex justify-between border-t border-sc-6 bg-light px-4 pb-9 pt-4 dark:border-dark-4 dark:bg-dark-2 md:px-8 md:dark:bg-dark-3">
       {isChatroomUserTyping && (
-        <p className=" absolute flex w-full translate-x-[-1rem] translate-y-[-3rem] bg-light-2 p-2 text-sc-3 dark:bg-dark-3 dark:text-light-2 md:translate-x-[-2rem]">
+        <p className=" absolute flex w-full translate-x-[-1rem] translate-y-[-3rem] p-2 text-sc-3  dark:text-light-2 md:translate-x-[-2rem]">
           {userTypingUsername} is typing...
         </p>
       )}

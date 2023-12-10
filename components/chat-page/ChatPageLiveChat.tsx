@@ -138,10 +138,10 @@ const ChatPageLiveChat = () => {
         {...getRootProps()}
       >
         {isDragActive && <HoverScreen />}
-        <section className="relative flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-4">
+        <section className="relative flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-2 md:dark:border-dark-3">
           <ChatBoxHeader />
           {isLoading ? (
-            <div className="flex-center bg-light_dark-4 h-full w-full">
+            <div className="flex-center h-full w-full bg-light dark:bg-dark-2 md:dark:bg-dark-3">
               <LoaderComponent />
             </div>
           ) : (

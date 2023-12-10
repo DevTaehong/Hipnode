@@ -17,10 +17,10 @@ ALTER TABLE "_UserFollows" DROP CONSTRAINT "_UserFollows_A_fkey";
 -- DropForeignKey
 ALTER TABLE "_UserFollows" DROP CONSTRAINT "_UserFollows_B_fkey";
 
--- AlterTable
-ALTER TABLE "Message" DROP COLUMN "attachment",
-DROP COLUMN "attachmentType",
-ALTER COLUMN "text" SET NOT NULL;
+-- -- AlterTable
+-- ALTER TABLE "Message" DROP COLUMN "attachment",
+-- DROP COLUMN "attachmentType",
+-- ALTER COLUMN "text" SET NOT NULL;
 
 -- AlterTable
 ALTER TABLE "User" ADD COLUMN     "facebook" TEXT,

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useChannel } from "ably/react";
 
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import OutlineIcon from "../icons/outline-icons";
 import { ChatPageSearchBar, ChatroomListItem } from ".";
 import { getUserChatrooms } from "@/lib/actions/chatroom.actions";
 import { ChatMessage } from "@/types/chatroom.index";
@@ -41,15 +40,6 @@ const ChatPageChatList = () => {
         <p className="bold-18 text-sc-2_light">Messages</p>
       </div>
       <ChatPageSearchBar />
-      <div className="flex w-full justify-between p-4 md:hidden">
-        <p className="bold-18 text-sc-2_light">Chats</p>
-        <button
-          onClick={() => setShowChatRoomList(!showChatRoomList)}
-          className={showChatRoomList ? "rotate-0" : "rotate-180"}
-        >
-          <OutlineIcon.ArrowLargeDown />
-        </button>
-      </div>
       {showChatRoomList && (
         <ul className="flex w-full flex-col overflow-scroll md:h-screen">
           {chatroomsList.map((chatroom) =>

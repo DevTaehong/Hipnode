@@ -193,7 +193,7 @@ const LiveChat = () => {
         dark:border-sc-2"
       >
         {isChatroomUserTyping && (
-          <p className=" semibold-14 bg-light_dark-4 absolute flex translate-y-[-1.3rem] px-2 text-sc-3">
+          <p className=" semibold-14 absolute flex translate-y-[-1.3rem] px-2 text-sc-3">
             {userTypingUsername} is typing...
           </p>
         )}

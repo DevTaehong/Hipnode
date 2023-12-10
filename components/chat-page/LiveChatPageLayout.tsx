@@ -1,5 +1,5 @@
 import { usePresence } from "ably/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { ChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
@@ -11,7 +11,6 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const { presenceData } = usePresence("hipnode-livechat");
   const [showChatRoomList, setShowChatRoomList] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       setShowChatRoomList(window.innerWidth > 767);
@@ -38,10 +37,13 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     };
   }
 
-  const onlineUsers =
-    presenceData
-      ?.map((presence) => presence.data?.id)
-      .filter((id) => id !== undefined) || [];
+  const onlineUsers = useMemo(() => {
+    return (
+      presenceData
+        ?.map((presence) => presence.data?.id)
+        .filter((id) => id !== undefined) || []
+    );
+  }, [presenceData]);
 
   return (
     <ChatPageContext.Provider
@@ -63,8 +65,8 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     >
       <main className="bg-light-2_dark-2 -mt-16 flex h-screen min-h-screen w-screen justify-center pt-16">
         <section
-          className="flex h-full w-full max-w-[90rem] flex-col border-x border-sc-6 dark:border-dark-4
-md:flex-row"
+          className="flex h-full w-full max-w-[90rem] flex-col border-x border-sc-6 dark:border-dark-2 md:flex-row
+md:dark:border-dark-3"
         >
           <ChatPageChatList />
           <ChatPageLiveChat />
