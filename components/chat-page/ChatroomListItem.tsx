@@ -47,8 +47,8 @@ const ChatroomListItem = ({
   return (
     <li
       className={`flex cursor-pointer flex-col gap-4 border-b border-sc-6 bg-light p-4 hover:bg-light-2 dark:border-dark-4 dark:bg-dark-2
-    hover:dark:bg-dark-4 ${
-      chatroomId === chatroomListId && "bg-light-2 dark:bg-dark-4"
+    hover:dark:bg-dark-3 ${
+      chatroomId === chatroomListId && "bg-light-2 dark:bg-dark-3"
     }`}
       onClick={handleChatroomClick}
     >
