@@ -28,12 +28,11 @@ const ChatPageLiveChat = () => {
     setIsLoading,
     setIsInputDisabled,
   } = useChatPageContext();
+  const { chatroomUsers, chatroomId, setChatroomUsers, setChatroomId } =
+    useChatStore();
 
   const [messageText, setMessageText] = useState("");
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
-  const messageTextIsEmpty = messageText.trim().length === 0;
-  const { chatroomUsers, chatroomId, setChatroomUsers, setChatroomId } =
-    useChatStore();
 
   const { channel } = useChannel("hipnode-livechat", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
@@ -41,6 +40,8 @@ const ChatPageLiveChat = () => {
       setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
     }
   });
+
+  const messageTextIsEmpty = messageText.trim().length === 0;
 
   const onDrop = useDropzoneHandler({
     setDroppedFile,
@@ -50,6 +51,10 @@ const ChatPageLiveChat = () => {
     onDrop,
     noClick: true,
   });
+
+  useEffect(() => {
+    setDroppedFile(null);
+  }, [chatroomId]);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -64,8 +69,9 @@ const ChatPageLiveChat = () => {
           setIsLoading(false);
         }
       } catch (error) {
-        console.error("Failed to load messages:", error);
-        setIsLoading(false);
+        console.error("An error occurred:", error);
+      } finally {
+        setIsInputDisabled(false);
       }
     };
     fetchMessages();
@@ -132,7 +138,7 @@ const ChatPageLiveChat = () => {
       }}
     >
       <section
-        className={`relative flex h-full w-full max-w-[62.5rem] ${
+        className={`relative flex h-full w-full md:max-w-[50%] lg:max-w-[62.5rem] ${
           showChatRoomList && "hidden md:flex"
         }`}
         {...getRootProps()}

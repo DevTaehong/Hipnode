@@ -1,10 +1,12 @@
 "use client";
 
-import React, {
+import {
   useState,
   useRef,
   useEffect,
   ChangeEvent,
+  FormEvent,
+  KeyboardEvent,
   useMemo,
 } from "react";
 import { useDropzone } from "react-dropzone";
@@ -16,28 +18,32 @@ import { ChatMessage, UserTyping } from "@/types/chatroom.index";
 import LiveChatMessageList from "./LiveChatMessageList";
 import HoverScreen from "./HoverScreen";
 import FillIcon from "../icons/fill-icons";
-import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "./AttachmentPreview";
 import {
   loadMessages,
   liveChatSubmission,
   useDropzoneHandler,
   API_RESULT,
+  userTypingChange,
 } from ".";
 import { adjustHeight } from "@/utils";
+import LiveChatInput from "./LiveChatInput";
 
 const LiveChat = () => {
+  const { showChat, chatroomUsers, chatroomId } = useChatStore();
+  const path = usePathname();
+
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<ChatMessage[]>([]);
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
   const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const typingTimeoutRef = useRef<number | null>(null);
-  const [isInputDisabled, setIsInputDisabled] = useState(false);
-  const messageTextIsEmpty = messageText.trim().length === 0;
   const inputBox = useRef<HTMLTextAreaElement>(null);
-  const { showChat, chatroomUsers, chatroomId } = useChatStore();
-  const path = usePathname();
+
+  const messageTextIsEmpty = messageText.trim().length === 0;
 
   const { channel } = useChannel("hipnode-livechat", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
@@ -56,30 +62,14 @@ const LiveChat = () => {
   const userInfo = chatroomUsers[0] ?? null;
 
   const handleTyping = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const newMessageText = e.target.value;
-    setMessageText(newMessageText);
-    adjustHeight(e.target);
-
-    if (channel) {
-      typingChannel.publish("typing-status", {
-        isTyping: true,
-        userId: userInfo.id,
-        username: userInfo.username,
-        chatroomId,
-      });
-    }
-
-    if (typingTimeoutRef.current !== null) {
-      clearTimeout(typingTimeoutRef.current);
-    }
-    typingTimeoutRef.current = window.setTimeout(() => {
-      typingChannel.publish("typing-status", {
-        isTyping: false,
-        userId: userInfo.id,
-        username: userInfo.username,
-        chatroomId,
-      });
-    }, 1000);
+    userTypingChange({
+      e,
+      setMessageText,
+      typingChannel,
+      userInfo,
+      chatroomId,
+      typingTimeoutRef,
+    });
   };
 
   const isChatroomUserTyping = useMemo(() => {
@@ -138,9 +128,9 @@ const LiveChat = () => {
 
   const handleFormSubmission = async (
     event:
-      | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLTextAreaElement>
+      | FormEvent<HTMLFormElement>
+      | KeyboardEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLTextAreaElement>
   ) => {
     event.preventDefault();
     if (messageTextIsEmpty && !droppedFile) return;
@@ -158,10 +148,10 @@ const LiveChat = () => {
       if (result === API_RESULT.SUCCESS) {
         setMessageText("");
         setDroppedFile(null);
-        setIsInputDisabled(false);
       }
     } catch (error) {
       console.error("An error occurred:", error);
+    } finally {
       setIsInputDisabled(false);
     }
   };
@@ -171,7 +161,7 @@ const LiveChat = () => {
   }, [messageText]);
 
   if (!chatroomId) return null;
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       handleFormSubmission(event);
     }
@@ -186,7 +176,10 @@ const LiveChat = () => {
     >
       {isDragActive && <HoverScreen />}
       <input {...getInputProps()} />
-      <LiveChatMessageList messages={receivedMessages} />
+      <LiveChatMessageList
+        messages={receivedMessages}
+        setDroppedFile={setDroppedFile}
+      />
       <form
         onSubmit={handleFormSubmission}
         className="relative flex w-full gap-5 border-t border-sc-6 p-5
@@ -197,29 +190,24 @@ const LiveChat = () => {
             {userTypingUsername} is typing...
           </p>
         )}
-        <div className=" flex w-full flex-col rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
+        <div className=" flex w-full flex-col gap-3 rounded-2xl border border-sc-5 p-3.5 dark:border-sc-2">
           {droppedFile && (
             <AttachmentPreview
               droppedFile={droppedFile}
               setDroppedFile={setDroppedFile}
             />
           )}
-          <div className="flex gap-1">
-            <button className="flex-center" type="button" onClick={open}>
-              <OutlineIcon.Link />
-            </button>
-            <textarea
-              ref={inputBox}
-              value={messageText}
-              placeholder="Type here your message..."
-              onChange={(e) => {
-                handleTyping(e);
-              }}
-              onKeyDown={handleKeyDown}
-              disabled={isInputDisabled}
-              className="bg-light_dark-4 z-10 h-6 w-full resize-none text-sc-4 outline-none"
-            />
-          </div>
+          <LiveChatInput
+            open={open}
+            inputBox={inputBox}
+            messageText={messageText}
+            handleTyping={handleTyping}
+            handleKeyDown={handleKeyDown}
+            isInputDisabled={isInputDisabled}
+            showEmojiPicker={showEmojiPicker}
+            setShowEmojiPicker={setShowEmojiPicker}
+            setMessageText={setMessageText}
+          />
         </div>
         <button
           type="submit"

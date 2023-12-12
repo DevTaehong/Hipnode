@@ -4,18 +4,36 @@ import Image from "next/image";
 import { playButton, pauseButton } from "@/public/assets";
 import { formatTime } from "@/utils";
 import { LiveChatAudioPlayerProps } from "@/types/chatroom.index";
+import usePodcastStore from "@/app/podcastStore";
+import useMediaPlayerStore from "@/app/mediaPlayerStore";
+import LiveChatAudioPlayerAnimation from "./LiveChatAudioPlayerAnimation";
+import AudioPlayerLoader from "./AudioPlayerLoader";
 
 const LiveChatAudioPlayer = ({
-  songUrl,
+  audioUrl,
+  messageId = undefined,
   isMessageFromCurrentUser = false,
 }: LiveChatAudioPlayerProps) => {
+  const { togglePlay, isPlaying: podcastIsPlaying } = usePodcastStore();
+  const {
+    audioMessageId,
+    setAudioMessageId,
+    setIsAudioPlaying,
+    isAudioPlaying,
+    isVideoPlaying,
+    setIsVideoPlaying,
+  } = useMediaPlayerStore();
+
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [displayTime, setDisplayTime] = useState(0);
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const time = formatTime(displayTime);
 
   useEffect(() => {
-    audioRef.current = new Audio(songUrl);
+    audioRef.current = new Audio(audioUrl);
 
     return () => {
       if (audioRef.current) {
@@ -23,7 +41,21 @@ const LiveChatAudioPlayer = ({
         audioRef.current = null;
       }
     };
-  }, [songUrl]);
+  }, [audioUrl]);
+
+  useEffect(() => {
+    if ((podcastIsPlaying || isVideoPlaying) && audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [podcastIsPlaying, isAudioPlaying, isVideoPlaying]);
+
+  useEffect(() => {
+    if (audioMessageId !== messageId) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [audioMessageId]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -31,10 +63,21 @@ const LiveChatAudioPlayer = ({
       const handleMetadataLoaded = () => setDisplayTime(audioElement.duration);
       const handleTimeUpdate = () => setDisplayTime(audioElement.currentTime);
       const handleAudioEnd = () => setIsPlaying(false);
+      const handleLoadStart = () => setIsLoading(true);
+      const handleCanPlay = () => setIsLoading(false);
+      const handleCanPlayThrough = () => setIsLoading(false);
+      const handleWaiting = () => setIsLoading(true);
 
       audioElement.addEventListener("loadedmetadata", handleMetadataLoaded);
       audioElement.addEventListener("timeupdate", handleTimeUpdate);
-      audioElement.addEventListener("ended", () => setIsPlaying(false));
+      audioElement.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+        setIsPlaying(false);
+      });
+      audioElement.addEventListener("loadstart", handleLoadStart);
+      audioElement.addEventListener("canplay", handleCanPlay);
+      audioElement.addEventListener("canplaythrough", handleCanPlayThrough);
+      audioElement.addEventListener("waiting", handleWaiting);
 
       return () => {
         audioElement.removeEventListener(
@@ -43,59 +86,77 @@ const LiveChatAudioPlayer = ({
         );
         audioElement.removeEventListener("timeupdate", handleTimeUpdate);
         audioElement.removeEventListener("ended", handleAudioEnd);
+        audioElement.removeEventListener("loadstart", handleLoadStart);
+        audioElement.removeEventListener("canplay", handleCanPlay);
+        audioElement.removeEventListener(
+          "canplaythrough",
+          handleCanPlayThrough
+        );
+        audioElement.removeEventListener("waiting", handleWaiting);
       };
     }
-  }, [audioRef, songUrl]);
+  }, [audioRef, audioUrl]);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = async () => {
+    if (podcastIsPlaying) {
+      togglePlay();
+    }
+    setAudioMessageId(messageId);
+
     if (audioRef.current) {
-      const audioElement = audioRef.current;
-      if (isPlaying) {
-        audioElement.pause();
-        setIsPlaying(false);
-      } else {
-        audioElement.play();
-        setIsPlaying(true);
+      try {
+        if (isPlaying) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+          setIsAudioPlaying(false);
+        } else {
+          await audioRef.current.play();
+          setIsPlaying(true);
+          setIsAudioPlaying(true);
+          setIsVideoPlaying(false);
+        }
+      } catch (error) {
+        console.error("Error trying to play the audio:", error);
       }
     }
   };
 
+  const currentTrackIsPlaying = audioMessageId === messageId && isPlaying;
+
   return (
     <div
-      className={`flex-center mb-3 h-[3.125rem] w-[12rem] rounded-lg  ${
+      className={`flex-center h-[3.125rem] w-[12rem] rounded-lg  ${
         isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"
       } px-3 py-2.5`}
     >
       <div className="flex w-full justify-between gap-5">
-        <button
-          type="button"
-          onClick={togglePlayPause}
-          className="cursor-pointer rounded-full"
-        >
-          <Image
-            src={isPlaying ? pauseButton : playButton}
-            alt={isPlaying ? "Pause" : "Play"}
-            height={30}
-            width={30}
-            className="rounded-full"
-          />
-        </button>
+        {isLoading ? (
+          <AudioPlayerLoader />
+        ) : (
+          <button
+            type="button"
+            onClick={togglePlayPause}
+            className="cursor-pointer rounded-full"
+          >
+            <Image
+              src={isPlaying ? pauseButton : playButton}
+              alt={currentTrackIsPlaying ? "Pause" : "Play"}
+              height={30}
+              width={30}
+              className="rounded-full"
+            />
+          </button>
+        )}
         <figure className="flex-center">
           <div
             className={`${
               isPlaying && "liveChatAudioAnimation"
             } flex-center max-h-[0.75rem] gap-[0.25rem]`}
           >
-            {Array.from({ length: 10 }, (_, index) => (
-              <span
-                key={index}
-                className={`${
-                  isPlaying ? "liveChatAudioAnimation" : "h-3"
-                }  w-0.5 max-w-[2px] rounded-[1px]  ${
-                  isMessageFromCurrentUser ? "bg-white" : "bg-red-80"
-                }`}
-              />
-            ))}
+            <LiveChatAudioPlayerAnimation
+              isPlaying={isPlaying}
+              isMessageFromCurrentUser={isMessageFromCurrentUser}
+            />
           </div>
         </figure>
         <figure className="flex-center">

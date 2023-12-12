@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
@@ -5,12 +6,12 @@ import { CiFolderOn } from "react-icons/ci";
 
 import FillIcon from "../icons/fill-icons";
 import LiveChatAudioPlayer from "./LiveChatAudioPlayer";
+import LiveChatVideoPlayer from "./LiveChatVideoPlayer";
 import {
   AttachmentPreviewProps,
   RenderPreviewProps,
 } from "@/types/chatroom.index";
 import { getMediaType } from "@/utils";
-import { useMemo } from "react";
 
 const RenderPreview = ({
   mediaType,
@@ -30,36 +31,38 @@ const RenderPreview = ({
           src={attachmentPreview}
           height={attachmentHeight}
           width={attachmentWidth}
-          className={`mb-3 w-full object-contain ${dimensionsRem}`}
+          className={`w-full object-contain ${dimensionsRem}`}
           alt="Image preview"
         />
       );
     case "video":
       return (
-        <video
-          src={attachmentPreview}
+        <LiveChatVideoPlayer
+          videoUrl={attachmentPreview}
           height={attachmentHeight}
           width={attachmentWidth}
-          className={`mb-3 w-full ${dimensionsRem}`}
-          controls
+          additionalClasses={dimensionsRem}
         />
       );
     case "audio":
       return (
-        <LiveChatAudioPlayer songUrl={attachmentPreview} currentUserMessage />
+        <LiveChatAudioPlayer
+          audioUrl={attachmentPreview}
+          isMessageFromCurrentUser
+        />
       );
     case "document":
       return (
         <Link
           href={attachmentPreview}
-          className="flex-center mb-3 h-40 w-40 rounded-xl bg-red-80"
+          className="flex-center h-40 w-40 rounded-xl bg-red-80"
         >
           <FillIcon.Post className="h-10 w-10 fill-white" />
         </Link>
       );
     case "folder":
       return (
-        <div className="flex-center mb-3 h-40 w-40 rounded-xl bg-red-60">
+        <div className="flex-center h-40 w-40 rounded-xl bg-red-60">
           <CiFolderOn className="text-[50px] text-white" />
         </div>
       );

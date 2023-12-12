@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import {
   PopoverClose,
@@ -13,16 +13,13 @@ import { Button } from "./ui/button";
 import { ShareButtonsProps } from "@/types/podcast.index";
 
 const ShareButtons = ({ title, shareIcons }: ShareButtonsProps) => {
-  const mountedRef = useRef(false);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
   }, []);
-
-  const currentUrl = window.location.href;
 
   return (
     <Popover>

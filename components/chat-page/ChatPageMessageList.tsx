@@ -6,11 +6,15 @@ import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 
 const ChatPageMessageList = () => {
   const { messages } = useChatPageContext();
+
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (endOfMessagesRef.current) {
-      endOfMessagesRef.current.scrollIntoView();
-    }
+    setTimeout(() => {
+      if (endOfMessagesRef.current) {
+        endOfMessagesRef.current.scrollIntoView();
+      }
+    }, 50);
   }, [messages]);
 
   return (

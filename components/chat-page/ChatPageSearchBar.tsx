@@ -11,6 +11,7 @@ const ChatPageSearchBar = () => {
   const { setChatroomUsers, createNewChatroom } = useChatStore();
   const { userInfo, setIsLoading, setMessages, setShowChatRoomList } =
     useChatPageContext();
+
   const [searchText, setSearchText] = useState("");
   const [allUsers, setAllUsers] = useState<User[]>([]);
 

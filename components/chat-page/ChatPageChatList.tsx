@@ -14,6 +14,7 @@ const ChatPageChatList = () => {
     showChatRoomList,
     setShowChatRoomList,
   } = useChatPageContext();
+
   const [chatroomsList, setChatroomsList] = useState(chatrooms);
   const [recentMessage, setRecentMessage] = useState<String | null>(null);
 

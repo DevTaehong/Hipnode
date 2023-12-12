@@ -4,6 +4,7 @@ import Image from "next/image";
 import FillIcon from "../icons/fill-icons";
 import LiveChatAudioPlayer from "./LiveChatAudioPlayer";
 import { MessageAttachmentProps } from "@/types/chatroom.index";
+import LiveChatVideoPlayer from "./LiveChatVideoPlayer";
 
 const MessageAttachment = ({
   message,
@@ -14,7 +15,12 @@ const MessageAttachment = ({
     return null;
   }
 
-  const { attachmentType, attachment } = message.data;
+  const {
+    data: { attachmentType, attachment, messageId },
+  } = message;
+
+  // An instantly send message will not have a messageId
+  const attachmentMessageId = messageId ?? message.id;
 
   const imageAndVideoHeight = chatPage ? 600 : 250;
   const imageAndVideoWidth = chatPage ? 600 : 300;
@@ -26,7 +32,7 @@ const MessageAttachment = ({
           href={attachment}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-fit cursor-pointer flex-col justify-center overflow-hidden"
+          className="flex w-fit min-w-[16rem] cursor-pointer flex-col justify-center overflow-hidden sm:min-w-[20rem]"
         >
           <Image
             src={attachment}
@@ -44,23 +50,24 @@ const MessageAttachment = ({
 
     case "video":
       return (
-        <video
-          src={attachment}
+        <LiveChatVideoPlayer
+          videoUrl={attachment}
           height={imageAndVideoHeight}
           width={imageAndVideoWidth}
-          className={`${
+          additionalClasses={`${
             chatPage
               ? "max-h-[37.5rem] max-w-[37.5rem]"
               : "max-h-[15rem] max-w-[15rem]"
           }h-full w-full rounded-lg`}
-          controls
+          messageId={attachmentMessageId}
         />
       );
 
     case "audio":
       return (
         <LiveChatAudioPlayer
-          songUrl={attachment}
+          messageId={attachmentMessageId}
+          audioUrl={attachment}
           isMessageFromCurrentUser={isMessageFromCurrentUser}
         />
       );
@@ -69,7 +76,7 @@ const MessageAttachment = ({
       return (
         <Link
           href={attachment}
-          className={`flex-center mb-3  rounded-xl ${
+          className={`flex-center rounded-xl ${
             chatPage ? "h-60 w-60" : "h-40 w-40"
           } ${isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"}`}
         >

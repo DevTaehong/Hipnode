@@ -15,56 +15,32 @@ import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import { adjustHeight } from "@/utils";
 import { UserTyping } from "@/types/chatroom.index";
 import ChatBoxInputContent from "./ChatBoxInputContent";
-
-type EmojiData = {
-  native: string;
-};
+import { userTypingChange } from "../live-chat";
 
 const ChatPageInput = () => {
   const { chatroomId } = useChatStore();
   const { messageText, setMessageText, handleFormSubmission } =
     useChatPageInputContext();
-  const { isInputDisabled, userInfo } = useChatPageContext();
+  const { isInputDisabled, userInfo, isLoading } = useChatPageContext();
 
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
   const typingTimeoutRef = useRef<number | null>(null);
   const inputBox = useRef<HTMLTextAreaElement>(null);
-  const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
 
-  const handleEmojiSelect = (emoji: EmojiData) => {
-    const emojiCharacter = emoji.native;
-    const currentValue = messageText;
-    const updatedValue = currentValue + emojiCharacter;
-    setMessageText(updatedValue);
-  };
-
-  const { channel } = useChannel("hipnode-livechat-typing-status");
+  const { channel: typingChannel } = useChannel(
+    "hipnode-livechat-typing-status"
+  );
 
   const handleTyping = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const newMessageText = e.target.value;
-    setMessageText(newMessageText);
-    adjustHeight(e.target);
-
-    if (channel) {
-      channel.publish("typing-status", {
-        isTyping: true,
-        userId: userInfo.id,
-        username: userInfo.username,
-        chatroomId,
-      });
-    }
-
-    if (typingTimeoutRef.current !== null) {
-      clearTimeout(typingTimeoutRef.current);
-    }
-    typingTimeoutRef.current = window.setTimeout(() => {
-      channel.publish("typing-status", {
-        isTyping: false,
-        userId: userInfo.id,
-        username: userInfo.username,
-        chatroomId,
-      });
-    }, 1000);
+    userTypingChange({
+      e,
+      setMessageText,
+      typingChannel,
+      userInfo,
+      chatroomId,
+      typingTimeoutRef,
+    });
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -97,7 +73,7 @@ const ChatPageInput = () => {
     setUserTyping(message.data);
   });
 
-  if (!chatroomId) return null;
+  if (!chatroomId || isLoading) return null;
 
   return (
     <ChatBoxInputContent
@@ -109,7 +85,6 @@ const ChatPageInput = () => {
       setShowEmojiPicker={setShowEmojiPicker}
       showEmojiPicker={showEmojiPicker}
       data={data}
-      handleEmojiSelect={handleEmojiSelect}
     />
   );
 };

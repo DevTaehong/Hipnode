@@ -65,9 +65,11 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
           usersShowsIds={usersShowsIds}
         />
 
-        <section className="flex w-full flex-col gap-5 lg:w-fit">
-          <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
-          <Meetups meetUps={meetups} />
+        <section className="flex w-full lg:max-w-[20.3125rem]">
+          <div className="flex w-full flex-col gap-5 overflow-scroll">
+            <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
+            <Meetups meetUps={meetups} />
+          </div>
         </section>
       </div>
     </main>
