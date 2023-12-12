@@ -21,13 +21,6 @@ export interface PodcastUserInfo extends Podcast {
   };
 }
 
-export interface PodcastPageFilterProps {
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  listedPodcasts: PodcastUserInfo[] | undefined;
-  userShowsIds: number[];
-}
-
 type UserInfo = {
   name: string;
   location: string | null;
@@ -178,8 +171,21 @@ export interface ShareButtonsProps {
   shareIcons: ShareIconConfig[];
 }
 
+interface PodcastDataProps {
+  podcasts: PodcastUserInfo[];
+  hasMore: boolean;
+  page: number;
+}
+
+export interface PodcastPageFilterProps {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  podcastData: PodcastDataProps;
+  userShowsIds: number[];
+}
+
 export interface PodcastFilterAndContentWrapperProps {
   listOfShows: FilterType[];
-  listedPodcasts: PodcastUserInfo[] | undefined;
+  podcastData: PodcastDataProps;
   usersShowsIds: number[];
 }

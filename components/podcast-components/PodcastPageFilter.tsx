@@ -15,16 +15,17 @@ import LoaderComponent from "../onboarding-components/LoaderComponent";
 const PodcastPageFilter = ({
   loading,
   setLoading,
-  listedPodcasts,
+  podcastData,
   userShowsIds,
 }: PodcastPageFilterProps) => {
   const queryString = useSearchParams().toString();
   const showsArray =
     queryString === "" ? userShowsIds : extractArray(queryString, "show");
-  const [podcasts, setPodcasts] = useState(listedPodcasts);
-  const [podcastAmount, setPodcastAmount] = useState(20);
+
+  const [podcasts, setPodcasts] = useState(podcastData?.podcasts);
+  const [currentPage, setCurrentPage] = useState<number>(podcastData?.page);
   const [loadMore, setLoadMore] = useState(false);
-  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [hasMorePodcasts, setHasMorePodcasts] = useState(podcastData?.hasMore);
   const [ref, inView] = useInView();
 
   const oddPodcasts = podcasts?.filter((_, index) => index % 2 !== 0);
@@ -42,26 +43,32 @@ const PodcastPageFilter = ({
   ];
 
   useEffect(() => {
+    if (queryString === "") {
+      setHasMorePodcasts(true);
+      setCurrentPage(1);
+    }
+  }, [queryString]);
+
+  useEffect(() => {
     const fetchMorePodcasts = async () => {
       if (inView || loadMore) {
-        const morePodcasts = await getFilterPodcastsUserInfo({
-          show: showsArray,
-          skipCount: podcastAmount,
-        });
-        if (morePodcasts.length === 0) {
-          setHasMoreItems(false);
-        } else {
-          setPodcasts((prevPodcasts) => [
-            ...(prevPodcasts ?? []),
-            ...morePodcasts,
-          ]);
-          setPodcastAmount((prevValue) => prevValue + 20);
-          if (loadMore) {
-            setLoadMore(false);
+        try {
+          const morePodcasts = await getFilterPodcastsUserInfo({
+            show: showsArray,
+            page: currentPage,
+          });
+          if (morePodcasts.podcasts.length) {
+            setPodcasts((prevPodcasts) => [
+              ...(prevPodcasts ?? []),
+              ...morePodcasts.podcasts,
+            ]);
+            setCurrentPage((prevPage) => prevPage + 1);
           }
-          if ((podcasts ?? []).length + morePodcasts.length < 20) {
-            setHasMoreItems(false);
-          }
+          setHasMorePodcasts(morePodcasts.hasMore);
+          setLoadMore(false);
+        } catch (error) {
+          console.error("Error fetching more podcasts:", error);
+          setLoadMore(false);
         }
       }
     };
@@ -69,11 +76,10 @@ const PodcastPageFilter = ({
   }, [inView, loadMore]);
 
   useEffect(() => {
-    setPodcasts(listedPodcasts);
-    setPodcastAmount(20);
-    setHasMoreItems(true);
+    setPodcasts(podcastData?.podcasts);
+    setCurrentPage(1);
     setLoading(false);
-  }, [listedPodcasts, queryString]);
+  }, [podcastData, queryString]);
 
   if (loading) {
     return (
@@ -87,9 +93,14 @@ const PodcastPageFilter = ({
       <BoxShading />
       <section className="no-scrollbar flex w-full flex-col lg:overflow-scroll lg:pb-10">
         <div className="flex flex-col gap-5 xl:flex-row">
-          {displayedPodcasts.map((podcasts) => (
-            <PodcastListColumn key={podcasts.listNumber} podcasts={podcasts} />
-          ))}
+          {podcasts && podcasts.length === 0 && <p>No podcasts available.</p>}
+          {podcasts &&
+            displayedPodcasts.map((podcasts) => (
+              <PodcastListColumn
+                key={podcasts.listNumber}
+                podcasts={podcasts}
+              />
+            ))}
         </div>
         <SeeMoreButton
           array={podcasts}
@@ -99,7 +110,7 @@ const PodcastPageFilter = ({
         <p
           ref={ref}
           className={`${
-            !hasMoreItems && "hidden lg:hidden"
+            !hasMorePodcasts && "hidden lg:hidden"
           } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
         >
           Loading...

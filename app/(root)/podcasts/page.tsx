@@ -38,11 +38,11 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   const usersShowsIds = listOfShows.length
     ? listOfShows.map((show) => show.id)
     : topFiveShows;
-  let listedPodcasts;
+  let podcastData;
   let showStrings;
 
   if (!searchParams || Object.keys(searchParams).length === 0) {
-    listedPodcasts = await getFilterPodcastsUserInfo({
+    podcastData = await getFilterPodcastsUserInfo({
       show: usersShowsIds,
     });
   } else if (searchParams.show) {
@@ -51,7 +51,7 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
       showStrings = [showStrings];
     }
     const filteredShowIds = showStrings.map(Number);
-    listedPodcasts = await getFilterPodcastsUserInfo({
+    podcastData = await getFilterPodcastsUserInfo({
       show: filteredShowIds,
     });
   }
@@ -59,11 +59,13 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   return (
     <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[5.875rem]">
       <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
-        <PodcastFilterAndContentWrapper
-          listOfShows={listOfShows}
-          listedPodcasts={listedPodcasts}
-          usersShowsIds={usersShowsIds}
-        />
+        {podcastData && (
+          <PodcastFilterAndContentWrapper
+            listOfShows={listOfShows}
+            podcastData={podcastData}
+            usersShowsIds={usersShowsIds}
+          />
+        )}
 
         <section className="flex w-full lg:max-w-[20.3125rem]">
           <div className="flex w-full flex-col gap-5 overflow-scroll">

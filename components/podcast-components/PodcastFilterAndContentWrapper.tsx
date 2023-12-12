@@ -9,7 +9,7 @@ import { PodcastFilterAndContentWrapperProps } from "@/types/podcast.index";
 
 const PodcastFilterAndContentWrapper = ({
   listOfShows,
-  listedPodcasts,
+  podcastData,
   usersShowsIds,
 }: PodcastFilterAndContentWrapperProps) => {
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ const PodcastFilterAndContentWrapper = ({
         <PodcastPageFilter
           loading={loading}
           setLoading={setLoading}
-          listedPodcasts={listedPodcasts}
+          podcastData={podcastData}
           userShowsIds={usersShowsIds}
         />
       </section>

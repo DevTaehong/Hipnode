@@ -58,7 +58,15 @@ const MeetupPageFilter = ({
   }, [inView, loadMore]);
 
   useEffect(() => {
+    if (queryString === "") {
+      setHasMoreMeetups(true);
+      setCurrentPage(1);
+    }
+  }, [queryString]);
+
+  useEffect(() => {
     setMeetupsList(meetupsData.meetups);
+    setCurrentPage(1);
     setIsLoading(false);
   }, [meetupsData]);
 
