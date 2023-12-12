@@ -13,10 +13,12 @@ const MeetupItem = ({
     <article className="flex flex-row bg-light pb-[1.25rem] dark:bg-dark-3">
       <MeetupDate createdAt={createdAt} />
       <div className="flex flex-col justify-between pl-[0.875rem]">
-        <div className="flex flex-col gap-0.5">
-          <h3 className="semibold-14 truncate capitalize text-sc-2 dark:text-light-2">
-            {title}
-          </h3>
+        <div className="flex flex-col gap-0.5 ">
+          <div className="overflow-hidden">
+            <h3 className="semibold-14 truncate capitalize text-sc-2 dark:text-light-2">
+              {title}...
+            </h3>
+          </div>
           <div className="flex gap-[0.375rem]">
             <ImageWithCaption
               imageSrc={image}

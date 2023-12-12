@@ -1,5 +1,4 @@
 import { colorVariants } from "@/constants";
-import { cn } from "@/lib/utils";
 import { getIconConfig } from "@/utils";
 
 type TagsProps = {
