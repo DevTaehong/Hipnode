@@ -28,31 +28,33 @@ const Home = async () => {
   const tagsData = await getPopularTags();
 
   return (
-    <main className="mx-auto flex h-full w-full max-w-[85rem] flex-col gap-5 bg-light-2 px-5 pt-5 dark:bg-dark-2  lg:flex-row">
-      <div className="flex h-fit flex-col gap-5  lg:sticky lg:top-[4rem]">
-        <Sidebar />
-        <div className="w-full lg:hidden">
-          <CreatePostInput userImage={userImage} />
+    <section className="flex h-full w-full bg-light-2 px-5 dark:bg-dark-2">
+      <div className="mx-auto flex max-w-[85rem] flex-col gap-5 pt-5 lg:flex-row">
+        <div className="flex h-fit flex-col gap-5  lg:sticky lg:top-[4rem]">
+          <Sidebar />
+          <div className="w-full lg:hidden">
+            <CreatePostInput userImage={userImage} />
+          </div>
+          <div className="hidden w-full lg:block">
+            <PopularTags tagsData={tagsData} />
+          </div>
         </div>
-        <div className="hidden w-full lg:block">
-          <PopularTags tagsData={tagsData} />
-        </div>
-      </div>
 
-      <div className="flex  h-full flex-col gap-5">
-        <div className="hidden lg:block">
-          <CreatePostInput userImage={userImage} />
+        <div className="flex  h-full flex-col gap-5">
+          <div className="hidden lg:block">
+            <CreatePostInput userImage={userImage} />
+          </div>
+          <div className="flex h-full overflow-scroll">
+            <PostCardList posts={posts} userId={userId} />
+          </div>
         </div>
-        <div className="flex h-full overflow-scroll">
-          <PostCardList posts={posts} userId={userId} />
-        </div>
-      </div>
 
-      <div className="flex w-full flex-col gap-5 sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:w-[20.3125rem] lg:flex-col ">
-        <Meetups meetUps={meetups} />
-        <Podcasts podcasts={podcasts} />
+        <div className="flex w-full flex-col gap-5 sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:w-[20.3125rem] lg:flex-col">
+          <Meetups meetUps={meetups} />
+          <Podcasts podcasts={podcasts} />
+        </div>
       </div>
-    </main>
+    </section>
   );
 };
 

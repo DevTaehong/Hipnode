@@ -18,6 +18,7 @@ import {
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
 import { groupCommentsByParentId } from "@/utils";
+import { count } from "console";
 
 export async function handleTags(tagNames: string[]) {
   const existingTags = await prisma.tag.findMany({
@@ -229,12 +230,24 @@ export async function getPostContentById(
   }
 }
 
+export async function countAllPosts(): Promise<number> {
+  try {
+    const postsCount = await prisma.post.count();
+    return postsCount;
+  } catch (error) {
+    console.error("Error counting posts:", error);
+    throw error;
+  }
+}
+
 export async function getAllPosts({
   numberToSkip = 0,
 }: {
   numberToSkip?: number;
 }): Promise<ExtendedPrismaPost[]> {
   try {
+    const numberOfAvailablePosts = await countAllPosts();
+
     const posts = await prisma.post.findMany({
       skip: numberToSkip,
       take: 10,
@@ -277,6 +290,7 @@ export async function getAllPosts({
 
     return posts.map((post) => ({
       ...post,
+      numberOfAvailablePosts,
       likesCount: post.likes.length,
       likes: post.likes,
       commentsCount: post.comments.length,
