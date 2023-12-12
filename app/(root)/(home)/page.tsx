@@ -31,7 +31,7 @@ const Home = async () => {
   const groups = await getGroups();
 
   return (
-    <section className="sticky top-[5.25rem] -mt-16 flex h-full min-h-screen w-screen justify-center bg-blue-400 p-5 lg:top-0 lg:h-screen lg:max-h-screen lg:pb-[2.3rem] lg:pt-[5.875rem]">
+    <section className="bg-light-2_dark-2 sticky top-[5.25rem] -mt-16 flex h-fit min-h-screen w-screen justify-center overflow-hidden px-5 py-20 lg:top-0 lg:h-screen lg:max-h-screen lg:py-5  lg:pb-[2.3rem] lg:pt-[5.875rem]">
       <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
         <div className="flex lg:w-[13.125rem]">
           <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
@@ -39,8 +39,9 @@ const Home = async () => {
             <div className="flex lg:hidden">
               <CreatePostInput userImage={userImage} />
             </div>
-
-            <PopularTags tagsData={tagsData} />
+            <div className="hidden lg:flex">
+              <PopularTags tagsData={tagsData} />
+            </div>
 
             <div className="hidden lg:flex">
               <PinnedGroup groups={groups} />
@@ -49,14 +50,16 @@ const Home = async () => {
         </div>
 
         <div className="flex max-h-full flex-col gap-5">
-          <div className="hidden lg:flex">
+          <div className="hidden w-full lg:flex">
             <CreatePostInput userImage={userImage} />
           </div>
-          <PostCardList posts={posts} userId={userId} />
+          <div className="flex w-full overflow-hidden">
+            <PostCardList posts={posts} userId={userId} />
+          </div>
         </div>
 
-        <div className="flex lg:max-h-screen lg:w-[20.3125rem]">
-          <div className="flex flex-col gap-5 overflow-y-auto lg:max-h-screen">
+        <div className="flex w-full lg:max-h-screen lg:w-[20.3125rem]">
+          <div className="flex w-full flex-col gap-5 overflow-y-auto sm:flex-row lg:max-h-screen lg:flex-col">
             <Meetups meetUps={meetups} />
             <Podcasts podcasts={podcasts} />
           </div>

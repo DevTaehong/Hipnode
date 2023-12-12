@@ -7,7 +7,7 @@ import { PodcastItemProps } from "@/types/homepage";
 const PodcastItem = ({
   podcast: { image, title, user, id },
 }: PodcastItemProps) => (
-  <article className="flex w-full justify-between  bg-light pt-[1.25rem] dark:bg-dark-3">
+  <article className="flex w-full justify-between  bg-light dark:bg-dark-3">
     <div className="flex ">
       <ImageWithCaption
         imageSrc={image}

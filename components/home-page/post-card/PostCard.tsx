@@ -50,21 +50,26 @@ const PostCard = ({
 
   return (
     <Link href={`/posts/post/${id}`}>
-      <div className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
+      <div className="flex h-full rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
         <PostImage postImage={image} />
-        <div className="ml-[0.875rem] flex grow flex-col justify-between">
-          <div className="flex justify-between">
-            <PostText postContent={htmlString} />
-            <div className="flex flex-row">
-              <div className="flex md:hidden">
-                <SocialMediaIcon
-                  authorPicture={picture ?? "/public/emoji.png"}
+        <div className="ml-[0.875rem] flex h-full grow flex-col justify-between">
+          <div className="flex h-full flex-col gap-2.5">
+            <div className="flex">
+              <PostText postContent={htmlString} />
+              <div className="flex flex-row">
+                <div className="flex md:hidden">
+                  <SocialMediaIcon
+                    authorPicture={picture ?? "/public/emoji.png"}
+                  />
+                </div>
+                <FillIcon.Heart
+                  className={`hidden md:flex ${heartIconClass}`}
                 />
               </div>
-              <FillIcon.Heart className={`hidden md:flex ${heartIconClass}`} />
             </div>
+            <PostLabels tags={tags} />
           </div>
-          <PostLabels tags={tags} />
+
           <section className="hidden items-center justify-between md:flex">
             <div className="flex items-center">
               <SocialMediaIcon authorPicture={picture ?? "/public/emoji.png"} />
@@ -77,11 +82,11 @@ const PostCard = ({
                 </p>
               </div>
             </div>
-            <div>
+            <div className="hidden w-[20rem] xl:flex">
               <SocialStatistics socialCounts={socialCounts} />
             </div>
           </section>
-          <div className="flex">
+          <div className="flex xl:hidden">
             <SocialStatistics socialCounts={socialCounts} />
           </div>
         </div>

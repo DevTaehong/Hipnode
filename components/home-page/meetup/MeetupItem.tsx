@@ -10,7 +10,7 @@ const MeetupItem = ({
   meet: { id, createdAt, title, image, location },
 }: MeetupItemProps) => (
   <Link key={id} href={`/meet-ups/${id}`}>
-    <article className="flex flex-row bg-light pb-[1.25rem] dark:bg-dark-3">
+    <article className="flex flex-row bg-light dark:bg-dark-3">
       <MeetupDate createdAt={createdAt} />
       <div className="flex flex-col justify-between pl-[0.875rem]">
         <div className="flex flex-col gap-0.5 ">

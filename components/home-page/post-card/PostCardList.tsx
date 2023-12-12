@@ -48,7 +48,7 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
     postData.length >= postData[postData.length - 1]?.numberOfAvailablePosts;
 
   return (
-    <main className="flex h-full max-h-screen flex-col gap-[1.25rem] overflow-y-auto">
+    <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
         <PostCard post={post} userId={userId} key={post.id} />
       ))}
