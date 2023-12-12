@@ -210,13 +210,6 @@ export type PostDataType = {
   clerkId: string;
 };
 
-export type CardFooterDesktopProps = {
-  authorPicture: string;
-  username: string;
-  createdAt: Date;
-  socialCounts: SocialCountTuple[];
-};
-
 export type LeftActionBarProps = {
   actionBarData: {
     likesCount: number;

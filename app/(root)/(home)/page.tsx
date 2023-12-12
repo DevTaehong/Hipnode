@@ -11,6 +11,8 @@ import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { getAllPosts, getPopularTags } from "@/lib/actions/post.action";
 import PopularTags from "@/components/home-page/tags/PopularTags";
+import PinnedGroup from "@/components/home-page/pinned-group/PinnedGroup";
+import { getGroups } from "@/lib/actions/group.actions";
 
 const Home = async () => {
   const { userId: clerkUserId } = auth();
@@ -26,6 +28,7 @@ const Home = async () => {
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
   const tagsData = await getPopularTags();
+  const groups = await getGroups();
 
   return (
     <section className="flex h-full w-full bg-light-2 px-5 dark:bg-dark-2">
@@ -38,13 +41,17 @@ const Home = async () => {
           <div className="hidden w-full lg:block">
             <PopularTags tagsData={tagsData} />
           </div>
+          <div className="hidden w-full lg:block">
+            <PinnedGroup groups={groups} />
+          </div>
         </div>
 
         <div className="flex  h-full flex-col gap-5">
           <div className="hidden lg:block">
             <CreatePostInput userImage={userImage} />
           </div>
-          <div className="flex h-full overflow-scroll">
+
+          <div className="flex overflow-scroll">
             <PostCardList posts={posts} userId={userId} />
           </div>
         </div>

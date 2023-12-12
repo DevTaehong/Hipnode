@@ -9,13 +9,12 @@ import {
   PostText,
   SocialMediaIcon,
   PostLabels,
-  CardFooterDesktop,
   SocialStatistics,
 } from ".";
 import FillIcon from "@/components/icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
-import { userHasLikedComment } from "@/utils";
+import { formatDatePostFormat, userHasLikedComment } from "@/utils";
 
 const PostCard = ({
   post: {
@@ -66,12 +65,22 @@ const PostCard = ({
             </div>
           </div>
           <PostLabels tags={tags} />
-          <CardFooterDesktop
-            authorPicture={picture ?? "/public/emoji.png"}
-            username={username}
-            createdAt={createdAt}
-            socialCounts={socialCounts}
-          />
+          <section className="hidden items-center justify-between md:flex">
+            <div className="flex items-center">
+              <SocialMediaIcon authorPicture={picture ?? "/public/emoji.png"} />
+              <div className="flex flex-col pl-[0.625rem]">
+                <p className="text-[0.875rem] leading-[1.375rem] text-sc-2 dark:text-sc-6">
+                  {username}
+                </p>
+                <p className="text-[0.625rem] leading-[1rem] text-sc-3 dark:text-sc-5">
+                  {formatDatePostFormat(createdAt)}
+                </p>
+              </div>
+            </div>
+            <div>
+              <SocialStatistics socialCounts={socialCounts} />
+            </div>
+          </section>
           <div className="flex">
             <SocialStatistics socialCounts={socialCounts} />
           </div>
