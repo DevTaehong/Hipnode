@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -121,15 +121,28 @@ const CommentForm = ({
                 width={24}
                 height={24}
                 className="rounded-full"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                onClick={() => {
+                  setShowEmojiPicker(!showEmojiPicker);
+                  setTimeout(() => {
+                    const picker = document.querySelector("em-emoji-picker");
+                    if (picker && picker.shadowRoot) {
+                      const preview =
+                        picker.shadowRoot.querySelector("#preview");
+                      if (preview) {
+                        preview.style.display = "none";
+                      }
+                      picker.style.height = "2rem";
+                    }
+                  });
+                }}
               />
               {showEmojiPicker && (
-                <div className="absolute right-0 top-[2.5rem]">
+                <div className="absolute right-0 top-[2.5rem]  h-[2rem]">
                   <Picker
                     data={data}
                     onEmojiSelect={handleEmojiSelect}
                     onClickOutside={() => setShowEmojiPicker(false)}
-                    perLine={6}
+                    perLine={12}
                   />
                 </div>
               )}

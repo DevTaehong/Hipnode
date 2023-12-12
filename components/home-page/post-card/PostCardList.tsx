@@ -43,11 +43,9 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   }, [inView, loadMore]);
 
   return (
-    <main className="flex h-fit flex-col">
+    <main className="flex h-fit flex-col gap-[1.25rem]">
       {postData.map((post) => (
-        <section className="pb-[1.25rem]" key={post.id}>
-          <PostCard post={post} userId={userId} />
-        </section>
+        <PostCard post={post} userId={userId} key={post.id} />
       ))}
       <div
         className=" hidden items-center justify-center p-4 lg:flex"

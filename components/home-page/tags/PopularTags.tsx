@@ -13,37 +13,35 @@ const PopularTags = ({ tagsData }: TagsProps) => {
   }));
 
   return (
-    <aside className={cn("min-w-[13rem] px-[1.25rem] pt-0")}>
-      <div className="flex h-fit flex-col items-start justify-center rounded-2xl bg-light p-5 dark:bg-dark-3">
-        <h1 className="semibold-16 mb-5 text-sc-2 dark:text-light-2">
-          Popular Tags
-        </h1>
-        {combinedTags.map((tag) => {
-          const Icon = tag.icon;
-          return (
+    <aside className="flex h-fit w-full flex-col items-start justify-center rounded-2xl bg-light p-5 dark:bg-dark-3 lg:w-[13.125rem]">
+      <h1 className="semibold-16 mb-5 text-sc-2 dark:text-light-2">
+        Popular Tags
+      </h1>
+      {combinedTags.map((tag) => {
+        const Icon = tag.icon;
+        return (
+          <div
+            key={tag.name}
+            className="mb-[0.675rem] flex items-center justify-center gap-3"
+          >
             <div
-              key={tag.name}
-              className="mb-[0.675rem] flex items-center justify-center gap-3"
+              className={`flex rounded-lg ${
+                colorVariants[tag.iconBgColor]
+              } p-[0.375rem]`}
             >
-              <div
-                className={`flex rounded-lg ${
-                  colorVariants[tag.iconBgColor]
-                } p-[0.375rem]`}
-              >
-                <Icon className={`${colorVariants[tag.iconFillColor]}`} />
-              </div>
-              <div className="flex flex-col">
-                <p className="semibold-12 text-sc-4 dark:text-light-2">
-                  #{tag.name}
-                </p>
-                <p className="regular-10 line-clamp-1 text-sc-4 dark:text-sc-3">
-                  {tag.views} • Trending
-                </p>
-              </div>
+              <Icon className={`${colorVariants[tag.iconFillColor]}`} />
             </div>
-          );
-        })}
-      </div>
+            <div className="flex flex-col">
+              <p className="semibold-12 text-sc-4 dark:text-light-2">
+                #{tag.name}
+              </p>
+              <p className="regular-10 line-clamp-1 text-sc-4 dark:text-sc-3">
+                {tag.views} • Trending
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </aside>
   );
 };

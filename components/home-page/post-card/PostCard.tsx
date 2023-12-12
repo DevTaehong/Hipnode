@@ -50,38 +50,34 @@ const PostCard = ({
   const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
 
   return (
-    <article className="px-[1.25rem] lg:px-[0]">
-      <Link href={`/posts/post/${id}`}>
-        <div className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
-          <PostImage postImage={image} />
-          <div className="ml-[0.875rem] flex grow flex-col justify-between">
-            <div className="flex justify-between">
-              <PostText postContent={htmlString} />
-              <div className="flex flex-row">
-                <div className="flex md:hidden">
-                  <SocialMediaIcon
-                    authorPicture={picture ?? "/public/emoji.png"}
-                  />
-                </div>
-                <FillIcon.Heart
-                  className={`hidden md:flex ${heartIconClass}`}
+    <Link href={`/posts/post/${id}`}>
+      <div className="flex rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
+        <PostImage postImage={image} />
+        <div className="ml-[0.875rem] flex grow flex-col justify-between">
+          <div className="flex justify-between">
+            <PostText postContent={htmlString} />
+            <div className="flex flex-row">
+              <div className="flex md:hidden">
+                <SocialMediaIcon
+                  authorPicture={picture ?? "/public/emoji.png"}
                 />
               </div>
-            </div>
-            <PostLabels tags={tags} />
-            <CardFooterDesktop
-              authorPicture={picture ?? "/public/emoji.png"}
-              username={username}
-              createdAt={createdAt}
-              socialCounts={socialCounts}
-            />
-            <div className="flex">
-              <SocialStatistics socialCounts={socialCounts} />
+              <FillIcon.Heart className={`hidden md:flex ${heartIconClass}`} />
             </div>
           </div>
+          <PostLabels tags={tags} />
+          <CardFooterDesktop
+            authorPicture={picture ?? "/public/emoji.png"}
+            username={username}
+            createdAt={createdAt}
+            socialCounts={socialCounts}
+          />
+          <div className="flex">
+            <SocialStatistics socialCounts={socialCounts} />
+          </div>
         </div>
-      </Link>
-    </article>
+      </div>
+    </Link>
   );
 };
 

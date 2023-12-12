@@ -10,7 +10,6 @@ import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { getAllPosts, getPopularTags } from "@/lib/actions/post.action";
-import { RightSidebarWrapper } from "@/components/home-page/shared-components";
 import PopularTags from "@/components/home-page/tags/PopularTags";
 
 const Home = async () => {
@@ -29,9 +28,9 @@ const Home = async () => {
   const tagsData = await getPopularTags();
 
   return (
-    <section className="flex w-full bg-light-2  dark:bg-dark-2">
-      <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
-        <div className="flex h-fit flex-col lg:sticky lg:top-[4rem]">
+    <section className="flex h-full w-full bg-light-2 px-5  dark:bg-dark-2">
+      <div className="mx-auto flex max-w-[85rem] flex-col gap-5 pt-5 lg:flex-row">
+        <div className="flex h-fit flex-col gap-5  lg:sticky lg:top-[4rem]">
           <Sidebar />
           <div className="w-full lg:hidden">
             <CreatePostInput userImage={userImage} />
@@ -41,7 +40,7 @@ const Home = async () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex  h-full flex-col gap-5">
           <div className="hidden lg:block">
             <CreatePostInput userImage={userImage} />
           </div>
@@ -50,15 +49,9 @@ const Home = async () => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:flex-col">
-          <div className="w-full px-5 pt-5 sm:w-1/2 lg:w-full">
-            <Meetups meetUps={meetups} />
-          </div>
-          <div className="w-full sm:w-1/2 lg:w-full">
-            <RightSidebarWrapper>
-              <Podcasts podcasts={podcasts} />
-            </RightSidebarWrapper>
-          </div>
+        <div className="flex w-full flex-col gap-5 sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:w-[20.3125rem] lg:flex-col lg:overflow-scroll">
+          <Meetups meetUps={meetups} />
+          <Podcasts podcasts={podcasts} />
         </div>
       </div>
     </section>
