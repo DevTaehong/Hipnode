@@ -20,7 +20,7 @@ export default async function RootLayout({
   }
 
   return (
-    <main className="h-screen max-h-screen">
+    <main className="h-[100vh] overflow-y-hidden">
       <Navbar />
       {children}
       <LiveChatWrapper />

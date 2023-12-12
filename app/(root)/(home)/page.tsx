@@ -31,34 +31,35 @@ const Home = async () => {
   const groups = await getGroups();
 
   return (
-    <section className="flex h-full w-full bg-light-2 px-5 dark:bg-dark-2">
-      <div className="mx-auto flex max-w-[85rem] flex-col gap-5 pt-5 lg:flex-row">
-        <div className="flex h-fit flex-col gap-5  lg:sticky lg:top-[4rem]">
-          <Sidebar />
-          <div className="w-full lg:hidden">
-            <CreatePostInput userImage={userImage} />
-          </div>
-          <div className="hidden w-full lg:block">
+    <section className="sticky top-[5.25rem] -mt-16 flex h-full min-h-screen w-screen justify-center bg-blue-400 p-5 lg:top-0 lg:h-screen lg:max-h-screen lg:pb-[2.3rem] lg:pt-[5.875rem]">
+      <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
+        <div className="flex lg:w-[13.125rem]">
+          <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
+            <Sidebar />
+            <div className="flex lg:hidden">
+              <CreatePostInput userImage={userImage} />
+            </div>
+
             <PopularTags tagsData={tagsData} />
-          </div>
-          <div className="hidden w-full lg:block">
-            <PinnedGroup groups={groups} />
+
+            <div className="hidden lg:flex">
+              <PinnedGroup groups={groups} />
+            </div>
           </div>
         </div>
 
-        <div className="flex  h-full flex-col gap-5">
-          <div className="hidden lg:block">
+        <div className="flex max-h-full flex-col gap-5">
+          <div className="hidden lg:flex">
             <CreatePostInput userImage={userImage} />
           </div>
-
-          <div className="flex overflow-scroll">
-            <PostCardList posts={posts} userId={userId} />
-          </div>
+          <PostCardList posts={posts} userId={userId} />
         </div>
 
-        <div className="flex w-full flex-col gap-5 sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:w-[20.3125rem] lg:flex-col">
-          <Meetups meetUps={meetups} />
-          <Podcasts podcasts={podcasts} />
+        <div className="flex lg:max-h-screen lg:w-[20.3125rem]">
+          <div className="flex flex-col gap-5 overflow-y-auto lg:max-h-screen">
+            <Meetups meetUps={meetups} />
+            <Podcasts podcasts={podcasts} />
+          </div>
         </div>
       </div>
     </section>
