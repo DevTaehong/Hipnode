@@ -121,20 +121,7 @@ const CommentForm = ({
                 width={24}
                 height={24}
                 className="rounded-full"
-                onClick={() => {
-                  setShowEmojiPicker(!showEmojiPicker);
-                  setTimeout(() => {
-                    const picker = document.querySelector("em-emoji-picker");
-                    if (picker && picker.shadowRoot) {
-                      const preview =
-                        picker.shadowRoot.querySelector("#preview");
-                      if (preview) {
-                        preview.style.display = "none";
-                      }
-                      picker.style.height = "2rem";
-                    }
-                  });
-                }}
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
               />
               {showEmojiPicker && (
                 <div className="absolute right-0 top-[2.5rem]  h-[2rem]">

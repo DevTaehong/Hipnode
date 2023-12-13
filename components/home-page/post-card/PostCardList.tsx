@@ -15,7 +15,7 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [amountToSkip, setAmountAmountToSkip] = useState<number>(10);
+  const [amountToSkip, setAmountToSkip] = useState<number>(10);
   const { ref, inView } = useInView();
 
   const loadMoreData = async () => {
@@ -23,25 +23,27 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
     try {
       const posts = await getAllPosts({ numberToSkip: amountToSkip });
       if (posts?.length) {
-        setAmountAmountToSkip((previous) => previous + 10);
-        setPage(page + 1);
-        setPostData((prev) => [...prev, ...posts]);
+        setAmountToSkip((prev) => prev + 10);
+        setPage((prevPage) => prevPage + 1);
+        setPostData((prevPosts) => [...prevPosts, ...posts]);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (
+    const shouldLoadMore =
       (inView || loadMore) &&
       postData.length < postData[postData.length - 1]?.numberOfAvailablePosts &&
-      !isLoading
-    ) {
+      !isLoading;
+
+    if (shouldLoadMore) {
       loadMoreData();
+      setLoadMore(false);
     }
-    setLoadMore(false);
   }, [inView, loadMore, postData, isLoading]);
 
   const hasSeenAllPosts =
