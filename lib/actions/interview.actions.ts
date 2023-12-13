@@ -196,12 +196,14 @@ export async function getTopFiveTags() {
 
 export async function getFilteredInterviews({
   tagIds,
-  skipCount = 0,
+  page = 1,
 }: {
   tagIds?: number[];
-  skipCount?: number;
+  page?: number;
 }) {
+  const itemsPerPage = 20;
   try {
+    const skip = (page - 1) * itemsPerPage;
     const interviews = await prisma.interview.findMany({
       where:
         tagIds && tagIds.length
@@ -228,11 +230,19 @@ export async function getFilteredInterviews({
           },
         },
       },
-      skip: skipCount,
-      take: 20,
+      skip,
+      take: itemsPerPage,
     });
 
-    return interviews;
+    const totalInterviews = await prisma.interview.count();
+
+    const hasMore = page * itemsPerPage < totalInterviews;
+
+    return {
+      interviews,
+      page,
+      hasMore,
+    };
   } catch (error) {
     console.error("Error fetching filtered interviews:", error);
     throw error;

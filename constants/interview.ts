@@ -1,41 +1,8 @@
 import { christopher, interviewTestImage } from "@/public/assets";
-import { Interview } from "@prisma/client";
 
 type SalaryPeriod = "month" | "year";
 
 const interviewTags = ["technology", "diversity", "hr"];
-
-export interface Creator {
-  name: string;
-  picture: string;
-}
-export interface InterviewProps extends Interview {
-  creator: Creator;
-}
-
-export interface Tag {
-  id: number;
-  name: string;
-}
-
-export interface TagOnInterview {
-  tag: Tag;
-}
-
-export interface InterviewPageFilterProps extends Interview {
-  creator: Creator;
-  tags: TagOnInterview[];
-}
-
-export interface InterviewCardProps {
-  interviewData: InterviewProps;
-  tags?: string[];
-}
-
-export interface LargeInterviewCardProps {
-  interviewData: Interview;
-  tags?: string[];
-}
 
 export const dummyInterviewData = {
   id: 2,

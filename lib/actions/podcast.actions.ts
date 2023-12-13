@@ -102,12 +102,14 @@ export async function getPodcastsWithUserInfo(
 
 export async function getFilterPodcastsUserInfo({
   show,
-  skipCount = 0,
+  page = 1,
 }: {
   show: number[];
-  skipCount?: number;
+  page?: number;
 }) {
+  const itemsPerPage = 20;
   try {
+    const skip = (page - 1) * itemsPerPage;
     const podcasts = await prisma.podcast.findMany({
       where: {
         showId: {
@@ -123,11 +125,21 @@ export async function getFilterPodcastsUserInfo({
           },
         },
       },
-      skip: skipCount,
+      skip,
       take: 20,
     });
 
-    return podcasts;
+    const totalPodcasts = await prisma.podcast.count({
+      where: show && show.length ? { showId: { in: show } } : {},
+    });
+
+    const hasMore = page * itemsPerPage < totalPodcasts;
+
+    return {
+      podcasts,
+      page,
+      hasMore,
+    };
   } catch (error) {
     console.error("Error fetching filtered podcasts:", error);
     throw error;

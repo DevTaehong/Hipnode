@@ -6,8 +6,8 @@ import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "../live-chat/AttachmentPreview";
 import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import { ChatBoxInputContentProps } from "@/types/chatroom.index";
-import { EmojiData, handleEmojiSelect } from "../live-chat";
+import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
+import { handleEmojiSelect } from "../live-chat";
 
 const ChatBoxInputContent = ({
   isChatroomUserTyping,
@@ -53,7 +53,7 @@ const ChatBoxInputContent = ({
         >
           <div className="flex-center bg-light-2_dark-4 flex w-full gap-2.5 rounded-2xl border border-sc-5 px-4 py-5 dark:border-sc-2">
             <button className="flex-center" type="button" onClick={open}>
-              <OutlineIcon.Link />
+              <OutlineIcon.Link className="fill-sc-4 md:scale-125" />
             </button>
             <textarea
               {...getInputProps}

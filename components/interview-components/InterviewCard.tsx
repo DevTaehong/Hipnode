@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { formatSalary } from "@/utils";
-import { InterviewCardProps } from "@/constants/interview";
 import { InterviewBannerImage, InterviewCardInfo, InterviewHeader } from ".";
+import { InterviewCardProps } from "@/types/interview.index";
 
 const InterviewCard = ({ interviewData }: InterviewCardProps) => {
   const {
