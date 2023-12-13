@@ -4,7 +4,6 @@ import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
 import { Comment, Post, Tag, User } from "@prisma/client";
-import { SocialCountTuple } from "../homepage";
 
 export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
 
@@ -210,13 +209,6 @@ export type PostDataType = {
   clerkId: string;
 };
 
-export type CardFooterDesktopProps = {
-  authorPicture: string;
-  username: string;
-  createdAt: Date;
-  socialCounts: SocialCountTuple[];
-};
-
 export type LeftActionBarProps = {
   actionBarData: {
     likesCount: number;
@@ -256,3 +248,7 @@ export interface DetailedComment {
 }
 
 export type CommentsGroupedByParentId = Record<string, CommentAuthorProps[]>;
+
+export type ResponsiveCreatePostInputProps = {
+  userImage: string;
+};
