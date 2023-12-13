@@ -3,9 +3,9 @@ import Image from "next/image";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
-import { EmojiData, handleEmojiSelect } from ".";
+import { handleEmojiSelect } from ".";
 import OutlineIcon from "../icons/outline-icons";
-import { LiveChatInputProps } from "@/types/chatroom.index";
+import { EmojiData, LiveChatInputProps } from "@/types/chatroom.index";
 
 const LiveChatInput = ({
   open,

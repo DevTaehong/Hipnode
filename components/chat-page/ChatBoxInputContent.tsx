@@ -6,8 +6,8 @@ import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "../live-chat/AttachmentPreview";
 import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import { ChatBoxInputContentProps } from "@/types/chatroom.index";
-import { EmojiData, handleEmojiSelect } from "../live-chat";
+import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
+import { handleEmojiSelect } from "../live-chat";
 
 const ChatBoxInputContent = ({
   isChatroomUserTyping,
