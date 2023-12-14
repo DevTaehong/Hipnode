@@ -55,9 +55,7 @@ export const loadMessages = async ({
 };
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
-  const { event, messageText, droppedFile, channel, chatroomId, currentUser } =
-    args;
-  event.preventDefault();
+  const { messageText, droppedFile, channel, chatroomId, currentUser } = args;
 
   const mediaType = droppedFile ? getMediaType(droppedFile) : null;
 

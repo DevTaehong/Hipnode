@@ -137,7 +137,6 @@ const LiveChat = () => {
     setIsInputDisabled(true);
     try {
       const result = await liveChatSubmission({
-        event,
         messageText,
         droppedFile,
         channel,

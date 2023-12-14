@@ -1,13 +1,8 @@
-import { useState, useEffect, FormEvent, KeyboardEvent } from "react";
+import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
 
-import {
-  API_RESULT,
-  liveChatSubmission,
-  loadMessages,
-  useDropzoneHandler,
-} from "../live-chat";
+import { loadMessages, useDropzoneHandler } from "../live-chat";
 import { ChatMessage } from "@/types/chatroom.index";
 import { ChatBoxHeader, ChatPageMessageList } from ".";
 import HoverScreen from "../live-chat/HoverScreen";
@@ -31,17 +26,14 @@ const ChatPageLiveChat = () => {
   const { chatroomUsers, chatroomId, setChatroomUsers, setChatroomId } =
     useChatStore();
 
-  const [messageText, setMessageText] = useState("");
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
 
-  const { channel } = useChannel("hipnode-livechat", (message: ChatMessage) => {
+  useChannel("hipnode-livechat", (message: ChatMessage) => {
     const channelId = message.data.chatroomId;
     if (channelId === chatroomId) {
       setMessages((prevMessages) => [...prevMessages.slice(-199), message]);
     }
   });
-
-  const messageTextIsEmpty = messageText.trim().length === 0;
 
   const onDrop = useDropzoneHandler({
     setDroppedFile,
@@ -85,43 +77,6 @@ const ChatPageLiveChat = () => {
     }
   }, []);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      handleFormSubmission(event);
-    }
-  };
-
-  const currentUser = userInfo;
-
-  const handleFormSubmission = async (
-    event:
-      | FormEvent<HTMLFormElement>
-      | KeyboardEvent<HTMLInputElement>
-      | KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    if (messageTextIsEmpty && !droppedFile) return;
-    setIsInputDisabled(true);
-    try {
-      const result = await liveChatSubmission({
-        event,
-        messageText,
-        droppedFile,
-        channel,
-        chatroomId,
-        currentUser,
-      });
-      if (result === API_RESULT.SUCCESS) {
-        setMessageText("");
-        setDroppedFile(null);
-        setIsInputDisabled(false);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setIsInputDisabled(false);
-    }
-  };
-
   if (!chatroomId) return null;
 
   return (
@@ -131,10 +86,6 @@ const ChatPageLiveChat = () => {
         open,
         droppedFile,
         setDroppedFile,
-        messageText,
-        setMessageText,
-        handleKeyDown,
-        handleFormSubmission,
       }}
     >
       <section

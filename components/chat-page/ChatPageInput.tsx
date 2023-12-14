@@ -9,22 +9,25 @@ import {
 import data from "@emoji-mart/data";
 import { useChannel } from "ably/react";
 
-import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import useChatStore from "@/app/chatStore";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
+import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { adjustHeight } from "@/utils";
 import { UserTyping } from "@/types/chatroom.index";
 import ChatBoxInputContent from "./ChatBoxInputContent";
-import { userTypingChange } from "../live-chat";
+import { API_RESULT, liveChatSubmission, userTypingChange } from "../live-chat";
 
 const ChatPageInput = () => {
   const { chatroomId } = useChatStore();
-  const { messageText, setMessageText, handleFormSubmission } =
-    useChatPageInputContext();
-  const { isInputDisabled, userInfo, isLoading } = useChatPageContext();
+  const { isInputDisabled, userInfo, isLoading, setIsInputDisabled } =
+    useChatPageContext();
+  const { droppedFile, setDroppedFile } = useChatPageInputContext();
 
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
+  const [messageText, setMessageText] = useState("");
+  const messageTextIsEmpty = messageText.trim().length === 0;
+
   const typingTimeoutRef = useRef<number | null>(null);
   const inputBox = useRef<HTMLTextAreaElement>(null);
 
@@ -43,9 +46,35 @@ const ChatPageInput = () => {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const currentUser = userInfo;
+
+  const { channel } = useChannel("hipnode-livechat");
+
+  const handleFormLogic = async () => {
+    if (messageTextIsEmpty && !droppedFile) return;
+    setIsInputDisabled(true);
+    try {
+      const result = await liveChatSubmission({
+        messageText,
+        droppedFile,
+        channel,
+        chatroomId,
+        currentUser,
+      });
+      if (result === API_RESULT.SUCCESS) {
+        setMessageText("");
+        setDroppedFile(null);
+        setIsInputDisabled(false);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      setIsInputDisabled(false);
+    }
+  };
+
+  const handleFormSubmission = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleFormSubmission(event);
+    handleFormLogic();
   };
 
   useEffect(() => {
@@ -77,9 +106,12 @@ const ChatPageInput = () => {
 
   return (
     <ChatBoxInputContent
+      messageText={messageText}
+      setMessageText={setMessageText}
       isChatroomUserTyping={isChatroomUserTyping}
       userTypingUsername={userTypingUsername}
-      handleSubmit={handleSubmit}
+      handleFormLogic={handleFormLogic}
+      handleFormSubmission={handleFormSubmission}
       inputBox={inputBox}
       handleTyping={handleTyping}
       setShowEmojiPicker={setShowEmojiPicker}

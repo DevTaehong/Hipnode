@@ -4,13 +4,15 @@ import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
 import { ChatroomListItemProps } from "@/types/chatroom.index";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
+import { useGetOnlineUsers } from "./presenceData";
 
 const ChatroomListItem = ({
   chatroom,
   setShowChatRoomList,
 }: ChatroomListItemProps) => {
   const { setChatroomId, setChatroomUsers, chatroomId } = useChatStore();
-  const { onlineUsers, userInfo } = useChatPageContext();
+  const { userInfo } = useChatPageContext();
+  const onlineUsers = useGetOnlineUsers();
 
   const {
     id: chatroomListId,
@@ -20,6 +22,8 @@ const ChatroomListItem = ({
     },
     otherUser,
   } = chatroom;
+
+  if (!otherUser) return null;
 
   const isOtherUserOnline = onlineUsers
     ? onlineUsers.includes(otherUser.id)

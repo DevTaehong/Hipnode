@@ -1,3 +1,4 @@
+import { KeyboardEvent } from "react";
 import Image from "next/image";
 import Picker from "@emoji-mart/react";
 
@@ -10,25 +11,28 @@ import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
 import { handleEmojiSelect } from "../live-chat";
 
 const ChatBoxInputContent = ({
+  messageText,
+  setMessageText,
   isChatroomUserTyping,
   userTypingUsername,
-  handleSubmit,
+  handleFormLogic,
+  handleFormSubmission,
   inputBox,
   handleTyping,
   setShowEmojiPicker,
   showEmojiPicker,
   data,
 }: ChatBoxInputContentProps) => {
-  const {
-    getInputProps,
-    open,
-    droppedFile,
-    setDroppedFile,
-    messageText,
-    setMessageText,
-    handleKeyDown,
-  } = useChatPageInputContext();
+  const { getInputProps, open, droppedFile, setDroppedFile } =
+    useChatPageInputContext();
   const { isInputDisabled } = useChatPageContext();
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleFormLogic();
+    }
+  };
 
   return (
     <section className="relative flex justify-between border-t border-sc-6 bg-light px-4 pb-9 pt-4 dark:border-dark-4 dark:bg-dark-2 md:px-8 md:dark:bg-dark-3">
@@ -49,7 +53,7 @@ const ChatBoxInputContent = ({
         )}
         <form
           className="flex w-full items-center gap-5"
-          onSubmit={handleSubmit}
+          onSubmit={handleFormSubmission}
         >
           <div className="flex-center bg-light-2_dark-4 flex w-full gap-2.5 rounded-2xl border border-sc-5 px-4 py-5 dark:border-sc-2">
             <button className="flex-center" type="button" onClick={open}>
