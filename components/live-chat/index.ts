@@ -1,12 +1,16 @@
-import { useCallback } from "react";
+import { useCallback, ChangeEvent, MutableRefObject } from "react";
+import { Types } from "ably";
+import DOMPurify from "dompurify";
 
 import {
   createMessage,
   getMessagesForChatroom,
 } from "@/lib/actions/chatroom.actions";
-import { uploadLivechatAttachment, getMediaType } from "@/utils";
+import { uploadLivechatAttachment, getMediaType, adjustHeight } from "@/utils";
 import {
+  ChatroomUser,
   LiveChatSubmissionProps,
+  handleEmojiSelectProps,
   loadMessagesProps,
   useDropzoneHandlerProps,
 } from "@/types/chatroom.index";
@@ -116,4 +120,97 @@ export const useDropzoneHandler = ({
   );
 
   return onDrop;
+};
+
+export const userTypingChange = ({
+  e,
+  setMessageText,
+  typingChannel,
+  userInfo,
+  chatroomId,
+  typingTimeoutRef,
+}: {
+  e: ChangeEvent<HTMLTextAreaElement>;
+  setMessageText: (messageText: string) => void;
+  typingChannel: Types.RealtimeChannelPromise;
+  userInfo: ChatroomUser;
+  chatroomId: number | null;
+  typingTimeoutRef: MutableRefObject<number | null>;
+}) => {
+  const newMessageText = e.target.value;
+  setMessageText(newMessageText);
+  adjustHeight(e.target);
+
+  if (typingChannel) {
+    typingChannel.publish("typing-status", {
+      isTyping: true,
+      userId: userInfo.id,
+      username: userInfo.username,
+      chatroomId,
+    });
+  }
+
+  if (typingTimeoutRef.current !== null) {
+    clearTimeout(typingTimeoutRef.current);
+  }
+  typingTimeoutRef.current = window.setTimeout(() => {
+    typingChannel.publish("typing-status", {
+      isTyping: false,
+      userId: userInfo.id,
+      username: userInfo.username,
+      chatroomId,
+    });
+  }, 1000);
+};
+
+export const isOnlyEmoji = (string: string) => {
+  const emojiRegex = /^(\p{Emoji_Presentation}|\p{Extended_Pictographic})+$/u;
+  return emojiRegex.test(string);
+};
+
+export const isUrl = (str: string) => {
+  const urlRegex =
+    /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w-.,@?^=%&:/~+#]*[\w-@?^=%&/~+#])?$/;
+  return urlRegex.test(str);
+};
+
+export const extractUrls = (text: string) => {
+  const urlRegex = /https?:\/\/[^\s]+/g;
+  let match;
+  let lastIndex = 0;
+  const segments = [];
+
+  while ((match = urlRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({
+        text: text.substring(lastIndex, match.index),
+        isUrl: false,
+      });
+    }
+    segments.push({ text: match[0], isUrl: true });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    segments.push({ text: text.substring(lastIndex), isUrl: false });
+  }
+
+  return segments;
+};
+
+export const formatTextWithLineBreaks = (text: string) => {
+  const lineBreaksHtml = text.replace(/\n/g, "<br>");
+  const sanitizedHtml = DOMPurify.sanitize(lineBreaksHtml);
+  return { __html: sanitizedHtml };
+};
+
+export const handleEmojiSelect = ({
+  emoji,
+  messageText,
+  setMessageText,
+}: handleEmojiSelectProps) => {
+  const emojiCharacter = emoji.native;
+  const currentValue = messageText;
+  const updatedValue = currentValue + emojiCharacter;
+  setMessageText(updatedValue);
 };

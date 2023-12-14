@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs";
 
 import Podcasts from "@/components/home-page/podcast/Podcasts";
-import CreatePostInput from "@/components/home-page/CreatePostInput";
 import Meetups from "@/components/home-page/meetup/Meetups";
 import PostCardList from "@/components/home-page/post-card/PostCardList";
 import Sidebar from "@/components/home-page/sidebar/Sidebar";
@@ -10,8 +9,10 @@ import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { getAllPosts, getPopularTags } from "@/lib/actions/post.action";
-import { RightSidebarWrapper } from "@/components/home-page/shared-components";
 import PopularTags from "@/components/home-page/tags/PopularTags";
+import PinnedGroup from "@/components/home-page/pinned-group/PinnedGroup";
+import { getGroups } from "@/lib/actions/group.actions";
+import ResponsiveCreatePostInput from "@/components/posts/create-post-form/ResponsiveCreatePostInput";
 
 const Home = async () => {
   const { userId: clerkUserId } = auth();
@@ -27,37 +28,40 @@ const Home = async () => {
   const podcasts = await getAllPodcastsWithUserInfo();
   const posts = await getAllPosts({});
   const tagsData = await getPopularTags();
+  const groups = await getGroups();
 
   return (
-    <section className="flex w-full bg-light-2  dark:bg-dark-2">
-      <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row">
-        <div className="flex h-fit flex-col lg:sticky lg:top-[4rem]">
-          <Sidebar />
-          <div className="w-full lg:hidden">
-            <CreatePostInput userImage={userImage} />
-          </div>
-          <div className="hidden w-full lg:block">
-            <PopularTags tagsData={tagsData} />
+    <section className="bg-light-2_dark-2 sticky top-[5.25rem] -mt-16 flex h-fit min-h-screen w-screen justify-center overflow-hidden px-5 py-20 lg:top-0 lg:h-screen lg:max-h-screen lg:py-5  lg:pb-[2.3rem] lg:pt-[5.875rem]">
+      <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
+        <div className="flex lg:w-[13.125rem]">
+          <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
+            <Sidebar />
+            <div className="flex lg:hidden">
+              <ResponsiveCreatePostInput userImage={userImage} />
+            </div>
+            <div className="hidden lg:flex">
+              <PopularTags tagsData={tagsData} />
+            </div>
+
+            <div className="hidden lg:flex">
+              <PinnedGroup groups={groups} />
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-5">
-          <div className="hidden lg:block">
-            <CreatePostInput userImage={userImage} />
+        <div className="flex max-h-full flex-col gap-5">
+          <div className="hidden w-full lg:flex">
+            <ResponsiveCreatePostInput userImage={userImage} />
           </div>
-          <div className="flex h-full overflow-scroll">
+          <div className="flex w-full overflow-hidden">
             <PostCardList posts={posts} userId={userId} />
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row lg:sticky lg:top-[4rem] lg:h-fit lg:flex-col">
-          <div className="w-full px-5 pt-5 sm:w-1/2 lg:w-full">
+        <div className="flex w-full lg:max-h-screen lg:w-[20.3125rem]">
+          <div className="flex w-full flex-col gap-5 overflow-y-auto sm:flex-row lg:max-h-screen lg:flex-col">
             <Meetups meetUps={meetups} />
-          </div>
-          <div className="w-full sm:w-1/2 lg:w-full">
-            <RightSidebarWrapper>
-              <Podcasts podcasts={podcasts} />
-            </RightSidebarWrapper>
+            <Podcasts podcasts={podcasts} />
           </div>
         </div>
       </div>

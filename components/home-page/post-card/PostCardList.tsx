@@ -15,61 +15,70 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [amountToSkip, setAmountAmountToSkip] = useState<number>(10);
+  const [amountToSkip, setAmountToSkip] = useState<number>(10);
   const { ref, inView } = useInView();
 
   const loadMoreData = async () => {
     setIsLoading(true);
     try {
-      const nextPage = page + 1;
       const posts = await getAllPosts({ numberToSkip: amountToSkip });
       if (posts?.length) {
-        setAmountAmountToSkip((previous) => previous + 10);
-        setPage(nextPage);
-        setPostData((prev: ExtendedPrismaPost[]) => [...prev, ...posts]);
+        setAmountToSkip((prev) => prev + 10);
+        setPage((prevPage) => prevPage + 1);
+        setPostData((prevPosts) => [...prevPosts, ...posts]);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (inView || loadMore) {
+    const shouldLoadMore =
+      (inView || loadMore) &&
+      postData.length < postData[postData.length - 1]?.numberOfAvailablePosts &&
+      !isLoading;
+
+    if (shouldLoadMore) {
       loadMoreData();
+      setLoadMore(false);
     }
-    setLoadMore(false);
-  }, [inView, loadMore]);
+  }, [inView, loadMore, postData, isLoading]);
+
+  const hasSeenAllPosts =
+    postData.length >= postData[postData.length - 1]?.numberOfAvailablePosts;
 
   return (
-    <main className="flex h-fit flex-col">
+    <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
-        <section className="pb-[1.25rem]" key={post.id}>
-          <PostCard post={post} userId={userId} />
-        </section>
+        <PostCard post={post} userId={userId} key={post.id} />
       ))}
-      <div
-        className=" hidden items-center justify-center p-4 lg:flex"
-        ref={ref}
-      >
+      <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
           <div className="animate-pulse text-dark-3 dark:text-white">
             Loading...
           </div>
         )}
       </div>
-      <CustomButton
-        className="dark:text-light-2 lg:hidden"
-        type="button"
-        onClick={() => setLoadMore(true)}
-        label={
-          <div className="flex items-center justify-center">
-            <span className="pr-4">See more podcasts</span>{" "}
-            <OutlineIcon.ArrowRight />
-          </div>
-        }
-      />
+      {!hasSeenAllPosts && (
+        <CustomButton
+          className="dark:text-light-2 lg:hidden"
+          type="button"
+          onClick={() => setLoadMore(true)}
+          label={
+            <div className="flex items-center justify-center">
+              <span className="pr-4">See more podcasts</span>{" "}
+              <OutlineIcon.ArrowRight />
+            </div>
+          }
+        />
+      )}
+      {hasSeenAllPosts && (
+        <div className="text-center text-dark-3 dark:text-white">
+          You have seen all the available posts.
+        </div>
+      )}
     </main>
   );
 };

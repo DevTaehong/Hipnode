@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useReducer } from "react";
 
-import usePodcastStore from "@/app/store";
+import usePodcastStore from "@/app/podcastStore";
 import { getFromLocalStorage } from "@/utils";
 import { getPodcastById } from "@/lib/actions/podcast.actions";
 import * as PodcastHooks from "@/hooks/podcastHooks";
@@ -33,6 +33,12 @@ const PodcastPlayer = () => {
       togglePlay();
     }
   };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     if (isPlaying) {

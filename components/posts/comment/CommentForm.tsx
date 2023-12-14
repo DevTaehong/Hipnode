@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -124,12 +124,12 @@ const CommentForm = ({
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
               />
               {showEmojiPicker && (
-                <div className="absolute right-0 top-[2.5rem]">
+                <div className="absolute right-0 top-[2.5rem]  h-[2rem]">
                   <Picker
                     data={data}
                     onEmojiSelect={handleEmojiSelect}
                     onClickOutside={() => setShowEmojiPicker(false)}
-                    perLine={6}
+                    perLine={12}
                   />
                 </div>
               )}

@@ -24,6 +24,7 @@ const ChatroomListItem = ({
   const isOtherUserOnline = onlineUsers
     ? onlineUsers.includes(otherUser.id)
     : false;
+
   const formattedTime = formatRelativeTime(recentMessageCreatedAt);
 
   const handleChatroomClick = () => {

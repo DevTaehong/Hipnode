@@ -4,12 +4,12 @@ import Image from "next/image";
 import { podcast } from "@/public/assets";
 import AudioAnimation from "./AudioAnimation";
 import { PodcastBarImageProps } from "@/types/podcast.index";
-import usePodcastStore from "@/app/store";
+import usePodcastStore from "@/app/podcastStore";
 
 const PodcastBarImage = ({ id, podcastUserImage }: PodcastBarImageProps) => {
   const { isPlaying } = usePodcastStore();
   return (
-    <div className="relative flex gap-2">
+    <figure className="relative flex gap-2">
       <Link
         href={`/podcasts/${id}`}
         className="min-h-[50px] min-w-[50px] rounded-full bg-red-60"
@@ -27,7 +27,7 @@ const PodcastBarImage = ({ id, podcastUserImage }: PodcastBarImageProps) => {
           <AudioAnimation />
         </div>
       )}
-    </div>
+    </figure>
   );
 };
 

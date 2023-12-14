@@ -4,17 +4,21 @@ import Image from "next/image";
 import { usePresence } from "ably/react";
 
 import useChatStore from "@/app/chatStore";
-import { ChatMessage } from "@/types/chatroom.index";
+import { ChatMessage, LiveChatMessageListProps } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const LiveChatMessageList = React.memo(
-  ({ messages }: { messages: ChatMessage[] }) => {
+  ({ messages, setDroppedFile }: LiveChatMessageListProps) => {
     const router = useRouter();
     const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
       useChatStore();
+
+    const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
+    const { presenceData } = usePresence("hipnode-livechat");
 
     const [secondUser] = chatroomUsers.slice(1, 2);
     const {
@@ -22,10 +26,6 @@ const LiveChatMessageList = React.memo(
       image: secondUserPicture = christopher,
       id: secondUserId = null,
     } = secondUser ?? {};
-
-    const endOfMessagesRef = useRef<HTMLDivElement>(null);
-
-    const { presenceData } = usePresence("hipnode-livechat");
 
     const isSecondUserOnline = presenceData.some(
       (presence) => presence.data && presence.data.id === secondUserId
@@ -46,6 +46,7 @@ const LiveChatMessageList = React.memo(
     const handleChatPageClick = () => {
       setChatroomUsers([chatroomUsers[0], secondUser]);
       setShowChat(false);
+      setDroppedFile(null);
       router.push(`/chat`);
     };
 
@@ -73,7 +74,10 @@ const LiveChatMessageList = React.memo(
             </button>
             <div
               className="flex cursor-pointer"
-              onClick={() => setShowChat(false)}
+              onClick={() => {
+                setShowChat(false);
+                setDroppedFile(null);
+              }}
             >
               <OutlineIcon.ArrowLargeDown className="stroke-sc-2 dark:stroke-light-2" />
             </div>

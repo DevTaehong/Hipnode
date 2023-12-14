@@ -10,7 +10,7 @@ import { InterviewFilterAndContentWrapperProps } from "@/types/interview.index";
 
 const InterviewFilterAndContentWrapper = ({
   tags,
-  interviewsExample,
+  interviewData,
   interviewArray,
 }: InterviewFilterAndContentWrapperProps) => {
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ const InterviewFilterAndContentWrapper = ({
       <InterviewPageFilter
         loading={loading}
         setLoading={setLoading}
-        interviews={interviewsExample}
+        interviewData={interviewData}
         interviewArray={interviewArray}
       />
     </>

@@ -6,25 +6,8 @@ import OutlineIcon from "../icons/outline-icons";
 import AttachmentPreview from "../live-chat/AttachmentPreview";
 import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import {
-  FormEvent,
-  RefObject,
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-} from "react";
-
-interface ChatBoxInputContentProps {
-  isChatroomUserTyping: boolean;
-  userTypingUsername: string | undefined;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  inputBox: RefObject<HTMLTextAreaElement>;
-  handleTyping: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  setShowEmojiPicker: Dispatch<SetStateAction<boolean>>;
-  showEmojiPicker: boolean;
-  data: object;
-  handleEmojiSelect: (emoji: any) => void;
-}
+import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
+import { handleEmojiSelect } from "../live-chat";
 
 const ChatBoxInputContent = ({
   isChatroomUserTyping,
@@ -35,7 +18,6 @@ const ChatBoxInputContent = ({
   setShowEmojiPicker,
   showEmojiPicker,
   data,
-  handleEmojiSelect,
 }: ChatBoxInputContentProps) => {
   const {
     getInputProps,
@@ -43,6 +25,7 @@ const ChatBoxInputContent = ({
     droppedFile,
     setDroppedFile,
     messageText,
+    setMessageText,
     handleKeyDown,
   } = useChatPageInputContext();
   const { isInputDisabled } = useChatPageContext();
@@ -54,7 +37,7 @@ const ChatBoxInputContent = ({
           {userTypingUsername} is typing...
         </p>
       )}
-      <div className="flex w-full flex-col items-center">
+      <div className="flex w-full flex-col items-center gap-3">
         {droppedFile && (
           <div className="flex h-full w-fit self-start">
             <AttachmentPreview
@@ -70,18 +53,16 @@ const ChatBoxInputContent = ({
         >
           <div className="flex-center bg-light-2_dark-4 flex w-full gap-2.5 rounded-2xl border border-sc-5 px-4 py-5 dark:border-sc-2">
             <button className="flex-center" type="button" onClick={open}>
-              <OutlineIcon.Link />
+              <OutlineIcon.Link className="fill-sc-4 md:scale-125" />
             </button>
             <textarea
               {...getInputProps}
               ref={inputBox}
               value={messageText}
-              className="bg-light-2_dark-4 h-6 max-h-[4.5rem] w-full resize-none text-sc-4 outline-none placeholder:text-sc-4"
+              className="bg-light-2_dark-4 h-6 max-h-[4.5rem] w-full resize-none text-sc-4 outline-none placeholder:truncate placeholder:text-sc-4"
               placeholder="Type your message here..."
               disabled={isInputDisabled}
-              onChange={(e) => {
-                handleTyping(e);
-              }}
+              onChange={handleTyping}
               onKeyDown={handleKeyDown}
             />
             <div className="flex gap-2.5">
@@ -98,7 +79,13 @@ const ChatBoxInputContent = ({
                   <div className="absolute bottom-[2.5rem] right-[-5.5rem]">
                     <Picker
                       data={data}
-                      onEmojiSelect={handleEmojiSelect}
+                      onEmojiSelect={(emoji: EmojiData) =>
+                        handleEmojiSelect({
+                          emoji,
+                          messageText,
+                          setMessageText,
+                        })
+                      }
                       onClickOutside={() => setShowEmojiPicker(false)}
                       perLine={7}
                     />

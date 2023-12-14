@@ -1,6 +1,6 @@
 import { formatSalary } from "@/utils";
-import { LargeInterviewCardProps } from "@/constants/interview";
 import { InterviewBannerImage, InterviewCardInfo } from ".";
+import { LargeInterviewCardProps } from "@/types/interview.index";
 
 const LargeInterviewCard = ({
   interviewData,

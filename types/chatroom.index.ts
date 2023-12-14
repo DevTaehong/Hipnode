@@ -1,5 +1,12 @@
 import { User } from "@prisma/client";
-import { Dispatch, SetStateAction, FormEvent, KeyboardEvent } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  FormEvent,
+  KeyboardEvent,
+  ChangeEvent,
+  RefObject,
+} from "react";
 import { Types } from "ably";
 
 export type ChatroomType = {
@@ -38,7 +45,8 @@ export interface AttachmentPreviewProps {
 }
 
 export interface LiveChatAudioPlayerProps {
-  songUrl: string;
+  audioUrl: string;
+  messageId?: number;
   isMessageFromCurrentUser?: boolean;
 }
 
@@ -62,6 +70,7 @@ export interface UserInfo {
 
 export interface ChatMessage {
   connectionId?: string;
+  id?: number | string;
   data: {
     user: ChatroomUser;
     messageId: number;
@@ -181,4 +190,61 @@ export interface UserTyping {
   userId: number;
   username: string;
   chatroomId: number;
+}
+
+export interface LiveChatMessageListProps {
+  messages: ChatMessage[];
+  setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+}
+
+export interface LiveChatVideoPlayerProps {
+  videoUrl: string;
+  height: number;
+  width: number;
+  additionalClasses: string;
+  messageId?: number | undefined;
+}
+
+export interface LiveChatAudioPlayerAnimationProps {
+  isPlaying: boolean;
+  isMessageFromCurrentUser: boolean;
+}
+
+export interface ChatBoxInputContentProps {
+  isChatroomUserTyping: boolean;
+  userTypingUsername: string | undefined;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  inputBox: RefObject<HTMLTextAreaElement>;
+  handleTyping: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  setShowEmojiPicker: Dispatch<SetStateAction<boolean>>;
+  showEmojiPicker: boolean;
+  data: object;
+}
+
+export interface LiveChatInputProps {
+  open: () => void;
+  inputBox: RefObject<HTMLTextAreaElement>;
+  messageText: string;
+  handleTyping: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  handleKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
+  isInputDisabled: boolean;
+  showEmojiPicker: boolean;
+  setShowEmojiPicker: (showEmojiPicker: boolean) => void;
+  setMessageText: (messageText: string) => void;
+}
+
+export type EmojiData = {
+  native: string;
+};
+
+export interface handleEmojiSelectProps {
+  emoji: EmojiData;
+  messageText: string;
+  setMessageText: (messageText: string) => void;
+}
+
+export interface MessageContentProps {
+  additionalStyles: string;
+  text: string;
+  fontSize: string;
 }

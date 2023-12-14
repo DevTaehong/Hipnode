@@ -11,6 +11,7 @@ import useChatStore from "@/app/chatStore";
 const MessageList = () => {
   const { userInfo } = useChatStore();
   const { id, username, image } = userInfo;
+
   const [users, setUsers] = useState<ChatProps[]>([]);
 
   const { channel } = useChannel("hipnode-livechat", () => {});

@@ -22,6 +22,10 @@
 
 /* Styles for LexicalEditor */
 
+em-emoji-picker #preview {
+  display: none;
+}
+
 .underlined-line-through {
   text-decoration: underline line-through;
 }
@@ -65,6 +69,7 @@
 
 body {
   font-family: "Inter", sans-serif;
+  scroll-behavior: smooth;
 }
 
 @layer utilities {
@@ -117,9 +122,11 @@ body {
   }
 
   .dark-gradient {
-    background: linear-gradient(232deg,
-        rgba(23, 28, 35, 0.41) 0%,
-        rgba(19, 22, 28, 0.7) 100%);
+    background: linear-gradient(
+      232deg,
+      rgba(23, 28, 35, 0.41) 0%,
+      rgba(19, 22, 28, 0.7) 100%
+    );
   }
 
   /* .tab {
@@ -134,13 +141,16 @@ body {
 }
 
 .active-theme {
-  filter: invert(53%) sepia(98%) saturate(3332%) hue-rotate(0deg) brightness(104%) contrast(106%) !important;
+  filter: invert(53%) sepia(98%) saturate(3332%) hue-rotate(0deg)
+    brightness(104%) contrast(106%) !important;
 }
 
 .light-gradient {
-  background: linear-gradient(132deg,
-      rgba(247, 249, 255, 0.5) 0%,
-      rgba(229, 237, 255, 0.25) 100%);
+  background: linear-gradient(
+    132deg,
+    rgba(247, 249, 255, 0.5) 0%,
+    rgba(229, 237, 255, 0.25) 100%
+  );
 }
 
 .primary-text-gradient {
@@ -310,7 +320,8 @@ code {
 }
 
 @media (max-width: 30em) {
-  .cl-internal-b3fm6y {}
+  .cl-internal-b3fm6y {
+  }
 }
 
 @media (max-width: 30em) {
@@ -429,52 +440,52 @@ code {
 }
 
 .liveChatAudioAnimation span:nth-child(1) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.1s;
 }
 
 .liveChatAudioAnimation span:nth-child(2) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.9s;
 }
 
 .liveChatAudioAnimation span:nth-child(3) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.3s;
 }
 
 .liveChatAudioAnimation span:nth-child(4) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.4s;
 }
 
 .liveChatAudioAnimation span:nth-child(5) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.8s;
 }
 
 .liveChatAudioAnimation span:nth-child(6) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.2s;
 }
 
 .liveChatAudioAnimation span:nth-child(7) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.6s;
 }
 
 .liveChatAudioAnimation span:nth-child(8) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.5s;
 }
 
 .liveChatAudioAnimation span:nth-child(9) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 0.7s;
 }
 
 .liveChatAudioAnimation span:nth-child(10) {
-  animation: liveChatAnimation 2s infinite ease-in-out;
+  animation: liveChatAnimation 1.2s infinite ease-in-out;
   animation-delay: 1s;
 }
 
@@ -511,18 +522,20 @@ code {
   display: inline-flex;
   width: 0.65rem;
   height: 0.65rem;
-  clip-path: polygon(10% 0,
-      0 10%,
-      40% 50%,
-      0 90%,
-      10% 100%,
-      50% 60%,
-      90% 100%,
-      100% 90%,
-      60% 50%,
-      100% 10%,
-      90% 0,
-      50% 40%);
+  clip-path: polygon(
+    10% 0,
+    0 10%,
+    40% 50%,
+    0 90%,
+    10% 100%,
+    50% 60%,
+    90% 100%,
+    100% 90%,
+    60% 50%,
+    100% 10%,
+    90% 0,
+    50% 40%
+  );
   font-size: 0.875rem;
   background-color: #1e252b;
 }

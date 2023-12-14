@@ -4,13 +4,18 @@ import { useState, useEffect, useMemo } from "react";
 import { ChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
 import { ChatPageChatList, ChatPageLiveChat } from ".";
+import useChatStore from "@/app/chatStore";
 
 const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
+  const { setShowChat } = useChatStore();
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
-  const { presenceData } = usePresence("hipnode-livechat");
   const [showChatRoomList, setShowChatRoomList] = useState(false);
+
+  const { presenceData } = usePresence("hipnode-livechat");
+
   useEffect(() => {
     const handleResize = () => {
       setShowChatRoomList(window.innerWidth > 767);
@@ -20,6 +25,10 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    setShowChat(false);
   }, []);
 
   let secondUser;

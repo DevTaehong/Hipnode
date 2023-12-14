@@ -25,7 +25,7 @@ const Interviews = async ({ searchParams }: { searchParams: SearchProps }) => {
   }
 
   const podcasts = await getAllPodcastsWithUserInfo();
-  const interviewsExample = await getFilteredInterviews({
+  const interviewData = await getFilteredInterviews({
     tagIds: interviewArray,
   });
 
@@ -34,7 +34,7 @@ const Interviews = async ({ searchParams }: { searchParams: SearchProps }) => {
       <div className="mt-16 flex max-w-[85rem] flex-col gap-5 lg:flex-row xl:w-full">
         <InterviewFilterAndContentWrapper
           tags={tags}
-          interviewsExample={interviewsExample}
+          interviewData={interviewData}
           interviewArray={interviewArray}
         />
         <section className="flex w-full lg:max-w-[20.3125rem]">

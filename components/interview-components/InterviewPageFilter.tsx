@@ -10,12 +10,12 @@ import { getFilteredInterviews } from "@/lib/actions/interview.actions";
 import SeeMoreButton from "./SeeMoreButton";
 import BoxShading from "./BoxShading";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
-import { InterviewPageProps } from "@/types/interview.index";
+import { InterviewPageProps, InterviewProps } from "@/types/interview.index";
 
 const InterviewPageFilter = ({
   loading,
   setLoading,
-  interviews,
+  interviewData,
   interviewArray,
 }: InterviewPageProps) => {
   const queryString = useSearchParams().toString();
@@ -24,33 +24,36 @@ const InterviewPageFilter = ({
       ? interviewArray
       : extractArray(queryString, "interview");
 
-  const [interviewList, setInterviewList] = useState(interviews);
-  const [interviewAmount, setInterviewAmount] = useState(20);
+  const [interviewList, setInterviewList] = useState<InterviewProps[]>(
+    interviewData.interviews
+  );
   const [loadMore, setLoadMore] = useState(false);
-  const [hasMoreInterviews, setHasMoreInterviews] = useState(true);
+  const [currentPage, setCurrentPage] = useState<number>(interviewData.page);
+  const [hasMoreInterviews, setHasMoreInterviews] = useState(
+    interviewData.hasMore
+  );
   const [ref, inView] = useInView();
 
   useEffect(() => {
     const fetchMoreInterviews = async () => {
       if (inView || loadMore) {
-        const moreInterviews = await getFilteredInterviews({
-          tagIds: interviewIds,
-          skipCount: interviewAmount,
-        });
-        if (moreInterviews.length === 0) {
-          setHasMoreInterviews(false);
-        } else {
-          setInterviewList((prevInterviews) => [
-            ...(prevInterviews ?? []),
-            ...moreInterviews,
-          ]);
-          setInterviewAmount((prevValue) => prevValue + 20);
-          if (loadMore) {
-            setLoadMore(false);
+        try {
+          const moreInterviews = await getFilteredInterviews({
+            tagIds: interviewIds,
+            page: currentPage,
+          });
+          if (moreInterviews.interviews.length) {
+            setInterviewList((prevInterviews) => [
+              ...(prevInterviews ?? []),
+              ...moreInterviews.interviews,
+            ]);
+            setCurrentPage((prevPage) => prevPage + 1);
           }
-          if ((interviewList ?? []).length + moreInterviews.length < 20) {
-            setHasMoreInterviews(false);
-          }
+          setHasMoreInterviews(moreInterviews.hasMore);
+          setLoadMore(false);
+        } catch (error) {
+          console.error("Error fetching more interviews:", error);
+          setLoadMore(false);
         }
       }
     };
@@ -58,11 +61,17 @@ const InterviewPageFilter = ({
   }, [inView, loadMore]);
 
   useEffect(() => {
-    setInterviewList(interviews);
-    setInterviewAmount(20);
-    setHasMoreInterviews(true);
+    setInterviewList(interviewData.interviews);
+    setCurrentPage(1);
     setLoading(false);
-  }, [interviews, queryString]);
+  }, [interviewData, queryString]);
+
+  useEffect(() => {
+    if (queryString === "") {
+      setHasMoreInterviews(true);
+      setCurrentPage(1);
+    }
+  }, [queryString]);
 
   if (loading) {
     return (
@@ -76,9 +85,11 @@ const InterviewPageFilter = ({
     <article className="relative flex xl:w-full">
       <BoxShading />
       <section className="flex w-fit flex-col gap-5 overflow-y-scroll xl:w-full">
-        {interviewList.map((interview) => (
-          <InterviewCard key={interview.id} interviewData={interview} />
-        ))}
+        {interviewList.length === 0 && <p>No interviews available.</p>}
+        {interviewList.length &&
+          interviewList.map((interview) => (
+            <InterviewCard key={interview.id} interviewData={interview} />
+          ))}
         <SeeMoreButton array={interviewList} setLoadMore={setLoadMore} />
         <p
           ref={ref}
