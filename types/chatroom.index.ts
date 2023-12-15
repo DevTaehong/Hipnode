@@ -247,7 +247,6 @@ export interface MessageContentProps {
 
 export interface LinkPreviewProps {
   url: string;
-  additionalStyles: string;
   smallChatBox?: boolean;
 }
 

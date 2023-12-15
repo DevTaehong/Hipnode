@@ -10,13 +10,15 @@ const ChatPageMessageList = () => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (endOfMessagesRef.current) {
-      endOfMessagesRef.current.scrollIntoView();
-    }
+    setTimeout(() => {
+      if (endOfMessagesRef.current) {
+        endOfMessagesRef.current.scrollIntoView();
+      }
+    }, 100);
   }, [messages]);
 
   return (
-    <ul className="relative flex h-full w-full flex-col gap-4 overflow-scroll bg-light p-4 dark:bg-dark-2 md:p-8 md:dark:bg-dark-3">
+    <ul className="relative flex h-full w-full flex-col items-end gap-4 overflow-scroll bg-light p-4 dark:bg-dark-2 md:p-8 md:dark:bg-dark-3">
       {messages &&
         messages.map((message: ChatMessage) => (
           <ChatBoxMessage key={message.data.messageId} message={message} />

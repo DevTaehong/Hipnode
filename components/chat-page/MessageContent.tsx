@@ -32,18 +32,12 @@ const MessageContent = ({
 
   return (
     <div className="flex flex-col gap-5">
-      {showPreview &&
-        links.map((link) => (
-          <LinkPreview
-            key={link.text}
-            url={link.text}
-            additionalStyles={additionalStyles}
-          />
-        ))}
       <figcaption
         onMouseOver={handleMouseOver}
-        className={`${additionalStyles}  flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
+        className={`${additionalStyles} flex w-fit max-w-full flex-col gap-2 overflow-hidden rounded-b-lg`}
       >
+        {showPreview &&
+          links.map((link) => <LinkPreview key={link.text} url={link.text} />)}
         {extractUrls(text).map((segment, index) =>
           segment.isUrl ? (
             <Link
