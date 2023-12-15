@@ -88,14 +88,12 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
               isMessageFromCurrentUser={isMessageFromCurrentUser}
             />
           </div>
-          {text && (
-            <MessageContent
-              additionalStyles={calculateDivStyles()}
-              text={text}
-              fontSize={fontSize}
-              inView={inView}
-            />
-          )}
+          <MessageContent
+            additionalStyles={calculateDivStyles()}
+            text={text}
+            fontSize={fontSize}
+            inView={inView}
+          />
         </figure>
       </div>
     </li>

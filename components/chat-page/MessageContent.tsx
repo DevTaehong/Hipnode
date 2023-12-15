@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { extractUrls, formatTextWithLineBreaks } from "../live-chat";
 import { MessageContentProps } from "@/types/chatroom.index";
@@ -10,6 +11,18 @@ const MessageContent = ({
   fontSize,
   inView,
 }: MessageContentProps) => {
+  const [showPreview, setShowPreview] = useState(false);
+
+  useEffect(() => {
+    if (inView) {
+      setTimeout(() => setShowPreview(true), 100);
+    }
+  }, [inView]);
+
+  const handleMouseOver = () => {
+    setShowPreview(true);
+  };
+
   if (text === null) return null;
 
   const segments = text ? extractUrls(text) : [];
@@ -19,7 +32,7 @@ const MessageContent = ({
 
   return (
     <div className="flex flex-col gap-5">
-      {inView &&
+      {showPreview &&
         links.map((link) => (
           <LinkPreview
             key={link.text}
@@ -28,6 +41,7 @@ const MessageContent = ({
           />
         ))}
       <figcaption
+        onMouseOver={handleMouseOver}
         className={`${additionalStyles}  flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
       >
         {extractUrls(text).map((segment, index) =>

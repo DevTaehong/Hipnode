@@ -6,7 +6,6 @@ import { fetchMetadataServer } from "./fetchMetadata";
 
 const LinkPreview = memo(
   ({ url, additionalStyles, smallChatBox = false }: LinkPreviewProps) => {
-    console.log("render");
     const [metadata, setMetadata] = useState<LinkPreviewMetadata>({
       title: null,
       image: null,

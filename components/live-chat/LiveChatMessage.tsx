@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useInView } from "react-intersection-observer";
 
 import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
@@ -9,6 +10,10 @@ import LinkPreview from "../chat-page/LinkPreview";
 
 const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
   const { chatroomUsers } = useChatStore();
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+  });
 
   const {
     user: { id, image, username },
@@ -43,6 +48,7 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
 
   return (
     <li
+      ref={ref}
       className={`${messageAlign} flex max-w-full gap-2.5 break-words`}
       key={id}
     >
@@ -56,26 +62,25 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
         />
       </figure>
       <div className="flex flex-col gap-3">
-        {links.map((link) => (
-          <LinkPreview
-            key={link.text}
-            url={link.text}
-            additionalStyles={calculateDivStyles()}
-            smallChatBox
-          />
-        ))}
-        <figure
-          className={`flex w-fit max-w-[250px] flex-col gap-3 ${
-            isMessageFromCurrentUser && "self-end"
-          }`}
-        >
+        {inView &&
+          links.map((link) => (
+            <LinkPreview
+              key={link.text}
+              url={link.text}
+              additionalStyles={calculateDivStyles()}
+              smallChatBox
+            />
+          ))}
+        <figure className={`flex w-fit max-w-[250px] flex-col gap-3`}>
           <MessageAttachment
             message={message}
             isMessageFromCurrentUser={isMessageFromCurrentUser}
           />
           {text && (
             <figcaption
-              className={`${calculateDivStyles()} semibold-16 flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
+              className={`${calculateDivStyles()} ${
+                isMessageFromCurrentUser && "self-end"
+              } semibold-16 flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
             >
               {extractUrls(text).map((segment, index) =>
                 segment.isUrl ? (

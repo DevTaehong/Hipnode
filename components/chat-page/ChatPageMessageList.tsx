@@ -10,11 +10,9 @@ const ChatPageMessageList = () => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (endOfMessagesRef.current) {
-        endOfMessagesRef.current.scrollIntoView();
-      }
-    }, 50);
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView();
+    }
   }, [messages]);
 
   return (
