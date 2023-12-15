@@ -36,21 +36,9 @@ const LinkPreview = memo(({ url, smallChatBox = false }: LinkPreviewProps) => {
       : "xs:max-h-[7rem] xs:max-w-[8.2rem] md:max-w-full md:max-h-[18rem]  lg:max-h-[7rem] lg:max-w-[8.2rem]",
     imageStyles:
       !smallChatBox && "w-full xs:w-[8.2rem] md:w-full lg:w-[8.2rem]",
-    titleStyles: smallChatBox
-      ? "semibold-14 md:semibold-18"
-      : "semibold-16 md:semibold-18",
-    descriptionStyles: smallChatBox
-      ? "base-12 md:base-14"
-      : "base-12 md:base-14",
   };
 
-  const {
-    outerDivStyles,
-    imageDivStyles,
-    imageStyles,
-    titleStyles,
-    descriptionStyles,
-  } = styling;
+  const { outerDivStyles, imageDivStyles, imageStyles } = styling;
 
   if (!title || !image) return null;
 
@@ -65,13 +53,13 @@ const LinkPreview = memo(({ url, smallChatBox = false }: LinkPreviewProps) => {
         <div className={`flex ${imageDivStyles} shrink-0 rounded`}>
           <img
             src={image}
-            className={`${imageStyles} w-full rounded object-cover`}
+            className={`${imageStyles} w-full rounded object-contain`}
             alt="link image"
           />
         </div>
         <div className="flex h-full w-full flex-col justify-between gap-1 overflow-hidden">
-          <p className={`${titleStyles} line-clamp-2`}>{title}</p>
-          <p className={`${descriptionStyles} line-clamp-2`}>{description}</p>
+          <p className="semibold-16 md:semibold-18 line-clamp-2">{title}</p>
+          <p className="base-12 md:base-14 line-clamp-2">{description}</p>
         </div>
       </div>
     </Link>
