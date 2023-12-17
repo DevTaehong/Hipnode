@@ -5,6 +5,7 @@ import { ChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
 import { ChatPageChatList, ChatPageLiveChat } from ".";
 import useChatStore from "@/app/chatStore";
+import { deleteMessage } from "@/lib/actions/chatroom.actions";
 
 const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const { setShowChat } = useChatStore();
@@ -46,6 +47,17 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     };
   }
 
+  const handleDeleteClick = async ({ messageId }: { messageId: number }) => {
+    try {
+      setMessages((prevMessages) =>
+        prevMessages.filter((message) => message.data.messageId !== messageId)
+      );
+      await deleteMessage(messageId);
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+
   const onlineUsers = useMemo(() => {
     return (
       presenceData
@@ -70,6 +82,7 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
         setIsLoading,
         isInputDisabled,
         setIsInputDisabled,
+        handleDeleteClick,
       }}
     >
       <main className="bg-light-2_dark-2 -mt-16 flex h-screen min-h-screen w-screen justify-center pt-16">

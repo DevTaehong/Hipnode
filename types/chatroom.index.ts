@@ -20,6 +20,7 @@ export type CreateMessageType = {
   chatroomId: number;
   attachment: string | null;
   attachmentType: string | null;
+  messageUUID: string;
 };
 
 export type EditMessageType = {
@@ -166,6 +167,7 @@ export interface ChatPageContextType {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   isInputDisabled: boolean;
   setIsInputDisabled: Dispatch<SetStateAction<boolean>>;
+  handleDeleteClick: ({ messageId }: { messageId: number }) => Promise<void>;
 }
 
 export interface ChatPageInputContextType {

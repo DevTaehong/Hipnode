@@ -10,7 +10,7 @@ const MessageContent = ({
 }: MessageContentProps) => {
   return (
     <figcaption
-      className={`${additionalStyles} flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
+      className={`${additionalStyles} relative flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
     >
       {extractUrls(text).map((segment, index) =>
         segment.isUrl ? (

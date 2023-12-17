@@ -273,6 +273,7 @@ model Message {
   chatroomId Int
   attachment      String?
   attachmentType  String?
+  messageUUID     String
   Chatroom   Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
   User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
