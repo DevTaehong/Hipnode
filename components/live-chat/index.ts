@@ -75,7 +75,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   }
 
   if (attachmentURL || messageContent.length > 0) {
-    const messageUniqueId = uuidv4();
+    // const messageUniqueId = uuidv4();
     const chatMessage = {
       text: messageContent || null,
       user: currentUser,
@@ -83,7 +83,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       attachment: attachmentURL,
       attachmentType: mediaType,
       createdAt: new Date(),
-      messageUUID: messageUniqueId,
+      // messageUUID: messageUniqueId,
     };
 
     try {
@@ -95,7 +95,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
           chatroomId,
           attachment: chatMessage.attachment,
           attachmentType: chatMessage.attachmentType,
-          messageUUID: messageUniqueId,
+          // messageUUID: messageUniqueId,
         });
         return API_RESULT.SUCCESS;
       }

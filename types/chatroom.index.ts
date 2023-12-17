@@ -20,7 +20,7 @@ export type CreateMessageType = {
   chatroomId: number;
   attachment: string | null;
   attachmentType: string | null;
-  messageUUID: string;
+  // messageUUID: string;
 };
 
 export type EditMessageType = {
