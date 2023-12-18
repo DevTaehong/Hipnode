@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent, useEffect } from "react";
+import { useState, KeyboardEvent } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -39,6 +39,7 @@ const CommentForm = ({
   setIsEditing,
   setIsReplying,
   postId,
+  postHeading,
 }: CommentFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
@@ -63,7 +64,8 @@ const CommentForm = ({
           postId,
           values.comment,
           Number(parentId) || null,
-          path
+          path,
+          postHeading
         );
         setIsReplying?.(false);
       }

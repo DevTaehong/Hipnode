@@ -91,10 +91,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 />
               </div>
               <div className="flex h-fit grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
-                <CommentForm postId={postData.id} />
+                <CommentForm postId={postData.id} postHeading={heading} />
               </div>
             </div>
-            <CommentList postId={+id} />
+            <CommentList postId={+id} postHeading={heading} />
           </section>
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">

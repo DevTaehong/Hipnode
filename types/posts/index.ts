@@ -104,6 +104,7 @@ export interface CommentFormProps {
   setIsReplying?: (isReplying: boolean) => void;
   content?: string;
   postId: number;
+  postHeading?: string;
 }
 
 export interface CommentActionsProps {
@@ -141,6 +142,7 @@ export interface CommentAuthorProps extends Comment {
   userId?: number;
   depth: number;
   isLastComment: boolean;
+  postHeading?: string;
 }
 
 export interface CommentListProps {

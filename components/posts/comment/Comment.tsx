@@ -31,6 +31,7 @@ const Comment = ({
   depth = 0,
   isLastComment,
   postComments,
+  postHeading,
 }: CommentAuthorProps & {
   postComments: Record<string, CommentAuthorProps[]>;
 }) => {
@@ -55,7 +56,7 @@ const Comment = ({
   const toggleLikeHandler = async () => {
     if (!userId) return;
     try {
-      await toggleLikeComment(userId, id);
+      await toggleLikeComment(userId, id, author?.id, postHeading);
       setIsLiked(!isLiked);
     } catch (error) {
       console.error("Error toggling like:", error);
@@ -105,6 +106,7 @@ const Comment = ({
                 setIsReplying={setIsReplying}
                 setIsEditing={setIsEditing}
                 postId={postId}
+                postHeading={postHeading}
               />
             )}
             {isEditing && (
@@ -116,6 +118,7 @@ const Comment = ({
                 setIsReplying={setIsReplying}
                 setIsEditing={setIsEditing}
                 postId={postId}
+                postHeading={postHeading}
               />
             )}
           </div>
@@ -160,6 +163,7 @@ const Comment = ({
                 depth={depth + 1}
                 isLastComment={index === childComments.length - 1}
                 postComments={postComments}
+                postHeading={postHeading}
               />
             </div>
           ))}

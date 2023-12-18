@@ -9,42 +9,43 @@ datasource db {
 }
 
 model User {
-  id                Int                      @id @default(autoincrement())
-  clerkId           String                   @unique
-  name              String
-  username          String                   @unique
-  email             String                   @unique
-  password          String?
-  title             String?
-  points            Int                      @default(0)
-  role              Role                     @default(USER)
-  bio               String?
-  website           String?
-  facebook          String?
-  twitter           String?
-  instagram         String?
-  picture           String
-  location          String?
-  createdAt         DateTime                 @default(now())
-  updatedAt         DateTime                 @updatedAt
-  ChatroomUsers     ChatroomUsers[]
-  comments          Comment[]
-  interviews        Interview[]
-  likes             Like[]
-  meetup            MeetUp[]
-  Message           Message[]
-  onboarding        Onboarding?
-  podcasts          Podcast[]
-  posts             Post[]
-  Share             Share[]
-  shows             Shows[]
-  subscribedShows   UsersSubscribedToShows[]
-  groupAdmin        Group[]                  @relation("GroupAdmins")
-  groups            Group[]                  @relation("UserGroups")
-  following         Follower[]               @relation("follower")
-  followBy          Follower[]               @relation("followed")
-  notifications     Notification[]           @relation("NotificationUser")
-  sentNotifications Notification[]           @relation("NotificationSender")
+  id                      Int                      @id @default(autoincrement())
+  clerkId                 String                   @unique
+  name                    String
+  username                String                   @unique
+  email                   String                   @unique
+  password                String?
+  title                   String?
+  points                  Int                      @default(0)
+  role                    Role                     @default(USER)
+  bio                     String?
+  website                 String?
+  facebook                String?
+  twitter                 String?
+  instagram               String?
+  picture                 String
+  location                String?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  ChatroomUsers           ChatroomUsers[]
+  comments                Comment[]
+  interviews              Interview[]
+  likes                   Like[]
+  meetup                  MeetUp[]
+  Message                 Message[]
+  onboarding              Onboarding?
+  podcasts                Podcast[]
+  posts                   Post[]
+  Share                   Share[]
+  shows                   Shows[]
+  subscribedShows         UsersSubscribedToShows[]
+  groupAdmin              Group[]                  @relation("GroupAdmins")
+  groups                  Group[]                  @relation("UserGroups")
+  following               Follower[]               @relation("follower")
+  followBy                Follower[]               @relation("followed")
+  notificationReceiver    Notification[]           @relation("Receiver")
+  notificationSender      Notification[]           @relation("Sender")
+  notificationLastChecked DateTime                 @default(now())
 }
 
 model Follower {
@@ -54,7 +55,7 @@ model Follower {
 
   follower      User           @relation(fields: [followerId], references: [id], name: "follower")
   followed      User           @relation(fields: [followedId], references: [id], name: "followed")
-  notifications Notification[] @relation("NotificationFollower")
+  notifications Notification[]
 
   @@unique([followerId, followedId]) // Ensures that the same follow relationship can't be created more than once
 }
@@ -108,20 +109,21 @@ model Like {
 }
 
 model Comment {
-  id            Int            @id @default(autoincrement())
-  content       String         @db.VarChar(150)
-  authorId      Int
-  postId        Int
-  parentId      Int?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  isEdited      Boolean        @default(false)
-  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  parent        Comment?       @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
-  replies       Comment[]      @relation("CommentToComment")
-  post          Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
-  likes         Like[]
-  notifications Notification[]
+  id                         Int            @id @default(autoincrement())
+  content                    String         @db.VarChar(150)
+  authorId                   Int
+  postId                     Int
+  parentId                   Int?
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+  isEdited                   Boolean        @default(false)
+  author                     User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent                     Comment?       @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
+  replies                    Comment[]      @relation("CommentToComment")
+  post                       Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+  likes                      Like[]
+  notifications              Notification[] @relation("CommentToNotification")
+  parentCommentNotifications Notification[] @relation("CommentParentToNotification")
 }
 
 model Tag {
@@ -293,27 +295,40 @@ model Share {
 }
 
 model Notification {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  userId         Int
-  senderId       Int
-  type           String
-  isRead         Boolean? @default(false)
-  isFollowed     Boolean? @default(false)
-  commentContent String?
-  title          String?
-  meetupId       Int?
-  commentId      Int?
-  likeId         Int?
-  followerId     Int?
+  id              Int              @id @default(autoincrement())
+  userId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  senderName      String
+  image           String
+  date            String
+  type            NotificationType
+  isRead          Boolean?         @default(false)
+  isFollowed      Boolean?         @default(false)
+  commentContent  String?
+  title           String?          @db.VarChar(300)
+  meetupId        Int?
+  commentId       Int?
+  likeId          Int?
+  followerId      Int?
+  commentParentId Int?
 
-  user     User      @relation("NotificationUser", fields: [userId], references: [id])
-  sender   User      @relation("NotificationSender", fields: [senderId], references: [id])
-  meetup   MeetUp?   @relation(fields: [meetupId], references: [id])
-  comment  Comment?  @relation(fields: [commentId], references: [id])
-  like     Like?     @relation(fields: [likeId], references: [id])
-  follower Follower? @relation("NotificationFollower", fields: [followerId], references: [id])
+  receiver      User      @relation("Receiver", fields: [userId], references: [id], onDelete: Cascade)
+  sender        User      @relation("Sender", fields: [senderName], references: [username], onDelete: Cascade)
+  meetup        MeetUp?   @relation(fields: [meetupId], references: [id], onDelete: Cascade)
+  comment       Comment?  @relation("CommentToNotification", fields: [commentId], references: [id], onDelete: Cascade)
+  like          Like?     @relation(fields: [likeId], references: [id], onDelete: Cascade)
+  follower      Follower? @relation(fields: [followerId], references: [id], onDelete: Cascade)
+  commentParent Comment?  @relation("CommentParentToNotification", fields: [commentParentId], references: [id], onDelete: Cascade)
+}
+
+enum NotificationType {
+  COMMENT
+  REACTION
+  MENTION
+  MEETUP
+  FOLLOWER
+  REPLY
 }
 
 enum Role {
