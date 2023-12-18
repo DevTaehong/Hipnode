@@ -11,6 +11,7 @@ import { supabase } from "@/utils/supabaseClient";
 import { homePageTags, monthNames, abbMonthNames } from "@/constants";
 import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
+import { createNotification } from "@/lib/actions/notification.actions";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -51,7 +52,6 @@ export const uploadImageToSupabase = async (
       console.error("File upload error:", error.message);
       return null;
     } else {
-      console.log("File uploaded successfully:", uniqueFileName);
       const projectUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}`;
       return `${projectUrl}/storage/v1/object/public/${bucketName}/${uniqueFileName}`;
     }
@@ -382,4 +382,59 @@ export const adjustHeight = (element: HTMLTextAreaElement | null) => {
   if (element === null) return;
   element.style.height = "24px";
   element.style.height = `${Math.min(element.scrollHeight, 72)}px`; // 72px is the max height
+};
+
+export const getNotificationDate = (date: Date) => {
+  const dateObj = new Date(date);
+  const day = dateObj.getDate();
+
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ][dateObj.getMonth()];
+  const hours = dateObj.getHours();
+  const minutes =
+    dateObj.getMinutes() < 10
+      ? "0" + dateObj.getMinutes()
+      : dateObj.getMinutes();
+  const formattedDate = `${day} ${month}, ${hours}:${minutes}${
+    hours < 12 ? "am" : "pm"
+  }`;
+  return formattedDate;
+};
+
+export const createNotificationIfRequired = (
+  userId: number | undefined,
+  type: "COMMENT" | "REPLY",
+  image: string,
+  senderName: string,
+  commentContent: string,
+  title: string | undefined,
+  commentId: number,
+  createAt: Date,
+  commentParentId?: number
+) => {
+  const date = getNotificationDate(createAt);
+  if (!userId) throw new Error("No user id provided to create notification");
+  createNotification({
+    userId,
+    image,
+    senderName,
+    type,
+    commentContent,
+    title: title || "No title",
+    commentId,
+    date,
+    commentParentId,
+  });
 };
