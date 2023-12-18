@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import Picker from "@emoji-mart/react";
 
@@ -8,7 +9,7 @@ import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
 import { handleEmojiSelect } from "../live-chat";
-
+import ChatAudioRecorder from "./ChatAudioRecorder";
 const ChatBoxInputContent = ({
   isChatroomUserTyping,
   userTypingUsername,
@@ -28,6 +29,7 @@ const ChatBoxInputContent = ({
     setMessageText,
     handleKeyDown,
   } = useChatPageInputContext();
+  const [recordingAudio, setRecordingAudio] = useState(false);
   const { isInputDisabled } = useChatPageContext();
 
   return (
@@ -46,6 +48,9 @@ const ChatBoxInputContent = ({
               chatPage={true}
             />
           </div>
+        )}
+        {recordingAudio && (
+          <p className="animate-pulse self-start text-red-80">Recording...</p>
         )}
         <form
           className="flex w-full items-center gap-5"
@@ -92,9 +97,11 @@ const ChatBoxInputContent = ({
                   </div>
                 )}
               </figure>
-              <button className="flex" type="button">
-                <OutlineIcon.Voice className="stroke-sc-4" />
-              </button>
+              <ChatAudioRecorder
+                setRecordingAudio={setRecordingAudio}
+                droppedFile={droppedFile}
+                setDroppedFile={setDroppedFile}
+              />
             </div>
           </div>
           <button

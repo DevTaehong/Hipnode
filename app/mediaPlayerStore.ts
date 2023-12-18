@@ -9,6 +9,10 @@ interface MediaPlayerStore {
   setAudioMessageId: (audioMessageId: number | undefined) => void;
   videoMessageId: number | undefined;
   setVideoMessageId: (videoMessageId: number | undefined) => void;
+
+  // ! Live recording
+  liveRecordingDuration: number;
+  setLiveRecordingDuration: (liveRecordingDuration: number) => void;
 }
 
 const useMediaPlayerStore = create<MediaPlayerStore>((set) => ({
@@ -22,6 +26,12 @@ const useMediaPlayerStore = create<MediaPlayerStore>((set) => ({
   videoMessageId: undefined,
   setVideoMessageId: (videoMessageId: number | undefined) =>
     set({ videoMessageId }),
+
+  // ! Live recording
+
+  liveRecordingDuration: 0,
+  setLiveRecordingDuration: (liveRecordingDuration: number) =>
+    set({ liveRecordingDuration }),
 }));
 
 export default useMediaPlayerStore;

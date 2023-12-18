@@ -207,6 +207,8 @@ const LiveChat = () => {
             showEmojiPicker={showEmojiPicker}
             setShowEmojiPicker={setShowEmojiPicker}
             setMessageText={setMessageText}
+            droppedFile={droppedFile}
+            setDroppedFile={setDroppedFile}
           />
         </div>
         <button
