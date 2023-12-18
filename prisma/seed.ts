@@ -1,3 +1,5 @@
+import prisma from "../lib/prisma";
+
 import { createPosts, createTags } from "./seed/seed-posts/index";
 import { createOnboarding, createUsers } from "./seed/seed-user/index";
 import {
@@ -10,11 +12,12 @@ import { createInterviews } from "./seed/seed-interviews/createInterview";
 import { seedInterviewTags } from "./seed/seed-interviews/createInterviewTag";
 import { seedTagOnInterview } from "./seed/seed-interviews/seedTagOnInterview";
 
-import prisma from "../lib/prisma";
 import { createShares } from "./seed/seed-posts/createPostShares";
 import { createLikesForPost } from "./seed/seed-posts/CreateLikesForPosts";
 import { seedMeetupsTags } from "./seed/seed-meetup/createMeetupTag";
 import { seedTagOnMeetup } from "./seed/seed-meetup/seedTagOnMeetup";
+
+import { createFollowings } from "./seed/seed-followings/createFollowings";
 
 async function main() {
   console.time("Execution Time");
@@ -44,6 +47,8 @@ async function main() {
   await seedMeetupsTags();
   await createMeetUps(users);
   await seedTagOnMeetup();
+
+  await createFollowings(users);
 
   console.timeEnd("Execution Time");
 }

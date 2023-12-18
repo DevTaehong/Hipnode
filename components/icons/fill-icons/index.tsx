@@ -32,6 +32,7 @@ import FollowIcon from "./FollowIcon";
 import MenuIcon from "./MenuIcon";
 import PlayIcon from "./PlayIcon";
 import MoreVerticalIcon from "./MoreVerticalIcon";
+import TriangleIcon from "./TriangleIcon";
 
 export interface FillIconProps {
   children?: ReactNode;
@@ -302,6 +303,16 @@ FillIcon.Sun = function Icon({ className }: FillIconProps) {
   return (
     <FillIcon className={className ?? "fill-[#C5D0E6] dark:fill-[#2C353D]"}>
       <SunIcon />
+    </FillIcon>
+  );
+};
+
+FillIcon.Triangle = function Icon({ className }: FillIconProps) {
+  return (
+    <FillIcon
+      className={className ?? "shrink-0 fill-[#858EAD] dark:fill-[#F4F6F8]"}
+    >
+      <TriangleIcon />
     </FillIcon>
   );
 };

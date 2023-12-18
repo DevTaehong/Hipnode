@@ -282,28 +282,30 @@ export interface ProfileInfoProps {
   name: string | undefined;
   title?: string | null;
   followers: number | undefined;
+  following: number | undefined;
   points: number | undefined;
-  following?:
-    | {
-        id: number;
-        name: string;
-        src: string;
-      }[]
-    | undefined;
   description: string | null | undefined;
   website?: string | null | undefined;
-  socials: { name: string; link: string }[];
+  twitter?: string | null | undefined;
+  instagram?: string | null | undefined;
+  facebook?: string | null | undefined;
   joinedAt: string | null | undefined;
+  profileFollowing: {
+    followed: {
+      username: string;
+      picture: string;
+    };
+  }[];
 }
 
 export interface ProfileLinkProps {
-  id: number;
-  name: string;
-  src: string;
+  username: string;
+  picture: string;
 }
 
 export interface SocialIconsProps {
-  socials: { name: string; link: string }[];
+  icon: string;
+  link: string;
 }
 
 export interface UserButtonProps {
@@ -311,10 +313,13 @@ export interface UserButtonProps {
 }
 export interface PerformanceProps {
   data: {
-    contentImg: string;
-    views: number;
-    likes: number;
-    comments: number;
+    id: number;
+    image: string;
+    viewCount: number;
+    _count: {
+      likes: number;
+      comments: number;
+    };
   }[];
 }
 
@@ -327,15 +332,15 @@ export interface PerformanceCardProps {
 
 export interface ContentCardProps {
   contentImg: string;
-  userImg: string;
+  userImg: string | undefined;
   description: string;
   tags: string[];
   views: number;
   likes: number;
   comments: number;
   isHeart: boolean;
-  name: string;
-  createdAt: string;
+  name: string | undefined;
+  createdAt: string | undefined;
 }
 
 export interface StatsDescriptionProps {

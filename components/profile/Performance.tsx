@@ -15,11 +15,11 @@ const Performance = ({ data }: PerformanceProps) => {
       <section className="mt-7 flex flex-col gap-6">
         {data.map((card) => (
           <PerformanceCard
-            key={card.contentImg}
-            contentImg={card.contentImg}
-            views={card.views}
-            likes={card.likes}
-            comments={card.comments}
+            key={card.id}
+            contentImg={card.image}
+            views={card.viewCount}
+            likes={card._count.likes}
+            comments={card._count.comments}
           />
         ))}
       </section>
