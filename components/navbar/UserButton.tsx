@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 
+import FillIcons from "@/components/icons/fill-icons";
 import {
   Popover,
   PopoverContent,
@@ -17,48 +18,42 @@ const UserButton = () => {
 
   return (
     <Popover>
-      {user && (
-        <PopoverTrigger className="flex items-center justify-center gap-4">
-          <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
-            <Image
-              src={user?.imageUrl}
-              alt="User Image"
-              width={30}
-              height={30}
-              className="m-[2px] rounded-[0.375rem] bg-yellow-30"
-            />
+      <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg hover:bg-sc-6 dark:hover:bg-dark-4">
+        <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
+          <Image
+            src={user?.imageUrl || "/emjoi-placeholder.png"}
+            alt="User Image"
+            width={30}
+            height={30}
+            className="m-[2px] rounded-[0.375rem] bg-yellow-30"
+          />
+        </div>
+
+        <p className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
+          <div className="line-clamp-1 flex-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
+            {/* {user?.username} */}
+            Abide
           </div>
 
-          <p className="hidden w-[100px] items-center justify-center gap-2.5 xl:flex">
-            <span className="line-clamp-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
-              {user?.username}
-            </span>
-
-            <Image
-              src="/navbar/triangle_down.svg"
-              alt="User Image"
-              width={20}
-              height={20}
-              className="shrink-0"
-            />
-          </p>
-        </PopoverTrigger>
-      )}
-      <PopoverContent className="relative right-[20px] top-[17px] flex h-[187px] w-[182px] flex-col justify-center gap-5 bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[57px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
-        <div className="relative top-[5px] flex flex-col gap-5">
+          <FillIcons.Triangle />
+        </p>
+      </PopoverTrigger>
+      <PopoverContent className="relative right-[20px] top-[23px] h-[187px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
+        <section className="relative top-[8px] flex flex-col gap-5 p-4">
           <UserButtonLink link="/profile" text="Profile" />
 
           <UserButtonLink link="/settings" text="Settings" />
 
           <div className="h-[1px] w-full bg-light-2 dark:bg-sc-3" />
 
-          <div className="flex items-center justify-between">
+          <article className="flex w-full items-center justify-between gap-[17px]">
             <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2">
               Interface
             </p>
+
             <Theme />
-          </div>
-        </div>
+          </article>
+        </section>
       </PopoverContent>
     </Popover>
   );

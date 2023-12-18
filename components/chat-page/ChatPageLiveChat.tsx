@@ -11,6 +11,7 @@ import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { ChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import ChatPageInput from "./ChatPageInput";
 import useChatStore from "@/app/chatStore";
+import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const ChatPageLiveChat = () => {
   const {
@@ -25,6 +26,7 @@ const ChatPageLiveChat = () => {
   } = useChatPageContext();
   const { chatroomUsers, chatroomId, setChatroomUsers, setChatroomId } =
     useChatStore();
+  const { setLiveRecordingDuration } = useMediaPlayerStore();
 
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
 
@@ -46,6 +48,7 @@ const ChatPageLiveChat = () => {
 
   useEffect(() => {
     setDroppedFile(null);
+    setLiveRecordingDuration(0);
   }, [chatroomId]);
 
   useEffect(() => {
@@ -77,6 +80,47 @@ const ChatPageLiveChat = () => {
     }
   }, []);
 
+<<<<<<< HEAD
+=======
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      handleFormSubmission(event);
+    }
+  };
+
+  const currentUser = userInfo;
+
+  const handleFormSubmission = async (
+    event:
+      | FormEvent<HTMLFormElement>
+      | KeyboardEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    event.preventDefault();
+    if (messageTextIsEmpty && !droppedFile) return;
+    setIsInputDisabled(true);
+    try {
+      const result = await liveChatSubmission({
+        event,
+        messageText,
+        droppedFile,
+        channel,
+        chatroomId,
+        currentUser,
+      });
+      if (result === API_RESULT.SUCCESS) {
+        setLiveRecordingDuration(0);
+        setMessageText("");
+        setDroppedFile(null);
+        setIsInputDisabled(false);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      setIsInputDisabled(false);
+    }
+  };
+
+>>>>>>> main
   if (!chatroomId) return null;
 
   return (

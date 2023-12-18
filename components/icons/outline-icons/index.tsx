@@ -403,9 +403,16 @@ OutlineIcon.Upload = function Icon({ className }: OutlineIconProps) {
 
 OutlineIcon.Web = function Icon({ className }: OutlineIconProps) {
   return (
-    <IconAlt className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}
+    >
       <IconAlt.Web />
-    </IconAlt>
+    </svg>
   );
 };
 

@@ -6,7 +6,7 @@ import OutlineIcon from "../icons/outline-icons";
 import ProfileLink from "./ProfileLink";
 
 import { ProfileInfoProps } from "@/types";
-import SocialIcons from "./SocialIcons";
+import SocialIcon from "./SocialIcon";
 import TextDescription from "./TextDescription";
 
 const ProfileModal = ({
@@ -14,11 +14,14 @@ const ProfileModal = ({
   name,
   title,
   followers,
-  points,
   following,
+  points,
   description,
   website,
-  socials,
+  twitter,
+  instagram,
+  facebook,
+  profileFollowing,
   joinedAt,
 }: ProfileInfoProps) => {
   return (
@@ -48,28 +51,25 @@ const ProfileModal = ({
       </TextDescription>
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
-        Following {following?.length}
+        Following {following}
       </TextDescription>
 
       <div className="mt-4 flex flex-wrap justify-center gap-2.5">
-        {following
-          ?.slice(0, 6)
-          .map((profile) => (
-            <ProfileLink
-              key={profile.id}
-              id={profile.id}
-              name={profile.name}
-              src={profile.src}
-            />
-          ))}
+        {profileFollowing?.map(({ followed }) => (
+          <ProfileLink
+            key={followed.username}
+            username={followed.username}
+            picture={followed.picture}
+          />
+        ))}
 
-        {following && following.length > 6 && (
+        {following && following > 6 && (
           <Link
             href="/"
             className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
           >
             <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
-              {following.length - 6}+
+              {following - 6}+
             </p>
           </Link>
         )}
@@ -79,24 +79,30 @@ const ProfileModal = ({
         {description}
       </TextDescription>
 
-      <div className="flex flex-wrap justify-center gap-5 md:flex-col">
+      <div className="mt-5 flex flex-wrap justify-center gap-5 md:flex-col">
         {website && (
           <Link
             href={website}
-            className="mt-5 flex items-center gap-2 text-sc-2 dark:text-sc-6"
+            className="flex items-center gap-2 text-sc-2 dark:text-sc-6"
           >
             <OutlineIcon.Web className="fill-sc-2 dark:fill-light-2" />
-            <p className="w-[130px] truncate">{website}</p>
+            <p className="w-[130px] truncate text-[0.875rem]">{website}</p>
           </Link>
         )}
 
-        <SocialIcons socials={socials} />
+        <div className="flex justify-center gap-5">
+          {twitter && <SocialIcon icon="Twitter" link={twitter} />}
+
+          {instagram && <SocialIcon icon="Instagram" link={instagram} />}
+
+          {facebook && <SocialIcon icon="Facebook" link={facebook} />}
+        </div>
       </div>
 
       <div className="mt-5 h-[1px] w-full bg-light-2 dark:bg-sc-3 md:mt-7" />
 
       <TextDescription className="mt-5 text-sc-3 dark:text-sc-6 md:mt-7">
-        {joinedAt}
+        joined {joinedAt}
       </TextDescription>
     </div>
   );

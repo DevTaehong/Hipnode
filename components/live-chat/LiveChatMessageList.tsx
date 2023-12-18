@@ -9,9 +9,11 @@ import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { useGetOnlineUsers } from "../chat-page/presenceData";
+import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const LiveChatMessageList = React.memo(
   ({ messages, setDroppedFile }: LiveChatMessageListProps) => {
+    const { setLiveRecordingDuration } = useMediaPlayerStore();
     const router = useRouter();
     const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
       useChatStore();
@@ -47,6 +49,10 @@ const LiveChatMessageList = React.memo(
       setDroppedFile(null);
       router.push(`/chat`);
     };
+
+    useEffect(() => {
+      setLiveRecordingDuration(0);
+    }, []);
 
     return (
       <>

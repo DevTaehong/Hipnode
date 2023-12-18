@@ -14,6 +14,7 @@ const LiveChatAudioPlayer = ({
   messageId = undefined,
   isMessageFromCurrentUser = false,
 }: LiveChatAudioPlayerProps) => {
+  const { liveRecordingDuration } = useMediaPlayerStore();
   const { togglePlay, isPlaying: podcastIsPlaying } = usePodcastStore();
   const {
     audioMessageId,
@@ -27,9 +28,9 @@ const LiveChatAudioPlayer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [displayTime, setDisplayTime] = useState(0);
+  const [showTime, setShowTime] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
   const time = formatTime(displayTime);
 
   useEffect(() => {
@@ -57,11 +58,33 @@ const LiveChatAudioPlayer = ({
     }
   }, [audioMessageId]);
 
+  const seriouslyHackyFix = (url: string) => {
+    const match = url.match(/duration-(\d+)/);
+    const extractedDuration = match ? parseInt(match[1], 10) : 0;
+    return extractedDuration;
+  };
+
   useEffect(() => {
     const audioElement = audioRef.current;
     if (audioElement !== null) {
-      const handleMetadataLoaded = () => setDisplayTime(audioElement.duration);
-      const handleTimeUpdate = () => setDisplayTime(audioElement.currentTime);
+      const handleMetadataLoaded = () => {
+        if (audioElement.duration !== Infinity) {
+          setDisplayTime(audioElement.duration);
+        } else if (liveRecordingDuration > 0) {
+          setDisplayTime(liveRecordingDuration);
+        } else if (audioElement.src) {
+          const extractedDuration = seriouslyHackyFix(audioElement.src);
+          setDisplayTime(extractedDuration);
+        } else {
+          setDisplayTime(0);
+        }
+      };
+
+      const handleTimeUpdate = () => {
+        setDisplayTime(audioElement.currentTime);
+        setShowTime(true);
+      };
+
       const handleAudioEnd = () => setIsPlaying(false);
       const handleLoadStart = () => setIsLoading(true);
       const handleCanPlay = () => setIsLoading(false);
@@ -129,14 +152,14 @@ const LiveChatAudioPlayer = ({
         isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"
       } px-3 py-2.5`}
     >
-      <div className="flex w-full justify-between gap-5">
+      <div className="flex w-full justify-between">
         {isLoading ? (
           <AudioPlayerLoader />
         ) : (
           <button
             type="button"
             onClick={togglePlayPause}
-            className="cursor-pointer rounded-full"
+            className="shrink-0 cursor-pointer rounded-full"
           >
             <Image
               src={isPlaying ? pauseButton : playButton}
@@ -147,7 +170,10 @@ const LiveChatAudioPlayer = ({
             />
           </button>
         )}
-        <figure className="flex-center">
+
+        <figure
+          className={`flex-center justify-self-center ${!showTime && "mr-6"}`}
+        >
           <div
             className={`${
               isPlaying && "liveChatAudioAnimation"
@@ -159,13 +185,14 @@ const LiveChatAudioPlayer = ({
             />
           </div>
         </figure>
+
         <figure className="flex-center">
           <time
             className={`semibold-14 ${
               isMessageFromCurrentUser ? "text-white" : "text-red-80"
             } `}
           >
-            {time}
+            {showTime && time}
           </time>
         </figure>
       </div>

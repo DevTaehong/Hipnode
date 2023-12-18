@@ -226,6 +226,8 @@ export interface LiveChatInputProps {
   showEmojiPicker: boolean;
   setShowEmojiPicker: (showEmojiPicker: boolean) => void;
   setMessageText: (messageText: string) => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
 }
 
 export type EmojiData = {
@@ -254,4 +256,11 @@ export interface LinkPreviewMetadata {
   title: string | null;
   image: string | null;
   description: string | null;
+}
+
+export interface ChatAudioRecorderProps {
+  setRecordingAudio: (value: boolean) => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
+  isSmallChatBox?: boolean;
 }

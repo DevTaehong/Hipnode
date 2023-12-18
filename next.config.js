@@ -10,6 +10,7 @@ const nextConfig = {
       { protocol: "https", hostname: "loremflickr.com" },
       { protocol: "https", hostname: "jjxiydcvcwtbswunystj.supabase.co" },
       { protocol: "https", hostname: "img.clerk.com" },
+      { protocol: "https", hostname: "picsum.photos" },
     ],
   },
 };
