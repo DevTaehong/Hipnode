@@ -1,18 +1,37 @@
+import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
-import { ChatMessage } from "@/types/chatroom.index";
-import { isOnlyEmoji, extractUrls, formatTextWithLineBreaks } from ".";
+import {
+  isOnlyEmoji,
+  extractUrls,
+  formatTextWithLineBreaks,
+  handleEditClick,
+  handleDeleteClick,
+} from ".";
+import EditDeleteButton from "../chat-page/EditDeleteButton";
+import { LiveChatMessageProps } from "@/types/chatroom.index";
 
-const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
+const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
   const { chatroomUsers } = useChatStore();
+  const [hover, setHover] = useState(false);
 
   const {
-    user: { id, image, username },
-    text,
-  } = message.data;
+    data: {
+      user: { id, image, username },
+      text,
+      messageUUID,
+      attachment,
+    },
+  } = message;
+  const [textareaValue, setTextareaValue] = useState<string | null>(text);
+  const [displayText, setDisplayText] = useState<string | null>(text);
+
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setTextareaValue(event.target.value);
+  };
 
   const isStringSingleEmoji = text ? isOnlyEmoji(text) : false;
 
@@ -35,10 +54,24 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
     ? "self-end flex-row-reverse"
     : "self-start flex-row";
 
+  const handleDelete = () => {
+    handleDeleteClick({ messageUUID, setMessages });
+  };
+
+  const handleEdit = () => {
+    if (textareaValue === displayText || !textareaValue) {
+      return;
+    }
+    setDisplayText(textareaValue);
+    handleEditClick({ messageUUID, text: textareaValue });
+  };
+
   return (
     <li
       className={`${messageAlign} flex max-w-full gap-2.5 break-words`}
       key={id}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       <figure className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
         <Image
@@ -49,16 +82,29 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
           className="rounded-full"
         />
       </figure>
-      <figure className="flex w-fit max-w-[250px] flex-col gap-3">
+      <figure className="flex w-fit max-w-[250px] flex-col">
+        {hover && isMessageFromCurrentUser && (
+          <EditDeleteButton
+            displayText={displayText}
+            setTextareaValue={setTextareaValue}
+            textareaValue={textareaValue}
+            handleDelete={handleDelete}
+            handleTextareaChange={handleTextareaChange}
+            handleEdit={handleEdit}
+            smallChatBox
+          />
+        )}
         <MessageAttachment
           message={message}
           isMessageFromCurrentUser={isMessageFromCurrentUser}
         />
-        {text && (
+        {displayText && (
           <figcaption
-            className={`${calculateDivStyles()} semibold-16 flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
+            className={`${calculateDivStyles()} semibold-16 flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg ${
+              attachment && "mt-3"
+            }`}
           >
-            {extractUrls(text).map((segment, index) =>
+            {extractUrls(displayText).map((segment, index) =>
               segment.isUrl ? (
                 <Link
                   key={index}

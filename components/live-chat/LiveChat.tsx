@@ -178,6 +178,7 @@ const LiveChat = () => {
       <input {...getInputProps()} />
       <LiveChatMessageList
         messages={receivedMessages}
+        setMessages={setMessages}
         setDroppedFile={setDroppedFile}
       />
       <form

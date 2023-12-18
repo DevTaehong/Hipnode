@@ -1,40 +1,34 @@
+import { useState, ChangeEvent } from "react";
 import Image from "next/image";
-import { IoIosArrowDown } from "react-icons/io";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import { useState } from "react";
 
 import MessageAttachment from "../live-chat/MessageAttachment";
 import MessageContent from "./MessageContent";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import { formatChatBoxDate } from "@/utils";
-import { isOnlyEmoji } from "../live-chat";
+import { handleDeleteClick, handleEditClick, isOnlyEmoji } from "../live-chat";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
+import EditDeleteButton from "./EditDeleteButton";
 
 const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
-  const { handleDeleteClick } = useChatPageContext();
-  const { chatroomUsers, chatroomId, setChatroomId } = useChatStore();
+  const { setMessages } = useChatPageContext();
+  const { chatroomUsers } = useChatStore();
   const [hover, setHover] = useState(false);
-
   const {
     data: {
       user: { username, image, id },
       messageId,
       createdAt,
       text,
+      messageUUID,
     },
   } = message;
+  const [textareaValue, setTextareaValue] = useState<string | null>(text);
+  const [displayText, setDisplayText] = useState<string | null>(text);
+
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setTextareaValue(event.target.value);
+  };
 
   const isStringSingleEmoji = text ? isOnlyEmoji(text) : false;
 
@@ -64,18 +58,15 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const messageHasAttachment = message.data.attachment;
 
   const handleDelete = () => {
-    if (typeof messageId === "number") {
-      handleDeleteClick({ messageId });
-    } else {
-      console.log("here");
-    }
+    handleDeleteClick({ messageUUID, setMessages });
   };
 
-  const onHover = () => {
-    setHover(true);
-    if (typeof messageId !== "number") {
-      setChatroomId(chatroomId);
+  const handleEdit = () => {
+    if (textareaValue === displayText || !textareaValue) {
+      return;
     }
+    setDisplayText(textareaValue);
+    handleEditClick({ messageUUID, text: textareaValue });
   };
 
   return (
@@ -97,56 +88,19 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
         )}
         <div
           className="flex max-w-full flex-col gap-1.5"
-          onMouseEnter={onHover}
+          onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >
           <figure className="flex w-full max-w-[31.7rem] flex-col">
             {hover && isMessageFromCurrentUser && (
-              <div className="relative top-6 flex w-20 self-end">
-                <Popover>
-                  <PopoverTrigger>
-                    <div className="absolute right-2 z-10 flex translate-y-2 bg-red-80/80 text-2xl text-white">
-                      <IoIosArrowDown />
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="h-fit w-fit translate-x-3.5 translate-y-[2rem] self-end p-0">
-                    <div className="absolute w-fit bg-light dark:bg-dark-2">
-                      <Dialog>
-                        <DialogTrigger className="w-full">
-                          <p className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 dark:hover:bg-dark-4">
-                            Edit
-                          </p>
-                        </DialogTrigger>
-                        <DialogContent>Edit screen</DialogContent>
-                      </Dialog>
-                      <Dialog>
-                        <DialogTrigger className="w-full">
-                          <p className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 dark:hover:bg-dark-4">
-                            Delete
-                          </p>
-                        </DialogTrigger>
-                        <DialogContent className="w-fit border-0 p-0">
-                          <ul className="flex flex-col items-center gap-4 rounded-lg bg-light p-4 dark:bg-dark-2">
-                            <DialogClose>
-                              <li
-                                className="flex w-40 cursor-pointer justify-center rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white"
-                                onClick={handleDelete}
-                              >
-                                Delete?
-                              </li>
-                            </DialogClose>
-                            <DialogClose>
-                              <li className="w-40 rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white">
-                                Cancel
-                              </li>
-                            </DialogClose>
-                          </ul>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <EditDeleteButton
+                displayText={displayText}
+                setTextareaValue={setTextareaValue}
+                textareaValue={textareaValue}
+                handleDelete={handleDelete}
+                handleTextareaChange={handleTextareaChange}
+                handleEdit={handleEdit}
+              />
             )}
             <div
               className={`flex flex-col ${
@@ -169,10 +123,10 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
                 />
               </div>
             </div>
-            {text && (
+            {displayText && (
               <MessageContent
                 additionalStyles={calculateDivStyles()}
-                text={text}
+                text={displayText}
                 fontSize={fontSize}
               />
             )}

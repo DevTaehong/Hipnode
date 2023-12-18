@@ -11,7 +11,7 @@ import LiveChatMessage from "./LiveChatMessage";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const LiveChatMessageList = React.memo(
-  ({ messages, setDroppedFile }: LiveChatMessageListProps) => {
+  ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
     const router = useRouter();
     const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
       useChatStore();
@@ -90,7 +90,11 @@ const LiveChatMessageList = React.memo(
             </div>
           ) : (
             messages.map((message: ChatMessage) => (
-              <LiveChatMessage key={message.data.messageId} message={message} />
+              <LiveChatMessage
+                key={message.data.messageId}
+                message={message}
+                setMessages={setMessages}
+              />
             ))
           )}
           <div ref={endOfMessagesRef} className="mt-1" />

@@ -1,11 +1,10 @@
 import { usePresence } from "ably/react";
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 import { ChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
 import { ChatPageChatList, ChatPageLiveChat } from ".";
 import useChatStore from "@/app/chatStore";
-import { deleteMessage } from "@/lib/actions/chatroom.actions";
 
 const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const { setShowChat } = useChatStore();
@@ -47,16 +46,38 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     };
   }
 
-  const handleDeleteClick = async ({ messageId }: { messageId: number }) => {
-    try {
-      setMessages((prevMessages) =>
-        prevMessages.filter((message) => message.data.messageId !== messageId)
-      );
-      await deleteMessage(messageId);
-    } catch (error) {
-      console.error("Error deleting message:", error);
-    }
-  };
+  // const handleDeleteClick = async ({
+  //   messageUUID,
+  //   setMessages,
+  // }: {
+  //   messageUUID: string;
+  //   setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
+  // }) => {
+  //   try {
+  //     setMessages((prevMessages) =>
+  //       prevMessages.filter(
+  //         (message) => message.data.messageUUID !== messageUUID
+  //       )
+  //     );
+  //     await deleteMessage(messageUUID);
+  //   } catch (error) {
+  //     console.error("Error deleting message:", error);
+  //   }
+  // };
+
+  // const handleEditClick = async ({
+  //   messageUUID,
+  //   text,
+  // }: {
+  //   messageUUID: string;
+  //   text: string;
+  // }) => {
+  //   try {
+  //     await editMessage({ messageUUID, text });
+  //   } catch (error) {
+  //     console.error("Error deleting message:", error);
+  //   }
+  // };
 
   const onlineUsers = useMemo(() => {
     return (
@@ -82,7 +103,6 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
         setIsLoading,
         isInputDisabled,
         setIsInputDisabled,
-        handleDeleteClick,
       }}
     >
       <main className="bg-light-2_dark-2 -mt-16 flex h-screen min-h-screen w-screen justify-center pt-16">

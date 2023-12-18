@@ -20,12 +20,12 @@ export type CreateMessageType = {
   chatroomId: number;
   attachment: string | null;
   attachmentType: string | null;
-  // messageUUID: string;
+  messageUUID: string;
 };
 
 export type EditMessageType = {
-  messageId: number;
-  newText: string;
+  messageUUID: string;
+  text: string;
 };
 
 export interface MessageToSend {
@@ -75,6 +75,7 @@ export interface ChatMessage {
   data: {
     user: ChatroomUser;
     messageId: number;
+    messageUUID: string;
     attachment?: string | null;
     attachmentType?: string | null;
     chatroomId?: number;
@@ -167,7 +168,6 @@ export interface ChatPageContextType {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   isInputDisabled: boolean;
   setIsInputDisabled: Dispatch<SetStateAction<boolean>>;
-  handleDeleteClick: ({ messageId }: { messageId: number }) => Promise<void>;
 }
 
 export interface ChatPageInputContextType {
@@ -196,7 +196,13 @@ export interface UserTyping {
 
 export interface LiveChatMessageListProps {
   messages: ChatMessage[];
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+}
+
+export interface LiveChatMessageProps {
+  message: ChatMessage;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
 }
 
 export interface LiveChatVideoPlayerProps {
