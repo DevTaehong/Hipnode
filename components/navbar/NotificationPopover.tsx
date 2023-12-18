@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import {
   Popover,
@@ -16,7 +17,6 @@ import {
 } from "@/lib/actions/notification.actions";
 import { NotificationPopoverButtonProps, NotificationProps } from "@/types";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
-import { usePathname } from "next/navigation";
 
 const NotificationPopoverButton = ({
   className,
@@ -72,6 +72,7 @@ const NotificationPopoverButton = ({
             if (isPopoverOpen === false) setIsUserChecked(isUserChecked);
             return;
           }
+
           if (payload.eventType === "UPDATE") {
             const updatedNotification = payload.new as NotificationProps;
             setNotificationData((prevNotificationData) =>
@@ -83,6 +84,7 @@ const NotificationPopoverButton = ({
             );
             return;
           }
+
           if (payload.eventType === "INSERT") {
             // NOTE - when the popover is open, the user is checking the notifications. So, no unchecked mark needed
             if (isPopoverOpen === false) setIsUserChecked(true);
@@ -129,7 +131,10 @@ const NotificationPopoverButton = ({
           className="w-full"
           avoidCollisions={false}
         >
-          <NotificationPopoverContent notificationData={notificationData} />
+          <NotificationPopoverContent
+            notificationData={notificationData}
+            setIsPopoverOpen={setIsPopoverOpen}
+          />
         </PopoverContent>
       </Popover>
     </div>

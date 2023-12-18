@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, Dispatch, SetStateAction } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { MAX_NOTIFICATIONS } from "@/constants";
@@ -12,8 +12,10 @@ import { NotificationProps } from "@/types";
 
 const NotificationPopoverContent = ({
   notificationData,
+  setIsPopoverOpen,
 }: {
   notificationData: NotificationProps[];
+  setIsPopoverOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const search = useSearchParams();
   const selectedTab = search.get("tab");
@@ -51,6 +53,7 @@ const NotificationPopoverContent = ({
               </h1>
               <MarkAllReadButton
                 unreadNotifications={unreadNotifications.length}
+                setIsPopoverOpen={setIsPopoverOpen}
               />
             </div>
             <Separator className="bg-light-2 dark:bg-dark-3" />

@@ -1,13 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import OutlineIcon from "../icons/outline-icons";
 import { markAllReadNotifications } from "@/lib/actions/notification.actions";
 
 const MarkAllReadButton = ({
   unreadNotifications,
+  setIsPopoverOpen,
 }: {
   unreadNotifications: number;
+  setIsPopoverOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [isMarkAllRead, setIsMarkAllRead] = useState<boolean>(
     unreadNotifications === 0
@@ -22,6 +24,7 @@ const MarkAllReadButton = ({
   const handleMarkAllRead = () => {
     markAllReadNotifications();
     setIsMarkAllRead(true);
+    setIsPopoverOpen(true);
   };
 
   return (
