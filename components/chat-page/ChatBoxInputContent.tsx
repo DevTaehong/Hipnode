@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { KeyboardEvent } from "react";
-=======
-import { useState } from "react";
->>>>>>> main
+import { KeyboardEvent, useState } from "react";
 import Image from "next/image";
 import Picker from "@emoji-mart/react";
 
@@ -27,22 +23,10 @@ const ChatBoxInputContent = ({
   showEmojiPicker,
   data,
 }: ChatBoxInputContentProps) => {
-<<<<<<< HEAD
   const { getInputProps, open, droppedFile, setDroppedFile } =
     useChatPageInputContext();
-=======
-  const {
-    getInputProps,
-    open,
-    droppedFile,
-    setDroppedFile,
-    messageText,
-    setMessageText,
-    handleKeyDown,
-  } = useChatPageInputContext();
-  const [recordingAudio, setRecordingAudio] = useState(false);
->>>>>>> main
   const { isInputDisabled } = useChatPageContext();
+  const [recordingAudio, setRecordingAudio] = useState(false);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {

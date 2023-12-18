@@ -212,3 +212,9 @@ export const handleEmojiSelect = ({
   const updatedValue = currentValue + emojiCharacter;
   setMessageText(updatedValue);
 };
+
+export const findAudioDuration = (url: string) => {
+  const match = url.match(/duration-(\d+)/);
+  const extractedDuration = match ? parseInt(match[1], 10) : 0;
+  return extractedDuration;
+};

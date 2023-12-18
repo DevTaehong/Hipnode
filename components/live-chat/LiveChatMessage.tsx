@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
+import { v4 as uuidv4 } from "uuid";
 
 import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
@@ -77,10 +78,10 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
                 links.map((link) => (
                   <LinkPreview key={link.text} url={link.text} smallChatBox />
                 ))}
-              {extractUrls(text).map((segment, index) =>
+              {extractUrls(text).map((segment) =>
                 segment.isUrl ? (
                   <Link
-                    key={index}
+                    key={uuidv4()}
                     href={segment.text}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -90,7 +91,7 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
                   </Link>
                 ) : (
                   <span
-                    key={index}
+                    key={uuidv4()}
                     className={`${textFontSize} semibold-16 max-w-full break-words`}
                     dangerouslySetInnerHTML={formatTextWithLineBreaks(
                       segment.text

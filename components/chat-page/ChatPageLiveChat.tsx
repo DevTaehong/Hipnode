@@ -80,47 +80,6 @@ const ChatPageLiveChat = () => {
     }
   }, []);
 
-<<<<<<< HEAD
-=======
-  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      handleFormSubmission(event);
-    }
-  };
-
-  const currentUser = userInfo;
-
-  const handleFormSubmission = async (
-    event:
-      | FormEvent<HTMLFormElement>
-      | KeyboardEvent<HTMLInputElement>
-      | KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    if (messageTextIsEmpty && !droppedFile) return;
-    setIsInputDisabled(true);
-    try {
-      const result = await liveChatSubmission({
-        event,
-        messageText,
-        droppedFile,
-        channel,
-        chatroomId,
-        currentUser,
-      });
-      if (result === API_RESULT.SUCCESS) {
-        setLiveRecordingDuration(0);
-        setMessageText("");
-        setDroppedFile(null);
-        setIsInputDisabled(false);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setIsInputDisabled(false);
-    }
-  };
-
->>>>>>> main
   if (!chatroomId) return null;
 
   return (

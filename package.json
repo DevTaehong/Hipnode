@@ -42,7 +42,6 @@
     "@supabase/supabase-js": "^2.38.0",
     "@types/uuid": "^9.0.5",
     "ably": "^1.2.47",
-    "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
