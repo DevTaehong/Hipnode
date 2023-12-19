@@ -28,7 +28,10 @@ const ProfilePage = async ({
   searchParams: { search: string };
 }) => {
   console.log(params, searchParams);
-  // const user = await getProfileData();
+
+  const user = await getProfileData({ username: params.username });
+
+  console.log(user);
 
   // let result: any = [];
 

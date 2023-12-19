@@ -25,7 +25,7 @@ const ProfilePage = async ({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  const user = await getProfileData();
+  const user = await getProfileData({});
 
   let result: any = [];
 

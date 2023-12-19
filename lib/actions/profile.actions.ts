@@ -4,8 +4,37 @@ import prisma from "@/lib/prisma";
 import { verifyAuth } from "@/lib/auth";
 import { currentUser } from "@clerk/nextjs/server";
 
-export async function getProfileData() {
+export async function getProfileData({ username }: { username?: string }) {
   try {
+    if (username) {
+      const data = await prisma.user.findUnique({
+        where: {
+          username,
+        },
+        include: {
+          following: {
+            take: 6,
+            include: {
+              followed: {
+                select: {
+                  username: true,
+                  picture: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              followers: true,
+              following: true,
+            },
+          },
+        },
+      });
+
+      return data;
+    }
+
     const user = verifyAuth("You must be logged in to view your profile.");
 
     const data = await prisma.user.findUnique({
@@ -35,7 +64,7 @@ export async function getProfileData() {
 
     return data;
   } catch (error) {
-    console.error("Error fetching user by clerkId:", error);
+    console.error("Error fetching user by clerkId or username:", error);
     throw error;
   }
 }
