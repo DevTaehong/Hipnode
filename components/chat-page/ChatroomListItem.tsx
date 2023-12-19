@@ -1,16 +1,22 @@
 import Image from "next/image";
+import { useChannel } from "ably/react";
 
 import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
-import { ChatroomListItemProps } from "@/types/chatroom.index";
+import { ChatroomListItemProps, UserTyping } from "@/types/chatroom.index";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
+import { useGetOnlineUsers } from "./presenceData";
+import { useMemo, useState } from "react";
 
 const ChatroomListItem = ({
   chatroom,
   setShowChatRoomList,
 }: ChatroomListItemProps) => {
   const { setChatroomId, setChatroomUsers, chatroomId } = useChatStore();
-  const { onlineUsers, userInfo } = useChatPageContext();
+  const { userInfo } = useChatPageContext();
+  const onlineUsers = useGetOnlineUsers();
+
+  const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
 
   const {
     id: chatroomListId,
@@ -20,6 +26,16 @@ const ChatroomListItem = ({
     },
     otherUser,
   } = chatroom;
+
+  useChannel("hipnode-livechat-typing-status", (message) => {
+    setUserTyping(message.data);
+  });
+
+  const isChatroomUserTyping = useMemo(() => {
+    return userTyping?.isTyping && userTyping.userId === otherUser.id;
+  }, [userTyping, otherUser.id]);
+
+  if (!otherUser) return null;
 
   const isOtherUserOnline = onlineUsers
     ? onlineUsers.includes(otherUser.id)
@@ -77,7 +93,15 @@ const ChatroomListItem = ({
         <time className="regular-14 text-sc-2_light">{formattedTime}</time>
       </div>
       <div>
-        <p className="regular-14 line-clamp-2 text-sc-4">{recentMessageText}</p>
+        {isChatroomUserTyping ? (
+          <p className="regular-14 text-sc-4">
+            {otherUser.username} is typing...
+          </p>
+        ) : (
+          <p className="regular-14 line-clamp-2 text-sc-4">
+            {recentMessageText}
+          </p>
+        )}
       </div>
     </li>
   );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useInView } from "react-intersection-observer";
 
 import MessageAttachment from "../live-chat/MessageAttachment";
 import MessageContent from "./MessageContent";
@@ -9,7 +10,6 @@ import { isOnlyEmoji } from "../live-chat";
 
 const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const { chatroomUsers } = useChatStore();
-
   const {
     data: {
       user: { username, image, id },
@@ -18,6 +18,10 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
       text,
     },
   } = message;
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+  });
 
   const isStringSingleEmoji = text ? isOnlyEmoji(text) : false;
 
@@ -48,6 +52,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
 
   return (
     <li
+      ref={ref}
       className={`${messageAlign} flex w-full gap-2.5 break-words`}
       key={messageId}
     >
@@ -83,13 +88,12 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
               isMessageFromCurrentUser={isMessageFromCurrentUser}
             />
           </div>
-          {text && (
-            <MessageContent
-              additionalStyles={calculateDivStyles()}
-              text={text}
-              fontSize={fontSize}
-            />
-          )}
+          <MessageContent
+            additionalStyles={calculateDivStyles()}
+            text={text}
+            fontSize={fontSize}
+            inView={inView}
+          />
         </figure>
       </div>
     </li>
