@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import {
@@ -13,10 +13,9 @@ import NotificationPopoverContent from "../notificationPopover/NotificationPopov
 import { updateNotificationLastChecked } from "@/lib/actions/user.actions";
 import {
   getNotificationsByUserId,
-  getNotificationCreateAtsByUserId,
+  getUncheckedNotifications,
 } from "@/lib/actions/notification.actions";
 import { NotificationPopoverButtonProps, NotificationProps } from "@/types";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 
 const NotificationPopoverButton = ({
   className,
@@ -26,8 +25,6 @@ const NotificationPopoverButton = ({
   lastChecked,
 }: NotificationPopoverButtonProps) => {
   const pathName = usePathname();
-  const popoverRef = useRef(null);
-  useOnClickOutside(popoverRef, () => setIsPopoverOpen(false));
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [isUserChecked, setIsUserChecked] = useState<boolean>();
   const [notificationData, setNotificationData] = useState<NotificationProps[]>(
@@ -64,12 +61,14 @@ const NotificationPopoverButton = ({
                 (notification) => notification.id !== deletedNotificationId
               )
             );
-            const createAts =
-              await getNotificationCreateAtsByUserId(currentUserId);
-            const isUserChecked = createAts.some(
-              (createAt) => createAt.createdAt > lastChecked
+            const uncheckedNotifications = await getUncheckedNotifications(
+              currentUserId,
+              lastChecked
             );
+
+            const isUserChecked = uncheckedNotifications.length > 0;
             if (isPopoverOpen === false) setIsUserChecked(isUserChecked);
+
             return;
           }
 
@@ -102,42 +101,37 @@ const NotificationPopoverButton = ({
     };
   }, [currentUserId, isPopoverOpen, lastChecked]);
 
-  const handlePopoverClick = () => {
+  const handlePopoverClick = (open: boolean) => {
     updateNotificationLastChecked(currentUserId, pathName);
     setIsUserChecked(false);
-    setIsPopoverOpen((prev) => !prev);
+    setIsPopoverOpen(open);
   };
 
+  console.log(isPopoverOpen);
+
   return (
-    // NOTE - When a user clicks outside the popover to close it, isPopoverOpen is set to false by setting the state in useOnClickOutside
-    <div ref={popoverRef}>
-      <Popover>
-        <PopoverTrigger
-          asChild
-          className={className}
-          onClick={handlePopoverClick}
-        >
-          <div className="cursor-pointer xl:rounded-lg xl:bg-light-2 xl:p-2 dark:xl:bg-dark-4">
-            <FillIcon.Notification
-              className="fill-sc-4 dark:fill-sc-6"
-              notification={isUserChecked}
-            />
-          </div>
-        </PopoverTrigger>
-        <PopoverContent
-          sideOffset={sideOffset}
-          align="end"
-          alignOffset={alignOffset}
-          className="w-full"
-          avoidCollisions={false}
-        >
-          <NotificationPopoverContent
-            notificationData={notificationData}
-            setIsPopoverOpen={setIsPopoverOpen}
+    <Popover onOpenChange={(open) => handlePopoverClick(open)}>
+      <PopoverTrigger asChild className={className}>
+        <div className="cursor-pointer xl:rounded-lg xl:bg-light-2 xl:p-2 dark:xl:bg-dark-4">
+          <FillIcon.Notification
+            className="fill-sc-4 dark:fill-sc-6"
+            notification={isUserChecked}
           />
-        </PopoverContent>
-      </Popover>
-    </div>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent
+        sideOffset={sideOffset}
+        align="end"
+        alignOffset={alignOffset}
+        className="w-full"
+        avoidCollisions={false}
+      >
+        <NotificationPopoverContent
+          notificationData={notificationData}
+          setIsPopoverOpen={setIsPopoverOpen}
+        />
+      </PopoverContent>
+    </Popover>
   );
 };
 
