@@ -100,6 +100,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
           <figure className="flex w-full max-w-[31.7rem] flex-col">
             {hover && isMessageFromCurrentUser && (
               <EditDeleteButton
+                isStringSingleEmoji={isStringSingleEmoji}
                 displayText={displayText}
                 setTextareaValue={setTextareaValue}
                 textareaValue={textareaValue}

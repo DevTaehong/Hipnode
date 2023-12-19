@@ -26,7 +26,7 @@ const LiveChatMessageList = React.memo(
     const {
       username: secondUserUsername = "",
       image: secondUserPicture = christopher,
-      id: secondUserId = null,
+      id: secondUserId,
     } = secondUser ?? {};
 
     const isSecondUserOnline = onlineUsers.includes(secondUserId);

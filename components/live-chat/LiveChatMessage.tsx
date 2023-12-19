@@ -58,7 +58,7 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
       return `bg-none p-1 ${isMessageFromCurrentUser ? "self-end" : ""}`;
     }
     return isMessageFromCurrentUser
-      ? "bg-red-80 text-white rounded-l-lg rounded-tr-sm p-2.5"
+      ? "bg-red-80 text-white self-end rounded-l-lg rounded-tr-sm p-2.5"
       : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm p-2.5";
   };
 
@@ -97,8 +97,9 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
       </figure>
       <figure className="relative flex w-fit max-w-[250px] flex-col">
         {hover && isMessageFromCurrentUser && (
-          <div className="absolute flex translate-x-2 translate-y-[-3px] self-end">
+          <div className="absolute z-10 flex translate-x-2 translate-y-[-3px] self-end">
             <EditDeleteButton
+              isStringSingleEmoji={isStringSingleEmoji}
               displayText={displayText}
               setTextareaValue={setTextareaValue}
               textareaValue={textareaValue}

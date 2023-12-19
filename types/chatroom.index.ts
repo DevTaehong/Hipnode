@@ -272,3 +272,10 @@ export interface ChatAudioRecorderProps {
   setDroppedFile: (value: File | File[] | null) => void;
   isSmallChatBox?: boolean;
 }
+
+export interface LiveChatFormProps {
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
+  channel: Types.RealtimeChannelPromise;
+  open: () => void;
+}

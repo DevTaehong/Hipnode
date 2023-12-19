@@ -9,6 +9,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { IoIosArrowDown } from "react-icons/io";
 
 interface EditDeleteButtonProps {
+  isStringSingleEmoji: boolean;
   displayText: string | null;
   setTextareaValue: Dispatch<SetStateAction<string | null>>;
   textareaValue: string | null;
@@ -19,6 +20,7 @@ interface EditDeleteButtonProps {
 }
 
 const EditDeleteButton = ({
+  isStringSingleEmoji,
   displayText,
   setTextareaValue,
   textareaValue,
@@ -32,7 +34,7 @@ const EditDeleteButton = ({
       <Popover>
         <PopoverTrigger>
           <div
-            className={`absolute right-2 z-10 flex ${
+            className={`absolute right-2 z-10 flex rounded-full ${
               smallChatBox ? "translate-y-[-1.3rem]" : "translate-y-2"
             } bg-red-80/80 text-2xl text-white`}
           >
@@ -45,7 +47,7 @@ const EditDeleteButton = ({
           }  self-end p-0`}
         >
           <div className="absolute w-fit bg-light dark:bg-dark-2">
-            {displayText && (
+            {displayText && !isStringSingleEmoji && (
               <Dialog>
                 <DialogTrigger className="w-full">
                   <p
