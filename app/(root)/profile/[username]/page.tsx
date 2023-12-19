@@ -21,40 +21,43 @@ import {
 import { formatUserJoinedDate } from "@/lib/utils";
 
 const ProfilePage = async ({
+  params,
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: { username: string };
+  searchParams: { search: string };
 }) => {
-  const user = await getProfileData();
+  console.log(params, searchParams);
+  // const user = await getProfileData();
 
-  let result: any = [];
+  // let result: any = [];
 
-  switch (searchParams?.search) {
-    case "posts":
-      result = await getProfilePosts();
-      break;
-    case "meetups":
-      result = await getProfileMeetups();
-      break;
-    case "podcasts":
-      result = await getProfilePodcasts();
-      break;
-    case "interviews":
-      result = await getProfileInterviews();
-      break;
-    case "history":
-      result = await getProfileHistory();
-      break;
-    default:
-      result = await getProfilePosts();
-  }
+  // switch (searchParams?.search) {
+  //   case "posts":
+  //     result = await getProfilePosts();
+  //     break;
+  //   case "meetups":
+  //     result = await getProfileMeetups();
+  //     break;
+  //   case "podcasts":
+  //     result = await getProfilePodcasts();
+  //     break;
+  //   case "interviews":
+  //     result = await getProfileInterviews();
+  //     break;
+  //   case "history":
+  //     result = await getProfileHistory();
+  //     break;
+  //   default:
+  //     result = await getProfilePosts();
+  // }
 
-  const performanceData = await getPerformanceData();
+  // const performanceData = await getPerformanceData();
 
   return (
     <div className="flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
-      <section>
+      {/* <section>
         {user && (
           <ProfileInfo
             src={user?.picture}
@@ -72,10 +75,10 @@ const ProfilePage = async ({
             joinedAt={formatUserJoinedDate(user?.createdAt)}
           />
         )}
-      </section>
+      </section> */}
 
       {/* Profile Filter & Content Cards */}
-      <section className="flex flex-col gap-5">
+      {/* <section className="flex flex-col gap-5">
         <ProfileFilter />
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
@@ -161,10 +164,10 @@ const ProfilePage = async ({
           ))}
 
         {searchParams?.search === "history" && <div>history</div>}
-      </section>
+      </section> */}
 
       {/* HostMeetup Card & Performance Card */}
-      <section className="hidden min-w-[315px] flex-col gap-5 xl:flex">
+      {/* <section className="hidden min-w-[315px] flex-col gap-5 xl:flex">
         <HostMeetupCard
           title="Start Your Interview"
           desc="Working on your own internet business? We'd love to interview you!"
@@ -172,7 +175,7 @@ const ProfilePage = async ({
           rightBtn="Submit a Story"
         />
         <Performance data={performanceData} />
-      </section>
+      </section> */}
     </div>
   );
 };
