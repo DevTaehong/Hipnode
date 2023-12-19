@@ -107,8 +107,6 @@ const NotificationPopoverButton = ({
     setIsPopoverOpen(open);
   };
 
-  console.log(isPopoverOpen);
-
   return (
     <Popover onOpenChange={(open) => handlePopoverClick(open)}>
       <PopoverTrigger asChild className={className}>
