@@ -31,8 +31,7 @@ const UserButton = () => {
 
         <p className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
           <div className="line-clamp-1 flex-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
-            {/* {user?.username} */}
-            Abide
+            {user?.username}
           </div>
 
           <FillIcons.Triangle />

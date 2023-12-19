@@ -11,10 +11,7 @@ export async function getProfileData({ username }: { username?: string }) {
     if (username) {
       const data = await prisma.user.findUnique({
         where: {
-          username: {
-            equals: username,
-            mode: "insensitive",
-          },
+          username: username.toLowerCase(),
         },
         include: {
           following: {
