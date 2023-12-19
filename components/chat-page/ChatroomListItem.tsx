@@ -32,9 +32,8 @@ const ChatroomListItem = ({
   });
 
   const isChatroomUserTyping = useMemo(() => {
-    if (!userTyping) return false;
-    return userTyping.isTyping && userTyping.userId === otherUser.id;
-  }, [userTyping]);
+    return userTyping?.isTyping && userTyping.userId === otherUser.id;
+  }, [userTyping, otherUser.id]);
 
   if (!otherUser) return null;
 

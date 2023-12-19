@@ -10,6 +10,8 @@ import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
 import { handleEmojiSelect } from "../live-chat";
 import ChatAudioRecorder from "./ChatAudioRecorder";
+import { useToast } from "../ui/use-toast";
+
 const ChatBoxInputContent = ({
   messageText,
   setMessageText,
@@ -23,6 +25,7 @@ const ChatBoxInputContent = ({
   showEmojiPicker,
   data,
 }: ChatBoxInputContentProps) => {
+  const { toast } = useToast();
   const { getInputProps, open, droppedFile, setDroppedFile } =
     useChatPageInputContext();
   const { isInputDisabled } = useChatPageContext();
@@ -31,7 +34,15 @@ const ChatBoxInputContent = ({
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      handleFormLogic();
+      try {
+        handleFormLogic();
+      } catch (error) {
+        console.error("Error handling form logic:", error);
+        toast({
+          title: "Error sending message.",
+          variant: "destructive",
+        });
+      }
     }
   };
 

@@ -6,16 +6,28 @@ export const usePresenceData = () => {
   return presenceData;
 };
 
+type PresenceData = {
+  data?: {
+    id: number | string;
+  };
+};
+
 export const useGetOnlineUsers = () => {
   const { presenceData } = usePresence("hipnode-livechat");
 
-  return useMemo(
-    () =>
-      presenceData
-        ?.map((presence) => presence.data?.id)
-        .filter((id) => id !== undefined) || [],
-    [presenceData]
-  );
+  return useMemo(() => {
+    return (
+      presenceData?.reduce(
+        (acc: Array<number | string>, presence: PresenceData) => {
+          if (presence.data?.id !== undefined) {
+            acc.push(presence.data.id);
+          }
+          return acc;
+        },
+        []
+      ) || []
+    );
+  }, [presenceData]);
 };
 
 export const useIsUserOnline = (userId: number) => {
@@ -23,10 +35,7 @@ export const useIsUserOnline = (userId: number) => {
 
   return useMemo(
     () =>
-      presenceData
-        ?.map((presence) => presence.data?.id)
-        .filter((id) => id !== undefined)
-        .includes(userId) || false,
+      presenceData?.some((presence) => presence.data?.id === userId) || false,
     [presenceData]
   );
 };
