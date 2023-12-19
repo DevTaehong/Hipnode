@@ -3,7 +3,7 @@ import { UserProfile, SignOutButton } from "@clerk/nextjs";
 const Page = () => {
   return (
     <main className="flex h-full w-full justify-center bg-light-2 p-4 dark:bg-dark-3">
-      <div className="flex overflow-scroll pb-20">
+      <div className="flex w-full justify-center overflow-scroll pb-20">
         <section className="flex h-fit w-fit flex-col gap-2">
           <div className="flex self-end">
             <SignOutButton>
