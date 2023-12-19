@@ -23,7 +23,6 @@ const MarkAllReadButton = ({
 
   const handleMarkAllRead = () => {
     markAllReadNotifications();
-    setIsMarkAllRead(true);
     setIsPopoverOpen(true);
   };
 
