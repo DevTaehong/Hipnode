@@ -64,10 +64,10 @@ const ChatPageInput = () => {
       if (result === API_RESULT.SUCCESS) {
         setMessageText("");
         setDroppedFile(null);
-        setIsInputDisabled(false);
       }
     } catch (error) {
       console.error("An error occurred:", error);
+    } finally {
       setIsInputDisabled(false);
     }
   };
