@@ -52,7 +52,7 @@ const ProfilePage = async ({
   const performanceData = await getPerformanceData();
 
   return (
-    <div className="flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
+    <div className="mx-auto flex min-h-screen w-full max-w-[90rem] flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row lg:px-10 lg:py-[1.87rem]">
       {/* Profile Info */}
       <section>
         {user && (

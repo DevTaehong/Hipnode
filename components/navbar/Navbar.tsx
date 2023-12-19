@@ -32,7 +32,7 @@ const Navbar = async () => {
 
   return (
     <nav className="sticky inset-x-0 top-0 z-50 bg-light dark:bg-dark-3">
-      <div className="flex-between mx-auto flex max-w-[90rem] flex-1 px-5 py-3 md:py-5 lg:gap-5">
+      <div className="flex-between mx-auto flex max-w-[90rem] flex-1 px-5 py-3 md:py-5 lg:gap-5 lg:px-10">
         <section className="flex max-w-[9.125rem] items-center gap-5">
           <Link href="/">
             <HipnodeIcon styles="lg:hidden" />
