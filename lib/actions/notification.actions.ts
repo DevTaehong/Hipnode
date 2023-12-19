@@ -9,24 +9,25 @@ import {
   deleteNotificationParams,
 } from "./shared.types";
 
-export async function getNotificationCreateAtsByUserId(
-  userId: number
+export async function getUncheckedNotifications(
+  userId: number,
+  lastChecked: Date
 ): Promise<{ createdAt: Date }[]> {
   try {
     const notifications = await prisma.notification.findMany({
       where: {
         userId,
-      },
-      select: {
-        createdAt: true,
+        createdAt: {
+          gte: lastChecked,
+        },
       },
     });
 
-    if (!notifications) throw new Error("No notifications found");
+    if (!notifications) throw new Error("No unchecked notifications found");
 
     return notifications;
   } catch (error) {
-    console.error("Error retrieving notifications:", error);
+    console.error("Error retrieving unchecked notifications:", error);
     throw error;
   }
 }
