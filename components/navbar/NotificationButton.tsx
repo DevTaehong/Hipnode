@@ -11,16 +11,16 @@ const NotificationButton = ({
     <>
       {/* // NOTE - Because of different offsets on mobile and desktop, we need to render two different */}
       <NotificationPopover
-        className="hidden xl:block"
-        sideOffset={11}
-        alignOffset={-189}
+        className="block xl:hidden"
+        sideOffset={15}
+        alignOffset={-72}
         currentUserId={currentUserId}
         lastChecked={lastChecked}
       />
       <NotificationPopover
-        className="block xl:hidden"
-        sideOffset={15}
-        alignOffset={-72}
+        className="hidden xl:block"
+        sideOffset={11}
+        alignOffset={-189}
         currentUserId={currentUserId}
         lastChecked={lastChecked}
       />
