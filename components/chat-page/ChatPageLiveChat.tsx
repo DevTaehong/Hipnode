@@ -16,6 +16,7 @@ import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { ChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import ChatPageInput from "./ChatPageInput";
 import useChatStore from "@/app/chatStore";
+import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const ChatPageLiveChat = () => {
   const {
@@ -30,6 +31,7 @@ const ChatPageLiveChat = () => {
   } = useChatPageContext();
   const { chatroomUsers, chatroomId, setChatroomUsers, setChatroomId } =
     useChatStore();
+  const { setLiveRecordingDuration } = useMediaPlayerStore();
 
   const [messageText, setMessageText] = useState("");
   const [droppedFile, setDroppedFile] = useState<File | File[] | null>(null);
@@ -54,6 +56,7 @@ const ChatPageLiveChat = () => {
 
   useEffect(() => {
     setDroppedFile(null);
+    setLiveRecordingDuration(0);
   }, [chatroomId]);
 
   useEffect(() => {
@@ -112,6 +115,7 @@ const ChatPageLiveChat = () => {
         currentUser,
       });
       if (result === API_RESULT.SUCCESS) {
+        setLiveRecordingDuration(0);
         setMessageText("");
         setDroppedFile(null);
         setIsInputDisabled(false);

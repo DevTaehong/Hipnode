@@ -41,8 +41,8 @@ model User {
   subscribedShows         UsersSubscribedToShows[]
   groupAdmin              Group[]                  @relation("GroupAdmins")
   groups                  Group[]                  @relation("UserGroups")
+  followers               Follower[]               @relation("followed")
   following               Follower[]               @relation("follower")
-  followBy                Follower[]               @relation("followed")
   notificationReceiver    Notification[]           @relation("Receiver")
   notificationSender      Notification[]           @relation("Sender")
   notificationLastChecked DateTime                 @default(now())
