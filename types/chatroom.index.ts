@@ -279,3 +279,14 @@ export interface LiveChatFormProps {
   channel: Types.RealtimeChannelPromise;
   open: () => void;
 }
+
+export interface EditDeleteButtonProps {
+  isStringSingleEmoji: boolean;
+  displayText: string | null;
+  setTextareaValue: Dispatch<SetStateAction<string | null>>;
+  textareaValue: string | null;
+  handleDelete: () => void;
+  handleTextareaChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  handleEdit: () => void;
+  smallChatBox?: boolean;
+}

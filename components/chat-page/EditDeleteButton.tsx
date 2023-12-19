@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -8,16 +7,7 @@ import {
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { IoIosArrowDown } from "react-icons/io";
 
-interface EditDeleteButtonProps {
-  isStringSingleEmoji: boolean;
-  displayText: string | null;
-  setTextareaValue: Dispatch<SetStateAction<string | null>>;
-  textareaValue: string | null;
-  handleDelete: () => void;
-  handleTextareaChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  handleEdit: () => void;
-  smallChatBox?: boolean;
-}
+import { EditDeleteButtonProps } from "@/types/chatroom.index";
 
 const EditDeleteButton = ({
   isStringSingleEmoji,
@@ -29,6 +19,13 @@ const EditDeleteButton = ({
   handleEdit,
   smallChatBox = false,
 }: EditDeleteButtonProps) => {
+  const styles = {
+    popoverButtonStyles:
+      "cursor-pointer p-2 text-sc-4 hover:bg-light-2 hover:text-red-60 dark:hover:bg-dark-4",
+    dialogButtonStyles:
+      "flex w-60 cursor-pointer justify-center rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white",
+  };
+
   return (
     <div className="relative top-6 flex w-20 self-end">
       <Popover>
@@ -51,7 +48,7 @@ const EditDeleteButton = ({
               <Dialog>
                 <DialogTrigger className="w-full">
                   <p
-                    className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 hover:text-red-60 dark:hover:bg-dark-4"
+                    className={styles.popoverButtonStyles}
                     onClick={() => setTextareaValue(displayText)}
                   >
                     Edit
@@ -60,22 +57,21 @@ const EditDeleteButton = ({
                 <DialogContent className="w-fit border-0 p-0">
                   <div className="flex flex-col items-center gap-5 rounded-lg bg-light p-5 dark:bg-dark-2">
                     <textarea
-                      className="selected:border-red-80 w-60 resize-none rounded-lg border border-sc-4 bg-light p-2 text-sc-4 outline-none dark:bg-dark-2"
+                      className="flex w-60 resize-none rounded-lg border border-sc-4 bg-light p-2 text-sc-4 outline-none dark:bg-dark-2"
                       value={textareaValue || ""}
                       onChange={handleTextareaChange}
                     />
                     <DialogClose>
                       <button
-                        className="flex w-60 cursor-pointer justify-center rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white "
+                        className={styles.dialogButtonStyles}
                         onClick={handleEdit}
                       >
                         Edit
                       </button>
                     </DialogClose>
-
                     <DialogClose>
                       <button
-                        className="flex w-60 cursor-pointer justify-center rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white"
+                        className={styles.dialogButtonStyles}
                         onClick={() => setTextareaValue(displayText)}
                       >
                         Cancel
@@ -87,24 +83,20 @@ const EditDeleteButton = ({
             )}
             <Dialog>
               <DialogTrigger className="w-full">
-                <p className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 hover:text-red-60 dark:hover:bg-dark-4">
-                  Delete
-                </p>
+                <p className={styles.popoverButtonStyles}>Delete</p>
               </DialogTrigger>
               <DialogContent className="w-fit border-0 p-0">
                 <ul className="flex flex-col items-center gap-5 rounded-lg bg-light p-5 dark:bg-dark-2">
                   <DialogClose>
                     <li
-                      className="flex w-60 cursor-pointer justify-center rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white"
+                      className={styles.dialogButtonStyles}
                       onClick={handleDelete}
                     >
                       Delete?
                     </li>
                   </DialogClose>
                   <DialogClose>
-                    <li className="w-60 rounded-full border border-sc-4 py-2 text-xl text-sc-4 hover:bg-red-80 hover:text-white">
-                      Cancel
-                    </li>
+                    <li className={styles.dialogButtonStyles}>Cancel</li>
                   </DialogClose>
                 </ul>
               </DialogContent>
