@@ -15,7 +15,7 @@ const HostMeetupCard = ({
 
       <p className="mt-1.5 text-[0.75rem] leading-[1.125rem]">{desc}</p>
 
-      <div className="mt-5 flex justify-center gap-5">
+      <div className="mt-5 flex justify-between gap-5">
         <Button className="rounded-[0.375rem] bg-red-60 px-4 py-2 text-[0.875rem] font-semibold leading-[1.375rem] text-light">
           {leftBtn}
         </Button>

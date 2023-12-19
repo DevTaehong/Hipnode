@@ -75,7 +75,7 @@ const ProfilePage = async ({
       </section>
 
       {/* Profile Filter & Content Cards */}
-      <section className="flex flex-col gap-5">
+      <section className="flex w-full flex-col gap-5">
         <ProfileFilter />
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
@@ -163,7 +163,7 @@ const ProfilePage = async ({
       </section>
 
       {/* HostMeetup Card & Performance Card */}
-      <section className="hidden min-w-[315px] flex-col gap-5 xl:flex">
+      <section className="hidden w-[20.3125rem] shrink-0 flex-col gap-5 xl:flex">
         <HostMeetupCard
           title="Start Your Interview"
           desc="Working on your own internet business? We'd love to interview you!"
