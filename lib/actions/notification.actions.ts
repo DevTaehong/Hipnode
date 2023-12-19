@@ -170,21 +170,3 @@ export async function markAllReadNotifications(): Promise<void> {
     throw error;
   }
 }
-
-export async function getCountsOfNewNotifications(): Promise<number> {
-  try {
-    const notifications = await prisma.notification.findMany({
-      where: {
-        isRead: false,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    return notifications.length;
-  } catch (error) {
-    console.error("Error retrieving new notifications:", error);
-    throw error;
-  }
-}
