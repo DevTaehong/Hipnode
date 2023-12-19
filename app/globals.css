@@ -67,6 +67,30 @@ em-emoji-picker #preview {
   font-size: 1rem;
 }
 
+/* styles for geoapify */
+
+.geoapify-close-button {
+  display: none;
+}
+
+.geoapify-autocomplete-input {
+  @apply w-full bg-light-2 dark:bg-dark-4  dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem];
+}
+
+.geoapify-autocomplete-items {
+  @apply cursor-pointer p-4;
+}
+
+/* creatable select  */
+
+.css-1dimb5e-singleValue {
+  @apply dark:text-light-2 text-sc-2;
+}
+
+.css-1hb7zxy-IndicatorsContainer {
+  @apply dark:bg-sc-2 dark:text-white;
+}
+
 body {
   font-family: "Inter", sans-serif;
   scroll-behavior: smooth;

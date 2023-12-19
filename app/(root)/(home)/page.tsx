@@ -24,11 +24,14 @@ const Home = async () => {
     userImage = user.picture ?? "/public/emoji.png";
     userId = user.id;
   }
-  const meetups = await getAllMeetUps();
-  const podcasts = await getAllPodcastsWithUserInfo();
-  const posts = await getAllPosts({});
-  const tagsData = await getPopularTags();
-  const groups = await getGroups();
+
+  const [meetups, podcasts, posts, tagsData, groups] = await Promise.all([
+    getAllMeetUps(),
+    getAllPodcastsWithUserInfo(),
+    getAllPosts({}),
+    getPopularTags(),
+    getGroups(),
+  ]);
 
   return (
     <section className="bg-light-2_dark-2 sticky top-[5.25rem] -mt-16 flex h-fit min-h-screen w-screen justify-center overflow-hidden px-5 py-20 lg:top-0 lg:h-screen lg:max-h-screen lg:py-5  lg:pb-[2.3rem] lg:pt-[5.875rem]">

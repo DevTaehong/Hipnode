@@ -6,7 +6,7 @@ import { Control, FieldValues } from "react-hook-form";
 import { TagSuggestion } from "react-tag-autocomplete";
 
 import { onboardingQuestions } from "@/constants";
-import { colorVariants } from "@/components/GroupSectionHeader";
+import { colorVariants } from "@/components/group/GroupSectionHeader";
 import { GroupProps } from "@types/models";
 
 export type UserSuggestion = {
@@ -229,22 +229,6 @@ export const chatMessages = [
     message: "Cheerio Christopher!",
   },
 ];
-
-export interface MeetUpProp {
-  id: number;
-}
-
-export interface UpdateMeetUpProps {
-  id: number;
-  content: {
-    title?: string;
-    summary?: string;
-    location?: string;
-    contactEmail?: string;
-    contactNumber?: string;
-    image?: string;
-  };
-}
 
 export interface SocialIconProps extends IconProps {
   className?: string;

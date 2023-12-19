@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getPodcastById } from "@/lib/actions/podcast.actions";
 import { AudioPlayer, LargePodcastCard } from "@/components/podcast-components";
 import { getBucketUrls } from "@/utils";
+import { podcast } from "@/public/assets";
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -29,7 +30,11 @@ const PodcastPage = async ({ params }: PodcastPageProps) => {
   return (
     <main className="bg-light-2_dark-2 flex min-h-screen w-screen justify-center p-5 md:py-[1.875rem]">
       <section className="relative flex h-fit w-full max-w-3xl flex-col gap-5">
-        <AudioPlayer podcast={podcast} url={bucketUrls[randomIndex]} />
+        <AudioPlayer
+          podcast={podcast}
+          url={bucketUrls[randomIndex]}
+          podcastId={podcastId}
+        />
         <LargePodcastCard
           title={title}
           details={details}

@@ -10,6 +10,8 @@ import { PodcastPlayButtonProps } from "@/types/podcast.index";
 import ShareButtons from "../ShareButtons";
 import { shareIcons } from "@/constants/podcast";
 
+// export const revalidate = 0;
+
 const PodcastPlayButton = ({ url, podcast }: PodcastPlayButtonProps) => {
   const { songUrl, setSongUrl, togglePlay, isPlaying, setPodcast } =
     usePodcastStore();

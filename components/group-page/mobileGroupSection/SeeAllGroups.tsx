@@ -1,4 +1,4 @@
-import GroupSectionListItem from "@/components/GroupSectionListItem";
+import GroupSectionListItem from "@/components/group/GroupSectionListItem";
 import { GroupPromiseProps } from "@/types";
 
 const SeeAllGroups = ({ allGroups }: { allGroups: GroupPromiseProps }) => {

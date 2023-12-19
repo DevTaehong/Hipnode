@@ -12,15 +12,16 @@ import {
 import {
   AddCommentOrReply,
   CommentsGroupedByParentId,
-  ExtendedPostById,
   ExtendedPrismaPost,
+  PostToEditByIdType,
   UpdateCommentType,
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
 import { groupCommentsByParentId } from "@/utils";
-import { count } from "console";
 
-export async function handleTags(tagNames: string[]) {
+export async function handleTags(
+  tagNames: string[]
+): Promise<{ id: number }[]> {
   const existingTags = await prisma.tag.findMany({
     where: {
       name: { in: tagNames },
@@ -50,20 +51,28 @@ export async function createPostWithTags(
   postData: {
     heading: string;
     content: string;
-    authorId: number;
     image: string;
     groupId?: number;
-    clerkId?: string;
+    contentType: string;
   },
   tagNames: string[]
-) {
+): Promise<Post> {
   try {
+    const user = verifyAuth("You must be logged in to create post.");
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+    const clerkId: string = user.userId;
+
+    if (!dbUserID) throw new Error("User not found");
+
     const allTagIdsToConnect = await handleTags(tagNames);
 
-    const newPost = await prisma.$transaction(async (prisma) => {
+    await prisma.$transaction(async (prisma) => {
       const post = await prisma.post.create({
         data: {
           ...postData,
+          authorId: dbUserID,
+          clerkId,
         },
         include: {
           author: true,
@@ -83,7 +92,6 @@ export async function createPostWithTags(
 
     revalidatePath("/");
     redirect("/");
-    return newPost;
   } catch (error) {
     console.error("Error creating post with tags:", error);
     throw error;
@@ -101,14 +109,15 @@ export async function updatePost(
     );
 
     const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+    const clerkId: string = user.userId;
     if (!dbUserID) throw new Error("User not found");
 
     const allTagIdsToConnect = await handleTags(tagNames);
 
-    const post = await prisma.$transaction(async (prisma) => {
+    await prisma.$transaction(async (prisma) => {
       const updatedPost = await prisma.post.update({
         where: { id: postId, authorId: dbUserID },
-        data,
+        data: { ...data, authorId: dbUserID, clerkId },
         include: {
           author: true,
         },
@@ -131,17 +140,16 @@ export async function updatePost(
 
     revalidatePath("/");
     redirect("/");
-    return post;
   } catch (error) {
     console.error("Error updating post with tags:", error);
     throw error;
   }
 }
 
-export async function deletePost(id: number): Promise<Post> {
+export async function deletePost(id: number): Promise<void> {
   try {
     const user = verifyAuth(
-      "You must be logged in to delete a post, and you can only delete yor own posts."
+      "You must be logged in to delete a post, and you can only delete your own posts."
     );
 
     const dbUserID: number = (user.sessionClaims.metadata as any).userId;
@@ -161,7 +169,7 @@ export async function deletePost(id: number): Promise<Post> {
 
 export async function getPostContentById(
   id: number
-): Promise<ExtendedPostById> {
+): Promise<ExtendedPrismaPost> {
   try {
     const user = verifyAuth(
       "We need the logged in user ID for edit and delete CRUD's."
@@ -220,7 +228,7 @@ export async function getPostContentById(
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
       sharesCount: post.Share.length,
-      loggedInUserId: dbUserID,
+      userCanEditMedia: post.author.id === dbUserID,
     };
 
     return extendedPost;
@@ -305,7 +313,7 @@ export async function getAllPosts({
 export async function getPopularGroupPosts(
   myCursorId?: number,
   groupId?: number
-) {
+): Promise<Post[]> {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
       take: 4,
@@ -348,7 +356,7 @@ export async function getPopularGroupPosts(
 export async function getNewPostsByGroupId(
   myCursorId?: number,
   groupId?: number
-) {
+): Promise<Post[]> {
   try {
     let queryOptions: getPostsByGroupIdQueryOptions = {
       take: 4,
@@ -386,7 +394,7 @@ export async function getNewPostsByGroupId(
   }
 }
 
-export async function getPostsFromGroups(myCursorId?: number) {
+export async function getPostsFromGroups(myCursorId?: number): Promise<Post[]> {
   try {
     let queryOptions: getPostsFromGroupsQueryOptions = {
       take: 9, // Take only the limit number of results
@@ -714,14 +722,6 @@ export async function getPopularTags(): Promise<
   }
 }
 
-type PostToEditByIdType = {
-  heading: string;
-  content: string;
-  image: string;
-  group: string;
-  tags: string[];
-};
-
 export async function getPostToEditById(
   id: number
 ): Promise<PostToEditByIdType> {
@@ -750,8 +750,9 @@ export async function getPostToEditById(
       heading: post.heading,
       content: post.content,
       image: post.image,
-      group: post.group?.id.toString() || "",
+      group: post.group,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      contentType: post.contentType,
     };
   } catch (error) {
     console.error("Error retrieving post to edit:", error);
