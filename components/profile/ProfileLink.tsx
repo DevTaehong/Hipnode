@@ -3,11 +3,11 @@ import Link from "next/link";
 
 import { ProfileLinkProps } from "@/types";
 
-const ProfileLink = ({ id, name, src }: ProfileLinkProps) => (
-  <Link key={id} href={`/profile/${id}`}>
+const ProfileLink = ({ username, picture }: ProfileLinkProps) => (
+  <Link key={username} href={`/profile/${username}`}>
     <Image
-      src={src}
-      alt="profile"
+      src={picture}
+      alt={`${username} profile`}
       width={30}
       height={30}
       className="rounded-full bg-sc-6 dark:border-dark-3"

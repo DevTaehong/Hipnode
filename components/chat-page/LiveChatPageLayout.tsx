@@ -1,5 +1,4 @@
-import { usePresence } from "ably/react";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 import { ChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
@@ -13,8 +12,6 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [showChatRoomList, setShowChatRoomList] = useState(false);
-
-  const { presenceData } = usePresence("hipnode-livechat");
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,52 +43,10 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     };
   }
 
-  // const handleDeleteClick = async ({
-  //   messageUUID,
-  //   setMessages,
-  // }: {
-  //   messageUUID: string;
-  //   setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
-  // }) => {
-  //   try {
-  //     setMessages((prevMessages) =>
-  //       prevMessages.filter(
-  //         (message) => message.data.messageUUID !== messageUUID
-  //       )
-  //     );
-  //     await deleteMessage(messageUUID);
-  //   } catch (error) {
-  //     console.error("Error deleting message:", error);
-  //   }
-  // };
-
-  // const handleEditClick = async ({
-  //   messageUUID,
-  //   text,
-  // }: {
-  //   messageUUID: string;
-  //   text: string;
-  // }) => {
-  //   try {
-  //     await editMessage({ messageUUID, text });
-  //   } catch (error) {
-  //     console.error("Error deleting message:", error);
-  //   }
-  // };
-
-  const onlineUsers = useMemo(() => {
-    return (
-      presenceData
-        ?.map((presence) => presence.data?.id)
-        .filter((id) => id !== undefined) || []
-    );
-  }, [presenceData]);
-
   return (
     <ChatPageContext.Provider
       value={{
         chatrooms,
-        onlineUsers,
         messages,
         userInfo,
         defaultChatroomId,

@@ -77,7 +77,6 @@ const AttachmentPreview = ({
   chatPage = false,
 }: AttachmentPreviewProps) => {
   const mediaType = getMediaType(droppedFile);
-
   const previewUrl = useMemo(() => {
     if (droppedFile) {
       const file = Array.isArray(droppedFile) ? droppedFile[0] : droppedFile;
@@ -85,7 +84,6 @@ const AttachmentPreview = ({
     }
     return null;
   }, [droppedFile]);
-
   return (
     <figure className="relative flex w-fit">
       <button

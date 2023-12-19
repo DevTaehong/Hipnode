@@ -1,14 +1,15 @@
 import { useState, ChangeEvent } from "react";
 import Image from "next/image";
+import { useInView } from "react-intersection-observer";
 
 import MessageAttachment from "../live-chat/MessageAttachment";
-import MessageContent from "./MessageContent";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import { formatChatBoxDate } from "@/utils";
 import { handleDeleteClick, handleEditClick, isOnlyEmoji } from "../live-chat";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import EditDeleteButton from "./EditDeleteButton";
+import MessageContent from "./MessageContent";
 
 const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const { setMessages } = useChatPageContext();
@@ -29,6 +30,10 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaValue(event.target.value);
   };
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+  });
 
   const isStringSingleEmoji = text ? isOnlyEmoji(text) : false;
 
@@ -72,6 +77,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   return (
     <>
       <li
+        ref={ref}
         className={`${messageAlign} flex w-full gap-2.5 break-words`}
         key={messageId}
       >
@@ -128,6 +134,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
                 additionalStyles={calculateDivStyles()}
                 text={displayText}
                 fontSize={fontSize}
+                inView={inView}
               />
             )}
           </figure>

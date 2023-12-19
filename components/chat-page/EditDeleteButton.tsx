@@ -49,7 +49,7 @@ const EditDeleteButton = ({
               <Dialog>
                 <DialogTrigger className="w-full">
                   <p
-                    className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 dark:hover:bg-dark-4"
+                    className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 hover:text-red-60 dark:hover:bg-dark-4"
                     onClick={() => setTextareaValue(displayText)}
                   >
                     Edit
@@ -58,7 +58,7 @@ const EditDeleteButton = ({
                 <DialogContent className="w-fit border-0 p-0">
                   <div className="flex flex-col items-center gap-5 rounded-lg bg-light p-5 dark:bg-dark-2">
                     <textarea
-                      className="w-60 rounded-lg border border-sc-4 bg-light p-2 text-sc-4 outline-none dark:bg-dark-2"
+                      className="selected:border-red-80 w-60 resize-none rounded-lg border border-sc-4 bg-light p-2 text-sc-4 outline-none dark:bg-dark-2"
                       value={textareaValue || ""}
                       onChange={handleTextareaChange}
                     />
@@ -85,7 +85,7 @@ const EditDeleteButton = ({
             )}
             <Dialog>
               <DialogTrigger className="w-full">
-                <p className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 dark:hover:bg-dark-4">
+                <p className="cursor-pointer p-2 text-sc-4 hover:bg-light-2 hover:text-red-60 dark:hover:bg-dark-4">
                   Delete
                 </p>
               </DialogTrigger>

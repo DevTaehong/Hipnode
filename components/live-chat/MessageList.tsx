@@ -25,20 +25,11 @@ const MessageList = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        const onlineUserIds = new Set(
-          presenceData.map((presence) => presence.data?.id).filter(Boolean)
-        );
-        const combinedUsers = allUsers?.map((user) => ({
-          ...user,
-          online: onlineUserIds.has(user.id),
-        }));
-
-        setUsers(combinedUsers);
+        setUsers(allUsers);
       } catch (error) {
         console.error("Error fetching users: ", error);
       }
     };
-
     fetchUsers();
   }, [presenceData]);
 
@@ -48,11 +39,7 @@ const MessageList = () => {
       username,
       image,
     });
-
-    return () => {
-      channel.presence.leave();
-    };
-  }, [channel.presence, id, username, image]);
+  }, [presenceData]);
 
   return (
     <Popover>

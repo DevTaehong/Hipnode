@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useInView } from "react-intersection-observer";
+import { v4 as uuidv4 } from "uuid";
 
 import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
@@ -13,10 +15,15 @@ import {
 } from ".";
 import EditDeleteButton from "../chat-page/EditDeleteButton";
 import { LiveChatMessageProps } from "@/types/chatroom.index";
+import LinkPreview from "../chat-page/LinkPreview";
 
 const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
   const { chatroomUsers } = useChatStore();
   const [hover, setHover] = useState(false);
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+  });
 
   const {
     data: {
@@ -33,6 +40,11 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
     setTextareaValue(event.target.value);
   };
 
+  const segments = text ? extractUrls(text) : [];
+  const links = segments.length
+    ? segments.filter((segment) => segment.isUrl)
+    : [];
+
   const isStringSingleEmoji = text ? isOnlyEmoji(text) : false;
 
   const textFontSize = isStringSingleEmoji ? "text-5xl" : "regular-16 ";
@@ -46,8 +58,8 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
       return `bg-none p-1 ${isMessageFromCurrentUser ? "self-end" : ""}`;
     }
     return isMessageFromCurrentUser
-      ? "bg-red-80 text-white rounded-l-lg rounded-tr-sm p-3.5"
-      : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm p-3.5";
+      ? "bg-red-80 text-white rounded-l-lg rounded-tr-sm p-2.5"
+      : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm p-2.5";
   };
 
   const messageAlign = isMessageFromCurrentUser
@@ -68,6 +80,7 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
 
   return (
     <li
+      ref={ref}
       className={`${messageAlign} flex max-w-full gap-2.5 break-words`}
       key={id}
       onMouseEnter={() => setHover(true)}
@@ -82,17 +95,19 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
           className="rounded-full"
         />
       </figure>
-      <figure className="flex w-fit max-w-[250px] flex-col">
+      <figure className="relative flex w-fit max-w-[250px] flex-col">
         {hover && isMessageFromCurrentUser && (
-          <EditDeleteButton
-            displayText={displayText}
-            setTextareaValue={setTextareaValue}
-            textareaValue={textareaValue}
-            handleDelete={handleDelete}
-            handleTextareaChange={handleTextareaChange}
-            handleEdit={handleEdit}
-            smallChatBox
-          />
+          <div className="absolute flex translate-x-2 translate-y-[-3px] self-end">
+            <EditDeleteButton
+              displayText={displayText}
+              setTextareaValue={setTextareaValue}
+              textareaValue={textareaValue}
+              handleDelete={handleDelete}
+              handleTextareaChange={handleTextareaChange}
+              handleEdit={handleEdit}
+              smallChatBox
+            />
+          </div>
         )}
         <MessageAttachment
           message={message}
@@ -104,10 +119,14 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
               attachment && "mt-3"
             }`}
           >
+            {inView &&
+              links.map((link) => (
+                <LinkPreview key={link.text} url={link.text} smallChatBox />
+              ))}
             {extractUrls(displayText).map((segment, index) =>
               segment.isUrl ? (
                 <Link
-                  key={index}
+                  key={uuidv4()}
                   href={segment.text}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -117,7 +136,7 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
                 </Link>
               ) : (
                 <span
-                  key={index}
+                  key={uuidv4()}
                   className={`${textFontSize} max-w-full break-words`}
                   dangerouslySetInnerHTML={formatTextWithLineBreaks(
                     segment.text

@@ -137,7 +137,6 @@ const LiveChat = () => {
     setIsInputDisabled(true);
     try {
       const result = await liveChatSubmission({
-        event,
         messageText,
         droppedFile,
         channel,
@@ -208,6 +207,8 @@ const LiveChat = () => {
             showEmojiPicker={showEmojiPicker}
             setShowEmojiPicker={setShowEmojiPicker}
             setMessageText={setMessageText}
+            droppedFile={droppedFile}
+            setDroppedFile={setDroppedFile}
           />
         </div>
         <button

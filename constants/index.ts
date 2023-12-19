@@ -520,123 +520,14 @@ export const podcastFormLinkProps = {
 };
 
 export const profileFilters = [
-  "Posts",
-  "Meetups",
-  "Podcasts",
-  "Interviews",
-  "History",
+  "posts",
+  "meetups",
+  "podcasts",
+  "interviews",
+  "history",
 ];
-
-// ! Dummy data for the profile page
-export const profileData = {
-  src: "/images/emoji_2.png",
-  name: "AR. Jakir",
-  title: "User Interface Designer",
-  points: "880",
-  description:
-    "Hey there... I'm AR Jakir! I'm here to learn from and support the other members of this community!",
-  website: "https://google.com",
-  joinedAt: "joined 2 years ago",
-  followers: [
-    {
-      name: "Tye1",
-      src: "/images/emoji_2.png",
-      link: "/profile-page",
-    },
-    {
-      name: "Tye2",
-      src: "/images/emoji_2.png",
-      link: "/profile-page",
-    },
-  ],
-  following: [
-    {
-      id: "1",
-      name: "Tye1",
-      src: "/images/emoji_2.png",
-      link: "/profile-page1",
-    },
-    {
-      id: "2",
-      name: "Tye2",
-      src: "/images/emoji_2.png",
-      link: "/profile-page2",
-    },
-    {
-      id: "3",
-      name: "Tye3",
-      src: "/images/emoji_2.png",
-      link: "/profile-page3",
-    },
-    {
-      id: "4",
-      name: "Tye4",
-      src: "/images/emoji_2.png",
-      link: "/profile-page4",
-    },
-    {
-      id: "5",
-      name: "Tye5",
-      src: "/images/emoji_2.png",
-      link: "/profile-page5",
-    },
-    {
-      id: "6",
-      name: "Tye6",
-      src: "/images/emoji_2.png",
-      link: "/profile-page6",
-    },
-    {
-      id: "7",
-      name: "Tye7",
-      src: "/images/emoji_2.png",
-      link: "/profile-page7",
-    },
-  ],
-  socials: [
-    {
-      name: "Twitter",
-      link: "https://twitter.com/",
-    },
-    {
-      name: "Facebook",
-      link: "https://facebook.com/",
-    },
-    {
-      name: "Instagram",
-      link: "https://instagram.com/",
-    },
-  ],
-};
 
 export const playbackSpeedOptions = [0.75, 1.0, 1.25, 1.5];
-
-export const performanceData = [
-  {
-    contentImg: "/postCardPlacholder.png",
-    views: 100,
-    likes: 100,
-    comments: 100,
-  },
-  {
-    contentImg: "/postCardPlacholder.png",
-    views: 100,
-    likes: 100,
-    comments: 100,
-  },
-  {
-    contentImg: "/postCardPlacholder.png",
-    views: 100,
-    likes: 100,
-    comments: 100,
-  },
-  {
-    contentImg: "/postCardPlacholder.png",
-    views: 100,
-    likes: 100,
-    comments: 100,
-  },
-];
 
 export interface HostMeetupCardProps {
   title: string;

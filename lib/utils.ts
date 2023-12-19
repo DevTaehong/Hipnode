@@ -11,10 +11,8 @@ export interface IconProps {
   className?: string;
 }
 
-export function formatUserJoinedDate(date: Date) {
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
-    return "User Joined Date is not found";
-  }
+export function formatUserJoinedDate(date: Date | undefined) {
+  if (!date) return "User Joined Date is not found";
 
   const currentDate = new Date();
   const seconds = Math.floor((currentDate.getTime() - date.getTime()) / 1000);

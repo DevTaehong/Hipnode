@@ -106,10 +106,6 @@ export interface CurrentUser {
 }
 
 export interface LiveChatSubmissionProps {
-  event:
-    | FormEvent<HTMLFormElement>
-    | KeyboardEvent<HTMLInputElement>
-    | KeyboardEvent<HTMLTextAreaElement>;
   messageText: string;
   droppedFile: File | File[] | null;
   channel: Types.RealtimeChannelPromise;
@@ -142,7 +138,7 @@ export interface ChatroomDetail {
   otherUser: OtherUser;
 }
 
-type HandleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
+// type HandleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
 
 export interface ChatPageProps {
   chatrooms: ChatroomDetail[];
@@ -156,7 +152,6 @@ export interface ChatroomListItemProps {
 
 export interface ChatPageContextType {
   chatrooms: ChatroomDetail[];
-  onlineUsers: number[];
   messages: ChatMessage[];
   userInfo: UserInfo;
   defaultChatroomId: number | undefined;
@@ -175,10 +170,6 @@ export interface ChatPageInputContextType {
   open: () => void;
   droppedFile: File | File[] | null;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
-  messageText: string;
-  setMessageText: Dispatch<SetStateAction<string>>;
-  handleKeyDown: HandleKeyDown;
-  handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
 }
 
 export interface MessageAttachmentProps {
@@ -219,9 +210,13 @@ export interface LiveChatAudioPlayerAnimationProps {
 }
 
 export interface ChatBoxInputContentProps {
+  messageText: string;
+  setMessageText: (messageText: string) => void;
   isChatroomUserTyping: boolean;
   userTypingUsername: string | undefined;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleFormLogic: () => void;
+  handleFormSubmission: (e: FormEvent<HTMLFormElement>) => void;
+  // handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   inputBox: RefObject<HTMLTextAreaElement>;
   handleTyping: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   setShowEmojiPicker: Dispatch<SetStateAction<boolean>>;
@@ -239,6 +234,8 @@ export interface LiveChatInputProps {
   showEmojiPicker: boolean;
   setShowEmojiPicker: (showEmojiPicker: boolean) => void;
   setMessageText: (messageText: string) => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
 }
 
 export type EmojiData = {
@@ -253,6 +250,25 @@ export interface handleEmojiSelectProps {
 
 export interface MessageContentProps {
   additionalStyles: string;
-  text: string;
+  text: string | null;
   fontSize: string;
+  inView: boolean;
+}
+
+export interface LinkPreviewProps {
+  url: string;
+  smallChatBox?: boolean;
+}
+
+export interface LinkPreviewMetadata {
+  title: string | null;
+  image: string | null;
+  description: string | null;
+}
+
+export interface ChatAudioRecorderProps {
+  setRecordingAudio: (value: boolean) => void;
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
+  isSmallChatBox?: boolean;
 }

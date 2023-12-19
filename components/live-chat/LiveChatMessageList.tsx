@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { usePresence } from "ably/react";
 
 import useChatStore from "@/app/chatStore";
 import { ChatMessage, LiveChatMessageListProps } from "@/types/chatroom.index";
@@ -9,16 +8,19 @@ import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
+import { useGetOnlineUsers } from "../chat-page/presenceData";
+import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const LiveChatMessageList = React.memo(
   ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
+    const { setLiveRecordingDuration } = useMediaPlayerStore();
     const router = useRouter();
     const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
       useChatStore();
 
-    const endOfMessagesRef = useRef<HTMLDivElement>(null);
+    const onlineUsers = useGetOnlineUsers();
 
-    const { presenceData } = usePresence("hipnode-livechat");
+    const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
     const [secondUser] = chatroomUsers.slice(1, 2);
     const {
@@ -27,9 +29,7 @@ const LiveChatMessageList = React.memo(
       id: secondUserId = null,
     } = secondUser ?? {};
 
-    const isSecondUserOnline = presenceData.some(
-      (presence) => presence.data && presence.data.id === secondUserId
-    );
+    const isSecondUserOnline = onlineUsers.includes(secondUserId);
 
     useEffect(() => {
       if (endOfMessagesRef.current) {
@@ -49,6 +49,10 @@ const LiveChatMessageList = React.memo(
       setDroppedFile(null);
       router.push(`/chat`);
     };
+
+    useEffect(() => {
+      setLiveRecordingDuration(0);
+    }, []);
 
     return (
       <>
