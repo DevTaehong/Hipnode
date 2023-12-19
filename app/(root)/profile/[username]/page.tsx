@@ -60,8 +60,8 @@ const ProfilePage = async ({
   return (
     <div className="flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
       {/* Profile Info */}
-      {/* <section>
-        {user && (
+      <section>
+        {/* {user && (
           <ProfileInfo
             src={user?.picture}
             name={user?.username}
@@ -77,8 +77,8 @@ const ProfilePage = async ({
             profileFollowing={user?.following}
             joinedAt={formatUserJoinedDate(user?.createdAt)}
           />
-        )}
-      </section> */}
+        )} */}
+      </section>
 
       {/* Profile Filter & Content Cards */}
       {/* <section className="flex flex-col gap-5">
