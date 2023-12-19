@@ -29,7 +29,7 @@ const ProfilePage = async ({
 }) => {
   console.log(params, searchParams);
 
-  const user = await getProfileData({ username: params.username });
+  const user = await getProfileData(params.username);
 
   console.log(user);
 
