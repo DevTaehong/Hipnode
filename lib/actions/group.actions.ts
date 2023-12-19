@@ -263,3 +263,24 @@ export async function getFastestGrowingGroups() {
     throw error;
   }
 }
+
+interface GroupOption {
+  label: string;
+  value: number;
+}
+
+export async function fetchAllGroupsOptions(): Promise<GroupOption[]> {
+  try {
+    const groups = await prisma.group.findMany();
+
+    const groupOptions: GroupOption[] = groups.map((group) => ({
+      label: group.name,
+      value: group.id,
+    }));
+
+    return groupOptions;
+  } catch (error) {
+    console.error("Error fetching all groups:", error);
+    throw error;
+  }
+}

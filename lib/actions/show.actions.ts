@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { verifyAuth } from "../auth";
 
 export async function getAllShows() {
   try {
@@ -62,6 +63,38 @@ export async function getTopFiveShows(showIds: number[]) {
     return shows;
   } catch (error) {
     console.error(`Error fetching top five shows:`, error);
+    throw error;
+  }
+}
+
+type CreateShowsType = {
+  name: string;
+};
+
+export async function createShow(showData: CreateShowsType) {
+  try {
+    const user = verifyAuth("You must be logged in to create a show.");
+
+    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+    if (!dbUserID) throw new Error("User not found");
+
+    const existingShow = await prisma.shows.findFirst({
+      where: {
+        name: showData.name,
+      },
+    });
+
+    if (existingShow) {
+      throw new Error(`Show with the name '${showData.name}' already exists`);
+    }
+
+    const newShow = await prisma.shows.create({
+      data: { ...showData, userId: dbUserID },
+    });
+
+    return newShow;
+  } catch (error) {
+    console.error(`Error in creating show:`, error);
     throw error;
   }
 }

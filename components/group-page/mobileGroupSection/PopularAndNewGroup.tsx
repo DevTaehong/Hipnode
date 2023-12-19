@@ -1,5 +1,5 @@
-import { colorVariants } from "@/components/GroupSectionHeader";
-import GroupSectionListItem from "@/components/GroupSectionListItem";
+import { colorVariants } from "@/components/group/GroupSectionHeader";
+import GroupSectionListItem from "@/components/group/GroupSectionListItem";
 import { GroupSectionHeaderProps } from "@/types";
 import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
 import { GroupProps } from "@/types/models";

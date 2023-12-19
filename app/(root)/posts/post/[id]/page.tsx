@@ -17,16 +17,17 @@ import DevelopmentInformation from "@/components/posts/post-by-id/right-column/D
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
-import PostActionPopover from "@/components/posts/action-popover/PostActionPopover";
 import Spinner from "@/components/Spinner";
+import MediaEditActionPopover from "@/components/action-popover/MediaEditActionPopover";
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
 
   const {
-    author: { username, picture, id: postAuthorId },
+    author: { username, picture },
     createdAt,
+    userCanEditMedia,
   } = postData;
 
   const formattedDate = formatDatePostFormat(createdAt || new Date());
@@ -71,8 +72,8 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 {heading}
               </h1>
               <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
-                {postAuthorId === postData.loggedInUserId && (
-                  <PostActionPopover postId={postData.id} label="Post" />
+                {userCanEditMedia && (
+                  <MediaEditActionPopover mediaId={postData.id} label="Post" />
                 )}
               </div>
             </div>

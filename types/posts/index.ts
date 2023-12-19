@@ -1,11 +1,11 @@
-import { z } from "zod";
 import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
 
-import { postFormValidationSchema } from "@/lib/validations";
 import { Control, UseFormReturn } from "react-hook-form";
-import { Comment, Post, Tag, User } from "@prisma/client";
+import { Comment, Group, Post, Share, Tag, User } from "@prisma/client";
 
-export type PostFormValuesType = z.infer<typeof postFormValidationSchema>;
+import { PostFormValuesType } from "@/constants/posts";
+import { GroupPromiseProps } from "..";
+import { MeetUpExtended } from "../meetups.index";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -16,16 +16,35 @@ export type CoverImageUploadProps = {
 export interface FromFieldProps {
   control: Control<PostFormValuesType>;
   form: UseFormReturn<PostFormValuesType>;
+  contentType?: string;
 }
 
 export type CreatePostTitleProps = {
   control: Control<PostFormValuesType>;
 };
 
-interface PostSelectionOptions {
+export interface SelectionOption {
   label: string;
-  icon: React.JSX.Element;
+  icon: {};
 }
+
+export type SelectionOptionsType = SelectionOption[];
+
+export type SelectControllerProps = {
+  control: Control<PostFormValuesType>;
+  name: keyof PostFormValuesType;
+  placeholder: string;
+  options: SelectionOption[];
+  currentSelection?: string;
+};
+
+export type CreatePostProps = {
+  shows: { label: string; value: number; __isNew__?: undefined }[];
+  groups: { label: string; value: number }[];
+  fastestGrowingGroups: GroupPromiseProps;
+  mostPopularGroups: Group[];
+  newlyLaunchedGroups: Group[];
+};
 
 export interface GroupsType {
   label: string;
@@ -33,17 +52,10 @@ export interface GroupsType {
   icon?: React.ReactNode;
 }
 
-export type SelectControllerProps = {
-  control: Control<PostFormValuesType>;
-  name: keyof PostFormValuesType;
-  placeholder: string;
-  options: GroupsType[] | PostSelectionOptions[];
-  currentSelection?: string;
-};
-
 export type PostPreviewProps = {
   htmlString: string;
   onSubmitPreview: () => void;
+  
 };
 
 export type IconBlockProps = {
@@ -181,32 +193,34 @@ export type ExtendedPrismaPost = {
   heading: Post["heading"];
   likes: { userId: number }[];
   clerkId: Post["clerkId"];
-  comments: Comment[];
+  comments: {
+    id: number;
+    authorId: number;
+  }[];
+  userCanEditMedia?: boolean;
+};
+
+export type PostToEditByIdType = {
+  heading: string;
+  content: string;
+  image: string;
+  group: Group | null;
+  tags: string[];
+  contentType: string;
 };
 
 export type ExtendedPostById = ExtendedPrismaPost & {
-  // shares: Pick<Share, "id">[];
+  shares: Pick<Share, "id">[];
   id: Post["id"];
   loggedInUserId: number;
-};
-
-export type createPostFormType = {
-  heading: string;
-  content: string;
-  image?: string;
-  group: string;
-  contentType: string;
-  tags: string[];
-  postId?: number;
 };
 
 export type PostDataType = {
   heading: string;
   content: string;
   image: string;
-  authorId: number;
   groupId: number;
-  clerkId: string;
+  contentType: string;
 };
 
 export type LeftActionBarProps = {
@@ -248,6 +262,52 @@ export interface DetailedComment {
 }
 
 export type CommentsGroupedByParentId = Record<string, CommentAuthorProps[]>;
+
+export type MeetUpDataType = {
+  id?: number;
+  contactEmail: string;
+  contactNumber: string;
+  image: string;
+  contentType?: string | null;
+  location: string;
+  summary: string;
+  title: string;
+};
+
+export type MeetupTagType = {
+  id: number;
+  name: string;
+};
+
+export type FullMeetUpType = MeetUpDataType & {
+  responsiblePerson: {
+    name: string;
+    picture: string;
+  };
+  tags: MeetupTagType[];
+};
+
+export type FilteredMeetupsResult = {
+  meetups: MeetUpExtended[];
+  page: number;
+  hasMore: boolean;
+};
+
+export type InterviewDataType = {
+  title: string;
+  contentType: string;
+  bannerImage: string;
+  details: string;
+  websiteLink: string;
+  salary: number;
+  salaryPeriod: string;
+  updates: number;
+};
+
+export type InterviewTagType = {
+  id: number;
+  name: string;
+};
 
 export type ResponsiveCreatePostInputProps = {
   userImage: string;

@@ -12,7 +12,7 @@ import { FromFieldProps } from "@/types/posts";
 import { Badge } from "@/components/ui/badge";
 import { Delete } from "lucide-react";
 
-const CreatePostTags = ({ control, form }: FromFieldProps) => {
+const CreatePostTags = ({ control, form, contentType }: FromFieldProps) => {
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     field: any
@@ -23,10 +23,10 @@ const CreatePostTags = ({ control, form }: FromFieldProps) => {
       const tagInput = e.target as HTMLInputElement;
       const tagValue = tagInput.value.trim();
 
-      if (tagValue.length === 0) {
+      if (tagValue.length < 2) {
         return form.setError("tags", {
           type: "required",
-          message: "Tag must be between 1 and 10 characters.",
+          message: "Tag must be between 2 and 10 characters.",
         });
       }
 
@@ -58,29 +58,38 @@ const CreatePostTags = ({ control, form }: FromFieldProps) => {
   };
 
   const handleDeleteTag = (tagToDelete: string) => {
-    const updatedTags = form
-      .getValues("tags")
+    const updatedTags = form!
+      .getValues("tags")!
       .filter((tag) => tag !== tagToDelete);
+
     form.setValue("tags", updatedTags);
   };
 
   return (
-    <div className="pb-[1.25rem]">
+    <div className="w-full pb-[1.25rem]">
       <FormField
         name="tags"
         control={control}
         render={({ field }) => (
           <FormItem>
-            <div></div>
-            <FormLabel className="flex flex-row leading-[1.375rem] dark:text-light-2 md:py-[0.625rem]  md:text-[0.875rem]">
-              Add or change tags (up to 5) so readers know what your story is
-              about
+            <FormLabel className="flex flex-row pb-[0.625rem] leading-[1.375rem] dark:text-light-2 md:py-[0.625rem]  md:text-[0.875rem]">
+              {contentType === "Meetup" ? (
+                <p>
+                  Please tag your meetup (up to 5) - Cyber, Music, Web3, Design,
+                  UI/UX ?
+                </p>
+              ) : (
+                <p>
+                  Add or change tags (up to 5) so readers know what your story
+                  is about
+                </p>
+              )}
             </FormLabel>
             <FormControl>
               <>
-                {field.value.length > 0 && (
+                {field.value!.length > 0 && (
                   <div className="flex-start flex-wrap">
-                    {field.value.map((tag: any) => (
+                    {field.value?.map((tag: any) => (
                       <div key={tag} className="flex flex-row gap-2 px-1 py-2">
                         <button
                           className=" text-sc-3 dark:text-light-2"
@@ -98,12 +107,12 @@ const CreatePostTags = ({ control, form }: FromFieldProps) => {
                 <Input
                   placeholder="Add a tag..."
                   type="text"
-                  className="bg-light-2 px-[1.25rem] py-[0.625rem] text-[1rem] dark:bg-dark-4 dark:text-light-2"
+                  className="rounded-lg border border-light-2 bg-light px-[1.25rem] py-[0.75rem] text-[1rem] outline-none dark:border-dark-4 dark:bg-dark-3 dark:text-light-2"
                   onKeyDown={(e) => handleInputKeyDown(e, field)}
                 />
               </>
             </FormControl>
-            <FormMessage className="py-1 pl-2 capitalize text-red-500" />
+            <FormMessage className="py-1 pl-2 capitalize text-red-80" />
           </FormItem>
         )}
       />

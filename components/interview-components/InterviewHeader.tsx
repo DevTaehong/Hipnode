@@ -1,15 +1,19 @@
 import Image from "next/image";
+import { useAuth } from "@clerk/nextjs";
 
-import OutlineIcon from "../icons/outline-icons";
 import { formatInterviewDate } from "@/utils";
 import { InterviewHeaderProps } from "@/types/interview.index";
+import MediaEditActionPopover from "../action-popover/MediaEditActionPopover";
 
 const InterviewHeader = ({
   userImage,
   username,
   date,
+  id,
+  clerkId,
 }: InterviewHeaderProps) => {
   const interviewDate = formatInterviewDate(date);
+  const { userId } = useAuth();
 
   return (
     <header className="flex w-full justify-between">
@@ -26,7 +30,9 @@ const InterviewHeader = ({
           <time className="base-12 sm:base-14 text-sc-3">{interviewDate}</time>
         </div>
       </div>
-      <OutlineIcon.MoreVertical />
+      {userId === clerkId && (
+        <MediaEditActionPopover label="Interview" mediaId={id} />
+      )}
     </header>
   );
 };

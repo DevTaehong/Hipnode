@@ -10,9 +10,10 @@ import { getPostsFromGroups } from "@/lib/actions/post.action";
 import GroupPost from "@/components/group-page/group-post/GroupPost";
 import MobileGroupSection from "@/components/group-page/mobileGroupSection/MobileGroupSection";
 import InfiniteScroll from "@/components/InfiniteScroll";
-import GroupSection from "@/components/GroupSection";
+
 import Podcasts from "@/components/home-page/podcast/Podcasts";
 import Meetups from "@/components/home-page/meetup/Meetups";
+import GroupSection from "@/components/group/GroupSection";
 
 const GroupPage = async () => {
   const [meetups, podcasts, posts] = await Promise.all([

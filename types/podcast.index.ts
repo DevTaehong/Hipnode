@@ -46,6 +46,7 @@ export interface IPodcast extends Podcast {
 export interface AudioPlayerProps {
   podcast: IPodcast;
   url: string;
+  podcastId: number;
 }
 
 export type SavePodcastTypeProps = {
@@ -120,6 +121,8 @@ export type PodcastEpisodeInfoType = {
   showName: string;
   episodeNumber: number;
   creatorName: string;
+  podcastId: number;
+  clerkId: string;
 };
 
 export interface HandleVolumeChangeProps {

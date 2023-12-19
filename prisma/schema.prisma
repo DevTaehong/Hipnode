@@ -71,7 +71,7 @@ model Onboarding {
 model Post {
   id        Int         @id @default(autoincrement())
   content   String
-  contentType String?
+  contentType String
   authorId  Int
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -152,6 +152,8 @@ model Podcast {
   details       String
   episodeNumber Int      @default(autoincrement())
   image         String
+  contentType   String
+  clerkId       String?
   showId        Int
   title         String
   updatedAt     DateTime @updatedAt
@@ -191,6 +193,8 @@ model MeetUp {
   contactEmail        String
   contactNumber       String
   image               String
+  contentType         String
+  clerkId             String?
   location            String
   responsiblePersonId Int
   summary             String
@@ -237,6 +241,8 @@ model Interview {
   createdAt    DateTime         @default(now())
   creatorId    Int
   title        String
+  contentType  String
+  clerkId      String?
   bannerImage  String
   details      String
   websiteLink  String

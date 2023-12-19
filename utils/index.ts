@@ -35,6 +35,7 @@ export const uploadImageToSupabase = async (
 ): Promise<string | null> => {
   if (!file) {
     console.error("No file provided");
+
     return null;
   }
 

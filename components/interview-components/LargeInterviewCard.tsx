@@ -1,6 +1,7 @@
 import { formatSalary } from "@/utils";
 import { InterviewBannerImage, InterviewCardInfo } from ".";
 import { LargeInterviewCardProps } from "@/types/interview.index";
+import SanatizedHtml from "../posts/post-by-id/main-content/SanatizedHtml";
 
 const LargeInterviewCard = ({
   interviewData,
@@ -48,7 +49,9 @@ const LargeInterviewCard = ({
               ))}
             </div>
           </div>
-          <p className="base-12 sm:text-base">{details}</p>
+          <p className="base-12 sm:text-base">
+            <SanatizedHtml content={details} />
+          </p>
         </div>
       </section>
     </article>

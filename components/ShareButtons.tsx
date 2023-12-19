@@ -14,12 +14,19 @@ import { ShareButtonsProps } from "@/types/podcast.index";
 
 const ShareButtons = ({ title, shareIcons }: ShareButtonsProps) => {
   const [currentUrl, setCurrentUrl] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentUrl(window.location.href);
     }
   }, []);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <Popover>

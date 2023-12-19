@@ -18,6 +18,8 @@ export async function createMeetUps(users: User[]) {
           image: faker.image.avatar(),
           createdAt: faker.date.past(),
           updatedAt: faker.date.recent(),
+          clerkId: String(user.id),
+          contentType: "Meetup",
         },
       });
       return meetUp;

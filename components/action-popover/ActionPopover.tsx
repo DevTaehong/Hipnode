@@ -6,9 +6,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { MoreHorizontal } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 
-import CommentIconButton from "../comment/CommentIconButton";
+import CommentIconButton from "../posts/comment/CommentIconButton";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 interface ActionPopoverProps {
@@ -39,10 +39,13 @@ const ActionPopover = ({
   return (
     <Popover>
       <PopoverTrigger>
-        <CommentIconButton Icon={MoreHorizontal} color="text-sc-3" />
+        <CommentIconButton
+          Icon={MoreVertical}
+          color="dark:text-light text-sc-3"
+        />
       </PopoverTrigger>
       <PopoverContent>
-        <section className="flex w-fit translate-x-[6rem] translate-y-[-0.8rem] flex-col rounded-xl border border-solid border-sc-5 bg-light-2 p-[1.25rem] dark:border-dark-3 dark:bg-dark-4">
+        <section className="flex w-fit translate-x-[-3rem] translate-y-[0rem] flex-col rounded-xl border border-solid border-sc-5 bg-light-2 p-[1.25rem] dark:border-dark-3 dark:bg-dark-4">
           <div
             onClick={onEditClick}
             className="mb-[0.625rem] flex cursor-pointer flex-row items-center justify-start"

@@ -8,6 +8,7 @@ export type MeetupTag = {
 
 export interface MeetUpExtended extends MeetUp {
   tags: MeetupTag[];
+  userCanEditMedia: boolean;
 }
 
 export interface MeetupsPageProps {

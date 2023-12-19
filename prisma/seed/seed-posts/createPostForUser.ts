@@ -17,6 +17,7 @@ export async function createPostForUser(user: User, groupId: number) {
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
         clerkId: user.clerkId,
+        contentType: "Post",
       },
     });
     return post;
