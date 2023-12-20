@@ -100,64 +100,17 @@ const ProfilePage = async ({
 
         {searchParams?.search === "meetups" &&
           result.map((meetup: any) => (
-            <MeetupsCard
-              key={meetup?.id}
-              meetUp={{
-                id: meetup?.id,
-                image: meetup?.image,
-                title: meetup?.title,
-                location: meetup?.location,
-                summary: meetup?.summary,
-                tags: meetup?.tags,
-                contactEmail: meetup?.contactEmail,
-                contactNumber: meetup?.contactNumber,
-                responsiblePersonId: meetup?.responsiblePersonId,
-                createdAt: meetup?.createdAt,
-                updatedAt: meetup?.updatedAt,
-                userCanEditMedia: false,
-              }}
-            />
+            <MeetupsCard key={meetup?.id} meetUp={meetup} />
           ))}
 
         {searchParams?.search === "podcasts" &&
           result.map((podcast: any) => (
-            <PodcastCard
-              key={podcast?.id}
-              info={{
-                id: podcast?.id,
-                title: podcast?.title,
-                details: podcast?.details,
-                user: {
-                  name: user?.username || "",
-                  location: user?.location || "",
-                  picture: user?.picture || "",
-                },
-              }}
-            />
+            <PodcastCard key={podcast?.id} info={podcast} />
           ))}
 
         {searchParams?.search === "interviews" &&
           result.map((interview: any) => (
-            <InterviewCard
-              key={interview?.id}
-              interviewData={{
-                id: interview?.id,
-                title: interview?.title,
-                bannerImage: interview?.bannerImage,
-                websiteLink: interview?.websiteLink,
-                salary: interview?.salary,
-                salaryPeriod: interview?.salaryPeriod,
-                updates: interview?.updates,
-                creator: {
-                  name: user?.username || "",
-                  picture: user?.picture || "",
-                },
-                creatorId: interview?.creatorId,
-                details: interview?.details,
-                createdAt: interview?.createdAt,
-                updatedAt: interview?.updatedAt,
-              }}
-            />
+            <InterviewCard key={interview?.id} interviewData={interview} />
           ))}
 
         {searchParams?.search === "history" && <div>history</div>}

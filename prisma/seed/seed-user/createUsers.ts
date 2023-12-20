@@ -20,6 +20,11 @@ export async function createUsers() {
         website: faker.internet.url(),
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
+        points: Math.floor(Math.random() * 991) + 10,
+        title: faker.person.jobTitle(),
+        facebook: "https://facebook.com",
+        instagram: "https://instagram.com",
+        twitter: "https://twitter.com",
       },
     });
   });
