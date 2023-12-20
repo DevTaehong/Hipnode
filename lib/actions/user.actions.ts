@@ -63,8 +63,13 @@ export async function getAllUsers() {
 
 export async function createUser(data: createUserType) {
   try {
+    const { username } = data;
+
     const user = await prisma.user.create({
-      data,
+      data: {
+        ...data,
+        profileUrlId: username.toLowerCase(),
+      },
     });
 
     return user;
