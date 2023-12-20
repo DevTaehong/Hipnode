@@ -57,8 +57,8 @@ const ProfileModal = ({
       <div className="mt-4 flex flex-wrap justify-center gap-2.5">
         {profileFollowing?.map(({ followed }) => (
           <ProfileLink
-            key={followed.profileUrlId}
-            username={followed.profileUrlId}
+            key={followed.username}
+            username={followed.username}
             picture={followed.picture}
           />
         ))}

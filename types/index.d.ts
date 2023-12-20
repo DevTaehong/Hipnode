@@ -276,7 +276,7 @@ export interface ProfileInfoProps {
   joinedAt: string | null | undefined;
   profileFollowing: {
     followed: {
-      profileUrlId: string;
+      username: string;
       picture: string;
     };
   }[];
