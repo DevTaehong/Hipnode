@@ -63,13 +63,22 @@ const ProfileModal = ({
           />
         ))}
 
-        {following && following > 6 && (
+        {following && following > 6 ? (
           <Link
             href="/"
             className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
           >
             <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
               {following - 6}+
+            </p>
+          </Link>
+        ) : (
+          <Link
+            href="/"
+            className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
+          >
+            <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
+              0
             </p>
           </Link>
         )}
