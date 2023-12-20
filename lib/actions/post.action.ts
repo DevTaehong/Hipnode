@@ -53,7 +53,7 @@ export async function createPostWithTags(
     heading: string;
     content: string;
     image: string;
-    groupId?: number;
+    groupId: number;
     contentType: string;
     blurImage: string;
     imageWidth: number;
@@ -187,6 +187,9 @@ export async function getPostContentById(id: number): Promise<GetPostByIdType> {
         content: true,
         viewCount: true,
         clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
         id: true,
         likes: {
           select: {

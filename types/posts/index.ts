@@ -198,6 +198,9 @@ export type ExtendedPrismaPost = {
   }[];
   userCanEditMedia?: boolean;
   numberOfAvailablePosts?: number;
+  blurImage: string;
+  imageHeight: number;
+  imageWidth: number;
 };
 
 export type PostToEditByIdType = {
