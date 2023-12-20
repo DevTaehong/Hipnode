@@ -91,6 +91,8 @@ async function handler(request: Request) {
       email: emailAddress,
     });
 
+    console.log(user);
+
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {
         userId: user.id,

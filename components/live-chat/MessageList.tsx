@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useChannel, usePresence } from "ably/react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import FillIcon from "../icons/fill-icons";
@@ -7,19 +6,47 @@ import UsersToMessage from "./UsersToMessage";
 import { getAllUsers } from "@/lib/actions/user.actions";
 import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
+import {
+  addUserToOnlineUsers,
+  removeUserFromOnlineUsers,
+} from "@/lib/actions/online-user.actions";
 
 const MessageList = () => {
   const { userInfo } = useChatStore();
-  const { id, username, image } = userInfo;
+  const { id } = userInfo;
 
   const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel } = useChannel("hipnode-livechat", () => {});
-  usePresence("hipnode-livechat", {
-    id,
-    username,
-    image,
-  });
+  useEffect(() => {
+    const handleAddUser = async () => {
+      try {
+        await addUserToOnlineUsers(id);
+      } catch (error) {
+        console.error("Error adding user to online users:", error);
+      }
+    };
+    if (id > 0) {
+      handleAddUser();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const handleUnload = () => {
+      try {
+        removeUserFromOnlineUsers(id);
+      } catch (error) {
+        console.error("Error removing user from online users:", error);
+      }
+    };
+    if (id > 0) {
+      window.addEventListener("beforeunload", handleUnload);
+    }
+    return () => {
+      if (id > 0) {
+        window.removeEventListener("beforeunload", handleUnload);
+      }
+    };
+  }, [id]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,14 +58,6 @@ const MessageList = () => {
       }
     };
     fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    channel.presence.enter({
-      id,
-      username,
-      image,
-    });
   }, []);
 
   return (
