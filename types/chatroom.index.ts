@@ -20,11 +20,12 @@ export type CreateMessageType = {
   chatroomId: number;
   attachment: string | null;
   attachmentType: string | null;
+  messageUUID: string;
 };
 
 export type EditMessageType = {
-  messageId: number;
-  newText: string;
+  messageUUID: string;
+  text: string;
 };
 
 export interface MessageToSend {
@@ -74,6 +75,7 @@ export interface ChatMessage {
   data: {
     user: ChatroomUser;
     messageId: number;
+    messageUUID: string;
     attachment?: string | null;
     attachmentType?: string | null;
     chatroomId?: number;
@@ -185,7 +187,13 @@ export interface UserTyping {
 
 export interface LiveChatMessageListProps {
   messages: ChatMessage[];
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+}
+
+export interface LiveChatMessageProps {
+  message: ChatMessage;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
 }
 
 export interface LiveChatVideoPlayerProps {
@@ -263,4 +271,22 @@ export interface ChatAudioRecorderProps {
   droppedFile: File | File[] | null;
   setDroppedFile: (value: File | File[] | null) => void;
   isSmallChatBox?: boolean;
+}
+
+export interface LiveChatFormProps {
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
+  channel: Types.RealtimeChannelPromise;
+  open: () => void;
+}
+
+export interface EditDeleteButtonProps {
+  isStringSingleEmoji: boolean;
+  displayText: string | null;
+  setTextareaValue: Dispatch<SetStateAction<string | null>>;
+  textareaValue: string | null;
+  handleDelete: () => void;
+  handleTextareaChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  handleEdit: () => void;
+  smallChatBox?: boolean;
 }

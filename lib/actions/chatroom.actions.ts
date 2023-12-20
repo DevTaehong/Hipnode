@@ -181,15 +181,21 @@ export async function createMessage(data: CreateMessageType) {
   }
 }
 
-export async function deleteMessage(messageId: number) {
+export async function deleteMessage(messageUUID: string) {
   try {
-    const message = await prisma.message.delete({
-      where: {
-        id: messageId,
-      },
+    const message = await prisma.message.findFirst({
+      where: { messageUUID },
     });
 
-    return message;
+    if (!message) {
+      throw new Error("Message not found");
+    }
+
+    const deletedMessage = await prisma.message.delete({
+      where: { id: message.id },
+    });
+
+    return deletedMessage;
   } catch (error) {
     console.error("Error deleting message:", error);
     throw error;
@@ -197,19 +203,22 @@ export async function deleteMessage(messageId: number) {
 }
 
 export async function editMessage(data: EditMessageType) {
-  try {
-    const { messageId, newText } = data;
+  const { messageUUID, text } = data;
 
-    const message = await prisma.message.update({
-      where: {
-        id: messageId,
-      },
-      data: {
-        text: newText,
-      },
+  try {
+    const message = await prisma.message.findFirst({
+      where: { messageUUID },
     });
 
-    return message;
+    if (!message) {
+      throw new Error("Message not found");
+    }
+    const updatedMessage = await prisma.message.update({
+      where: { id: message.id },
+      data: { text },
+    });
+
+    return updatedMessage;
   } catch (error) {
     console.error("Error editing message:", error);
     throw error;

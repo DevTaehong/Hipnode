@@ -1,13 +1,23 @@
-import { useCallback, ChangeEvent, MutableRefObject } from "react";
+import {
+  useCallback,
+  ChangeEvent,
+  MutableRefObject,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { Types } from "ably";
 import DOMPurify from "dompurify";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   createMessage,
+  deleteMessage,
+  editMessage,
   getMessagesForChatroom,
 } from "@/lib/actions/chatroom.actions";
 import { uploadLivechatAttachment, getMediaType, adjustHeight } from "@/utils";
 import {
+  ChatMessage,
   ChatroomUser,
   LiveChatSubmissionProps,
   handleEmojiSelectProps,
@@ -41,6 +51,7 @@ export const loadMessages = async ({
             attachmentType: message.attachmentType || null,
             text: message.text || null,
             createdAt: message.createdAt,
+            messageUUID: message.messageUUID,
           },
         };
       });
@@ -72,6 +83,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
   }
 
   if (attachmentURL || messageContent.length > 0) {
+    const messageUniqueId = uuidv4();
     const chatMessage = {
       text: messageContent || null,
       user: currentUser,
@@ -79,6 +91,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       attachment: attachmentURL,
       attachmentType: mediaType,
       createdAt: new Date(),
+      messageUUID: messageUniqueId,
     };
 
     try {
@@ -90,6 +103,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
           chatroomId,
           attachment: chatMessage.attachment,
           attachmentType: chatMessage.attachmentType,
+          messageUUID: messageUniqueId,
         });
         return API_RESULT.SUCCESS;
       }
@@ -139,26 +153,31 @@ export const userTypingChange = ({
   setMessageText(newMessageText);
   adjustHeight(e.target);
 
-  if (typingChannel) {
+  // Check if the user is typing something
+  if (newMessageText.trim() !== "" && typingChannel) {
+    // Clear any existing timeout to reset the timer
+    if (typingTimeoutRef.current !== null) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Send 'user is typing' message
     typingChannel.publish("typing-status", {
       isTyping: true,
       userId: userInfo.id,
       username: userInfo.username,
       chatroomId,
     });
-  }
 
-  if (typingTimeoutRef.current !== null) {
-    clearTimeout(typingTimeoutRef.current);
+    // Set a new timeout to send 'user stopped typing' message
+    typingTimeoutRef.current = window.setTimeout(() => {
+      typingChannel.publish("typing-status", {
+        isTyping: false,
+        userId: userInfo.id,
+        username: userInfo.username,
+        chatroomId,
+      });
+    }, 1000);
   }
-  typingTimeoutRef.current = window.setTimeout(() => {
-    typingChannel.publish("typing-status", {
-      isTyping: false,
-      userId: userInfo.id,
-      username: userInfo.username,
-      chatroomId,
-    });
-  }, 1000);
 };
 
 export const isOnlyEmoji = (string: string) => {
@@ -213,6 +232,36 @@ export const handleEmojiSelect = ({
   setMessageText(updatedValue);
 };
 
+export const handleDeleteClick = async ({
+  messageUUID,
+  setMessages,
+}: {
+  messageUUID: string;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
+}) => {
+  try {
+    setMessages((prevMessages) =>
+      prevMessages.filter((message) => message.data.messageUUID !== messageUUID)
+    );
+    await deleteMessage(messageUUID);
+  } catch (error) {
+    console.error("Error deleting message:", error);
+  }
+};
+
+export const handleEditClick = async ({
+  messageUUID,
+  text,
+}: {
+  messageUUID: string;
+  text: string;
+}) => {
+  try {
+    await editMessage({ messageUUID, text });
+  } catch (error) {
+    console.error("Error deleting message:", error);
+  }
+};
 export const findAudioDuration = (url: string) => {
   const match = url.match(/duration-(\d+)/);
   const extractedDuration = match ? parseInt(match[1], 10) : 0;

@@ -12,7 +12,7 @@ import { useGetOnlineUsers } from "../chat-page/presenceData";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const LiveChatMessageList = React.memo(
-  ({ messages, setDroppedFile }: LiveChatMessageListProps) => {
+  ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
     const { setLiveRecordingDuration } = useMediaPlayerStore();
     const router = useRouter();
     const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
@@ -26,7 +26,7 @@ const LiveChatMessageList = React.memo(
     const {
       username: secondUserUsername = "",
       image: secondUserPicture = christopher,
-      id: secondUserId = null,
+      id: secondUserId,
     } = secondUser ?? {};
 
     const isSecondUserOnline = onlineUsers.includes(secondUserId);
@@ -94,7 +94,11 @@ const LiveChatMessageList = React.memo(
             </div>
           ) : (
             messages.map((message: ChatMessage) => (
-              <LiveChatMessage key={message.data.messageId} message={message} />
+              <LiveChatMessage
+                key={message.data.messageId}
+                message={message}
+                setMessages={setMessages}
+              />
             ))
           )}
           <div ref={endOfMessagesRef} className="mt-1" />

@@ -14,8 +14,11 @@ const MessageList = () => {
 
   const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel } = useChannel("hipnode-livechat", () => {});
-  const { presenceData } = usePresence("hipnode-livechat", {
+  const { channel } = useChannel("hipnode-livechat", (message) => {
+    console.log(message);
+  });
+
+  usePresence("hipnode-livechat", {
     id,
     username,
     image,
@@ -31,7 +34,7 @@ const MessageList = () => {
       }
     };
     fetchUsers();
-  }, [presenceData]);
+  }, []);
 
   useEffect(() => {
     channel.presence.enter({
@@ -39,7 +42,7 @@ const MessageList = () => {
       username,
       image,
     });
-  }, [presenceData]);
+  }, []);
 
   return (
     <Popover>
