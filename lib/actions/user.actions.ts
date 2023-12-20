@@ -5,14 +5,7 @@ import prisma from "@/lib/prisma";
 import { UserAnswersType } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-type createUserType = {
-  clerkId: string;
-  name: string;
-  username: string;
-  picture: string;
-  email: string;
-};
+import { createUserType } from "@/types/posts";
 
 export async function getUserByClerkId(
   clerkId: string,
@@ -227,7 +220,7 @@ export async function isLoggedInUserOnboarded(
       },
     });
 
-    return !!onboarding; // If onboarding exists, it'll return true, else false
+    return !!onboarding;
   } catch (error) {
     console.error("Error checking if user is onboarded:", error);
     throw error;

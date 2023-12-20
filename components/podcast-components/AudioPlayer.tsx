@@ -7,7 +7,7 @@ const AudioPlayer = ({ podcast, url, podcastId }: AudioPlayerProps) => {
     episodeNumber,
     user: { name: creatorName },
     show: { name: showName },
-    clerkId,
+    userCanEditMedia,
   } = podcast;
 
   return (
@@ -19,8 +19,8 @@ const AudioPlayer = ({ podcast, url, podcastId }: AudioPlayerProps) => {
           showName={showName}
           episodeNumber={episodeNumber}
           creatorName={creatorName}
-          clerkId={clerkId}
           podcastId={podcastId}
+          userCanEditMedia={userCanEditMedia}
         />
         <PodcastPlayButton url={url} podcast={podcast} />
       </div>

@@ -6,11 +6,13 @@ import { currentUser } from "@clerk/nextjs/server";
 
 export async function getProfileData() {
   try {
-    const user = verifyAuth("You must be logged in to view your profile.");
+    const { clerkId } = await verifyAuth(
+      "You must be logged in to view your profile."
+    );
 
     const data = await prisma.user.findUnique({
       where: {
-        clerkId: user.userId,
+        clerkId,
       },
       include: {
         following: {

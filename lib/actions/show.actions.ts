@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { verifyAuth } from "../auth";
+import { CreateShowsType } from "@/types/shows.index";
 
 export async function getAllShows() {
   try {
@@ -14,26 +15,18 @@ export async function getAllShows() {
   }
 }
 
-export async function getAllUsersShows(clerkId: string) {
+export async function getAllUsersShows() {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        clerkId,
-      },
-    });
-
-    if (!user) {
-      throw new Error(`User with clerkId ${clerkId} not found`);
-    }
-
-    const userId = user.id;
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
+    );
 
     const subscribedShows = await prisma.usersSubscribedToShows.findMany({
       where: {
         userId,
       },
       include: {
-        show: true, // Include the related show details
+        show: true,
       },
     });
 
@@ -67,17 +60,11 @@ export async function getTopFiveShows(showIds: number[]) {
   }
 }
 
-type CreateShowsType = {
-  name: string;
-};
-
 export async function createShow(showData: CreateShowsType) {
   try {
-    const user = verifyAuth("You must be logged in to create a show.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    if (!dbUserID) throw new Error("User not found");
-
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
+    );
     const existingShow = await prisma.shows.findFirst({
       where: {
         name: showData.name,
@@ -89,7 +76,7 @@ export async function createShow(showData: CreateShowsType) {
     }
 
     const newShow = await prisma.shows.create({
-      data: { ...showData, userId: dbUserID },
+      data: { ...showData, userId },
     });
 
     return newShow;

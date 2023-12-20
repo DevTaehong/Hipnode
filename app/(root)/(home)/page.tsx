@@ -1,5 +1,3 @@
-import { auth } from "@clerk/nextjs";
-
 import Podcasts from "@/components/home-page/podcast/Podcasts";
 import Meetups from "@/components/home-page/meetup/Meetups";
 import PostCardList from "@/components/home-page/post-card/PostCardList";
@@ -7,23 +5,16 @@ import Sidebar from "@/components/home-page/sidebar/Sidebar";
 
 import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import { getAllPodcastsWithUserInfo } from "@/lib/actions/podcast.actions";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
+
 import { getAllPosts, getPopularTags } from "@/lib/actions/post.action";
 import PopularTags from "@/components/home-page/tags/PopularTags";
 import PinnedGroup from "@/components/home-page/pinned-group/PinnedGroup";
 import { getGroups } from "@/lib/actions/group.actions";
 import ResponsiveCreatePostInput from "@/components/posts/create-post-form/ResponsiveCreatePostInput";
+import { verifyAuth } from "@/lib/auth";
 
 const Home = async () => {
-  const { userId: clerkUserId } = auth();
-  let userImage: string = "";
-  let userId: number = 0;
-  if (clerkUserId) {
-    const user = await getUserByClerkId(clerkUserId);
-    if (!user) return null;
-    userImage = user.picture ?? "/public/emoji.png";
-    userId = user.id;
-  }
+  const { loggedInUserImage, userId } = await verifyAuth("Welcome to Hipnode");
 
   const [meetups, podcasts, posts, tagsData, groups] = await Promise.all([
     getAllMeetUps(),
@@ -39,7 +30,7 @@ const Home = async () => {
           <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
             <Sidebar />
             <div className="flex lg:hidden">
-              <ResponsiveCreatePostInput userImage={userImage} />
+              <ResponsiveCreatePostInput userImage={loggedInUserImage} />
             </div>
             <div className="hidden lg:flex">
               <PopularTags tagsData={tagsData} />
@@ -53,7 +44,7 @@ const Home = async () => {
 
         <div className="flex max-h-full flex-col gap-5">
           <div className="hidden w-full lg:flex">
-            <ResponsiveCreatePostInput userImage={userImage} />
+            <ResponsiveCreatePostInput userImage={loggedInUserImage} />
           </div>
           <div className="flex w-full overflow-hidden">
             <PostCardList posts={posts} userId={userId} />

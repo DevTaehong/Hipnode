@@ -41,6 +41,7 @@ export interface IPodcast extends Podcast {
   show: {
     name: string;
   };
+  userCanEditMedia: boolean;
 }
 
 export interface AudioPlayerProps {
@@ -122,7 +123,7 @@ export type PodcastEpisodeInfoType = {
   episodeNumber: number;
   creatorName: string;
   podcastId: number;
-  clerkId: string;
+  userCanEditMedia: boolean;
 };
 
 export interface HandleVolumeChangeProps {
@@ -192,3 +193,40 @@ export interface PodcastFilterAndContentWrapperProps {
   podcastData: PodcastDataProps;
   usersShowsIds: number[];
 }
+
+export type CreatePodcastType = {
+  title: string;
+  details: string;
+  image: string;
+  url: string;
+  showId: number;
+  contentType: string;
+};
+
+export interface QueryOptions {
+  skip: number;
+  take?: number; // Optional
+  include: {
+    user: {
+      select: {
+        name: boolean;
+        location: boolean;
+        picture: boolean;
+      };
+    };
+  };
+}
+
+export interface ShowOption {
+  label: string;
+  value: number;
+}
+
+export type PodcastWithShow = {
+  heading: string;
+  content: string;
+  image: string;
+  podcast: string;
+  contentType: string;
+  show: { label: string; value: string };
+};

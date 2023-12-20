@@ -12,7 +12,6 @@ import CustomButton from "@/components/CustomButton";
 
 const PostCardList = ({ posts, userId }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
-  const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
@@ -24,7 +23,6 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
       const posts = await getAllPosts({ numberToSkip: amountToSkip });
       if (posts?.length) {
         setAmountToSkip((prev) => prev + 10);
-        setPage((prevPage) => prevPage + 1);
         setPostData((prevPosts) => [...prevPosts, ...posts]);
       }
     } catch (error) {
@@ -52,7 +50,7 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
-        <PostCard post={post} userId={userId} key={post.id} />
+        <PostCard post={post} key={post.id} userId={userId} />
       ))}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
