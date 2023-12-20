@@ -20,13 +20,15 @@ const UserButton = () => {
     <Popover>
       <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg hover:bg-sc-6 dark:hover:bg-dark-4">
         <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
-          <Image
-            src={user?.imageUrl || "/emjoi-placeholder.png"}
-            alt="User Image"
-            width={30}
-            height={30}
-            className="m-[2px] rounded-[0.375rem] bg-yellow-30"
-          />
+          {user?.imageUrl && (
+            <Image
+              src={user?.imageUrl}
+              alt="User Image"
+              width={30}
+              height={30}
+              className="m-[2px] rounded-[0.375rem] bg-yellow-30"
+            />
+          )}
         </div>
 
         <p className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
