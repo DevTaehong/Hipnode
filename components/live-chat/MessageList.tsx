@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useChannel, usePresence } from "ably/react";
+import { useChannel } from "ably/react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import FillIcon from "../icons/fill-icons";
@@ -14,11 +14,8 @@ const MessageList = () => {
 
   const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel } = useChannel("hipnode-livechat", () => {});
-  const { presenceData } = usePresence("hipnode-livechat", {
-    id,
-    username,
-    image,
+  const { channel } = useChannel("hipnode-livechat", (message) => {
+    console.log(message);
   });
 
   useEffect(() => {
@@ -31,7 +28,7 @@ const MessageList = () => {
       }
     };
     fetchUsers();
-  }, [presenceData]);
+  }, []);
 
   useEffect(() => {
     channel.presence.enter({
@@ -39,7 +36,10 @@ const MessageList = () => {
       username,
       image,
     });
-  }, [presenceData]);
+    return () => {
+      channel.presence.leave();
+    };
+  }, [userInfo]);
 
   return (
     <Popover>

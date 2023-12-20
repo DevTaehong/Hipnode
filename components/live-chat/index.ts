@@ -153,26 +153,31 @@ export const userTypingChange = ({
   setMessageText(newMessageText);
   adjustHeight(e.target);
 
-  if (typingChannel) {
+  // Check if the user is typing something
+  if (newMessageText.trim() !== "" && typingChannel) {
+    // Clear any existing timeout to reset the timer
+    if (typingTimeoutRef.current !== null) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Send 'user is typing' message
     typingChannel.publish("typing-status", {
       isTyping: true,
       userId: userInfo.id,
       username: userInfo.username,
       chatroomId,
     });
-  }
 
-  if (typingTimeoutRef.current !== null) {
-    clearTimeout(typingTimeoutRef.current);
+    // Set a new timeout to send 'user stopped typing' message
+    typingTimeoutRef.current = window.setTimeout(() => {
+      typingChannel.publish("typing-status", {
+        isTyping: false,
+        userId: userInfo.id,
+        username: userInfo.username,
+        chatroomId,
+      });
+    }, 1000);
   }
-  typingTimeoutRef.current = window.setTimeout(() => {
-    typingChannel.publish("typing-status", {
-      isTyping: false,
-      userId: userInfo.id,
-      username: userInfo.username,
-      chatroomId,
-    });
-  }, 1000);
 };
 
 export const isOnlyEmoji = (string: string) => {

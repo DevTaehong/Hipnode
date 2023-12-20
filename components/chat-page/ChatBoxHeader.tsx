@@ -13,11 +13,10 @@ const ChatBoxHeader = () => {
   const onlineUsers = useGetOnlineUsers();
 
   const otherUserInfo = chatroomUsers[1] ?? otherUser;
-  let isOtherUserOnline;
 
-  if (otherUserInfo) {
-    isOtherUserOnline = onlineUsers.includes(otherUserInfo.id);
-  }
+  const isOtherUserOnline = onlineUsers
+    ? onlineUsers.includes(otherUserInfo.id)
+    : false;
 
   const userOnlineStatus = isOtherUserOnline ? (
     <span className="semibold-12 text-green">Online</span>

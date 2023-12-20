@@ -118,17 +118,19 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
                   : "w-auto"
               }`}
             >
-              <div className="flex justify-between gap-2">
+              <div className="mb-1 flex justify-between gap-2">
                 <p className="semibold-16 text-sc-2_light-2">{displayName}</p>
                 <p className="semibold-16 text-sc-4">{chatboxDate}</p>
               </div>
-              <div className={`flex ${text && "mb-2"}`}>
-                <MessageAttachment
-                  message={message}
-                  chatPage={true}
-                  isMessageFromCurrentUser={isMessageFromCurrentUser}
-                />
-              </div>
+              {messageHasAttachment && (
+                <div className="mb-2 flex">
+                  <MessageAttachment
+                    message={message}
+                    chatPage={true}
+                    isMessageFromCurrentUser={isMessageFromCurrentUser}
+                  />
+                </div>
+              )}
             </div>
             {displayText && (
               <MessageContent

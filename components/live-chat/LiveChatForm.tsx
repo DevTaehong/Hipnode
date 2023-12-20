@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
   KeyboardEvent,
+  useCallback,
 } from "react";
 import { useChannel } from "ably/react";
 
@@ -55,7 +56,9 @@ const LiveChatForm = ({
     adjustHeight(inputBox.current);
   }, [messageText]);
 
-  const userInfo = chatroomUsers[0] ?? null;
+  const userInfo = useMemo(() => {
+    return chatroomUsers[0] ?? null;
+  }, [chatroomUsers]);
 
   const isChatroomUserTyping = useMemo(() => {
     if (!userTyping) return false;
@@ -109,16 +112,19 @@ const LiveChatForm = ({
     }
   };
 
-  const handleTyping = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    userTypingChange({
-      e,
-      setMessageText,
-      typingChannel,
-      userInfo,
-      chatroomId,
-      typingTimeoutRef,
-    });
-  };
+  const handleTyping = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      userTypingChange({
+        e,
+        setMessageText,
+        typingChannel,
+        userInfo,
+        chatroomId,
+        typingTimeoutRef,
+      });
+    },
+    [userInfo, chatroomId, typingTimeoutRef]
+  );
 
   return (
     <form

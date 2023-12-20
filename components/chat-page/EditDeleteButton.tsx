@@ -32,7 +32,9 @@ const EditDeleteButton = ({
         <PopoverTrigger>
           <div
             className={`absolute right-2 z-10 flex rounded-full ${
-              smallChatBox ? "translate-y-[-1.3rem]" : "translate-y-2"
+              smallChatBox
+                ? "translate-x-0 translate-y-[-1.3rem]"
+                : "translate-x-1.5 translate-y-0.5"
             } bg-red-80/80 text-2xl text-white`}
           >
             <IoIosArrowDown />
