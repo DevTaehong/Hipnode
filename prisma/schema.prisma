@@ -18,7 +18,6 @@ model User {
   title           String?
   points          Int                      @default(0)
   role            Role                     @default(USER)
-  profileUrlId    String                   @unique
   bio             String?
   website         String?
   facebook        String?

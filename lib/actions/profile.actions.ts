@@ -11,9 +11,12 @@ export async function getProfileData(paramsId?: string) {
     );
 
     if (paramsId) {
-      const data = await prisma.user.findUnique({
+      const data = await prisma.user.findMany({
         where: {
-          profileUrlId: paramsId,
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
         },
         include: {
           following: {
@@ -21,7 +24,7 @@ export async function getProfileData(paramsId?: string) {
             include: {
               followed: {
                 select: {
-                  profileUrlId: true,
+                  username: true,
                   picture: true,
                 },
               },
@@ -36,7 +39,7 @@ export async function getProfileData(paramsId?: string) {
         },
       });
 
-      return data;
+      return data[0];
     }
 
     const data = await prisma.user.findUnique({
@@ -78,16 +81,19 @@ export async function getProfilePosts(paramsId?: string): Promise<any> {
     let userId;
 
     if (paramsId) {
-      const data = await prisma.user.findUnique({
+      const data = await prisma.user.findMany({
         where: {
-          profileUrlId: paramsId,
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
         },
         select: {
           id: true,
         },
       });
 
-      userId = data?.id;
+      userId = data[0]?.id;
     } else {
       const userData = await currentUser();
 
@@ -137,16 +143,19 @@ export async function getProfileMeetups(paramsId?: string): Promise<any> {
     let userId;
 
     if (paramsId) {
-      const data = await prisma.user.findUnique({
+      const data = await prisma.user.findMany({
         where: {
-          profileUrlId: paramsId,
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
         },
         select: {
           id: true,
         },
       });
 
-      userId = data?.id;
+      userId = data[0]?.id;
     } else {
       const userData = await currentUser();
 
@@ -192,16 +201,19 @@ export async function getProfilePodcasts(paramsId?: string): Promise<any> {
     let userId;
 
     if (paramsId) {
-      const data = await prisma.user.findUnique({
+      const data = await prisma.user.findMany({
         where: {
-          profileUrlId: paramsId,
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
         },
         select: {
           id: true,
         },
       });
 
-      userId = data?.id;
+      userId = data[0]?.id;
     } else {
       const userData = await currentUser();
 
@@ -242,16 +254,19 @@ export async function getProfileInterviews(paramsId?: string): Promise<any> {
     let userId;
 
     if (paramsId) {
-      const data = await prisma.user.findUnique({
+      const data = await prisma.user.findMany({
         where: {
-          profileUrlId: paramsId,
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
         },
         select: {
           id: true,
         },
       });
 
-      userId = data?.id;
+      userId = data[0]?.id;
     } else {
       const userData = await currentUser();
 
@@ -295,16 +310,19 @@ export async function getPerformanceData(paramsId?: string): Promise<any> {
     let userId;
 
     if (paramsId) {
-      const data = await prisma.user.findUnique({
+      const data = await prisma.user.findMany({
         where: {
-          profileUrlId: paramsId,
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
         },
         select: {
           id: true,
         },
       });
 
-      userId = data?.id;
+      userId = data[0]?.id;
     } else {
       const userData = await currentUser();
 
