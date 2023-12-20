@@ -4,18 +4,16 @@ import prisma from "@/lib/prisma";
 import { verifyAuth } from "@/lib/auth";
 import { currentUser } from "@clerk/nextjs/server";
 
-export async function getProfileData(username?: string) {
+export async function getProfileData(profileUrlId?: string) {
   try {
     const user = verifyAuth(
       "You must be logged in to view your profile or other profiles."
     );
 
-    console.log("user", username);
-
-    if (username) {
+    if (profileUrlId) {
       const data = await prisma.user.findUnique({
         where: {
-          username,
+          profileUrlId,
         },
         include: {
           following: {

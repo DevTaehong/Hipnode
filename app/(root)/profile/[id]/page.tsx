@@ -24,12 +24,12 @@ const ProfilePage = async ({
   params,
   searchParams,
 }: {
-  params: { username: string };
+  params: { id: string };
   searchParams: { search: string };
 }) => {
   console.log(params, searchParams);
 
-  const user = await getProfileData(params.username);
+  const user = await getProfileData(params.id);
 
   console.log(user);
 
