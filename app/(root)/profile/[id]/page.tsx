@@ -27,41 +27,37 @@ const ProfilePage = async ({
   params: { id: string };
   searchParams: { search: string };
 }) => {
-  console.log(params, searchParams);
-
   const user = await getProfileData(params.id);
 
-  console.log(user);
+  let result: any = [];
 
-  // let result: any = [];
+  switch (searchParams?.search) {
+    case "posts":
+      result = await getProfilePosts(params.id);
+      break;
+    case "meetups":
+      result = await getProfileMeetups(params.id);
+      break;
+    case "podcasts":
+      result = await getProfilePodcasts(params.id);
+      break;
+    case "interviews":
+      result = await getProfileInterviews(params.id);
+      break;
+    case "history":
+      result = await getProfileHistory();
+      break;
+    default:
+      result = await getProfilePosts(params.id);
+  }
 
-  // switch (searchParams?.search) {
-  //   case "posts":
-  //     result = await getProfilePosts();
-  //     break;
-  //   case "meetups":
-  //     result = await getProfileMeetups();
-  //     break;
-  //   case "podcasts":
-  //     result = await getProfilePodcasts();
-  //     break;
-  //   case "interviews":
-  //     result = await getProfileInterviews();
-  //     break;
-  //   case "history":
-  //     result = await getProfileHistory();
-  //     break;
-  //   default:
-  //     result = await getProfilePosts();
-  // }
-
-  // const performanceData = await getPerformanceData();
+  const performanceData = await getPerformanceData(params.id);
 
   return (
-    <div className="flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row">
+    <div className="mx-auto flex min-h-screen w-full max-w-[90rem] flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row lg:px-10 lg:py-[1.87rem]">
       {/* Profile Info */}
       <section>
-        {/* {user && (
+        {user && (
           <ProfileInfo
             src={user?.picture}
             name={user?.username}
@@ -77,11 +73,11 @@ const ProfilePage = async ({
             profileFollowing={user?.following}
             joinedAt={formatUserJoinedDate(user?.createdAt)}
           />
-        )} */}
+        )}
       </section>
 
       {/* Profile Filter & Content Cards */}
-      {/* <section className="flex flex-col gap-5">
+      <section className="flex flex-col gap-5">
         <ProfileFilter />
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
@@ -106,71 +102,24 @@ const ProfilePage = async ({
 
         {searchParams?.search === "meetups" &&
           result.map((meetup: any) => (
-            <MeetupsCard
-              key={meetup?.id}
-              meetUp={{
-                id: meetup?.id,
-                image: meetup?.image,
-                title: meetup?.title,
-                location: meetup?.location,
-                summary: meetup?.summary,
-                tags: meetup?.tags,
-                contactEmail: meetup?.contactEmail,
-                contactNumber: meetup?.contactNumber,
-                responsiblePersonId: meetup?.responsiblePersonId,
-                createdAt: meetup?.createdAt,
-                updatedAt: meetup?.updatedAt,
-                userCanEditMedia: false,
-              }}
-            />
+            <MeetupsCard key={meetup?.id} meetUp={meetup} />
           ))}
 
         {searchParams?.search === "podcasts" &&
           result.map((podcast: any) => (
-            <PodcastCard
-              key={podcast?.id}
-              info={{
-                id: podcast?.id,
-                title: podcast?.title,
-                details: podcast?.details,
-                user: {
-                  name: user?.username || "",
-                  location: user?.location || "",
-                  picture: user?.picture || "",
-                },
-              }}
-            />
+            <PodcastCard key={podcast?.id} info={podcast} />
           ))}
 
         {searchParams?.search === "interviews" &&
           result.map((interview: any) => (
-            <InterviewCard
-              key={interview?.id}
-              interviewData={{
-                id: interview?.id,
-                title: interview?.title,
-                bannerImage: interview?.bannerImage,
-                websiteLink: interview?.websiteLink,
-                salary: interview?.salary,
-                salaryPeriod: interview?.salaryPeriod,
-                updates: interview?.updates,
-                creator: {
-                  name: user?.username || "",
-                  picture: user?.picture || "",
-                },
-                creatorId: interview?.creatorId,
-                details: interview?.details,
-                createdAt: interview?.createdAt,
-                updatedAt: interview?.updatedAt,
-              }}
-            />
+            <InterviewCard key={interview?.id} interviewData={interview} />
           ))}
 
         {searchParams?.search === "history" && <div>history</div>}
-      </section> */}
+      </section>
 
       {/* HostMeetup Card & Performance Card */}
-      {/* <section className="hidden min-w-[315px] flex-col gap-5 xl:flex">
+      <section className="hidden w-[20.3125rem] shrink-0 flex-col gap-5 xl:flex">
         <HostMeetupCard
           title="Start Your Interview"
           desc="Working on your own internet business? We'd love to interview you!"
@@ -178,7 +127,7 @@ const ProfilePage = async ({
           rightBtn="Submit a Story"
         />
         <Performance data={performanceData} />
-      </section> */}
+      </section>
     </div>
   );
 };

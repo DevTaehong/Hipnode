@@ -40,7 +40,7 @@ const ProfileModal = ({
         {name}
       </h3>
 
-      <p className="text-[1rem] leading-[1.5rem] text-sc-2 dark:text-sc-3">
+      <p className="text-center text-[1rem] leading-[1.5rem] text-sc-2 dark:text-sc-3">
         {title}
       </p>
 
@@ -57,8 +57,8 @@ const ProfileModal = ({
       <div className="mt-4 flex flex-wrap justify-center gap-2.5">
         {profileFollowing?.map(({ followed }) => (
           <ProfileLink
-            key={followed.username}
-            username={followed.username}
+            key={followed.profileUrlId}
+            username={followed.profileUrlId}
             picture={followed.picture}
           />
         ))}
@@ -73,14 +73,16 @@ const ProfileModal = ({
             </p>
           </Link>
         ) : (
-          <Link
-            href="/"
-            className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
-          >
-            <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
-              0
-            </p>
-          </Link>
+          profileFollowing.length === 0 && (
+            <Link
+              href="/"
+              className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
+            >
+              <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
+                0
+              </p>
+            </Link>
+          )
         )}
       </div>
 

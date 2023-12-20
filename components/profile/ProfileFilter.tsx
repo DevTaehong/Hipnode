@@ -6,6 +6,7 @@ import { capitalise } from "@/utils";
 
 import { Button } from "../ui/button";
 import { profileFilters } from "@/constants";
+import { formUrlQuery } from "@/lib/utils";
 
 const ProfileFilter = () => {
   const router = useRouter();
@@ -15,8 +16,14 @@ const ProfileFilter = () => {
   const [search, setSearch] = useState(query || "posts");
 
   useEffect(() => {
-    router.push(`profile?search=${search}`);
-  }, [search, router]);
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "search",
+      value: search,
+    });
+
+    router.push(newUrl, { scroll: false });
+  }, [search, router, searchParams]);
 
   return (
     <div className="flex w-full justify-between gap-5 overflow-y-hidden rounded-[0.875rem] bg-light p-2.5 dark:bg-dark-3 md:rounded-[1.25rem] md:px-7 md:py-5">
