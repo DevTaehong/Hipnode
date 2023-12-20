@@ -14,7 +14,6 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
     salaryPeriod,
     updates,
     createdAt,
-    clerkId,
     userCanEditMedia,
     creator: { name: username, picture: userImage },
   } = interviewData;
@@ -27,7 +26,6 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           username={username}
           date={createdAt}
           id={id}
-          clerkId={clerkId || ""}
           userCanEditMedia={userCanEditMedia}
         />
         <InterviewBannerImage
@@ -62,3 +60,5 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
 };
 
 export default InterviewCard;
+
+

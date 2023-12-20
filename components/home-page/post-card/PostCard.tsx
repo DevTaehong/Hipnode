@@ -28,6 +28,9 @@ const PostCard = ({
     author: { picture, username },
     createdAt,
     comments,
+    blurImage,
+    imageHeight,
+    imageWidth,
   },
   userId,
 }: PostCardProps) => {
@@ -44,17 +47,21 @@ const PostCard = ({
     setHtmlString(sanitizedHtml);
   }, [content]);
 
-  if (!userId) return null;
   const hasLiked = userHasLikedComment(userId, comments);
   const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
 
   return (
     <Link href={`/posts/post/${id}`}>
       <div className="flex h-full rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
-        <PostImage postImage={image} />
+        <PostImage
+          postImage={image}
+          blurImage={blurImage}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight}
+        />
         <div className="ml-[0.875rem] flex h-full grow flex-col justify-between">
           <div className="flex h-full flex-col gap-2.5">
-            <div className="flex">
+            <div className="flex justify-between">
               <PostText postContent={htmlString} />
               <div className="flex flex-row">
                 <div className="flex md:hidden">
@@ -70,7 +77,7 @@ const PostCard = ({
             <PostLabels tags={tags} />
           </div>
 
-          <section className="hidden items-center justify-between md:flex">
+          <div className="hidden items-center justify-between md:flex">
             <div className="flex items-center">
               <SocialMediaIcon authorPicture={picture ?? "/public/emoji.png"} />
               <div className="flex flex-col pl-[0.625rem]">
@@ -85,7 +92,7 @@ const PostCard = ({
             <div className="hidden w-[20rem] xl:flex">
               <SocialStatistics socialCounts={socialCounts} />
             </div>
-          </section>
+          </div>
           <div className="flex xl:hidden">
             <SocialStatistics socialCounts={socialCounts} />
           </div>

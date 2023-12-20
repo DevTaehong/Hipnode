@@ -14,10 +14,7 @@ const MessageList = () => {
 
   const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel } = useChannel("hipnode-livechat", (message) => {
-    console.log(message);
-  });
-
+  const { channel } = useChannel("hipnode-livechat", () => {});
   usePresence("hipnode-livechat", {
     id,
     username,

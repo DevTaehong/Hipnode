@@ -8,11 +8,12 @@ import prisma from "../prisma";
 import {
   getPostsByGroupIdQueryOptions,
   getPostsFromGroupsQueryOptions,
-} from "@/lib/actions/shared.types";
+} from "@/types/shared.types";
 import {
   AddCommentOrReply,
   CommentsGroupedByParentId,
   ExtendedPrismaPost,
+  GetPostByIdType,
   PostToEditByIdType,
   UpdateCommentType,
 } from "@/types/posts";
@@ -54,16 +55,16 @@ export async function createPostWithTags(
     image: string;
     groupId?: number;
     contentType: string;
+    blurImage: string;
+    imageWidth: number;
+    imageHeight: number;
   },
   tagNames: string[]
 ): Promise<Post> {
   try {
-    const user = verifyAuth("You must be logged in to create post.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    const clerkId: string = user.userId;
-
-    if (!dbUserID) throw new Error("User not found");
+    const { clerkId, userId } = await verifyAuth(
+      "You must be logged in to create post."
+    );
 
     const allTagIdsToConnect = await handleTags(tagNames);
 
@@ -71,7 +72,7 @@ export async function createPostWithTags(
       const post = await prisma.post.create({
         data: {
           ...postData,
-          authorId: dbUserID,
+          authorId: userId,
           clerkId,
         },
         include: {
@@ -104,20 +105,16 @@ export async function updatePost(
   tagNames: string[]
 ): Promise<Post> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to update a post, and you can only edit your own posts."
+    const { clerkId, userId } = await verifyAuth(
+      "You must be logged in to update a post."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    const clerkId: string = user.userId;
-    if (!dbUserID) throw new Error("User not found");
 
     const allTagIdsToConnect = await handleTags(tagNames);
 
     await prisma.$transaction(async (prisma) => {
       const updatedPost = await prisma.post.update({
-        where: { id: postId, authorId: dbUserID },
-        data: { ...data, authorId: dbUserID, clerkId },
+        where: { id: postId, authorId: userId },
+        data: { ...data, authorId: userId, clerkId },
         include: {
           author: true,
         },
@@ -148,16 +145,12 @@ export async function updatePost(
 
 export async function deletePost(id: number): Promise<void> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete a post, and you can only delete your own posts."
+    const { userId } = await verifyAuth(
+      "You must be logged in to delete a post."
     );
 
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
-
     await prisma.post.delete({
-      where: { id, authorId: dbUserID },
+      where: { id, authorId: userId },
     });
     revalidatePath("/");
     redirect("/");
@@ -167,15 +160,11 @@ export async function deletePost(id: number): Promise<void> {
   }
 }
 
-export async function getPostContentById(
-  id: number
-): Promise<ExtendedPrismaPost> {
+export async function getPostContentById(id: number): Promise<GetPostByIdType> {
   try {
-    const user = verifyAuth(
-      "We need the logged in user ID for edit and delete CRUD's."
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
 
     const post = await prisma.post.findUnique({
       where: { id },
@@ -228,7 +217,7 @@ export async function getPostContentById(
       likesCount: post.likes.length,
       commentsCount: post.comments.length,
       sharesCount: post.Share.length,
-      userCanEditMedia: post.author.id === dbUserID,
+      userCanEditMedia: post.author.id === userId,
     };
 
     return extendedPost;
@@ -270,6 +259,11 @@ export async function getAllPosts({
         createdAt: true,
         heading: true,
         clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+
         author: {
           select: {
             username: true,
@@ -432,17 +426,15 @@ export async function addCommentOrReply(
   path: string
 ): Promise<AddCommentOrReply> {
   try {
-    const user = verifyAuth("You must be logged in to add a comment or reply.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
+    const { userId } = await verifyAuth(
+      "You must be logged in to add a comment or reply."
+    );
 
     const newComment = await prisma.comment.create({
       data: {
         content,
         postId,
-        authorId: dbUserID,
+        authorId: userId,
         parentId,
       },
       include: {
@@ -459,7 +451,7 @@ export async function addCommentOrReply(
     revalidatePath(path);
     return {
       ...newComment,
-      userId: dbUserID,
+      userId,
     };
   } catch (error) {
     console.error("Error adding comment or reply:", error);
@@ -473,16 +465,12 @@ export async function updateComment(
   path: string
 ): Promise<UpdateCommentType> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to update a comment, and you can only edit your own comments."
+    const { userId } = await verifyAuth(
+      "You must be logged in to update a comment."
     );
 
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
-
     const comment = await prisma.comment.update({
-      where: { id: commentId, authorId: dbUserID },
+      where: { id: commentId, authorId: userId },
       data: {
         content,
       },
@@ -500,7 +488,7 @@ export async function updateComment(
     if (!comment) throw new Error("Comment not found.");
 
     revalidatePath(path);
-    return { ...comment, userId: dbUserID };
+    return { ...comment, userId };
   } catch (error) {
     console.error("Error updating comment:", error);
     throw error;
@@ -512,16 +500,12 @@ export async function deleteCommentOrReply(
   path: string
 ): Promise<void> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete a comment or reply, and you can only delete your own comment or reply."
+    const { userId } = await verifyAuth(
+      "You must be logged in to delete a comment or reply."
     );
 
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
-
     await prisma.comment.deleteMany({
-      where: { parentId: commentId, authorId: dbUserID },
+      where: { parentId: commentId, authorId: userId },
     });
 
     await prisma.comment.delete({
@@ -535,11 +519,12 @@ export async function deleteCommentOrReply(
   }
 }
 
-export async function sharePostAndCountShares(
-  userId: number,
-  postId: number
-): Promise<number> {
+export async function sharePostAndCountShares(postId: number): Promise<number> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to share a post."
+    );
+
     await prisma.share.create({
       data: {
         userId,
@@ -560,11 +545,11 @@ export async function sharePostAndCountShares(
   }
 }
 
-export async function toggleLikePost(
-  userId: number,
-  postId: number
-): Promise<Like | null> {
+export async function toggleLikePost(postId: number): Promise<Like | null> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to toggle like on posts."
+    );
     const existingLike = await prisma.like.findUnique({
       where: { userId_postId: { userId, postId } },
     });
@@ -583,10 +568,13 @@ export async function toggleLikePost(
 }
 
 export async function toggleLikeComment(
-  userId: number,
   commentId: number
 ): Promise<Like | null> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to toggle like on a comment."
+    );
+
     const existingLike = await prisma.like.findUnique({
       where: { userId_commentId: { userId, commentId } },
     });
@@ -606,11 +594,9 @@ export async function toggleLikeComment(
 export async function getPostCommentsByParentId(
   id: number
 ): Promise<CommentsGroupedByParentId> {
-  const user = verifyAuth("You must be logged in to fetch posts.");
-
-  const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-  if (!dbUserID) throw new Error("User not found");
+  const { userId } = await verifyAuth(
+    "You must be logged in to get post comments."
+  );
 
   try {
     const comments = await prisma.comment.findMany({
@@ -637,12 +623,12 @@ export async function getPostCommentsByParentId(
 
     const commentsWithLikes = comments.map((comment) => {
       const likedByCurrentUser = comment.likes.some(
-        (like) => like.userId === dbUserID
+        (like) => like.userId === userId
       );
       return {
         ...comment,
         likedByCurrentUser,
-        userId: dbUserID,
+        userId,
         depth: 0,
         isLastComment: false,
       };
@@ -655,12 +641,12 @@ export async function getPostCommentsByParentId(
   }
 }
 
-export async function getPostsByUserClerkId(
-  clerkId: string
+export async function getPostsByAuthorId(
+  authorId: number
 ): Promise<{ heading: string; tags: string[] }[]> {
   try {
     const posts = await prisma.post.findMany({
-      where: { clerkId },
+      where: { authorId },
       include: {
         tags: {
           select: {
@@ -726,12 +712,11 @@ export async function getPostToEditById(
   id: number
 ): Promise<PostToEditByIdType> {
   try {
-    const user = verifyAuth("You must be logged in to edit a post.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit a post."
+    );
     const post = await prisma.post.findUnique({
-      where: { id, authorId: dbUserID },
+      where: { id, authorId: userId },
       include: {
         tags: {
           select: {

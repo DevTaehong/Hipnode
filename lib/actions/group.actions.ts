@@ -10,7 +10,7 @@ import {
   EditGroupParams,
   GetGroupByIdParams,
   GetGroupsQueryOptions,
-} from "./shared.types";
+} from "../../types/shared.types";
 
 export async function leaveGroup(userId: number, groupId: number) {
   try {
