@@ -28,6 +28,9 @@ const PostCard = ({
     author: { picture, username },
     createdAt,
     comments,
+    blurImage,
+    imageHeight,
+    imageWidth,
   },
   userId,
 }: PostCardProps) => {
@@ -51,7 +54,12 @@ const PostCard = ({
   return (
     <Link href={`/posts/post/${id}`}>
       <div className="flex h-full rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
-        <PostImage postImage={image} />
+        <PostImage
+          postImage={image}
+          blurImage={blurImage}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight}
+        />
         <div className="ml-[0.875rem] flex h-full grow flex-col justify-between">
           <div className="flex h-full flex-col gap-2.5">
             <div className="flex">

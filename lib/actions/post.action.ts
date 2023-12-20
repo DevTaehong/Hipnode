@@ -54,6 +54,9 @@ export async function createPostWithTags(
     image: string;
     groupId?: number;
     contentType: string;
+    blurImage: string;
+    imageWidth: number;
+    imageHeight: number;
   },
   tagNames: string[]
 ): Promise<Post> {
@@ -270,6 +273,11 @@ export async function getAllPosts({
         createdAt: true,
         heading: true,
         clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+
         author: {
           select: {
             username: true,

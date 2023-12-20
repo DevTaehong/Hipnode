@@ -62,3 +62,5 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
 };
 
 export default InterviewCard;
+
+

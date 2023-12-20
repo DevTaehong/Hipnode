@@ -69,25 +69,29 @@ model Onboarding {
 }
 
 model Post {
-  id        Int         @id @default(autoincrement())
-  content   String
-  contentType String
-  authorId  Int
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  isEdited  Boolean     @default(false)
-  viewCount Int         @default(0)
-  image     String
-  groupId   Int?
-  heading   String
-  clerkId   String?
-  comments  Comment[]
-  likes     Like[]
-  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  group     Group?      @relation(fields: [groupId], references: [id])
-  Share     Share[]
-  tags      TagOnPost[]
+  id           Int         @id @default(autoincrement())
+  content      String
+  contentType  String
+  authorId     Int
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  isEdited     Boolean     @default(false)
+  viewCount    Int         @default(0)
+  image        String     
+  blurImage    String     
+  imageWidth   Int?      
+  imageHeight  Int?       
+  groupId      Int?
+  heading      String
+  clerkId      String?
+  comments     Comment[]
+  likes        Like[]
+  author       User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  group        Group?      @relation(fields: [groupId], references: [id])
+  Share        Share[]
+  tags         TagOnPost[]
 }
+
 
 model Like {
   id        Int      @id @default(autoincrement())

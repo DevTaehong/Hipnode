@@ -21,7 +21,7 @@ const UserButton = () => {
       <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg hover:bg-sc-6 dark:hover:bg-dark-4">
         <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
           <Image
-            src={user?.imageUrl || "/emjoi-placeholder.png"}
+            src={user?.imageUrl || "/images/emoji.png"}
             alt="User Image"
             width={30}
             height={30}

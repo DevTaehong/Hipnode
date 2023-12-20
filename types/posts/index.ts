@@ -55,7 +55,6 @@ export interface GroupsType {
 export type PostPreviewProps = {
   htmlString: string;
   onSubmitPreview: () => void;
-  
 };
 
 export type IconBlockProps = {
@@ -198,6 +197,7 @@ export type ExtendedPrismaPost = {
     authorId: number;
   }[];
   userCanEditMedia?: boolean;
+  numberOfAvailablePosts?: number;
 };
 
 export type PostToEditByIdType = {
@@ -221,6 +221,9 @@ export type PostDataType = {
   image: string;
   groupId: number;
   contentType: string;
+  blurImage: string;
+  imageWidth: number;
+  imageHeight: number;
 };
 
 export type LeftActionBarProps = {
