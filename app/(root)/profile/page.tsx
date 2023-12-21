@@ -1,55 +1,55 @@
-// import HostMeetupCard from "@/components/profile/HostMeetupCard";
-// import Performance from "@/components/profile/Performance";
-// import ProfileFilter from "@/components/profile/ProfileFilter";
-// import ProfileInfo from "@/components/profile/ProfileInfo";
+import HostMeetupCard from "@/components/profile/HostMeetupCard";
+import Performance from "@/components/profile/Performance";
+import ProfileFilter from "@/components/profile/ProfileFilter";
+import ProfileInfo from "@/components/profile/ProfileInfo";
 
-// import ContentCard from "@/components/profile/ContentCard";
-// import MeetupsCard from "@/components/meetup-components/MeetupsCard";
-// import PodcastCard from "@/components/podcast-components/PodcastCard";
-// import InterviewCard from "@/components/interview-components/InterviewCard";
+import ContentCard from "@/components/profile/ContentCard";
+import MeetupsCard from "@/components/meetup-components/MeetupsCard";
+import PodcastCard from "@/components/podcast-components/PodcastCard";
+import InterviewCard from "@/components/interview-components/InterviewCard";
 
-// import {
-//   getPerformanceData,
-//   getProfileData,
-//   getProfileHistory,
-//   getProfileInterviews,
-//   getProfileMeetups,
-//   getProfilePodcasts,
-//   getProfilePosts,
-// } from "@/lib/actions/profile.actions";
+import {
+  getPerformanceData,
+  getProfileData,
+  getProfileHistory,
+  getProfileInterviews,
+  getProfileMeetups,
+  getProfilePodcasts,
+  getProfilePosts,
+} from "@/lib/actions/profile.actions";
 
-// import { formatUserJoinedDate } from "@/lib/utils";
+import { formatUserJoinedDate } from "@/lib/utils";
 
 const ProfilePage = async ({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  // const user = await getProfileData();
+  const user = await getProfileData();
 
-  // let result: any = [];
+  let result: any = [];
 
-  // switch (searchParams?.search) {
-  //   case "posts":
-  //     result = await getProfilePosts();
-  //     break;
-  //   case "meetups":
-  //     result = await getProfileMeetups();
-  //     break;
-  //   case "podcasts":
-  //     result = await getProfilePodcasts();
-  //     break;
-  //   case "interviews":
-  //     result = await getProfileInterviews();
-  //     break;
-  //   case "history":
-  //     result = await getProfileHistory();
-  //     break;
-  //   default:
-  //     result = await getProfilePosts();
-  // }
+  switch (searchParams?.search) {
+    case "posts":
+      result = await getProfilePosts();
+      break;
+    case "meetups":
+      result = await getProfileMeetups();
+      break;
+    case "podcasts":
+      result = await getProfilePodcasts();
+      break;
+    case "interviews":
+      result = await getProfileInterviews();
+      break;
+    case "history":
+      result = await getProfileHistory();
+      break;
+    default:
+      result = await getProfilePosts();
+  }
 
-  // const performanceData = await getPerformanceData();
+  const performanceData = await getPerformanceData();
 
   return (
     <></>

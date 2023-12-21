@@ -5,9 +5,7 @@ export const verifyAuth = async (
 ) => {
   const user = auth();
   if (!user?.userId) throw new Error(message);
-  console.log(user);
   const userData = await currentUser();
-  console.log(userData);
   const userId = userData?.publicMetadata?.userId as number;
   const clerkId = userData?.id;
   const loggedInUserImage = userData?.imageUrl;

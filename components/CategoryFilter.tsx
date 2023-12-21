@@ -39,7 +39,6 @@ const CategoryFilter = () => {
   return (
     <Accordion
       type="multiple"
-      collapsible
       className="w-[300px] rounded-[1rem] bg-light p-5 dark:bg-dark-3"
     >
       {CategoryFilterData.map((category) => (
