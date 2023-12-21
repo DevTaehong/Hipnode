@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import HipnodeIcon from "@/components/icons/HipnodeIcon";
@@ -12,30 +11,10 @@ import OutlineIcons from "@/components/icons/outline-icons";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 import NotificationButton from "./NotificationButton";
 import { verifyAuth } from "@/lib/auth";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
 
 const Navbar = async () => {
-  const clerkUser = await currentUser();
-  let userFromDB;
-  let userInfo;
-
-  if (clerkUser) {
-    userFromDB = await getUserByClerkId(clerkUser.id);
-    if (userFromDB) {
-      userInfo = {
-        id: userFromDB.id,
-        username: userFromDB.username,
-        image: userFromDB.picture,
-        name: userFromDB.name,
-      };
-    }
-  }
-
-  if (!userFromDB) redirect("/sign-in");
-  const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
-    "You must be logged in to create post."
-  );
+  const { userId, loggedInUserImage, userName, fullName, lastChecked } =
+    await verifyAuth("You must be logged in to create post.");
 
   const userInfo = {
     id: userId,
@@ -69,8 +48,8 @@ const Navbar = async () => {
                 <MessageListWrapper userInfo={userInfo} />
 
                 <NotificationButton
-                  currentUserId={userFromDB?.id}
-                  lastChecked={userFromDB.notificationLastChecked}
+                  currentUserId={userId}
+                  lastChecked={lastChecked}
                 />
 
                 <UserButton />

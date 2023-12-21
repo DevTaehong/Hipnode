@@ -1,5 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 
+import { getUserById } from "./actions/user.actions";
+
 export const verifyAuth = async (
   message = "You must be logged in to perform this action."
 ) => {
@@ -12,5 +14,16 @@ export const verifyAuth = async (
   const userName = userData?.username;
   const fullName = userData?.firstName + " " + userData?.lastName;
 
-  return { clerkId, userId, loggedInUserImage, userName, fullName };
+  const userFromDb = await getUserById(userId);
+  if (!userFromDb) throw new Error("User not found from DB");
+  const lastChecked = userFromDb?.notificationLastChecked;
+
+  return {
+    clerkId,
+    userId,
+    loggedInUserImage,
+    userName,
+    fullName,
+    lastChecked,
+  };
 };

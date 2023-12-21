@@ -8,7 +8,7 @@ import prisma from "../prisma";
 import {
   GetPostsByGroupIdQueryOptions,
   GetPostsFromGroupsQueryOptions,
-} from "@/lib/actions/shared.types";
+} from "@/types/shared.types";
 import {
   CommentsGroupedByParentId,
   ExtendedPrismaPost,
@@ -463,7 +463,7 @@ export async function addCommentOrReply(
     revalidatePath(path);
 
     // NOTE - It's the same as how Reddit creates notifications for comments and replies
-    const notificationSenderId = dbUserID;
+    const notificationSenderId = userId;
     const replyingTo = newComment?.parent?.authorId;
 
     let isReplying;
@@ -575,10 +575,6 @@ export async function deleteCommentOrReply(
       "You must be logged in to delete a comment or reply."
     );
 
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
-
     deleteNotification({ commentId });
 
     await prisma.comment.deleteMany({
@@ -644,7 +640,6 @@ export async function toggleLikePost(postId: number): Promise<Like | null> {
 }
 
 export async function toggleLikeComment(
-  userId: number,
   commentId: number,
   receiverId: number | undefined,
   postHeading: string | undefined

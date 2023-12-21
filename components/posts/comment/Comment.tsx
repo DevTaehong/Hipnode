@@ -56,7 +56,7 @@ const Comment = ({
   const toggleLikeHandler = async () => {
     if (!userId) return;
     try {
-      await toggleLikeComment(userId, id, author?.id, postHeading);
+      await toggleLikeComment(id, author?.id, postHeading);
       setIsLiked(!isLiked);
     } catch (error) {
       console.error("Error toggling like:", error);
