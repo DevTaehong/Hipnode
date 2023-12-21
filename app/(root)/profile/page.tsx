@@ -23,6 +23,8 @@ import { ProfileMeetup, ProfilePost } from "@/types/profile.index";
 import { Podcast } from "@prisma/client";
 import { InterviewProps } from "@/types/interview.index";
 
+export const dynamic = "force-dynamic";
+
 const ProfilePage = async ({
   searchParams,
 }: {
