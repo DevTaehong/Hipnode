@@ -1,63 +1,69 @@
-import { Controller, Control } from "react-hook-form";
-import {
-  GeoapifyGeocoderAutocomplete,
-  GeoapifyContext,
-} from "@geoapify/react-geocoder-autocomplete";
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
-import { PostFormValuesType } from "@/constants/posts";
+/* eslint-disable camelcase */
 
-export interface GeocodeResult {
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  properties: {
-    name: string;
-  };
-}
+import React, { ChangeEvent } from "react";
 
-export interface LocationProps {
-  control: Control<PostFormValuesType>;
-}
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+  Suggestion,
+} from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
 
-const Location = ({ control }: LocationProps) => {
-  const onPlaceSelect = (value: any) => {
-    return value.properties.name;
+const Location: React.FC = () => {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    callbackName: "YOUR_CALLBACK_NAME",
+    requestOptions: {},
+    debounce: 300,
+  });
+
+  const ref = useOnclickOutside(() => {
+    clearSuggestions();
+  });
+
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
 
-  const onSuggestionChange = (value: any) => {
-    return value.properties.name;
+  const handleSelect = (suggestion: Suggestion) => () => {
+    setValue(suggestion.description, false);
+    clearSuggestions();
+
+    getGeocode({ address: suggestion.description }).then((results) => {
+      const { lat, lng } = getLatLng(results[0]);
+      console.log("📍 Coordinates: ", { lat, lng });
+    });
   };
+
+  const renderSuggestions = () =>
+    data.map((suggestion) => {
+      console.log(suggestion);
+      const {
+        place_id,
+        structured_formatting: { main_text, secondary_text },
+      } = suggestion;
+
+      return (
+        <li key={place_id} onClick={handleSelect(suggestion)}>
+          <strong>{main_text}</strong> <small>{secondary_text}</small>
+        </li>
+      );
+    });
 
   return (
-    <div className="w-full">
-      <FormItem className="relative flex w-full flex-col">
-        <FormLabel>Location</FormLabel>
-        <FormControl className="w-full ">
-          <div className="absolute top-[1.5rem]  z-10 w-full bg-light-2 dark:bg-dark-4">
-            <Controller
-              name="location"
-              control={control}
-              render={({ field }) => (
-                <GeoapifyContext
-                  apiKey={process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY}
-                >
-                  <GeoapifyGeocoderAutocomplete
-                    {...field}
-                    placeSelect={onPlaceSelect}
-                    suggestionsChange={onSuggestionChange}
-                    placeholder="Enter location here"
-                    lang="en"
-                    limit={5}
-                  />
-                </GeoapifyContext>
-              )}
-            />
-          </div>
-        </FormControl>
-      </FormItem>
+    <div ref={ref}>
+      <input
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder="Where are you going?"
+      />
+      {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );
 };
