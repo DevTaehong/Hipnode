@@ -67,7 +67,7 @@ const NotificationPopoverButton = ({
             );
 
             const isUserChecked = uncheckedNotifications.length > 0;
-            if (isPopoverOpen === false) setIsUserChecked(isUserChecked);
+            if (!isPopoverOpen) setIsUserChecked(isUserChecked);
 
             return;
           }
@@ -86,7 +86,7 @@ const NotificationPopoverButton = ({
 
           if (payload.eventType === "INSERT") {
             // NOTE - when the popover is open, the user is checking the notifications. So, no unchecked mark needed
-            if (isPopoverOpen === false) setIsUserChecked(true);
+            if (!isPopoverOpen) setIsUserChecked(true);
             const newNotification = payload.new as NotificationProps;
             setNotificationData((prevNotificationData) => [
               ...prevNotificationData,

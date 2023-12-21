@@ -13,6 +13,7 @@ import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
 import { createNotification } from "@/lib/actions/notification.actions";
 import { getBlurData } from "@/lib";
+import { NotificationProps } from "@/types";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -460,4 +461,16 @@ export const createNotificationIfRequired = (
     date,
     commentParentId,
   });
+};
+
+export const filterNotifications = (
+  notifications: NotificationProps[],
+  selectedTab: string | null
+) => {
+  if (!selectedTab || selectedTab === "all notification") {
+    return notifications;
+  }
+  return notifications.filter(
+    (notification) => notification.type.toLowerCase() === selectedTab
+  );
 };

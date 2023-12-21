@@ -13,10 +13,10 @@ const PostImage = ({
       <Image
         src={postImage}
         alt="post-card-placeholder"
-        blurDataURL={blurImage}
+        // blurDataURL={blurImage}
         width={imageWidth}
         height={imageHeight}
-        placeholder="blur"
+        // placeholder="blur"
         className="rounded-md border-2 object-cover  dark:border-light-3 "
       />
       <figcaption className="sr-only">

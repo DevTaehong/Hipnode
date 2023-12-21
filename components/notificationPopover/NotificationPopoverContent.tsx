@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import { Fragment, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useSearchParams } from "next/navigation";
+import pluralize from "pluralize";
 
 import { MAX_NOTIFICATIONS } from "@/constants";
 import { Separator } from "../ui/separator";
@@ -9,6 +10,7 @@ import HorizontalScrollList from "./HorizontalScrollList";
 import NotificationComment from "./NotificationComment";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { NotificationProps } from "@/types";
+import { filterNotifications } from "@/utils";
 
 const NotificationPopoverContent = ({
   notificationData,
@@ -20,14 +22,7 @@ const NotificationPopoverContent = ({
   const search = useSearchParams();
   const selectedTab = search.get("tab");
 
-  const filteredNotifications = notificationData.filter(
-    (notification) => notification.type.toLowerCase() === selectedTab
-  );
-
-  const notifications =
-    !selectedTab || selectedTab === "all notification"
-      ? notificationData
-      : filteredNotifications;
+  const notifications = filterNotifications(notificationData, selectedTab);
 
   const unreadNotifications = notificationData?.filter(
     (notification) => !notification.isRead
@@ -66,9 +61,11 @@ const NotificationPopoverContent = ({
         <section className="relative z-10 flex flex-col justify-center rounded-b-lg bg-white dark:bg-dark-4">
           <div className="flex flex-col gap-5 px-5 xl:gap-[1.875rem] xl:px-[1.875rem]">
             {notifications.length !== 0 ? (
-              notifications.slice(0, MAX_NOTIFICATIONS).map((notification) => (
-                <Fragment key={notification.senderName}>
+              notifications
+                .slice(0, MAX_NOTIFICATIONS)
+                .map((notification) => (
                   <NotificationComment
+                    key={notification.id}
                     senderName={notification.senderName}
                     type={notification.type}
                     comment={notification.commentContent}
@@ -79,17 +76,16 @@ const NotificationPopoverContent = ({
                     isFollowed={notification.isFollowed}
                     commentId={notification.commentId}
                   />
-                </Fragment>
-              ))
+                ))
             ) : (
               <p className="mt-3 text-center text-[1rem] font-bold leading-[1.5rem] text-sc-2 dark:text-light-2 xl:mt-5 xl:text-[1.625rem] xl:leading-[2.375rem]">
                 No Notifications{" "}
                 {selectedTab !== "all notification" && selectedTab
                   ? "For " +
-                    selectedTab.charAt(0).toUpperCase() +
-                    selectedTab.slice(1) +
-                    "s"
-                  : ""}
+                    pluralize(
+                      selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)
+                    )
+                  : "N/A"}
               </p>
             )}
             <Link

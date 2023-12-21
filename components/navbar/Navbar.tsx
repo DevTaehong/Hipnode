@@ -43,18 +43,12 @@ const Navbar = async () => {
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            {userInfo && (
-              <>
-                <MessageListWrapper userInfo={userInfo} />
-
-                <NotificationButton
-                  currentUserId={userId}
-                  lastChecked={lastChecked}
-                />
-
-                <UserButton />
-              </>
-            )}
+            <MessageListWrapper userInfo={userInfo} />
+            <NotificationButton
+              currentUserId={userId}
+              lastChecked={lastChecked}
+            />
+            <UserButton />
           </SignedIn>
 
           <SignedOut>

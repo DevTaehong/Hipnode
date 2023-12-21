@@ -2,6 +2,7 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import pluralize from "pluralize";
 
 import { notificationTabs } from "@/constants";
 import { NotificationTab } from "@/types";
@@ -51,7 +52,7 @@ const HorizontalTab = () => {
                   : "text-sc-2 dark:text-sc-3"
               }`}
             >
-              {`${tab.title}s`}
+              {`${pluralize(tab.title)}`}
             </span>
           </Link>
         );
