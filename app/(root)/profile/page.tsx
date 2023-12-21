@@ -3,7 +3,6 @@ import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 
-import ContentCard from "@/components/profile/ContentCard";
 import MeetupsCard from "@/components/meetup-components/MeetupsCard";
 import PodcastCard from "@/components/podcast-components/PodcastCard";
 import InterviewCard from "@/components/interview-components/InterviewCard";
@@ -15,13 +14,15 @@ import {
   getProfileInterviews,
   getProfileMeetups,
   getProfilePodcasts,
-  getProfilePosts,
 } from "@/lib/actions/profile.actions";
 
 import { formatUserJoinedDate } from "@/lib/utils";
-import { ProfileMeetup, ProfilePost } from "@/types/profile.index";
+import { ProfileMeetup } from "@/types/profile.index";
 import { Podcast } from "@prisma/client";
 import { InterviewProps } from "@/types/interview.index";
+import { PostCard } from "@/components/home-page/post-card";
+import { getAllPostsByUserId } from "@/lib/actions/post.action";
+import { ExtendedPrismaPost } from "@/types/posts";
 
 export const dynamic = "force-dynamic";
 
@@ -31,12 +32,12 @@ const ProfilePage = async ({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
   const user = await getProfileData();
-
+  console.log(searchParams?.search);
   let result: any = [];
 
   switch (searchParams?.search) {
     case "posts":
-      result = await getProfilePosts();
+      result = await getAllPostsByUserId({ numberToSkip: 0 });
       break;
     case "meetups":
       result = await getProfileMeetups();
@@ -51,7 +52,6 @@ const ProfilePage = async ({
       result = await getProfileHistory();
       break;
     default:
-      console.log(result);
   }
 
   const performanceData = await getPerformanceData();
@@ -84,20 +84,12 @@ const ProfilePage = async ({
         <ProfileFilter />
         {result.length === 0 && <div>No {searchParams?.search}</div>}
         {searchParams?.search === "posts" &&
-          result.map((post: ProfilePost) => (
-            <ContentCard
-              key={post?.id}
-              contentImg={post?.image}
-              userImg={user?.picture}
-              description={post?.content}
-              name={user?.username}
-              createdAt={formatUserJoinedDate(post?.createdAt)}
-              views={post?.viewCount}
-              likes={post?._count.likes}
-              comments={post?._count.comments}
-              tags={post?.tags}
-              // TODO: Figure out how to setup logic for isHeart
-              isHeart={false}
+          result.map((post: ExtendedPrismaPost) => (
+            <PostCard
+              post={post}
+              key={post.id}
+              userId={53}
+              profileSearchParams={searchParams?.search}
             />
           ))}
 

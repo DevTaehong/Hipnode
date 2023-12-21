@@ -13,14 +13,6 @@ export type UserProfile = User & {
   };
 };
 
-export type ProfilePost = Post & {
-  tags: string[];
-  _count: {
-    likes: number;
-    comments: number;
-  };
-};
-
 export type ProfileMeetup = MeetUp & {
   tags: {
     id: number;

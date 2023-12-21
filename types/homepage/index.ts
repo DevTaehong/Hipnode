@@ -41,6 +41,7 @@ export type PostCardProps = {
   likes?: number;
   clerkId?: string;
   userId: number;
+  profileSearchParams: string;
 };
 
 export type SocialCountTuple = [string, number];

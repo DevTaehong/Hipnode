@@ -246,6 +246,10 @@ export async function getAllPosts({
   numberToSkip?: number;
 }): Promise<ExtendedPrismaPost[]> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
+    );
+
     const numberOfAvailablePosts = await countAllPosts();
 
     const posts = await prisma.post.findMany({
@@ -266,7 +270,6 @@ export async function getAllPosts({
         imageWidth: true,
         imageHeight: true,
         contentType: true,
-
         author: {
           select: {
             username: true,
@@ -300,6 +303,81 @@ export async function getAllPosts({
       likes: post.likes,
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function getAllPostsByUserId({
+  numberToSkip = 0,
+}: {
+  numberToSkip?: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
+    );
+
+    const numberOfAvailablePosts = await countAllPosts();
+
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId: userId,
+      },
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
     }));
   } catch (error) {
     console.error("Error retrieving posts:", error);
