@@ -2,7 +2,12 @@ import Image from "next/image";
 
 import { formatInterviewDate } from "@/utils";
 import { InterviewHeaderProps } from "@/types/interview.index";
-import MediaEditActionPopover from "../action-popover/MediaEditActionPopover";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const InterviewHeader = ({
   userImage,
