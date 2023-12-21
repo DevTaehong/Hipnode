@@ -82,7 +82,9 @@ const ProfilePage = async ({
       {/* Profile Filter & Content Cards */}
       <section className="flex w-full flex-col gap-5">
         <ProfileFilter />
+
         {result.length === 0 && <div>No {searchParams?.search}</div>}
+
         {searchParams?.search === "posts" &&
           result.map((post: ProfilePost) => (
             <ContentCard
@@ -105,6 +107,7 @@ const ProfilePage = async ({
           result.map((meetup: ProfileMeetup) => (
             <MeetupsCard key={meetup?.id} meetUp={meetup} />
           ))}
+
         {searchParams?.search === "podcasts" &&
           result.map((podcast: Podcast) => (
             <PodcastCard
@@ -121,10 +124,12 @@ const ProfilePage = async ({
               }}
             />
           ))}
+
         {searchParams?.search === "interviews" &&
           result.map((interview: InterviewProps) => (
             <InterviewCard key={interview?.id} interviewData={interview} />
           ))}
+
         {searchParams?.search === "history" && <div>history</div>}
       </section>
 

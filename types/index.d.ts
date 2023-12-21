@@ -34,6 +34,16 @@ export interface FormFieldComponentProps {
   fieldType?: "input" | "textarea";
 }
 
+export interface ProfilePosts {
+  id: string;
+  image: string;
+  content: string;
+  createdAt: Date;
+  viewCount: number;
+  _count: { likes: number; comments: number };
+  tags: string[];
+}
+
 export type FetchGroupDetailPostsProps = {
   initialNewPost: Post[];
   initialPopularPost: Post[];

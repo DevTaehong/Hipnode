@@ -19,6 +19,10 @@ import {
 } from "@/lib/actions/profile.actions";
 
 import { formatUserJoinedDate } from "@/lib/utils";
+import { MeetUpExtended } from "@/types/meetups.index";
+import { Podcast } from "@prisma/client";
+import { InterviewProps } from "@/types/interview.index";
+import { ProfilePosts } from "@/types";
 
 const ProfilePage = async ({
   params,
@@ -83,35 +87,47 @@ const ProfilePage = async ({
         {result.length === 0 && <div>No {searchParams?.search}</div>}
 
         {searchParams?.search === "posts" &&
-          result.map((post: any) => (
+          result.map((post: ProfilePosts) => (
             <ContentCard
-              key={post?.id}
-              contentImg={post?.image}
+              key={post.id}
+              contentImg={post.image}
               userImg={user?.picture}
-              description={post?.content}
+              description={post.content}
               name={user?.username}
-              createdAt={formatUserJoinedDate(post?.createdAt)}
-              views={post?.viewCount}
-              likes={post?._count.likes}
-              comments={post?._count.comments}
-              tags={post?.tags}
+              createdAt={formatUserJoinedDate(post.createdAt)}
+              views={post.viewCount}
+              likes={post._count.likes}
+              comments={post._count.comments}
+              tags={post.tags}
               // TODO: Figure out how to setup logic for isHeart
               isHeart={false}
             />
           ))}
 
         {searchParams?.search === "meetups" &&
-          result.map((meetup: any) => (
-            <MeetupsCard key={meetup?.id} meetUp={meetup} />
+          result.map((meetup: MeetUpExtended) => (
+            <MeetupsCard key={meetup.id} meetUp={meetup} />
           ))}
 
         {searchParams?.search === "podcasts" &&
-          result.map((podcast: any) => (
-            <PodcastCard key={podcast?.id} info={podcast} />
+          result.map((podcast: Podcast) => (
+            <PodcastCard
+              key={podcast.id}
+              info={{
+                id: podcast?.id,
+                title: podcast?.title,
+                details: podcast?.details,
+                user: {
+                  name: user?.username || "",
+                  location: user?.location || "",
+                  picture: user?.picture || "",
+                },
+              }}
+            />
           ))}
 
         {searchParams?.search === "interviews" &&
-          result.map((interview: any) => (
+          result.map((interview: InterviewProps) => (
             <InterviewCard key={interview?.id} interviewData={interview} />
           ))}
 
