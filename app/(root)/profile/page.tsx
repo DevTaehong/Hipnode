@@ -19,6 +19,11 @@ import {
 } from "@/lib/actions/profile.actions";
 
 import { formatUserJoinedDate } from "@/lib/utils";
+import { ProfileMeetup, ProfilePost } from "@/types/profile.index";
+import { Podcast } from "@prisma/client";
+import { InterviewProps } from "@/types/interview.index";
+
+export const dynamic = "force-dynamic";
 
 const ProfilePage = async ({
   searchParams,
@@ -46,7 +51,7 @@ const ProfilePage = async ({
       result = await getProfileHistory();
       break;
     default:
-      result = await getProfilePosts();
+      console.log(result);
   }
 
   const performanceData = await getPerformanceData();
@@ -77,11 +82,9 @@ const ProfilePage = async ({
       {/* Profile Filter & Content Cards */}
       <section className="flex w-full flex-col gap-5">
         <ProfileFilter />
-
         {result.length === 0 && <div>No {searchParams?.search}</div>}
-
         {searchParams?.search === "posts" &&
-          result.map((post: any) => (
+          result.map((post: ProfilePost) => (
             <ContentCard
               key={post?.id}
               contentImg={post?.image}
@@ -99,27 +102,11 @@ const ProfilePage = async ({
           ))}
 
         {searchParams?.search === "meetups" &&
-          result.map((meetup: any) => (
-            <MeetupsCard
-              key={meetup?.id}
-              meetUp={{
-                id: meetup?.id,
-                image: meetup?.image,
-                title: meetup?.title,
-                location: meetup?.location,
-                summary: meetup?.summary,
-                tags: meetup?.tags,
-                contactEmail: meetup?.contactEmail,
-                contactNumber: meetup?.contactNumber,
-                responsiblePersonId: meetup?.responsiblePersonId,
-                createdAt: meetup?.createdAt,
-                updatedAt: meetup?.updatedAt,
-              }}
-            />
+          result.map((meetup: ProfileMeetup) => (
+            <MeetupsCard key={meetup?.id} meetUp={meetup} />
           ))}
-
         {searchParams?.search === "podcasts" &&
-          result.map((podcast: any) => (
+          result.map((podcast: Podcast) => (
             <PodcastCard
               key={podcast?.id}
               info={{
@@ -134,31 +121,10 @@ const ProfilePage = async ({
               }}
             />
           ))}
-
         {searchParams?.search === "interviews" &&
-          result.map((interview: any) => (
-            <InterviewCard
-              key={interview?.id}
-              interviewData={{
-                id: interview?.id,
-                title: interview?.title,
-                bannerImage: interview?.bannerImage,
-                websiteLink: interview?.websiteLink,
-                salary: interview?.salary,
-                salaryPeriod: interview?.salaryPeriod,
-                updates: interview?.updates,
-                creator: {
-                  name: user?.username || "",
-                  picture: user?.picture || "",
-                },
-                creatorId: interview?.creatorId,
-                details: interview?.details,
-                createdAt: interview?.createdAt,
-                updatedAt: interview?.updatedAt,
-              }}
-            />
+          result.map((interview: InterviewProps) => (
+            <InterviewCard key={interview?.id} interviewData={interview} />
           ))}
-
         {searchParams?.search === "history" && <div>history</div>}
       </section>
 

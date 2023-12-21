@@ -5,7 +5,6 @@ export const verifyAuth = async (
 ) => {
   const user = auth();
   if (!user?.userId) throw new Error(message);
-
   const userData = await currentUser();
   const userId = userData?.publicMetadata?.userId as number;
   const clerkId = userData?.id;

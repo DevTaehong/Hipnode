@@ -44,6 +44,8 @@ export interface IPodcast extends Podcast {
   userCanEditMedia: boolean;
 }
 
+export type PodcastByIdType = Partial<IPodcast | null>;
+
 export interface AudioPlayerProps {
   podcast: IPodcast;
   url: string;
@@ -69,7 +71,11 @@ export interface PodcastPlayerState {
 export interface FetchPodcastProps {
   podcast: IPodcast | null;
   getFromLocalStorage: (key: string) => PodcastPlayerState;
-  getPodcastById: (id: number) => Promise<IPodcast | null>;
+  getPodcastById: ({
+    podcastId,
+  }: {
+    podcastId: number;
+  }) => Promise<PodcastByIdType>;
   dispatch: any;
 }
 

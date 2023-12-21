@@ -33,10 +33,10 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   };
 
   useEffect(() => {
-    const shouldLoadMore =
-      (inView || loadMore) &&
-      postData.length < postData[postData.length - 1]?.numberOfAvailablePosts &&
-      !isLoading;
+    const totalPosts =
+      postData[postData.length - 1]?.numberOfAvailablePosts || 0;
+    const hasMorePosts = postData.length < totalPosts;
+    const shouldLoadMore = (inView || loadMore) && hasMorePosts && !isLoading;
 
     if (shouldLoadMore) {
       loadMoreData();
@@ -45,7 +45,8 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   }, [inView, loadMore, postData, isLoading]);
 
   const hasSeenAllPosts =
-    postData.length >= postData[postData.length - 1]?.numberOfAvailablePosts;
+    postData.length >=
+    (postData[postData.length - 1]?.numberOfAvailablePosts || 0);
 
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
