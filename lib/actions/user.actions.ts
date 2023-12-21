@@ -246,3 +246,25 @@ export async function updateNotificationLastChecked(
     throw error;
   }
 }
+
+export async function getNotificationLastChecked(
+  id: number
+): Promise<{ notificationLastChecked: Date | null }> {
+  try {
+    const lastChecked = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        notificationLastChecked: true,
+      },
+    });
+
+    if (!lastChecked) throw new Error(`No user found for id: ${id}`);
+
+    return lastChecked;
+  } catch (error) {
+    console.error("Error finding notification lastChecked", error);
+    throw error;
+  }
+}
