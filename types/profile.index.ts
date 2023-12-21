@@ -1,4 +1,4 @@
-import { MeetUp, Post, User } from "@prisma/client";
+import { MeetUp, User } from "@prisma/client";
 
 export type UserProfile = User & {
   following: {

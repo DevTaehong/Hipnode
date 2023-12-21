@@ -201,6 +201,7 @@ export type ExtendedPrismaPost = {
   blurImage: string;
   imageHeight: number;
   imageWidth: number;
+  userProfileId?: number;
 };
 
 export type PostToEditByIdType = {

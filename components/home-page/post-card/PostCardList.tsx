@@ -2,25 +2,53 @@
 
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { useSearchParams } from "next/navigation";
 
-import { getAllPosts } from "@/lib/actions/post.action";
+import {
+  getAllPosts,
+  getAllPostsByUserId,
+  getAllPostsByTagName,
+} from "@/lib/actions/post.action";
 import { ExtendedPrismaPost } from "@/types/posts";
 import { PostCard } from ".";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
 
-const PostCardList = ({ posts, userId }: PostCardListProps) => {
+const PostCardList = ({ posts, authorId }: PostCardListProps) => {
+  const searchParams = useSearchParams();
+  const tag = searchParams.get("tag");
+  console.log(tag);
+
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
   const { ref, inView } = useInView();
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      if (tag) {
+        const posts = await getAllPostsByTagName({ tagName: tag });
+        console.log(posts);
+        setPostData(posts);
+      }
+    };
+
+    fetchPosts();
+  }, [tag]);
+
   const loadMoreData = async () => {
+    if (tag) return;
     setIsLoading(true);
     try {
-      const posts = await getAllPosts({ numberToSkip: amountToSkip });
+      const posts = authorId
+        ? await getAllPostsByUserId({
+            numberToSkip: amountToSkip,
+            authorId,
+          })
+        : await getAllPosts({ numberToSkip: amountToSkip });
+
       if (posts?.length) {
         setAmountToSkip((prev) => prev + 10);
         setPostData((prevPosts) => [...prevPosts, ...posts]);
@@ -51,7 +79,7 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
-        <PostCard post={post} key={post.id} userId={userId} />
+        <PostCard post={post} key={post.id} />
       ))}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
@@ -67,7 +95,7 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
           onClick={() => setLoadMore(true)}
           label={
             <div className="flex items-center justify-center">
-              <span className="pr-4">See more podcasts</span>{" "}
+              <span className="pr-4">See more posts</span>{" "}
               <OutlineIcon.ArrowRight />
             </div>
           }

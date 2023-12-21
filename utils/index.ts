@@ -13,6 +13,8 @@ import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
 import { getBlurData } from "@/lib";
 
+import qs from "query-string";
+
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
 }
@@ -404,4 +406,48 @@ export const adjustHeight = (element: HTMLTextAreaElement | null) => {
   if (element === null) return;
   element.style.height = "24px";
   element.style.height = `${Math.min(element.scrollHeight, 72)}px`; // 72px is the max height
+};
+
+interface UrlQueryParams {
+  params: string;
+  key: string;
+  value: string | null;
+}
+
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
 };

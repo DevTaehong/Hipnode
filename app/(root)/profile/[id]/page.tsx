@@ -20,9 +20,8 @@ import { formatUserJoinedDate } from "@/lib/utils";
 import { ProfileMeetup } from "@/types/profile.index";
 import { Podcast } from "@prisma/client";
 import { InterviewProps } from "@/types/interview.index";
-import { PostCard } from "@/components/home-page/post-card";
+import { PostCardList } from "@/components/home-page/post-card";
 import { getAllPostsByUserId } from "@/lib/actions/post.action";
-import { ExtendedPrismaPost } from "@/types/posts";
 
 export const dynamic = "force-dynamic";
 
@@ -32,12 +31,17 @@ const ProfilePage = async ({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
   const user = await getProfileData();
-  console.log(searchParams?.search);
+  const authorId = 53;
   let result: any = [];
 
   switch (searchParams?.search) {
     case "posts":
-      result = await getAllPostsByUserId({ numberToSkip: 0 });
+      if (!user) return;
+      result = await getAllPostsByUserId({
+        numberToSkip: 0,
+        authorId: user?.id,
+      });
+
       break;
     case "meetups":
       result = await getProfileMeetups();
@@ -80,18 +84,12 @@ const ProfilePage = async ({
       </section>
 
       {/* Profile Filter & Content Cards */}
-      <section className="flex w-full flex-col gap-5">
+      <section className="flex w-full flex-col gap-5 overflow-hidden">
         <ProfileFilter />
         {result.length === 0 && <div>No {searchParams?.search}</div>}
-        {searchParams?.search === "posts" &&
-          result.map((post: ExtendedPrismaPost) => (
-            <PostCard
-              post={post}
-              key={post.id}
-              userId={53}
-              profileSearchParams={searchParams?.search}
-            />
-          ))}
+        {searchParams?.search === "posts" && (
+          <PostCardList posts={result} authorId={authorId} />
+        )}
 
         {searchParams?.search === "meetups" &&
           result.map((meetup: ProfileMeetup) => (

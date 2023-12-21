@@ -7,7 +7,6 @@ import { type Podcast, type Interview } from "@prisma/client";
 import {
   PostPerformance,
   ProfileMeetup,
-  ProfilePost,
   UserProfile,
 } from "@/types/profile.index";
 
@@ -44,50 +43,6 @@ export async function getProfileData(): Promise<UserProfile | null> {
     return data;
   } catch (error) {
     console.error("Error fetching user by clerkId:", error);
-    throw error;
-  }
-}
-
-export async function getProfilePosts(): Promise<ProfilePost[]> {
-  try {
-    verifyAuth("You must be logged in to view your profile.");
-
-    const userData = await currentUser();
-
-    const userId = userData?.publicMetadata.userId as number;
-
-    const data = await prisma.post.findMany({
-      where: {
-        authorId: userId,
-      },
-      include: {
-        tags: {
-          select: {
-            tag: true,
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 10,
-      skip: 0,
-    });
-
-    const extendedData = data.map((post) => ({
-      ...post,
-      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
-    }));
-
-    return extendedData;
-  } catch (error) {
-    console.error("Error fetching user posts:", error);
     throw error;
   }
 }

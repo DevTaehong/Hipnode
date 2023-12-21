@@ -1,4 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 import { colorVariants } from "@/constants";
+
 import { getIconConfig } from "@/utils";
 
 type TagsProps = {
@@ -6,10 +11,16 @@ type TagsProps = {
 };
 
 const PopularTags = ({ tagsData }: TagsProps) => {
+  const router = useRouter();
+
   const combinedTags = tagsData.map((tag) => ({
     ...tag,
     ...getIconConfig(tag.name),
   }));
+
+  const handleTagClick = (tagName: string) => {
+    router.push(`?tag=${tagName}`);
+  };
 
   return (
     <aside className="flex h-fit w-full flex-col items-start justify-center rounded-2xl bg-light p-5 dark:bg-dark-3 lg:w-[13.125rem]">
@@ -31,7 +42,10 @@ const PopularTags = ({ tagsData }: TagsProps) => {
               <Icon className={`${colorVariants[tag.iconFillColor]}`} />
             </div>
             <div className="flex flex-col">
-              <p className="semibold-12 text-sc-4 dark:text-light-2">
+              <p
+                onClick={() => handleTagClick(tag.name)}
+                className="semibold-12 cursor-pointer text-sc-4 dark:text-light-2"
+              >
                 #{tag.name}
               </p>
               <p className="regular-10 line-clamp-1 text-sc-4 dark:text-sc-3">

@@ -14,7 +14,7 @@ import {
 import FillIcon from "@/components/icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
-import { formatDatePostFormat, userHasLikedComment } from "@/utils";
+import { formatDatePostFormat } from "@/utils";
 import dynamic from "next/dynamic";
 
 const MediaEditActionPopover = dynamic(
@@ -31,15 +31,14 @@ const PostCard = ({
     likesCount = 0,
     commentsCount = 0,
     viewCount = 1,
-    author: { picture, username },
+    author: { id: authorId, picture, username },
     createdAt,
-    comments,
     blurImage,
     imageHeight,
     imageWidth,
     userCanEditMedia,
   },
-  userId,
+
   profileSearchParams,
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
@@ -54,11 +53,11 @@ const PostCard = ({
     setHtmlString(sanitizedHtml);
   }, [content]);
 
-  const hasLiked = userHasLikedComment(userId, comments);
+  const hasLiked = true;
   const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
 
   return (
-    <div className="flex h-full rounded-xl bg-light p-[1.25rem] dark:bg-dark-3">
+    <div className="flex w-full rounded-xl bg-light p-[1.25rem] hover:translate-y-[-0.1rem]  hover:shadow-lg dark:bg-dark-3 hover:dark:bg-dark-4">
       <Link href={`/posts/post/${id}`}>
         <PostImage
           postImage={image}
@@ -67,8 +66,8 @@ const PostCard = ({
           imageHeight={imageHeight}
         />
       </Link>
-      <div className="ml-[0.875rem] flex h-full grow flex-col justify-between">
-        <div className="flex h-full flex-col gap-2.5">
+      <div className="ml-[0.875rem] flex h-auto w-full flex-col justify-between">
+        <div className="flex h-full flex-col gap-2.5 ">
           <div className="flex justify-between">
             <Link href={`/posts/post/${id}`}>
               <PostText postContent={htmlString} />
@@ -97,9 +96,9 @@ const PostCard = ({
         </div>
 
         <div className="hidden items-center justify-between md:flex">
-          <Link href="/profile" className="flex items-center">
+          <Link href={`/profile/${authorId}`} className="flex items-center">
             <SocialMediaIcon authorPicture={picture ?? "/public/emoji.png"} />
-            <div className="flex flex-col pl-[0.625rem]">
+            <div className="flex h-full flex-col pl-[0.625rem]">
               <p className="text-[0.875rem] leading-[1.375rem] text-sc-2 dark:text-sc-6">
                 {username}
               </p>
@@ -113,7 +112,7 @@ const PostCard = ({
             <SocialStatistics socialCounts={socialCounts} />
           </div>
         </div>
-        <div className="flex xl:hidden">
+        <div className="mt-1.5 flex xl:hidden">
           <SocialStatistics socialCounts={socialCounts} />
         </div>
       </div>
