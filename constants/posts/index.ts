@@ -187,10 +187,4 @@ export const meetupInputFields = createInputFields([
     label: "Your contact number",
     type: "text",
   },
-  {
-    placeholder: "Enter location here",
-    name: "location",
-    label: "Location",
-    type: "text",
-  },
 ]);

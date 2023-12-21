@@ -496,6 +496,7 @@ const CreatePost = ({
                     type={field.type}
                   />
                 ))}
+                <Location setValueHookForm={setValue} />
               </div>
             </>
           )}
@@ -508,7 +509,7 @@ const CreatePost = ({
               />
             </div>
           )}
-          <Location />
+
           <div className="flex justify-between pt-4">
             <CreatePostButtons mediaId={mediaId} />
             <p className="flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[0.563rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0 sm:text-[0.875rem] md:leading-[1.375rem]">

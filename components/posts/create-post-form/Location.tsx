@@ -2,14 +2,14 @@
 
 import React, { ChangeEvent } from "react";
 
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-  Suggestion,
-} from "use-places-autocomplete";
+import usePlacesAutocomplete, { Suggestion } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-const Location: React.FC = () => {
+type LocationProps = {
+  setValueHookForm: (name: "location", value: string) => void;
+};
+
+const Location = ({ setValueHookForm }: LocationProps) => {
   const {
     ready,
     value,
@@ -32,36 +32,40 @@ const Location: React.FC = () => {
 
   const handleSelect = (suggestion: Suggestion) => () => {
     setValue(suggestion.description, false);
+    setValueHookForm("location", suggestion.description);
     clearSuggestions();
-
-    getGeocode({ address: suggestion.description }).then((results) => {
-      const { lat, lng } = getLatLng(results[0]);
-      console.log("📍 Coordinates: ", { lat, lng });
-    });
   };
 
   const renderSuggestions = () =>
     data.map((suggestion) => {
-      console.log(suggestion);
       const {
         place_id,
         structured_formatting: { main_text, secondary_text },
       } = suggestion;
 
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
-          <strong>{main_text}</strong> <small>{secondary_text}</small>
-        </li>
+        <div className="cursor-pointer" key={place_id}>
+          <li onClick={handleSelect(suggestion)}>
+            <strong>{main_text}</strong> <small>{secondary_text}</small>
+          </li>
+        </div>
       );
     });
 
   return (
-    <div ref={ref}>
+    <div className="w-full" ref={ref}>
+      <label
+        className="flex flex-col justify-start pb-2.5 text-[0.875rem] font-medium leading-none"
+        htmlFor="location"
+      >
+        Location
+      </label>
       <input
+        className="w-full bg-light-2 dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem]"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="Location of Meetup?"
       />
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
