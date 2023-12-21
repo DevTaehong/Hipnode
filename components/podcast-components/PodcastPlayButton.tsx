@@ -1,11 +1,11 @@
 "use client";
 
+import usePodcastStore from "@/app/podcastStore";
 import { useState, useRef, useEffect, useCallback } from "react";
 
 import FillIcon from "../icons/fill-icons";
 import CustomButton from "../CustomButton";
 import { formatPodcastDuration, setToLocalStorage } from "@/utils";
-import usePodcastStore from "@/app/podcastStore";
 import { PodcastPlayButtonProps } from "@/types/podcast.index";
 import ShareButtons from "../ShareButtons";
 import { shareIcons } from "@/constants/podcast";

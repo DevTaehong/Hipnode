@@ -6,10 +6,10 @@ const ResponsiveCreatePostInput = ({
 }: ResponsiveCreatePostInputProps) => (
   <>
     <div className="flex w-full lg:hidden">
-      <CreatePostInput userImage={userImage} />
+      <CreatePostInput userImage={userImage ?? "/images/emoji.png"} />
     </div>
     <div className="hidden w-full lg:flex">
-      <CreatePostInput userImage={userImage} />
+      <CreatePostInput userImage={userImage ?? "/images/emoji.png"} />
     </div>
   </>
 );

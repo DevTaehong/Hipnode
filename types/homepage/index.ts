@@ -55,6 +55,9 @@ export type PostLabelProps = {
 
 export interface PostImageProps {
   postImage: string;
+  imageWidth: number;
+  imageHeight: number;
+  blurImage: string;
 }
 
 export type PostCardTextProps = {

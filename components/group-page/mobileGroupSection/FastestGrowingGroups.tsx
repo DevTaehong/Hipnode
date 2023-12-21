@@ -1,5 +1,5 @@
 import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
-import GroupSectionListItem from "@/components/GroupSectionListItem";
+import GroupSectionListItem from "@/components/group/GroupSectionListItem";
 import { GroupPromiseProps } from "@/types";
 
 const FastestGrowingGroups = ({

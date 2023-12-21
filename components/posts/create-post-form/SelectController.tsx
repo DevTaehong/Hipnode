@@ -1,5 +1,7 @@
 import { FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { SelectControllerProps } from "@/types/posts";
+import React, { useState } from "react";
+import { Controller } from "react-hook-form";
 import {
   Select,
   SelectTrigger,
@@ -7,9 +9,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { useState } from "react";
-import { Controller } from "react-hook-form";
 
 const SelectController = ({
   control,
@@ -19,7 +20,6 @@ const SelectController = ({
   currentSelection,
 }: SelectControllerProps) => {
   const [openState, setOpenState] = useState<Record<string, boolean>>({});
-
   const handleOpenChange = (name: string) => {
     setOpenState((prev) => ({
       ...prev,
@@ -41,20 +41,18 @@ const SelectController = ({
             }}
           >
             <FormControl>
-              <SelectTrigger className="flex min-w-[7rem] justify-between border-none text-[1rem] text-blue-80 dark:bg-dark-4">
+              <SelectTrigger className="flex justify-between border-none text-blue-80 dark:bg-dark-4">
                 <SelectValue
                   placeholder={
-                    <div className="flex w-fit flex-row rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-                      <p className="text-[0.563rem] dark:text-light-2 sm:text-[0.625rem] md:leading-[1.5rem]">
-                        {placeholder}
-                      </p>
-                    </div>
+                    <p className="flex items-center justify-start text-[0.563rem] sm:text-[0.875rem] md:leading-[1.375rem]">
+                      {placeholder}
+                    </p>
                   }
                 />
                 {openState[name] ? (
-                  <ChevronUp className="h-4 w-4 text-white opacity-50" />
+                  <ChevronUp className="mx-2 h-4 w-4 text-white opacity-50" />
                 ) : (
-                  <ChevronDown className="h-4 w-4 text-white opacity-50" />
+                  <ChevronDown className="mx-2 h-4 w-4 text-white opacity-50" />
                 )}
               </SelectTrigger>
             </FormControl>
@@ -65,7 +63,7 @@ const SelectController = ({
 
                 return (
                   <SelectItem
-                    className={`flex justify-between gap-2 bg-light dark:bg-dark-4  ${
+                    className={`flex items-center justify-between gap-2 bg-light dark:bg-dark-4  ${
                       selected ? "text-blue-80" : "dark:text-light-2"
                     }`}
                     key={index}
@@ -74,7 +72,7 @@ const SelectController = ({
                     <div className="flex flex-row justify-between gap-2 dark:bg-dark-4">
                       {option.icon && (
                         <IconComponent
-                          className={` ${
+                          className={`w-4 sm:w-5 ${
                             selected
                               ? "fill-blue-80"
                               : "fill-sc-2 dark:fill-light-2"
@@ -82,7 +80,7 @@ const SelectController = ({
                         />
                       )}
                       <p
-                        className={`${
+                        className={`flex items-center text-[0.563rem] sm:text-[0.875rem] md:leading-[1.375rem] ${
                           option.icon
                             ? "ml-2"
                             : `text-[1rem] font-semibold capitalize leading-[1.5rem] ${
@@ -98,7 +96,7 @@ const SelectController = ({
               })}
             </SelectContent>
           </Select>
-          <FormMessage className="absolute py-2 pl-2 capitalize text-red-500">
+          <FormMessage className="absolute py-2 pl-2 capitalize text-red-80">
             {/* @ts-ignore */}
             {errors?.[name]?.message ? (errors[name].message as string) : null}
           </FormMessage>

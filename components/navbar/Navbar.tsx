@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
+
 import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
@@ -11,7 +11,9 @@ import OutlineIcons from "@/components/icons/outline-icons";
 
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 import NotificationButton from "./NotificationButton";
+import { verifyAuth } from "@/lib/auth";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 
 const Navbar = async () => {
   const clerkUser = await currentUser();
@@ -31,11 +33,21 @@ const Navbar = async () => {
   }
 
   if (!userFromDB) redirect("/sign-in");
+  const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
+    "You must be logged in to create post."
+  );
+
+  const userInfo = {
+    id: userId,
+    username: userName,
+    image: loggedInUserImage,
+    name: fullName,
+  };
 
   return (
     <nav className="sticky inset-x-0 top-0 z-50 bg-light dark:bg-dark-3">
-      <div className="flex-between mx-auto flex max-w-[90rem] flex-1 px-5 py-3 md:py-5 lg:gap-5">
-        <section className="flex max-w-[9.125rem] items-center gap-5">
+      <div className="flex-between mx-auto flex max-w-[90rem] flex-1 px-5 py-3 md:py-5 lg:gap-5 lg:px-10">
+        <section className="flex  items-center gap-5 lg:w-[10.75rem]">
           <Link href="/">
             <HipnodeIcon styles="lg:hidden" />
             <HipnodeHeaderLogo styles="hidden lg:flex" />
@@ -52,7 +64,7 @@ const Navbar = async () => {
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            {userFromDB && userInfo && (
+            {userInfo && (
               <>
                 <MessageListWrapper userInfo={userInfo} />
 

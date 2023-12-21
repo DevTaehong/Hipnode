@@ -1,6 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { verifyAuth } from "../auth";
+import { CreateShowsType } from "@/types/shows.index";
 
 export async function getAllShows() {
   try {
@@ -13,26 +15,18 @@ export async function getAllShows() {
   }
 }
 
-export async function getAllUsersShows(clerkId: string) {
+export async function getAllUsersShows() {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        clerkId,
-      },
-    });
-
-    if (!user) {
-      throw new Error(`User with clerkId ${clerkId} not found`);
-    }
-
-    const userId = user.id;
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
+    );
 
     const subscribedShows = await prisma.usersSubscribedToShows.findMany({
       where: {
         userId,
       },
       include: {
-        show: true, // Include the related show details
+        show: true,
       },
     });
 
@@ -62,6 +56,32 @@ export async function getTopFiveShows(showIds: number[]) {
     return shows;
   } catch (error) {
     console.error(`Error fetching top five shows:`, error);
+    throw error;
+  }
+}
+
+export async function createShow(showData: CreateShowsType) {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content."
+    );
+    const existingShow = await prisma.shows.findFirst({
+      where: {
+        name: showData.name,
+      },
+    });
+
+    if (existingShow) {
+      throw new Error(`Show with the name '${showData.name}' already exists`);
+    }
+
+    const newShow = await prisma.shows.create({
+      data: { ...showData, userId },
+    });
+
+    return newShow;
+  } catch (error) {
+    console.error(`Error in creating show:`, error);
     throw error;
   }
 }

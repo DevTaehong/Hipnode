@@ -10,12 +10,11 @@ import {
 
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostPreviewProps } from "@/types/posts";
-import { useCreatePostStore } from "@/app/lexicalStore";
+import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
 
 const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
-  const { imagePreviewUrl, previewValues } = useCreatePostStore(
-    (state) => state
-  );
+  const { imagePreviewUrl, previewValues } = useCreatePostContext();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -42,11 +41,11 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
         </div>
         <DialogHeader>
           <DialogTitle className="flex flex-row justify-start text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
-            {previewValues?.title}
+            {previewValues?.heading}
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-wrap justify-start gap-6 ">
-          {previewValues?.tags.map((tag) => (
+          {previewValues?.tags?.map((tag: string) => (
             <p
               key={tag}
               className="text-[1rem] font-normal leading-[1.5rem] text-yellow-90"

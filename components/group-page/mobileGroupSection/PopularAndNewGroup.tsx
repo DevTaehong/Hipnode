@@ -1,5 +1,5 @@
-import { colorVariants } from "@/components/GroupSectionHeader";
-import GroupSectionListItem from "@/components/GroupSectionListItem";
+import { colorVariants } from "@/components/group/GroupSectionHeader";
+import GroupSectionListItem from "@/components/group/GroupSectionListItem";
 import { GroupSectionHeaderProps } from "@/types";
 import SeeAllButton from "@/components/group-page/mobileGroupSection/SeeAllButton";
 import { GroupProps } from "@/types/models";
@@ -17,7 +17,7 @@ const PopularAndNewGroup = ({ group }: { group: GroupSectionHeaderProps }) => {
         <div className="flex flex-col">
           <div className="flex flex-row gap-[0.38rem]">
             <Icon />
-            <h6 className="semibold-16 text-sc-2">{group.title}</h6>
+            <h5 className="semibold-16 text-sc-2">{group.title}</h5>
           </div>
           <p className="regular-10 text-sc-3">
             List updated daily at midnight PST.

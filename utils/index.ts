@@ -12,6 +12,7 @@ import { homePageTags, monthNames, abbMonthNames } from "@/constants";
 import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
 import { createNotification } from "@/lib/actions/notification.actions";
+import { getBlurData } from "@/lib";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -29,13 +30,21 @@ export function getFormattedDateMeetUpCard(dateString: Date) {
   };
 }
 
+type UploadImageAndBlurImageType = {
+  mainImageURL: string;
+  blurImageURL: string;
+  imageWidth?: number;
+  imageHeight?: number;
+};
+
 export const uploadImageToSupabase = async (
   file: File | null,
   bucketName: string,
   folderName?: string
-): Promise<string | null> => {
+): Promise<UploadImageAndBlurImageType | null> => {
   if (!file) {
     console.error("No file provided");
+
     return null;
   }
 
@@ -43,17 +52,31 @@ export const uploadImageToSupabase = async (
     const fileExtension = file.name.split(".").pop();
     const prefix = folderName && folderName.trim() ? `${folderName}/` : "";
     const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
+    const projectUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}`;
 
     const { error } = await supabase.storage
       .from(bucketName)
       .upload(uniqueFileName, file, { contentType: file.type });
 
+    const imageURL = `${projectUrl}/storage/v1/object/public/${bucketName}/${uniqueFileName}`;
+    const blur = await getBlurData(imageURL);
+    const blurImageURL = blur.blurDataURL;
+    const imageWidth = blur.width;
+    const imageHeight = blur.height;
+
     if (error) {
       console.error("File upload error:", error.message);
       return null;
     } else {
-      const projectUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}`;
-      return `${projectUrl}/storage/v1/object/public/${bucketName}/${uniqueFileName}`;
+      console.log("File uploaded successfully:", uniqueFileName);
+      const imageAndBlurImage = {
+        mainImageURL: `${projectUrl}/storage/v1/object/public/${bucketName}/${uniqueFileName}`,
+        blurImageURL,
+        imageWidth,
+        imageHeight,
+      };
+
+      return imageAndBlurImage;
     }
   } catch (error) {
     if (error instanceof Error) {

@@ -73,25 +73,29 @@ model Onboarding {
 }
 
 model Post {
-  id          Int         @id @default(autoincrement())
-  content     String
-  contentType String?
-  authorId    Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  isEdited    Boolean     @default(false)
-  viewCount   Int         @default(0)
-  image       String
-  groupId     Int?
-  heading     String
-  clerkId     String?
-  comments    Comment[]
-  likes       Like[]
-  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  group       Group?      @relation(fields: [groupId], references: [id])
-  Share       Share[]
-  tags        TagOnPost[]
+  id           Int         @id @default(autoincrement())
+  content      String
+  contentType  String
+  authorId     Int
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  isEdited     Boolean     @default(false)
+  viewCount    Int         @default(0)
+  image        String     
+  blurImage    String     
+  imageWidth   Int     
+  imageHeight  Int       
+  groupId      Int
+  heading      String
+  clerkId      String?
+  comments     Comment[]
+  likes        Like[]
+  author       User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  group        Group?      @relation(fields: [groupId], references: [id])
+  Share        Share[]
+  tags         TagOnPost[]
 }
+
 
 model Like {
   id            Int            @id @default(autoincrement())
@@ -159,6 +163,8 @@ model Podcast {
   details       String
   episodeNumber Int      @default(autoincrement())
   image         String
+  contentType   String
+  clerkId       String?
   showId        Int
   title         String
   updatedAt     DateTime @updatedAt
@@ -198,6 +204,8 @@ model MeetUp {
   contactEmail        String
   contactNumber       String
   image               String
+  contentType         String
+  clerkId             String?
   location            String
   responsiblePersonId Int
   summary             String
@@ -245,6 +253,8 @@ model Interview {
   createdAt    DateTime         @default(now())
   creatorId    Int
   title        String
+  contentType  String
+  clerkId      String?
   bannerImage  String
   details      String
   websiteLink  String
@@ -274,15 +284,16 @@ model ChatroomUsers {
 }
 
 model Message {
-  id             Int      @id @default(autoincrement())
-  text           String?
-  createdAt      DateTime @default(now())
-  userId         Int
-  chatroomId     Int
-  attachment     String?
-  attachmentType String?
-  Chatroom       Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-  User           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              Int              @id @default(autoincrement())
+  text            String?
+  createdAt       DateTime         @default(now())
+  userId          Int
+  chatroomId      Int
+  attachment      String?
+  attachmentType  String?
+  messageUUID     String           @unique
+  Chatroom        Chatroom         @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Share {

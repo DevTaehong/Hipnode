@@ -1,7 +1,7 @@
 import { CommentActionsProps } from "@/types/posts";
 import Heart from "@/components/icons/fill-icons/Heart";
 import Reply from "@/components/icons/fill-icons/Reply";
-import CommentActionPopover from "../action-popover/CommentActionPopover";
+import CommentActionPopover from "../../action-popover/CommentActionPopover";
 
 const CommentActions = ({
   onReplyClick,

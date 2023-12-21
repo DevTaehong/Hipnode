@@ -3,8 +3,8 @@ import Image from "next/image";
 import { LeftActionBar } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
 import {
-  getPostsByUserClerkId,
   getPostContentById,
+  getPostsByAuthorId,
 } from "@/lib/actions/post.action";
 import {
   formatDatePostFormat,
@@ -17,28 +17,27 @@ import DevelopmentInformation from "@/components/posts/post-by-id/right-column/D
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
-import PostActionPopover from "@/components/posts/action-popover/PostActionPopover";
-import Spinner from "@/components/Spinner";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
 
   const {
-    author: { username, picture, id: postAuthorId },
+    author: { username, picture, id: authorId },
     createdAt,
+    userCanEditMedia,
   } = postData;
 
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content } = postData;
   const actionBarData = getActionBarData(postData);
-  if (!postData.clerkId)
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  const devInfo = await getPostsByUserClerkId(postData.clerkId);
+  const devInfo = await getPostsByAuthorId(authorId);
   const calculatedDate = howManyMonthsAgo(createdAt);
 
   return (
@@ -71,8 +70,8 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 {heading}
               </h1>
               <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
-                {postAuthorId === postData.loggedInUserId && (
-                  <PostActionPopover postId={postData.id} label="Post" />
+                {userCanEditMedia && (
+                  <MediaEditActionPopover mediaId={postData.id} label="Post" />
                 )}
               </div>
             </div>

@@ -1,10 +1,10 @@
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent } from "react";
 
 export interface ImageUploadProps {
   bucketName?: string;
   folderName?: string;
   onFileSelected: (file: File) => void;
-  children: ReactNode;
+  label?: string;
 }
 
 export interface UseImageUploadReturn {

@@ -3,6 +3,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 
 import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
+import { useGetOnlineUsers } from "../chat-page/presenceData";
 
 interface UsersToMessageProps {
   users: ChatProps[];
@@ -16,6 +17,8 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
     userInfo,
     setChatroomId,
   } = useChatStore();
+
+  const onlineUsers = useGetOnlineUsers();
 
   const handleUserClick = (clickedUserId: number) => {
     const clickedUser = users.find((user) => user.id === clickedUserId);
@@ -41,7 +44,8 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
     <ul className="flex flex-col gap-1">
       {users &&
         users.map((user) => {
-          const { id, username, picture, online } = user;
+          const { id, username, picture } = user;
+          const isOnline = onlineUsers.includes(id);
           return (
             <PopoverClose key={id}>
               <li
@@ -60,7 +64,7 @@ const UsersToMessage = ({ users }: UsersToMessageProps) => {
                 </figure>
                 <div
                   className={`h-3.5 w-3.5 rounded-full ${
-                    online ? "bg-green-500" : "bg-slate-400"
+                    isOnline ? "bg-green-500" : "bg-slate-400"
                   }`}
                 />
               </li>

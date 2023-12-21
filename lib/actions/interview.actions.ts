@@ -1,8 +1,14 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
-export async function getAllInterviews() {
+import { Interview } from "@prisma/client";
+import { InterviewDataType, InterviewTagType } from "@/types/posts";
+import { verifyAuth } from "../auth";
+
+export async function getAllInterviews(): Promise<Interview[]> {
   try {
     const interviews = await prisma.interview.findMany({
       include: {
@@ -21,8 +27,14 @@ export async function getAllInterviews() {
   }
 }
 
-export async function getInterviewById(interviewId: number) {
+export async function getInterviewById(
+  interviewId: number
+): Promise<Interview | undefined> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to retrieve an interview."
+    );
+
     const interview = await prisma.interview.findUnique({
       where: {
         id: interviewId,
@@ -33,14 +45,20 @@ export async function getInterviewById(interviewId: number) {
       throw new Error(`No interview found for ID: ${interviewId}`);
     }
 
-    return interview;
+    const extendedInterview = {
+      ...interview,
+      userCanEditMedia: interview.creatorId === userId,
+    };
+    return extendedInterview;
   } catch (error) {
     console.error(`Error fetching interview with ID ${interviewId}:`, error);
     throw error;
   }
 }
 
-export async function getInterviewsByCreatorId(creatorId: number) {
+export async function getInterviewsByCreatorId(
+  creatorId: number
+): Promise<Interview[]> {
   try {
     const interviews = await prisma.interview.findMany({
       where: {
@@ -62,86 +80,76 @@ export async function getInterviewsByCreatorId(creatorId: number) {
   }
 }
 
-type CreateInterviewType = {
-  creatorId: number;
-  title: string;
-  bannerImage: string;
-  details: string;
-  websiteLink: string;
-  salary: number;
-  salaryPeriod: string;
-  updates: number;
-};
+async function handleInterviewTags(tagNames: string[]): Promise<number[]> {
+  const existingTags = await prisma.interviewTag.findMany({
+    where: {
+      name: { in: tagNames },
+    },
+  });
 
-export async function createInterview(data: CreateInterviewType) {
+  const existingTagNames = existingTags.map((tag) => tag.name);
+  const newTagNames = tagNames.filter(
+    (name) => !existingTagNames.includes(name)
+  );
+
+  if (newTagNames.length > 0) {
+    await prisma.interviewTag.createMany({
+      data: newTagNames.map((name) => ({ name })),
+      skipDuplicates: true,
+    });
+  }
+
+  const allTags = await prisma.interviewTag.findMany({
+    where: { name: { in: tagNames } },
+  });
+
+  return allTags.map((tag) => tag.id);
+}
+
+export async function createInterviewWithTags(
+  interviewData: InterviewDataType,
+  tagNames: string[]
+): Promise<Interview> {
   try {
+    const { clerkId, userId } = await verifyAuth(
+      "You must be logged in to create an interview."
+    );
+
     const interview = await prisma.interview.create({
-      data,
+      data: {
+        ...interviewData,
+        creatorId: userId,
+        clerkId,
+      },
+      include: {
+        creator: {
+          select: {
+            name: true,
+            picture: true,
+          },
+        },
+      },
     });
 
-    return interview;
+    const tagIds = await handleInterviewTags(tagNames);
+
+    await prisma.tagOnInterview.createMany({
+      data: tagIds.map((tagId) => ({
+        tagId,
+        interviewId: interview.id,
+      })),
+    });
+
+    redirect("/interviews");
   } catch (error) {
     console.error("Error creating interview:", error);
     throw error;
   }
 }
 
-export async function updateInterview(
-  id: number,
-  data: Partial<CreateInterviewType>
-) {
-  try {
-    const interview = await prisma.interview.update({
-      where: {
-        id,
-      },
-      data,
-    });
-
-    return interview;
-  } catch (error) {
-    console.error("Error updating interview:", error);
-    throw error;
-  }
-}
-
-export async function deleteInterview(id: number) {
-  try {
-    const interview = await prisma.interview.delete({
-      where: {
-        id,
-      },
-    });
-
-    return interview;
-  } catch (error) {
-    console.error("Error deleting interview:", error);
-    throw error;
-  }
-}
-
-export async function createInterviewTag(name: string) {
-  try {
-    const existingTag = await prisma.interviewTag.findUnique({
-      where: { name },
-    });
-
-    if (existingTag) {
-      return existingTag;
-    }
-
-    const newTag = await prisma.interviewTag.create({
-      data: { name },
-    });
-
-    return newTag;
-  } catch (error) {
-    console.error("Failed to create or retrieve interview tag:", error);
-    throw error;
-  }
-}
-
-export async function getTagsByInterviewId(interviewId: number) {
+export async function getTagsByInterviewId(
+  interviewId: number
+): Promise<InterviewTagType[]> {
   try {
     const tagConnections = await prisma.tagOnInterview.findMany({
       where: {
@@ -164,7 +172,7 @@ export async function getTagsByInterviewId(interviewId: number) {
   }
 }
 
-export async function getTopFiveTags() {
+export async function getTopFiveTags(): Promise<InterviewTagType[]> {
   try {
     const mostUsedTags = await prisma.tagOnInterview.groupBy({
       by: ["tagId"],
@@ -203,6 +211,10 @@ export async function getFilteredInterviews({
 }) {
   const itemsPerPage = 20;
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to retrieve interviews."
+    );
+
     const skip = (page - 1) * itemsPerPage;
     const interviews = await prisma.interview.findMany({
       where:
@@ -230,21 +242,160 @@ export async function getFilteredInterviews({
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
       skip,
       take: itemsPerPage,
     });
+
+    const extendedInterviews = interviews.map((interview) => ({
+      ...interview,
+      userCanEditMedia: interview.creatorId === userId,
+    }));
 
     const totalInterviews = await prisma.interview.count();
 
     const hasMore = page * itemsPerPage < totalInterviews;
 
     return {
-      interviews,
+      interviews: extendedInterviews,
       page,
       hasMore,
     };
   } catch (error) {
     console.error("Error fetching filtered interviews:", error);
+    throw error;
+  }
+}
+
+export type InterviewToEditType = {
+  heading: string;
+  content: string;
+  image: string;
+  websiteLink: string;
+  salary: number;
+  updates: number;
+  salaryPeriod: string;
+  tags: string[];
+  contentType: string;
+};
+
+export async function getInterviewToEdit(
+  id: number
+): Promise<InterviewToEditType | null> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit an interview."
+    );
+
+    const interview = await prisma.interview.findUnique({
+      where: {
+        id,
+        creatorId: userId,
+      },
+      include: {
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    if (!interview) {
+      return null;
+    }
+
+    return {
+      heading: interview.title,
+      content: interview.details,
+      image: interview.bannerImage,
+      websiteLink: interview.websiteLink,
+      salary: interview.salary,
+      updates: interview.updates,
+      salaryPeriod: interview.salaryPeriod,
+      tags: interview.tags.map((tagOnInterview) => tagOnInterview.tag.name),
+      contentType: interview.contentType,
+    };
+  } catch (error) {
+    console.error(`Error getting interview to edit by ID ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function updateInterview(
+  id: number,
+  interviewData: InterviewDataType,
+  tagNames: string[]
+): Promise<Interview> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to update an interview."
+    );
+
+    const allTagIdsToConnect = await handleInterviewTags(tagNames);
+    await prisma.$transaction(async (prisma) => {
+      const updatedInterview = await prisma.interview.update({
+        where: { id, creatorId: userId },
+        data: { ...interviewData, creatorId: userId },
+        include: {
+          creator: true,
+        },
+      });
+
+      await prisma.tagOnInterview.deleteMany({
+        where: { interviewId: id },
+      });
+
+      await prisma.tagOnInterview.createMany({
+        data: allTagIdsToConnect.map((tagId) => ({
+          interviewId: updatedInterview.id,
+          tagId,
+        })),
+        skipDuplicates: true,
+      });
+
+      return {
+        heading: updatedInterview.title,
+        content: updatedInterview.details,
+        image: updatedInterview.bannerImage,
+        websiteLink: updatedInterview.websiteLink,
+        salary: updatedInterview.salary,
+        salaryPeriod: updatedInterview.salaryPeriod,
+      };
+    });
+
+    revalidatePath("/interviews");
+    redirect("/interviews");
+  } catch (error) {
+    console.error(`Error updating interview with ID ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function deleteInterviewAction(id: number): Promise<void> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to delete an interview."
+    );
+    const deletedInterview = await prisma.interview.delete({
+      where: {
+        id,
+        creatorId: userId,
+      },
+    });
+
+    if (!deletedInterview) {
+      throw new Error(
+        `Interview with ID ${id} not found or you are not authorized to delete it.`
+      );
+    }
+
+    revalidatePath("/interviews");
+    redirect("/interviews");
+  } catch (error) {
+    console.error("Error deleting interview:", error);
     throw error;
   }
 }

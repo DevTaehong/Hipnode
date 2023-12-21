@@ -1,16 +1,22 @@
 import Image from "next/image";
 
-import OutlineIcon from "../icons/outline-icons";
 import { formatInterviewDate } from "@/utils";
 import { InterviewHeaderProps } from "@/types/interview.index";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const InterviewHeader = ({
   userImage,
   username,
   date,
+  id,
+  userCanEditMedia,
 }: InterviewHeaderProps) => {
   const interviewDate = formatInterviewDate(date);
-
   return (
     <header className="flex w-full justify-between">
       <div className="flex gap-4">
@@ -26,7 +32,9 @@ const InterviewHeader = ({
           <time className="base-12 sm:base-14 text-sc-3">{interviewDate}</time>
         </div>
       </div>
-      <OutlineIcon.MoreVertical />
+      {userCanEditMedia && (
+        <MediaEditActionPopover label="Interview" mediaId={id} />
+      )}
     </header>
   );
 };

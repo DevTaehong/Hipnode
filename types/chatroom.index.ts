@@ -20,11 +20,12 @@ export type CreateMessageType = {
   chatroomId: number;
   attachment: string | null;
   attachmentType: string | null;
+  messageUUID: string;
 };
 
 export type EditMessageType = {
-  messageId: number;
-  newText: string;
+  messageUUID: string;
+  text: string;
 };
 
 export interface MessageToSend {
@@ -74,6 +75,7 @@ export interface ChatMessage {
   data: {
     user: ChatroomUser;
     messageId: number;
+    messageUUID: string;
     attachment?: string | null;
     attachmentType?: string | null;
     chatroomId?: number;
@@ -104,10 +106,6 @@ export interface CurrentUser {
 }
 
 export interface LiveChatSubmissionProps {
-  event:
-    | FormEvent<HTMLFormElement>
-    | KeyboardEvent<HTMLInputElement>
-    | KeyboardEvent<HTMLTextAreaElement>;
   messageText: string;
   droppedFile: File | File[] | null;
   channel: Types.RealtimeChannelPromise;
@@ -140,7 +138,7 @@ export interface ChatroomDetail {
   otherUser: OtherUser;
 }
 
-type HandleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
+// type HandleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
 
 export interface ChatPageProps {
   chatrooms: ChatroomDetail[];
@@ -154,7 +152,6 @@ export interface ChatroomListItemProps {
 
 export interface ChatPageContextType {
   chatrooms: ChatroomDetail[];
-  onlineUsers: number[];
   messages: ChatMessage[];
   userInfo: UserInfo;
   defaultChatroomId: number | undefined;
@@ -173,10 +170,6 @@ export interface ChatPageInputContextType {
   open: () => void;
   droppedFile: File | File[] | null;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
-  messageText: string;
-  setMessageText: Dispatch<SetStateAction<string>>;
-  handleKeyDown: HandleKeyDown;
-  handleFormSubmission: (event: FormEvent<HTMLFormElement>) => void;
 }
 
 export interface MessageAttachmentProps {
@@ -194,7 +187,13 @@ export interface UserTyping {
 
 export interface LiveChatMessageListProps {
   messages: ChatMessage[];
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
   setDroppedFile: Dispatch<SetStateAction<File | File[] | null>>;
+}
+
+export interface LiveChatMessageProps {
+  message: ChatMessage;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
 }
 
 export interface LiveChatVideoPlayerProps {
@@ -211,9 +210,13 @@ export interface LiveChatAudioPlayerAnimationProps {
 }
 
 export interface ChatBoxInputContentProps {
+  messageText: string;
+  setMessageText: (messageText: string) => void;
   isChatroomUserTyping: boolean;
   userTypingUsername: string | undefined;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleFormLogic: () => void;
+  handleFormSubmission: (e: FormEvent<HTMLFormElement>) => void;
+  // handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   inputBox: RefObject<HTMLTextAreaElement>;
   handleTyping: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   setShowEmojiPicker: Dispatch<SetStateAction<boolean>>;
@@ -247,8 +250,20 @@ export interface handleEmojiSelectProps {
 
 export interface MessageContentProps {
   additionalStyles: string;
-  text: string;
+  text: string | null;
   fontSize: string;
+  inView: boolean;
+}
+
+export interface LinkPreviewProps {
+  url: string;
+  smallChatBox?: boolean;
+}
+
+export interface LinkPreviewMetadata {
+  title: string | null;
+  image: string | null;
+  description: string | null;
 }
 
 export interface ChatAudioRecorderProps {
@@ -256,4 +271,22 @@ export interface ChatAudioRecorderProps {
   droppedFile: File | File[] | null;
   setDroppedFile: (value: File | File[] | null) => void;
   isSmallChatBox?: boolean;
+}
+
+export interface LiveChatFormProps {
+  droppedFile: File | File[] | null;
+  setDroppedFile: (value: File | File[] | null) => void;
+  channel: Types.RealtimeChannelPromise;
+  open: () => void;
+}
+
+export interface EditDeleteButtonProps {
+  isStringSingleEmoji: boolean;
+  displayText: string | null;
+  setTextareaValue: Dispatch<SetStateAction<string | null>>;
+  textareaValue: string | null;
+  handleDelete: () => void;
+  handleTextareaChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  handleEdit: () => void;
+  smallChatBox?: boolean;
 }

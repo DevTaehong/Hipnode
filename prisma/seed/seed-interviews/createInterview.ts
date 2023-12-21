@@ -23,6 +23,8 @@ export async function createInterviews(users: User[]) {
             salary: faker.number.int({ min: 10000, max: 50000 }),
             salaryPeriod: randomSalaryPeriod,
             updates: faker.number.int({ min: 0, max: 10 }),
+            clerkId: String(user.id),
+            contentType: "Interview",
           },
         });
         return interview;

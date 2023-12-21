@@ -1,4 +1,3 @@
-import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import {
@@ -11,6 +10,7 @@ import { podcastFormLinkProps } from "@/constants";
 import Meetups from "@/components/home-page/meetup/Meetups";
 import { getAllMeetUps } from "@/lib/actions/meetup.actions";
 import PodcastFilterAndContentWrapper from "@/components/podcast-components/PodcastFilterAndContentWrapper";
+import { verifyAuth } from "@/lib/auth";
 
 interface SearchProps {
   show: string | string[];
@@ -20,14 +20,17 @@ interface SearchProps {
 const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   const topFiveShows = await getTopFiveShowIds();
   const meetups = await getAllMeetUps();
-  const user = await currentUser();
 
-  if (!user) {
+  const { userId } = await verifyAuth(
+    "You must be logged in to get Post Content."
+  );
+
+  if (!userId) {
     console.error("Can't find user");
     redirect("/");
   }
 
-  let listOfShows = await getAllUsersShows(user.id);
+  let listOfShows = await getAllUsersShows();
   if (!listOfShows.length) {
     listOfShows = await getTopFiveShows(topFiveShows);
   }

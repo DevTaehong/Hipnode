@@ -14,6 +14,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
     salaryPeriod,
     updates,
     createdAt,
+    userCanEditMedia,
     creator: { name: username, picture: userImage },
   } = interviewData;
   const interviewSalary = formatSalary(salary, salaryPeriod);
@@ -24,6 +25,8 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           userImage={userImage}
           username={username}
           date={createdAt}
+          id={id}
+          userCanEditMedia={userCanEditMedia}
         />
         <InterviewBannerImage
           bannerImage={bannerImage}

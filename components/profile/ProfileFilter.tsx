@@ -23,7 +23,7 @@ const ProfileFilter = () => {
       {profileFilters.map((filter) => (
         <Button
           key={filter}
-          className={`rounded-[0.875rem] px-2.5 py-1 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6 lg:rounded-[1.5rem] lg:px-5 lg:py-2 lg:text-[1.125rem] lg:leading-[1.625rem] ${
+          className={`rounded-[0.875rem] px-2.5 py-1 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 hover:bg-red-80 hover:text-light dark:text-sc-6 lg:rounded-[1.5rem] lg:px-5 lg:py-2 lg:text-[1.125rem] lg:leading-[1.625rem] ${
             search === filter && "bg-red-80 text-light"
           }`}
           onClick={() => setSearch(filter)}

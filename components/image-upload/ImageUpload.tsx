@@ -1,34 +1,28 @@
 import React, { useRef, useState } from "react";
 import { ImageUploadProps } from "@/types/upload-image";
+import OutlineIcon from "../icons/outline-icons";
+import FillIcon from "@/components/icons/fill-icons";
 
-const ImageUpload = ({ onFileSelected, children }: ImageUploadProps) => {
+const ImageUpload = ({ onFileSelected, label }: ImageUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageSelected, setImageSelected] = useState(false);
-  const [imageUploaded, setImageUploaded] = useState(false);
+  const [fileSelected, setFileSelected] = useState(false);
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setImageSelected(true);
+      setFileSelected(true);
       onFileSelected(e.target.files[0]);
     }
   };
 
   const handleUploadClick = () => {
-    if (imageUploaded) {
-      fileInputRef.current?.click();
-    } else if (imageSelected) {
-      setImageUploaded(true);
-      setImageSelected(false);
-    } else {
-      fileInputRef.current?.click();
-    }
+    fileInputRef.current?.click();
   };
 
   return (
     <>
       <input
         type="file"
-        accept=".png,.jpeg,.jpg"
+        accept=".png,.jpeg,.jpg,.mp3"
         onChange={handleFileInputChange}
         ref={fileInputRef}
         style={{ display: "none" }}
@@ -37,17 +31,31 @@ const ImageUpload = ({ onFileSelected, children }: ImageUploadProps) => {
         className="cursor-pointer rounded-md text-[0.8rem] dark:bg-dark-4 dark:text-light-2"
         onClick={handleUploadClick}
       >
-        {imageSelected ? (
-          <p className="cursor-pointer rounded-md p-2.5 text-[0.8rem] text-sc-3 dark:bg-dark-4 dark:text-light-2">
-            Upload Image
+        <div className="flex h-10 w-fit cursor-pointer flex-row items-center rounded-md   px-[0.8rem] py-[0.25rem] dark:bg-dark-4">
+          {label === "Cover Image" ? (
+            <OutlineIcon.ImageIcon
+              className={`${
+                fileSelected
+                  ? "stroke-blue-80"
+                  : "stroke-dark-4 dark:stroke-light-2"
+              } `}
+            />
+          ) : (
+            <FillIcon.Podcasts
+              className={`${
+                fileSelected ? "fill-blue-80" : "fill-dark-4 dark:fill-light-2"
+              } `}
+            />
+          )}
+
+          <p
+            className={`pl-[0.625rem] text-[0.563rem] sm:text-[0.875rem] md:leading-[1.375rem] ${
+              fileSelected ? "text-blue-80" : "text-sc-2 dark:text-light-2"
+            }`}
+          >
+            {label}
           </p>
-        ) : imageUploaded ? (
-          <p className="cursor-pointer rounded-md p-2.5 text-[0.8rem] text-sc-3 dark:bg-dark-4 dark:text-light-2">
-            Replace Image
-          </p>
-        ) : (
-          children
-        )}
+        </div>
       </div>
     </>
   );

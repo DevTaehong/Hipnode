@@ -1,5 +1,4 @@
-import { usePresence } from "ably/react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 import { ChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
@@ -13,8 +12,6 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [showChatRoomList, setShowChatRoomList] = useState(false);
-
-  const { presenceData } = usePresence("hipnode-livechat");
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,19 +43,10 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
     };
   }
 
-  const onlineUsers = useMemo(() => {
-    return (
-      presenceData
-        ?.map((presence) => presence.data?.id)
-        .filter((id) => id !== undefined) || []
-    );
-  }, [presenceData]);
-
   return (
     <ChatPageContext.Provider
       value={{
         chatrooms,
-        onlineUsers,
         messages,
         userInfo,
         defaultChatroomId,

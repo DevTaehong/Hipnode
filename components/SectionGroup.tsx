@@ -1,6 +1,6 @@
 import { HeadingsType } from "@/types";
-import GroupSectionHeader from "./GroupSectionHeader";
-import GroupSectionListItem from "./GroupSectionListItem";
+import GroupSectionHeader from "./group/GroupSectionHeader";
+import GroupSectionListItem from "./group/GroupSectionListItem";
 import { GroupProps } from "@/types/models";
 
 type SectionGroupProps = {
@@ -8,15 +8,18 @@ type SectionGroupProps = {
   index: number;
   expandedGroupIndex: number | null;
   setExpandedGroupIndex: (index: number | null) => void;
+  setValue?: (name: string, value: string) => void;
 };
 
 const SectionGroup = ({
   section,
   index,
   expandedGroupIndex,
+  setValue,
   setExpandedGroupIndex,
 }: SectionGroupProps) => {
   const { title, bgColor, icon, groups } = section;
+
   const mappedGroups =
     expandedGroupIndex === index ? groups : groups.slice(0, 3);
   const isHidden = expandedGroupIndex !== null && expandedGroupIndex !== index;
@@ -24,7 +27,9 @@ const SectionGroup = ({
   return (
     <section
       key={title}
-      className={`flex flex-col gap-2.5 ${isHidden && "hidden"}`}
+      className={`flex max-w-[13.125rem] flex-col gap-2.5 ${
+        isHidden && "hidden"
+      }`}
     >
       <GroupSectionHeader title={title} bgColor={bgColor} icon={icon} />
       <ul className="flex flex-col gap-2.5">
@@ -35,6 +40,7 @@ const SectionGroup = ({
             logo={group.logo ?? ""}
             description={group.description ?? ""}
             groupName={group.name}
+            setValue={setValue}
           />
         ))}
       </ul>

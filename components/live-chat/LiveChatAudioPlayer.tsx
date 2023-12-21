@@ -8,6 +8,7 @@ import usePodcastStore from "@/app/podcastStore";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
 import LiveChatAudioPlayerAnimation from "./LiveChatAudioPlayerAnimation";
 import AudioPlayerLoader from "./AudioPlayerLoader";
+import { findAudioDuration } from ".";
 
 const LiveChatAudioPlayer = ({
   audioUrl,
@@ -58,12 +59,6 @@ const LiveChatAudioPlayer = ({
     }
   }, [audioMessageId]);
 
-  const seriouslyHackyFix = (url: string) => {
-    const match = url.match(/duration-(\d+)/);
-    const extractedDuration = match ? parseInt(match[1], 10) : 0;
-    return extractedDuration;
-  };
-
   useEffect(() => {
     const audioElement = audioRef.current;
     if (audioElement !== null) {
@@ -73,7 +68,7 @@ const LiveChatAudioPlayer = ({
         } else if (liveRecordingDuration > 0) {
           setDisplayTime(liveRecordingDuration);
         } else if (audioElement.src) {
-          const extractedDuration = seriouslyHackyFix(audioElement.src);
+          const extractedDuration = findAudioDuration(audioElement.src);
           setDisplayTime(extractedDuration);
         } else {
           setDisplayTime(0);

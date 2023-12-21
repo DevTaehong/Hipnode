@@ -12,7 +12,6 @@ import CustomButton from "@/components/CustomButton";
 
 const PostCardList = ({ posts, userId }: PostCardListProps) => {
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
-  const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
@@ -24,7 +23,6 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
       const posts = await getAllPosts({ numberToSkip: amountToSkip });
       if (posts?.length) {
         setAmountToSkip((prev) => prev + 10);
-        setPage((prevPage) => prevPage + 1);
         setPostData((prevPosts) => [...prevPosts, ...posts]);
       }
     } catch (error) {
@@ -35,10 +33,10 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   };
 
   useEffect(() => {
-    const shouldLoadMore =
-      (inView || loadMore) &&
-      postData.length < postData[postData.length - 1]?.numberOfAvailablePosts &&
-      !isLoading;
+    const totalPosts =
+      postData[postData.length - 1]?.numberOfAvailablePosts || 0;
+    const hasMorePosts = postData.length < totalPosts;
+    const shouldLoadMore = (inView || loadMore) && hasMorePosts && !isLoading;
 
     if (shouldLoadMore) {
       loadMoreData();
@@ -47,12 +45,13 @@ const PostCardList = ({ posts, userId }: PostCardListProps) => {
   }, [inView, loadMore, postData, isLoading]);
 
   const hasSeenAllPosts =
-    postData.length >= postData[postData.length - 1]?.numberOfAvailablePosts;
+    postData.length >=
+    (postData[postData.length - 1]?.numberOfAvailablePosts || 0);
 
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
-        <PostCard post={post} userId={userId} key={post.id} />
+        <PostCard post={post} key={post.id} userId={userId} />
       ))}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (

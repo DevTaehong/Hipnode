@@ -4,15 +4,16 @@ import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
-
+import CreatableSelect from "react-select/creatable";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { uploadImageToSupabase } from "@/utils/index";
@@ -20,238 +21,381 @@ import {
   CoverImageUpload,
   CreatePostButtons,
   CreatePostTags,
-  CreatePostTitle,
   SelectController,
+  GenericInput,
 } from ".";
-import { postFormValidationSchema } from "@/lib/validations";
+
 import {
-  PostFormValuesType,
-  GroupsType,
+  CreatePostProps,
+  InterviewDataType,
+  MeetUpDataType,
   PostDataType,
-  createPostFormType,
+  SelectionOptionsType,
 } from "@/types/posts/index";
-import { useCreatePostStore } from "@/app/lexicalStore";
-import { PostFormDefaultValues } from "@/constants/posts";
 import {
-  createPostWithTags,
-  getPostToEditById,
-  updatePost,
-} from "@/lib/actions/post.action";
-import { getGroups } from "@/lib/actions/group.actions";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
-import FillIcon, { FillIconProps } from "@/components/icons/fill-icons";
+  POST_TYPE,
+  PostFormDefaultValues,
+  PostFormValuesType,
+  dynamicPostValidation,
+  interviewInputFields,
+  meetupInputFields,
+} from "@/constants/posts";
+import { createPostWithTags, updatePost } from "@/lib/actions/post.action";
+
+import FillIcon from "@/components/icons/fill-icons";
+import PodcastUpload from "./PodcastUpload";
+import { createPodcast, updatePodcast } from "@/lib/actions/podcast.actions";
+import LiveChatAudioPlayer from "@/components/live-chat/LiveChatAudioPlayer";
+import { createShow } from "@/lib/actions/show.actions";
+import GroupPopover from "./GroupPopover";
+import {
+  createMeetUpWithTags,
+  updateMeetup,
+} from "@/lib/actions/meetup.actions";
+
+import {
+  createInterviewWithTags,
+  updateInterview,
+} from "@/lib/actions/interview.actions";
+import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
+import { initialConfig } from "@/constants/lexical-editor";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { fetchAndSetFormData } from "./utils";
+import FormLoader from "./FormLoader";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
   { ssr: false }
 );
 
-interface SelectionOption {
-  label: string;
-  icon: React.ComponentType<FillIconProps>;
-}
-
-type SelectionOptionsType = SelectionOption[];
-
 const SelectionOptions: SelectionOptionsType = [
   { label: "Post", icon: FillIcon.Post },
   { label: "Meetup", icon: FillIcon.Calendar },
-  { label: "Podcasts", icon: FillIcon.Podcasts },
-  { label: "Interviews", icon: FillIcon.Interviews },
+  { label: "Podcast", icon: FillIcon.Podcasts },
+  { label: "Interview", icon: FillIcon.Interviews },
 ];
 
-const CreatePost = () => {
+const CreatePost = ({
+  shows,
+  groups,
+  fastestGrowingGroups,
+  mostPopularGroups,
+  newlyLaunchedGroups,
+}: CreatePostProps) => {
+  const { toast } = useToast();
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+  const [podcastToUpload, setPodcastToUpload] = useState<File | null>(null);
   const [defaultContent, setDefaultContent] = useState("");
-  const [postIdParams, setPostIdParams] = useState<number>(0);
-
-  const [groups, setGroups] = useState<GroupsType[]>([]);
+  const [contentType, setContentType] = useState<string>(POST_TYPE.POST);
+  const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
-
   const title = searchParams.get("title");
-  const postId = searchParams.get("id");
-
-  useEffect(() => {
-    if (title) {
-      setValue("heading", title);
-    } else if (postId) {
-      setPostIdParams(+postId);
-      (async () => {
-        const postToEdit = await getPostToEditById(+postId);
-        if (!postToEdit) return;
-        const { heading, content, image, tags, group } = postToEdit;
-        const matchingGroup = groups.find((g) => g.value === parseInt(group));
-
-        setImagePreviewUrl(image);
-        form.reset({
-          heading,
-          content,
-          image,
-          tags,
-          contentType: "Post",
-          group: matchingGroup?.label,
-        });
-        setDefaultContent(content);
-      })();
-    }
-  }, [searchParams, groups]);
-
-  const { user: clerkUser, isLoaded, isSignedIn } = useUser();
-  const [userInfo, setUserInfo] = useState<{
-    id: number;
-  } | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      if (clerkUser) {
-        const userFromDB = await getUserByClerkId(clerkUser.id);
-        if (userFromDB) {
-          setUserInfo({
-            id: userFromDB.id,
-          });
-        }
-      }
-    })();
-  }, [clerkUser]);
-
-  useEffect(() => {
-    (async () => {
-      const fetchedGroups = await getGroups();
-
-      const groupOptions = fetchedGroups?.map((group) => ({
-        label: group.name,
-        value: group.id,
-      }));
-      setGroups(groupOptions);
-    })();
-  }, [searchParams]);
+  const mediaId =
+    searchParams.get("id") !== null ? Number(searchParams.get("id")) : null;
+  const mediaType = searchParams.get("media");
 
   const {
     imagePreviewUrl,
+    podcastPreviewUrl,
     setImagePreviewUrl,
+    setPodcastPreviewUrl,
     setPreviewValues,
     setClearEditor,
-  } = useCreatePostStore((state) => state);
+  } = useCreatePostContext();
 
   const handleUpload = async () => {
+    let imagesFromSupabase, podcastURL;
+
     if (imageToUpload) {
-      const uploadedURL = await uploadImageToSupabase(
+      const imageBucket =
+        contentType === POST_TYPE.PODCAST ? "podcast-images" : "posts";
+      imagesFromSupabase = await uploadImageToSupabase(
         imageToUpload,
-        "posts",
+        imageBucket,
         "images"
       );
-      setValue("image", uploadedURL);
-      return uploadedURL;
+
+      setValue("image", imagesFromSupabase?.mainImageURL || "");
     }
+    if (contentType === POST_TYPE.PODCAST && podcastToUpload) {
+      await uploadImageToSupabase(podcastToUpload, "podcasts");
+    }
+
+    return {
+      mainImage: imagesFromSupabase?.mainImageURL || "",
+      blurImage: imagesFromSupabase?.blurImageURL || "",
+      podcastURL: podcastURL || "",
+      imageWidth: imagesFromSupabase?.imageWidth,
+      imageHeight: imagesFromSupabase?.imageHeight,
+    };
   };
 
   const form = useForm<PostFormValuesType>({
-    resolver: zodResolver(postFormValidationSchema),
+    resolver: zodResolver(dynamicPostValidation),
     mode: "onBlur",
     defaultValues: PostFormDefaultValues,
   });
 
-  const { setValue } = form;
-  const currentFormSelection = form.watch("contentType");
+  useEffect(() => {
+    if (title) {
+      setValue("heading", title);
+    }
+    fetchAndSetFormData({
+      mediaId,
+      mediaType,
+      setImagePreviewUrl,
+      setDefaultContent,
+      form,
+    });
+  }, [title, mediaId, mediaType]);
+
+  const contentTypeWatched = form.watch("contentType");
   const currentGroup = form.watch("group");
+  const { setValue, formState } = form;
+  const { errors } = formState;
+
+  useEffect(() => {
+    const message = Object.values(errors);
+
+    if (message.length > 0) {
+      toast({
+        description: "Fill in required fields....",
+        variant: "formFieldsFill",
+      });
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    setValue("image", imagePreviewUrl || "");
+    if (contentType === POST_TYPE.PODCAST) {
+      setValue("podcast", podcastPreviewUrl || "");
+    }
+  }, [imagePreviewUrl, podcastPreviewUrl]);
+
+  useEffect(() => {
+    setContentType(contentTypeWatched);
+  }, [contentTypeWatched]);
 
   const onSubmitPreview = async () => {
     const previewValues = form.getValues();
     setPreviewValues(previewValues);
   };
 
-  const valueOfGroup = (data: createPostFormType) => {
+  const valueOfGroup = (data: PostFormValuesType) => {
     const matchedGroup = groups.find((group) => group.label === data.group);
+
     return matchedGroup ? matchedGroup.value : 0;
   };
 
   const processForm: SubmitHandler<PostFormValuesType> = async (
-    data: createPostFormType
-  ): Promise<void> => {
-    if (!isLoaded || !isSignedIn) return;
-
-    const postImage = await handleUpload();
-
-    const { contentType, tags, group, postId, ...postData } = data;
-
-    const postDataWithAuthor: PostDataType = {
-      ...postData,
-      authorId: userInfo?.id as number,
-      groupId: valueOfGroup(data),
-      image: postImage ?? "",
-      clerkId: clerkUser?.id,
-    };
+    data: PostFormValuesType
+  ) => {
     try {
-      if (postIdParams) {
-        await updatePost(postIdParams, postData, tags);
-      } else {
-        await createPostWithTags(postDataWithAuthor, tags);
+      setIsLoading(true);
+
+      const { imageWidth, imageHeight, mainImage, blurImage } =
+        await handleUpload();
+
+      const {
+        websiteLink,
+        salary,
+        salaryPeriod,
+        updates,
+        contentType,
+        tags,
+        group,
+        show,
+        podcast,
+        contactEmail,
+        contactNumber,
+        location,
+        ...postData
+      } = data;
+
+      switch (contentType) {
+        case POST_TYPE.PODCAST: {
+          if (!show) {
+            console.error(
+              "Podcast & show are required for creating a podcast."
+            );
+            return;
+          }
+          let newShowId = null;
+          if (show.__isNew__) {
+            const newShow = await createShow({
+              name: show.label,
+            });
+            newShowId = newShow.id;
+          }
+          const podcastData = {
+            title: postData.heading,
+            details: postData.content,
+            image: imagePreviewUrl || mainImage || "",
+            url: podcastPreviewUrl || "",
+            showId: Number(newShowId) || Number(show.value),
+            contentType: POST_TYPE.PODCAST,
+          };
+          if (mediaId) {
+            await updatePodcast(mediaId, {
+              ...podcastData,
+              showId: Number(newShowId) || Number(show.value),
+              url: podcastPreviewUrl || "",
+            });
+          } else {
+            await createPodcast(podcastData);
+          }
+
+          break;
+        }
+        case POST_TYPE.POST: {
+          const postDataWithAuthor: PostDataType = {
+            ...postData,
+            groupId: valueOfGroup(data),
+            image: imagePreviewUrl || "",
+            contentType: POST_TYPE.POST,
+            blurImage: blurImage || "",
+            imageWidth: imageWidth || 0,
+            imageHeight: imageHeight || 0,
+          };
+
+          if (mediaId) {
+            await updatePost(mediaId, postDataWithAuthor, tags ?? []);
+          } else {
+            await createPostWithTags(postDataWithAuthor, tags ?? []);
+          }
+          break;
+        }
+
+        case POST_TYPE.MEETUP: {
+          const meetupData: MeetUpDataType = {
+            contactEmail: contactEmail ?? "",
+            contactNumber: contactNumber ?? "",
+            image: imagePreviewUrl ?? "",
+            contentType: POST_TYPE.MEETUP,
+            location: location ?? "",
+            summary: postData.content,
+            title: postData.heading,
+          };
+          if (mediaId) {
+            await updateMeetup(mediaId, meetupData, tags ?? []);
+          } else {
+            await createMeetUpWithTags(meetupData, tags ?? []);
+          }
+          break;
+        }
+        case POST_TYPE.INTERVIEW: {
+          const interviewData: InterviewDataType = {
+            title: postData.heading,
+            contentType: POST_TYPE.INTERVIEW,
+            bannerImage: imagePreviewUrl ?? "",
+            details: postData.content,
+            websiteLink: websiteLink ?? "",
+            salary: +(salary ?? 0),
+            salaryPeriod: salaryPeriod ?? "",
+            updates: +(updates ?? 0),
+          };
+
+          if (mediaId) {
+            await updateInterview(mediaId, interviewData, tags ?? []);
+          } else {
+            await createInterviewWithTags(interviewData, tags ?? []);
+          }
+          break;
+        }
+        default:
+          console.error("Unhandled content type");
+          return;
       }
 
       setClearEditor(true);
       form.reset();
     } catch (error) {
-      console.error("Error creating/updating post:", error);
+      console.error("Error creating/updating content:", error);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <FormLoader messageText="Loading your media content..." />
+      </div>
+    );
+  }
   return (
-    <div className="flex max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3">
+    <div className="mt-5 flex w-full max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3 md:mt-0">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(processForm)}
-          className="rounded-md p-[1.25rem] dark:bg-dark-3"
+          className="w-full rounded-md p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
-            <CreatePostTitle control={form.control} />
+            <GenericInput
+              control={form.control}
+              name="heading"
+              placeholder="Title...."
+              className="rounded-lg px-[1.25rem] py-[0.7rem] text-[1.625rem] font-bold leading-[2.365rem] text-sc-1 outline-none dark:text-light-2"
+            />
           </div>
-          <div className="flex flex-col justify-between  sm:flex-row">
-            <div className="flex flex-row items-center gap-4 pt-2 dark:bg-dark-3">
-              <CoverImageUpload
-                control={form.control}
-                setImagePreviewUrl={setImagePreviewUrl}
-                setImageToUpload={setImageToUpload}
-              />
+          <div className="flex flex-wrap gap-4 bg-light pb-[1.25rem] dark:bg-dark-3">
+            <CoverImageUpload
+              control={form.control}
+              setImagePreviewUrl={setImagePreviewUrl}
+              setImageToUpload={setImageToUpload}
+            />
 
-              <SelectController
+            {contentType === POST_TYPE.PODCAST && (
+              <PodcastUpload
                 control={form.control}
-                name={"group"}
-                placeholder={"Select Group"}
-                options={groups}
-                currentSelection={currentGroup}
+                setPodcastPreviewUrl={setPodcastPreviewUrl}
+                setPodcastToUpload={setPodcastToUpload}
               />
+            )}
 
-              <SelectController
-                control={form.control}
-                name={"contentType"}
-                placeholder={"Create Post"}
-                options={SelectionOptions}
-                currentSelection={currentFormSelection}
+            {contentType === POST_TYPE.POST && (
+              <GroupPopover
+                currentGroup={currentGroup}
+                fastestGrowingGroups={fastestGrowingGroups}
+                mostPopularGroups={mostPopularGroups}
+                newlyLaunchedGroups={newlyLaunchedGroups}
+                setValue={setValue}
               />
-            </div>
-            <div className="mr-[1.25rem] mt-[1.25rem] flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[1rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0">
-              <p className="text-[1rem] leading-[1.5rem] dark:text-light-2">
-                Code of Conduct
-              </p>
-            </div>
+            )}
+
+            <SelectController
+              control={form.control}
+              name={"contentType"}
+              placeholder={"Create Post"}
+              options={SelectionOptions}
+              currentSelection={contentType}
+            />
           </div>
-
           <div className="flex items-center justify-center">
-            {imagePreviewUrl ? (
-              <div className="py-[1.25rem]">
+            {imagePreviewUrl && (
+              <div className="flex max-h-[17rem] w-full justify-center pb-[2.5rem]">
                 <Image
-                  src={imagePreviewUrl || "/negan.png"}
-                  height={125}
-                  width={125}
-                  alt="image"
-                  className="rounded-md"
+                  src={imagePreviewUrl}
+                  alt="post-image"
+                  width={335}
+                  height={117}
+                  className="w-full rounded-md object-cover"
                 />
               </div>
-            ) : (
-              <div className="py-[1.25rem]" />
             )}
           </div>
-          <div className="relative flex flex-col pb-[2.5rem]">
+          {contentType === POST_TYPE.PODCAST && (
+            <>
+              <div className="flex translate-y-[-0.625rem] items-center justify-center pb-3 pt-1">
+                {podcastPreviewUrl ? (
+                  <LiveChatAudioPlayer audioUrl={podcastPreviewUrl} />
+                ) : (
+                  <>
+                    <h3 className=" text-light-2" />
+                  </>
+                )}
+              </div>
+            </>
+          )}
+          <div className="relative flex flex-col">
             <div className="min-h-[22rem]">
               <FormField
                 name="content"
@@ -259,21 +403,114 @@ const CreatePost = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <LexicalEditor
-                        name="content"
-                        updateField={setValue}
-                        onSubmitPreview={onSubmitPreview}
-                        defaultContent={defaultContent || "Working on it"}
-                      />
+                      <LexicalComposer initialConfig={initialConfig}>
+                        <LexicalEditor
+                          name="content"
+                          updateField={setValue}
+                          onSubmitPreview={onSubmitPreview}
+                          defaultContent={defaultContent}
+                        />
+                      </LexicalComposer>
                     </FormControl>
-                    <FormMessage className="capitalize text-red-500" />
+                    <FormMessage className="capitalize text-red-80" />
                   </FormItem>
                 )}
               />
             </div>
           </div>
-          <CreatePostTags control={form.control} form={form} />
-          <CreatePostButtons postId={postIdParams} />
+          {contentType === POST_TYPE.PODCAST ? (
+            <>
+              <FormLabel className="text-sc-2 dark:text-light-2">
+                Category
+              </FormLabel>
+              <Controller
+                name="show"
+                control={form.control}
+                render={({ field }) => (
+                  <CreatableSelect
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? "white" : "",
+                        backgroundColor: "bg-light-3 dark:bg-dark-4",
+                        marginTop: "0.4rem",
+                        padding: "0.2rem",
+                      }),
+                    }}
+                    {...field}
+                    isClearable
+                    value={field.name === "show" ? field.value : null}
+                    options={shows.map((option) => ({
+                      ...option,
+                      value: option.value.toString(),
+                    }))}
+                    onChange={(value) => field.onChange(value)}
+                    placeholder="Select or create a show"
+                  />
+                )}
+              />
+            </>
+          ) : null}
+
+          {contentType === POST_TYPE.INTERVIEW && (
+            <>
+              <div className="flex flex-row justify-between gap-4 pt-5 text-sc-2 dark:text-light-2">
+                {interviewInputFields.slice(0, 2).map((field) => (
+                  <GenericInput
+                    key={field.name}
+                    control={form.control}
+                    placeholder={field.placeholder}
+                    name={field.name}
+                    label={field.label}
+                    type={field.type}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-row justify-between gap-4 pt-5 text-sc-2 dark:text-light-2">
+                {interviewInputFields.slice(2).map((field) => (
+                  <GenericInput
+                    key={field.name}
+                    control={form.control}
+                    placeholder={field.placeholder}
+                    name={field.name}
+                    label={field.label}
+                    type={field.type}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {contentType === POST_TYPE.MEETUP && (
+            <>
+              <div className="flex flex-row justify-between gap-4 pt-5 text-sc-2 dark:text-light-2">
+                {meetupInputFields.map((field) => (
+                  <GenericInput
+                    key={field.name}
+                    control={form.control}
+                    placeholder={field.placeholder}
+                    name={field.name}
+                    label={field.label}
+                    type={field.type}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {contentType !== POST_TYPE.PODCAST && (
+            <div className="flex w-full py-[1.25rem]">
+              <CreatePostTags
+                control={form.control}
+                form={form}
+                contentType={contentType}
+              />
+            </div>
+          )}
+          <div className="flex justify-between pt-4">
+            <CreatePostButtons mediaId={mediaId} />
+            <p className="flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[0.563rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0 sm:text-[0.875rem] md:leading-[1.375rem]">
+              Code of Conduct
+            </p>
+          </div>
         </form>
       </Form>
     </div>

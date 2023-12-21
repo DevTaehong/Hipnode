@@ -15,7 +15,7 @@ const MessageList = () => {
   const [users, setUsers] = useState<ChatProps[]>([]);
 
   const { channel } = useChannel("hipnode-livechat", () => {});
-  const { presenceData } = usePresence("hipnode-livechat", {
+  usePresence("hipnode-livechat", {
     id,
     username,
     image,
@@ -25,22 +25,13 @@ const MessageList = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        const onlineUserIds = new Set(
-          presenceData.map((presence) => presence.data?.id).filter(Boolean)
-        );
-        const combinedUsers = allUsers?.map((user) => ({
-          ...user,
-          online: onlineUserIds.has(user.id),
-        }));
-
-        setUsers(combinedUsers);
+        setUsers(allUsers);
       } catch (error) {
         console.error("Error fetching users: ", error);
       }
     };
-
     fetchUsers();
-  }, [presenceData]);
+  }, []);
 
   useEffect(() => {
     channel.presence.enter({
@@ -48,11 +39,7 @@ const MessageList = () => {
       username,
       image,
     });
-
-    return () => {
-      channel.presence.leave();
-    };
-  }, [channel.presence, id, username, image]);
+  }, []);
 
   return (
     <Popover>

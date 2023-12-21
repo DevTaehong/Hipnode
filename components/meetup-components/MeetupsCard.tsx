@@ -2,9 +2,17 @@ import Image from "next/image";
 
 import { getFormattedDateMeetUpCard } from "@/utils";
 import { MeetUpExtended, MeetupTag } from "@/types/meetups.index";
+import SanatizedHtml from "../posts/post-by-id/main-content/SanatizedHtml";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
-  const { image, title, location, summary, tags } = meetUp;
+  const { image, title, location, summary, tags, userCanEditMedia, id } =
+    meetUp;
   const { day, monthText } = getFormattedDateMeetUpCard(meetUp.createdAt);
 
   return (
@@ -33,17 +41,25 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
           <p className="semibold-16 md:bold-26 text-blue">{day}</p>
         </div>
       </div>
-      <p className="text-sc-1_light-2 flex">{summary}</p>
-      <ul className="flex gap-2.5">
-        {tags.map((tag: MeetupTag) => (
-          <li
-            key={tag.id}
-            className="bg-light-3_dark-4 semibold-10 md:semibold-12 rounded-full px-2 py-[0.125rem] text-sc-4"
-          >
-            {tag.name}
-          </li>
-        ))}
-      </ul>
+
+      <p className="text-sc-1_light-2 flex">
+        <SanatizedHtml content={summary}></SanatizedHtml>
+      </p>
+      <div className="flex items-center justify-between">
+        <ul className="flex gap-2.5">
+          {tags.map((tag: MeetupTag) => (
+            <li
+              key={tag.id}
+              className="bg-light-3_dark-4 semibold-10 md:semibold-12 rounded-full px-2 py-[0.125rem] text-sc-4"
+            >
+              {tag.name}
+            </li>
+          ))}
+        </ul>
+        {userCanEditMedia && (
+          <MediaEditActionPopover label="Meetup" mediaId={id} />
+        )}
+      </div>
     </article>
   );
 };

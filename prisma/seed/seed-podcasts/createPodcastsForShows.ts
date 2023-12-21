@@ -18,6 +18,8 @@ export async function createPodcastsForShows(show: Shows) {
           showId: show.id,
           createdAt: faker.date.past(),
           updatedAt: faker.date.recent(),
+          clerkId: String(show.userId),
+          contentType: "Podcast",
         },
       });
       return podcast;

@@ -1,18 +1,49 @@
+import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useInView } from "react-intersection-observer";
+import { v4 as uuidv4 } from "uuid";
 
 import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
-import { ChatMessage } from "@/types/chatroom.index";
-import { isOnlyEmoji, extractUrls, formatTextWithLineBreaks } from ".";
+import {
+  isOnlyEmoji,
+  extractUrls,
+  formatTextWithLineBreaks,
+  handleEditClick,
+  handleDeleteClick,
+} from ".";
+import EditDeleteButton from "../chat-page/EditDeleteButton";
+import { LiveChatMessageProps } from "@/types/chatroom.index";
+import LinkPreview from "../chat-page/LinkPreview";
 
-const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
+const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
   const { chatroomUsers } = useChatStore();
+  const [hover, setHover] = useState(false);
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+  });
 
   const {
-    user: { id, image, username },
-    text,
-  } = message.data;
+    data: {
+      user: { id, image, username },
+      text,
+      messageUUID,
+      attachment,
+    },
+  } = message;
+  const [textareaValue, setTextareaValue] = useState<string | null>(text);
+  const [displayText, setDisplayText] = useState<string | null>(text);
+
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setTextareaValue(event.target.value);
+  };
+
+  const segments = text ? extractUrls(text) : [];
+  const links = segments.length
+    ? segments.filter((segment) => segment.isUrl)
+    : [];
 
   const isStringSingleEmoji = text ? isOnlyEmoji(text) : false;
 
@@ -27,18 +58,33 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
       return `bg-none p-1 ${isMessageFromCurrentUser ? "self-end" : ""}`;
     }
     return isMessageFromCurrentUser
-      ? "bg-red-80 text-white rounded-l-lg rounded-tr-sm p-3.5"
-      : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm p-3.5";
+      ? "bg-red-80 text-white self-end rounded-l-lg rounded-tr-sm p-2.5"
+      : "bg-red-10 text-red-80 rounded-r-lg rounded-tl-sm p-2.5";
   };
 
   const messageAlign = isMessageFromCurrentUser
     ? "self-end flex-row-reverse"
     : "self-start flex-row";
 
+  const handleDelete = () => {
+    handleDeleteClick({ messageUUID, setMessages });
+  };
+
+  const handleEdit = () => {
+    if (textareaValue === displayText || !textareaValue) {
+      return;
+    }
+    setDisplayText(textareaValue);
+    handleEditClick({ messageUUID, text: textareaValue });
+  };
+
   return (
     <li
+      ref={ref}
       className={`${messageAlign} flex max-w-full gap-2.5 break-words`}
       key={id}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       <figure className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
         <Image
@@ -49,19 +95,39 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
           className="rounded-full"
         />
       </figure>
-      <figure className="flex w-fit max-w-[250px] flex-col gap-3">
+      <figure className="relative flex w-fit max-w-[250px] flex-col">
+        {hover && isMessageFromCurrentUser && (
+          <div className="absolute z-10 flex translate-x-2 translate-y-[-3px] self-end">
+            <EditDeleteButton
+              isStringSingleEmoji={isStringSingleEmoji}
+              displayText={displayText}
+              setTextareaValue={setTextareaValue}
+              textareaValue={textareaValue}
+              handleDelete={handleDelete}
+              handleTextareaChange={handleTextareaChange}
+              handleEdit={handleEdit}
+              smallChatBox
+            />
+          </div>
+        )}
         <MessageAttachment
           message={message}
           isMessageFromCurrentUser={isMessageFromCurrentUser}
         />
-        {text && (
+        {displayText && (
           <figcaption
-            className={`${calculateDivStyles()} semibold-16 flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg`}
+            className={`${calculateDivStyles()} semibold-16 flex w-fit max-w-full flex-col overflow-hidden rounded-b-lg ${
+              attachment && "mt-3"
+            }`}
           >
-            {extractUrls(text).map((segment, index) =>
+            {inView &&
+              links.map((link) => (
+                <LinkPreview key={link.text} url={link.text} smallChatBox />
+              ))}
+            {extractUrls(displayText).map((segment, index) =>
               segment.isUrl ? (
                 <Link
-                  key={index}
+                  key={uuidv4()}
                   href={segment.text}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -71,7 +137,7 @@ const LiveChatMessage = ({ message }: { message: ChatMessage }) => {
                 </Link>
               ) : (
                 <span
-                  key={index}
+                  key={uuidv4()}
                   className={`${textFontSize} max-w-full break-words`}
                   dangerouslySetInnerHTML={formatTextWithLineBreaks(
                     segment.text

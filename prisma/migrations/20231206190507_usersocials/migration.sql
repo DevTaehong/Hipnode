@@ -17,6 +17,7 @@ ALTER TABLE "_UserFollows" DROP CONSTRAINT "_UserFollows_A_fkey";
 -- DropForeignKey
 ALTER TABLE "_UserFollows" DROP CONSTRAINT "_UserFollows_B_fkey";
 
+-- AlterTable
 -- -- AlterTable
 -- ALTER TABLE "Message" DROP COLUMN "attachment",
 -- DROP COLUMN "attachmentType",

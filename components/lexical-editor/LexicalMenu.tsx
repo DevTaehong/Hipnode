@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import DOMPurify from "isomorphic-dompurify";
 
 import {
   $getSelection,
@@ -25,7 +24,6 @@ import {
 
 import { LexicalMenuState, LexicalMenuProps } from "@/types/lexical-editor";
 import { LowPriority } from "@/constants/lexical-editor";
-import { useCreatePostStore } from "@/app/lexicalStore";
 import LexicalWritePreviewToggle from "./LexicalWritePreviewToggle";
 
 const LexicalMenu = ({
@@ -37,12 +35,11 @@ const LexicalMenu = ({
   onSubmitPreview,
 }: LexicalMenuProps) => {
   const [canUndo, setCanUndo] = useState(false);
-  const [htmlString, setHtmlString] = useState("");
   const [canRedo, setCanRedo] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const { clearEditor, setClearEditor } = useCreatePostStore((state) => state);
+  const [clearEditor, setClearEditor] = useState(false);
 
-  const insertTextAtSelection = (editor, text) => {
+  const insertTextAtSelection = (editor: any, text: string) => {
     editor.update(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
@@ -56,11 +53,6 @@ const LexicalMenu = ({
       insertTextAtSelection(editor, emoji.native);
     }
   };
-
-  useEffect(() => {
-    const sanitizedHtml = DOMPurify.sanitize(editorHtmlString);
-    setHtmlString(sanitizedHtml);
-  }, [editorHtmlString]);
 
   const [state, setState] = useState<LexicalMenuState>({
     isBold: false,
@@ -123,6 +115,7 @@ const LexicalMenu = ({
           setAutoFocus(true);
         } else {
           setAutoFocus(false);
+          setShowEmojiPicker(false);
         }
       }
     }
@@ -142,7 +135,7 @@ const LexicalMenu = ({
   return (
     <div
       ref={editorRef}
-      className="flex w-full flex-wrap justify-between gap-2  rounded-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4"
+      className="flex h-fit w-full flex-wrap justify-between gap-2 rounded-md bg-light-2 px-[1.25rem] py-[1.125rem] dark:bg-dark-4"
     >
       <LexicalWritePreviewToggle
         autoFocus={autoFocus}
@@ -150,15 +143,20 @@ const LexicalMenu = ({
         htmlString={editorHtmlString}
         onSubmitPreview={onSubmitPreview}
       />
-      <button type="button" onClick={() => setShowEmojiPicker((prev) => !prev)}>
-        😊
-      </button>
-      {showEmojiPicker && (
-        <div className="absolute right-[-0rem] top-[2.8rem]">
-          <Picker data={data} onEmojiSelect={handleEmojiSelect} perLine={6} />
-        </div>
-      )}
+
       <div className="flex-wrap">
+        {showEmojiPicker && (
+          <div className="absolute right-[-0rem] top-[2.8rem]">
+            <Picker data={data} onEmojiSelect={handleEmojiSelect} perLine={6} />
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={() => setShowEmojiPicker((prev) => !prev)}
+          className="translate-y-[-4px] pr-1 text-[1.1rem]"
+        >
+          🙂
+        </button>
         <LexicalIconButtons
           icon="unorderedList"
           aria-label="Insert Unordered List"
@@ -166,7 +164,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
           }}
         />
-
         <LexicalIconButtons
           icon="orderedList"
           aria-label="Insert Unordered List"
@@ -182,7 +179,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
           }}
         />
-
         <LexicalIconButtons
           icon="italic"
           aria-label="Format text as italics"
@@ -191,7 +187,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
           }}
         />
-
         <LexicalIconButtons
           icon="underline"
           aria-label="Format text to underlined"
@@ -200,7 +195,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
           }}
         />
-
         <LexicalIconButtons
           icon="strike"
           aria-label="Format text with a strikethrough"
@@ -209,7 +203,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
           }}
         />
-
         <LexicalIconButtons
           icon="code"
           aria-label="Format text with inline code"
@@ -225,7 +218,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
           }}
         />
-
         <LexicalIconButtons
           icon="alignCenter"
           aria-label="Center Align"
@@ -233,7 +225,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
           }}
         />
-
         <LexicalIconButtons
           icon="alignRight"
           aria-label="Right Align"
@@ -241,7 +232,6 @@ const LexicalMenu = ({
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
           }}
         />
-
         <LexicalIconButtons
           icon="alignJustify"
           aria-label="Justify Align"
@@ -252,7 +242,7 @@ const LexicalMenu = ({
         <LexicalIconButtons
           icon="clockwiseArrow"
           aria-label="Redo"
-          disabled={!canUndo}
+          disabled={!canRedo}
           onClick={() => {
             editor.dispatchCommand(REDO_COMMAND, undefined);
           }}

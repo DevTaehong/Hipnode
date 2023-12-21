@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { usePresence } from "ably/react";
 
 import useChatStore from "@/app/chatStore";
 import { ChatMessage, LiveChatMessageListProps } from "@/types/chatroom.index";
@@ -9,29 +8,28 @@ import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
+import { useGetOnlineUsers } from "../chat-page/presenceData";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const LiveChatMessageList = React.memo(
-  ({ messages, setDroppedFile }: LiveChatMessageListProps) => {
+  ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
     const { setLiveRecordingDuration } = useMediaPlayerStore();
     const router = useRouter();
     const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
       useChatStore();
 
-    const endOfMessagesRef = useRef<HTMLDivElement>(null);
+    const onlineUsers = useGetOnlineUsers();
 
-    const { presenceData } = usePresence("hipnode-livechat");
+    const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
     const [secondUser] = chatroomUsers.slice(1, 2);
     const {
       username: secondUserUsername = "",
       image: secondUserPicture = christopher,
-      id: secondUserId = null,
+      id: secondUserId,
     } = secondUser ?? {};
 
-    const isSecondUserOnline = presenceData.some(
-      (presence) => presence.data && presence.data.id === secondUserId
-    );
+    const isSecondUserOnline = onlineUsers.includes(secondUserId);
 
     useEffect(() => {
       if (endOfMessagesRef.current) {
@@ -96,7 +94,11 @@ const LiveChatMessageList = React.memo(
             </div>
           ) : (
             messages.map((message: ChatMessage) => (
-              <LiveChatMessage key={message.data.messageId} message={message} />
+              <LiveChatMessage
+                key={message.data.messageId}
+                message={message}
+                setMessages={setMessages}
+              />
             ))
           )}
           <div ref={endOfMessagesRef} className="mt-1" />

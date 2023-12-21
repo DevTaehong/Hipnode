@@ -10,7 +10,7 @@ import {
   EditGroupParams,
   GetGroupByIdParams,
   GetGroupsQueryOptions,
-} from "./shared.types";
+} from "../../types/shared.types";
 
 export async function leaveGroup(userId: number, groupId: number) {
   try {
@@ -260,6 +260,27 @@ export async function getFastestGrowingGroups() {
     return fastestGrowingGroups;
   } catch (error) {
     console.error("Error finding fastest-growing groups:", error);
+    throw error;
+  }
+}
+
+interface GroupOption {
+  label: string;
+  value: number;
+}
+
+export async function fetchAllGroupsOptions(): Promise<GroupOption[]> {
+  try {
+    const groups = await prisma.group.findMany();
+
+    const groupOptions: GroupOption[] = groups.map((group) => ({
+      label: group.name,
+      value: group.id,
+    }));
+
+    return groupOptions;
+  } catch (error) {
+    console.error("Error fetching all groups:", error);
     throw error;
   }
 }
