@@ -6,6 +6,7 @@ export interface Creator {
   name: string;
   picture: string;
 }
+
 export interface InterviewProps extends Interview {
   creator: Creator;
   userCanEditMedia?: boolean;
