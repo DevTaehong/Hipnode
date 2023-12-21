@@ -1,5 +1,10 @@
 import { PodcastEpisodeInfoType } from "@/types/podcast.index";
-import MediaEditActionPopover from "@/components/action-popover/MediaEditActionPopover";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const PodcastEpisodeInfo = ({
   showName,
