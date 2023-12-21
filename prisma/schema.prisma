@@ -80,9 +80,9 @@ model Post {
   viewCount    Int         @default(0)
   image        String     
   blurImage    String     
-  imageWidth   Int?      
-  imageHeight  Int?       
-  groupId      Int?
+  imageWidth   Int     
+  imageHeight  Int       
+  groupId      Int
   heading      String
   clerkId      String?
   comments     Comment[]

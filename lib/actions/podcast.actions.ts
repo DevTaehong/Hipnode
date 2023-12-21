@@ -4,10 +4,19 @@ import { type Podcast } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
-import { CreatePodcastType, PodcastUserInfo } from "@/types/podcast.index";
-import { QueryOptions } from "@prisma/client/runtime/library";
+import {
+  CreatePodcastType,
+  IPodcast,
+  PodcastUserInfo,
+} from "@/types/podcast.index";
 
-export async function getPodcastById(podcastId: number) {
+type PodcastByIdType = Partial<IPodcast>;
+
+export async function getPodcastById({
+  podcastId,
+}: {
+  podcastId: number;
+}): Promise<PodcastByIdType> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to get a podcast."
@@ -31,12 +40,48 @@ export async function getPodcastById(podcastId: number) {
       },
     });
 
-    if (!podcast) return;
-    const extendedPodcast = {
+    return {
       ...podcast,
-      userCanEditMedia: podcast.userId === userId,
+      userCanEditMedia: podcast?.userId === userId,
     };
-    return extendedPodcast;
+  } catch (error) {
+    console.error("Error fetching podcast by ID:", error);
+    throw error;
+  }
+}
+
+export async function getPodcastByIdPage({
+  podcastId,
+}: {
+  podcastId: number;
+}): Promise<IPodcast | undefined> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get a podcast."
+    );
+
+    const podcast = await prisma.podcast.findUnique({
+      where: {
+        id: podcastId,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        show: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    if (!podcast) return;
+    return {
+      ...podcast,
+      userCanEditMedia: podcast?.userId === userId,
+    };
   } catch (error) {
     console.error("Error fetching podcast by ID:", error);
     throw error;
@@ -59,7 +104,7 @@ export async function getPodcastsWithUserInfo(
   startNumber = 0
 ): Promise<PodcastUserInfo[]> {
   try {
-    const queryOptions: QueryOptions = {
+    const podcasts = await prisma.podcast.findMany({
       skip: startNumber,
       take: amount,
       include: {
@@ -71,9 +116,7 @@ export async function getPodcastsWithUserInfo(
           },
         },
       },
-    };
-
-    const podcasts = await prisma.podcast.findMany(queryOptions);
+    });
 
     return podcasts as PodcastUserInfo[];
   } catch (error) {

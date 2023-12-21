@@ -17,7 +17,12 @@ import DevelopmentInformation from "@/components/posts/post-by-id/right-column/D
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
-import MediaEditActionPopover from "@/components/action-popover/MediaEditActionPopover";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;

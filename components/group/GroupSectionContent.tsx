@@ -4,7 +4,11 @@ import SectionGroup from "../SectionGroup";
 import TopPointDecoration from "../TopPointDecoration";
 import OutlineIcon from "../icons/outline-icons";
 
-const GroupSectionContent = ({ sectionHeadings }) => {
+type GroupSectionContentProps = {
+  sectionHeadings: HeadingsType[];
+};
+
+const GroupSectionContent = ({ sectionHeadings }: GroupSectionContentProps) => {
   const [expandedGroupIndex, setExpandedGroupIndex] = useState<null | number>(
     null
   );

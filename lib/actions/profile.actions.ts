@@ -3,8 +3,15 @@
 import prisma from "@/lib/prisma";
 import { verifyAuth } from "@/lib/auth";
 import { currentUser } from "@clerk/nextjs/server";
+import { type Podcast, type Interview } from "@prisma/client";
+import {
+  PostPerformance,
+  ProfileMeetup,
+  ProfilePost,
+  UserProfile,
+} from "@/types/profile.index";
 
-export async function getProfileData() {
+export async function getProfileData(): Promise<UserProfile | null> {
   try {
     const { clerkId } = await verifyAuth(
       "You must be logged in to view your profile."
@@ -34,7 +41,6 @@ export async function getProfileData() {
         },
       },
     });
-
     return data;
   } catch (error) {
     console.error("Error fetching user by clerkId:", error);
@@ -42,7 +48,7 @@ export async function getProfileData() {
   }
 }
 
-export async function getProfilePosts(): Promise<any> {
+export async function getProfilePosts(): Promise<ProfilePost[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -86,7 +92,7 @@ export async function getProfilePosts(): Promise<any> {
   }
 }
 
-export async function getProfileMeetups(): Promise<any> {
+export async function getProfileMeetups(): Promise<ProfileMeetup[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -117,6 +123,7 @@ export async function getProfileMeetups(): Promise<any> {
       tags: meetup.tags.map((obj) => {
         return { id: obj.tag.id, name: obj.tag.name };
       }),
+      userCanEditMedia: true,
     }));
 
     return extendedData;
@@ -126,7 +133,7 @@ export async function getProfileMeetups(): Promise<any> {
   }
 }
 
-export async function getProfilePodcasts(): Promise<any> {
+export async function getProfilePodcasts(): Promise<Podcast[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -152,7 +159,14 @@ export async function getProfilePodcasts(): Promise<any> {
   }
 }
 
-export async function getProfileInterviews(): Promise<any> {
+export type ProfileInterview = Interview & {
+  creator: {
+    name: string;
+    picture: string;
+  };
+};
+
+export async function getProfileInterviews(): Promise<ProfileInterview[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -164,13 +178,21 @@ export async function getProfileInterviews(): Promise<any> {
       where: {
         creatorId: userId,
       },
+      include: {
+        creator: {
+          select: {
+            name: true,
+            picture: true,
+          },
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },
       take: 10,
       skip: 0,
     });
-
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching user meetups:", error);
@@ -182,7 +204,7 @@ export async function getProfileHistory(): Promise<any> {
   return [];
 }
 
-export async function getPerformanceData(): Promise<any> {
+export async function getPerformanceData(): Promise<PostPerformance[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 

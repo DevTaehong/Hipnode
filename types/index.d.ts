@@ -130,6 +130,7 @@ export interface ActiveButtonsProps {
 export interface ActionButtonProps {
   label: string;
   href: string;
+  currentPath: string;
 }
 
 export type ColorVariantsOnboardingType = {

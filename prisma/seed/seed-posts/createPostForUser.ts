@@ -23,8 +23,8 @@ export async function createPostForUser(user: User, groupId: number) {
         clerkId: user.clerkId,
         contentType: "Post",
         blurImage: blurPostImage.blurDataURL,
-        imageWidth: blurPostImage.width,
-        imageHeight: blurPostImage.height,
+        imageWidth: blurPostImage.width || 700,
+        imageHeight: blurPostImage.height || 700,
       },
     });
     return post;

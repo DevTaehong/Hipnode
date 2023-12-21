@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent, useEffect } from "react";
+import { useState, KeyboardEvent } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";

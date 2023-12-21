@@ -40,7 +40,9 @@ export const fetchPodcast = async ({
     const podcastId = getFromLocalStorage("selectedPodcastId");
     const isSongPlaying = getFromLocalStorage("podcastPlayerState");
     if (podcastId) {
-      const podcastUpdated = await getPodcastById(Number(podcastId));
+      const podcastUpdated = await getPodcastById({
+        podcastId: Number(podcastId),
+      });
       if (podcastUpdated) {
         dispatch({ type: "INITIALISE_PODCAST", payload: podcastUpdated });
         if (isSongPlaying.isPlaying) {

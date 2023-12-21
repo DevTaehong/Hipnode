@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { InterviewProps } from "@/constants/interview";
 import { PodcastUserInfo } from "@/types/podcast.index";
-import OutlineIcon from "../icons/outline-icons";
 import { MeetUpExtended } from "@/types/meetups.index";
+import { InterviewProps } from "@/types/interview.index";
+import OutlineIcon from "@/components/icons/outline-icons";
 
 interface SeeMoreButtonProps {
   array: InterviewProps[] | PodcastUserInfo[] | MeetUpExtended[] | undefined;

@@ -7,15 +7,6 @@ import useChatStore from "@/app/chatStore";
 import MessageList from "./MessageList";
 import { client } from "@/lib/ably";
 
-// interface UserInfo {
-//   userInfo: {
-//     id: number;
-//     username: string;
-//     image: string;
-//     name: string;
-//   };
-// }
-
 const MessageListWrapper = ({ userInfo, onlineUserIds }: any) => {
   const { setUserInfo, setOnlineUsers } = useChatStore();
 
