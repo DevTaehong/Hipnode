@@ -62,7 +62,6 @@ import { initialConfig } from "@/constants/lexical-editor";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { fetchAndSetFormData } from "./utils";
 import FormLoader from "./FormLoader";
-import Location from "./Location";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
@@ -507,7 +506,6 @@ const CreatePost = ({
             </div>
           )}
           <div className="flex justify-between pt-4">
-            <Location />
             <CreatePostButtons mediaId={mediaId} />
             <p className="flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[0.563rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0 sm:text-[0.875rem] md:leading-[1.375rem]">
               Code of Conduct
