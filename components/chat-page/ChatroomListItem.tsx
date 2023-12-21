@@ -5,16 +5,15 @@ import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
 import { ChatroomListItemProps, UserTyping } from "@/types/chatroom.index";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import { useGetOnlineUsers } from "./presenceData";
 import { useMemo, useState } from "react";
 
 const ChatroomListItem = ({
   chatroom,
   setShowChatRoomList,
 }: ChatroomListItemProps) => {
-  const { setChatroomId, setChatroomUsers, chatroomId } = useChatStore();
+  const { setChatroomId, setChatroomUsers, chatroomId, onlineUsers } =
+    useChatStore();
   const { userInfo } = useChatPageContext();
-  const onlineUsers = useGetOnlineUsers();
 
   const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
 

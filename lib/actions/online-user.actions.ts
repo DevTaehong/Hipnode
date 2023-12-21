@@ -28,13 +28,22 @@ export async function addUserToOnlineUsers(userId: number) {
 
 export async function removeUserFromOnlineUsers(userId: number) {
   try {
-    await prisma.onlineUser.delete({
+    const existingOnlineUser = await prisma.onlineUser.findUnique({
       where: {
         userId,
       },
     });
 
-    return "User removed from online users";
+    if (existingOnlineUser) {
+      await prisma.onlineUser.delete({
+        where: {
+          userId,
+        },
+      });
+      return "User removed from online users";
+    } else {
+      return "User not found in online users";
+    }
   } catch (error) {
     console.error("Error removing user from online users:", error);
     throw error;

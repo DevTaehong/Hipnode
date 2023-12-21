@@ -130,7 +130,7 @@ const LiveChatForm = ({
     <form
       onSubmit={handleFormSubmission}
       className="relative flex w-full gap-5 border-t border-sc-6 p-5
-        dark:border-sc-2"
+      dark:border-dark-4"
     >
       {isChatroomUserTyping && (
         <p className=" semibold-14 absolute flex translate-y-[-1.3rem] px-2 text-sc-3">

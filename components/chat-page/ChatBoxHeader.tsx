@@ -4,13 +4,11 @@ import { IoIosArrowBack } from "react-icons/io";
 
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import useChatStore from "@/app/chatStore";
-import { useGetOnlineUsers } from "./presenceData";
 
 const ChatBoxHeader = () => {
   const { otherUser, showChatRoomList, setShowChatRoomList } =
     useChatPageContext();
-  const { chatroomUsers } = useChatStore();
-  const onlineUsers = useGetOnlineUsers();
+  const { chatroomUsers, onlineUsers } = useChatStore();
 
   const otherUserInfo = chatroomUsers[1] ?? otherUser;
 

@@ -9,6 +9,7 @@ import SearchBar from "@/components/navbar/SearchBar";
 import UserButton from "@/components/navbar/UserButton";
 import OutlineIcons from "@/components/icons/outline-icons";
 
+import { getAllOnlineUserIds } from "@/lib/actions/online-user.actions";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 import NotificationButton from "./NotificationButton";
 import { verifyAuth } from "@/lib/auth";
@@ -17,6 +18,8 @@ const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
     "You must be logged in to create post."
   );
+
+  const onlineUserIds = await getAllOnlineUserIds();
 
   const userInfo = {
     id: userId,
@@ -47,7 +50,10 @@ const Navbar = async () => {
           <SignedIn>
             {userInfo && (
               <>
-                <MessageListWrapper userInfo={userInfo} />
+                <MessageListWrapper
+                  userInfo={userInfo}
+                  onlineUserIds={onlineUserIds}
+                />
 
                 <NotificationButton />
 
