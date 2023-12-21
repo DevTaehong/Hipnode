@@ -85,7 +85,7 @@ const NotificationPopoverContent = ({
                     pluralize(
                       selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)
                     )
-                  : "N/A"}
+                  : ""}
               </p>
             )}
             <Link
