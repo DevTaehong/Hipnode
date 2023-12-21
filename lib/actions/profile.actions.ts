@@ -3,8 +3,28 @@
 import prisma from "@/lib/prisma";
 import { verifyAuth } from "@/lib/auth";
 import { currentUser } from "@clerk/nextjs/server";
+import {
+  type User,
+  type Post,
+  type MeetUp,
+  type Podcast,
+  type Interview,
+} from "@prisma/client";
 
-export async function getProfileData() {
+type UserProfile = User & {
+  following: {
+    followed: {
+      username: string;
+      picture: string;
+    };
+  }[];
+  _count: {
+    followers: number;
+    following: number;
+  };
+};
+
+export async function getProfileData(): Promise<UserProfile | null> {
   try {
     const { clerkId } = await verifyAuth(
       "You must be logged in to view your profile."
@@ -34,7 +54,6 @@ export async function getProfileData() {
         },
       },
     });
-
     return data;
   } catch (error) {
     console.error("Error fetching user by clerkId:", error);
@@ -42,7 +61,15 @@ export async function getProfileData() {
   }
 }
 
-export async function getProfilePosts(): Promise<any> {
+type ProfilePost = Post & {
+  tags: string[];
+  _count: {
+    likes: number;
+    comments: number;
+  };
+};
+
+export async function getProfilePosts(): Promise<ProfilePost[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -86,7 +113,14 @@ export async function getProfilePosts(): Promise<any> {
   }
 }
 
-export async function getProfileMeetups(): Promise<any> {
+type ProfileMeetup = MeetUp & {
+  tags: {
+    id: number;
+    name: string;
+  }[];
+};
+
+export async function getProfileMeetups(): Promise<ProfileMeetup[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -126,7 +160,7 @@ export async function getProfileMeetups(): Promise<any> {
   }
 }
 
-export async function getProfilePodcasts(): Promise<any> {
+export async function getProfilePodcasts(): Promise<Podcast[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -152,7 +186,7 @@ export async function getProfilePodcasts(): Promise<any> {
   }
 }
 
-export async function getProfileInterviews(): Promise<any> {
+export async function getProfileInterviews(): Promise<Interview[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
@@ -182,7 +216,17 @@ export async function getProfileHistory(): Promise<any> {
   return [];
 }
 
-export async function getPerformanceData(): Promise<any> {
+type PostPerformance = {
+  id: number;
+  image: string;
+  viewCount: number;
+  _count: {
+    likes: number;
+    comments: number;
+  };
+};
+
+export async function getPerformanceData(): Promise<PostPerformance[]> {
   try {
     verifyAuth("You must be logged in to view your profile.");
 
