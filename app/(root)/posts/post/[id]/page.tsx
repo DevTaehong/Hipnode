@@ -3,8 +3,8 @@ import Image from "next/image";
 import { LeftActionBar } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
 import {
-  getPostsByUserClerkId,
   getPostContentById,
+  getPostsByAuthorId,
 } from "@/lib/actions/post.action";
 import {
   formatDatePostFormat,
@@ -17,15 +17,19 @@ import DevelopmentInformation from "@/components/posts/post-by-id/right-column/D
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
-import Spinner from "@/components/Spinner";
-import MediaEditActionPopover from "@/components/action-popover/MediaEditActionPopover";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
 
   const {
-    author: { username, picture },
+    author: { username, picture, id: authorId },
     createdAt,
     userCanEditMedia,
   } = postData;
@@ -33,13 +37,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content } = postData;
   const actionBarData = getActionBarData(postData);
-  if (!postData.clerkId)
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  const devInfo = await getPostsByUserClerkId(postData.clerkId);
+  const devInfo = await getPostsByAuthorId(authorId);
   const calculatedDate = howManyMonthsAgo(createdAt);
 
   return (

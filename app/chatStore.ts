@@ -30,6 +30,8 @@ interface ChatStoreState {
   setChatroomId: (id: number | null) => void;
   userInfo: UserInfo;
   setUserInfo: (userInfo: UserInfo) => void;
+  onlineUsers: number[] | null;
+  setOnlineUsers: (users: number[] | null) => void;
 }
 
 const useChatStore = create<ChatStoreState>((set) => ({
@@ -82,6 +84,8 @@ const useChatStore = create<ChatStoreState>((set) => ({
   setChatroomId: (id: number | null) => set({ chatroomId: id }),
   userInfo: { id: 0, username: "", image: "" },
   setUserInfo: (userInfo: UserInfo) => set({ userInfo }),
+  onlineUsers: null,
+  setOnlineUsers: (users: number[] | null) => set({ onlineUsers: users }),
 }));
 
 export default useChatStore;

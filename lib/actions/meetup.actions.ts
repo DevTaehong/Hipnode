@@ -13,27 +13,6 @@ import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
 import { revalidatePath } from "next/cache";
 
-export async function getMeetUp({
-  id,
-}: {
-  id: number;
-}): Promise<MeetUp | null> {
-  try {
-    const meetUp = await prisma.meetUp.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!meetUp) {
-      throw new Error(`No meetUp found for ID: ${id}`);
-    }
-    return meetUp;
-  } catch (error) {
-    console.error("Error getting meetUp:", error);
-    throw error;
-  }
-}
-
 export async function getAllMeetUps(): Promise<MeetUp[]> {
   try {
     const meetUps = await prisma.meetUp.findMany({
@@ -84,18 +63,16 @@ export async function createMeetUpWithTags(
   tagNames: string[]
 ): Promise<MeetUp> {
   try {
-    const user = verifyAuth("You must be logged in to create a meetup.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    if (!dbUserID) throw new Error("User not found");
-    const clerkId: string = user.userId;
+    const { clerkId, userId } = await verifyAuth(
+      "You must be logged in to create a meetup."
+    );
 
     const allTagIdsToConnect = await handleMeetupTags(tagNames);
 
     const meetUp = await prisma.meetUp.create({
       data: {
         ...meetupData,
-        responsiblePersonId: dbUserID,
+        responsiblePersonId: userId,
         clerkId,
       },
       include: {
@@ -163,11 +140,9 @@ export async function getFilteredMeetups({
 }): Promise<FilteredMeetupsResult> {
   const itemsPerPage = 20;
   try {
-    const user = verifyAuth(
-      "We need the logged in user ID for edit and delete CRUD's."
+    const { userId } = await verifyAuth(
+      "You must be logged in to get meetups."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
 
     const skip = (page - 1) * itemsPerPage;
     const meetups = await prisma.meetUp.findMany({
@@ -192,7 +167,7 @@ export async function getFilteredMeetups({
 
     const transformedMeetups = meetups.map((meetup) => ({
       ...meetup,
-      userCanEditMedia: meetup.responsiblePersonId === dbUserID,
+      userCanEditMedia: meetup.responsiblePersonId === userId,
       tags: meetup.tags.map((t) => t.tag),
     }));
 
@@ -244,14 +219,14 @@ export async function getMeetupToEdit(
   id: number
 ): Promise<MeetupToEditType | null> {
   try {
-    const user = verifyAuth("You must be logged in to edit a post.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit a meetup."
+    );
 
     const meetup = await prisma.meetUp.findUnique({
       where: {
         id,
-        responsiblePersonId: dbUserID,
+        responsiblePersonId: userId,
       },
       include: {
         tags: {
@@ -288,17 +263,15 @@ export async function updateMeetup(
   tagNames: string[]
 ): Promise<MeetUp> {
   try {
-    const user = verifyAuth("You must be logged in to update a meetup.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    if (!dbUserID) throw new Error("User not found");
-
+    const { userId } = await verifyAuth(
+      "You must be logged in to update a meetup."
+    );
     const allTagIdsToConnect = await handleMeetupTags(tagNames);
 
     await prisma.$transaction(async (prisma) => {
       const updatedMeetup = await prisma.meetUp.update({
-        where: { id, responsiblePersonId: dbUserID },
-        data: { ...meetupData, responsiblePersonId: dbUserID },
+        where: { id, responsiblePersonId: userId },
+        data: { ...meetupData, responsiblePersonId: userId },
         include: {
           responsiblePerson: true,
         },
@@ -329,18 +302,14 @@ export async function updateMeetup(
 
 export async function deleteMeetupAction(id: number): Promise<void> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete a meetup, and you can only delete your own meetup."
+    const { userId } = await verifyAuth(
+      "You must be logged in to delete a meetup."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
 
     const deletedMeetup = await prisma.meetUp.delete({
       where: {
         id,
-        responsiblePersonId: dbUserID,
+        responsiblePersonId: userId,
       },
     });
 

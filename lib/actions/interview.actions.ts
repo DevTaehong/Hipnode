@@ -29,8 +29,12 @@ export async function getAllInterviews(): Promise<Interview[]> {
 
 export async function getInterviewById(
   interviewId: number
-): Promise<Interview | null> {
+): Promise<Interview | undefined> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to retrieve an interview."
+    );
+
     const interview = await prisma.interview.findUnique({
       where: {
         id: interviewId,
@@ -41,7 +45,11 @@ export async function getInterviewById(
       throw new Error(`No interview found for ID: ${interviewId}`);
     }
 
-    return interview;
+    const extendedInterview = {
+      ...interview,
+      userCanEditMedia: interview.creatorId === userId,
+    };
+    return extendedInterview;
   } catch (error) {
     console.error(`Error fetching interview with ID ${interviewId}:`, error);
     throw error;
@@ -103,15 +111,14 @@ export async function createInterviewWithTags(
   tagNames: string[]
 ): Promise<Interview> {
   try {
-    const user = verifyAuth("You must be logged in to create an interview.");
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    const clerkId: string = user.userId;
-    if (!dbUserID) throw new Error("User not found");
+    const { clerkId, userId } = await verifyAuth(
+      "You must be logged in to create an interview."
+    );
 
     const interview = await prisma.interview.create({
       data: {
         ...interviewData,
-        creatorId: dbUserID,
+        creatorId: userId,
         clerkId,
       },
       include: {
@@ -132,8 +139,8 @@ export async function createInterviewWithTags(
         interviewId: interview.id,
       })),
     });
+
     redirect("/interviews");
-    return interview;
   } catch (error) {
     console.error("Error creating interview:", error);
     throw error;
@@ -204,11 +211,9 @@ export async function getFilteredInterviews({
 }) {
   const itemsPerPage = 20;
   try {
-    const user = verifyAuth(
-      "We need the logged in user ID for edit and delete CRUD's."
+    const { userId } = await verifyAuth(
+      "You must be logged in to retrieve interviews."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
 
     const skip = (page - 1) * itemsPerPage;
     const interviews = await prisma.interview.findMany({
@@ -244,9 +249,9 @@ export async function getFilteredInterviews({
       take: itemsPerPage,
     });
 
-    interviews.map((interview) => ({
+    const extendedInterviews = interviews.map((interview) => ({
       ...interview,
-      userCanEditMedia: interview.creatorId === dbUserID,
+      userCanEditMedia: interview.creatorId === userId,
     }));
 
     const totalInterviews = await prisma.interview.count();
@@ -254,7 +259,7 @@ export async function getFilteredInterviews({
     const hasMore = page * itemsPerPage < totalInterviews;
 
     return {
-      interviews,
+      interviews: extendedInterviews,
       page,
       hasMore,
     };
@@ -280,14 +285,14 @@ export async function getInterviewToEdit(
   id: number
 ): Promise<InterviewToEditType | null> {
   try {
-    const user = verifyAuth("You must be logged in to edit an interview.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit an interview."
+    );
 
     const interview = await prisma.interview.findUnique({
       where: {
         id,
-        creatorId: dbUserID,
+        creatorId: userId,
       },
       include: {
         tags: {
@@ -325,16 +330,15 @@ export async function updateInterview(
   tagNames: string[]
 ): Promise<Interview> {
   try {
-    const user = verifyAuth("You must be logged in to update an interview.");
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    if (!dbUserID) throw new Error("User not found");
+    const { userId } = await verifyAuth(
+      "You must be logged in to update an interview."
+    );
 
     const allTagIdsToConnect = await handleInterviewTags(tagNames);
     await prisma.$transaction(async (prisma) => {
       const updatedInterview = await prisma.interview.update({
-        where: { id, creatorId: dbUserID },
-        data: { ...interviewData, creatorId: dbUserID },
+        where: { id, creatorId: userId },
+        data: { ...interviewData, creatorId: userId },
         include: {
           creator: true,
         },
@@ -372,18 +376,13 @@ export async function updateInterview(
 
 export async function deleteInterviewAction(id: number): Promise<void> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete an interview, and you can only delete your own interview."
+    const { userId } = await verifyAuth(
+      "You must be logged in to delete an interview."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
-
     const deletedInterview = await prisma.interview.delete({
       where: {
         id,
-        creatorId: dbUserID,
+        creatorId: userId,
       },
     });
 

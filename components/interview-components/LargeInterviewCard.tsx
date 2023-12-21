@@ -17,6 +17,7 @@ const LargeInterviewCard = ({
     details,
   } = interviewData;
   const interviewSalary = formatSalary(salary, salaryPeriod);
+
   return (
     <article className="bg-light_dark-3 flex h-fit max-w-[49rem] flex-col rounded-2xl">
       <InterviewBannerImage

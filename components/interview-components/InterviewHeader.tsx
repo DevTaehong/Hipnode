@@ -1,20 +1,22 @@
 import Image from "next/image";
-import { useAuth } from "@clerk/nextjs";
 
 import { formatInterviewDate } from "@/utils";
 import { InterviewHeaderProps } from "@/types/interview.index";
-import MediaEditActionPopover from "../action-popover/MediaEditActionPopover";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const InterviewHeader = ({
   userImage,
   username,
   date,
   id,
-  clerkId,
+  userCanEditMedia,
 }: InterviewHeaderProps) => {
   const interviewDate = formatInterviewDate(date);
-  const { userId } = useAuth();
-
   return (
     <header className="flex w-full justify-between">
       <div className="flex gap-4">
@@ -30,7 +32,7 @@ const InterviewHeader = ({
           <time className="base-12 sm:base-14 text-sc-3">{interviewDate}</time>
         </div>
       </div>
-      {userId === clerkId && (
+      {userCanEditMedia && (
         <MediaEditActionPopover label="Interview" mediaId={id} />
       )}
     </header>

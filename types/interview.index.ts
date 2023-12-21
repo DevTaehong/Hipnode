@@ -6,6 +6,7 @@ export interface Creator {
   name: string;
   picture: string;
 }
+
 export interface InterviewProps extends Interview {
   creator: Creator;
   userCanEditMedia?: boolean;
@@ -21,6 +22,7 @@ export interface TagOnInterview {
 }
 
 export interface InterviewPageFilterProps extends Interview {
+  userCanEditMedia: boolean;
   creator: Creator;
   tags: TagOnInterview[];
 }
@@ -55,7 +57,6 @@ export interface InterviewHeaderProps {
   username: string;
   date: Date;
   id: number;
-  clerkId: string;
   userCanEditMedia?: boolean;
 }
 

@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { getPodcastById } from "@/lib/actions/podcast.actions";
+import { getPodcastByIdPage } from "@/lib/actions/podcast.actions";
 import { AudioPlayer, LargePodcastCard } from "@/components/podcast-components";
 import { getBucketUrls } from "@/utils";
-import { podcast } from "@/public/assets";
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,9 +15,8 @@ interface PodcastPageProps {
 
 const PodcastPage = async ({ params }: PodcastPageProps) => {
   const podcastId = parseInt(params.id);
-  const podcast = await getPodcastById(podcastId);
+  const podcast = await getPodcastByIdPage({ podcastId });
   const bucketUrls = await getBucketUrls("podcasts");
-
   if (!podcast || bucketUrls.length === 0) {
     redirect("/podcasts");
   }

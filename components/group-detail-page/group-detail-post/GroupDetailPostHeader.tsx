@@ -31,7 +31,7 @@ const GroupDetailPostHeader = ({
         <AvatarImage src={author.picture} alt={`${author.username}'s avatar`} />
         <AvatarFallback>{author.username.charAt(0)}</AvatarFallback>
       </Avatar>
-      <Heart className={"hidden xl:block"} />
+      <Heart isLiked={false} className={"hidden xl:block"} />
     </div>
   );
 };

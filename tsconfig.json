@@ -34,7 +34,8 @@
     "prisma/seed/createPosts.js",
     "prisma/seed/createOnboarding.js",
     "lib/prisma.ts",
-    "app/(root)/post/[id]/page.jsx"
+    "app/(root)/post/[id]/page.jsx",
+    "components/posts/create-post-form/Location.tsx"
   ],
   "exclude": ["node_modules"]
 }

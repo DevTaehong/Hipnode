@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { SignedIn, SignedOut, currentUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
 import HipnodeIcon from "@/components/icons/HipnodeIcon";
@@ -11,24 +11,19 @@ import OutlineIcons from "@/components/icons/outline-icons";
 
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 import NotificationButton from "./NotificationButton";
-import { getUserByClerkId } from "@/lib/actions/user.actions";
+import { verifyAuth } from "@/lib/auth";
 
 const Navbar = async () => {
-  const clerkUser = await currentUser();
-  let userFromDB;
-  let userInfo;
+  const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
+    "You must be logged in to create post."
+  );
 
-  if (clerkUser) {
-    userFromDB = await getUserByClerkId(clerkUser.id);
-    if (userFromDB) {
-      userInfo = {
-        id: userFromDB.id,
-        username: userFromDB.username,
-        image: userFromDB.picture,
-        name: userFromDB.name,
-      };
-    }
-  }
+  const userInfo = {
+    id: userId,
+    username: userName,
+    image: loggedInUserImage,
+    name: fullName,
+  };
 
   return (
     <nav className="sticky inset-x-0 top-0 z-50 bg-light dark:bg-dark-3">
@@ -50,7 +45,7 @@ const Navbar = async () => {
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            {userFromDB && userInfo && (
+            {userInfo && (
               <>
                 {/* <MessageListWrapper userInfo={userInfo} /> */}
 

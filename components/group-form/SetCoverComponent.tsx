@@ -23,8 +23,9 @@ const SetCoverComponent = () => {
         "group-cover",
         "cover"
       );
+
       router.push(
-        `/group/create-group?coverUrl=${uploadedURL}&profilePhotoUrl=${
+        `/group/create-group?coverUrl=${uploadedURL?.mainImageURL}&profilePhotoUrl=${
           profilePhotoURL ?? ""
         }`
       );

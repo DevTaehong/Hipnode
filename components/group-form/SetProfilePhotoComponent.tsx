@@ -26,7 +26,7 @@ const SetProfilePhotoComponent = () => {
       router.push(
         `/group/create-group?coverUrl=${
           coverUrl ?? ""
-        }&profilePhotoURL=${uploadedURL}`
+        }&profilePhotoURL=${uploadedURL?.mainImageURL}`
       );
     }
   };

@@ -8,7 +8,6 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CreatableSelect from "react-select/creatable";
 import { useToast } from "@/components/ui/use-toast";
-
 import {
   Form,
   FormControl,
@@ -105,27 +104,30 @@ const CreatePost = ({
   } = useCreatePostContext();
 
   const handleUpload = async () => {
-    let imageURL = null;
-    let podcastURL = null;
+    let imagesFromSupabase, podcastURL;
 
     if (imageToUpload) {
       const imageBucket =
         contentType === POST_TYPE.PODCAST ? "podcast-images" : "posts";
-      imageURL = await uploadImageToSupabase(
+      imagesFromSupabase = await uploadImageToSupabase(
         imageToUpload,
         imageBucket,
         "images"
       );
-      setValue("image", imageURL || "");
-    }
 
+      setValue("image", imagesFromSupabase?.mainImageURL || "");
+    }
     if (contentType === POST_TYPE.PODCAST && podcastToUpload) {
-      podcastURL = await uploadImageToSupabase(podcastToUpload, "podcasts");
-
-      setValue("podcast", podcastURL || "");
+      await uploadImageToSupabase(podcastToUpload, "podcasts");
     }
 
-    return { imageURL, podcastURL };
+    return {
+      mainImage: imagesFromSupabase?.mainImageURL || "",
+      blurImage: imagesFromSupabase?.blurImageURL || "",
+      podcastURL: podcastURL || "",
+      imageWidth: imagesFromSupabase?.imageWidth,
+      imageHeight: imagesFromSupabase?.imageHeight,
+    };
   };
 
   const form = useForm<PostFormValuesType>({
@@ -191,7 +193,9 @@ const CreatePost = ({
     try {
       setIsLoading(true);
 
-      const { imageURL, podcastURL } = await handleUpload();
+      const { imageWidth, imageHeight, mainImage, blurImage } =
+        await handleUpload();
+
       const {
         websiteLink,
         salary,
@@ -226,8 +230,8 @@ const CreatePost = ({
           const podcastData = {
             title: postData.heading,
             details: postData.content,
-            image: imagePreviewUrl || imageURL || "",
-            url: podcastPreviewUrl || podcastURL || "",
+            image: imagePreviewUrl || mainImage || "",
+            url: podcastPreviewUrl || "",
             showId: Number(newShowId) || Number(show.value),
             contentType: POST_TYPE.PODCAST,
           };
@@ -235,7 +239,7 @@ const CreatePost = ({
             await updatePodcast(mediaId, {
               ...podcastData,
               showId: Number(newShowId) || Number(show.value),
-              url: podcastPreviewUrl || podcastURL || "",
+              url: podcastPreviewUrl || "",
             });
           } else {
             await createPodcast(podcastData);
@@ -249,7 +253,11 @@ const CreatePost = ({
             groupId: valueOfGroup(data),
             image: imagePreviewUrl || "",
             contentType: POST_TYPE.POST,
+            blurImage: blurImage || "",
+            imageWidth: imageWidth || 0,
+            imageHeight: imageHeight || 0,
           };
+
           if (mediaId) {
             await updatePost(mediaId, postDataWithAuthor, tags ?? []);
           } else {

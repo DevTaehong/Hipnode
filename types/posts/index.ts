@@ -55,7 +55,6 @@ export interface GroupsType {
 export type PostPreviewProps = {
   htmlString: string;
   onSubmitPreview: () => void;
-  
 };
 
 export type IconBlockProps = {
@@ -198,6 +197,10 @@ export type ExtendedPrismaPost = {
     authorId: number;
   }[];
   userCanEditMedia?: boolean;
+  numberOfAvailablePosts?: number;
+  blurImage: string;
+  imageHeight: number;
+  imageWidth: number;
 };
 
 export type PostToEditByIdType = {
@@ -221,6 +224,9 @@ export type PostDataType = {
   image: string;
   groupId: number;
   contentType: string;
+  blurImage: string;
+  imageWidth: number;
+  imageHeight: number;
 };
 
 export type LeftActionBarProps = {
@@ -268,7 +274,7 @@ export type MeetUpDataType = {
   contactEmail: string;
   contactNumber: string;
   image: string;
-  contentType?: string | null;
+  contentType: string;
   location: string;
   summary: string;
   title: string;
@@ -310,5 +316,16 @@ export type InterviewTagType = {
 };
 
 export type ResponsiveCreatePostInputProps = {
-  userImage: string;
+  userImage?: string;
 };
+
+export type createUserType = {
+  clerkId: string;
+  name: string;
+  username: string;
+  picture: string;
+  email: string;
+};
+
+export interface GetPostByIdType
+  extends Omit<ExtendedPrismaPost, "numberOfAvailablePosts"> {}

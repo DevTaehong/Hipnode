@@ -4,18 +4,24 @@ import { type Podcast } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
+import {
+  CreatePodcastType,
+  IPodcast,
+  PodcastUserInfo,
+} from "@/types/podcast.index";
 
-type CreatePodcastType = {
-  title: string;
-  details: string;
-  image: string;
-  url: string;
-  showId: number;
-  contentType: string;
-};
+type PodcastByIdType = Partial<IPodcast>;
 
-export async function getPodcastById(podcastId: number) {
+export async function getPodcastById({
+  podcastId,
+}: {
+  podcastId: number;
+}): Promise<PodcastByIdType> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get a podcast."
+    );
+
     const podcast = await prisma.podcast.findUnique({
       where: {
         id: podcastId,
@@ -34,7 +40,48 @@ export async function getPodcastById(podcastId: number) {
       },
     });
 
-    return podcast;
+    return {
+      ...podcast,
+      userCanEditMedia: podcast?.userId === userId,
+    };
+  } catch (error) {
+    console.error("Error fetching podcast by ID:", error);
+    throw error;
+  }
+}
+
+export async function getPodcastByIdPage({
+  podcastId,
+}: {
+  podcastId: number;
+}): Promise<IPodcast | undefined> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get a podcast."
+    );
+
+    const podcast = await prisma.podcast.findUnique({
+      where: {
+        id: podcastId,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        show: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    if (!podcast) return;
+    return {
+      ...podcast,
+      userCanEditMedia: podcast?.userId === userId,
+    };
   } catch (error) {
     console.error("Error fetching podcast by ID:", error);
     throw error;
@@ -52,34 +99,12 @@ export async function getAllPodcasts() {
   }
 }
 
-interface QueryOptions {
-  skip: number;
-  take?: number; // Optional
-  include: {
-    user: {
-      select: {
-        name: boolean;
-        location: boolean;
-        picture: boolean;
-      };
-    };
-  };
-}
-
-interface PodcastUserInfo extends Podcast {
-  user: {
-    name: string;
-    location: string | null;
-    picture: string;
-  };
-}
-
 export async function getPodcastsWithUserInfo(
   amount: number,
   startNumber = 0
 ): Promise<PodcastUserInfo[]> {
   try {
-    const queryOptions: QueryOptions = {
+    const podcasts = await prisma.podcast.findMany({
       skip: startNumber,
       take: amount,
       include: {
@@ -91,9 +116,7 @@ export async function getPodcastsWithUserInfo(
           },
         },
       },
-    };
-
-    const podcasts = await prisma.podcast.findMany(queryOptions);
+    });
 
     return podcasts as PodcastUserInfo[];
   } catch (error) {
@@ -150,14 +173,12 @@ export async function getFilterPodcastsUserInfo({
 
 export async function createPodcast(data: CreatePodcastType): Promise<Podcast> {
   try {
-    const user = verifyAuth("You must be logged in to create post.");
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    const clerkId: string = user.userId;
-
-    if (!dbUserID) throw new Error("User not found");
+    const { clerkId, userId } = await verifyAuth(
+      "You must be logged in to create a podcast."
+    );
 
     await prisma.podcast.create({
-      data: { ...data, userId: dbUserID, clerkId },
+      data: { ...data, userId, clerkId },
     });
     redirect("/podcasts");
   } catch (error) {
@@ -168,18 +189,14 @@ export async function createPodcast(data: CreatePodcastType): Promise<Podcast> {
 
 export async function updatePodcast(id: number, data: Partial<Podcast>) {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete a podcast, and you can only delete yor own podcasts."
+    const { userId } = await verifyAuth(
+      "You must be logged in to update a podcast."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-
-    if (!dbUserID) throw new Error("User not found");
 
     await prisma.podcast.update({
       where: {
         id,
-        userId: dbUserID,
+        userId,
       },
       data,
     });
@@ -192,14 +209,9 @@ export async function updatePodcast(id: number, data: Partial<Podcast>) {
 
 export async function deletePodcast(id: number) {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete a podcast, and you can only delete yor own podcasts."
+    const { clerkId } = await verifyAuth(
+      "You must be authorized to delete a podcast."
     );
-
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    const clerkId: string = user.userId;
-
-    if (!dbUserID) throw new Error("User not found");
 
     await prisma.podcast.delete({
       where: {
@@ -302,13 +314,9 @@ export async function getPodcastToEditById(
   mediaId: number
 ): Promise<PodcastWithShow | null> {
   try {
-    const user = verifyAuth(
-      "You must be logged in to delete a podcast, and you can only delete your own podcasts."
+    const { clerkId } = await verifyAuth(
+      "You must be logged in to edit a podcast."
     );
-    const dbUserID: number = (user.sessionClaims.metadata as any).userId;
-    const clerkId: string = user.userId;
-
-    if (!dbUserID) throw new Error("User not found");
 
     const podcast = await prisma.podcast.findUnique({
       where: {

@@ -1,33 +1,24 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-import { useAuth } from "@clerk/nextjs";
 import { PodcastEpisodeInfoType } from "@/types/podcast.index";
-import MediaEditActionPopover from "@/components/action-popover/MediaEditActionPopover";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const PodcastEpisodeInfo = ({
   showName,
   episodeNumber,
   creatorName,
+  userCanEditMedia,
   podcastId,
-  clerkId,
 }: PodcastEpisodeInfoType) => {
-  const [isClient, setIsClient] = useState(false);
-  const { userId } = useAuth();
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
-
   return (
     <div className="flex flex-col">
       <h2 className="base-9 md:regular-12 text-sc-2 dark:text-light-2">
         <div className="flex items-center justify-between">
           {showName} &bull; Episode {episodeNumber}
-          {userId === clerkId && (
+          {userCanEditMedia && (
             <MediaEditActionPopover label="Podcast" mediaId={podcastId} />
           )}
         </div>

@@ -52,8 +52,6 @@ export type ExtendedPost = PrismaPost & {
   };
 };
 
-export type GetPostByIdType = ExtendedPost | null;
-
 interface Onboarding {
   id: number;
   userId: number;
