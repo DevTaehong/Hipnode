@@ -40,7 +40,7 @@ const ProfileModal = ({
         {name}
       </h3>
 
-      <p className="text-center text-[1rem] leading-[1.5rem] text-sc-2 dark:text-sc-3">
+      <p className="text-center text-base leading-6 text-sc-2 dark:text-sc-3">
         {title}
       </p>
 

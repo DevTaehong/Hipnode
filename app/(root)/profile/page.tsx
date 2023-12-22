@@ -3,7 +3,7 @@ import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 
-import ContentCard from "@/components/profile/ContentCard";
+// import ContentCard from "@/components/profile/ContentCard";
 import MeetupsCard from "@/components/meetup-components/MeetupsCard";
 import PodcastCard from "@/components/podcast-components/PodcastCard";
 import InterviewCard from "@/components/interview-components/InterviewCard";
@@ -19,11 +19,19 @@ import {
 } from "@/lib/actions/profile.actions";
 
 import { formatUserJoinedDate } from "@/lib/utils";
-import { ProfileMeetup, ProfilePost } from "@/types/profile.index";
 import { Podcast } from "@prisma/client";
 import { InterviewProps } from "@/types/interview.index";
+import { ProfileMeetup, ProfilePost } from "@/types/profile.index";
+
+import { MeetUpExtended } from "@/types/meetups.index";
 
 export const dynamic = "force-dynamic";
+
+type profileResults =
+  | ProfilePost[]
+  | ProfileMeetup[]
+  | Podcast[]
+  | InterviewProps[];
 
 const ProfilePage = async ({
   searchParams,
@@ -32,7 +40,7 @@ const ProfilePage = async ({
 }) => {
   const user = await getProfileData();
 
-  let result: any = [];
+  let result: profileResults = [];
 
   switch (searchParams?.search) {
     case "posts":
@@ -85,8 +93,9 @@ const ProfilePage = async ({
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
 
-        {searchParams?.search === "posts" &&
-          result.map((post: ProfilePost) => (
+        {/* Getting replaced by another Post Component */}
+        {/* {searchParams?.search === "posts" &&
+          result.map((post) => (
             <ContentCard
               key={post?.id}
               contentImg={post?.image}
@@ -98,37 +107,62 @@ const ProfilePage = async ({
               likes={post?._count.likes}
               comments={post?._count.comments}
               tags={post?.tags}
-              // TODO: Figure out how to setup logic for isHeart
               isHeart={false}
             />
-          ))}
+          ))} */}
 
         {searchParams?.search === "meetups" &&
-          result.map((meetup: ProfileMeetup) => (
-            <MeetupsCard key={meetup?.id} meetUp={meetup} />
-          ))}
+          result.map((item) => {
+            if (
+              "tags" in item &&
+              "contactEmail" in item &&
+              "contactNumber" in item &&
+              "image" in item
+            ) {
+              const meetup = item as MeetUpExtended;
+              return <MeetupsCard key={meetup.id} meetUp={meetup} />;
+            }
+            return null;
+          })}
 
         {searchParams?.search === "podcasts" &&
-          result.map((podcast: Podcast) => (
-            <PodcastCard
-              key={podcast?.id}
-              info={{
-                id: podcast?.id,
-                title: podcast?.title,
-                details: podcast?.details,
-                user: {
-                  name: user?.username || "",
-                  location: user?.location || "",
-                  picture: user?.picture || "",
-                },
-              }}
-            />
-          ))}
+          result.map((item) => {
+            if ("details" in item) {
+              const podcast = item as Podcast;
+              return (
+                <PodcastCard
+                  key={podcast?.id}
+                  info={{
+                    id: podcast.id,
+                    title: podcast.title,
+                    details: podcast.details,
+                    user: {
+                      name: user?.username || "",
+                      location: user?.location || "",
+                      picture: user?.picture || "",
+                    },
+                  }}
+                />
+              );
+            }
+            return null;
+          })}
 
         {searchParams?.search === "interviews" &&
-          result.map((interview: InterviewProps) => (
-            <InterviewCard key={interview?.id} interviewData={interview} />
-          ))}
+          result.map((item) => {
+            if (
+              "creator" in item &&
+              "creatorId" in item &&
+              "title" in item &&
+              "bannerImage" in item
+            ) {
+              const interview = item as InterviewProps;
+              return (
+                <InterviewCard key={interview.id} interviewData={interview} />
+              );
+            }
+            return null;
+          })}
 
         {searchParams?.search === "history" && <div>history</div>}
       </section>

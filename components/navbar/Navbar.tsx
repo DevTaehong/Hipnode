@@ -47,7 +47,7 @@ const Navbar = async () => {
           <SignedIn>
             {userInfo && (
               <>
-                {/* <MessageListWrapper userInfo={userInfo} /> */}
+                <MessageListWrapper userInfo={userInfo} />
 
                 <NotificationButton />
 

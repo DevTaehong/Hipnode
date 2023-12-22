@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { ChangeEvent, FC } from "react";
 import { StaticImageData } from "next/image";
-import { Post, User } from "@prisma/client";
+import { Podcast, Post, User } from "@prisma/client";
 import { Control, FieldValues } from "react-hook-form";
 import { TagSuggestion } from "react-tag-autocomplete";
 
 import { onboardingQuestions } from "@/constants";
 import { colorVariants } from "@/components/group/GroupSectionHeader";
 import { GroupProps } from "@types/models";
+import { ProfileMeetup, ProfilePost } from "./profile.index";
+import { InterviewProps } from "./interview.index";
 
 export type UserSuggestion = {
   user: User;
@@ -32,16 +34,6 @@ export interface FormFieldComponentProps {
   label: string;
   placeholder: string;
   fieldType?: "input" | "textarea";
-}
-
-export interface ProfilePosts {
-  id: string;
-  image: string;
-  content: string;
-  createdAt: Date;
-  viewCount: number;
-  _count: { likes: number; comments: number };
-  tags: string[];
 }
 
 export type FetchGroupDetailPostsProps = {

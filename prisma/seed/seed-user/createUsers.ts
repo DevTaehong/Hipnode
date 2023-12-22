@@ -13,7 +13,6 @@ export async function createUsers() {
         email: `${faker.internet.email()}${index}`,
         password: `${faker.internet.password()}${index}`,
         role: "USER",
-        profileUrlId: username.toLowerCase(),
         bio: faker.lorem.sentence(),
         picture: faker.image.avatar(),
         location: faker.location.state(),
