@@ -14,7 +14,7 @@ import { verifyAuth } from "@/lib/auth";
 
 const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName, lastChecked } =
-    await verifyAuth("You must be logged in to create post.");
+    await verifyAuth("You must be logged in to view this page.");
 
   const userInfo = {
     id: userId,
@@ -46,7 +46,7 @@ const Navbar = async () => {
             <MessageListWrapper userInfo={userInfo} />
             <NotificationButton
               currentUserId={userId}
-              lastChecked={lastChecked}
+              lastChecked={lastChecked ?? new Date()}
             />
             <UserButton />
           </SignedIn>

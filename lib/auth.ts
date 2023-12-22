@@ -14,7 +14,8 @@ export const verifyAuth = async (
   const userName = userData?.username;
   const fullName = userData?.firstName + " " + userData?.lastName;
 
-  const lastChecked = await getNotificationLastChecked(userId);
+  const { notificationLastChecked: lastChecked } =
+    await getNotificationLastChecked(userId);
 
   return {
     clerkId,
