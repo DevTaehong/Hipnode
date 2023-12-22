@@ -4,13 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
 
-import {
-  PostImage,
-  PostLabels,
-  PostText,
-  SocialMediaIcon,
-  SocialStatistics,
-} from ".";
+import { PostImage, PostLabels, SocialMediaIcon, SocialStatistics } from ".";
 import FillIcon from "@/components/icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
@@ -70,7 +64,10 @@ const PostCard = ({
         <div className="flex h-full flex-col gap-2.5 ">
           <div className="flex justify-between">
             <Link href={`/posts/post/${id}`}>
-              <PostText postContent={htmlString} />
+              <h2
+                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-105 dark:text-light-2 md:line-clamp-2"
+                dangerouslySetInnerHTML={{ __html: htmlString.slice(1, -1) }}
+              />
             </Link>
             <div className="flex flex-row">
               <Link href="/profile" className="flex cursor-pointer md:hidden">
