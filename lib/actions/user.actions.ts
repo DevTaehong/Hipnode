@@ -56,6 +56,16 @@ export async function getAllUsers() {
 
 export async function createUser(data: createUserType) {
   try {
+    const existingUsers = await prisma.user.findMany({
+      where: {
+        username: data.username,
+      },
+    });
+
+    if (existingUsers.length > 0) {
+      return null;
+    }
+
     const user = await prisma.user.create({
       data,
     });
