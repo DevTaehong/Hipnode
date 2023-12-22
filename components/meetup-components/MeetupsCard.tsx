@@ -2,8 +2,13 @@ import Image from "next/image";
 
 import { getFormattedDateMeetUpCard } from "@/utils";
 import { MeetUpExtended, MeetupTag } from "@/types/meetups.index";
-import MediaEditActionPopover from "@/components/action-popover/MediaEditActionPopover";
 import SanatizedHtml from "../posts/post-by-id/main-content/SanatizedHtml";
+import dynamic from "next/dynamic";
+
+const MediaEditActionPopover = dynamic(
+  () => import("@/components/action-popover/MediaEditActionPopover"),
+  { ssr: false }
+);
 
 const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
   const { image, title, location, summary, tags, userCanEditMedia, id } =

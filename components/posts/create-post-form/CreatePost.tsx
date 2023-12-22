@@ -63,7 +63,6 @@ import { initialConfig } from "@/constants/lexical-editor";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { fetchAndSetFormData } from "./utils";
 import FormLoader from "./FormLoader";
-
 import Location from "./Location";
 
 const LexicalEditor = dynamic(

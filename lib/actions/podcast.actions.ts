@@ -50,6 +50,44 @@ export async function getPodcastById({
   }
 }
 
+export async function getPodcastByIdPage({
+  podcastId,
+}: {
+  podcastId: number;
+}): Promise<IPodcast | undefined> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get a podcast."
+    );
+
+    const podcast = await prisma.podcast.findUnique({
+      where: {
+        id: podcastId,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        show: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    if (!podcast) return;
+    return {
+      ...podcast,
+      userCanEditMedia: podcast?.userId === userId,
+    };
+  } catch (error) {
+    console.error("Error fetching podcast by ID:", error);
+    throw error;
+  }
+}
+
 export async function getAllPodcasts() {
   try {
     const podcasts = await prisma.podcast.findMany();
