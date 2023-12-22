@@ -43,7 +43,6 @@ model User {
   groups          Group[]                  @relation("UserGroups")
   followers       Follower[]               @relation("followed")
   following       Follower[]               @relation("follower")
-  onlineUser  OnlineUser?  // Optional relation to OnlineUser
 }
 
 model Follower {
@@ -305,8 +304,7 @@ enum Role {
 
 model OnlineUser {
   id       Int      @id @default(autoincrement())
-  userId   Int      @unique
-  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int      
   enteredAt DateTime @default(now())
 }
 

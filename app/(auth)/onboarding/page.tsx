@@ -8,7 +8,6 @@ import { redirect } from "next/navigation";
 
 const Page = async () => {
   const user = await currentUser();
-  console.log(user);
   if (!user) {
     redirect("/");
   }

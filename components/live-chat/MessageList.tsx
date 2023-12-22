@@ -7,9 +7,8 @@ import { getAllUsers } from "@/lib/actions/user.actions";
 import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
 import {
-  addUserToOnlineUsers,
   getAllOnlineUserIds,
-  removeUserFromOnlineUsers,
+  recreateOnlineUser,
 } from "@/lib/actions/online-user.actions";
 
 const MessageList = () => {
@@ -30,7 +29,7 @@ const MessageList = () => {
   useEffect(() => {
     const handleAddUser = async () => {
       try {
-        await addUserToOnlineUsers(id);
+        await recreateOnlineUser(id);
         await resetOnlineUsers();
       } catch (error) {
         console.error("Error adding user to online users:", error);
@@ -39,25 +38,6 @@ const MessageList = () => {
     if (id > 0) {
       handleAddUser();
     }
-  }, [id]);
-
-  useEffect(() => {
-    const handleUnload = async () => {
-      try {
-        await removeUserFromOnlineUsers(id);
-        await resetOnlineUsers();
-      } catch (error) {
-        console.error("Error removing user from online users:", error);
-      }
-    };
-    if (id > 0) {
-      window.addEventListener("beforeunload", handleUnload);
-    }
-    return () => {
-      if (id > 0) {
-        window.removeEventListener("beforeunload", handleUnload);
-      }
-    };
   }, [id]);
 
   useEffect(() => {
@@ -75,19 +55,22 @@ const MessageList = () => {
   useEffect(() => {
     const resetUsersPeriodically = async () => {
       try {
-        await removeUserFromOnlineUsers(id);
-        await addUserToOnlineUsers(id);
-        await resetOnlineUsers();
+        const recreatedUser = await recreateOnlineUser(id);
+        if (recreatedUser) {
+          await resetOnlineUsers();
+        }
       } catch (error) {
         console.error("Error resetting online users periodically:", error);
       }
     };
     const intervalId = setInterval(() => {
-      resetUsersPeriodically();
-    }, 60000);
+      if (id > 0) {
+        resetUsersPeriodically();
+      }
+    }, 120000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [id]);
 
   return (
     <Popover>

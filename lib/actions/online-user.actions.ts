@@ -2,33 +2,9 @@
 
 import prisma from "@/lib/prisma";
 
-export async function addUserToOnlineUsers(userId: number) {
-  try {
-    const existingOnlineUser = await prisma.onlineUser.findUnique({
-      where: {
-        userId,
-      },
-    });
-
-    let onlineUser;
-    if (!existingOnlineUser) {
-      onlineUser = await prisma.onlineUser.create({
-        data: {
-          userId,
-        },
-      });
-    }
-
-    return onlineUser;
-  } catch (error) {
-    console.error("Error adding user to online users:", error);
-    throw error;
-  }
-}
-
 export async function removeUserFromOnlineUsers(userId: number) {
   try {
-    const existingOnlineUser = await prisma.onlineUser.findUnique({
+    const existingOnlineUser = await prisma.onlineUser.findFirst({
       where: {
         userId,
       },
@@ -37,7 +13,7 @@ export async function removeUserFromOnlineUsers(userId: number) {
     if (existingOnlineUser) {
       await prisma.onlineUser.delete({
         where: {
-          userId,
+          id: existingOnlineUser.id,
         },
       });
       return "User removed from online users";
@@ -51,18 +27,59 @@ export async function removeUserFromOnlineUsers(userId: number) {
 }
 
 export async function getAllOnlineUserIds() {
+  const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+
   try {
-    const onlineUsers = await prisma.onlineUser.findMany({
+    const recentOnlineUsers = await prisma.onlineUser.findMany({
+      where: {
+        enteredAt: {
+          gte: twoMinutesAgo,
+        },
+      },
       select: {
         userId: true,
       },
     });
 
-    const userIds = onlineUsers.map((onlineUser) => onlineUser.userId);
+    const userIds = recentOnlineUsers.map((user) => user.userId);
+
+    await prisma.onlineUser.deleteMany({
+      where: {
+        enteredAt: {
+          lt: twoMinutesAgo,
+        },
+      },
+    });
 
     return userIds;
   } catch (error) {
-    console.error("Error fetching user IDs of all online users:", error);
+    console.error("Error fetching and cleaning up online users:", error);
+    throw error;
+  }
+}
+
+export async function recreateOnlineUser(userId: number) {
+  try {
+    const existingOnlineUser = await prisma.onlineUser.findFirst({
+      where: {
+        userId,
+      },
+    });
+    if (existingOnlineUser) {
+      await prisma.onlineUser.delete({
+        where: {
+          id: existingOnlineUser.id,
+        },
+      });
+    }
+    const onlineUser = await prisma.onlineUser.create({
+      data: {
+        userId,
+      },
+    });
+    return onlineUser;
+  } catch (error) {
+    console.error("Error recreating online user:", error);
     throw error;
   }
 }
