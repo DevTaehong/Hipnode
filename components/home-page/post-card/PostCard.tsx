@@ -52,7 +52,10 @@ const PostCard = ({
 
   return (
     <div className="flex w-full rounded-xl bg-light p-[1.25rem] hover:translate-y-[-0.1rem]  hover:shadow-lg dark:bg-dark-3 hover:dark:bg-dark-4">
-      <Link href={`/posts/post/${id}`}>
+      <Link
+        href={`/posts/post/${id}`}
+        className="hover:scale-[101%] hover:shadow-lg"
+      >
         <PostImage
           postImage={image}
           blurImage={blurImage}
