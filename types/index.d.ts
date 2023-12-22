@@ -25,6 +25,12 @@ export type Tag = {
 
 type FieldName = "groupName" | "description";
 
+export type ProfileResults =
+  | ProfilePost[]
+  | ProfileMeetup[]
+  | Podcast[]
+  | InterviewProps[];
+
 export interface FormFieldComponentProps {
   control: Control<{
     groupName: string;

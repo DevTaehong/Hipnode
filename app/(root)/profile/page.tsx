@@ -3,10 +3,11 @@ import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 
-// import ContentCard from "@/components/profile/ContentCard";
 import MeetupsCard from "@/components/meetup-components/MeetupsCard";
 import PodcastCard from "@/components/podcast-components/PodcastCard";
 import InterviewCard from "@/components/interview-components/InterviewCard";
+
+import { ProfileResults } from "@/types";
 
 import {
   getPerformanceData,
@@ -21,17 +22,11 @@ import {
 import { formatUserJoinedDate } from "@/lib/utils";
 import { Podcast } from "@prisma/client";
 import { InterviewProps } from "@/types/interview.index";
-import { ProfileMeetup, ProfilePost } from "@/types/profile.index";
 
 import { MeetUpExtended } from "@/types/meetups.index";
+import { isInterview, isMeetUpExtended, isPodcast } from "@/utils/typeguards";
 
 export const dynamic = "force-dynamic";
-
-type profileResults =
-  | ProfilePost[]
-  | ProfileMeetup[]
-  | Podcast[]
-  | InterviewProps[];
 
 const ProfilePage = async ({
   searchParams,
@@ -40,7 +35,7 @@ const ProfilePage = async ({
 }) => {
   const user = await getProfileData();
 
-  let result: profileResults = [];
+  let result: ProfileResults = [];
 
   switch (searchParams?.search) {
     case "posts":
@@ -59,7 +54,6 @@ const ProfilePage = async ({
       result = await getProfileHistory();
       break;
     default:
-      console.log(result);
   }
 
   const performanceData = await getPerformanceData();
@@ -93,49 +87,24 @@ const ProfilePage = async ({
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
 
-        {/* Getting replaced by another Post Component */}
-        {/* {searchParams?.search === "posts" &&
-          result.map((post) => (
-            <ContentCard
-              key={post?.id}
-              contentImg={post?.image}
-              userImg={user?.picture}
-              description={post?.content}
-              name={user?.username}
-              createdAt={formatUserJoinedDate(post?.createdAt)}
-              views={post?.viewCount}
-              likes={post?._count.likes}
-              comments={post?._count.comments}
-              tags={post?.tags}
-              isHeart={false}
-            />
-          ))} */}
-
         {searchParams?.search === "meetups" &&
           result.map((item) => {
-            if (
-              "tags" in item &&
-              "contactEmail" in item &&
-              "contactNumber" in item &&
-              "image" in item
-            ) {
-              const meetup = item as MeetUpExtended;
-              return <MeetupsCard key={meetup.id} meetUp={meetup} />;
-            }
+            if (isMeetUpExtended(item))
+              return <MeetupsCard key={item.id} meetUp={item} />;
+
             return null;
           })}
 
         {searchParams?.search === "podcasts" &&
           result.map((item) => {
-            if ("details" in item) {
-              const podcast = item as Podcast;
+            if (isPodcast(item)) {
               return (
                 <PodcastCard
-                  key={podcast?.id}
+                  key={item?.id}
                   info={{
-                    id: podcast.id,
-                    title: podcast.title,
-                    details: podcast.details,
+                    id: item.id,
+                    title: item.title,
+                    details: item.details,
                     user: {
                       name: user?.username || "",
                       location: user?.location || "",
@@ -150,16 +119,8 @@ const ProfilePage = async ({
 
         {searchParams?.search === "interviews" &&
           result.map((item) => {
-            if (
-              "creator" in item &&
-              "creatorId" in item &&
-              "title" in item &&
-              "bannerImage" in item
-            ) {
-              const interview = item as InterviewProps;
-              return (
-                <InterviewCard key={interview.id} interviewData={interview} />
-              );
+            if (isInterview(item)) {
+              return <InterviewCard key={item.id} interviewData={item} />;
             }
             return null;
           })}
