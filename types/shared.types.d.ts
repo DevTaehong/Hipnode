@@ -42,7 +42,7 @@ export interface GetGroupsQueryOptions {
   };
 }
 
-export interface getPostsByGroupIdQueryOptions {
+export interface GetPostsByGroupIdQueryOptions {
   take: number;
   skip?: number;
   cursor?: {
@@ -64,7 +64,7 @@ export interface getPostsByGroupIdQueryOptions {
   orderBy: Prisma.PostOrderByInput;
 }
 
-export interface getPostsFromGroupsQueryOptions {
+export interface GetPostsFromGroupsQueryOptions {
   take: number;
   skip?: number;
   cursor?: {
@@ -79,4 +79,39 @@ export interface getPostsFromGroupsQueryOptions {
     author: boolean;
     group: boolean;
   };
+}
+
+export interface CreateNotificationsParams {
+  userId: number;
+  senderName: string;
+  type: "COMMENT" | "REACTION" | "MENTION" | "MEETUP" | "FOLLOWER" | "REPLY";
+  commentContent?: string;
+  title?: string;
+  image: string;
+  meetupId?: number;
+  commentId?: number;
+  likeId?: number;
+  followerId?: number;
+  date: string;
+  commentParentId?: number;
+  isFollowed?: boolean;
+}
+
+export interface UpdateNotificationsParams {
+  commentContent?: string;
+  title?: string;
+  meetupId?: number;
+  commentId?: number;
+  likeId?: number;
+  followerId?: number;
+  date: string;
+  isFollowed?: boolean;
+  isRead?: boolean;
+}
+
+export interface deleteNotificationParams {
+  commentId?: number;
+  meetupId?: number;
+  followerId?: number;
+  likeId?: number;
 }

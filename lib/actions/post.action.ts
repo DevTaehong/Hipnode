@@ -6,11 +6,10 @@ import { redirect } from "next/navigation";
 
 import prisma from "../prisma";
 import {
-  getPostsByGroupIdQueryOptions,
-  getPostsFromGroupsQueryOptions,
+  GetPostsByGroupIdQueryOptions,
+  GetPostsFromGroupsQueryOptions,
 } from "@/types/shared.types";
 import {
-  AddCommentOrReply,
   CommentsGroupedByParentId,
   ExtendedPrismaPost,
   GetPostByIdType,
@@ -18,7 +17,16 @@ import {
   UpdateCommentType,
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
-import { groupCommentsByParentId } from "@/utils";
+import {
+  groupCommentsByParentId,
+  createNotificationIfRequired,
+  getNotificationDate,
+} from "@/utils";
+import {
+  createNotification,
+  deleteNotification,
+  updateNotification,
+} from "./notification.actions";
 
 export async function handleTags(
   tagNames: string[]
@@ -312,7 +320,7 @@ export async function getPopularGroupPosts(
   groupId?: number
 ): Promise<Post[]> {
   try {
-    let queryOptions: getPostsByGroupIdQueryOptions = {
+    let queryOptions: GetPostsByGroupIdQueryOptions = {
       take: 4,
       where: {
         groupId,
@@ -355,7 +363,7 @@ export async function getNewPostsByGroupId(
   groupId?: number
 ): Promise<Post[]> {
   try {
-    let queryOptions: getPostsByGroupIdQueryOptions = {
+    let queryOptions: GetPostsByGroupIdQueryOptions = {
       take: 4,
       where: {
         groupId,
@@ -393,7 +401,7 @@ export async function getNewPostsByGroupId(
 
 export async function getPostsFromGroups(myCursorId?: number): Promise<Post[]> {
   try {
-    let queryOptions: getPostsFromGroupsQueryOptions = {
+    let queryOptions: GetPostsFromGroupsQueryOptions = {
       take: 9, // Take only the limit number of results
       where: {
         group: {
@@ -426,8 +434,9 @@ export async function addCommentOrReply(
   postId: number,
   content: string,
   parentId: number | null,
-  path: string
-): Promise<AddCommentOrReply> {
+  path: string,
+  postHeading: string | undefined
+): Promise<void> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to add a comment or reply."
@@ -452,10 +461,62 @@ export async function addCommentOrReply(
     });
 
     revalidatePath(path);
-    return {
-      ...newComment,
-      userId,
-    };
+
+    // NOTE - It's the same as how Reddit creates notifications for comments and replies
+    const notificationSenderId = userId;
+    const replyingTo = newComment?.parent?.authorId;
+
+    let isReplying;
+    let replyingToSelf;
+
+    if (replyingTo) {
+      isReplying = true;
+      replyingToSelf = notificationSenderId === replyingTo;
+    }
+
+    // NOTE - only create a notification when a user replies to someone's comment
+    if (isReplying && !replyingToSelf) {
+      createNotificationIfRequired(
+        replyingTo,
+        "REPLY",
+        newComment.author.picture,
+        newComment.author.username,
+        newComment.content,
+        postHeading,
+        newComment.id,
+        newComment.createdAt,
+        newComment.parentId ?? undefined
+      );
+      return;
+    }
+
+    // COMMENT ON A POST --------------------
+    prisma.post
+      .findUnique({
+        where: {
+          id: postId,
+        },
+        select: {
+          authorId: true,
+        },
+      })
+      .then((post) => {
+        // NOTE - only create a notification when a user comments on someone else's post
+        const isPostOwner = post?.authorId === notificationSenderId;
+
+        if (!isPostOwner && replyingTo === undefined) {
+          createNotificationIfRequired(
+            post?.authorId,
+            "COMMENT",
+            newComment.author.picture,
+            newComment.author.username,
+            newComment.content,
+            postHeading,
+            newComment.id,
+            newComment.createdAt
+          );
+        }
+      });
   } catch (error) {
     console.error("Error adding comment or reply:", error);
     throw error;
@@ -489,8 +550,15 @@ export async function updateComment(
       },
     });
     if (!comment) throw new Error("Comment not found.");
-
     revalidatePath(path);
+
+    const date = getNotificationDate(comment.updatedAt);
+    updateNotification({
+      commentId,
+      commentContent: content,
+      date,
+    });
+
     return { ...comment, userId };
   } catch (error) {
     console.error("Error updating comment:", error);
@@ -507,6 +575,8 @@ export async function deleteCommentOrReply(
       "You must be logged in to delete a comment or reply."
     );
 
+    deleteNotification({ commentId });
+
     await prisma.comment.deleteMany({
       where: { parentId: commentId, authorId: userId },
     });
@@ -515,7 +585,6 @@ export async function deleteCommentOrReply(
       where: { id: commentId },
     });
     revalidatePath(path);
-    console.log("Comment and its replies deleted successfully");
   } catch (error) {
     console.error("Error deleting comment or replies:", error);
     throw error;
@@ -571,8 +640,10 @@ export async function toggleLikePost(postId: number): Promise<Like | null> {
 }
 
 export async function toggleLikeComment(
-  commentId: number
-): Promise<Like | null> {
+  commentId: number,
+  receiverId: number | undefined,
+  postHeading: string | undefined
+): Promise<void> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to toggle like on a comment."
@@ -583,10 +654,39 @@ export async function toggleLikeComment(
     });
     if (existingLike) {
       await prisma.like.delete({ where: { id: existingLike.id } });
-      return null;
+
+      deleteNotification({ likeId: existingLike.id });
     } else {
       const newLike = await prisma.like.create({ data: { userId, commentId } });
-      return newLike;
+
+      const senderId = userId;
+
+      prisma.user
+        .findUnique({
+          where: {
+            id: senderId,
+          },
+          select: {
+            username: true,
+            picture: true,
+          },
+        })
+        .then((user) => {
+          if (receiverId !== senderId) {
+            if (!user || !receiverId) return;
+            const date = getNotificationDate(new Date());
+            createNotification({
+              commentId,
+              likeId: newLike.id,
+              userId: receiverId,
+              senderName: user?.username,
+              image: user?.picture,
+              type: "REACTION",
+              title: postHeading,
+              date,
+            });
+          }
+        });
     }
   } catch (error) {
     console.error("Error toggling like on comment:", error);
