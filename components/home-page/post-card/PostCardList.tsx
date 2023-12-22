@@ -14,40 +14,48 @@ import { PostCard } from ".";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
+import Spinner from "@/components/Spinner";
 
 const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const searchParams = useSearchParams();
   const tag = searchParams.get("tag");
-  console.log(tag);
-
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
+  const [tagChanged, setTagChanged] = useState<boolean>(false);
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    (async () => {
       if (tag) {
+        if (tagChanged) {
+          setPostData([]);
+        }
         const posts = await getAllPostsByTagName({ tagName: tag });
-        console.log(posts);
         setPostData(posts);
+        setTagChanged(false);
       }
-    };
-
-    fetchPosts();
+    })();
   }, [tag]);
 
   const loadMoreData = async () => {
-    if (tag) return;
     setIsLoading(true);
+    let posts: ExtendedPrismaPost[] = [];
     try {
-      const posts = authorId
-        ? await getAllPostsByUserId({
-            numberToSkip: amountToSkip,
-            authorId,
-          })
-        : await getAllPosts({ numberToSkip: amountToSkip });
+      if (!tag) {
+        posts = authorId
+          ? await getAllPostsByUserId({
+              numberToSkip: amountToSkip,
+              authorId,
+            })
+          : await getAllPosts({ numberToSkip: amountToSkip });
+      }
+
+      if (tag) {
+        posts = await getAllPostsByTagName({ tagName: tag });
+        setTagChanged(true);
+      }
 
       if (posts?.length) {
         setAmountToSkip((prev) => prev + 10);
@@ -83,8 +91,11 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
       ))}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
-          <div className="animate-pulse text-dark-3 dark:text-white">
-            Loading...
+          <div className="flex h-full w-full flex-col items-center justify-center pt-12">
+            <p className="mb-8 animate-pulse font-bold text-red-80">
+              Loading your content...
+            </p>
+            <Spinner />
           </div>
         )}
       </div>
