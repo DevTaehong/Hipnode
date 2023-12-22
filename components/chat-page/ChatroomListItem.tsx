@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { useChannel } from "ably/react";
 
@@ -5,7 +6,6 @@ import { formatRelativeTime } from "@/utils";
 import useChatStore from "@/app/chatStore";
 import { ChatroomListItemProps, UserTyping } from "@/types/chatroom.index";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import { useMemo, useState } from "react";
 
 const ChatroomListItem = ({
   chatroom,
@@ -34,11 +34,11 @@ const ChatroomListItem = ({
     return userTyping?.isTyping && userTyping.userId === otherUser.id;
   }, [userTyping, otherUser.id]);
 
-  if (!otherUser) return null;
-
   const isOtherUserOnline = onlineUsers
     ? onlineUsers.includes(otherUser.id)
     : false;
+
+  if (!otherUser) return null;
 
   const formattedTime = formatRelativeTime(recentMessageCreatedAt);
 

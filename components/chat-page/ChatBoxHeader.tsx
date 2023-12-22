@@ -9,7 +9,6 @@ const ChatBoxHeader = () => {
   const { otherUser, showChatRoomList, setShowChatRoomList } =
     useChatPageContext();
   const { chatroomUsers, onlineUsers } = useChatStore();
-
   const otherUserInfo = chatroomUsers[1] ?? otherUser;
 
   const isOtherUserOnline = onlineUsers

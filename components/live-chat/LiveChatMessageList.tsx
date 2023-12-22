@@ -31,7 +31,9 @@ const LiveChatMessageList = React.memo(
       id: secondUserId,
     } = secondUser ?? {};
 
-    const isSecondUserOnline = onlineUsers?.includes(secondUserId) ?? false;
+    const isSecondUserOnline = onlineUsers
+      ? onlineUsers.includes(secondUserId)
+      : false;
 
     useEffect(() => {
       if (endOfMessagesRef.current) {

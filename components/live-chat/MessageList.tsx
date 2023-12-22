@@ -8,19 +8,30 @@ import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
 import {
   addUserToOnlineUsers,
+  getAllOnlineUserIds,
   removeUserFromOnlineUsers,
 } from "@/lib/actions/online-user.actions";
 
 const MessageList = () => {
-  const { userInfo } = useChatStore();
+  const { userInfo, setOnlineUsers } = useChatStore();
   const { id } = userInfo;
 
   const [users, setUsers] = useState<ChatProps[]>([]);
+
+  const resetOnlineUsers = async () => {
+    try {
+      const onlineUserIds = await getAllOnlineUserIds();
+      setOnlineUsers(onlineUserIds);
+    } catch (error) {
+      console.error("Error fetching online users:", error);
+    }
+  };
 
   useEffect(() => {
     const handleAddUser = async () => {
       try {
         await addUserToOnlineUsers(id);
+        await resetOnlineUsers();
       } catch (error) {
         console.error("Error adding user to online users:", error);
       }
@@ -34,6 +45,7 @@ const MessageList = () => {
     const handleUnload = async () => {
       try {
         await removeUserFromOnlineUsers(id);
+        await resetOnlineUsers();
       } catch (error) {
         console.error("Error removing user from online users:", error);
       }
@@ -58,6 +70,23 @@ const MessageList = () => {
       }
     };
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const resetUsersPeriodically = async () => {
+      try {
+        await removeUserFromOnlineUsers(id);
+        await addUserToOnlineUsers(id);
+        await resetOnlineUsers();
+      } catch (error) {
+        console.error("Error resetting online users periodically:", error);
+      }
+    };
+    const intervalId = setInterval(() => {
+      resetUsersPeriodically();
+    }, 60000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
