@@ -41,6 +41,7 @@ export type PostCardProps = {
   likes?: number;
   clerkId?: string;
   profileSearchParams?: string;
+  setTagged: (tagged: string) => void;
 };
 
 export type SocialCountTuple = [string, number];

@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 
 import {
   getAllPosts,
   getAllPostsByUserId,
   getAllPostsByTagName,
+  getAllPostsByTagNameByUserId,
 } from "@/lib/actions/post.action";
 import { ExtendedPrismaPost } from "@/types/posts";
 import { PostCard } from ".";
@@ -23,21 +24,23 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
-  const [tagChanged, setTagChanged] = useState<boolean>(false);
+  const [tagged, setTagged] = useState("");
   const { ref, inView } = useInView();
+
+  const path = usePathname();
 
   useEffect(() => {
     (async () => {
-      if (tag) {
-        if (tagChanged) {
-          setPostData([]);
-        }
-        const posts = await getAllPostsByTagName({ tagName: tag });
+      if (tagged && authorId && path === "/profile/profile") {
+        setPostData([]);
+        const posts = await getAllPostsByTagNameByUserId({
+          tagName: tagged,
+          authorId,
+        });
         setPostData(posts);
-        setTagChanged(false);
       }
     })();
-  }, [tag]);
+  }, [tagged]);
 
   const loadMoreData = async () => {
     setIsLoading(true);
@@ -54,7 +57,6 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
       if (tag) {
         posts = await getAllPostsByTagName({ tagName: tag });
-        setTagChanged(true);
       }
 
       if (posts?.length) {
@@ -87,7 +89,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
-        <PostCard post={post} key={post.id} />
+        <PostCard post={post} key={post.id} setTagged={setTagged} />
       ))}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (

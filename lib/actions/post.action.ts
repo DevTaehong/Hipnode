@@ -1,6 +1,6 @@
 "use server";
 
-import { Like, Post, PrismaClient } from "@prisma/client";
+import { Like, Post } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -19,7 +19,6 @@ import {
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
 import { groupCommentsByParentId } from "@/utils";
-import { skip } from "node:test";
 
 export async function handleTags(
   tagNames: string[]
@@ -900,6 +899,123 @@ export async function getAllPostsByTagName({
 
     const posts = await prisma.post.findMany({
       where: {
+        tags: {
+          some: {
+            tag: {
+              name: tagName,
+            },
+          },
+        },
+      },
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    revalidatePath(`/tags/${tagName}`);
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function countPostsByTagNameByUserId({
+  tagName,
+  authorId,
+}: {
+  tagName: string;
+  authorId: number;
+}): Promise<number> {
+  try {
+    const count = await prisma.post.count({
+      where: {
+        authorId,
+        tags: {
+          some: {
+            tag: {
+              name: tagName,
+            },
+          },
+        },
+      },
+    });
+    return count;
+  } catch (error) {
+    console.error("Error counting posts by tag name:", error);
+    throw error;
+  }
+}
+
+export async function getAllPostsByTagNameByUserId({
+  numberToSkip = 0,
+  tagName,
+  authorId,
+}: {
+  numberToSkip?: number;
+  tagName: string;
+  authorId: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit your own posts."
+    );
+
+    const numberOfAvailablePosts = await countPostsByTagNameByUserId({
+      tagName,
+      authorId,
+    });
+
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId,
         tags: {
           some: {
             tag: {

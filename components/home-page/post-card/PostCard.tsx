@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
 
-import { PostImage, PostLabels, SocialMediaIcon, SocialStatistics } from ".";
+import { PostImage, SocialMediaIcon, SocialStatistics } from ".";
 import FillIcon from "@/components/icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
@@ -32,7 +32,7 @@ const PostCard = ({
     imageWidth,
     userCanEditMedia,
   },
-
+  setTagged,
   profileSearchParams,
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
@@ -68,7 +68,7 @@ const PostCard = ({
           <div className="flex justify-between">
             <Link href={`/posts/post/${id}`}>
               <h2
-                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-105 dark:text-light-2 md:line-clamp-2"
+                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-[101%] dark:text-light-2 md:line-clamp-2"
                 dangerouslySetInnerHTML={{ __html: htmlString.slice(1, -1) }}
               />
             </Link>
@@ -92,7 +92,20 @@ const PostCard = ({
               </div>
             </div>
           </div>
-          <PostLabels tags={tags} />
+          <div>
+            <ul className="flex justify-start gap-[0.625rem]">
+              {tags.map((item) => (
+                <Link href={`?tag=${item}`} key={item}>
+                  <li
+                    onClick={() => setTagged(item)}
+                    className="semibold-10 w-fit  cursor-pointer rounded-full bg-light-3 px-[0.625rem] py-1 leading-[0.875rem] hover:scale-110 hover:bg-light-2 hover:shadow-lg dark:bg-dark-4 dark:text-sc-5 hover:dark:bg-dark-2"
+                  >
+                    {item}
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="hidden items-center justify-between md:flex">

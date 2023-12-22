@@ -147,7 +147,7 @@ export async function getProfileInterviews(): Promise<ProfileInterview[]> {
       take: 10,
       skip: 0,
     });
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error fetching user meetups:", error);

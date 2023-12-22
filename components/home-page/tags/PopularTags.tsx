@@ -32,7 +32,7 @@ const PopularTags = ({ tagsData }: TagsProps) => {
         return (
           <div
             key={tag.name}
-            className="mb-[0.675rem] flex items-center justify-center gap-3"
+            className="mb-[0.675rem] flex items-center justify-center gap-3 hover:translate-x-1 hover:scale-[101%]"
           >
             <div
               className={`flex rounded-lg ${
@@ -44,7 +44,7 @@ const PopularTags = ({ tagsData }: TagsProps) => {
             <div className="flex flex-col">
               <p
                 onClick={() => handleTagClick(tag.name)}
-                className="semibold-12 cursor-pointer text-sc-4 dark:text-light-2"
+                className="semibold-12 cursor-pointer text-sc-4  dark:text-light-2"
               >
                 #{tag.name}
               </p>
