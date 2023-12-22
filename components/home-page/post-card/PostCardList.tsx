@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useSearchParams, usePathname } from "next/navigation";
+import {
+  useSearchParams,
+  usePathname,
+  useParams,
+  useRouter,
+} from "next/navigation";
 
 import {
   getAllPosts,
@@ -20,14 +25,33 @@ import Spinner from "@/components/Spinner";
 const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const searchParams = useSearchParams();
   const tag = searchParams.get("tag");
+  const search = searchParams.get("search");
+  const params = useParams();
+  const loc = useRouter();
+  console.log(loc);
+  console.log(params);
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
   const [tagged, setTagged] = useState("");
+  const [tagChanged, setTagChanged] = useState<boolean>(false);
   const { ref, inView } = useInView();
 
   const path = usePathname();
+
+  useEffect(() => {
+    (async () => {
+      if (tag && !tagged) {
+        if (tagChanged && path === "/") {
+          setPostData([]);
+        }
+        const posts = await getAllPostsByTagName({ tagName: tag });
+        setPostData(posts);
+        setTagChanged(false);
+      }
+    })();
+  }, [tag, authorId]);
 
   useEffect(() => {
     (async () => {
@@ -38,6 +62,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
           authorId,
         });
         setPostData(posts);
+        setTagChanged(false);
       }
     })();
   }, [tagged]);
@@ -57,6 +82,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
       if (tag) {
         posts = await getAllPostsByTagName({ tagName: tag });
+        setTagChanged(true);
       }
 
       if (posts?.length) {
