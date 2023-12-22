@@ -31,9 +31,9 @@ const MessageList = () => {
   }, [id]);
 
   useEffect(() => {
-    const handleUnload = () => {
+    const handleUnload = async () => {
       try {
-        removeUserFromOnlineUsers(id);
+        await removeUserFromOnlineUsers(id);
       } catch (error) {
         console.error("Error removing user from online users:", error);
       }

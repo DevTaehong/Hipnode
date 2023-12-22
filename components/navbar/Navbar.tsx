@@ -13,35 +13,13 @@ import { getAllOnlineUserIds } from "@/lib/actions/online-user.actions";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 import NotificationButton from "./NotificationButton";
 import { verifyAuth } from "@/lib/auth";
-import { supabase } from "@/utils/supabaseClient";
 
 const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
     "You must be logged in to create post."
   );
 
-  let onlineUserIds = [];
-
-  onlineUserIds = await getAllOnlineUserIds();
-
-  const handleChange = async () => {
-    onlineUserIds = await getAllOnlineUserIds();
-  };
-
-  supabase
-    .channel("OnlineUser")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "OnlineUser" },
-      handleChange
-    )
-    .on(
-      "postgres_changes",
-      { event: "DELETE", schema: "public", table: "OnlineUser" },
-      handleChange
-    )
-    .subscribe();
-
+  const onlineUserIds = await getAllOnlineUserIds();
   const userInfo = {
     id: userId,
     username: userName,
