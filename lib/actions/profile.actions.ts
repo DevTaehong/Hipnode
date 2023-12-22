@@ -11,11 +11,45 @@ import {
   UserProfile,
 } from "@/types/profile.index";
 
-export async function getProfileData(): Promise<UserProfile | null> {
+export async function getProfileData(
+  paramsId?: string
+): Promise<UserProfile | null> {
   try {
     const { clerkId } = await verifyAuth(
       "You must be logged in to view your profile."
     );
+
+    if (paramsId) {
+      const data = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
+        },
+        include: {
+          following: {
+            take: 6,
+            include: {
+              followed: {
+                select: {
+                  username: true,
+                  picture: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              followers: true,
+              following: true,
+            },
+          },
+        },
+      });
+
+      return data[0];
+    }
 
     const data = await prisma.user.findUnique({
       where: {
@@ -43,18 +77,38 @@ export async function getProfileData(): Promise<UserProfile | null> {
     });
     return data;
   } catch (error) {
-    console.error("Error fetching user by clerkId:", error);
+    console.error("Error fetching user by clerkId or username:", error);
     throw error;
   }
 }
 
-export async function getProfilePosts(): Promise<ProfilePost[]> {
+export async function getProfilePosts(
+  paramsId?: string
+): Promise<ProfilePost[]> {
   try {
-    verifyAuth("You must be logged in to view your profile.");
+    verifyAuth("You must be logged in to view your profile or other profiles.");
 
-    const userData = await currentUser();
+    let userId;
 
-    const userId = userData?.publicMetadata.userId as number;
+    if (paramsId) {
+      const data = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      userId = data[0]?.id;
+    } else {
+      const userData = await currentUser();
+
+      userId = userData?.publicMetadata.userId as number;
+    }
 
     const data = await prisma.post.findMany({
       where: {
@@ -92,13 +146,33 @@ export async function getProfilePosts(): Promise<ProfilePost[]> {
   }
 }
 
-export async function getProfileMeetups(): Promise<ProfileMeetup[]> {
+export async function getProfileMeetups(
+  paramsId?: string
+): Promise<ProfileMeetup[]> {
   try {
-    verifyAuth("You must be logged in to view your profile.");
+    verifyAuth("You must be logged in to view your profile or other profiles.");
 
-    const userData = await currentUser();
+    let userId;
 
-    const userId = userData?.publicMetadata.userId as number;
+    if (paramsId) {
+      const data = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      userId = data[0]?.id;
+    } else {
+      const userData = await currentUser();
+
+      userId = userData?.publicMetadata.userId as number;
+    }
 
     const data = await prisma.meetUp.findMany({
       where: {
@@ -133,17 +207,46 @@ export async function getProfileMeetups(): Promise<ProfileMeetup[]> {
   }
 }
 
-export async function getProfilePodcasts(): Promise<Podcast[]> {
+export async function getProfilePodcasts(
+  paramsId?: string
+): Promise<Podcast[]> {
   try {
-    verifyAuth("You must be logged in to view your profile.");
+    verifyAuth("You must be logged in to view your profile or other profiles.");
 
-    const userData = await currentUser();
+    let userId;
 
-    const userId = userData?.publicMetadata.userId as number;
+    if (paramsId) {
+      const data = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      userId = data[0]?.id;
+    } else {
+      const userData = await currentUser();
+
+      userId = userData?.publicMetadata.userId as number;
+    }
 
     const data = await prisma.podcast.findMany({
       where: {
         userId,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            picture: true,
+            location: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -166,13 +269,33 @@ export type ProfileInterview = Interview & {
   };
 };
 
-export async function getProfileInterviews(): Promise<ProfileInterview[]> {
+export async function getProfileInterviews(
+  paramsId?: string
+): Promise<ProfileInterview[]> {
   try {
-    verifyAuth("You must be logged in to view your profile.");
+    verifyAuth("You must be logged in to view your profile or other profiles.");
 
-    const userData = await currentUser();
+    let userId;
 
-    const userId = userData?.publicMetadata.userId as number;
+    if (paramsId) {
+      const data = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      userId = data[0]?.id;
+    } else {
+      const userData = await currentUser();
+
+      userId = userData?.publicMetadata.userId as number;
+    }
 
     const data = await prisma.interview.findMany({
       where: {
@@ -181,6 +304,7 @@ export async function getProfileInterviews(): Promise<ProfileInterview[]> {
       include: {
         creator: {
           select: {
+            username: true,
             name: true,
             picture: true,
           },
@@ -192,7 +316,7 @@ export async function getProfileInterviews(): Promise<ProfileInterview[]> {
       take: 10,
       skip: 0,
     });
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error fetching user meetups:", error);
@@ -204,13 +328,33 @@ export async function getProfileHistory(): Promise<any> {
   return [];
 }
 
-export async function getPerformanceData(): Promise<PostPerformance[]> {
+export async function getPerformanceData(
+  paramsId?: string
+): Promise<PostPerformance[]> {
   try {
-    verifyAuth("You must be logged in to view your profile.");
+    verifyAuth("You must be logged in to view your profile or other profiles.");
 
-    const userData = await currentUser();
+    let userId;
 
-    const userId = userData?.publicMetadata.userId as number;
+    if (paramsId) {
+      const data = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: paramsId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      userId = data[0]?.id;
+    } else {
+      const userData = await currentUser();
+
+      userId = userData?.publicMetadata.userId as number;
+    }
 
     const data = await prisma.post.findMany({
       where: {
