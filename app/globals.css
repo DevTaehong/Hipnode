@@ -678,6 +678,7 @@ code {
 }
 
 @media (max-width: 40px) {
+
   /* or another appropriate breakpoint */
   .conditional-break-all {
     word-break: break-all;

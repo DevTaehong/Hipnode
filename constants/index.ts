@@ -4,11 +4,9 @@ import newest from "@/public/images/newest.png";
 import popular from "@/public/images/popular.png";
 import followers from "@/public/images/followers.png";
 
-import {
-  ColorVariantsOnboardingType,
-  GroupPromiseProps,
-  NotificationPopoverProps,
-} from "@/types";
+import { ColorVariantsOnboardingType, GroupPromiseProps } from "@/types";
+
+export const MAX_NOTIFICATIONS = 3;
 
 export const dummyMessages = [
   {
@@ -132,25 +130,6 @@ export const groupHeaderData = {
 
 export const meetUpsCardPills = ["Remote", "Part", "World"];
 export const routes = ["posts", "meetups", "podcasts", "interviews", "history"];
-
-export const admins = [
-  {
-    name: "Taehong",
-    avatar: "/negan.png",
-  },
-  {
-    name: "Taehong",
-    avatar: "/negan.png",
-  },
-  {
-    name: "Taehong",
-    avatar: "/negan.png",
-  },
-  {
-    name: "Taehong",
-    avatar: "/negan.png",
-  },
-];
 
 export const colorVariants: ColorVariantsOnboardingType = {
   fillRed: "fill-red",
@@ -441,52 +420,23 @@ export const sidebarItems = [
 
 export const notificationTabs = [
   {
-    title: "All notifications",
+    title: "All notification",
   },
   {
-    title: "Reactions",
+    title: "Reaction",
     icon: OutlineIcon.Heart,
   },
   {
-    title: "Comments",
+    title: "Comment",
     icon: OutlineIcon.Comment,
   },
   {
-    title: "Mentions",
+    title: "Mention",
     icon: OutlineIcon.Mention,
   },
   {
-    title: "Meetups",
+    title: "Meetup",
     icon: OutlineIcon.Post,
-  },
-];
-
-export const dummyNotifications: NotificationPopoverProps[] = [
-  {
-    userName: "Catalin Pit",
-    type: "comment",
-    comment: "Great ebook & giveaway!",
-    title:
-      "Hipnode. Book Giveaway: The Standout Developer by Randall Kanna Hipnode.",
-    date: "16 Oct, 3:26pm",
-    read: false,
-    image: "/christopher.png",
-  },
-  {
-    userName: "Jubed Ahmed",
-    type: "meetup",
-    title: "Best Color Palette Generators For UI Designers And Developers",
-    date: "14 Oct, 9:10am",
-    read: false,
-    image: "/santiago.png",
-  },
-  {
-    userName: "Tushar Srivastava",
-    type: "reaction",
-    title: "5 Key UI Design Principles for Beginners",
-    date: "12 Oct, 12:26pm",
-    read: true,
-    image: "/negan.png",
   },
 ];
 

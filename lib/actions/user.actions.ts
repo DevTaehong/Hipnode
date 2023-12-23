@@ -56,6 +56,16 @@ export async function getAllUsers() {
 
 export async function createUser(data: createUserType) {
   try {
+    const existingUsers = await prisma.user.findMany({
+      where: {
+        username: data.username,
+      },
+    });
+
+    if (existingUsers.length > 0) {
+      return null;
+    }
+
     const user = await prisma.user.create({
       data,
     });
@@ -223,6 +233,48 @@ export async function isLoggedInUserOnboarded(
     return !!onboarding;
   } catch (error) {
     console.error("Error checking if user is onboarded:", error);
+    throw error;
+  }
+}
+
+export async function updateNotificationLastChecked(
+  id: number,
+  path: string
+): Promise<void> {
+  try {
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        notificationLastChecked: new Date(),
+      },
+    });
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error updating notification last checked:", error);
+    throw error;
+  }
+}
+
+export async function getNotificationLastChecked(
+  id: number
+): Promise<{ notificationLastChecked: Date | null }> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        notificationLastChecked: true,
+      },
+    });
+
+    if (!user) throw new Error(`No user found for id: ${id}`);
+
+    return user;
+  } catch (error) {
+    console.error("Error finding user", error);
     throw error;
   }
 }

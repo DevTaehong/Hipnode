@@ -11,9 +11,9 @@ import { supabase } from "@/utils/supabaseClient";
 import { homePageTags, monthNames, abbMonthNames } from "@/constants";
 import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
+import { createNotification } from "@/lib/actions/notification.actions";
 import { getBlurData } from "@/lib";
-
-import qs from "query-string";
+import { NotificationProps } from "@/types";
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -408,46 +408,69 @@ export const adjustHeight = (element: HTMLTextAreaElement | null) => {
   element.style.height = `${Math.min(element.scrollHeight, 72)}px`; // 72px is the max height
 };
 
-interface UrlQueryParams {
-  params: string;
-  key: string;
-  value: string | null;
-}
+export const getNotificationDate = (date: Date) => {
+  const dateObj = new Date(date);
+  const day = dateObj.getDate();
 
-export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
-  const currentUrl = qs.parse(params);
-
-  currentUrl[key] = value;
-
-  return qs.stringifyUrl(
-    {
-      url: window.location.pathname,
-      query: currentUrl,
-    },
-    { skipNull: true }
-  );
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ][dateObj.getMonth()];
+  const hours = dateObj.getHours();
+  const minutes =
+    dateObj.getMinutes() < 10
+      ? "0" + dateObj.getMinutes()
+      : dateObj.getMinutes();
+  const formattedDate = `${day} ${month}, ${hours}:${minutes}${
+    hours < 12 ? "am" : "pm"
+  }`;
+  return formattedDate;
 };
 
-interface RemoveUrlQueryParams {
-  params: string;
-  keysToRemove: string[];
-}
-
-export const removeKeysFromQuery = ({
-  params,
-  keysToRemove,
-}: RemoveUrlQueryParams) => {
-  const currentUrl = qs.parse(params);
-
-  keysToRemove.forEach((key) => {
-    delete currentUrl[key];
+export const createNotificationIfRequired = (
+  userId: number | undefined,
+  type: "COMMENT" | "REPLY",
+  image: string,
+  senderName: string,
+  commentContent: string,
+  title: string | undefined,
+  commentId: number,
+  createAt: Date,
+  commentParentId?: number
+) => {
+  const date = getNotificationDate(createAt);
+  if (!userId) throw new Error("No user id provided to create notification");
+  createNotification({
+    userId,
+    image,
+    senderName,
+    type,
+    commentContent,
+    title: title || "No title",
+    commentId,
+    date,
+    commentParentId,
   });
+};
 
-  return qs.stringifyUrl(
-    {
-      url: window.location.pathname,
-      query: currentUrl,
-    },
-    { skipNull: true }
+export const filterNotifications = (
+  notifications: NotificationProps[],
+  selectedTab: string | null
+) => {
+  if (!selectedTab || selectedTab === "all notification") {
+    return notifications;
+  }
+  return notifications.filter(
+    (notification) => notification.type.toLowerCase() === selectedTab
   );
 };

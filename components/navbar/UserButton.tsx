@@ -20,19 +20,20 @@ const UserButton = () => {
     <Popover>
       <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg hover:bg-sc-6 dark:hover:bg-dark-4">
         <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
-          <Image
-            src={user?.imageUrl || "/images/emoji.png"}
-            alt="User Image"
-            width={30}
-            height={30}
-            className="m-[2px] rounded-[0.375rem] bg-yellow-30"
-          />
+          {user?.imageUrl && (
+            <Image
+              src={user?.imageUrl}
+              alt="User Image"
+              width={30}
+              height={30}
+              className="m-[2px] rounded-[0.375rem] bg-yellow-30"
+            />
+          )}
         </div>
 
         <div className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
           <p className="line-clamp-1 flex-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
-            {/* {user?.username} */}
-            Abide
+            {user?.username}
           </p>
 
           <FillIcons.Triangle />
