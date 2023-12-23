@@ -1,13 +1,34 @@
-/* eslint-disable camelcase */
+import { ChangeEvent, useEffect, useRef } from "react";
 
-import React, { ChangeEvent } from "react";
-
+import { SuggestionsListProps, LocationProps } from "@/types/posts";
 import usePlacesAutocomplete, { Suggestion } from "use-places-autocomplete";
-import useOnclickOutside from "react-cool-onclickoutside";
 
-type LocationProps = {
-  setValueHookForm: (name: "location", value: string) => void;
-};
+const SuggestionsList = ({
+  suggestions,
+  onSuggestionSelect,
+}: SuggestionsListProps) => (
+  <ul className="absolute z-10 overflow-hidden shadow-md">
+    {suggestions.map((suggestion) => {
+      const {
+        place_id: placeId,
+        structured_formatting: {
+          main_text: mainText,
+          secondary_text: secondaryText,
+        },
+      } = suggestion;
+
+      return (
+        <li
+          className="relative cursor-pointer"
+          key={placeId}
+          onClick={onSuggestionSelect(suggestion)}
+        >
+          <strong>{mainText}</strong> <small>{secondaryText}</small>
+        </li>
+      );
+    })}
+  </ul>
+);
 
 const Location = ({ setValueHookForm }: LocationProps) => {
   const {
@@ -17,14 +38,24 @@ const Location = ({ setValueHookForm }: LocationProps) => {
     setValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
-    callbackName: "YOUR_CALLBACK_NAME",
     requestOptions: {},
     debounce: 300,
   });
 
-  const ref = useOnclickOutside(() => {
-    clearSuggestions();
-  });
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        clearSuggestions();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -35,22 +66,6 @@ const Location = ({ setValueHookForm }: LocationProps) => {
     setValueHookForm("location", suggestion.description);
     clearSuggestions();
   };
-
-  const renderSuggestions = () =>
-    data.map((suggestion) => {
-      const {
-        place_id,
-        structured_formatting: { main_text, secondary_text },
-      } = suggestion;
-
-      return (
-        <div className="cursor-pointer" key={place_id}>
-          <li onClick={handleSelect(suggestion)}>
-            <strong>{main_text}</strong> <small>{secondary_text}</small>
-          </li>
-        </div>
-      );
-    });
 
   return (
     <div className="w-full" ref={ref}>
@@ -67,7 +82,9 @@ const Location = ({ setValueHookForm }: LocationProps) => {
         disabled={!ready}
         placeholder="Location of Meetup?"
       />
-      {status === "OK" && <ul>{renderSuggestions()}</ul>}
+      {status === "OK" && (
+        <SuggestionsList suggestions={data} onSuggestionSelect={handleSelect} />
+      )}
     </div>
   );
 };
