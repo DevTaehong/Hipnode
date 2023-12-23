@@ -15,9 +15,9 @@ import CommentForm from "@/components/posts/comment/CommentForm";
 import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
-import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
 import dynamic from "next/dynamic";
+import Following from "@/components/posts/post-by-id/right-column/Following";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -113,10 +113,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
               Web Developer
             </p>
-            <CustomButton
-              label="Follow"
-              className="mb-[1.25rem] flex w-full items-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
-            />
+            <Following authorId={authorId} />
             <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
               {+calculatedDate > 0
                 ? `joined ${calculatedDate} months ago`

@@ -1199,3 +1199,46 @@ export async function getAllPostsByTagNameByUserId({
     throw error;
   }
 }
+
+export async function followUser(userIdToFollow: number) {
+  try {
+    const { userId: followerId } = await verifyAuth(
+      "You must be logged in to follow a user.",
+      false
+    );
+
+    if (followerId === userIdToFollow) {
+      throw new Error("You cannot follow yourself.");
+    }
+    const existingFollow = await prisma.follower.findFirst({
+      where: {
+        followerId,
+        followedId: userIdToFollow,
+      },
+    });
+
+    let followingStatus;
+
+    if (existingFollow) {
+      await prisma.follower.delete({
+        where: {
+          id: existingFollow.id,
+        },
+      });
+      followingStatus = false;
+    } else {
+      await prisma.follower.create({
+        data: {
+          followerId,
+          followedId: userIdToFollow,
+        },
+      });
+      followingStatus = true;
+    }
+
+    return followingStatus;
+  } catch (error) {
+    console.error("Error following/unfollowing user:", error);
+    throw error;
+  }
+}
