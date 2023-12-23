@@ -56,7 +56,7 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
               userImage={loggedInUserImage ?? "/images/emoji.png"}
             />
           </div>
-          <div className="flex w-full overflow-hidden">
+          <div className="flex h-full w-full overflow-hidden">
             <PostCardList posts={posts} />
           </div>
         </div>

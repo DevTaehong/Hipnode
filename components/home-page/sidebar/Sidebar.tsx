@@ -17,7 +17,7 @@ export const sidebarItems = [
     imgSrc: popular,
     imgAlt: "popular of the day",
     title: "Popular",
-    subTitle: "of the day",
+    subTitle: "posts",
     description: "Shots featured today by curators",
     imgContainerClass:
       "flex h-[1.75rem] w-[1.75rem] items-center justify-center rounded-md bg-light-3 dark:bg-dark-4",

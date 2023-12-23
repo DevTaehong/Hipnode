@@ -9,6 +9,8 @@ import {
   getAllPostsByUserId,
   getAllPostsByTagName,
   getAllPostsByTagNameByUserId,
+  getMostPopularPosts,
+  getPostsByFollowing,
 } from "@/lib/actions/post.action";
 import { ExtendedPrismaPost } from "@/types/posts";
 import { PostCard } from ".";
@@ -16,10 +18,12 @@ import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
 import Spinner from "@/components/Spinner";
+import LoaderComponent from "@/components/onboarding-components/LoaderComponent";
 
 const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const searchParams = useSearchParams();
   const tag = searchParams.get("tag");
+  const filter = searchParams.get("filter");
 
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [loadMore, setLoadMore] = useState<boolean>(false);
@@ -47,6 +51,33 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   useEffect(() => {
     (async () => {
+      if (filter && path === "/") {
+        setPostData([]);
+        let posts;
+
+        switch (filter) {
+          case "popular":
+            posts = await getMostPopularPosts({ numberToSkip: 0 });
+            break;
+          case "newest":
+            posts = await getAllPosts({ numberToSkip: 0 });
+            break;
+          case "following":
+            posts = await getPostsByFollowing({ numberToSkip: 0 });
+            break;
+          default:
+            posts = await getAllPosts({ numberToSkip: 0 });
+            break;
+        }
+
+        setPostData(posts);
+        setTagChanged(false);
+      }
+    })();
+  }, [filter, path]);
+
+  useEffect(() => {
+    (async () => {
       if (tagged && authorId) {
         setPostData([]);
         const posts = await getAllPostsByTagNameByUserId({
@@ -63,7 +94,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
     setIsLoading(true);
     let posts: ExtendedPrismaPost[] = [];
     try {
-      if (!tag) {
+      if (!tag && !filter) {
         posts = authorId
           ? await getAllPostsByUserId({
               numberToSkip: amountToSkip,
@@ -106,6 +137,11 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
+      {postData.length === 0 && (
+        <div className="flex h-full justify-center pt-40">
+          <LoaderComponent />
+        </div>
+      )}
       {postData.map((post) => (
         <PostCard
           post={post}
@@ -137,7 +173,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
           }
         />
       )}
-      {hasSeenAllPosts && (
+      {hasSeenAllPosts && postData.length > 0 && (
         <div className="text-center text-dark-3 dark:text-white">
           You have seen all the available posts.
         </div>

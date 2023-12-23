@@ -1262,3 +1262,154 @@ export async function isFollowingUser(userIdToFollow: number) {
     throw error;
   }
 }
+
+export async function getMostPopularPosts({
+  numberToSkip = 0,
+}: {
+  numberToSkip?: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countAllPosts();
+
+    const posts = await prisma.post.findMany({
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        viewCount: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+    }));
+  } catch (error) {
+    console.error("Error retrieving most popular posts:", error);
+    throw error;
+  }
+}
+
+export async function getPostsByFollowing({
+  numberToSkip = 0,
+}: {
+  numberToSkip?: number;
+}) {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to view this content.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countAllPosts();
+
+    const posts = await prisma.post.findMany({
+      where: {
+        author: {
+          followers: {
+            some: {
+              followerId: userId,
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    console.log(posts);
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts by following:", error);
+    throw error;
+  }
+}
