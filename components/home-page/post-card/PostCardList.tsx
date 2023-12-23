@@ -2,12 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import {
-  useSearchParams,
-  usePathname,
-  useParams,
-  useRouter,
-} from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 
 import {
   getAllPosts,
@@ -25,11 +20,7 @@ import Spinner from "@/components/Spinner";
 const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const searchParams = useSearchParams();
   const tag = searchParams.get("tag");
-  const search = searchParams.get("search");
-  const params = useParams();
-  const loc = useRouter();
-  console.log(loc);
-  console.log(params);
+
   const [postData, setPostData] = useState<ExtendedPrismaPost[]>(posts);
   const [loadMore, setLoadMore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
