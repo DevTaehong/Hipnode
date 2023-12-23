@@ -33,8 +33,9 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   useEffect(() => {
     (async () => {
-      if (tag && !tagged) {
-        if (tagChanged && path === "/") {
+      if (tag && path === "/") {
+        if (tagChanged) {
+          console.log("we are here");
           setPostData([]);
         }
         const posts = await getAllPostsByTagName({ tagName: tag });
@@ -46,7 +47,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   useEffect(() => {
     (async () => {
-      if (tagged && authorId && path === "/profile/profile") {
+      if (tagged && authorId) {
         setPostData([]);
         const posts = await getAllPostsByTagNameByUserId({
           tagName: tagged,
@@ -106,7 +107,12 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
       {postData.map((post) => (
-        <PostCard post={post} key={post.id} setTagged={setTagged} />
+        <PostCard
+          post={post}
+          key={post.id}
+          setTagged={setTagged}
+          userIdFromParams={authorId}
+        />
       ))}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (

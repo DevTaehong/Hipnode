@@ -21,6 +21,8 @@ import { formatUserJoinedDate } from "@/lib/utils";
 import { ProfileResults } from "@/types";
 import { isMeetUpExtended, isPodcast, isInterview } from "@/utils/typeGuards";
 import { getAllPostsByUserId } from "@/lib/actions/post.action";
+import { PostCardList } from "@/components/home-page/post-card";
+import { ExtendedPrismaPost } from "@/types/posts";
 
 const ProfilePage = async ({
   params,
@@ -35,10 +37,9 @@ const ProfilePage = async ({
 
   switch (searchParams?.search) {
     case "posts":
-      if (!user) return;
       result = await getAllPostsByUserId({
         numberToSkip: 0,
-        authorId: user?.id,
+        authorId: +params.id,
       });
 
       break;
@@ -88,6 +89,13 @@ const ProfilePage = async ({
         <ProfileFilter />
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
+
+        {searchParams?.search === "posts" && (
+          <PostCardList
+            posts={result as ExtendedPrismaPost[]}
+            authorId={+params.id}
+          />
+        )}
 
         {searchParams?.search === "meetups" &&
           result.map((item) => {

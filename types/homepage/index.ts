@@ -42,6 +42,7 @@ export type PostCardProps = {
   clerkId?: string;
   profileSearchParams?: string;
   setTagged: (tagged: string) => void;
+  userIdFromParams?: number;
 };
 
 export type SocialCountTuple = [string, number];

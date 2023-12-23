@@ -365,9 +365,9 @@ export async function getAllPostsByUserId({
     const { userId } = await verifyAuth(
       "You must be logged in to get Post Content."
     );
-
+    console.log(authorId);
     const numberOfAvailablePosts = await countPostsByAuthorId(authorId);
-
+    console.log(numberOfAvailablePosts);
     const posts = await prisma.post.findMany({
       where: {
         authorId,
@@ -414,7 +414,7 @@ export async function getAllPostsByUserId({
         },
       },
     });
-
+    console.log(posts);
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,
