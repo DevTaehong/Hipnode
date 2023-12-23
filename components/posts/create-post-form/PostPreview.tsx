@@ -15,6 +15,8 @@ import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
 const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
   const { imagePreviewUrl, previewValues } = useCreatePostContext();
 
+  console.log(htmlString.length);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,36 +29,65 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
           </p>
         </button>
       </DialogTrigger>
-      <DialogContent className="max-h-[50rem] max-w-[49rem] overflow-scroll px-[1.25rem] dark:bg-dark-3">
-        <div className="flex items-center justify-center p-6">
-          {imagePreviewUrl && (
+      <DialogContent className="max-h-[50rem] w-full max-w-[49rem] overflow-scroll px-[1.25rem] dark:bg-dark-3 ">
+        <div className="flex grow items-center justify-center pt-6">
+          {imagePreviewUrl ? (
             <Image
               src={imagePreviewUrl}
               height={125}
               width={125}
               alt="image"
-              className="h-[17rem] w-auto rounded-md"
+              className="h-[17rem] w-full rounded-t-md border-x-2 border-t-2 object-cover dark:border-sc-3"
             />
+          ) : (
+            <div className="relative flex h-[17rem] w-full items-center justify-center rounded-t-md bg-gray-200 dark:bg-gray-700">
+              <p className="animate-pulse text-sc-2 dark:text-light-2">
+                Your media image goes here....🫠🫠🫠🫠
+              </p>
+            </div>
           )}
         </div>
         <DialogHeader>
-          <DialogTitle className="flex flex-row justify-start text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
-            {previewValues?.heading}
+          <DialogTitle className="flex flex-row justify-start px-12 text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
+            {previewValues?.heading ? (
+              previewValues.heading
+            ) : (
+              <p className="animate-pulse text-sc-2 dark:text-light-2">
+                Your title here ....
+              </p>
+            )}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-wrap justify-start gap-6 ">
-          {previewValues?.tags?.map((tag: string) => (
-            <p
-              key={tag}
-              className="text-[1rem] font-normal leading-[1.5rem] text-yellow-90"
-            >
-              #{tag}
+        <div className="flex flex-wrap  justify-start gap-6 px-12">
+          {previewValues?.tags?.length !== 0
+            ? previewValues?.tags?.map((tag: string) => (
+                <p
+                  key={tag}
+                  className="text-[1rem] font-normal leading-[1.5rem] text-yellow-90"
+                >
+                  #{tag}
+                </p>
+              ))
+            : Array.from({ length: 3 }).map((_, index) => (
+                <p
+                  key={index}
+                  className="animate-pulse text-[1rem] font-normal leading-[1.5rem] text-yellow-90"
+                >
+                  {`#tag ${index + 1}`}
+                </p>
+              ))}
+        </div>
+        {htmlString.length < 11 ? (
+          <div className="px-12 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:text-sc-3 md:text-[1rem]">
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+          </div>
+        ) : (
+          <div className="animate-pulse  rounded px-12">
+            <p className="md:text-[1rem} pl-4 px-2 py-8 mb-[1.25rem] rounded bg-gray-200 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:bg-gray-700 dark:text-sc-3">
+              Your media content......
             </p>
-          ))}
-        </div>
-        <div className="text-[0.875rem] leading-[1.5rem] text-sc-3 dark:text-sc-3 md:text-[1rem]">
-          <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-        </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
