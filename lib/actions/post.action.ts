@@ -268,7 +268,7 @@ export async function getAllPosts({
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to get Post Content."
+      "You must be logged in to edit content."
     );
 
     const numberOfAvailablePosts = await countAllPosts();
