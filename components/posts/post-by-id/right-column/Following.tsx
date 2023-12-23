@@ -5,15 +5,20 @@ import React, { useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import { followUser } from "@/lib/actions/post.action";
 
-const Following = ({ authorId }: { authorId: number }) => {
-  const [isFollowing, setIsFollowing] = useState(false);
+interface FollowingProps {
+  authorId: number;
+  isFollowing: boolean;
+}
+
+const Following = ({ authorId, isFollowing }: FollowingProps) => {
+  const [following, setFollowing] = useState(isFollowing);
 
   const handleFollow = async () => {
     const followStatus = await followUser(authorId);
-    setIsFollowing(followStatus);
+    setFollowing(followStatus);
   };
 
-  const followingStatus = isFollowing ? "Following" : "Follow";
+  const followingStatus = following ? "Following" : "Follow";
 
   return (
     <CustomButton

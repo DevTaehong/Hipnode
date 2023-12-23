@@ -1242,3 +1242,23 @@ export async function followUser(userIdToFollow: number) {
     throw error;
   }
 }
+
+export async function isFollowingUser(userIdToFollow: number) {
+  try {
+    const { userId: followerId } = await verifyAuth(
+      "You must be logged in to follow a user."
+    );
+
+    const existingFollow = await prisma.follower.findFirst({
+      where: {
+        followerId,
+        followedId: userIdToFollow,
+      },
+    });
+
+    return Boolean(existingFollow);
+  } catch (error) {
+    console.error("Error checking following status:", error);
+    throw error;
+  }
+}

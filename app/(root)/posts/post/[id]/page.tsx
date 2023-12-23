@@ -5,6 +5,7 @@ import { TagsList } from "@/components/posts/post-by-id/main-content";
 import {
   getPostContentById,
   getPostsByAuthorId,
+  isFollowingUser,
 } from "@/lib/actions/post.action";
 import {
   formatDatePostFormat,
@@ -39,6 +40,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
   const actionBarData = getActionBarData(postData);
   const devInfo = await getPostsByAuthorId(authorId);
   const calculatedDate = howManyMonthsAgo(createdAt);
+  const isFollowing = await isFollowingUser(authorId);
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
@@ -113,7 +115,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
               Web Developer
             </p>
-            <Following authorId={authorId} />
+            <Following authorId={authorId} isFollowing={isFollowing} />
             <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
               {+calculatedDate > 0
                 ? `joined ${calculatedDate} months ago`
