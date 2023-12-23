@@ -7,8 +7,6 @@ import MeetupsCard from "@/components/meetup-components/MeetupsCard";
 import PodcastCard from "@/components/podcast-components/PodcastCard";
 import InterviewCard from "@/components/interview-components/InterviewCard";
 
-import { ProfileResults } from "@/types";
-
 import {
   getPerformanceData,
   getProfileData,
@@ -20,43 +18,42 @@ import {
 } from "@/lib/actions/profile.actions";
 
 import { formatUserJoinedDate } from "@/lib/utils";
-import { Podcast } from "@prisma/client";
-import { InterviewProps } from "@/types/interview.index";
 
-import { MeetUpExtended } from "@/types/meetups.index";
+import { ProfileResults } from "@/types";
 import { isInterview, isMeetUpExtended, isPodcast } from "@/utils/typeguards";
 
-export const dynamic = "force-dynamic";
-
 const ProfilePage = async ({
+  params,
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: { id: string };
+  searchParams: { search: string };
 }) => {
-  const user = await getProfileData();
+  const user = await getProfileData(params.id);
 
   let result: ProfileResults = [];
 
   switch (searchParams?.search) {
     case "posts":
-      result = await getProfilePosts();
+      result = await getProfilePosts(params.id);
       break;
     case "meetups":
-      result = await getProfileMeetups();
+      result = await getProfileMeetups(params.id);
       break;
     case "podcasts":
-      result = await getProfilePodcasts();
+      result = await getProfilePodcasts(params.id);
       break;
     case "interviews":
-      result = await getProfileInterviews();
+      result = await getProfileInterviews(params.id);
       break;
     case "history":
       result = await getProfileHistory();
       break;
     default:
+      break;
   }
 
-  const performanceData = await getPerformanceData();
+  const performanceData = await getPerformanceData(params.id);
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[90rem] flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row lg:px-10 lg:py-[1.87rem]">
@@ -82,7 +79,7 @@ const ProfilePage = async ({
       </section>
 
       {/* Profile Filter & Content Cards */}
-      <section className="flex w-full flex-col gap-5">
+      <section className="flex flex-col gap-5">
         <ProfileFilter />
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
@@ -102,9 +99,9 @@ const ProfilePage = async ({
                 <PodcastCard
                   key={item?.id}
                   info={{
-                    id: item.id,
-                    title: item.title,
-                    details: item.details,
+                    id: item?.id,
+                    title: item?.title,
+                    details: item?.details,
                     user: {
                       name: user?.username || "",
                       location: user?.location || "",
@@ -119,9 +116,9 @@ const ProfilePage = async ({
 
         {searchParams?.search === "interviews" &&
           result.map((item) => {
-            if (isInterview(item)) {
+            if (isInterview(item))
               return <InterviewCard key={item.id} interviewData={item} />;
-            }
+
             return null;
           })}
 

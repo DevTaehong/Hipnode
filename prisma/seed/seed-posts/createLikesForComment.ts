@@ -15,7 +15,6 @@ export async function createLikesForComment(comment: Comment, user: User) {
     });
 
     if (existingLike) {
-      console.log(`User ${user.id} has already liked comment ${comment.id}.`);
       return existingLike;
     }
 
