@@ -11,6 +11,10 @@ import { GroupProps } from "@types/models";
 import { ProfileMeetup, ProfilePost } from "./profile.index";
 import { InterviewProps } from "./interview.index";
 
+export interface AuthenticatedUser {
+  userId: number;
+}
+
 export type UserSuggestion = {
   user: User;
 };
@@ -248,26 +252,41 @@ export interface NotificationTab {
   icon?: React.ElementType;
 }
 
-export interface NotificationProps {
-  notifications: {
-    userName: string;
-    type: "comment" | "reaction" | "mention" | "meetup";
-    comment?: string;
-    read: boolean;
-    title: string;
-    date: string;
-    image: string;
-  }[];
+export interface NotificationPopoverButtonProps {
+  className: string;
+  sideOffset: number;
+  alignOffset: number;
+  currentUserId: number;
+  lastChecked: Date;
 }
 
-export interface NotificationPopoverProps {
-  userName: string;
-  type: "comment" | "reaction" | "mention" | "meetup";
-  comment?: string;
-  read: boolean;
-  title: string;
+export interface NotificationProps {
+  id?: number;
+  userId?: number;
+  createdAt: Date;
+  updatedAt?: Date;
+  title: string | null;
+  senderName: string;
+  image: string;
+  date: string;
+  type: "COMMENT" | "REACTION" | "MENTION" | "MEETUP" | "FOLLOWER" | "REPLY";
+  isRead?: boolean | null;
+  isFollowed?: boolean | null;
+  commentContent?: string | null;
+  commentId?: number | null;
+  followerId?: number | null;
+}
+
+export interface NotificationCommentTypes {
+  senderName: string;
+  type: "COMMENT" | "REACTION" | "MENTION" | "MEETUP" | "FOLLOWER" | "REPLY";
+  comment?: string | null;
+  isRead?: boolean | null;
+  title?: string | null;
   date: string;
   image: string;
+  isFollowed?: boolean | null;
+  commentId?: number | null;
 }
 
 export interface ProfileInfoProps {

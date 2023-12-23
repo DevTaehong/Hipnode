@@ -9,49 +9,53 @@ datasource db {
 }
 
 model User {
-  id              Int                      @id @default(autoincrement())
-  clerkId         String                   @unique
-  name            String
-  username        String                   @unique
-  email           String                   @unique
-  password        String?
-  title           String?
-  points          Int                      @default(0)
-  role            Role                     @default(USER)
-  bio             String?
-  website         String?
-  facebook        String?
-  twitter         String?
-  instagram       String?
-  picture         String
-  location        String?
-  createdAt       DateTime                 @default(now())
-  updatedAt       DateTime                 @updatedAt
-  ChatroomUsers   ChatroomUsers[]
-  comments        Comment[]
-  interviews      Interview[]
-  likes           Like[]
-  meetup          MeetUp[]
-  Message         Message[]
-  onboarding      Onboarding?
-  podcasts        Podcast[]
-  posts           Post[]
-  Share           Share[]
-  shows           Shows[]
-  subscribedShows UsersSubscribedToShows[]
-  groupAdmin      Group[]                  @relation("GroupAdmins")
-  groups          Group[]                  @relation("UserGroups")
-  followers       Follower[]               @relation("followed")
-  following       Follower[]               @relation("follower")
+  id                      Int                      @id @default(autoincrement())
+  clerkId                 String                   @unique
+  name                    String
+  username                String                   @unique
+  email                   String                   @unique
+  password                String?
+  title                   String?
+  points                  Int                      @default(0)
+  role                    Role                     @default(USER)
+  bio                     String?
+  website                 String?
+  facebook                String?
+  twitter                 String?
+  instagram               String?
+  picture                 String
+  location                String?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  ChatroomUsers           ChatroomUsers[]
+  comments                Comment[]
+  interviews              Interview[]
+  likes                   Like[]
+  meetup                  MeetUp[]
+  Message                 Message[]
+  onboarding              Onboarding?
+  podcasts                Podcast[]
+  posts                   Post[]
+  Share                   Share[]
+  shows                   Shows[]
+  subscribedShows         UsersSubscribedToShows[]
+  groupAdmin              Group[]                  @relation("GroupAdmins")
+  groups                  Group[]                  @relation("UserGroups")
+  followers               Follower[]               @relation("followed")
+  following               Follower[]               @relation("follower")
+  notificationReceiver    Notification[]           @relation("Receiver")
+  notificationSender      Notification[]           @relation("Sender")
+  notificationLastChecked DateTime                 @default(now())
 }
 
 model Follower {
-  id              Int                      @id @default(autoincrement())
-  followerId      Int                      // ID of the user who follows
-  followedId      Int                      // ID of the user being followed
+  id         Int @id @default(autoincrement())
+  followerId Int // ID of the user who follows
+  followedId Int // ID of the user being followed
 
-  follower        User                     @relation(fields: [followerId], references: [id], name: "follower")
-  followed        User                     @relation(fields: [followedId], references: [id], name: "followed")
+  follower      User           @relation(fields: [followerId], references: [id], name: "follower")
+  followed      User           @relation(fields: [followedId], references: [id], name: "followed")
+  notifications Notification[]
 
   @@unique([followerId, followedId]) // Ensures that the same follow relationship can't be created more than once
 }
@@ -94,33 +98,36 @@ model Post {
 
 
 model Like {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  postId    Int?
-  commentId Int?
-  liked     Boolean  @default(true)
-  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            Int            @id @default(autoincrement())
+  userId        Int
+  postId        Int?
+  commentId     Int?
+  liked         Boolean        @default(true)
+  comment       Comment?       @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post          Post?          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notifications Notification[]
 
   @@unique([userId, postId])
   @@unique([userId, commentId])
 }
 
 model Comment {
-  id        Int       @id @default(autoincrement())
-  content   String    @db.VarChar(150)
-  authorId  Int
-  postId    Int
-  parentId  Int?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  isEdited  Boolean   @default(false)
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   Comment[] @relation("CommentToComment")
-  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  likes     Like[]
+  id                         Int            @id @default(autoincrement())
+  content                    String         @db.VarChar(150)
+  authorId                   Int
+  postId                     Int
+  parentId                   Int?
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+  isEdited                   Boolean        @default(false)
+  author                     User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent                     Comment?       @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
+  replies                    Comment[]      @relation("CommentToComment")
+  post                       Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+  likes                      Like[]
+  notifications              Notification[] @relation("CommentToNotification")
+  parentCommentNotifications Notification[] @relation("CommentParentToNotification")
 }
 
 model Tag {
@@ -192,8 +199,8 @@ model Group {
 }
 
 model MeetUp {
-  id                  Int      @id @default(autoincrement())
-  createdAt           DateTime @default(now())
+  id                  Int            @id @default(autoincrement())
+  createdAt           DateTime       @default(now())
   contactEmail        String
   contactNumber       String
   image               String
@@ -203,23 +210,24 @@ model MeetUp {
   responsiblePersonId Int
   summary             String
   title               String
-  updatedAt           DateTime @updatedAt
-  responsiblePerson   User     @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
+  updatedAt           DateTime       @updatedAt
+  responsiblePerson   User           @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
   tags                TagOnMeetup[]
+  notifications       Notification[]
 }
 
 model MeetupTag {
-  id         Int              @id @default(autoincrement())
-  name       String           @unique
+  id      Int           @id @default(autoincrement())
+  name    String        @unique
   meetups TagOnMeetup[]
 }
 
 model TagOnMeetup {
-  id          Int          @id @default(autoincrement())
-  meetupId    Int
-  tagId       Int
-  meetup      MeetUp    @relation(fields: [meetupId], references: [id], onDelete: Cascade)
-  tag         MeetupTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  id       Int       @id @default(autoincrement())
+  meetupId Int
+  tagId    Int
+  meetup   MeetUp    @relation(fields: [meetupId], references: [id], onDelete: Cascade)
+  tag      MeetupTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@unique([meetupId, tagId])
 }
@@ -295,6 +303,43 @@ model Share {
   createdAt DateTime @default(now())
   Post      Post     @relation(fields: [postId], references: [id])
   User      User     @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id              Int              @id @default(autoincrement())
+  userId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  senderName      String
+  image           String
+  date            String
+  type            NotificationType
+  isRead          Boolean?         @default(false)
+  isFollowed      Boolean?         @default(false)
+  commentContent  String?
+  title           String?          @db.VarChar(300)
+  meetupId        Int?
+  commentId       Int?
+  likeId          Int?
+  followerId      Int?
+  commentParentId Int?
+
+  receiver      User      @relation("Receiver", fields: [userId], references: [id], onDelete: Cascade)
+  sender        User      @relation("Sender", fields: [senderName], references: [username], onDelete: Cascade)
+  meetup        MeetUp?   @relation(fields: [meetupId], references: [id], onDelete: Cascade)
+  comment       Comment?  @relation("CommentToNotification", fields: [commentId], references: [id], onDelete: Cascade)
+  like          Like?     @relation(fields: [likeId], references: [id], onDelete: Cascade)
+  follower      Follower? @relation(fields: [followerId], references: [id], onDelete: Cascade)
+  commentParent Comment?  @relation("CommentParentToNotification", fields: [commentParentId], references: [id], onDelete: Cascade)
+}
+
+enum NotificationType {
+  COMMENT
+  REACTION
+  MENTION
+  MEETUP
+  FOLLOWER
+  REPLY
 }
 
 enum Role {

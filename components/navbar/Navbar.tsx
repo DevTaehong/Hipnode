@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 import HipnodeHeaderLogo from "@/components/icons/HipnodeHeaderLogo";
@@ -15,9 +14,8 @@ import NotificationButton from "./NotificationButton";
 import { verifyAuth } from "@/lib/auth";
 
 const Navbar = async () => {
-  const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
-    "You must be logged in to create post."
-  );
+  const { userId, loggedInUserImage, userName, fullName, lastChecked } =
+    await verifyAuth("You must be logged in to view this page.");
 
   const onlineUserIds = await getAllOnlineUserIds();
   const userInfo = {
@@ -47,18 +45,15 @@ const Navbar = async () => {
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            {userInfo && (
-              <>
-                <MessageListWrapper
-                  userInfo={userInfo}
-                  onlineUserIds={onlineUserIds}
-                />
-
-                <NotificationButton />
-
-                <UserButton />
-              </>
-            )}
+            <MessageListWrapper
+              userInfo={userInfo}
+              onlineUserIds={onlineUserIds}
+            />{" "}
+            <NotificationButton
+              currentUserId={userId}
+              lastChecked={lastChecked ?? new Date()}
+            />
+            <UserButton />
           </SignedIn>
 
           <SignedOut>

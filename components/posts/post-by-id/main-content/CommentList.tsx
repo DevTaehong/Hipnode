@@ -4,9 +4,10 @@ import { getPostCommentsByParentId } from "@/lib/actions/post.action";
 
 type CommentListProps = {
   postId: number;
+  postHeading: string;
 };
 
-const CommentList = async ({ postId }: CommentListProps) => {
+const CommentList = async ({ postId, postHeading }: CommentListProps) => {
   const postComments = await getPostCommentsByParentId(+postId);
 
   const rootComments = postComments.null;
@@ -16,7 +17,11 @@ const CommentList = async ({ postId }: CommentListProps) => {
         <>
           {rootComments?.map((comment: CommentAuthorProps) => (
             <div key={comment.id} className="mt-2 flex flex-col">
-              <Comment {...comment} postComments={postComments} />
+              <Comment
+                {...comment}
+                postComments={postComments}
+                postHeading={postHeading}
+              />
             </div>
           ))}
         </>
