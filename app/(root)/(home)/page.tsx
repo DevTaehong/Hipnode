@@ -18,7 +18,7 @@ import ResponsiveCreatePostInput from "@/components/posts/create-post-form/Respo
 import { verifyAuth } from "@/lib/auth";
 
 const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
-  const { loggedInUserImage } = await verifyAuth("Welcome to Hipnode");
+  const { loggedInUserImage } = await verifyAuth("Welcome to Hipnode", false);
 
   const [meetups, podcasts, posts, tagsData, groups] = await Promise.all([
     getAllMeetUps(),
@@ -36,7 +36,9 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
           <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
             <Sidebar />
             <div className="flex lg:hidden">
-              <ResponsiveCreatePostInput userImage={loggedInUserImage} />
+              <ResponsiveCreatePostInput
+                userImage={loggedInUserImage ?? "/images/emoji.png"}
+              />
             </div>
             <div className="hidden lg:flex">
               <PopularTags tagsData={tagsData} />
@@ -50,7 +52,9 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
 
         <div className="flex max-h-full w-full flex-col gap-5">
           <div className="hidden w-full lg:flex">
-            <ResponsiveCreatePostInput userImage={loggedInUserImage} />
+            <ResponsiveCreatePostInput
+              userImage={loggedInUserImage ?? "/images/emoji.png"}
+            />
           </div>
           <div className="flex w-full overflow-hidden">
             <PostCardList posts={posts} />

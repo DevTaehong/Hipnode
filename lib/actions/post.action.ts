@@ -71,7 +71,8 @@ export async function createPostWithTags(
 ): Promise<Post> {
   try {
     const { clerkId, userId } = await verifyAuth(
-      "You must be logged in to create post."
+      "You must be logged in to create post.",
+      false
     );
 
     const allTagIdsToConnect = await handleTags(tagNames);
@@ -114,7 +115,8 @@ export async function updatePost(
 ): Promise<Post> {
   try {
     const { clerkId, userId } = await verifyAuth(
-      "You must be logged in to update a post."
+      "You must be logged in to update a post.",
+      false
     );
 
     const allTagIdsToConnect = await handleTags(tagNames);
@@ -154,7 +156,8 @@ export async function updatePost(
 export async function deletePost(id: number): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to delete a post."
+      "You must be logged in to delete a post.",
+      false
     );
 
     await prisma.post.delete({
@@ -189,7 +192,8 @@ export async function incrementViewCount(postId: number): Promise<void> {
 export async function getPostContentById(id: number): Promise<GetPostByIdType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to get Post Content."
+      "You must be logged in to get Post Content.",
+      false
     );
 
     await incrementViewCount(id);
@@ -276,7 +280,8 @@ export async function getAllPosts({
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to edit content."
+      "You must be logged in to edit content.",
+      false
     );
 
     const numberOfAvailablePosts = await countAllPosts();
@@ -363,7 +368,8 @@ export async function getAllPostsByUserId({
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to get Post Content."
+      "You must be logged in to get Post Content.",
+      false
     );
     console.log(authorId);
     const numberOfAvailablePosts = await countPostsByAuthorId(authorId);
@@ -554,7 +560,8 @@ export async function addCommentOrReply(
 ): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to add a comment or reply."
+      "You must be logged in to add a comment or reply.",
+      false
     );
 
     const newComment = await prisma.comment.create({
@@ -645,7 +652,8 @@ export async function updateComment(
 ): Promise<UpdateCommentType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to update a comment."
+      "You must be logged in to update a comment.",
+      false
     );
 
     const comment = await prisma.comment.update({
@@ -687,7 +695,8 @@ export async function deleteCommentOrReply(
 ): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to delete a comment or reply."
+      "You must be logged in to delete a comment or reply.",
+      false
     );
 
     deleteNotification({ commentId });
@@ -709,7 +718,8 @@ export async function deleteCommentOrReply(
 export async function sharePostAndCountShares(postId: number): Promise<number> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to share a post."
+      "You must be logged in to share a post.",
+      false
     );
 
     await prisma.share.create({
@@ -735,7 +745,8 @@ export async function sharePostAndCountShares(postId: number): Promise<number> {
 export async function toggleLikePost(postId: number): Promise<Like | null> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to toggle like on posts."
+      "You must be logged in to toggle like on posts.",
+      false
     );
     const existingLike = await prisma.like.findUnique({
       where: { userId_postId: { userId, postId } },
@@ -761,7 +772,8 @@ export async function toggleLikeComment(
 ): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to toggle like on a comment."
+      "You must be logged in to toggle like on a comment.",
+      false
     );
 
     const existingLike = await prisma.like.findUnique({
@@ -813,7 +825,8 @@ export async function getPostCommentsByParentId(
   id: number
 ): Promise<CommentsGroupedByParentId> {
   const { userId } = await verifyAuth(
-    "You must be logged in to get post comments."
+    "You must be logged in to get post comments.",
+    false
   );
 
   try {
@@ -931,7 +944,8 @@ export async function getPostToEditById(
 ): Promise<PostToEditByIdType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to edit a post."
+      "You must be logged in to edit a post.",
+      false
     );
     const post = await prisma.post.findUnique({
       where: { id, authorId: userId },
@@ -992,7 +1006,8 @@ export async function getAllPostsByTagName({
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to get Post Content."
+      "You must be logged in to get Post Content.",
+      false
     );
 
     const numberOfAvailablePosts = await countPostsByTagName(tagName);
@@ -1105,7 +1120,8 @@ export async function getAllPostsByTagNameByUserId({
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to edit your own posts."
+      "You must be logged in to edit your own posts.",
+      false
     );
 
     const numberOfAvailablePosts = await countPostsByTagNameByUserId({

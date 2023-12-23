@@ -14,7 +14,7 @@ import { verifyAuth } from "@/lib/auth";
 
 const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName, lastChecked } =
-    await verifyAuth("You must be logged in to view this page.");
+    await verifyAuth("You must be logged in to view this page.", false);
 
   const userInfo = {
     id: userId,
@@ -43,11 +43,13 @@ const Navbar = async () => {
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            <MessageListWrapper userInfo={userInfo} />
-            <NotificationButton
-              currentUserId={userId}
-              lastChecked={lastChecked ?? new Date()}
-            />
+            {userInfo && <MessageListWrapper userInfo={userInfo} />}
+            {userId && (
+              <NotificationButton
+                currentUserId={userId}
+                lastChecked={lastChecked ?? new Date()}
+              />
+            )}
             <UserButton />
           </SignedIn>
 
