@@ -1254,6 +1254,30 @@ export async function isFollowingUser(userIdToFollow: number) {
   }
 }
 
+export async function numberOfPeopleFollowed(): Promise<number> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to know how many people you follow.",
+      false
+    );
+
+    const numberOfFollowedUsers = await prisma.user.count({
+      where: {
+        followers: {
+          some: {
+            followerId: userId,
+          },
+        },
+      },
+    });
+
+    return numberOfFollowedUsers;
+  } catch (error) {
+    console.error("Error getting number of followed users:", error);
+    throw error;
+  }
+}
+
 export async function getMostPopularPosts({
   numberToSkip = 0,
 }: {

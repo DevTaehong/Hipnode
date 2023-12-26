@@ -5,9 +5,10 @@ import { sidebarItems } from "@/constants";
 
 type SidebarProps = {
   isLoggedIn: boolean;
+  peopleFollowed: number;
 };
 
-const Sidebar = ({ isLoggedIn }: SidebarProps) => {
+const Sidebar = ({ isLoggedIn, peopleFollowed }: SidebarProps) => {
   const itemsToRender = isLoggedIn ? sidebarItems : sidebarItems.slice(0, 2);
 
   return (
@@ -27,9 +28,9 @@ const Sidebar = ({ isLoggedIn }: SidebarProps) => {
               {item.subTitle && (
                 <span className="hidden  pl-0.5 md:flex">{item.subTitle}</span>
               )}
-              {item.notification && (
+              {item.loggedInFollowerFilter && (
                 <span className="ml-[0.25rem] flex h-[1.25rem] w-[1.375rem] items-center justify-center rounded-md bg-red-80 text-[0.563rem] font-semibold leading-[0.875rem] text-light">
-                  {item.notification}
+                  {peopleFollowed}
                 </span>
               )}
             </p>
