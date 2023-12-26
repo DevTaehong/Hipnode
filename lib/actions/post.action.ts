@@ -253,6 +253,9 @@ export async function getPostContentById(id: number): Promise<GetPostByIdType> {
       commentsCount: post.comments.length,
       sharesCount: post.Share.length,
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     };
 
     revalidatePath("/");
@@ -329,7 +332,6 @@ export async function getAllPosts({
         },
       },
     });
-    console.log(posts[0].likes);
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,

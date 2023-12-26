@@ -11,7 +11,6 @@ import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 import { formatDatePostFormat } from "@/utils";
 import dynamic from "next/dynamic";
 import { togglePostLike } from "@/lib/actions/post.action";
-import { log } from "console";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -63,6 +62,7 @@ const PostCard = ({
     const sanitizedHtml = DOMPurify.sanitize(content);
     setHtmlString(sanitizedHtml);
   }, [content]);
+
   const heartIconClass = likesState.loggedInUserHasLikedPost
     ? "fill-red-80"
     : "fill-sc-5";

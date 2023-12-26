@@ -34,7 +34,7 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
       <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
         <div className="flex lg:w-[13.125rem]">
           <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
-            <Sidebar />
+            <Sidebar isLoggedIn={Boolean(loggedInUserImage)} />
             <div className="flex lg:hidden">
               <ResponsiveCreatePostInput
                 userImage={loggedInUserImage ?? "/images/emoji.png"}
