@@ -1446,10 +1446,14 @@ export async function getPostsByFollowing({
 }
 
 export async function togglePostLike(
-  userId: number,
   postId: number
 ): Promise<{ liked: boolean; totalLikes: number }> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to toggle like on post.",
+      false
+    );
+
     const existingLike = await prisma.like.findFirst({
       where: {
         userId,
@@ -1495,10 +1499,14 @@ export async function togglePostLike(
 }
 
 export async function toggleCommentLike(
-  userId: number,
   commentId: number
 ): Promise<{ liked: boolean; totalLikes: number }> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to toggle like on comment.",
+      false
+    );
+
     const existingLike = await prisma.like.findFirst({
       where: {
         userId,

@@ -23,9 +23,9 @@ const PostCard = ({
     content,
     id,
     tags,
-    likesCount = 0,
-    commentsCount = 0,
-    viewCount = 1,
+    likesCount,
+    commentsCount,
+    viewCount,
     author: { id: authorId, picture, username },
     createdAt,
     blurImage,
@@ -38,9 +38,16 @@ const PostCard = ({
   userIdFromParams,
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
+  const [likes, setLikes] = useState(likesCount);
+
+  const toggleLike = async () => {
+    const toggled = await togglePostLike(id);
+    setLikes(toggled.totalLikes);
+  };
+
   const socialCounts: SocialCountTuple[] = [
     ["views", viewCount],
-    ["likes", likesCount],
+    ["likes", likes],
     ["comments", commentsCount],
   ];
 
@@ -48,13 +55,6 @@ const PostCard = ({
     const sanitizedHtml = DOMPurify.sanitize(content);
     setHtmlString(sanitizedHtml);
   }, [content]);
-
-  const toggleLike = async () => {
-    const toggled = await togglePostLike(id);
-    likesCount = toggled ? likesCount + 1 : likesCount - 1;
-    console.log(likesCount);
-    console.log(toggled);
-  };
 
   const hasLiked = true;
   const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
