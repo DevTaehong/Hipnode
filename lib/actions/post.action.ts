@@ -332,6 +332,9 @@ export async function getAllPosts({
         },
       },
     });
+
+    revalidatePath(`/`);
+
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,
@@ -425,7 +428,6 @@ export async function getAllPostsByUserId({
         },
       },
     });
-    console.log(posts);
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,
@@ -1335,6 +1337,8 @@ export async function getMostPopularPosts({
       },
     });
 
+    revalidatePath(`/`);
+
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,
@@ -1395,7 +1399,6 @@ export async function getPostsByFollowing({
     );
 
     const numberOfAvailablePosts = await countAllPostsByFollowing();
-    console.log(numberOfAvailablePosts);
 
     const posts = await prisma.post.findMany({
       where: {
@@ -1447,6 +1450,8 @@ export async function getPostsByFollowing({
         createdAt: "desc",
       },
     });
+
+    revalidatePath(`/`);
 
     return posts.map((post) => ({
       ...post,

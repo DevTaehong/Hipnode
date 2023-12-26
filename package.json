@@ -48,6 +48,7 @@
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "emoji-mart": "^5.5.2",
+    "framer-motion": "^10.16.16",
     "isomorphic-dompurify": "^1.9.0",
     "lexical": "^0.12.2",
     "lucide-react": "^0.292.0",

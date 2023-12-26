@@ -19,6 +19,12 @@ import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
 import Spinner from "@/components/Spinner";
 import LoaderComponent from "@/components/onboarding-components/LoaderComponent";
+import { motion } from "framer-motion";
+
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
 
 const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const searchParams = useSearchParams();
@@ -31,6 +37,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
   const [tagged, setTagged] = useState("");
   const [tagChanged, setTagChanged] = useState<boolean>(false);
+  const [filterChanged, setFilterChanged] = useState<boolean>(false);
   const { ref, inView } = useInView();
 
   const path = usePathname();
@@ -39,7 +46,6 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
     (async () => {
       if (tag && path === "/") {
         if (tagChanged) {
-          console.log("we are here");
           setPostData([]);
         }
         const posts = await getAllPostsByTagName({ tagName: tag });
@@ -51,27 +57,30 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   useEffect(() => {
     (async () => {
+      let posts;
       if (filter && path === "/") {
-        setPostData([]);
-        let posts;
+        if (filterChanged) {
+          setPostData([]);
+          setAmountToSkip(10);
+        }
 
         switch (filter) {
           case "popular":
-            posts = await getMostPopularPosts({ numberToSkip: 0 });
+            posts = await getMostPopularPosts({});
             break;
           case "newest":
-            posts = await getAllPosts({ numberToSkip: 0 });
+            posts = await getAllPosts({});
             break;
           case "following":
-            posts = await getPostsByFollowing({ numberToSkip: 0 });
+            posts = await getPostsByFollowing({});
             break;
           default:
-            posts = await getAllPosts({ numberToSkip: 0 });
+            posts = await getAllPosts({});
             break;
         }
 
         setPostData(posts);
-        setTagChanged(false);
+        setFilterChanged(false);
       }
     })();
   }, [filter, path]);
@@ -108,6 +117,26 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
         setTagChanged(true);
       }
 
+      if (filter) {
+        switch (filter) {
+          case "popular":
+            posts = await getMostPopularPosts({ numberToSkip: amountToSkip });
+            setFilterChanged(true);
+            break;
+          case "newest":
+            posts = await getAllPosts({ numberToSkip: amountToSkip });
+            setFilterChanged(true);
+            break;
+          case "following":
+            posts = await getPostsByFollowing({ numberToSkip: amountToSkip });
+            setFilterChanged(true);
+            break;
+          default:
+            posts = await getAllPosts({ numberToSkip: amountToSkip });
+            break;
+        }
+      }
+
       if (posts?.length) {
         setAmountToSkip((prev) => prev + 10);
         setPostData((prevPosts) => [...prevPosts, ...posts]);
@@ -142,14 +171,29 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
           <LoaderComponent />
         </div>
       )}
-      {postData.map((post) => (
-        <PostCard
-          post={post}
-          key={post.id}
-          setTagged={setTagged}
-          userIdFromParams={authorId}
-        />
-      ))}
+      {postData.map((post, index) => {
+        const adjustedIndex = index % 10;
+        return (
+          <motion.div
+            key={post.id}
+            variants={variants}
+            initial="hidden"
+            animate="visible"
+            transition={{
+              delay: adjustedIndex * 0.1,
+              ease: "easeInOut",
+              duration: 0.5,
+            }}
+            viewport={{ amount: 0 }}
+          >
+            <PostCard
+              post={post}
+              setTagged={setTagged}
+              userIdFromParams={authorId}
+            />
+          </motion.div>
+        );
+      })}
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
           <div className="flex h-full w-full flex-col items-center justify-center pt-12">

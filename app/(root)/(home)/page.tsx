@@ -32,7 +32,6 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
       getGroups(),
       numberOfPeopleFollowed(),
     ]);
-  console.log(peopleFollowed);
   return (
     <section className="bg-light-2_dark-2 sticky top-[5.25rem] -mt-16 flex h-fit min-h-screen w-screen justify-center overflow-hidden px-5 py-20 lg:top-0 lg:h-screen lg:max-h-screen lg:py-5  lg:pb-[2.3rem] lg:pt-[5.875rem]">
       <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">

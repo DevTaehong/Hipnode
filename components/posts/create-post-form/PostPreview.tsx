@@ -15,8 +15,6 @@ import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
 const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
   const { imagePreviewUrl, previewValues } = useCreatePostContext();
 
-  console.log(htmlString.length);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
