@@ -1,6 +1,6 @@
 "use server";
 
-import { Like, Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -27,7 +27,6 @@ import {
   deleteNotification,
   updateNotification,
 } from "./notification.actions";
-import { number } from "zod";
 
 export async function handleTags(
   tagNames: string[]
@@ -743,28 +742,28 @@ export async function sharePostAndCountShares(postId: number): Promise<number> {
   }
 }
 
-export async function toggleLikePost(postId: number): Promise<Like | null> {
-  try {
-    const { userId } = await verifyAuth(
-      "You must be logged in to toggle like on posts.",
-      false
-    );
-    const existingLike = await prisma.like.findUnique({
-      where: { userId_postId: { userId, postId } },
-    });
+// export async function toggleLikePost(postId: number): Promise<Like | null> {
+//   try {
+//     const { userId } = await verifyAuth(
+//       "You must be logged in to toggle like on posts.",
+//       false
+//     );
+//     const existingLike = await prisma.like.findUnique({
+//       where: { userId_postId: { userId, postId } },
+//     });
 
-    if (existingLike) {
-      await prisma.like.delete({ where: { id: existingLike.id } });
-      return null;
-    } else {
-      const newLike = await prisma.like.create({ data: { userId, postId } });
-      return newLike;
-    }
-  } catch (error) {
-    console.error("Error toggling like on post:", error);
-    throw error;
-  }
-}
+//     if (existingLike) {
+//       await prisma.like.delete({ where: { id: existingLike.id } });
+//       return null;
+//     } else {
+//       const newLike = await prisma.like.create({ data: { userId, postId } });
+//       return newLike;
+//     }
+//   } catch (error) {
+//     console.error("Error toggling like on post:", error);
+//     throw error;
+//   }
+// }
 
 export async function toggleLikeComment(
   commentId: number,
@@ -1442,6 +1441,104 @@ export async function getPostsByFollowing({
     }));
   } catch (error) {
     console.error("Error retrieving posts by following:", error);
+    throw error;
+  }
+}
+
+export async function togglePostLike(
+  userId: number,
+  postId: number
+): Promise<{ liked: boolean; totalLikes: number }> {
+  try {
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userId,
+        postId,
+      },
+    });
+
+    if (existingLike) {
+      await prisma.like.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+    } else {
+      await prisma.like.create({
+        data: {
+          userId,
+          postId,
+        },
+      });
+    }
+
+    const totalLikes = await prisma.like.count({
+      where: {
+        postId,
+      },
+    });
+
+    await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        likeCount: totalLikes,
+      },
+    });
+
+    return { liked: !existingLike, totalLikes };
+  } catch (error) {
+    console.error("Error toggling post like:", error);
+    throw error;
+  }
+}
+
+export async function toggleCommentLike(
+  userId: number,
+  commentId: number
+): Promise<{ liked: boolean; totalLikes: number }> {
+  try {
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userId,
+        commentId,
+      },
+    });
+
+    if (existingLike) {
+      await prisma.like.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+    } else {
+      await prisma.like.create({
+        data: {
+          userId,
+          commentId,
+        },
+      });
+    }
+
+    const totalLikes = await prisma.like.count({
+      where: {
+        commentId,
+      },
+    });
+
+    await prisma.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        likeCount: totalLikes,
+      },
+    });
+
+    return { liked: !existingLike, totalLikes };
+  } catch (error) {
+    console.error("Error toggling comment like:", error);
     throw error;
   }
 }

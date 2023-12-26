@@ -10,6 +10,7 @@ import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 
 import { formatDatePostFormat } from "@/utils";
 import dynamic from "next/dynamic";
+import { togglePostLike } from "@/lib/actions/post.action";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -48,6 +49,13 @@ const PostCard = ({
     setHtmlString(sanitizedHtml);
   }, [content]);
 
+  const toggleLike = async () => {
+    const toggled = await togglePostLike(id);
+    likesCount = toggled ? likesCount + 1 : likesCount - 1;
+    console.log(likesCount);
+    console.log(toggled);
+  };
+
   const hasLiked = true;
   const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
 
@@ -80,9 +88,9 @@ const PostCard = ({
                 />
               </Link>
               <div className="flex items-center justify-center">
-                <div className="mr-2.5 flex">
+                <div onClick={toggleLike} className="mr-2.5 flex">
                   <FillIcon.Heart
-                    className={`hidden md:flex ${heartIconClass}`}
+                    className={`hidden cursor-pointer md:flex ${heartIconClass}`}
                   />
                 </div>
                 <div className="mt-1.5 flex">
