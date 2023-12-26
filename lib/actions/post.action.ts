@@ -27,6 +27,7 @@ import {
   deleteNotification,
   updateNotification,
 } from "./notification.actions";
+import { number } from "zod";
 
 export async function handleTags(
   tagNames: string[]
@@ -1335,6 +1336,36 @@ export async function getMostPopularPosts({
   }
 }
 
+export async function getAllPostsByFollowing(): Promise<number> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to view this content.",
+      false
+    );
+
+    const followingUsers = await prisma.follower.findMany({
+      where: {
+        followerId: userId,
+      },
+    });
+
+    const followingUserIds = followingUsers.map((user) => user.followedId);
+
+    const count = await prisma.post.count({
+      where: {
+        authorId: {
+          in: followingUserIds,
+        },
+      },
+    });
+
+    return count;
+  } catch (error) {
+    console.error("Error retrieving number of posts by following:", error);
+    throw error;
+  }
+}
+
 export async function getPostsByFollowing({
   numberToSkip = 0,
 }: {
@@ -1346,7 +1377,8 @@ export async function getPostsByFollowing({
       false
     );
 
-    const numberOfAvailablePosts = await countAllPosts();
+    const numberOfAvailablePosts = await getAllPostsByFollowing();
+    console.log(numberOfAvailablePosts);
 
     const posts = await prisma.post.findMany({
       where: {
@@ -1398,7 +1430,7 @@ export async function getPostsByFollowing({
         createdAt: "desc",
       },
     });
-    console.log(posts);
+
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,

@@ -1,37 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { newest, popular, followers } from "@/public/images";
-
-export const sidebarItems = [
-  {
-    imgSrc: newest,
-    imgAlt: "newest and recent",
-    title: "Newest",
-    subTitle: "and recent",
-    description: "Find the latest update",
-    imgContainerClass:
-      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
-  },
-  {
-    imgSrc: popular,
-    imgAlt: "popular of the day",
-    title: "Popular",
-    subTitle: "posts",
-    description: "Shots featured today by curators",
-    imgContainerClass:
-      "flex h-[1.75rem] w-[1.75rem] items-center justify-center rounded-md bg-light-3 dark:bg-dark-4",
-  },
-  {
-    imgSrc: followers,
-    imgAlt: "followers",
-    title: "Following",
-    description: "Explore from your favorite person",
-    notification: 24,
-    imgContainerClass:
-      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
-  },
-];
+import { sidebarItems } from "@/constants";
 
 const Sidebar = () => (
   <aside className="flex h-fit w-full flex-row justify-between gap-[0.625rem] rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3 lg:flex-col lg:justify-center lg:p-[0.625rem]">

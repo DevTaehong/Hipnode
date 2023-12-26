@@ -30,6 +30,6 @@ export const verifyAuth = async (
     loggedInUserImage,
     userName,
     fullName,
-    lastChecked, // Even if userId is not present, this will be included as undefined
+    lastChecked,
   };
 };
