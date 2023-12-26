@@ -329,7 +329,7 @@ export async function getAllPosts({
         },
       },
     });
-
+    console.log(posts[0].likes);
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,
@@ -338,6 +338,9 @@ export async function getAllPosts({
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -371,9 +374,9 @@ export async function getAllPostsByUserId({
       "You must be logged in to get Post Content.",
       false
     );
-    console.log(authorId);
+
     const numberOfAvailablePosts = await countPostsByAuthorId(authorId);
-    console.log(numberOfAvailablePosts);
+
     const posts = await prisma.post.findMany({
       where: {
         authorId,
@@ -429,6 +432,9 @@ export async function getAllPostsByUserId({
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -742,29 +748,6 @@ export async function sharePostAndCountShares(postId: number): Promise<number> {
   }
 }
 
-// export async function toggleLikePost(postId: number): Promise<Like | null> {
-//   try {
-//     const { userId } = await verifyAuth(
-//       "You must be logged in to toggle like on posts.",
-//       false
-//     );
-//     const existingLike = await prisma.like.findUnique({
-//       where: { userId_postId: { userId, postId } },
-//     });
-
-//     if (existingLike) {
-//       await prisma.like.delete({ where: { id: existingLike.id } });
-//       return null;
-//     } else {
-//       const newLike = await prisma.like.create({ data: { userId, postId } });
-//       return newLike;
-//     }
-//   } catch (error) {
-//     console.error("Error toggling like on post:", error);
-//     throw error;
-//   }
-// }
-
 export async function toggleLikeComment(
   commentId: number,
   receiverId: number | undefined,
@@ -1075,6 +1058,9 @@ export async function getAllPostsByTagName({
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -1193,6 +1179,9 @@ export async function getAllPostsByTagNameByUserId({
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -1328,6 +1317,9 @@ export async function getMostPopularPosts({
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving most popular posts:", error);
@@ -1335,7 +1327,7 @@ export async function getMostPopularPosts({
   }
 }
 
-export async function getAllPostsByFollowing(): Promise<number> {
+export async function countAllPostsByFollowing(): Promise<number> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to view this content.",
@@ -1376,7 +1368,7 @@ export async function getPostsByFollowing({
       false
     );
 
-    const numberOfAvailablePosts = await getAllPostsByFollowing();
+    const numberOfAvailablePosts = await countAllPostsByFollowing();
     console.log(numberOfAvailablePosts);
 
     const posts = await prisma.post.findMany({
@@ -1438,6 +1430,9 @@ export async function getPostsByFollowing({
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving posts by following:", error);

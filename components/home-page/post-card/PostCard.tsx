@@ -11,6 +11,7 @@ import { PostCardProps, SocialCountTuple } from "@/types/homepage";
 import { formatDatePostFormat } from "@/utils";
 import dynamic from "next/dynamic";
 import { togglePostLike } from "@/lib/actions/post.action";
+import { log } from "console";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -32,22 +33,29 @@ const PostCard = ({
     imageHeight,
     imageWidth,
     userCanEditMedia,
+    loggedInUserHasLikedPost,
   },
   setTagged,
   profileSearchParams,
   userIdFromParams,
 }: PostCardProps) => {
   const [htmlString, setHtmlString] = useState("");
-  const [likes, setLikes] = useState(likesCount);
+  const [likesState, setLikesState] = useState({
+    likesCount,
+    loggedInUserHasLikedPost,
+  });
 
   const toggleLike = async () => {
     const toggled = await togglePostLike(id);
-    setLikes(toggled.totalLikes);
+    setLikesState((prevState) => ({
+      likesCount: toggled.totalLikes,
+      loggedInUserHasLikedPost: !prevState.loggedInUserHasLikedPost,
+    }));
   };
 
   const socialCounts: SocialCountTuple[] = [
     ["views", viewCount],
-    ["likes", likes],
+    ["likes", likesState.likesCount],
     ["comments", commentsCount],
   ];
 
@@ -55,9 +63,9 @@ const PostCard = ({
     const sanitizedHtml = DOMPurify.sanitize(content);
     setHtmlString(sanitizedHtml);
   }, [content]);
-
-  const hasLiked = true;
-  const heartIconClass = hasLiked ? "fill-red-80" : "fill-sc-5";
+  const heartIconClass = likesState.loggedInUserHasLikedPost
+    ? "fill-red-80"
+    : "fill-sc-5";
 
   return (
     <div className="flex w-full rounded-xl bg-light p-[1.25rem] hover:translate-y-[-0.1rem]  hover:shadow-lg dark:bg-dark-3 hover:dark:bg-dark-4">

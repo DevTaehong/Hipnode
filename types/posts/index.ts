@@ -204,6 +204,7 @@ export type ExtendedPrismaPost = {
   imageHeight: number;
   imageWidth: number;
   userProfileId?: number;
+  loggedInUserHasLikedPost: boolean;
 };
 
 export type PostToEditByIdType = {
