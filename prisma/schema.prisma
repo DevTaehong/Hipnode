@@ -346,3 +346,10 @@ enum Role {
   ADMIN
   USER
 }
+
+model OnlineUser {
+  id       Int      @id @default(autoincrement())
+  userId   Int      
+  enteredAt DateTime @default(now())
+}
+
