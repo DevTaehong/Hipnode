@@ -1,7 +1,15 @@
+import dynamic from "next/dynamic";
+
 import { formatSalary } from "@/utils";
 import { InterviewBannerImage, InterviewCardInfo } from ".";
 import { LargeInterviewCardProps } from "@/types/interview.index";
-import SanatizedHtml from "../posts/post-by-id/main-content/SanatizedHtml";
+
+const SanatizedHtml = dynamic(
+  () => import("../posts/post-by-id/main-content/SanatizedHtml"),
+  {
+    ssr: false,
+  }
+);
 
 const LargeInterviewCard = ({
   interviewData,

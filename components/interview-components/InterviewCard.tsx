@@ -8,6 +8,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
   const {
     id,
     title,
+    creatorId,
     bannerImage,
     websiteLink,
     salary,
@@ -17,9 +18,10 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
     userCanEditMedia,
     creator: { name: username, picture: userImage },
   } = interviewData;
+
   const interviewSalary = formatSalary(salary, salaryPeriod);
   return (
-    <article className="bg-light_dark-3 text-sc-2_light-2 flex flex-col justify-between gap-[1.875rem] rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4 sm:p-5 md:flex-row xl:w-full xl:flex-row">
+    <article className="bg-light_dark-3 text-sc-2_light-2 flex flex-col justify-between gap-[1.875rem] rounded-2xl p-3.5 hover:shadow-lg sm:p-5 md:flex-row xl:w-full xl:flex-row hover:dark:bg-dark-4">
       <section className="flex w-full flex-col justify-between gap-5 sm:h-full">
         <InterviewHeader
           userImage={userImage}
@@ -27,6 +29,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           date={createdAt}
           id={id}
           userCanEditMedia={userCanEditMedia}
+          creatorId={creatorId}
         />
         <InterviewBannerImage
           bannerImage={bannerImage}

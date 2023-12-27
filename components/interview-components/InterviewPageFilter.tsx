@@ -95,7 +95,7 @@ const InterviewPageFilter = ({
           ref={ref}
           className={`${
             !hasMoreInterviews && "hidden lg:hidden"
-          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
+          } mt-2 hidden animate-pulse self-center lg:flex dark:text-light-2`}
         >
           Loading...
         </p>
