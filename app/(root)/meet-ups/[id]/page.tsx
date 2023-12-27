@@ -11,7 +11,7 @@ const Page = async ({ params }: { params: Params }) => {
   if (!data) return;
 
   return (
-    <main className="bg-light-2_dark-2 flex h-screen w-screen justify-center p-5">
+    <main className="bg-light-2_dark-2 mt-[-5rem] flex h-screen w-screen justify-center p-5 pt-[6rem]">
       <LargeMeetupCard meetupData={data} />
     </main>
   );
