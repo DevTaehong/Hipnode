@@ -25,7 +25,7 @@ const Home = async () => {
   ]);
 
   return (
-    <section className="bg-light-2_dark-2 sticky top-[5.25rem] -mt-16 flex h-fit min-h-screen w-screen justify-center overflow-hidden px-5 py-20 lg:top-0 lg:h-screen lg:max-h-screen lg:py-5  lg:pb-[2.3rem] lg:pt-[5.875rem]">
+    <section className="bg-light-2_dark-2 sticky top-[5.25rem] mt-[-5rem] flex h-fit min-h-screen w-screen justify-center overflow-hidden px-5 py-20 lg:top-0 lg:h-screen lg:max-h-screen lg:py-5  lg:pb-[2.3rem] lg:pt-[5.875rem]">
       <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
         <div className="flex lg:w-[13.125rem]">
           <div className="flex w-full flex-col gap-5 overflow-y-auto lg:max-h-screen">
