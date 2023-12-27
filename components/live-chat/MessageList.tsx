@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useChannel, usePresence } from "ably/react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import FillIcon from "../icons/fill-icons";
@@ -7,19 +6,39 @@ import UsersToMessage from "./UsersToMessage";
 import { getAllUsers } from "@/lib/actions/user.actions";
 import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
+import {
+  getAllOnlineUserIds,
+  recreateOnlineUser,
+} from "@/lib/actions/online-user.actions";
 
 const MessageList = () => {
-  const { userInfo } = useChatStore();
-  const { id, username, image } = userInfo;
+  const { userInfo, setOnlineUsers } = useChatStore();
+  const { id } = userInfo;
 
   const [users, setUsers] = useState<ChatProps[]>([]);
 
-  const { channel } = useChannel("hipnode-livechat", () => {});
-  usePresence("hipnode-livechat", {
-    id,
-    username,
-    image,
-  });
+  const resetOnlineUsers = async () => {
+    try {
+      const onlineUserIds = await getAllOnlineUserIds();
+      setOnlineUsers(onlineUserIds);
+    } catch (error) {
+      console.error("Error fetching online users:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleAddUser = async () => {
+      try {
+        await recreateOnlineUser(id);
+        await resetOnlineUsers();
+      } catch (error) {
+        console.error("Error adding user to online users:", error);
+      }
+    };
+    if (id > 0) {
+      handleAddUser();
+    }
+  }, [id]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,12 +53,24 @@ const MessageList = () => {
   }, []);
 
   useEffect(() => {
-    channel.presence.enter({
-      id,
-      username,
-      image,
-    });
-  }, []);
+    const resetUsersPeriodically = async () => {
+      try {
+        const recreatedUser = await recreateOnlineUser(id);
+        if (recreatedUser) {
+          await resetOnlineUsers();
+        }
+      } catch (error) {
+        console.error("Error resetting online users periodically:", error);
+      }
+    };
+    const intervalId = setInterval(() => {
+      if (id > 0) {
+        resetUsersPeriodically();
+      }
+    }, 120000);
+
+    return () => clearInterval(intervalId);
+  }, [id]);
 
   return (
     <Popover>
