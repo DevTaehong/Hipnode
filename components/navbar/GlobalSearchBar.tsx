@@ -52,6 +52,12 @@ const SearchBar = ({
     fetchSearchResults();
   }, [activeSearchType]);
 
+  useEffect(() => {
+    if (searchText === "") {
+      fetchSearchResults();
+    }
+  }, [searchText]);
+
   const handleHeadingClick = (heading: string) => {
     if (heading === activeSearchType) {
       setActiveSearchType("");
@@ -104,6 +110,11 @@ const SearchBar = ({
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         onFocus={handleFocus}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            fetchSearchResults();
+          }
+        }}
       />
       <div
         className={`${

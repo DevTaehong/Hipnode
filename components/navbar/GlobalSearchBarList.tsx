@@ -10,6 +10,7 @@ const resultInfo = [
   },
   {
     title: "meetup",
+    url: "/meet-ups",
     icon: FillIcon.Calendar,
   },
   {

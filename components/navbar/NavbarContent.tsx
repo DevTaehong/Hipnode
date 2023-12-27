@@ -86,10 +86,7 @@ const NavbarContent = ({
         </section>
       </div>
       {(showSearch || showSearchBar) && (
-        <div
-          className="fixed inset-0 z-10 bg-red-90/50"
-          onClick={handleOpenClose}
-        />
+        <div className="fixed inset-0 z-10" onClick={handleOpenClose} />
       )}
     </>
   );
