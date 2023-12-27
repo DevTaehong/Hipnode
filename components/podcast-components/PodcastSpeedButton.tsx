@@ -15,7 +15,9 @@ const PodcastSpeedButton = ({
 
   return (
     <div className="flex items-center gap-2">
-      {showInfo && <p className="text-sc-1_light-2 text-xs">{showInfo}</p>}
+      {showInfo && (
+        <p className="text-sc-1_light-2 line-clamp-1 text-xs">{showInfo}</p>
+      )}
       <button
         onClick={handlePlaybackSpeedCycle}
         className="text-sc-1_light-2 text-sm"

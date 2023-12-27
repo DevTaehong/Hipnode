@@ -12,7 +12,7 @@ const PodcastBarImage = ({ id, podcastUserImage }: PodcastBarImageProps) => {
     <figure className="relative flex gap-2">
       <Link
         href={`/podcasts/${id}`}
-        className="min-h-[50px] min-w-[50px] rounded-full bg-red-60"
+        className="h-9 w-9 shrink-0 rounded-full bg-red-60 md:h-12 md:w-12"
       >
         <Image
           src={podcastUserImage || podcast}

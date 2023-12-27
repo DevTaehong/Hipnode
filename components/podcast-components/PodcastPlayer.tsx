@@ -149,7 +149,7 @@ const PodcastPlayer = () => {
 
   return (
     <footer
-      className={`bg-light_dark-3 fixed bottom-0 flex h-[4.5rem] w-full items-center justify-between gap-2 px-5 transition duration-200 ${
+      className={`bg-light_dark-3 fixed bottom-16 flex w-full items-center justify-between gap-2 px-5 py-1 transition duration-200 md:bottom-0 md:h-[4.5rem] md:py-0 ${
         !state.showPlayer && "translate-y-[4.5rem]"
       }`}
     >
