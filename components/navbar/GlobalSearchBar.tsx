@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 
@@ -19,84 +19,87 @@ import LoaderComponent from "../onboarding-components/LoaderComponent";
 
 const searchHeadings = ["Post", "Meetup", "Group", "Podcast", "Interview"];
 
-const SearchBar = ({
-  additionalStyles,
-  setShowSearch,
-  showSearchBar,
-  setShowSearchBar,
-}: SearchBarProps) => {
-  const [searchText, setSearchText] = useState("");
-  const [activeSearchType, setActiveSearchType] = useState("");
-  const [amountToSkip, setAmountToSkip] = useState(0);
-  const [searchResults, setSearchResults] = useState<PostResult[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showButton, setShowButton] = useState(false);
-
+const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   const fetchSearchResults = async () => {
-    setIsLoading(true);
+    dispatch({ type: "SET_IS_LOADING", payload: true });
     let posts;
-    if (activeSearchType === "") {
-      posts = await getAllSearchBarResults(searchText, 0);
+    if (state.activeSearchType === "") {
+      posts = await getAllSearchBarResults(state.searchText, 0);
     } else {
-      posts = await getSearchBarResults(searchText, activeSearchType, 0);
+      posts = await getSearchBarResults(
+        state.searchText,
+        state.activeSearchType,
+        0
+      );
     }
     if (posts) {
-      setIsLoading(false);
+      dispatch({
+        type: "SET_IS_LOADING",
+        payload: false,
+      });
     }
-    setSearchResults(posts.posts);
-    setAmountToSkip(10);
-    setShowButton(posts.isMorePosts);
+    dispatch({
+      type: "UPDATE_SEARCH_RESULTS",
+      payload: {
+        searchResults: posts.posts,
+        amountToSkip: 10,
+        showButton: posts.isMorePosts,
+      },
+    });
   };
 
   useEffect(() => {
     fetchSearchResults();
-  }, [activeSearchType]);
+  }, [state.activeSearchType]);
 
   useEffect(() => {
-    if (searchText === "") {
+    if (state.searchText === "") {
       fetchSearchResults();
     }
-  }, [searchText]);
+  }, [state.searchText]);
 
   const handleHeadingClick = (heading: string) => {
-    if (heading === activeSearchType) {
-      setActiveSearchType("");
+    if (heading === state.activeSearchType) {
+      dispatch({ type: "SET_ACTIVE_SEARCH_TYPE", payload: "" });
     } else {
-      setActiveSearchType(heading);
+      dispatch({ type: "SET_ACTIVE_SEARCH_TYPE", payload: heading });
     }
   };
 
   const handleClose = () => {
-    setShowSearch(false);
-    setShowSearchBar(false);
-    setSearchText("");
-    setActiveSearchType("");
-    setAmountToSkip(0);
+    dispatch({ type: "HANDLE_CLOSE" });
   };
 
   const loadMore = () => {
-    setAmountToSkip((prev) => prev + 10);
+    dispatch({ type: "SET_AMOUNT_TO_SKIP", payload: state.amountToSkip + 10 });
     const fetchSearchResults = async () => {
       let posts: SearchBarResults;
-      if (activeSearchType === "") {
-        posts = await getAllSearchBarResults(searchText, amountToSkip);
+      if (state.activeSearchType === "") {
+        posts = await getAllSearchBarResults(
+          state.searchText,
+          state.amountToSkip
+        );
       } else {
         posts = await getSearchBarResults(
-          searchText,
-          activeSearchType,
-          amountToSkip
+          state.searchText,
+          state.activeSearchType,
+          state.amountToSkip
         );
       }
-      setSearchResults((prev) => [...prev, ...posts.posts]);
-      setIsLoading(false);
-      setShowButton(posts.isMorePosts);
+      dispatch({
+        type: "HANDLE_LOAD_MORE",
+        payload: {
+          searchResults: (prev: PostResult[]) => [...prev, ...posts.posts],
+          isLoading: false,
+          showButton: posts.isMorePosts,
+        },
+      });
     };
     fetchSearchResults();
   };
 
   const handleFocus = () => {
-    setShowSearchBar(true);
-    setShowSearch(true);
+    dispatch({ type: "HANDLE_FOCUS" });
   };
 
   return (
@@ -107,8 +110,10 @@ const SearchBar = ({
         type="text"
         placeholder="Type here to search..."
         className="no-focus flex border-none bg-light-2 shadow-none outline-none dark:bg-dark-4 dark:text-white"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        value={state.searchText}
+        onChange={(e) =>
+          dispatch({ type: "SET_SEARCH_TEXT", payload: e.target.value })
+        }
         onFocus={handleFocus}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -118,14 +123,14 @@ const SearchBar = ({
       />
       <div
         className={`${
-          showSearchBar ? "flex" : "hidden"
+          state.showSearchBar ? "flex" : "hidden"
         } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light lg:top-12 lg:max-h-[20rem] dark:bg-dark-2`}
       >
         <div className="flex h-[3.75rem] gap-4 border-b border-sc-6 p-4 dark:border-dark-4">
           <p className="semibold-14 text-dark-3 dark:text-light-2">Type:</p>
           <div className="flex gap-2.5 overflow-x-scroll">
             {searchHeadings.map((heading) => {
-              const isActive = heading === activeSearchType;
+              const isActive = heading === state.activeSearchType;
               return (
                 <div
                   key={heading}
@@ -136,7 +141,7 @@ const SearchBar = ({
                   }`}
                   onClick={() => {
                     handleHeadingClick(heading);
-                    setAmountToSkip(0);
+                    dispatch({ type: "SET_AMOUNT_TO_SKIP", payload: 0 });
                   }}
                 >
                   {heading}
@@ -145,7 +150,7 @@ const SearchBar = ({
             })}
           </div>
         </div>
-        {isLoading ? (
+        {state.isLoading ? (
           <div className="flex-center h-full w-full p-10">
             <LoaderComponent isGlobalSearch />
           </div>
@@ -155,10 +160,10 @@ const SearchBar = ({
               Top Match:
             </p>
             <GlobalSearchBarList
-              searchResults={searchResults}
+              searchResults={state.searchResults}
               handleClose={handleClose}
               loadMore={loadMore}
-              showButton={showButton}
+              showButton={state.showButton}
             />
           </div>
         )}

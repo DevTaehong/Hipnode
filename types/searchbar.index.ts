@@ -1,3 +1,9 @@
+import {
+  SearchBarAction,
+  SearchBarState,
+} from "@/components/navbar/globalSearchReducer";
+import { Dispatch } from "react";
+
 export interface PostResult {
   id: number;
   title: string;
@@ -18,9 +24,8 @@ export interface GlobalSearchBarListProps {
 
 export interface SearchBarProps {
   additionalStyles?: string;
-  setShowSearch: (value: boolean) => void;
-  showSearchBar: boolean;
-  setShowSearchBar: (value: boolean) => void;
+  state: SearchBarState;
+  dispatch: Dispatch<SearchBarAction>;
 }
 
 type NavBarUserInfoProps = {

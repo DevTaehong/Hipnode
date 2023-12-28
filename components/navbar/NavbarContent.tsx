@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
@@ -13,22 +13,20 @@ import OutlineIcon from "../icons/outline-icons";
 import NavLinks from "./NavLinks";
 import NotificationButton from "./NotificationButton";
 import { NavbarContentProps } from "@/types/searchbar.index";
+import { reducer, initialState } from "./globalSearchReducer";
 
 const NavbarContent = ({
   userInfo,
   currentUserId,
   lastChecked,
 }: NavbarContentProps) => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleOpenClose = () => {
-    if (showSearch) {
-      setShowSearch(false);
-      setShowSearchBar(false);
+    if (state.showSearch) {
+      dispatch({ type: "HANDLE_UNFOCUS" });
     } else {
-      setShowSearch(true);
-      setShowSearchBar(true);
+      dispatch({ type: "HANDLE_FOCUS" });
     }
   };
 
@@ -49,13 +47,12 @@ const NavbarContent = ({
           <NavLinks />
           <GlobalSearchBar
             additionalStyles={`${
-              showSearch
+              state.showSearch
                 ? "flex fixed left-4 right-4 lg:left-0 lg:right-0 lg:w-full z-20 top-5 lg:top-0"
                 : "hidden lg:flex"
             }`}
-            setShowSearch={setShowSearch}
-            showSearchBar={showSearchBar}
-            setShowSearchBar={setShowSearchBar}
+            state={state}
+            dispatch={dispatch}
           />
         </section>
 
@@ -86,7 +83,7 @@ const NavbarContent = ({
           </SignedOut>
         </section>
       </div>
-      {(showSearch || showSearchBar) && (
+      {(state.showSearch || state.showSearchBar) && (
         <div className="fixed inset-0 z-10" onClick={handleOpenClose} />
       )}
     </>
