@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import FillIcon from "../icons/fill-icons";
 import { GlobalSearchBarListProps } from "@/types/searchbar.index";
 
