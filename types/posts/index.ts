@@ -6,6 +6,7 @@ import { Comment, Group, Post, Share, Tag, User } from "@prisma/client";
 import { PostFormValuesType } from "@/constants/posts";
 import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
+import { Suggestion } from "use-places-autocomplete";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -331,3 +332,12 @@ export type createUserType = {
 
 export interface GetPostByIdType
   extends Omit<ExtendedPrismaPost, "numberOfAvailablePosts"> {}
+
+export type LocationProps = {
+  setValueHookForm: (name: "location", value: string) => void;
+};
+
+export type SuggestionsListProps = {
+  suggestions: Suggestion[];
+  onSuggestionSelect: (suggestion: Suggestion) => () => void;
+};
