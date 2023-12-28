@@ -27,6 +27,7 @@ const Comment = ({
   id,
   postId,
   likedByCurrentUser,
+  likeCount,
   userId,
   depth = 0,
   isLastComment,
@@ -40,6 +41,7 @@ const Comment = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [isLiked, setIsLiked] = useState<boolean>(likedByCurrentUser);
+  const [totalLikes, setTotalLikes] = useState<number>(likeCount);
   const path = usePathname();
   const canReply = depth < 1;
 
@@ -55,9 +57,10 @@ const Comment = ({
 
   const toggleLikeHandler = async () => {
     if (!userId) return;
+    setIsLiked((previous) => !previous);
+    setTotalLikes((previous) => (isLiked ? previous - 1 : previous + 1));
     try {
-      await toggleLikeComment(id, author?.id, postHeading);
-      setIsLiked(!isLiked);
+      await toggleLikeComment(id, author?.id, postHeading, path);
     } catch (error) {
       console.error("Error toggling like:", error);
     }
@@ -94,6 +97,7 @@ const Comment = ({
               username={author?.username ?? "The Unknown Soldier"}
               createdAt={createdAt}
               isEdited={isEdited}
+              totalLikes={totalLikes}
             />
             <div className="flex flex-wrap text-[1rem] leading-[1.5rem] text-sc-3">
               {content}

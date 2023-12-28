@@ -137,6 +137,7 @@ export interface CommentHeaderProps {
   username: string;
   createdAt: Date;
   isEdited: boolean;
+  totalLikes: number;
 }
 
 // TYPES FOR post.action
