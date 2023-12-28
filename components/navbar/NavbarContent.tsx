@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import UserButton from "./UserButton";
 import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
 import HipnodeIcon from "../icons/HipnodeIcon";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
