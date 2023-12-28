@@ -26,11 +26,7 @@ export type SearchBarAction =
   | { type: "SET_SEARCH_TEXT"; payload: string }
   | { type: "SET_ACTIVE_SEARCH_TYPE"; payload: string }
   | { type: "SET_AMOUNT_TO_SKIP"; payload: number }
-  | { type: "SET_SEARCH_RESULTS"; payload: PostResult[] }
   | { type: "SET_IS_LOADING"; payload: boolean }
-  | { type: "SET_SHOW_BUTTON"; payload: boolean }
-  | { type: "SET_SHOW_SEARCH"; payload: boolean }
-  | { type: "SET_SHOW_SEARCH_BAR"; payload: boolean }
   | {
       type: "UPDATE_SEARCH_RESULTS";
       payload: {
@@ -68,16 +64,8 @@ export const reducer = (
       return { ...state, activeSearchType: action.payload };
     case "SET_AMOUNT_TO_SKIP":
       return { ...state, amountToSkip: action.payload };
-    case "SET_SEARCH_RESULTS":
-      return { ...state, searchResults: action.payload };
     case "SET_IS_LOADING":
       return { ...state, isLoading: action.payload };
-    case "SET_SHOW_BUTTON":
-      return { ...state, showButton: action.payload };
-    case "SET_SHOW_SEARCH":
-      return { ...state, showSearch: action.payload };
-    case "SET_SHOW_SEARCH_BAR":
-      return { ...state, showSearchBar: action.payload };
     case "UPDATE_SEARCH_RESULTS":
       return {
         ...state,
