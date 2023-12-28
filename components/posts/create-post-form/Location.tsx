@@ -55,7 +55,7 @@ const Location = ({ setValueHookForm }: LocationProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [clearSuggestions]);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
