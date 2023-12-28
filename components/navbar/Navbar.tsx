@@ -8,6 +8,7 @@ import SearchBar from "@/components/navbar/SearchBar";
 import UserButton from "@/components/navbar/UserButton";
 import OutlineIcons from "@/components/icons/outline-icons";
 
+import { getAllOnlineUserIds } from "@/lib/actions/online-user.actions";
 import MessageListWrapper from "../live-chat/MessageListWrapper";
 import NotificationButton from "./NotificationButton";
 import { verifyAuth } from "@/lib/auth";
@@ -16,6 +17,7 @@ const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName, lastChecked } =
     await verifyAuth("You must be logged in to view this page.");
 
+  const onlineUserIds = await getAllOnlineUserIds();
   const userInfo = {
     id: userId,
     username: userName,
@@ -43,7 +45,10 @@ const Navbar = async () => {
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            <MessageListWrapper userInfo={userInfo} />
+            <MessageListWrapper
+              userInfo={userInfo}
+              onlineUserIds={onlineUserIds}
+            />{" "}
             <NotificationButton
               currentUserId={userId}
               lastChecked={lastChecked ?? new Date()}

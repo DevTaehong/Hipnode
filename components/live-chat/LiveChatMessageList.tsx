@@ -8,17 +8,19 @@ import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
 import LiveChatMessage from "./LiveChatMessage";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
-import { useGetOnlineUsers } from "../chat-page/presenceData";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
 
 const LiveChatMessageList = React.memo(
   ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
     const { setLiveRecordingDuration } = useMediaPlayerStore();
     const router = useRouter();
-    const { chatroomUsers, setShowChat, chatroomId, setChatroomUsers } =
-      useChatStore();
-
-    const onlineUsers = useGetOnlineUsers();
+    const {
+      chatroomUsers,
+      setShowChat,
+      chatroomId,
+      setChatroomUsers,
+      onlineUsers,
+    } = useChatStore();
 
     const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
@@ -29,7 +31,9 @@ const LiveChatMessageList = React.memo(
       id: secondUserId,
     } = secondUser ?? {};
 
-    const isSecondUserOnline = onlineUsers.includes(secondUserId);
+    const isSecondUserOnline = onlineUsers
+      ? onlineUsers.includes(secondUserId)
+      : false;
 
     useEffect(() => {
       if (endOfMessagesRef.current) {
