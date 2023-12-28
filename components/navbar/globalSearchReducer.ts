@@ -35,9 +35,7 @@ export type SearchBarAction =
         showButton: boolean;
       };
     }
-  | {
-      type: "HANDLE_CLOSE";
-    }
+  | { type: "HANDLE_CLOSE" }
   | {
       type: "HANDLE_LOAD_MORE";
       payload: {
@@ -46,12 +44,8 @@ export type SearchBarAction =
         showButton: boolean;
       };
     }
-  | {
-      type: "HANDLE_FOCUS";
-    }
-  | {
-      type: "HANDLE_UNFOCUS";
-    };
+  | { type: "HANDLE_FOCUS" }
+  | { type: "HANDLE_UNFOCUS" };
 
 export const reducer = (
   state: SearchBarState,
