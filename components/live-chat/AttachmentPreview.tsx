@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
@@ -76,6 +76,7 @@ const AttachmentPreview = ({
   setDroppedFile,
   chatPage = false,
 }: AttachmentPreviewProps) => {
+  const [hover, setHover] = useState(false);
   const mediaType = getMediaType(droppedFile);
   const previewUrl = useMemo(() => {
     if (droppedFile) {
@@ -84,17 +85,24 @@ const AttachmentPreview = ({
     }
     return null;
   }, [droppedFile]);
+
   return (
-    <figure className="relative flex w-fit">
+    <figure
+      className="relative flex w-fit"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       <button
-        className={`flex-center absolute right-0 top-0 h-5 w-5 bg-white/80 ${
+        className={`${
+          hover ? "flex-center" : "hidden"
+        } absolute right-0 top-0 h-5 w-5 rounded-full bg-red-80/80 ${
           mediaType === "audio" ? "-right-5 -top-3" : "right-0 top-0"
         }`}
         onClick={() => {
           setDroppedFile(null);
         }}
       >
-        <IoClose className="z-10 cursor-pointer text-[20px]" />
+        <IoClose className="z-10 cursor-pointer text-[20px] text-white" />
       </button>
       {previewUrl && (
         <RenderPreview

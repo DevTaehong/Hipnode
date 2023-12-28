@@ -7,11 +7,12 @@ import useChatStore from "@/app/chatStore";
 import MessageList from "./MessageList";
 import { client } from "@/lib/ably";
 
-const MessageListWrapper = ({ userInfo }: any) => {
-  const { setUserInfo } = useChatStore();
+const MessageListWrapper = ({ userInfo, onlineUserIds }: any) => {
+  const { setUserInfo, setOnlineUsers } = useChatStore();
 
   useEffect(() => {
     setUserInfo(userInfo);
+    setOnlineUsers(onlineUserIds);
   }, []);
 
   return (
