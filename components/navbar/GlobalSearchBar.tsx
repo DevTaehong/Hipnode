@@ -16,8 +16,7 @@ import {
   SearchBarResults,
 } from "@/types/searchbar.index";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
-
-const searchHeadings = ["Post", "Meetup", "Group", "Podcast", "Interview"];
+import { searchHeadings } from "@/constants/search-bar";
 
 const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   const fetchSearchResults = async () => {
@@ -62,11 +61,13 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   }, [state.searchText]);
 
   const handleHeadingClick = (heading: string) => {
+    if (state.isLoading) return;
     if (heading === state.activeSearchType) {
       dispatch({ type: "SET_ACTIVE_SEARCH_TYPE", payload: "" });
     } else {
       dispatch({ type: "SET_ACTIVE_SEARCH_TYPE", payload: heading });
     }
+    dispatch({ type: "SET_AMOUNT_TO_SKIP", payload: 0 });
   };
 
   const handleClose = () => {
@@ -143,8 +144,9 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
             {searchHeadings.map((heading) => {
               const isActive = heading === state.activeSearchType;
               return (
-                <div
+                <button
                   key={heading}
+                  type="button"
                   className={`semibold-9 flex-center h-[1.625rem] w-[3.75rem] shrink-0 cursor-pointer rounded-full ${
                     isActive
                       ? "bg-red-90 text-light"
@@ -152,11 +154,10 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
                   }`}
                   onClick={() => {
                     handleHeadingClick(heading);
-                    dispatch({ type: "SET_AMOUNT_TO_SKIP", payload: 0 });
                   }}
                 >
                   {heading}
-                </div>
+                </button>
               );
             })}
           </div>

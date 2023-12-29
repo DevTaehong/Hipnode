@@ -2,34 +2,7 @@ import Link from "next/link";
 
 import FillIcon from "../icons/fill-icons";
 import { GlobalSearchBarListProps } from "@/types/searchbar.index";
-
-const resultInfo = [
-  {
-    title: "post",
-    url: "/posts/post",
-    icon: FillIcon.Post,
-  },
-  {
-    title: "meetup",
-    url: "/meet-ups",
-    icon: FillIcon.Calendar,
-  },
-  {
-    title: "group",
-    icon: FillIcon.Group,
-    url: "/group",
-  },
-  {
-    title: "podcast",
-    icon: FillIcon.Podcasts,
-    url: "/podcasts",
-  },
-  {
-    title: "interview",
-    icon: FillIcon.Interviews,
-    url: "/interviews",
-  },
-];
+import { resultInfo } from "@/constants/search-bar";
 
 const GlobalSearchBarList = ({
   searchResults,
