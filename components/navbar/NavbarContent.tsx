@@ -24,7 +24,7 @@ const NavbarContent = ({
 
   const handleOpenClose = () => {
     if (state.showSearch) {
-      dispatch({ type: "HANDLE_UNFOCUS" });
+      dispatch({ type: "HANDLE_CLOSE" });
     } else {
       dispatch({ type: "HANDLE_FOCUS" });
     }

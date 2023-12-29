@@ -44,8 +44,7 @@ export type SearchBarAction =
         showButton: boolean;
       };
     }
-  | { type: "HANDLE_FOCUS" }
-  | { type: "HANDLE_UNFOCUS" };
+  | { type: "HANDLE_FOCUS" };
 
 export const reducer = (
   state: SearchBarState,
@@ -81,12 +80,6 @@ export const reducer = (
         ...state,
         showSearch: true,
         showSearchBar: true,
-      };
-    case "HANDLE_UNFOCUS":
-      return {
-        ...state,
-        showSearch: false,
-        showSearchBar: false,
       };
     case "HANDLE_LOAD_MORE":
       return {
