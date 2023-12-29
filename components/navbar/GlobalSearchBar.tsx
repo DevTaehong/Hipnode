@@ -23,29 +23,32 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   const fetchSearchResults = async () => {
     dispatch({ type: "SET_IS_LOADING", payload: true });
     let posts;
-    if (state.activeSearchType === "") {
-      posts = await getAllSearchBarResults(state.searchText, 0);
-    } else {
-      posts = await getSearchBarResults(
-        state.searchText,
-        state.activeSearchType,
-        0
-      );
+
+    try {
+      if (state.activeSearchType === "") {
+        posts = await getAllSearchBarResults(state.searchText, 0);
+      } else {
+        posts = await getSearchBarResults(
+          state.searchText,
+          state.activeSearchType,
+          0
+        );
+      }
+      if (posts) {
+        dispatch({
+          type: "UPDATE_SEARCH_RESULTS",
+          payload: {
+            searchResults: posts.posts,
+            amountToSkip: 10,
+            showButton: posts.isMorePosts,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    } finally {
+      dispatch({ type: "SET_IS_LOADING", payload: false });
     }
-    if (posts) {
-      dispatch({
-        type: "SET_IS_LOADING",
-        payload: false,
-      });
-    }
-    dispatch({
-      type: "UPDATE_SEARCH_RESULTS",
-      payload: {
-        searchResults: posts.posts,
-        amountToSkip: 10,
-        showButton: posts.isMorePosts,
-      },
-    });
   };
 
   useEffect(() => {
@@ -72,29 +75,37 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
 
   const loadMore = () => {
     dispatch({ type: "SET_AMOUNT_TO_SKIP", payload: state.amountToSkip + 10 });
+
     const fetchSearchResults = async () => {
-      let posts: SearchBarResults;
-      if (state.activeSearchType === "") {
-        posts = await getAllSearchBarResults(
-          state.searchText,
-          state.amountToSkip
-        );
-      } else {
-        posts = await getSearchBarResults(
-          state.searchText,
-          state.activeSearchType,
-          state.amountToSkip
-        );
+      try {
+        let posts: SearchBarResults;
+        if (state.activeSearchType === "") {
+          posts = await getAllSearchBarResults(
+            state.searchText,
+            state.amountToSkip
+          );
+        } else {
+          posts = await getSearchBarResults(
+            state.searchText,
+            state.activeSearchType,
+            state.amountToSkip
+          );
+        }
+
+        dispatch({
+          type: "HANDLE_LOAD_MORE",
+          payload: {
+            searchResults: (prev: PostResult[]) => [...prev, ...posts.posts],
+            isLoading: false,
+            showButton: posts.isMorePosts,
+          },
+        });
+      } catch (error) {
+        console.error("Error occurred while loading more results:", error);
+        dispatch({ type: "SET_IS_LOADING", payload: false });
       }
-      dispatch({
-        type: "HANDLE_LOAD_MORE",
-        payload: {
-          searchResults: (prev: PostResult[]) => [...prev, ...posts.posts],
-          isLoading: false,
-          showButton: posts.isMorePosts,
-        },
-      });
     };
+
     fetchSearchResults();
   };
 
