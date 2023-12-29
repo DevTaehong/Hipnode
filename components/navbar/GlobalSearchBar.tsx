@@ -123,7 +123,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
       />
       <div
         className={`${
-          state.showSearchBar ? "flex" : "hidden"
+          state.showSearch ? "flex" : "hidden"
         } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light lg:top-12 lg:max-h-[20rem] dark:bg-dark-2`}
       >
         <div className="flex h-[3.75rem] gap-4 border-b border-sc-6 p-4 dark:border-dark-4">

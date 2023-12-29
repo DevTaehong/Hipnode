@@ -8,7 +8,6 @@ export type SearchBarState = {
   isLoading: boolean;
   showButton: boolean;
   showSearch: boolean;
-  showSearchBar: boolean;
 };
 
 export const initialState: SearchBarState = {
@@ -19,7 +18,6 @@ export const initialState: SearchBarState = {
   isLoading: false,
   showButton: false,
   showSearch: false,
-  showSearchBar: false,
 };
 
 export type SearchBarAction =
@@ -70,7 +68,6 @@ export const reducer = (
       return {
         ...state,
         showSearch: false,
-        showSearchBar: false,
         searchText: "",
         activeSearchType: "",
         amountToSkip: 0,
@@ -79,7 +76,6 @@ export const reducer = (
       return {
         ...state,
         showSearch: true,
-        showSearchBar: true,
       };
     case "HANDLE_LOAD_MORE":
       return {

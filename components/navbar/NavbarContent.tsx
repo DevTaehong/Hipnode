@@ -83,7 +83,7 @@ const NavbarContent = ({
           </SignedOut>
         </section>
       </div>
-      {(state.showSearch || state.showSearchBar) && (
+      {state.showSearch && (
         <div className="fixed inset-0 z-10" onClick={handleOpenClose} />
       )}
     </>
