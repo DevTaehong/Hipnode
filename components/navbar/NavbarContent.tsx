@@ -26,7 +26,7 @@ const NavbarContent = ({
     if (state.showSearch) {
       dispatch({ type: "HANDLE_CLOSE" });
     } else {
-      dispatch({ type: "HANDLE_FOCUS" });
+      dispatch({ type: "HANDLE_OPEN" });
     }
   };
 

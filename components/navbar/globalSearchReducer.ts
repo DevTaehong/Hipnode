@@ -44,7 +44,7 @@ export type SearchBarAction =
         showButton: boolean;
       };
     }
-  | { type: "HANDLE_FOCUS" };
+  | { type: "HANDLE_OPEN" };
 
 export const reducer = (
   state: SearchBarState,
@@ -75,7 +75,7 @@ export const reducer = (
         activeSearchType: "",
         amountToSkip: 0,
       };
-    case "HANDLE_FOCUS":
+    case "HANDLE_OPEN":
       return {
         ...state,
         showSearch: true,

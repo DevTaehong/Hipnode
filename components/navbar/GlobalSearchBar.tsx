@@ -99,7 +99,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   };
 
   const handleFocus = () => {
-    dispatch({ type: "HANDLE_FOCUS" });
+    dispatch({ type: "HANDLE_OPEN" });
   };
 
   return (
