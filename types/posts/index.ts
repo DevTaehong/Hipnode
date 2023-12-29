@@ -343,3 +343,30 @@ export type SuggestionsListProps = {
   suggestions: Suggestion[];
   onSuggestionSelect: (suggestion: Suggestion) => () => void;
 };
+
+export type LikeButtonProps = {
+  toggleLike: () => void;
+  additionalClasses: string;
+};
+
+export type TagListProps = {
+  tags: string[];
+  userIdFromParams?: number;
+  setTagged: (tag: string) => void;
+};
+
+export type PostCardRenderProps = {
+  postData: ExtendedPrismaPost[];
+  setTagged: (tagged: string) => void;
+  authorId?: number;
+};
+
+export type SidebarProps = {
+  isLoggedIn: boolean;
+  peopleFollowed: number;
+};
+
+export interface FollowingProps {
+  authorId: number;
+  isFollowing: boolean;
+}

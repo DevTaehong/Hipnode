@@ -6,25 +6,19 @@ import { useSearchParams, usePathname } from "next/navigation";
 
 import {
   getAllPosts,
-  getAllPostsByUserId,
   getAllPostsByTagName,
   getAllPostsByTagNameByUserId,
+  getAllPostsByUserId,
   getMostPopularPosts,
   getPostsByFollowing,
 } from "@/lib/actions/post.action";
 import { ExtendedPrismaPost } from "@/types/posts";
-import { PostCard } from ".";
 import OutlineIcon from "@/components/icons/outline-icons";
 import { PostCardListProps } from "@/types/homepage";
 import CustomButton from "@/components/CustomButton";
 import Spinner from "@/components/Spinner";
 import LoaderComponent from "@/components/onboarding-components/LoaderComponent";
-import { motion } from "framer-motion";
-
-const variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
+import PostCardRender from "./PostCardRender";
 
 const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const searchParams = useSearchParams();
@@ -44,60 +38,70 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   useEffect(() => {
     (async () => {
-      if (tag && path === "/") {
-        if (tagChanged) {
-          setPostData([]);
+      try {
+        if (tag && path === "/") {
+          if (tagChanged) {
+            setPostData([]);
+          }
+          const posts = await getAllPostsByTagName({ tagName: tag });
+          setPostData(posts);
+          setTagChanged(false);
         }
-        const posts = await getAllPostsByTagName({ tagName: tag });
-        setPostData(posts);
-        setTagChanged(false);
+      } catch (error) {
+        console.error("Error fetching posts by tag:", error);
       }
     })();
   }, [tag, authorId]);
 
   useEffect(() => {
     (async () => {
-      let posts;
-      if (filter && path === "/") {
-        if (filterChanged) {
+      try {
+        let posts;
+        if (filter && path === "/" && filterChanged) {
           setPostData([]);
           setAmountToSkip(10);
-        }
 
-        switch (filter) {
-          case "popular":
-            posts = await getMostPopularPosts({});
-            break;
-          case "newest":
-            posts = await getAllPosts({});
-            break;
-          case "following":
-            posts = await getPostsByFollowing({});
-            break;
-          default:
-            posts = await getAllPosts({});
-            break;
-        }
+          switch (filter) {
+            case "popular":
+              posts = await getMostPopularPosts({});
+              break;
+            case "newest":
+              posts = await getAllPosts({});
+              break;
+            case "following":
+              posts = await getPostsByFollowing({});
+              break;
+            default:
+              posts = await getAllPosts({});
+              break;
+          }
 
-        setPostData(posts);
-        setFilterChanged(false);
+          setPostData(posts);
+          setFilterChanged(false);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
       }
     })();
   }, [filter, path]);
 
   useEffect(() => {
     (async () => {
-      if (tagged && authorId) {
-        setPostData([]);
-        const posts = await getAllPostsByTagNameByUserId({
-          tagName: tagged,
-          authorId,
-        });
-        setPostData(posts);
-        setTagChanged(false);
+      try {
+        if (tagged && authorId) {
+          setPostData([]);
+          const posts = await getAllPostsByTagNameByUserId({
+            tagName: tagged,
+            authorId,
+          });
+          setPostData(posts);
+          setTagChanged(false);
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching posts:", error);
       }
     })();
-  }, [tagged]);
+  }, [tagged, authorId]);
 
   const loadMoreData = async () => {
     setIsLoading(true);
@@ -166,34 +170,16 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
-      {postData.length === 0 && (
+      {!postData.length && (
         <div className="flex h-full justify-center pt-40">
           <LoaderComponent />
         </div>
       )}
-      {postData.map((post, index) => {
-        const adjustedIndex = index % 10;
-        return (
-          <motion.div
-            key={post.id}
-            variants={variants}
-            initial="hidden"
-            animate="visible"
-            transition={{
-              delay: adjustedIndex * 0.1,
-              ease: "easeInOut",
-              duration: 0.5,
-            }}
-            viewport={{ amount: 0 }}
-          >
-            <PostCard
-              post={post}
-              setTagged={setTagged}
-              userIdFromParams={authorId}
-            />
-          </motion.div>
-        );
-      })}
+      <PostCardRender
+        postData={postData}
+        setTagged={setTagged}
+        authorId={authorId}
+      />
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
           <div className="flex h-full w-full flex-col items-center justify-center pt-12">
@@ -206,7 +192,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
       </div>
       {!hasSeenAllPosts && (
         <CustomButton
-          className="dark:text-light-2 lg:hidden"
+          className="lg:hidden dark:text-light-2"
           type="button"
           onClick={() => setLoadMore(true)}
           label={

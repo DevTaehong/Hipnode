@@ -19,7 +19,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
     <Dialog>
       <DialogTrigger asChild>
         <button type="button" onClick={() => onSubmitPreview()}>
-          <p className="flex cursor-pointer items-center text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]">
+          <p className="flex cursor-pointer items-center text-[0.875rem] md:text-[1rem] md:leading-[1.5rem] dark:text-light-2">
             <div className="flex items-center gap-[0.625rem]">
               <OutlineIcon.View />
               <p className="pr-4">Preview</p>
@@ -46,7 +46,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
           )}
         </div>
         <DialogHeader>
-          <DialogTitle className="flex flex-row justify-start px-12 text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
+          <DialogTitle className="flex flex-row justify-start px-12 text-[1rem] font-semibold leading-[1.5rem] text-sc-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem] dark:text-light-2">
             {previewValues?.heading ? (
               previewValues.heading
             ) : (
@@ -75,8 +75,8 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
                 </p>
               ))}
         </div>
-        {htmlString.length < 11 ? (
-          <div className="px-12 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:text-sc-3 md:text-[1rem]">
+        {htmlString && htmlString.length < 11 ? (
+          <div className="px-12 text-[0.875rem] leading-[1.5rem] text-sc-3 md:text-[1rem] dark:text-sc-3">
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
           </div>
         ) : (

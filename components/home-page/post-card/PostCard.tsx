@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
+import dynamic from "next/dynamic";
 
 import { PostImage, SocialMediaIcon, SocialStatistics } from ".";
-import FillIcon from "@/components/icons/fill-icons";
 import { PostCardProps, SocialCountTuple } from "@/types/homepage";
-
 import { formatDatePostFormat } from "@/utils";
-import dynamic from "next/dynamic";
 import { togglePostLike } from "@/lib/actions/post.action";
+import LikeButton from "./LikeButton";
+import TagList from "./TagList";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -85,7 +85,7 @@ const PostCard = ({
           <div className="flex justify-between">
             <Link href={`/posts/post/${id}`}>
               <h2
-                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-[101%] dark:text-light-2 md:line-clamp-2"
+                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-[101%] md:line-clamp-2 dark:text-light-2"
                 dangerouslySetInnerHTML={{ __html: htmlString.slice(1, -1) }}
               />
             </Link>
@@ -96,11 +96,11 @@ const PostCard = ({
                 />
               </Link>
               <div className="flex items-center justify-center">
-                <div onClick={toggleLike} className="mr-2.5 flex">
-                  <FillIcon.Heart
-                    className={`hidden cursor-pointer md:flex ${heartIconClass}`}
-                  />
-                </div>
+                <LikeButton
+                  toggleLike={toggleLike}
+                  additionalClasses={heartIconClass}
+                />
+
                 <div className="mt-1.5 flex">
                   {userCanEditMedia && profileSearchParams === "posts" && (
                     <MediaEditActionPopover mediaId={id} label="Post" />
@@ -110,23 +110,11 @@ const PostCard = ({
             </div>
           </div>
           <div>
-            <ul className="flex justify-start gap-[0.625rem]">
-              {tags.map((item) => {
-                const urlPath = userIdFromParams
-                  ? `${userIdFromParams}?tag=${item}`
-                  : `tag=${item}`;
-                return (
-                  <Link href={urlPath} key={item}>
-                    <li
-                      onClick={() => setTagged(item)}
-                      className="semibold-10 w-fit  cursor-pointer rounded-full bg-light-3 px-[0.625rem] py-1 leading-[0.875rem] hover:scale-110 hover:bg-light-2 hover:shadow-lg dark:bg-dark-4 dark:text-sc-5 hover:dark:bg-dark-2"
-                    >
-                      {item}
-                    </li>
-                  </Link>
-                );
-              })}
-            </ul>
+            <TagList
+              tags={tags}
+              userIdFromParams={userIdFromParams}
+              setTagged={setTagged}
+            />
           </div>
         </div>
 

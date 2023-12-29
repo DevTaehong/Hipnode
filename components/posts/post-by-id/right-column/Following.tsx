@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import CustomButton from "@/components/CustomButton";
 import { followUser } from "@/lib/actions/post.action";
-
-interface FollowingProps {
-  authorId: number;
-  isFollowing: boolean;
-}
+import { FollowingProps } from "@/types/posts";
 
 const Following = ({ authorId, isFollowing }: FollowingProps) => {
   const [following, setFollowing] = useState(isFollowing);

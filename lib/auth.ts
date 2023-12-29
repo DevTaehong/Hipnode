@@ -8,7 +8,7 @@ export const verifyAuth = async (
 ) => {
   if (canCallFunction) {
     const user = auth();
-    if (!user?.userId) throw new Error(message);
+    if (!user) throw new Error(message);
   }
 
   const userData = await currentUser();
@@ -16,7 +16,9 @@ export const verifyAuth = async (
   const clerkId = userData?.id;
   const loggedInUserImage = userData?.imageUrl;
   const userName = userData?.username;
-  const fullName = userData?.firstName + " " + userData?.lastName;
+  const fullName = [userData?.firstName, userData?.lastName]
+    .filter(Boolean)
+    .join(" ");
   let lastChecked;
 
   if (userId) {

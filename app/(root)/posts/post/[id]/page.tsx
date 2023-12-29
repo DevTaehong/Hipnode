@@ -1,4 +1,5 @@
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { LeftActionBar } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
@@ -17,7 +18,6 @@ import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedH
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
-import dynamic from "next/dynamic";
 import Following from "@/components/posts/post-by-id/right-column/Following";
 
 const MediaEditActionPopover = dynamic(
@@ -68,10 +68,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               />
             </div>
             <div className="flex items-center justify-between">
-              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 lg:pb-[1.25rem] dark:text-light-2">
                 {heading}
               </h1>
-              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 lg:pb-[1.25rem] dark:text-light-2">
                 {userCanEditMedia && (
                   <MediaEditActionPopover mediaId={postData.id} label="Post" />
                 )}
