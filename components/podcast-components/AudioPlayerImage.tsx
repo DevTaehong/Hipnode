@@ -3,14 +3,9 @@
 import Image from "next/image";
 
 import usePodcastStore from "@/app/podcastStore";
+import { AudioPlayerImageProps } from "@/types/podcast.index";
 
-const AudioPlayerImage = ({
-  imageSrc,
-  podcastId,
-}: {
-  imageSrc: string;
-  podcastId: number;
-}) => {
+const AudioPlayerImage = ({ imageSrc, podcastId }: AudioPlayerImageProps) => {
   const { podcast, isPlaying } = usePodcastStore();
 
   const podcastIsCurrentlyPlaying = podcastId === podcast?.id && isPlaying;

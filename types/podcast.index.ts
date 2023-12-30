@@ -238,3 +238,8 @@ export type PodcastWithShow = {
   contentType: string;
   show: { label: string; value: string };
 };
+
+export interface AudioPlayerImageProps {
+  imageSrc: string;
+  podcastId: number;
+}
