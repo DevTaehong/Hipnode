@@ -27,7 +27,7 @@ export default function RootLayout({
       <Script
         async
         defer
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places&callback=YOUR_CALLBACK_NAME`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places`}
       ></Script>
       <body className={`${font.className} bg-light-2_dark-2 overscroll-none`}>
         <ClerkProvider>
