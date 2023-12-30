@@ -48,7 +48,7 @@ const NavbarContent = ({
           <GlobalSearchBar
             additionalStyles={`${
               state.showSearch
-                ? "flex fixed left-4 right-4 lg:left-0 lg:right-0 lg:w-full z-20 top-5 lg:top-0"
+                ? "flex fixed inset-x-4 lg:inset-x-0 lg:w-full z-20 top-5 lg:top-0"
                 : "hidden lg:flex"
             }`}
             state={state}
