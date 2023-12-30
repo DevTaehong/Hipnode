@@ -1,6 +1,24 @@
+"use client";
+
 import Image from "next/image";
 
-const AudioPlayerImage = ({ imageSrc }: { imageSrc: string }) => {
+import usePodcastStore from "@/app/podcastStore";
+
+const AudioPlayerImage = ({
+  imageSrc,
+  podcastId,
+}: {
+  imageSrc: string;
+  podcastId: number;
+}) => {
+  const { podcast, isPlaying } = usePodcastStore();
+
+  const podcastIsCurrentlyPlaying = podcastId === podcast?.id && isPlaying;
+
+  const recordStyles = podcastIsCurrentlyPlaying
+    ? "md:-translate-x-8 -translate-x-2.5"
+    : "md:-translate-x-20 -translate-x-6";
+
   return (
     <div className="flex h-fit">
       <div className="flex h-full max-h-[3.125rem] min-h-[3.125rem] w-full min-w-[3.125rem] max-w-[3.125rem] md:min-h-[9.375rem] md:min-w-[9.375rem]">
@@ -12,12 +30,17 @@ const AudioPlayerImage = ({ imageSrc }: { imageSrc: string }) => {
           className="z-10 rounded-lg"
         />
       </div>
-      <div className="flex h-full max-h-[2.5rem] min-h-[2.5rem] w-full min-w-[2.5rem] max-w-[2.5rem] -translate-x-2.5 self-center md:min-h-[8.125rem] md:min-w-[8.125rem] md:-translate-x-8">
+      <div
+        className={`${recordStyles} flex h-full max-h-[2.5rem] min-h-[2.5rem] w-full min-w-[2.5rem] max-w-[2.5rem] -translate-x-2.5 self-center transition duration-300 md:min-h-[8.125rem] md:min-w-[8.125rem] md:-translate-x-8`}
+      >
         <Image
-          src="/images/record-player.svg"
+          src="/record.png"
           alt="Podcast Image"
           height={130}
           width={130}
+          className={`${
+            podcastIsCurrentlyPlaying && "animate-spin transition duration-1000"
+          }`}
         />
       </div>
     </div>
