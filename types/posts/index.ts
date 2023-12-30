@@ -7,6 +7,7 @@ import { PostFormValuesType } from "@/constants/posts";
 import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
 import { Suggestion } from "use-places-autocomplete";
+import { StaticImageData } from "next/image";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -370,3 +371,16 @@ export interface FollowingProps {
   authorId: number;
   isFollowing: boolean;
 }
+
+export type SidebarItemProps = {
+  item: {
+    imgSrc: StaticImageData;
+    imgAlt: string;
+    title: string;
+    subTitle?: string;
+    description: string;
+    imgContainerClass: string;
+    loggedInFollowerFilter?: boolean;
+  };
+  peopleFollowed: number;
+};

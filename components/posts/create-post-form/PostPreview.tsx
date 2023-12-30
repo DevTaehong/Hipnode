@@ -14,17 +14,16 @@ import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
 
 const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
   const { imagePreviewUrl, previewValues } = useCreatePostContext();
-
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button type="button" onClick={() => onSubmitPreview()}>
-          <p className="flex cursor-pointer items-center text-[0.875rem] md:text-[1rem] md:leading-[1.5rem] dark:text-light-2">
-            <div className="flex items-center gap-[0.625rem]">
-              <OutlineIcon.View />
-              <p className="pr-4">Preview</p>
-            </div>
-          </p>
+        <button
+          type="button"
+          onClick={() => onSubmitPreview()}
+          className="flex cursor-pointer items-center gap-[0.625rem] text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]"
+        >
+          <OutlineIcon.View />
+          <span className="pr-4">Preview</span>
         </button>
       </DialogTrigger>
       <DialogContent className="max-h-[50rem] w-full max-w-[49rem] overflow-scroll px-[1.25rem] dark:bg-dark-3 ">
@@ -46,10 +45,8 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
           )}
         </div>
         <DialogHeader>
-          <DialogTitle className="flex flex-row justify-start px-12 text-[1rem] font-semibold leading-[1.5rem] text-sc-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem] dark:text-light-2">
-            {previewValues?.heading ? (
-              previewValues.heading
-            ) : (
+          <DialogTitle className="flex flex-row justify-start px-12 text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
+            {previewValues?.heading || (
               <p className="animate-pulse text-sc-2 dark:text-light-2">
                 Your title here ....
               </p>
@@ -75,16 +72,15 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
                 </p>
               ))}
         </div>
-        {htmlString && htmlString.length < 11 ? (
-          <div className="px-12 text-[0.875rem] leading-[1.5rem] text-sc-3 md:text-[1rem] dark:text-sc-3">
-            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-          </div>
+        {htmlString && htmlString.length > 11 ? (
+          <p
+            className="px-12 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:text-sc-3 md:text-[1rem]"
+            dangerouslySetInnerHTML={{ __html: htmlString }}
+          />
         ) : (
-          <div className="animate-pulse  rounded px-12">
-            <p className="md:text-[1rem} pl-4 px-2 py-8 mb-[1.25rem] rounded bg-gray-200 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:bg-gray-700 dark:text-sc-3">
-              Your media content......
-            </p>
-          </div>
+          <p className="animate-pulse  rounded px-12 md:text-[1rem} pl-4 px-2 py-8 mb-[1.25rem] rounded bg-gray-200 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:bg-gray-700 dark:text-sc-3">
+            Your media content......
+          </p>
         )}
       </DialogContent>
     </Dialog>
