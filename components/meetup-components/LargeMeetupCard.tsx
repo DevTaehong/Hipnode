@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
 
-import { formatSalary } from "@/utils";
-import { InterviewBannerImage, InterviewCardInfo } from ".";
-import { LargeInterviewCardProps } from "@/types/interview.index";
+import { InterviewBannerImage } from "../interview-components";
+import { MeetupWithTags } from "@/types/meetups.index";
+
+const MeetupContactInfo = dynamic(() => import("./MeetupContactInfo"), {
+  ssr: false,
+});
 
 const SanatizedHtml = dynamic(
   () => import("../posts/post-by-id/main-content/SanatizedHtml"),
@@ -11,25 +14,18 @@ const SanatizedHtml = dynamic(
   }
 );
 
-const LargeInterviewCard = ({
-  interviewData,
-  tags,
-}: LargeInterviewCardProps) => {
-  const {
-    title,
-    bannerImage,
-    websiteLink,
-    salary,
-    salaryPeriod,
-    updates,
-    details,
-  } = interviewData;
-  const interviewSalary = formatSalary(salary, salaryPeriod);
+interface LargeMeetupCardProps {
+  meetupData: MeetupWithTags;
+}
+
+const LargeMeetupCard = ({ meetupData }: LargeMeetupCardProps) => {
+  const { contactEmail, contactNumber, image, location, summary, title, tags } =
+    meetupData;
 
   return (
     <article className="bg-light_dark-3 flex h-fit max-w-[49rem] flex-col rounded-2xl">
       <InterviewBannerImage
-        bannerImage={bannerImage}
+        bannerImage={image}
         className="h-[10rem] w-full overflow-hidden sm:h-[17rem]"
         height={273}
         width={785}
@@ -42,24 +38,24 @@ const LargeInterviewCard = ({
             {title}
           </h1>
           <div className="flex w-full flex-col justify-between gap-3.5 sm:flex-row">
-            <InterviewCardInfo
-              interviewSalary={interviewSalary}
-              updates={updates}
-              websiteLink={websiteLink}
+            <MeetupContactInfo
+              location={location}
+              contactEmail={contactEmail}
+              contactNumber={contactNumber}
             />
             <div className="flex gap-6">
-              {tags?.map((tag: string) => (
+              {tags?.map((tag: { id: number; name: string }) => (
                 <span
                   className="base-12 cursor-pointer text-yellow-90 hover:text-red-60 md:text-base"
-                  key={tag}
+                  key={tag.id}
                 >
-                  #{tag}
+                  #{tag.name}
                 </span>
               ))}
             </div>
           </div>
           <p className="base-12 sm:text-base">
-            <SanatizedHtml content={details} />
+            <SanatizedHtml content={summary} />
           </p>
         </div>
       </section>
@@ -67,4 +63,4 @@ const LargeInterviewCard = ({
   );
 };
 
-export default LargeInterviewCard;
+export default LargeMeetupCard;

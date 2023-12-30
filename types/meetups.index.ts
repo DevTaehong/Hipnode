@@ -31,3 +31,13 @@ export interface MeetupFilterAndContentWrapperProps {
   meetupFilters: number[] | undefined;
   meetupTags: FilterType[];
 }
+
+export interface MeetupContactInfoProps {
+  location: string;
+  contactNumber: string;
+  contactEmail: string;
+}
+
+export type MeetupWithTags = MeetUp & {
+  tags: MeetupTag[];
+};

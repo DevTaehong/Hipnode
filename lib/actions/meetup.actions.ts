@@ -12,6 +12,7 @@ import {
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
 import { revalidatePath } from "next/cache";
+import { MeetupWithTags } from "@/types/meetups.index";
 
 export async function getAllMeetUps(): Promise<MeetUp[]> {
   try {
@@ -190,14 +191,28 @@ export async function getFilteredMeetups({
   }
 }
 
-export async function getMeetupById(id: number): Promise<MeetUp | null> {
+export async function getMeetupById(
+  id: number
+): Promise<MeetupWithTags | null> {
   try {
     const meetup = await prisma.meetUp.findUnique({
       where: {
         id,
       },
+      include: {
+        tags: {
+          select: { tag: { select: { id: true, name: true } } },
+        },
+      },
     });
-    return meetup || null;
+    if (meetup) {
+      return {
+        ...meetup,
+        tags: meetup.tags.map((t) => t.tag),
+      };
+    }
+
+    return null;
   } catch (error) {
     console.error(`Error getting meetup by ID ${id}:`, error);
     throw error;
