@@ -9,6 +9,7 @@ export type State = {
   volume: number[];
   podcastUserImage: string;
   playbackSpeedIndex: number;
+  raisedZIndex: boolean;
 };
 
 export type Action =
@@ -23,7 +24,8 @@ export type Action =
   | { type: "SET_SHOW_PLAYER"; payload: boolean }
   | { type: "SET_VOLUME"; payload: number[] }
   | { type: "SET_PODCAST_USER_IMAGE"; payload: string }
-  | { type: "SET_PLAYBACK_SPEED_INDEX"; payload: number };
+  | { type: "SET_PLAYBACK_SPEED_INDEX"; payload: number }
+  | { type: "SET_RAISED_Z_INDEX"; payload: boolean };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -63,6 +65,8 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, podcastUserImage: action.payload };
     case "SET_PLAYBACK_SPEED_INDEX":
       return { ...state, playbackSpeedIndex: action.payload };
+    case "SET_RAISED_Z_INDEX":
+      return { ...state, raisedZIndex: action.payload };
     default:
       return state;
   }
@@ -77,4 +81,5 @@ export const initialState: State = {
   volume: [100],
   podcastUserImage: "",
   playbackSpeedIndex: 1,
+  raisedZIndex: false,
 };
