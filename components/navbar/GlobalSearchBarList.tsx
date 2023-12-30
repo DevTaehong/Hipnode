@@ -11,7 +11,7 @@ const GlobalSearchBarList = ({
   showButton,
 }: GlobalSearchBarListProps) => {
   return (
-    <div className="flex flex-col overflow-auto">
+    <ul className="flex flex-col overflow-auto">
       {searchResults.length === 0 && (
         <p className="semibold-14 self-center px-4 text-dark-3 dark:text-light-2">
           No results
@@ -31,14 +31,14 @@ const GlobalSearchBarList = ({
             onClick={() => handleClose()}
           >
             <IconComponent className="h-4 w-4 shrink-0 fill-sc-3 dark:fill-sc-4" />
-            <div className="flex flex-col">
+            <li className="flex flex-col">
               <p className="text-xs font-bold text-sc-2 dark:text-light">
                 {result.title}
               </p>
-              <p className="text-[10px] font-semibold text-light-4">
+              <span className="text-[10px] font-semibold text-light-4">
                 {result.type}
-              </p>
-            </div>
+              </span>
+            </li>
           </Link>
         );
       })}
@@ -50,7 +50,7 @@ const GlobalSearchBarList = ({
           Show More
         </button>
       )}
-    </div>
+    </ul>
   );
 };
 

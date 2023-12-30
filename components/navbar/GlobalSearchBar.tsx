@@ -133,12 +133,12 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
           }
         }}
       />
-      <div
+      <section
         className={`${
           state.showSearch ? "flex" : "hidden"
         } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light lg:top-12 lg:max-h-[20rem] dark:bg-dark-2`}
       >
-        <div className="flex h-[3.75rem] gap-4 border-b border-sc-6 p-4 dark:border-dark-4">
+        <header className="flex h-[3.75rem] gap-4 border-b border-sc-6 p-4 dark:border-dark-4">
           <p className="semibold-14 text-dark-3 dark:text-light-2">Type:</p>
           <div className="flex gap-2.5 overflow-x-scroll">
             {searchHeadings.map((heading) => {
@@ -161,7 +161,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
               );
             })}
           </div>
-        </div>
+        </header>
         {state.isLoading ? (
           <div className="flex-center h-full w-full p-10">
             <LoaderComponent isGlobalSearch />
@@ -179,17 +179,22 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
             />
           </div>
         )}
-      </div>
+      </section>
 
-      <div className="flex" onClick={() => fetchSearchResults()}>
+      <button
+        type="button"
+        className="flex"
+        onClick={() => fetchSearchResults()}
+      >
         <OutlineIcons.Search className="cursor-pointer stroke-sc-4" />
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         className="flex cursor-pointer text-xl text-sc-4 lg:hidden"
         onClick={handleClose}
       >
         <IoClose />
-      </div>
+      </button>
     </div>
   );
 };
