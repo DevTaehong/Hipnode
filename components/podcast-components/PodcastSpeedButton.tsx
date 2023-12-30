@@ -21,7 +21,7 @@ const PodcastSpeedButton = ({
       {showInfo && (
         <Link
           href={`/podcasts/${showId}`}
-          className="text-sc-1_light-2 text-xs"
+          className="text-sc-1_light-2 line-clamp-1 text-xs"
         >
           {showInfo}
         </Link>
