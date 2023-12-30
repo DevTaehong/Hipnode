@@ -16,7 +16,7 @@ const AudioPlayerImage = ({ imageSrc, podcastId }: AudioPlayerImageProps) => {
 
   return (
     <div className="flex h-fit">
-      <div className="flex h-full max-h-[3.125rem] min-h-[3.125rem] w-full min-w-[3.125rem] max-w-[3.125rem] md:min-h-[9.375rem] md:min-w-[9.375rem]">
+      <div className="flex h-[3.125rem] w-[3.125rem] shrink-0 md:h-[9.375rem] md:w-[9.375rem]">
         <Image
           src={imageSrc}
           alt="Podcast Image"
@@ -26,7 +26,7 @@ const AudioPlayerImage = ({ imageSrc, podcastId }: AudioPlayerImageProps) => {
         />
       </div>
       <div
-        className={`${recordStyles} flex h-full max-h-[2.5rem] min-h-[2.5rem] w-full min-w-[2.5rem] max-w-[2.5rem] -translate-x-2.5 self-center transition duration-300 md:min-h-[8.125rem] md:min-w-[8.125rem] md:-translate-x-8`}
+        className={`${recordStyles} flex h-[2.5rem] w-[2.5rem] shrink-0 -translate-x-2.5 self-center transition duration-300 md:h-[8.125rem] md:w-[8.125rem] md:-translate-x-8`}
       >
         <Image
           src="/record.png"

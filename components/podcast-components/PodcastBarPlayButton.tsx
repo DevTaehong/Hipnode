@@ -3,20 +3,11 @@ import { IoPause } from "react-icons/io5";
 
 import { PodcastBarPlayButtonProps } from "@/types/podcast.index";
 
-const renderIcon = (isPlaying: boolean) => {
-  if (isPlaying) {
-    return (
-      <p className="fill-sc-1 text-lg md:text-2xl dark:fill-white">
-        <IoPause />
-      </p>
-    );
-  }
-  return (
-    <p className="fill-sc-1 text-lg md:text-2xl dark:fill-white">
-      <IoIosPlay />
-    </p>
-  );
-};
+const renderIcon = (isPlaying: boolean) => (
+  <p className="fill-sc-1 text-lg dark:fill-white md:text-2xl">
+    {isPlaying ? <IoPause /> : <IoIosPlay />}
+  </p>
+);
 
 const PodcastBarPlayButton = ({
   songUrl,

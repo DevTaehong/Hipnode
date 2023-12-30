@@ -29,7 +29,7 @@ const PodcastBarImage = ({
   return (
     <figure className={`relative flex gap-2 ${imagePosition}`}>
       <div
-        className="min-h-[50px] min-w-[50px] rounded-full bg-red-60"
+        className="h-[3.125rem] w-[3.125rem] shrink-0 rounded-full bg-red-60"
         onClick={handleImageClick}
       >
         <Image
