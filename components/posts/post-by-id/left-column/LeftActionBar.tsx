@@ -27,7 +27,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import OutlineIcon from "@/components/icons/outline-icons";
-import EmailTemplate from "@/components/email/EmailTemplate";
+import EmailForm from "@/components/email/EmailForm";
 
 const shareIcons = [
   {
@@ -201,8 +201,8 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
         <DialogTrigger>
           <IconBlock label="Report" IconComponent={ReportIcon} />
         </DialogTrigger>
-        <DialogContent>
-          <EmailTemplate firstName="John" />
+        <DialogContent className="rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+          <EmailForm />
         </DialogContent>
       </Dialog>
     </aside>

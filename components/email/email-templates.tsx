@@ -10,11 +10,12 @@ import {
 } from "@react-email/components";
 import { Container } from "lucide-react";
 
-interface GithubAccessTokenEmailProps {
-  username?: string;
+interface HipnodeReportProps {
+  username: string;
+  message: string;
 }
 
-export const HipnodeReport = ({ username }: GithubAccessTokenEmailProps) => (
+export const HipnodeReport = ({ username, message }: HipnodeReportProps) => (
   <Html>
     <Head />
     <Preview>
@@ -34,7 +35,9 @@ export const HipnodeReport = ({ username }: GithubAccessTokenEmailProps) => (
           <Text style={text}>
             We will respond to your report within 48 Hours
           </Text>
-
+          <Text style={text}>
+            <strong>Message:</strong> {message}
+          </Text>
           <Button style={button}>View your token</Button>
         </Section>
         <Text style={links}>
