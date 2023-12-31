@@ -38,5 +38,5 @@ type NavBarUserInfoProps = {
 export interface NavbarContentProps {
   userInfo: NavBarUserInfoProps;
   currentUserId: number;
-  lastChecked: Date | null;
+  lastChecked?: Date | null;
 }

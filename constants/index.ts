@@ -412,7 +412,7 @@ export const sidebarItems = [
     imgAlt: "followers",
     title: "Following",
     description: "Explore from your favorite person",
-    notification: 24,
+    loggedInFollowerFilter: true,
     imgContainerClass:
       "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
   },

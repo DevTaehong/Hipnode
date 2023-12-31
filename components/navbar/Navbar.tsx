@@ -3,7 +3,7 @@ import { NavbarContent } from ".";
 
 const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName, lastChecked } =
-    await verifyAuth("You must be logged in to view this page.");
+    await verifyAuth("You must be logged in to view this page.", false);
 
   const userInfo = {
     id: userId,
