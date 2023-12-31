@@ -40,7 +40,9 @@ export type PostCardProps = {
   post: ExtendedPrismaPost;
   likes?: number;
   clerkId?: string;
-  userId: number;
+  profileSearchParams?: string;
+  setTagged: (tagged: string) => void;
+  userIdFromParams?: number;
 };
 
 export type SocialCountTuple = [string, number];
@@ -110,7 +112,7 @@ export type PodcastItemProps = {
 
 export type PostCardListProps = {
   posts: ExtendedPrismaPost[];
-  userId: number;
+  authorId?: number;
 };
 
 export interface TagIconConfig {

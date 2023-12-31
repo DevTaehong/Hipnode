@@ -1,6 +1,6 @@
 "use server";
 
-import { Like, Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -71,7 +71,8 @@ export async function createPostWithTags(
 ): Promise<Post> {
   try {
     const { clerkId, userId } = await verifyAuth(
-      "You must be logged in to create post."
+      "You must be logged in to create post.",
+      false
     );
 
     const allTagIdsToConnect = await handleTags(tagNames);
@@ -114,7 +115,8 @@ export async function updatePost(
 ): Promise<Post> {
   try {
     const { clerkId, userId } = await verifyAuth(
-      "You must be logged in to update a post."
+      "You must be logged in to update a post.",
+      false
     );
 
     const allTagIdsToConnect = await handleTags(tagNames);
@@ -154,7 +156,8 @@ export async function updatePost(
 export async function deletePost(id: number): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to delete a post."
+      "You must be logged in to delete a post.",
+      false
     );
 
     await prisma.post.delete({
@@ -168,11 +171,32 @@ export async function deletePost(id: number): Promise<void> {
   }
 }
 
+export async function incrementViewCount(postId: number): Promise<void> {
+  try {
+    await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        viewCount: {
+          increment: 1,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error incrementing view count for post:", error);
+    throw error;
+  }
+}
+
 export async function getPostContentById(id: number): Promise<GetPostByIdType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to get Post Content."
+      "You must be logged in to get Post Content.",
+      false
     );
+
+    await incrementViewCount(id);
 
     const post = await prisma.post.findUnique({
       where: { id },
@@ -229,8 +253,12 @@ export async function getPostContentById(id: number): Promise<GetPostByIdType> {
       commentsCount: post.comments.length,
       sharesCount: post.Share.length,
       userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     };
 
+    revalidatePath("/");
     return extendedPost;
   } catch (error) {
     console.error("Error retrieving post content:", error);
@@ -254,6 +282,11 @@ export async function getAllPosts({
   numberToSkip?: number;
 }): Promise<ExtendedPrismaPost[]> {
   try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit content.",
+      false
+    );
+
     const numberOfAvailablePosts = await countAllPosts();
 
     const posts = await prisma.post.findMany({
@@ -274,7 +307,6 @@ export async function getAllPosts({
         imageWidth: true,
         imageHeight: true,
         contentType: true,
-
         author: {
           select: {
             username: true,
@@ -301,6 +333,8 @@ export async function getAllPosts({
       },
     });
 
+    revalidatePath(`/`);
+
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,
@@ -308,6 +342,103 @@ export async function getAllPosts({
       likes: post.likes,
       commentsCount: post.comments.length,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function countPostsByAuthorId(authorId: number): Promise<number> {
+  try {
+    const count = await prisma.post.count({
+      where: {
+        authorId,
+      },
+    });
+    return count;
+  } catch (error) {
+    console.error("Error counting posts for user:", error);
+    throw error;
+  }
+}
+
+export async function getAllPostsByUserId({
+  numberToSkip = 0,
+  authorId,
+}: {
+  numberToSkip?: number;
+  authorId: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countPostsByAuthorId(authorId);
+
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId,
+      },
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
     }));
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -439,7 +570,8 @@ export async function addCommentOrReply(
 ): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to add a comment or reply."
+      "You must be logged in to add a comment or reply.",
+      false
     );
 
     const newComment = await prisma.comment.create({
@@ -530,7 +662,8 @@ export async function updateComment(
 ): Promise<UpdateCommentType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to update a comment."
+      "You must be logged in to update a comment.",
+      false
     );
 
     const comment = await prisma.comment.update({
@@ -572,7 +705,8 @@ export async function deleteCommentOrReply(
 ): Promise<void> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to delete a comment or reply."
+      "You must be logged in to delete a comment or reply.",
+      false
     );
 
     deleteNotification({ commentId });
@@ -594,7 +728,8 @@ export async function deleteCommentOrReply(
 export async function sharePostAndCountShares(postId: number): Promise<number> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to share a post."
+      "You must be logged in to share a post.",
+      false
     );
 
     await prisma.share.create({
@@ -617,28 +752,6 @@ export async function sharePostAndCountShares(postId: number): Promise<number> {
   }
 }
 
-export async function toggleLikePost(postId: number): Promise<Like | null> {
-  try {
-    const { userId } = await verifyAuth(
-      "You must be logged in to toggle like on posts."
-    );
-    const existingLike = await prisma.like.findUnique({
-      where: { userId_postId: { userId, postId } },
-    });
-
-    if (existingLike) {
-      await prisma.like.delete({ where: { id: existingLike.id } });
-      return null;
-    } else {
-      const newLike = await prisma.like.create({ data: { userId, postId } });
-      return newLike;
-    }
-  } catch (error) {
-    console.error("Error toggling like on post:", error);
-    throw error;
-  }
-}
-
 export async function toggleLikeComment(
   commentId: number,
   receiverId: number | undefined,
@@ -647,7 +760,8 @@ export async function toggleLikeComment(
 ): Promise<{ liked: boolean; totalLikes: number }> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to toggle like on a comment."
+      "You must be logged in to toggle like on a comment.",
+      false
     );
 
     const existingLike = await prisma.like.findUnique({
@@ -717,7 +831,8 @@ export async function getPostCommentsByParentId(
   id: number
 ): Promise<CommentsGroupedByParentId> {
   const { userId } = await verifyAuth(
-    "You must be logged in to get post comments."
+    "You must be logged in to get post comments.",
+    false
   );
 
   try {
@@ -835,7 +950,8 @@ export async function getPostToEditById(
 ): Promise<PostToEditByIdType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to edit a post."
+      "You must be logged in to edit a post.",
+      false
     );
     const post = await prisma.post.findUnique({
       where: { id, authorId: userId },
@@ -863,6 +979,619 @@ export async function getPostToEditById(
     };
   } catch (error) {
     console.error("Error retrieving post to edit:", error);
+    throw error;
+  }
+}
+
+export async function countPostsByTagName(tagName: string): Promise<number> {
+  try {
+    const count = await prisma.post.count({
+      where: {
+        tags: {
+          some: {
+            tag: {
+              name: tagName,
+            },
+          },
+        },
+      },
+    });
+    return count;
+  } catch (error) {
+    console.error("Error counting posts by tag name:", error);
+    throw error;
+  }
+}
+
+export async function getAllPostsByTagName({
+  numberToSkip = 0,
+  tagName,
+}: {
+  numberToSkip?: number;
+  tagName: string;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countPostsByTagName(tagName);
+
+    const posts = await prisma.post.findMany({
+      where: {
+        tags: {
+          some: {
+            tag: {
+              name: tagName,
+            },
+          },
+        },
+      },
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    revalidatePath(`/tags/${tagName}`);
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function countPostsByTagNameByUserId({
+  tagName,
+  authorId,
+}: {
+  tagName: string;
+  authorId: number;
+}): Promise<number> {
+  try {
+    const count = await prisma.post.count({
+      where: {
+        authorId,
+        tags: {
+          some: {
+            tag: {
+              name: tagName,
+            },
+          },
+        },
+      },
+    });
+    return count;
+  } catch (error) {
+    console.error("Error counting posts by tag name:", error);
+    throw error;
+  }
+}
+
+export async function getAllPostsByTagNameByUserId({
+  numberToSkip = 0,
+  tagName,
+  authorId,
+}: {
+  numberToSkip?: number;
+  tagName: string;
+  authorId: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to edit your own posts.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countPostsByTagNameByUserId({
+      tagName,
+      authorId,
+    });
+
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId,
+        tags: {
+          some: {
+            tag: {
+              name: tagName,
+            },
+          },
+        },
+      },
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    revalidatePath(`/tags/${tagName}`);
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    throw error;
+  }
+}
+
+export async function followUser(userIdToFollow: number) {
+  try {
+    const { userId: followerId } = await verifyAuth(
+      "You must be logged in to follow a user.",
+      false
+    );
+
+    if (followerId === userIdToFollow) {
+      throw new Error("You cannot follow yourself.");
+    }
+    const existingFollow = await prisma.follower.findFirst({
+      where: {
+        followerId,
+        followedId: userIdToFollow,
+      },
+    });
+
+    let followingStatus;
+
+    if (existingFollow) {
+      await prisma.follower.delete({
+        where: {
+          id: existingFollow.id,
+        },
+      });
+      followingStatus = false;
+    } else {
+      await prisma.follower.create({
+        data: {
+          followerId,
+          followedId: userIdToFollow,
+        },
+      });
+      followingStatus = true;
+    }
+
+    return followingStatus;
+  } catch (error) {
+    console.error("Error following/unfollowing user:", error);
+    throw error;
+  }
+}
+
+export async function isFollowingUser(userIdToFollow: number) {
+  try {
+    const { userId: followerId } = await verifyAuth(
+      "You must be logged in to follow a user."
+    );
+
+    const existingFollow = await prisma.follower.findFirst({
+      where: {
+        followerId,
+        followedId: userIdToFollow,
+      },
+    });
+
+    return Boolean(existingFollow);
+  } catch (error) {
+    console.error("Error checking following status:", error);
+    throw error;
+  }
+}
+
+export async function numberOfPeopleFollowed(): Promise<number> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to know how many people you follow.",
+      false
+    );
+
+    const numberOfFollowedUsers = await prisma.user.count({
+      where: {
+        followers: {
+          some: {
+            followerId: userId,
+          },
+        },
+      },
+    });
+
+    return numberOfFollowedUsers;
+  } catch (error) {
+    console.error("Error getting number of followed users:", error);
+    throw error;
+  }
+}
+
+export async function getMostPopularPosts({
+  numberToSkip = 0,
+}: {
+  numberToSkip?: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to get Post Content.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countAllPosts();
+
+    const posts = await prisma.post.findMany({
+      skip: numberToSkip,
+      take: 10,
+      orderBy: {
+        viewCount: "desc",
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    revalidatePath(`/`);
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
+    }));
+  } catch (error) {
+    console.error("Error retrieving most popular posts:", error);
+    throw error;
+  }
+}
+
+export async function countAllPostsByFollowing(): Promise<number> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to view this content.",
+      false
+    );
+
+    const followingUsers = await prisma.follower.findMany({
+      where: {
+        followerId: userId,
+      },
+    });
+
+    const followingUserIds = followingUsers.map((user) => user.followedId);
+
+    const count = await prisma.post.count({
+      where: {
+        authorId: {
+          in: followingUserIds,
+        },
+      },
+    });
+
+    return count;
+  } catch (error) {
+    console.error("Error retrieving number of posts by following:", error);
+    throw error;
+  }
+}
+
+export async function getPostsByFollowing({
+  numberToSkip = 0,
+}: {
+  numberToSkip?: number;
+}) {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to view this content.",
+      false
+    );
+
+    const numberOfAvailablePosts = await countAllPostsByFollowing();
+
+    const posts = await prisma.post.findMany({
+      where: {
+        author: {
+          followers: {
+            some: {
+              followerId: userId,
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        clerkId: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        contentType: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    revalidatePath(`/`);
+
+    return posts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts,
+      likesCount: post.likes.length,
+      likes: post.likes,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
+    }));
+  } catch (error) {
+    console.error("Error retrieving posts by following:", error);
+    throw error;
+  }
+}
+
+export async function togglePostLike(
+  postId: number
+): Promise<{ liked: boolean; totalLikes: number }> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to toggle like on post.",
+      false
+    );
+
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userId,
+        postId,
+      },
+    });
+
+    if (existingLike) {
+      await prisma.like.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+    } else {
+      await prisma.like.create({
+        data: {
+          userId,
+          postId,
+        },
+      });
+    }
+
+    const totalLikes = await prisma.like.count({
+      where: {
+        postId,
+      },
+    });
+
+    await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        likeCount: totalLikes,
+      },
+    });
+
+    return { liked: !existingLike, totalLikes };
+  } catch (error) {
+    console.error("Error toggling post like:", error);
+    throw error;
+  }
+}
+
+export async function toggleCommentLike(
+  commentId: number
+): Promise<{ liked: boolean; totalLikes: number }> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to toggle like on comment.",
+      false
+    );
+
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userId,
+        commentId,
+      },
+    });
+
+    if (existingLike) {
+      await prisma.like.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+    } else {
+      await prisma.like.create({
+        data: {
+          userId,
+          commentId,
+        },
+      });
+    }
+
+    const totalLikes = await prisma.like.count({
+      where: {
+        commentId,
+      },
+    });
+
+    await prisma.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        likeCount: totalLikes,
+      },
+    });
+
+    return { liked: !existingLike, totalLikes };
+  } catch (error) {
+    console.error("Error toggling comment like:", error);
     throw error;
   }
 }

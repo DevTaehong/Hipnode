@@ -115,3 +115,8 @@ export interface deleteNotificationParams {
   followerId?: number;
   likeId?: number;
 }
+
+export type GroupImageProps = {
+  src: string;
+  name: string;
+};

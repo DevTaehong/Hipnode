@@ -10,6 +10,7 @@ import { colorVariants } from "@/components/group/GroupSectionHeader";
 import { GroupProps } from "@types/models";
 import { ProfileMeetup, ProfilePost } from "./profile.index";
 import { InterviewProps } from "./interview.index";
+import { ExtendedPrismaPost } from "./posts";
 
 export interface AuthenticatedUser {
   userId: number;
@@ -30,7 +31,7 @@ export type Tag = {
 type FieldName = "groupName" | "description";
 
 export type ProfileResults =
-  | ProfilePost[]
+  | ExtendedPrismaPost[]
   | ProfileMeetup[]
   | Podcast[]
   | InterviewProps[];

@@ -14,13 +14,15 @@ import {
   getProfileInterviews,
   getProfileMeetups,
   getProfilePodcasts,
-  getProfilePosts,
 } from "@/lib/actions/profile.actions";
 
 import { formatUserJoinedDate } from "@/lib/utils";
 
 import { ProfileResults } from "@/types";
 import { isInterview, isMeetUpExtended, isPodcast } from "@/utils/typeGuards";
+import { PostCardList } from "@/components/home-page/post-card";
+import { getAllPostsByUserId } from "@/lib/actions/post.action";
+import { ExtendedPrismaPost } from "@/types/posts";
 
 const ProfilePage = async ({
   params,
@@ -35,7 +37,11 @@ const ProfilePage = async ({
 
   switch (searchParams?.search) {
     case "posts":
-      result = await getProfilePosts(params.id);
+      result = await getAllPostsByUserId({
+        numberToSkip: 0,
+        authorId: +params.id,
+      });
+
       break;
     case "meetups":
       result = await getProfileMeetups(params.id);
@@ -56,7 +62,7 @@ const ProfilePage = async ({
   const performanceData = await getPerformanceData(params.id);
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[90rem] flex-col justify-center gap-5 bg-light-2 p-5 md:flex-row lg:px-10 lg:py-[1.87rem] dark:bg-dark-2">
+    <div className="mx-auto flex min-h-screen w-full max-w-[90rem] flex-col justify-center gap-5 bg-light-2 p-5 dark:bg-dark-2 md:flex-row lg:px-10 lg:py-[1.87rem]">
       {/* Profile Info */}
       <section>
         {user && (
@@ -83,6 +89,13 @@ const ProfilePage = async ({
         <ProfileFilter />
 
         {result.length === 0 && <div>No {searchParams?.search}</div>}
+
+        {searchParams?.search === "posts" && (
+          <PostCardList
+            posts={result as ExtendedPrismaPost[]}
+            authorId={+params.id}
+          />
+        )}
 
         {searchParams?.search === "meetups" &&
           result.map((item) => {
