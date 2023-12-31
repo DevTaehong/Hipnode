@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { v4 as uuidv4 } from "uuid";
 
-import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
 import {
   isOnlyEmoji,
@@ -12,10 +11,10 @@ import {
   formatTextWithLineBreaks,
   handleEditClick,
   handleDeleteClick,
-} from ".";
-import EditDeleteButton from "../chat-page/EditDeleteButton";
+} from "./chat-functions";
 import { LiveChatMessageProps } from "@/types/chatroom.index";
-import LinkPreview from "../chat-page/LinkPreview";
+import { EditDeleteButton, LinkPreview } from "../chat-page";
+import { MessageAttachment } from ".";
 
 const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
   const { chatroomUsers } = useChatStore();

@@ -4,16 +4,13 @@ import React, { useReducer } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
-import UserButton from "./UserButton";
 import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
 import HipnodeIcon from "../icons/HipnodeIcon";
-import MessageListWrapper from "../live-chat/MessageListWrapper";
-import GlobalSearchBar from "./GlobalSearchBar";
 import OutlineIcon from "../icons/outline-icons";
-import NavLinks from "./NavLinks";
-import NotificationButton from "./NotificationButton";
 import { NavbarContentProps } from "@/types/searchbar.index";
 import { reducer, initialState } from "./globalSearchReducer";
+import { NavLinks, GlobalSearchBar, NotificationButton, UserButton } from ".";
+import { MessageListWrapper } from "../live-chat";
 
 const NavbarContent = ({
   userInfo,
@@ -39,7 +36,7 @@ const NavbarContent = ({
             <HipnodeHeaderLogo styles="hidden lg:flex" />
           </Link>
           <div className="flex" onClick={handleOpenClose}>
-            <OutlineIcon.Search className="cursor-pointer stroke-sc-5 lg:hidden dark:stroke-sc-4" />
+            <OutlineIcon.Search className="cursor-pointer stroke-sc-5 dark:stroke-sc-4 lg:hidden" />
           </div>
         </section>
 

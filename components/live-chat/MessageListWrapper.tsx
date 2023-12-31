@@ -4,8 +4,8 @@ import { AblyProvider } from "ably/react";
 import { useEffect } from "react";
 
 import useChatStore from "@/app/chatStore";
-import MessageList from "./MessageList";
 import { client } from "@/lib/ably";
+import { MessageList } from ".";
 
 const MessageListWrapper = ({ userInfo, onlineUserIds }: any) => {
   const { setUserInfo, setOnlineUsers } = useChatStore();

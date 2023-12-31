@@ -1,5 +1,5 @@
 import { verifyAuth } from "@/lib/auth";
-import NavbarContent from "./NavbarContent";
+import { NavbarContent } from ".";
 
 const Navbar = async () => {
   const { userId, loggedInUserImage, userName, fullName, lastChecked } =

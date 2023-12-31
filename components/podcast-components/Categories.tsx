@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import { capitalise } from "@/utils";
-import FilterCategory from "./FilterCategory";
 import { CategoriesProps } from "@/types";
+import { FilterCategory } from ".";
 
 const Categories = ({
   setLoading,

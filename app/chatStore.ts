@@ -5,7 +5,7 @@ import {
 import { ChatroomUser } from "@/types/chatroom.index";
 import { create } from "zustand";
 
-import { API_RESULT } from "@/components/live-chat";
+import { API_RESULT } from "@/components/live-chat/chat-functions";
 
 interface ChatroomMap {
   [chatroomId: number]: Set<number>;

@@ -9,7 +9,6 @@ import {
   getSearchBarResults,
   getAllSearchBarResults,
 } from "@/lib/actions/search-bar.actions";
-import GlobalSearchBarList from "./GlobalSearchBarList";
 import {
   PostResult,
   SearchBarProps,
@@ -17,6 +16,7 @@ import {
 } from "@/types/searchbar.index";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { searchHeadings } from "@/constants/search-bar";
+import { GlobalSearchBarList } from ".";
 
 const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   const fetchSearchResults = async () => {
@@ -113,7 +113,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
 
   return (
     <div
-      className={`${additionalStyles} z-20 -translate-y-2 items-center gap-2 rounded-lg bg-light-2 px-5 py-3 lg:relative lg:mx-0 lg:flex lg:w-full lg:max-w-[27.5rem] lg:translate-y-0 lg:py-2 dark:bg-dark-4`}
+      className={`${additionalStyles} z-20 -translate-y-2 items-center gap-2 rounded-lg bg-light-2 px-5 py-3 dark:bg-dark-4 lg:relative lg:mx-0 lg:flex lg:w-full lg:max-w-[27.5rem] lg:translate-y-0 lg:py-2`}
     >
       <Input
         type="text"
@@ -133,7 +133,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
       <section
         className={`${
           state.showSearch ? "flex" : "hidden"
-        } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light lg:top-12 lg:max-h-[20rem] dark:bg-dark-2`}
+        } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light dark:bg-dark-2 lg:top-12 lg:max-h-[20rem]`}
       >
         <header className="flex h-[3.75rem] gap-4 border-b border-sc-6 p-4 dark:border-dark-4">
           <p className="semibold-14 text-dark-3 dark:text-light-2">Type:</p>

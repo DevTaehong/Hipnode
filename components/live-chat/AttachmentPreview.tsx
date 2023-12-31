@@ -5,13 +5,12 @@ import { IoClose } from "react-icons/io5";
 import { CiFolderOn } from "react-icons/ci";
 
 import FillIcon from "../icons/fill-icons";
-import LiveChatAudioPlayer from "./LiveChatAudioPlayer";
-import LiveChatVideoPlayer from "./LiveChatVideoPlayer";
 import {
   AttachmentPreviewProps,
   RenderPreviewProps,
 } from "@/types/chatroom.index";
 import { getMediaType } from "@/utils";
+import { LiveChatVideoPlayer, LiveChatAudioPlayer } from ".";
 
 const RenderPreview = ({
   mediaType,

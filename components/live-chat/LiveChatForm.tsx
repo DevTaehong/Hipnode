@@ -11,12 +11,15 @@ import React, {
 import { useChannel } from "ably/react";
 
 import FillIcon from "../icons/fill-icons";
-import AttachmentPreview from "./AttachmentPreview";
-import LiveChatInput from "./LiveChatInput";
 import { LiveChatFormProps, UserTyping } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
-import { API_RESULT, liveChatSubmission, userTypingChange } from ".";
+import {
+  API_RESULT,
+  liveChatSubmission,
+  userTypingChange,
+} from "./chat-functions";
 import { adjustHeight } from "@/utils";
+import { AttachmentPreview, LiveChatInput } from ".";
 
 const LiveChatForm = ({
   droppedFile,

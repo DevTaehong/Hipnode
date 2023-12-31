@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
-import { InterviewBannerImage } from "../interview-components";
 import { MeetupWithTags } from "@/types/meetups.index";
+import { InterviewBannerImage } from "../interview-components";
 
 const MeetupContactInfo = dynamic(() => import("./MeetupContactInfo"), {
   ssr: false,

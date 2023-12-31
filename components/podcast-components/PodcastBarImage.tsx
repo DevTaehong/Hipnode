@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 import { podcast } from "@/public/assets";
-import AudioAnimation from "./AudioAnimation";
 import { PodcastBarImageProps } from "@/types/podcast.index";
 import usePodcastStore from "@/app/podcastStore";
+import { AudioAnimation } from ".";
 
 const PodcastBarImage = ({
   podcastUserImage,
@@ -29,7 +29,7 @@ const PodcastBarImage = ({
   return (
     <figure className={`relative flex gap-2 ${imagePosition}`}>
       <div
-        className="h-[3.125rem] w-[3.125rem] shrink-0 rounded-full bg-red-60"
+        className="h-[3.125rem] w-[3.125rem] shrink-0 cursor-pointer rounded-full bg-red-60 md:cursor-default"
         onClick={handleImageClick}
       >
         <Image

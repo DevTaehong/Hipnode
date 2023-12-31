@@ -6,11 +6,10 @@ import { useInView } from "react-intersection-observer";
 
 import { extractArray } from "@/utils";
 import { getFilteredMeetups } from "@/lib/actions/meetup.actions";
-import BoxShading from "../interview-components/BoxShading";
-import SeeMoreButton from "../interview-components/SeeMoreButton";
-import MeetupsCard from "./MeetupsCard";
 import { MeetUpExtended, MeetupsPageProps } from "@/types/meetups.index";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
+import { BoxShading, SeeMoreButton } from "../interview-components";
+import { MeetupsCard } from ".";
+import { LoaderComponent } from "../onboarding-components";
 
 const MeetupPageFilter = ({
   loading,
@@ -92,7 +91,7 @@ const MeetupPageFilter = ({
           ref={ref}
           className={`${
             !hasMoreMeetups && "hidden lg:hidden"
-          } mt-2 hidden animate-pulse self-center lg:flex dark:text-light-2`}
+          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
         >
           Loading...
         </p>

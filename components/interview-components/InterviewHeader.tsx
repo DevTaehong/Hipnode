@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 import { formatInterviewDate } from "@/utils";
 import { InterviewHeaderProps } from "@/types/interview.index";
-import dynamic from "next/dynamic";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),

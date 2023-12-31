@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 
-import { InterviewCard } from ".";
+import { BoxShading, InterviewCard, SeeMoreButton } from ".";
 import { extractArray } from "@/utils";
 import { getFilteredInterviews } from "@/lib/actions/interview.actions";
-import SeeMoreButton from "./SeeMoreButton";
-import BoxShading from "./BoxShading";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { InterviewPageProps, InterviewProps } from "@/types/interview.index";
+import { LoaderComponent } from "../onboarding-components";
 
 const InterviewPageFilter = ({
   loading,
@@ -95,7 +93,7 @@ const InterviewPageFilter = ({
           ref={ref}
           className={`${
             !hasMoreInterviews && "hidden lg:hidden"
-          } mt-2 hidden animate-pulse self-center lg:flex dark:text-light-2`}
+          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
         >
           Loading...
         </p>

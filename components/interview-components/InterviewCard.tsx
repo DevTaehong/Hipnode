@@ -21,7 +21,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
 
   const interviewSalary = formatSalary(salary, salaryPeriod);
   return (
-    <article className="bg-light_dark-3 text-sc-2_light-2 flex flex-col justify-between gap-[1.875rem] rounded-2xl p-3.5 hover:shadow-lg sm:p-5 md:flex-row xl:w-full xl:flex-row hover:dark:bg-dark-4">
+    <article className="bg-light_dark-3 text-sc-2_light-2 flex flex-col justify-between gap-[1.875rem] rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4 sm:p-5 md:flex-row xl:w-full xl:flex-row">
       <section className="flex w-full flex-col justify-between gap-5 sm:h-full">
         <InterviewHeader
           userImage={userImage}

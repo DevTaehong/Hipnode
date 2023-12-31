@@ -17,7 +17,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
   const { day, monthText } = getFormattedDateMeetUpCard(meetUp.createdAt);
 
   return (
-    <article className="bg-light_dark-3 flex flex-col gap-4 rounded-2xl p-3.5 hover:shadow-lg md:gap-6 md:p-5 hover:dark:bg-dark-4">
+    <article className="bg-light_dark-3 flex flex-col gap-4 rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4 md:gap-6 md:p-5">
       <div className="flex justify-between">
         <figure className="flex items-center gap-5">
           <Link href={`/meet-ups/${id}`}>
