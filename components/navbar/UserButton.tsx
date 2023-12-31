@@ -12,6 +12,7 @@ import {
 import Theme from "@/components/navbar/Theme";
 
 import UserButtonLink from "./UserButtonLink";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 const UserButton = () => {
   const { user } = useUser();
@@ -51,8 +52,9 @@ const UserButton = () => {
             <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2">
               Interface
             </p>
-
-            <Theme />
+            <PopoverClose>
+              <Theme />
+            </PopoverClose>
           </article>
         </section>
       </PopoverContent>

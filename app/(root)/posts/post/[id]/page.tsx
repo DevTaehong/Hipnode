@@ -1,10 +1,12 @@
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { LeftActionBar } from "@/components/posts/post-by-id";
 import { TagsList } from "@/components/posts/post-by-id/main-content";
 import {
   getPostContentById,
   getPostsByAuthorId,
+  isFollowingUser,
 } from "@/lib/actions/post.action";
 import {
   formatDatePostFormat,
@@ -15,9 +17,8 @@ import CommentForm from "@/components/posts/comment/CommentForm";
 import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 import DevelopmentInformation from "@/components/posts/post-by-id/right-column/DevelopmentInformation";
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
-import CustomButton from "@/components/CustomButton";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
-import dynamic from "next/dynamic";
+import Following from "@/components/posts/post-by-id/right-column/Following";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -39,6 +40,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
   const actionBarData = getActionBarData(postData);
   const devInfo = await getPostsByAuthorId(authorId);
   const calculatedDate = howManyMonthsAgo(createdAt);
+  const isFollowing = await isFollowingUser(authorId);
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
@@ -66,10 +68,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               />
             </div>
             <div className="flex items-center justify-between">
-              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 lg:pb-[1.25rem] dark:text-light-2">
                 {heading}
               </h1>
-              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 lg:pb-[1.25rem] dark:text-light-2">
                 {userCanEditMedia && (
                   <MediaEditActionPopover mediaId={postData.id} label="Post" />
                 )}
@@ -113,10 +115,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
               Web Developer
             </p>
-            <CustomButton
-              label="Follow"
-              className="mb-[1.25rem] flex w-full items-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
-            />
+            <Following authorId={authorId} isFollowing={isFollowing} />
             <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
               {+calculatedDate > 0
                 ? `joined ${calculatedDate} months ago`

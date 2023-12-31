@@ -7,6 +7,7 @@ import { PostFormValuesType } from "@/constants/posts";
 import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
 import { Suggestion } from "use-places-autocomplete";
+import { StaticImageData } from "next/image";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -204,6 +205,8 @@ export type ExtendedPrismaPost = {
   blurImage: string;
   imageHeight: number;
   imageWidth: number;
+  userProfileId?: number;
+  loggedInUserHasLikedPost: boolean;
 };
 
 export type PostToEditByIdType = {
@@ -340,4 +343,44 @@ export type LocationProps = {
 export type SuggestionsListProps = {
   suggestions: Suggestion[];
   onSuggestionSelect: (suggestion: Suggestion) => () => void;
+};
+
+export type LikeButtonProps = {
+  toggleLike: () => void;
+  additionalClasses: string;
+};
+
+export type TagListProps = {
+  tags: string[];
+  userIdFromParams?: number;
+  setTagged: (tag: string) => void;
+};
+
+export type PostCardRenderProps = {
+  postData: ExtendedPrismaPost[];
+  setTagged: (tagged: string) => void;
+  authorId?: number;
+};
+
+export type SidebarProps = {
+  isLoggedIn: boolean;
+  peopleFollowed: number;
+};
+
+export interface FollowingProps {
+  authorId: number;
+  isFollowing: boolean;
+}
+
+export type SidebarItemProps = {
+  item: {
+    imgSrc: StaticImageData;
+    imgAlt: string;
+    title: string;
+    subTitle?: string;
+    description: string;
+    imgContainerClass: string;
+    loggedInFollowerFilter?: boolean;
+  };
+  peopleFollowed: number;
 };

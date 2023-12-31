@@ -19,7 +19,8 @@ export async function getPodcastById({
 }): Promise<PodcastByIdType> {
   try {
     const { userId } = await verifyAuth(
-      "You must be logged in to get a podcast."
+      "You must be logged in to get a podcast.",
+      false
     );
 
     const podcast = await prisma.podcast.findUnique({
