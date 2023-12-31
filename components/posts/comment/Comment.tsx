@@ -5,19 +5,21 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import {
-  StraightLine,
-  CurveLine,
-} from "@/components/icons/outline-icons/LineIcons";
-import {
   deleteCommentOrReply,
   toggleLikeComment,
 } from "@/lib/actions/post.action";
-import { CommentActions, CommentHeader } from ".";
+import {
+  AvatarJoinLine,
+  AvatarJoinStraight,
+  CommentActions,
+  CommentHeader,
+} from ".";
 import CommentForm from "./CommentForm";
 import { getRepliesToComments as getReplies } from "@/utils/index";
 import { CommentAuthorProps } from "@/types/posts";
 
 import { Record } from "@prisma/client/runtime/library";
+import ChildComments from "./ChildComments";
 
 const Comment = ({
   content,
@@ -40,8 +42,8 @@ const Comment = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
-  const [isLiked, setIsLiked] = useState<boolean>(likedByCurrentUser);
-  const [totalLikes, setTotalLikes] = useState<number>(likeCount);
+  const [isLiked, setIsLiked] = useState(likedByCurrentUser);
+  const [totalLikes, setTotalLikes] = useState(likeCount);
   const path = usePathname();
   const canReply = depth < 1;
 
@@ -70,6 +72,22 @@ const Comment = ({
     getReplies(postComments, parentId);
 
   const childComments = getRepliesToComments(String(id)) ?? [];
+
+  const renderCommentForm = (isReplying: boolean, isEditing: boolean) => {
+    return (
+      <CommentForm
+        parentId={String(id)}
+        isReplying={isReplying}
+        isEditing={isEditing}
+        commentId={String(id)}
+        value={isEditing ? content : ""}
+        setIsReplying={setIsReplying}
+        setIsEditing={setIsEditing}
+        postId={postId}
+        postHeading={postHeading}
+      />
+    );
+  };
 
   return (
     <>
@@ -102,37 +120,16 @@ const Comment = ({
             <div className="flex flex-wrap text-[1rem] leading-[1.5rem] text-sc-3">
               {content}
             </div>
-
-            {isReplying && (
-              <CommentForm
-                parentId={String(id)}
-                isReplying={true}
-                setIsReplying={setIsReplying}
-                setIsEditing={setIsEditing}
-                postId={postId}
-                postHeading={postHeading}
-              />
-            )}
-            {isEditing && (
-              <CommentForm
-                parentId={String(id)}
-                value={content}
-                isEditing={true}
-                commentId={String(id)}
-                setIsReplying={setIsReplying}
-                setIsEditing={setIsEditing}
-                postId={postId}
-                postHeading={postHeading}
-              />
-            )}
+            {isReplying && renderCommentForm(true, false)}
+            {isEditing && renderCommentForm(false, true)}
           </div>
 
           {isDeleting || isEditing ? (
             <div className="flex justify-between text-sc-3 dark:text-white">
-              {isDeleting ? "Deleting..." : "Editing..."}
+              <p>{isDeleting ? "Deleting..." : "Editing..."}</p>
               <p
                 className="cursor-pointer pr-[0.5rem]"
-                onClick={() => setIsEditing(!isEditing)}
+                onClick={() => setIsEditing(false)}
               >
                 Cancel edit
               </p>
@@ -159,41 +156,16 @@ const Comment = ({
       </section>
 
       {childComments.length > 0 && !showChildren && (
-        <div className="flex grow flex-col pl-[2.25rem]">
-          {childComments.map((comment, index) => (
-            <div key={comment.id} className="mt-2 flex flex-col">
-              <Comment
-                {...comment}
-                depth={depth + 1}
-                isLastComment={index === childComments.length - 1}
-                postComments={postComments}
-                postHeading={postHeading}
-              />
-            </div>
-          ))}
-        </div>
+        <ChildComments
+          childComments={childComments}
+          depth={depth}
+          isLastComment={isLastComment}
+          postComments={postComments}
+          postHeading={postHeading}
+        />
       )}
     </>
   );
 };
 
 export default Comment;
-
-const AvatarJoinLine = () => (
-  <div className="relative flex h-full flex-col items-center">
-    <StraightLine className="h-full w-10 grow basis-0" />
-    <StraightLine className="absolute h-full w-10 grow basis-0 translate-y-[3.2rem]" />
-    <div className="flex translate-y-[4.45rem]">
-      <div className="w-10">
-        <CurveLine />
-      </div>
-    </div>
-  </div>
-);
-
-const AvatarJoinStraight = () => (
-  <div className="relative z-20 flex h-full flex-col items-center">
-    <StraightLine className="absolute h-full w-10 translate-x-[-2.55rem] translate-y-[2.5rem]" />
-    <StraightLine className="absolute h-full w-10 translate-x-[-2.55rem] translate-y-[3rem]" />
-  </div>
-);

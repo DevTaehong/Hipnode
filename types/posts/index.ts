@@ -385,3 +385,11 @@ export type SidebarItemProps = {
   };
   peopleFollowed: number;
 };
+
+export interface ChildCommentsProps {
+  childComments: CommentAuthorProps[];
+  depth: number;
+  isLastComment: boolean;
+  postComments: Record<string, CommentAuthorProps[]>;
+  postHeading?: string;
+}
