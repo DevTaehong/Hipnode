@@ -1,4 +1,4 @@
-import { MeetUp, Post, User } from "@prisma/client";
+import { MeetUp, User } from "@prisma/client";
 
 export type UserProfile = User & {
   following: {
@@ -10,14 +10,6 @@ export type UserProfile = User & {
   _count: {
     followers: number;
     following: number;
-  };
-};
-
-export type ProfilePost = Post & {
-  tags: string[];
-  _count: {
-    likes: number;
-    comments: number;
   };
 };
 
