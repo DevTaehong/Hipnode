@@ -28,7 +28,7 @@ const MediaEditActionPopover = dynamic(
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
-
+  console.log(postData);
   const {
     author: { username, picture, id: authorId },
     createdAt,
@@ -36,7 +36,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
   } = postData;
 
   const formattedDate = formatDatePostFormat(createdAt || new Date());
-  const { tags, image, heading, content } = postData;
+  const { tags, image, heading, content, author } = postData;
   const actionBarData = getActionBarData(postData);
   const devInfo = await getPostsByAuthorId(authorId);
   const calculatedDate = howManyMonthsAgo(createdAt);
@@ -46,7 +46,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
       <div className="mx-auto flex h-full w-full max-w-[85rem] flex-col lg:flex-row">
         <div className="order-2 flex flex-col gap-[1.25rem] lg:order-1">
-          <LeftActionBar actionBarData={actionBarData} />
+          <LeftActionBar
+            actionBarData={actionBarData}
+            author={author.username}
+          />
           <aside className="mb-[1.25rem] flex min-w-[13rem] flex-col justify-start rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
             <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-3">
               <span className="pr-[0.5rem] text-[1rem] font-semibold leading-[1.5rem] text-blue-80">

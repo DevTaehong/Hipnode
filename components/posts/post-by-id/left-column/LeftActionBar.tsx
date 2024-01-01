@@ -24,12 +24,12 @@ import { chatIcon, moreIcon, shareIcons } from "@/constants/posts";
 import ShareIconComponent from "./ShareIconComponent";
 import IconBlock from "./IconBlock";
 
-const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
+const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
   const { toast } = useToast();
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
   const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-
+  console.log(actionBarData);
   const iconData = useMemo(
     () => [
       {
@@ -133,7 +133,11 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
           <IconBlock label="Report" IconComponent={ReportIcon} />
         </DialogTrigger>
         <DialogContent className="rounded-lg bg-light-2 p-2 dark:bg-dark-4">
-          <EmailForm toast={toast} currentUrl={currentUrl} setOpen={setOpen} />
+          <EmailForm
+            currentUrl={currentUrl}
+            setOpen={setOpen}
+            author={author}
+          />
         </DialogContent>
       </Dialog>
     </aside>

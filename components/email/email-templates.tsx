@@ -8,35 +8,23 @@ import {
   Text,
 } from "@react-email/components";
 import { Container } from "lucide-react";
-
-interface HipnodeReportProps {
-  message: string;
-  currentUrl: string;
-  email: string;
-}
+import HipnodeHeaderLogo from "../icons/HipnodeHeaderLogo";
+import { HipnodeReportProps } from "@/types/posts";
 
 export const HipnodeReport = ({
-  message,
+  selectedComplaintTag,
   currentUrl,
-  email,
 }: HipnodeReportProps) => {
   return (
     <Html>
       <Head />
-      <Preview>{message}</Preview>
+      <Preview>{selectedComplaintTag}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Text style={title}>
-            <strong>@{message}</strong>
+            <strong>@{selectedComplaintTag}</strong>
           </Text>
-
           <Section style={section}>
-            <Text style={text}>
-              Please respond to this email{" "}
-              <strong>
-                <a href={`mailto:${email}`}>{email}</a>
-              </strong>
-            </Text>
             <Text style={text}>
               We are committed to responding to all complaints within 48 Hours
             </Text>
@@ -45,11 +33,13 @@ export const HipnodeReport = ({
             <Link href={currentUrl} style={link}>
               Please look into this post, it has broken the Community Standards.
             </Link>
-            ・<Link style={link}>Contact support</Link>
           </Text>
-          <Text style={footer}>
+          <Text style={footer} className="py-6 text-center dark:text-light-2">
             Hipnode ・Bulgaria, Poland, Canada & USA ・JS Mastery Graduates 2024
           </Text>
+          <div className="flex justify-center">
+            <HipnodeHeaderLogo />
+          </div>
         </Container>
       </Body>
     </Html>
