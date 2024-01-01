@@ -8,6 +8,13 @@ import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
 import { Suggestion } from "use-places-autocomplete";
 import { StaticImageData } from "next/image";
+import {
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  EmailShareButton,
+} from "react-share";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -384,3 +391,24 @@ export type SidebarItemProps = {
   };
   peopleFollowed: number;
 };
+
+export type IconComponentType = React.FC<{ className?: string }>;
+
+export type ShareWrapperType =
+  | typeof FacebookShareButton
+  | typeof TelegramShareButton
+  | typeof TwitterShareButton
+  | typeof LinkedinShareButton
+  | typeof EmailShareButton;
+
+export interface ShareIconProps {
+  label: string;
+  icon: IconComponentType;
+  wrapper?: ShareWrapperType;
+}
+
+export interface ShareIconComponentProps {
+  icon: ShareIconProps;
+  hoveredIcon: string;
+  setHoveredIcon: (iconLabel: string) => void;
+}

@@ -1,6 +1,5 @@
 import {
   Body,
-  Button,
   Head,
   Html,
   Link,
@@ -11,47 +10,51 @@ import {
 import { Container } from "lucide-react";
 
 interface HipnodeReportProps {
-  username: string;
   message: string;
+  currentUrl: string;
+  email: string;
 }
 
-export const HipnodeReport = ({ username, message }: HipnodeReportProps) => (
-  <Html>
-    <Head />
-    <Preview>
-      A fine-grained personal access token has been added to your account
-    </Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Text style={title}>
-          <strong>@{username}</strong>, a personal access was created on your
-          account.
-        </Text>
+export const HipnodeReport = ({
+  message,
+  currentUrl,
+  email,
+}: HipnodeReportProps) => {
+  return (
+    <Html>
+      <Head />
+      <Preview>{message}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Text style={title}>
+            <strong>@{message}</strong>
+          </Text>
 
-        <Section style={section}>
-          <Text style={text}>
-            Hey <strong>{username}</strong>!
+          <Section style={section}>
+            <Text style={text}>
+              Please respond to this email{" "}
+              <strong>
+                <a href={`mailto:${email}`}>{email}</a>
+              </strong>
+            </Text>
+            <Text style={text}>
+              We are committed to responding to all complaints within 48 Hours
+            </Text>
+          </Section>
+          <Text style={links}>
+            <Link href={currentUrl} style={link}>
+              Please look into this post, it has broken the Community Standards.
+            </Link>
+            ・<Link style={link}>Contact support</Link>
           </Text>
-          <Text style={text}>
-            We will respond to your report within 48 Hours
+          <Text style={footer}>
+            Hipnode ・Bulgaria, Poland, Canada & USA ・JS Mastery Graduates 2024
           </Text>
-          <Text style={text}>
-            <strong>Message:</strong> {message}
-          </Text>
-          <Button style={button}>View your token</Button>
-        </Section>
-        <Text style={links}>
-          <Link style={link}>Your security audit log</Link> ・{" "}
-          <Link style={link}>Contact support</Link>
-        </Text>
-
-        <Text style={footer}>
-          Hipnode ・Bulgaria, Poland, Canada & USA ・JS Mastery Graduates 2024
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-);
+        </Container>
+      </Body>
+    </Html>
+  );
+};
 
 export default HipnodeReport;
 
@@ -83,15 +86,6 @@ const section = {
 const text = {
   margin: "0 0 10px 0",
   textAlign: "left" as const,
-};
-
-const button = {
-  fontSize: "14px",
-  backgroundColor: "#28a745",
-  color: "#fff",
-  lineHeight: 1.5,
-  borderRadius: "0.5em",
-  padding: "0.75em 1.5em",
 };
 
 const links = {

@@ -1,16 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
-import {
-  InstapaperShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-  EmailShareButton,
-  FacebookShareButton,
-  TelegramShareButton,
-} from "react-share";
 
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -19,7 +11,7 @@ import {
   ShareIcon,
   ReportIcon,
 } from "@/components/icons/open-post-icons/PostIcons";
-import { IconBlockProps, LeftActionBarProps } from "@/types/posts";
+import { LeftActionBarProps } from "@/types/posts";
 import {
   Dialog,
   DialogTrigger,
@@ -28,44 +20,16 @@ import {
 } from "@/components/ui/dialog";
 import OutlineIcon from "@/components/icons/outline-icons";
 import EmailForm from "@/components/email/EmailForm";
-
-const shareIcons = [
-  {
-    wrapper: InstapaperShareButton,
-    label: "Chat",
-    icon: OutlineIcon.Comment,
-  },
-  {
-    wrapper: InstapaperShareButton,
-    label: "Instagram",
-    icon: OutlineIcon.Instagram,
-  },
-  {
-    wrapper: TwitterShareButton,
-    label: "Twitter",
-    icon: OutlineIcon.Twitter,
-  },
-  {
-    wrapper: LinkedinShareButton,
-    label: "LinkedIn",
-    icon: OutlineIcon.LinkedIn,
-  },
-  {
-    wrapper: EmailShareButton,
-    label: "Email",
-    icon: OutlineIcon.Mention,
-  },
-  {
-    wrapper: InstapaperShareButton,
-    label: "More",
-    icon: OutlineIcon.Share2,
-  },
-];
+import { chatIcon, moreIcon, shareIcons } from "@/constants/posts";
+import ShareIconComponent from "./ShareIconComponent";
+import IconBlock from "./IconBlock";
 
 const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
   const { toast } = useToast();
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
   const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
   const iconData = useMemo(
     () => [
       {
@@ -97,7 +61,7 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
       {iconData.map((iconBlock, index) => (
         <IconBlock key={index} {...iconBlock} />
       ))}
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger>
           <IconBlock
             label="Share"
@@ -105,70 +69,23 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
             IconComponent={ShareIcon}
           />
         </DialogTrigger>
-        <DialogContent className="bg-light_dark-3 flex max-w-[33.5rem] flex-col gap-11 rounded-2xl border-0 p-8">
+        <DialogContent className="bg-light_dark-3 flex w-full max-w-[34.5rem] flex-col gap-11 rounded-2xl border-0 p-8">
           <div className="flex w-full justify-between">
             <p className="semibold-18 text-sc-2_light-2">Share with</p>
             <DialogClose className="text-sc-2_light-2 text-2xl">
               <IoClose />
             </DialogClose>
           </div>
-          <div className="flex w-full justify-evenly gap-4">
-            {shareIcons.map((icon) => {
-              const IconComponent = icon.icon;
-              const isIconHoveredOver = hoveredIcon === icon.label;
-
-              const hoveredStyle =
-                icon.label === "Chat" ? "stroke-red" : "fill-red";
-              const unhoveredStyle =
-                icon.label === "Chat"
-                  ? "stroke-sc-2 dark:stroke-light-2"
-                  : "fill-sc-2 dark:fill-light-2";
-
-              const IconContent = () => {
-                return (
-                  <div
-                    className="flex cursor-pointer flex-col items-center gap-2"
-                    onMouseOver={() => setHoveredIcon(icon.label)}
-                    onMouseLeave={() => setHoveredIcon("")}
-                  >
-                    <div
-                      className={`${
-                        isIconHoveredOver ? "bg-red-10" : "bg-light-2_dark-4"
-                      } flex-center  h-[4.25rem] w-[4.25rem] shrink-0 rounded-full`}
-                    >
-                      <IconComponent
-                        className={`${
-                          isIconHoveredOver ? hoveredStyle : unhoveredStyle
-                        }`}
-                      />
-                    </div>
-                    <p
-                      className={`semibold-14 ${
-                        isIconHoveredOver
-                          ? "text-red dark:text-red"
-                          : "text-sc-4"
-                      }  dark:text-sc-5`}
-                    >
-                      {icon.label}
-                    </p>
-                  </div>
-                );
-              };
-
-              if (icon.label === "Chat") {
-                return (
-                  <Link key={icon.label} href="/chat" onClick={handleCopyClick}>
-                    <IconContent />
-                  </Link>
-                );
-              } else if (icon.label === "More") {
-                <div
-                  className="flex"
-                  onClick={() => setShowMoreIcons((prev) => !prev)}
-                >
-                  <IconContent />
-                </div>;
-              } else {
+          <div className="flex w-full flex-wrap justify-evenly gap-4">
+            <Link href="/chat">
+              <ShareIconComponent
+                icon={chatIcon}
+                hoveredIcon={hoveredIcon}
+                setHoveredIcon={setHoveredIcon}
+              />
+            </Link>
+            {(showMoreIcons ? shareIcons : shareIcons.slice(0, 4)).map(
+              (icon) => {
                 const ShareWrapper = icon.wrapper;
                 return (
                   <ShareWrapper
@@ -176,11 +93,25 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
                     title={icon.label}
                     url={currentUrl}
                   >
-                    <IconContent />
+                    <ShareIconComponent
+                      icon={icon}
+                      hoveredIcon={hoveredIcon}
+                      setHoveredIcon={setHoveredIcon}
+                    />
                   </ShareWrapper>
                 );
               }
-            })}
+            )}
+            <div
+              className="flex"
+              onClick={() => setShowMoreIcons((prev) => !prev)}
+            >
+              <ShareIconComponent
+                icon={moreIcon}
+                hoveredIcon={hoveredIcon}
+                setHoveredIcon={setHoveredIcon}
+              />
+            </div>
           </div>
           <div className="flex flex-col items-center gap-3">
             <p className="semibold-12 text-sc-3 dark:text-sc-4">
@@ -202,7 +133,7 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
           <IconBlock label="Report" IconComponent={ReportIcon} />
         </DialogTrigger>
         <DialogContent className="rounded-lg bg-light-2 p-2 dark:bg-dark-4">
-          <EmailForm />
+          <EmailForm toast={toast} currentUrl={currentUrl} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
     </aside>
@@ -210,21 +141,3 @@ const LeftActionBar = ({ actionBarData }: LeftActionBarProps) => {
 };
 
 export default LeftActionBar;
-
-const IconBlock = ({ label, count, IconComponent }: IconBlockProps) => (
-  <div className="flex items-center gap-[0.875rem]">
-    <div className="flex-center h-[1.75rem] w-[1.75rem] rounded-md">
-      <IconComponent />
-    </div>
-    {count && (
-      <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-3 dark:text-sc-3">
-        {`${count}`} {label}
-      </p>
-    )}
-    {!count && (
-      <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-3">
-        {label}
-      </p>
-    )}
-  </div>
-);
