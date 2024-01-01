@@ -37,7 +37,7 @@ export type SearchBarAction =
   | {
       type: "HANDLE_LOAD_MORE";
       payload: {
-        searchResults: (prev: PostResult[]) => PostResult[];
+        searchResults: PostResult[];
         isLoading: boolean;
         showButton: boolean;
       };
@@ -80,10 +80,7 @@ export const reducer = (
     case "HANDLE_LOAD_MORE":
       return {
         ...state,
-        searchResults:
-          typeof action.payload.searchResults === "function"
-            ? action.payload.searchResults(state.searchResults)
-            : action.payload.searchResults,
+        searchResults: action.payload.searchResults,
         isLoading: action.payload.isLoading,
         showButton: action.payload.showButton,
       };

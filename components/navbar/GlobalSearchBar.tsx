@@ -9,11 +9,7 @@ import {
   getSearchBarResults,
   getAllSearchBarResults,
 } from "@/lib/actions/search-bar.actions";
-import {
-  PostResult,
-  SearchBarProps,
-  SearchBarResults,
-} from "@/types/searchbar.index";
+import { SearchBarProps, SearchBarResults } from "@/types/searchbar.index";
 import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { searchHeadings } from "@/constants/search-bar";
 import { GlobalSearchBarList } from ".";
@@ -89,11 +85,11 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
             state.amountToSkip
           );
         }
-
+        const newPosts = state.searchResults.concat(posts.posts);
         dispatch({
           type: "HANDLE_LOAD_MORE",
           payload: {
-            searchResults: (prev: PostResult[]) => [...prev, ...posts.posts],
+            searchResults: newPosts,
             isLoading: false,
             showButton: posts.isMorePosts,
           },
@@ -147,7 +143,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
                   className={`semibold-9 flex-center h-[1.625rem] w-[3.75rem] shrink-0 cursor-pointer rounded-full ${
                     isActive
                       ? "bg-red-90 text-light"
-                      : "bg-sc-6 text-sc-2 hover:bg-red-90 hover:text-light dark:bg-dark-4 dark:text-white"
+                      : "bg-sc-6 text-sc-2 hover:bg-red-90 hover:text-light dark:bg-dark-4 dark:text-white dark:hover:bg-red-90"
                   }`}
                   onClick={() => {
                     handleHeadingClick(heading);
