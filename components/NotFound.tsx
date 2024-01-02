@@ -43,6 +43,7 @@ const NotFound = () => {
             animate={{
               x: [0, 0, 30],
               y: [0, 0, 46, 40, 46, 46, 600],
+              opacity: [1, 1, 0],
             }}
             transition={{
               x: {
@@ -56,6 +57,12 @@ const NotFound = () => {
                 ease: "easeInOut",
                 delay: 0.3,
                 times: [0, 0.5, 0.55, 0.6, 0.65, 0.8, 1],
+              },
+              opacity: {
+                duration: 3,
+                ease: "easeInOut",
+                delay: 0.3,
+                times: [0, 1, 1],
               },
             }}
           >
