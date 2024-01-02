@@ -14,12 +14,18 @@ const NotFound = () => {
             animate={{
               rotate: [0, 0, 200, 160, 195, 165, 190, 170, 180],
               y: [0, 8],
+              x: [0, -1],
             }}
             transition={{
               rotate: {
                 duration: 5,
                 ease: "easeInOut",
                 times: [0, 0.15, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+              },
+              x: {
+                duration: 0.5,
+                ease: "easeInOut",
+                delay: 0.6,
               },
               y: {
                 duration: 0.1,
