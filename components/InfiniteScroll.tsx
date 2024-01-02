@@ -23,6 +23,7 @@ const InfiniteScroll = <T extends { id: number }>({
   const [data, setData] = useState<T[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
+  const [hasMoreData, setHasMoreData] = useState(true);
 
   const { ref, inView } = useInView();
 
@@ -31,8 +32,12 @@ const InfiniteScroll = <T extends { id: number }>({
 
     const myCursorId = data[data.length - 1]?.id;
     const newData = await fetchData(myCursorId, groupId);
+    if (newData.length === 0) {
+      setHasMoreData(false);
+      setIsLoading(false);
+      return;
+    }
     setData((prevData: T[]) => [...prevData, ...newData]);
-
     setIsLoading(false);
   };
 
@@ -41,11 +46,11 @@ const InfiniteScroll = <T extends { id: number }>({
   }, [initialData]);
 
   useEffect(() => {
-    if (inView || isSeeMore) {
+    if ((inView && hasMoreData) || isSeeMore) {
       loadMoreData();
       setIsSeeMore(false);
     }
-  }, [inView, isSeeMore]);
+  }, [inView, isSeeMore, hasMoreData]);
 
   return (
     <>
@@ -62,10 +67,13 @@ const InfiniteScroll = <T extends { id: number }>({
         See more
         <OutlineIcon.ArrowRight className="stroke-sc-3" />
       </button>
-      <div className="hidden lg:block" ref={ref}>
-        <div className="flex items-center justify-center pb-3">
-          {isLoading && <Spinner />}
-        </div>
+      <div
+        ref={ref}
+        className={`${
+          hasMoreData ? "flex items-center justify-center py-5" : "hidden"
+        }`}
+      >
+        {isLoading && <Spinner />}
       </div>
     </>
   );
