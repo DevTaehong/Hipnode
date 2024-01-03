@@ -59,7 +59,7 @@ const ChatPageLiveChat = () => {
           chatroomId,
           chatroomUsers,
         });
-        if (response !== null && response !== undefined && response.messages) {
+        if (response?.messages) {
           setMessages(response.messages);
           setIsLoading(false);
         }

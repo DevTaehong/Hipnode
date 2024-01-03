@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer } from "react";
+import React, { useReducer, useMemo } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
@@ -20,12 +20,14 @@ const NavbarContent = ({
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleOpenClose = () => {
-    if (state.showSearch) {
-      dispatch({ type: "HANDLE_CLOSE" });
-    } else {
-      dispatch({ type: "HANDLE_OPEN" });
-    }
+    dispatch({ type: state.showSearch ? "HANDLE_CLOSE" : "HANDLE_OPEN" });
   };
+
+  const additionalStyles = useMemo(() => {
+    return state.showSearch
+      ? "flex fixed inset-x-4 lg:inset-x-0 lg:w-full z-20 top-5 lg:top-0"
+      : "hidden lg:flex";
+  }, [state.showSearch]);
 
   return (
     <>
@@ -43,11 +45,7 @@ const NavbarContent = ({
         <section className="relative flex max-w-[49rem] flex-1 gap-5 md:justify-center lg:justify-between">
           <NavLinks />
           <GlobalSearchBar
-            additionalStyles={`${
-              state.showSearch
-                ? "flex fixed inset-x-4 lg:inset-x-0 lg:w-full z-20 top-5 lg:top-0"
-                : "hidden lg:flex"
-            }`}
+            additionalStyles={additionalStyles}
             state={state}
             dispatch={dispatch}
           />

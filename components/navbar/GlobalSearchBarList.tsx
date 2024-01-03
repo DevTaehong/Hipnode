@@ -1,8 +1,5 @@
-import Link from "next/link";
-
-import FillIcon from "../icons/fill-icons";
 import { GlobalSearchBarListProps } from "@/types/searchbar.index";
-import { resultInfo } from "@/constants/search-bar";
+import SearchResultItem from "./SearchResultItem";
 
 const GlobalSearchBarList = ({
   searchResults,
@@ -17,31 +14,13 @@ const GlobalSearchBarList = ({
           No results
         </p>
       )}
-      {searchResults.map((result) => {
-        const IconComponent =
-          resultInfo.find((info) => info.title === result.type)?.icon ||
-          FillIcon.Post;
-        const url = resultInfo.find((info) => info.title === result.type)?.url;
-
-        return (
-          <Link
-            href={`${url}/${result.id}`}
-            key={result.id}
-            className="flex w-full cursor-pointer gap-2.5 px-4 py-3 hover:bg-light-2 dark:hover:bg-dark-4"
-            onClick={() => handleClose()}
-          >
-            <IconComponent className="h-4 w-4 shrink-0 fill-sc-3 dark:fill-sc-4" />
-            <li className="flex flex-col">
-              <p className="text-xs font-bold text-sc-2 dark:text-light">
-                {result.title}
-              </p>
-              <span className="text-[10px] font-semibold text-light-4">
-                {result.type}
-              </span>
-            </li>
-          </Link>
-        );
-      })}
+      {searchResults.map((result) => (
+        <SearchResultItem
+          key={result.id}
+          result={result}
+          handleClose={handleClose}
+        />
+      ))}
       {showButton && (
         <button
           className="semibold-12 flex-center my-2 h-[1.625rem] shrink-0 self-center rounded-full bg-red-90 px-5 text-light"

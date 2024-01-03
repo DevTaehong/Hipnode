@@ -40,3 +40,19 @@ export interface NavbarContentProps {
   currentUserId: number;
   lastChecked?: Date | null;
 }
+
+export interface SearchResultItemProps {
+  result: PostResult;
+  handleClose: () => void;
+}
+
+export interface SearchTypeHeaderProps {
+  state: SearchBarState;
+  handleHeadingClick: (heading: string) => void;
+}
+
+export interface SearchResultListProps {
+  state: SearchBarState;
+  handleClose: () => void;
+  loadMore: () => void;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, KeyboardEvent } from "react";
 import { IoClose } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 
@@ -10,9 +10,7 @@ import {
   getAllSearchBarResults,
 } from "@/lib/actions/search-bar.actions";
 import { SearchBarProps, SearchBarResults } from "@/types/searchbar.index";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
-import { searchHeadings } from "@/constants/search-bar";
-import { GlobalSearchBarList } from ".";
+import { SearchTypeHeader, SearchResultList } from ".";
 
 const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
   const fetchSearchResults = async () => {
@@ -107,6 +105,16 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
     dispatch({ type: "HANDLE_OPEN" });
   };
 
+  const handleSearchTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: "SET_SEARCH_TEXT", payload: e.target.value });
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      fetchSearchResults();
+    }
+  };
+
   return (
     <div
       className={`${additionalStyles} z-20 -translate-y-2 items-center gap-2 rounded-lg bg-light-2 px-5 py-3 dark:bg-dark-4 lg:relative lg:mx-0 lg:flex lg:w-full lg:max-w-[27.5rem] lg:translate-y-0 lg:py-2`}
@@ -116,69 +124,27 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
         placeholder="Type here to search..."
         className="no-focus flex border-none bg-light-2 shadow-none outline-none dark:bg-dark-4 dark:text-white"
         value={state.searchText}
-        onChange={(e) =>
-          dispatch({ type: "SET_SEARCH_TEXT", payload: e.target.value })
-        }
+        onChange={handleSearchTextChange}
         onFocus={handleFocus}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            fetchSearchResults();
-          }
-        }}
+        onKeyDown={handleKeyDown}
       />
       <section
         className={`${
           state.showSearch ? "flex" : "hidden"
         } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light dark:bg-dark-2 lg:top-12 lg:max-h-[20rem]`}
       >
-        <header className="flex h-[3.75rem] gap-4 border-b border-sc-6 p-4 dark:border-dark-4">
-          <p className="semibold-14 text-dark-3 dark:text-light-2">Type:</p>
-          <div className="flex gap-2.5 overflow-x-scroll">
-            {searchHeadings.map((heading) => {
-              const isActive = heading === state.activeSearchType;
-              return (
-                <button
-                  key={heading}
-                  type="button"
-                  className={`semibold-9 flex-center h-[1.625rem] w-[3.75rem] shrink-0 cursor-pointer rounded-full ${
-                    isActive
-                      ? "bg-red-90 text-light"
-                      : "bg-sc-6 text-sc-2 hover:bg-red-90 hover:text-light dark:bg-dark-4 dark:text-white dark:hover:bg-red-90"
-                  }`}
-                  onClick={() => {
-                    handleHeadingClick(heading);
-                  }}
-                >
-                  {heading}
-                </button>
-              );
-            })}
-          </div>
-        </header>
-        {state.isLoading ? (
-          <div className="flex-center h-full w-full p-10">
-            <LoaderComponent isGlobalSearch />
-          </div>
-        ) : (
-          <div className="flex flex-col gap-4 overflow-auto py-5">
-            <p className="semibold-14 px-4 text-dark-3 dark:text-light-2">
-              Top Match:
-            </p>
-            <GlobalSearchBarList
-              searchResults={state.searchResults}
-              handleClose={handleClose}
-              loadMore={loadMore}
-              showButton={state.showButton}
-            />
-          </div>
-        )}
+        <SearchTypeHeader
+          state={state}
+          handleHeadingClick={handleHeadingClick}
+        />
+        <SearchResultList
+          state={state}
+          handleClose={handleClose}
+          loadMore={loadMore}
+        />
       </section>
 
-      <button
-        type="button"
-        className="flex"
-        onClick={() => fetchSearchResults()}
-      >
+      <button type="button" className="flex" onClick={fetchSearchResults}>
         <OutlineIcons.Search className="cursor-pointer stroke-sc-4" />
       </button>
       <button

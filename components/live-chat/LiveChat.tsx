@@ -41,7 +41,7 @@ const LiveChat = () => {
           chatroomId,
           chatroomUsers,
         });
-        if (response !== null && response && response.messages) {
+        if (response?.messages) {
           setMessages(response.messages);
         }
       } catch (error) {
