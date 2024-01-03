@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const NotFound = () => {
+const NotFound = ({ isErrorPage = false }: { isErrorPage?: boolean }) => {
+  const buttonText = isErrorPage
+    ? "Something went wrong"
+    : "404. Page was not found";
+
   return (
     <main className="flex-center h-screen w-screen">
       <div className="flex flex-col items-center gap-6">
@@ -69,12 +73,12 @@ const NotFound = () => {
             .
           </motion.p>
         </div>
-        <p className="text-3xl text-sc-4">Something went wrong</p>
+        <p className="text-3xl text-sc-4">{buttonText}</p>
         <Link
           href="/"
           className="rounded bg-red-80 px-4 py-2 text-xl font-semibold text-white"
         >
-          Go home
+          Let&apos;s go home
         </Link>
       </div>
     </main>
