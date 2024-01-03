@@ -146,6 +146,7 @@ export interface CommentHeaderProps {
   username: string;
   createdAt: Date;
   isEdited: boolean;
+  totalLikes: number;
 }
 
 // TYPES FOR post.action
@@ -423,4 +424,11 @@ export type EmailFormProps = {
 export interface HipnodeReportProps {
   currentUrl: string;
   selectedComplaintTag: string;
+}
+export interface ChildCommentsProps {
+  childComments: CommentAuthorProps[];
+  depth: number;
+  isLastComment: boolean;
+  postComments: Record<string, CommentAuthorProps[]>;
+  postHeading?: string;
 }
