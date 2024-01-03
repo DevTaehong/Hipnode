@@ -8,7 +8,7 @@ import { AudioPlayerImageProps } from "@/types/podcast.index";
 const AudioPlayerImage = ({ imageSrc, podcastId }: AudioPlayerImageProps) => {
   const { podcast, isPlaying } = usePodcastStore();
 
-  const podcastIsCurrentlyPlaying = podcastId === podcast?.id && isPlaying;
+  const podcastIsCurrentlyPlaying = isPlaying && podcastId === podcast?.id;
 
   const recordStyles = podcastIsCurrentlyPlaying
     ? "md:-translate-x-8 -translate-x-2.5"
@@ -26,7 +26,7 @@ const AudioPlayerImage = ({ imageSrc, podcastId }: AudioPlayerImageProps) => {
         />
       </div>
       <div
-        className={`${recordStyles} flex h-[2.5rem] w-[2.5rem] shrink-0 -translate-x-2.5 self-center transition duration-300 md:h-[8.125rem] md:w-[8.125rem] md:-translate-x-8`}
+        className={`${recordStyles} flex h-[2.5rem] w-[2.5rem] shrink-0  self-center transition duration-300 md:h-[8.125rem] md:w-[8.125rem]`}
       >
         <Image
           src="/record.png"
