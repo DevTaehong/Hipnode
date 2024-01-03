@@ -179,11 +179,11 @@
   }
 
   .clerk-modal-background {
-    @apply flex w-full justify-center py-8 dark:bg-dark-1 md:w-1/2 md:py-20;
+    @apply flex w-full justify-center py-8 dark:bg-dark-3 md:w-1/2 md:py-20;
   }
 
   .clerk-modal-container {
-    @apply relative flex h-fit w-full max-w-[32rem] md:max-w-[32rem];
+    @apply relative dark:bg-dark-3 flex h-fit w-full max-w-[32rem] md:max-w-[32rem];
   }
 
   .clerk-modal-logo {
