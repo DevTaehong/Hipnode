@@ -4,7 +4,7 @@ import { IoPause } from "react-icons/io5";
 import { PodcastBarPlayButtonProps } from "@/types/podcast.index";
 
 const renderIcon = (isPlaying: boolean) => (
-  <p className="fill-sc-1 text-lg dark:fill-white md:text-2xl">
+  <p className="text-lg text-sc-1 dark:text-white md:text-2xl">
     {isPlaying ? <IoPause /> : <IoIosPlay />}
   </p>
 );
