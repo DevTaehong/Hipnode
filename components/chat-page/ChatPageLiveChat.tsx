@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
 
-import { loadMessages, useDropzoneHandler } from "../live-chat";
+import { loadMessages, useDropzoneHandler } from "../../utils/chat-functions";
 import { ChatMessage } from "@/types/chatroom.index";
 import { ChatBoxHeader, ChatPageMessageList } from ".";
 import HoverScreen from "../live-chat/HoverScreen";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { ChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import ChatPageInput from "./ChatPageInput";
 import useChatStore from "@/app/chatStore";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
+import { LoaderComponent } from "../onboarding-components";
 
 const ChatPageLiveChat = () => {
   const {
@@ -59,7 +59,7 @@ const ChatPageLiveChat = () => {
           chatroomId,
           chatroomUsers,
         });
-        if (response) {
+        if (response?.messages) {
           setMessages(response.messages);
           setIsLoading(false);
         }

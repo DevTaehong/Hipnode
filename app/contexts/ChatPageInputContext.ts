@@ -1,7 +1,8 @@
 "use client";
 
-import { ChatPageInputContextType } from "@/types/chatroom.index";
 import { createContext, useContext } from "react";
+
+import { ChatPageInputContextType } from "@/types/chatroom.index";
 
 export const ChatPageInputContext = createContext<
   ChatPageInputContextType | undefined

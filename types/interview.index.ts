@@ -58,6 +58,7 @@ export interface InterviewHeaderProps {
   date: Date;
   id: number;
   userCanEditMedia?: boolean;
+  creatorId: number;
 }
 
 interface InterviewData {

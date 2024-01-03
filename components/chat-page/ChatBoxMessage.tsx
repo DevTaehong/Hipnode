@@ -2,14 +2,14 @@ import { useState, ChangeEvent } from "react";
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 
-import MessageAttachment from "../live-chat/MessageAttachment";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import { formatChatBoxDate } from "@/utils";
-import { handleDeleteClick, handleEditClick, isOnlyEmoji } from "../live-chat";
+import { handleDeleteClick, handleEditClick } from "../../utils/chat-functions";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
-import EditDeleteButton from "./EditDeleteButton";
-import MessageContent from "./MessageContent";
+import { EditDeleteButton, MessageContent } from ".";
+import { MessageAttachment } from "../live-chat";
+import { isOnlyEmoji } from "@/utils/chat-page-styling";
 
 const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const { setMessages } = useChatPageContext();

@@ -6,11 +6,10 @@ import { useInView } from "react-intersection-observer";
 
 import { extractArray } from "@/utils";
 import { getFilteredMeetups } from "@/lib/actions/meetup.actions";
-import BoxShading from "../interview-components/BoxShading";
-import SeeMoreButton from "../interview-components/SeeMoreButton";
-import MeetupsCard from "./MeetupsCard";
 import { MeetUpExtended, MeetupsPageProps } from "@/types/meetups.index";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
+import { BoxShading, SeeMoreButton } from "../interview-components";
+import { MeetupsCard } from ".";
+import { LoaderComponent } from "../onboarding-components";
 
 const MeetupPageFilter = ({
   loading,
