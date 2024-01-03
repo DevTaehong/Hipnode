@@ -1,4 +1,4 @@
-import React, {
+import {
   ChangeEvent,
   FormEvent,
   useEffect,
@@ -17,7 +17,7 @@ import {
   API_RESULT,
   liveChatSubmission,
   userTypingChange,
-} from "./chat-functions";
+} from "../../utils/chat-functions";
 import { adjustHeight } from "@/utils";
 import { AttachmentPreview, LiveChatInput } from ".";
 

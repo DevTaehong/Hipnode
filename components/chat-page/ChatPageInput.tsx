@@ -19,7 +19,7 @@ import {
   API_RESULT,
   liveChatSubmission,
   userTypingChange,
-} from "../live-chat/chat-functions";
+} from "../../utils/chat-functions";
 
 const ChatPageInput = () => {
   const { chatroomId } = useChatStore();

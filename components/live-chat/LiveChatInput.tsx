@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
-import { handleEmojiSelect } from "./chat-functions";
 import OutlineIcon from "../icons/outline-icons";
 import { EmojiData, LiveChatInputProps } from "@/types/chatroom.index";
 import { ChatAudioRecorder } from "../chat-page";
+import { handleEmojiSelect } from "@/utils/chat-page-styling";
 
 const LiveChatInput = ({
   open,

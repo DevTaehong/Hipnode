@@ -5,14 +5,11 @@ import { useInView } from "react-intersection-observer";
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
 import { formatChatBoxDate } from "@/utils";
-import {
-  handleDeleteClick,
-  handleEditClick,
-  isOnlyEmoji,
-} from "../live-chat/chat-functions";
+import { handleDeleteClick, handleEditClick } from "../../utils/chat-functions";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import { EditDeleteButton, MessageContent } from ".";
 import { MessageAttachment } from "../live-chat";
+import { isOnlyEmoji } from "@/utils/chat-page-styling";
 
 const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
   const { setMessages } = useChatPageContext();

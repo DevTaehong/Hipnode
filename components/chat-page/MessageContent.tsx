@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { MessageContentProps } from "@/types/chatroom.index";
+import { LinkPreview } from ".";
 import {
   extractUrls,
   formatTextWithLineBreaks,
-} from "../live-chat/chat-functions";
-import { MessageContentProps } from "@/types/chatroom.index";
-import { LinkPreview } from ".";
+} from "@/utils/chat-page-styling";
 
 const MessageContent = ({
   additionalStyles,

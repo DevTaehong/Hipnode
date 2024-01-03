@@ -7,10 +7,10 @@ import OutlineIcon from "../icons/outline-icons";
 import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { useChatPageContext } from "@/app/contexts/ChatPageContext";
 import { ChatBoxInputContentProps, EmojiData } from "@/types/chatroom.index";
-import { handleEmojiSelect } from "../live-chat/chat-functions";
 import { useToast } from "../ui/use-toast";
 import { ChatAudioRecorder } from ".";
 import { AttachmentPreview } from "../live-chat";
+import { handleEmojiSelect } from "@/utils/chat-page-styling";
 
 const ChatBoxInputContent = ({
   messageText,

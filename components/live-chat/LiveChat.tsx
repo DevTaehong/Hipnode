@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 import useChatStore from "@/app/chatStore";
 import { ChatMessage } from "@/types/chatroom.index";
-import { loadMessages, useDropzoneHandler } from "./chat-functions";
+import { loadMessages, useDropzoneHandler } from "../../utils/chat-functions";
 import { HoverScreen, LiveChatMessageList, LiveChatForm } from ".";
 
 const LiveChat = () => {
@@ -41,7 +41,7 @@ const LiveChat = () => {
           chatroomId,
           chatroomUsers,
         });
-        if (response) {
+        if (response !== null && response && response.messages) {
           setMessages(response.messages);
         }
       } catch (error) {

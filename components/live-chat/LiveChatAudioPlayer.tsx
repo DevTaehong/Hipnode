@@ -6,7 +6,7 @@ import { formatTime } from "@/utils";
 import { LiveChatAudioPlayerProps } from "@/types/chatroom.index";
 import usePodcastStore from "@/app/podcastStore";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
-import { findAudioDuration } from "./chat-functions";
+import { findAudioDuration } from "../../utils/chat-functions";
 import { AudioPlayerLoader, LiveChatAudioPlayerAnimation } from ".";
 
 const LiveChatAudioPlayer = ({

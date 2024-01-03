@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useChannel } from "ably/react";
 
-import { loadMessages, useDropzoneHandler } from "../live-chat/chat-functions";
+import { loadMessages, useDropzoneHandler } from "../../utils/chat-functions";
 import { ChatMessage } from "@/types/chatroom.index";
 import { ChatBoxHeader, ChatPageMessageList } from ".";
 import HoverScreen from "../live-chat/HoverScreen";
@@ -59,7 +59,7 @@ const ChatPageLiveChat = () => {
           chatroomId,
           chatroomUsers,
         });
-        if (response) {
+        if (response !== null && response !== undefined && response.messages) {
           setMessages(response.messages);
           setIsLoading(false);
         }

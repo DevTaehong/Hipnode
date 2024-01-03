@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { LinkPreviewProps, LinkPreviewMetadata } from "@/types/chatroom.index";
 import { fetchMetadataServer } from "./fetchMetadata";
-import { getStyling } from "../live-chat/chat-functions";
+import { getStyling } from "@/utils/chat-page-styling";
 
 const LinkPreview = memo(({ url, smallChatBox = false }: LinkPreviewProps) => {
   const { outerDivStyles, imageDivStyles, imageStyles } = useMemo(() => {

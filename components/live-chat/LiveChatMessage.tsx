@@ -5,16 +5,15 @@ import { useInView } from "react-intersection-observer";
 import { v4 as uuidv4 } from "uuid";
 
 import useChatStore from "@/app/chatStore";
-import {
-  isOnlyEmoji,
-  extractUrls,
-  formatTextWithLineBreaks,
-  handleEditClick,
-  handleDeleteClick,
-} from "./chat-functions";
+import { handleEditClick, handleDeleteClick } from "../../utils/chat-functions";
 import { LiveChatMessageProps } from "@/types/chatroom.index";
 import { EditDeleteButton, LinkPreview } from "../chat-page";
 import { MessageAttachment } from ".";
+import {
+  extractUrls,
+  isOnlyEmoji,
+  formatTextWithLineBreaks,
+} from "@/utils/chat-page-styling";
 
 const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
   const { chatroomUsers } = useChatStore();
