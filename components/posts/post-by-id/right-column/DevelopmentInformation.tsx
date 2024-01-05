@@ -10,7 +10,7 @@ const DevelopmentInformation = ({ devInfo }: DevelopmentInfoProps) => {
             <h3 className="text-[0.75rem] leading-[1.125rem] text-sc-2 dark:text-light-2">
               {item.heading}
             </h3>
-            <p className="text-[1rem] leading-[1.625rem] text-sc-3">
+            <p className="text-base leading-[1.625rem] text-sc-3">
               {item.tags.map((tag) => `#${tag}`).join(" ")}
             </p>
           </div>

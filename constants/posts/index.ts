@@ -1,5 +1,15 @@
 /* eslint-disable no-unused-vars */
 
+import CommentIcon from "@/components/icons/fill-icons/CommentIcon";
+import { OrangeHeartIcon } from "@/components/icons/open-post-icons/PostIcons";
+import OutlineIcon from "@/components/icons/outline-icons";
+import {
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  EmailShareButton,
+  LinkedinShareButton,
+} from "react-share";
 import * as z from "zod";
 
 export enum POST_TYPE {
@@ -188,3 +198,41 @@ export const meetupInputFields = createInputFields([
     type: "text",
   },
 ]);
+
+export const chatIcon = {
+  label: "Chat",
+  icon: OutlineIcon.Comment,
+};
+
+export const moreIcon = {
+  label: "More",
+  icon: OutlineIcon.Share2,
+};
+
+export const shareIcons = [
+  {
+    wrapper: FacebookShareButton,
+    label: "Facebook",
+    icon: OutlineIcon.Facebook,
+  },
+  {
+    wrapper: TelegramShareButton,
+    label: "Telegram",
+    icon: OutlineIcon.Instagram,
+  },
+  {
+    wrapper: TwitterShareButton,
+    label: "Twitter",
+    icon: OutlineIcon.Twitter,
+  },
+  {
+    wrapper: EmailShareButton,
+    label: "Email",
+    icon: OutlineIcon.Mention,
+  },
+  {
+    wrapper: LinkedinShareButton,
+    label: "LinkedIn",
+    icon: OutlineIcon.LinkedIn,
+  },
+];

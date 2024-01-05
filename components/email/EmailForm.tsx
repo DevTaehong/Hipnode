@@ -22,20 +22,19 @@ const EmailForm = ({ currentUrl, setOpen, author }: EmailFormProps) => {
       return;
     }
     const res = await sendEmail({ selectedComplaintTag, currentUrl });
-    if (res) {
-      toast({
-        title: "Email sent Successfully",
-        variant: "formFieldsFill",
-      });
-    }
+    res
+      ? toast({
+          title: "Email sent Successfully",
+          variant: "formFieldsFill",
+        })
+      : toast({
+          title: "Oops! Something went wrong. Please try again later.",
+          variant: "destructive",
+        });
   };
 
   const handleTagClick = (tag: string) => {
-    if (selectedComplaintTag === tag) {
-      setSelectedComplaintTag("");
-    } else {
-      setSelectedComplaintTag(tag);
-    }
+    setSelectedComplaintTag((prevTag) => (prevTag === tag ? "" : tag));
   };
 
   return (

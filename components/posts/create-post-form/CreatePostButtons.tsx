@@ -9,12 +9,12 @@ const CreatePostButtons = ({ mediaId }: CreatePostButtonsProps) => (
     <CustomButton
       type="submit"
       label={mediaId ? "Update" : "Publish"}
-      className="h-fit rounded-md bg-blue px-[2.5rem] py-[0.625rem] text-[0.875rem] text-blue-10 md:text-[1rem] md:leading-[1.5rem]"
+      className="rounded-md bg-blue px-[2.5rem] py-[0.625rem] text-[0.875rem] text-blue-10 md:text-base md:leading-6"
     />
     <CustomButton
       type="button"
       label="Cancel"
-      className="h-fit rounded-md bg-dark-3 px-3 py-[0.625rem] text-[0.875rem] text-sc-3 md:text-[1rem] md:leading-[1.5rem]"
+      className="rounded-md bg-dark-3 px-[2.5rem] py-[0.625rem] text-[0.875rem] text-sc-3 md:text-base md:leading-6"
     />
   </div>
 );

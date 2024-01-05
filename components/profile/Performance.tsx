@@ -8,7 +8,7 @@ const Performance = ({ data }: PerformanceProps) => {
       <h4 className="text-[1.125rem] font-semibold leading-[1.625rem] text-sc-1 dark:text-light">
         Performance
       </h4>
-      <p className="text-[1rem] leading-[1.5rem] text-sc-3 dark:text-sc-6">
+      <p className="text-base leading-6 text-sc-3 dark:text-sc-6">
         Showing data from the last 30 days
       </p>
 

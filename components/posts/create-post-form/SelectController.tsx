@@ -83,7 +83,7 @@ const SelectController = ({
                         className={`flex items-center text-[0.563rem] sm:text-[0.875rem] md:leading-[1.375rem] ${
                           option.icon
                             ? "ml-2"
-                            : `text-[1rem] font-semibold capitalize leading-[1.5rem] ${
+                            : `text-base font-semibold capitalize leading-6 ${
                                 selected ? "text-blue-80" : "dark:text-light-2"
                               }`
                         }`}

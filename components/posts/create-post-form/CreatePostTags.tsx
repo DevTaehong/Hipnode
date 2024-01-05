@@ -97,7 +97,7 @@ const CreatePostTags = ({ control, form, contentType }: FromFieldProps) => {
                         >
                           <Delete className="h-[1rem] w-[1.5rem]" />
                         </button>
-                        <Badge className="flex items-center justify-center  rounded-md border-none  text-[1rem] capitalize leading-[1.5rem] text-yellow-90">
+                        <Badge className="flex items-center justify-center  rounded-md border-none  text-base capitalize leading-6 text-yellow-90">
                           #{tag}
                         </Badge>
                       </div>
@@ -107,7 +107,7 @@ const CreatePostTags = ({ control, form, contentType }: FromFieldProps) => {
                 <Input
                   placeholder="Add a tag..."
                   type="text"
-                  className="rounded-lg border border-light-2 bg-light px-[1.25rem] py-[0.75rem] text-[1rem] outline-none dark:border-dark-4 dark:bg-dark-3 dark:text-light-2"
+                  className="rounded-lg border border-light-2 bg-light px-[1.25rem] py-[0.75rem] text-base outline-none dark:border-dark-4 dark:bg-dark-3 dark:text-light-2"
                   onKeyDown={(e) => handleInputKeyDown(e, field)}
                 />
               </>

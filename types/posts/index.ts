@@ -14,6 +14,13 @@ import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
 import { Suggestion } from "use-places-autocomplete";
 import { StaticImageData } from "next/image";
+import {
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  EmailShareButton,
+} from "react-share";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -249,6 +256,7 @@ export type LeftActionBarProps = {
     commentsCount: number;
     sharesCount?: number;
   };
+  author: string;
 };
 
 export type GetActionBarDataProps = {
@@ -406,6 +414,37 @@ export type SidebarItemProps = {
   peopleFollowed: number;
 };
 
+export type IconComponentType = React.FC<{ className?: string }>;
+
+export type ShareWrapperType =
+  | typeof FacebookShareButton
+  | typeof TelegramShareButton
+  | typeof TwitterShareButton
+  | typeof LinkedinShareButton
+  | typeof EmailShareButton;
+
+export interface ShareIconProps {
+  label: string;
+  icon: IconComponentType;
+  wrapper?: ShareWrapperType;
+}
+
+export interface ShareIconComponentProps {
+  icon: ShareIconProps;
+  hoveredIcon: string;
+  setHoveredIcon: (iconLabel: string) => void;
+}
+
+export type EmailFormProps = {
+  currentUrl: string;
+  setOpen: (open: boolean) => void;
+  author: string;
+};
+
+export interface HipnodeReportProps {
+  currentUrl: string;
+  selectedComplaintTag: string;
+}
 export type PreviewProps = {
   previewValues: PostFormValuesType | null;
 };
@@ -423,7 +462,7 @@ export type PodcastImagePreviewProps = {
   previewValues: PostFormValuesType | null;
   username: string;
   imagePreviewUrl: string | null;
-}
+};
 
 export type FormLinkType = {
   title: string;
@@ -440,6 +479,22 @@ export interface ChildCommentsProps {
   postHeading?: string;
 }
 
+export type EmailData = {
+  selectedComplaintTag: string;
+  currentUrl: string;
+};
+
+export type ShareIconsSectionProps = {
+  icons: ShareIconProps[];
+  hoveredIcon: string;
+  setHoveredIcon: (icon: string) => void;
+  currentUrl: string;
+};
+
+export type ShareUrlLinkProps = {
+  currentUrl: string;
+  handleCopyClick: () => void;
+};
 export interface CreatePostContextType {
   imagePreviewUrl: string | null;
   setImagePreviewUrl: Dispatch<SetStateAction<string | null>>;
