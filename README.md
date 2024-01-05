@@ -121,7 +121,7 @@ Cohort5_AlgoAlliance_Hipnode is an innovative social media platform featuring po
 
 #### Main Tasks
 
-- **Database Setup**: Implemented the setup of PostgreSQL using Prisma ORM. Developed the database models based on the provided Figma diagrams to ensure a robust data structure. Created functions for seeding of DB.
+- **Database Setup**: Implemented the setup of PostgreSQL using Prisma ORM. Developed the database models based on the provided Figma diagrams to ensure a robust data structure. Created functions and seeded DB using Faker.
 - **Rich Text Editor**: Created a sophisticated rich text editor utilizing the Lexical framework, enhancing the user interface for content creation.
 - **Home Page Layout and interactivity**: Responsible for the layout and presentation of the home page, contributing to an intuitive and user-friendly experience.
 - **Comments Section Layout and interactivity**: Responsible for the comments section, which allows users to comment on posts and also accepts replies to comments.
@@ -129,7 +129,19 @@ Cohort5_AlgoAlliance_Hipnode is an innovative social media platform featuring po
 - **Component Creation**: Translated Figma diagrams into requisite React components, ensuring a seamless alignment between design and functionality.
 - **Component Styling and Animation**: Leveraging Tailwind CSS and Framer Motion to satisfy Figma requirements and add subtle animation.
 
-- **Author2** - [Profile](https://github.com/AlexDjangoX)
+### Glen McCallum - Software Developer
+
+[GitHub Profile](https://github.com/glenmac90)
+
+#### Main Tasks
+
+- **Page, Component, and Functionality Development**: Led the development of pages and components for meetups, podcasts, and interviews, adhering to Figma design specifications. Integrated key functionality within these components to enhance interactivity and user engagement. Ensured a polished and responsive user interface across all components.
+- **Authentication and User Onboarding**: Implemented user authentication using Clerk and designed a comprehensive onboarding sequence for new users, improving the user experience from the outset.
+- **Podcast Player Functionality**: Developed a versatile podcast player, allowing users to enjoy podcasts while browsing other site sections, thus adding a multitasking feature to the platform.
+- **Live Chat Feature**: Created an instant messaging feature, enabling real-time communication among users and contributing to a more interactive and connected user community.
+- **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
+- **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
+
 - **Author3** - [Profile](https://github.com/AlexDjangoX)
 - **Author4** - [Profile](https://github.com/AlexDjangoX)
 
