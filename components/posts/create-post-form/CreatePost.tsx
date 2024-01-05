@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { uploadImageToSupabase } from "@/utils/index";
 import {
   CoverImageUpload,
   CreatePostButtons,
@@ -26,13 +25,7 @@ import {
   GenericInput,
 } from ".";
 
-import {
-  CreatePostProps,
-  InterviewDataType,
-  MeetUpDataType,
-  PostDataType,
-  SelectionOptionsType,
-} from "@/types/posts/index";
+import { CreatePostProps } from "@/types/posts/index";
 import {
   POST_TYPE,
   PostFormDefaultValues,
@@ -43,11 +36,9 @@ import {
 } from "@/constants/posts";
 import { createPostWithTags, updatePost } from "@/lib/actions/post.action";
 
-import FillIcon from "@/components/icons/fill-icons";
 import PodcastUpload from "./PodcastUpload";
 import { createPodcast, updatePodcast } from "@/lib/actions/podcast.actions";
 import LiveChatAudioPlayer from "@/components/live-chat/LiveChatAudioPlayer";
-import { createShow } from "@/lib/actions/show.actions";
 import GroupPopover from "./GroupPopover";
 import {
   createMeetUpWithTags,
@@ -61,7 +52,7 @@ import {
 import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
 import { initialConfig } from "@/constants/lexical-editor";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { fetchAndSetFormData } from "./utils";
+import { SelectionOptions, fetchAndSetFormData, handleUpload } from "./utils";
 import FormLoader from "./FormLoader";
 import Location from "./Location";
 
@@ -69,13 +60,6 @@ const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
   { ssr: false }
 );
-
-const SelectionOptions: SelectionOptionsType = [
-  { label: "Post", icon: FillIcon.Post },
-  { label: "Meetup", icon: FillIcon.Calendar },
-  { label: "Podcast", icon: FillIcon.Podcasts },
-  { label: "Interview", icon: FillIcon.Interviews },
-];
 
 const CreatePost = ({
   shows,
@@ -104,33 +88,6 @@ const CreatePost = ({
     setPreviewValues,
     setClearEditor,
   } = useCreatePostContext();
-
-  const handleUpload = async () => {
-    let imagesFromSupabase, podcastURL;
-
-    if (imageToUpload) {
-      const imageBucket =
-        contentType === POST_TYPE.PODCAST ? "podcast-images" : "posts";
-      imagesFromSupabase = await uploadImageToSupabase(
-        imageToUpload,
-        imageBucket,
-        "images"
-      );
-
-      setValue("image", imagesFromSupabase?.mainImageURL || "");
-    }
-    if (contentType === POST_TYPE.PODCAST && podcastToUpload) {
-      await uploadImageToSupabase(podcastToUpload, "podcasts");
-    }
-
-    return {
-      mainImage: imagesFromSupabase?.mainImageURL || "",
-      blurImage: imagesFromSupabase?.blurImageURL || "",
-      podcastURL: podcastURL || "",
-      imageWidth: imagesFromSupabase?.imageWidth,
-      imageHeight: imagesFromSupabase?.imageHeight,
-    };
-  };
 
   const form = useForm<PostFormValuesType>({
     resolver: zodResolver(dynamicPostValidation),
@@ -183,124 +140,67 @@ const CreatePost = ({
     setPreviewValues(previewValues);
   };
 
-  const valueOfGroup = (data: PostFormValuesType) => {
-    const matchedGroup = groups.find((group) => group.label === data.group);
-
-    return matchedGroup ? matchedGroup.value : 0;
-  };
-
   const processForm: SubmitHandler<PostFormValuesType> = async (
     data: PostFormValuesType
   ) => {
     try {
       setIsLoading(true);
-
-      const { imageWidth, imageHeight, mainImage, blurImage } =
-        await handleUpload();
-
-      const {
-        websiteLink,
-        salary,
-        salaryPeriod,
-        updates,
+      const uploadedImage = await handleUpload(
+        imageToUpload,
+        podcastToUpload,
         contentType,
-        tags,
-        group,
-        show,
-        podcast,
-        contactEmail,
-        contactNumber,
-        location,
-        ...postData
-      } = data;
+        setValue
+      );
+
+      const imagePodcastPreviewUrl = {
+        imagePreviewUrl,
+        podcastPreviewUrl,
+      };
 
       switch (contentType) {
         case POST_TYPE.PODCAST: {
-          if (!show) {
-            console.error(
-              "Podcast & show are required for creating a podcast."
-            );
-            return;
-          }
-          let newShowId = null;
-          if (show.__isNew__) {
-            const newShow = await createShow({
-              name: show.label,
-            });
-            newShowId = newShow.id;
-          }
-          const podcastData = {
-            title: postData.heading,
-            details: postData.content,
-            image: imagePreviewUrl || mainImage || "",
-            url: podcastPreviewUrl || "",
-            showId: Number(newShowId) || Number(show.value),
-            contentType: POST_TYPE.PODCAST,
-          };
           if (mediaId) {
-            await updatePodcast(mediaId, {
-              ...podcastData,
-              showId: Number(newShowId) || Number(show.value),
-              url: podcastPreviewUrl || "",
-            });
+            await updatePodcast(mediaId, data);
           } else {
-            await createPodcast(podcastData);
+            await createPodcast(data);
           }
 
           break;
         }
         case POST_TYPE.POST: {
-          const postDataWithAuthor: PostDataType = {
-            ...postData,
-            groupId: valueOfGroup(data),
-            image: imagePreviewUrl || "",
-            contentType: POST_TYPE.POST,
-            blurImage: blurImage || "",
-            imageWidth: imageWidth || 0,
-            imageHeight: imageHeight || 0,
-          };
-
           if (mediaId) {
-            await updatePost(mediaId, postDataWithAuthor, tags ?? []);
+            await updatePost(
+              mediaId,
+              data,
+              imagePodcastPreviewUrl,
+              groups,
+              data.tags ?? []
+            );
           } else {
-            await createPostWithTags(postDataWithAuthor, tags ?? []);
+            await createPostWithTags(
+              data,
+              imagePodcastPreviewUrl,
+              uploadedImage,
+              groups,
+              data.tags ?? []
+            );
           }
           break;
         }
 
         case POST_TYPE.MEETUP: {
-          const meetupData: MeetUpDataType = {
-            contactEmail: contactEmail ?? "",
-            contactNumber: contactNumber ?? "",
-            image: imagePreviewUrl ?? "",
-            contentType: POST_TYPE.MEETUP,
-            location: location ?? "",
-            summary: postData.content,
-            title: postData.heading,
-          };
           if (mediaId) {
-            await updateMeetup(mediaId, meetupData, tags ?? []);
+            await updateMeetup(mediaId, data, data.tags ?? []);
           } else {
-            await createMeetUpWithTags(meetupData, tags ?? []);
+            await createMeetUpWithTags(data, data.tags ?? []);
           }
           break;
         }
         case POST_TYPE.INTERVIEW: {
-          const interviewData: InterviewDataType = {
-            title: postData.heading,
-            contentType: POST_TYPE.INTERVIEW,
-            bannerImage: imagePreviewUrl ?? "",
-            details: postData.content,
-            websiteLink: websiteLink ?? "",
-            salary: +(salary ?? 0),
-            salaryPeriod: salaryPeriod ?? "",
-            updates: +(updates ?? 0),
-          };
-
           if (mediaId) {
-            await updateInterview(mediaId, interviewData, tags ?? []);
+            await updateInterview(mediaId, data, data.tags ?? []);
           } else {
-            await createInterviewWithTags(interviewData, tags ?? []);
+            await createInterviewWithTags(data, data.tags ?? []);
           }
           break;
         }

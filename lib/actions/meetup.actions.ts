@@ -12,6 +12,7 @@ import {
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
 import { revalidatePath } from "next/cache";
+import { PostFormValuesType } from "@/constants/posts";
 import { MeetupWithTags } from "@/types/meetups.index";
 
 export async function getAllMeetUps(): Promise<MeetUp[]> {
@@ -60,13 +61,23 @@ async function handleMeetupTags(tagNames: string[]): Promise<{ id: number }[]> {
 }
 
 export async function createMeetUpWithTags(
-  meetupData: MeetUpDataType,
+  data: PostFormValuesType,
   tagNames: string[]
 ): Promise<MeetUp> {
   try {
     const { clerkId, userId } = await verifyAuth(
       "You must be logged in to create a meetup."
     );
+
+    const meetupData: MeetUpDataType = {
+      title: data.heading,
+      location: data.location ?? "",
+      contactEmail: data.contactEmail ?? "",
+      contactNumber: data.contactNumber ?? "",
+      image: data.image ?? "",
+      contentType: data.contentType,
+      summary: data.content,
+    };
 
     const allTagIdsToConnect = await handleMeetupTags(tagNames);
 
@@ -274,13 +285,24 @@ export async function getMeetupToEdit(
 
 export async function updateMeetup(
   id: number,
-  meetupData: MeetUpDataType,
+  data: PostFormValuesType,
   tagNames: string[]
 ): Promise<MeetUp> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to update a meetup."
     );
+
+    const meetupData: MeetUpDataType = {
+      title: data.heading,
+      location: data.location ?? "",
+      contactEmail: data.contactEmail ?? "",
+      contactNumber: data.contactNumber ?? "",
+      image: data.image ?? "",
+      contentType: data.contentType,
+      summary: data.content,
+    };
+
     const allTagIdsToConnect = await handleMeetupTags(tagNames);
 
     await prisma.$transaction(async (prisma) => {

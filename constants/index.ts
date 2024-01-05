@@ -5,6 +5,7 @@ import popular from "@/public/images/popular.png";
 import followers from "@/public/images/followers.png";
 
 import { ColorVariantsOnboardingType, GroupPromiseProps } from "@/types";
+import { SelectionOptionsType } from "@/types/posts";
 
 export const MAX_NOTIFICATIONS = 3;
 
@@ -529,3 +530,10 @@ export const meetupFormLinkProps = {
     link: "/",
   },
 };
+
+export const SelectionOptions: SelectionOptionsType = [
+  { label: "Post", icon: FillIcon.Post },
+  { label: "Meetup", icon: FillIcon.Calendar },
+  { label: "Podcast", icon: FillIcon.Podcasts },
+  { label: "Interview", icon: FillIcon.Interviews },
+];

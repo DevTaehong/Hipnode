@@ -206,6 +206,7 @@ export type ExtendedPrismaPost = {
   blurImage: string;
   imageHeight: number;
   imageWidth: number;
+  groupId?: number;
   userProfileId?: number;
   loggedInUserHasLikedPost: boolean;
 };
@@ -309,6 +310,7 @@ export type FilteredMeetupsResult = {
 export type InterviewDataType = {
   title: string;
   contentType: string;
+  clerkId?: string;
   bannerImage: string;
   details: string;
   websiteLink: string;
@@ -344,6 +346,18 @@ export type LocationProps = {
 export type SuggestionsListProps = {
   suggestions: Suggestion[];
   onSuggestionSelect: (suggestion: Suggestion) => () => void;
+};
+
+export type UploadedImageType = {
+  mainImage: string;
+  blurImage: string;
+  imageWidth: number | undefined;
+  imageHeight: number | undefined;
+};
+
+export type ImagePodcastPreviewUrlType = {
+  imagePreviewUrl: string | null;
+  podcastPreviewUrl: string | null;
 };
 
 export type LikeButtonProps = {
