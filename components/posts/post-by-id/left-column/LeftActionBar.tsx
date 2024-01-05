@@ -18,11 +18,14 @@ import {
   DialogContent,
   DialogClose,
 } from "@/components/ui/dialog";
-import OutlineIcon from "@/components/icons/outline-icons";
 import EmailForm from "@/components/email/EmailForm";
 import { chatIcon, moreIcon, shareIcons } from "@/constants/posts";
-import ShareIconComponent from "./ShareIconComponent";
-import IconBlock from "./IconBlock";
+import {
+  IconBlock,
+  ShareIconComponent,
+  ShareIconsSection,
+  ShareUrlLink,
+} from ".";
 
 const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
   const { toast } = useToast();
@@ -56,6 +59,8 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
 
   const currentUrl = window.location.href;
 
+  const iconsToDisplay = showMoreIcons ? shareIcons : shareIcons.slice(0, 4);
+
   return (
     <aside className="flex min-w-[13rem] flex-col justify-start space-y-[1.25rem] rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
       {iconData.map((iconBlock, index) => (
@@ -84,24 +89,12 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
                 setHoveredIcon={setHoveredIcon}
               />
             </Link>
-            {(showMoreIcons ? shareIcons : shareIcons.slice(0, 4)).map(
-              (icon) => {
-                const ShareWrapper = icon.wrapper;
-                return (
-                  <ShareWrapper
-                    key={icon.label}
-                    title={icon.label}
-                    url={currentUrl}
-                  >
-                    <ShareIconComponent
-                      icon={icon}
-                      hoveredIcon={hoveredIcon}
-                      setHoveredIcon={setHoveredIcon}
-                    />
-                  </ShareWrapper>
-                );
-              }
-            )}
+            <ShareIconsSection
+              icons={iconsToDisplay}
+              hoveredIcon={hoveredIcon}
+              setHoveredIcon={setHoveredIcon}
+              currentUrl={currentUrl}
+            />
             <div
               className="flex"
               onClick={() => setShowMoreIcons((prev) => !prev)}
@@ -113,19 +106,10 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
               />
             </div>
           </div>
-          <div className="flex flex-col items-center gap-3">
-            <p className="semibold-12 text-sc-3 dark:text-sc-4">
-              Or share with link
-            </p>
-            <div className="bg-light-2_dark-4 flex h-[3.3125rem] w-full items-center justify-between gap-7 rounded-2xl px-4">
-              <p className="semibold-14 line-clamp-1 text-sc-4 dark:text-sc-5">
-                {currentUrl}
-              </p>
-              <div className="flex cursor-pointer" onClick={handleCopyClick}>
-                <OutlineIcon.Copy />
-              </div>
-            </div>
-          </div>
+          <ShareUrlLink
+            currentUrl={currentUrl}
+            handleCopyClick={handleCopyClick}
+          />
         </DialogContent>
       </Dialog>
       <Dialog>

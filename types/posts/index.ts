@@ -437,3 +437,15 @@ export type EmailData = {
   selectedComplaintTag: string;
   currentUrl: string;
 };
+
+export type ShareIconsSectionProps = {
+  icons: ShareIconProps[];
+  hoveredIcon: string;
+  setHoveredIcon: (icon: string) => void;
+  currentUrl: string;
+};
+
+export type ShareUrlLinkProps = {
+  currentUrl: string;
+  handleCopyClick: () => void;
+};
