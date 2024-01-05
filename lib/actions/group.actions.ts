@@ -22,7 +22,6 @@ export async function leaveGroup(userId: number, groupId: number) {
         admins: true,
       },
     });
-
     if (!group) {
       throw new Error("Group not found");
     }

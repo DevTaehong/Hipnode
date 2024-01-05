@@ -5,7 +5,7 @@ interface CreatePostButtonsProps {
 }
 
 const CreatePostButtons = ({ mediaId }: CreatePostButtonsProps) => (
-  <div className="flex flex-row gap-4">
+  <div className="flex flex-row items-center gap-4">
     <CustomButton
       type="submit"
       label={mediaId ? "Update" : "Publish"}

@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { Interview } from "@prisma/client";
 import { InterviewDataType, InterviewTagType } from "@/types/posts";
 import { verifyAuth } from "../auth";
+import { PostFormValuesType } from "@/constants/posts";
 
 export async function getAllInterviews(): Promise<Interview[]> {
   try {
@@ -107,13 +108,25 @@ async function handleInterviewTags(tagNames: string[]): Promise<number[]> {
 }
 
 export async function createInterviewWithTags(
-  interviewData: InterviewDataType,
+  data: PostFormValuesType,
   tagNames: string[]
 ): Promise<Interview> {
   try {
     const { clerkId, userId } = await verifyAuth(
       "You must be logged in to create an interview."
     );
+
+    const interviewData: InterviewDataType = {
+      title: data.heading,
+      contentType: data.contentType,
+      clerkId,
+      bannerImage: data.image ?? "",
+      details: data.content,
+      websiteLink: data.websiteLink ?? "",
+      salary: Number(data.salary) || 0,
+      salaryPeriod: data.salaryPeriod ?? "",
+      updates: Number(data.updates) || 0,
+    };
 
     const interview = await prisma.interview.create({
       data: {
@@ -326,13 +339,25 @@ export async function getInterviewToEdit(
 
 export async function updateInterview(
   id: number,
-  interviewData: InterviewDataType,
+  data: PostFormValuesType,
   tagNames: string[]
 ): Promise<Interview> {
   try {
-    const { userId } = await verifyAuth(
+    const { clerkId, userId } = await verifyAuth(
       "You must be logged in to update an interview."
     );
+
+    const interviewData: InterviewDataType = {
+      title: data.heading,
+      contentType: data.contentType,
+      clerkId,
+      bannerImage: data.image ?? "",
+      details: data.content,
+      websiteLink: data.websiteLink ?? "",
+      salary: Number(data.salary) || 0,
+      salaryPeriod: data.salaryPeriod ?? "",
+      updates: Number(data.updates) || 0,
+    };
 
     const allTagIdsToConnect = await handleInterviewTags(tagNames);
     await prisma.$transaction(async (prisma) => {

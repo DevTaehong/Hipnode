@@ -1,3 +1,4 @@
+import { POST_TYPE } from "@/constants/posts";
 import {
   InterviewToEditType,
   getInterviewToEdit,
@@ -12,6 +13,7 @@ import {
 } from "@/lib/actions/podcast.actions";
 import { getPostToEditById } from "@/lib/actions/post.action";
 import { PostToEditByIdType } from "@/types/posts";
+import { uploadImageToSupabase } from "@/utils";
 
 const mediaTypeConfig = {
   post: {
@@ -95,4 +97,36 @@ export const fetchAndSetFormData = async ({
   setImagePreviewUrl(dataToEdit.image);
   setDefaultContent(dataToEdit.content);
   form.reset({ ...formFields });
+};
+
+export const handleUpload = async (
+  imageToUpload: File | null,
+  podcastToUpload: File | null,
+  contentType: string,
+  setValue: any
+) => {
+  let imagesFromSupabase, podcastURL;
+
+  if (imageToUpload) {
+    const imageBucket =
+      contentType === POST_TYPE.PODCAST ? "podcast-images" : "posts";
+    imagesFromSupabase = await uploadImageToSupabase(
+      imageToUpload,
+      imageBucket,
+      "images"
+    );
+
+    if (imagesFromSupabase) setValue("image", imagesFromSupabase.mainImageURL);
+  }
+  if (contentType === POST_TYPE.PODCAST && podcastToUpload) {
+    await uploadImageToSupabase(podcastToUpload, "podcasts");
+  }
+
+  return {
+    mainImage: imagesFromSupabase?.mainImageURL || "",
+    blurImage: imagesFromSupabase?.blurImageURL || "",
+    podcastURL: podcastURL || "",
+    imageWidth: imagesFromSupabase?.imageWidth,
+    imageHeight: imagesFromSupabase?.imageHeight,
+  };
 };

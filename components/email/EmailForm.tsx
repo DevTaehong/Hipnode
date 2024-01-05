@@ -68,6 +68,7 @@ const EmailForm = ({ currentUrl, setOpen, author }: EmailFormProps) => {
           <button
             onClick={handleSubmit}
             className="flex h-[2.875rem] w-40 items-center justify-center rounded-md bg-blue"
+            disabled={selectedComplaintTag === ""}
           >
             <p className="semibold-18 text-light">Submit</p>
           </button>

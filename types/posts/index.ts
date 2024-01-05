@@ -1,4 +1,10 @@
-import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  ComponentType,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+} from "react";
 
 import { Control, UseFormReturn } from "react-hook-form";
 import { Comment, Group, Post, Share, Tag, User } from "@prisma/client";
@@ -213,6 +219,7 @@ export type ExtendedPrismaPost = {
   blurImage: string;
   imageHeight: number;
   imageWidth: number;
+  groupId?: number;
   userProfileId?: number;
   loggedInUserHasLikedPost: boolean;
 };
@@ -317,6 +324,7 @@ export type FilteredMeetupsResult = {
 export type InterviewDataType = {
   title: string;
   contentType: string;
+  clerkId?: string;
   bannerImage: string;
   details: string;
   websiteLink: string;
@@ -352,6 +360,18 @@ export type LocationProps = {
 export type SuggestionsListProps = {
   suggestions: Suggestion[];
   onSuggestionSelect: (suggestion: Suggestion) => () => void;
+};
+
+export type UploadedImageType = {
+  mainImage: string;
+  blurImage: string;
+  imageWidth: number | undefined;
+  imageHeight: number | undefined;
+};
+
+export type ImagePodcastPreviewUrlType = {
+  imagePreviewUrl: string | null;
+  podcastPreviewUrl: string | null;
 };
 
 export type LikeButtonProps = {
@@ -425,6 +445,32 @@ export interface HipnodeReportProps {
   currentUrl: string;
   selectedComplaintTag: string;
 }
+export type PreviewProps = {
+  previewValues: PostFormValuesType | null;
+};
+
+export type PreviewInterviewProps = PreviewProps & {
+  interviewSalary?: string | null;
+};
+
+export type ImagePreviewProps = {
+  previewValues: PostFormValuesType | null;
+  imagePreviewUrl: string | null;
+};
+
+export type PodcastImagePreviewProps = {
+  previewValues: PostFormValuesType | null;
+  username: string;
+  imagePreviewUrl: string | null;
+};
+
+export type FormLinkType = {
+  title: string;
+  description: string;
+  linkToFormButtonTitle: string;
+  className?: string;
+};
+
 export interface ChildCommentsProps {
   childComments: CommentAuthorProps[];
   depth: number;
@@ -448,4 +494,18 @@ export type ShareIconsSectionProps = {
 export type ShareUrlLinkProps = {
   currentUrl: string;
   handleCopyClick: () => void;
+};
+export interface CreatePostContextType {
+  imagePreviewUrl: string | null;
+  setImagePreviewUrl: Dispatch<SetStateAction<string | null>>;
+  previewValues: PostFormValuesType | null;
+  setPreviewValues: Dispatch<SetStateAction<PostFormValuesType | null>>;
+  clearEditor: boolean;
+  setClearEditor: Dispatch<SetStateAction<boolean>>;
+  podcastPreviewUrl: string | null;
+  setPodcastPreviewUrl: Dispatch<SetStateAction<string | null>>;
+  username: string;
+}
+export type ModalTriggerProps = {
+  isCreateFormPage: boolean;
 };

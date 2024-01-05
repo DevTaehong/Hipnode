@@ -1,9 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { colorVariants } from "@/constants";
-
 import { getIconConfig } from "@/utils";
 
 type TagsProps = {
@@ -12,6 +11,7 @@ type TagsProps = {
 
 const PopularTags = ({ tagsData }: TagsProps) => {
   const router = useRouter();
+  const path = usePathname();
 
   const combinedTags = tagsData.map((tag) => ({
     ...tag,
@@ -19,9 +19,14 @@ const PopularTags = ({ tagsData }: TagsProps) => {
   }));
 
   const handleTagClick = (tagName: string) => {
-    router.push(`?tag=${tagName}`);
-  };
+    const hasQueryParams = path.includes("?");
 
+    const newPath = hasQueryParams
+      ? `${path}&tag=${tagName}`
+      : `${path}?tag=${tagName}`;
+
+    router.push(newPath);
+  };
   return (
     <aside className="flex h-fit w-full flex-col items-start justify-center rounded-2xl bg-light p-5 dark:bg-dark-3 lg:w-[13.125rem]">
       <h1 className="semibold-16 mb-5 text-sc-2 dark:text-light-2">
