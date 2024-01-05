@@ -289,7 +289,10 @@ const CreatePost = ({
             <>
               <div className="flex translate-y-[-0.625rem] items-center justify-center pb-3 pt-1">
                 {podcastPreviewUrl ? (
-                  <LiveChatAudioPlayer audioUrl={podcastPreviewUrl} />
+                  <LiveChatAudioPlayer
+                    audioUrl={podcastPreviewUrl}
+                    isMessageFromCurrentUser
+                  />
                 ) : (
                   <>
                     <h3 className=" text-light-2" />

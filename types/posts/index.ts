@@ -1,4 +1,10 @@
-import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  ComponentType,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+} from "react";
 
 import { Control, UseFormReturn } from "react-hook-form";
 import { Comment, Group, Post, Share, Tag, User } from "@prisma/client";
@@ -400,12 +406,32 @@ export type SidebarItemProps = {
   peopleFollowed: number;
 };
 
+export type PreviewProps = {
+  previewValues: PostFormValuesType | null;
+};
+
+export type PreviewInterviewProps = PreviewProps & {
+  interviewSalary?: string | null;
+};
+
+export type ImagePreviewProps = {
+  previewValues: PostFormValuesType | null;
+  imagePreviewUrl: string | null;
+};
+
+export type PodcastImagePreviewProps = {
+  previewValues: PostFormValuesType | null;
+  username: string;
+  imagePreviewUrl: string | null;
+}
+
 export type FormLinkType = {
   title: string;
   description: string;
   linkToFormButtonTitle: string;
   className?: string;
 };
+
 export interface ChildCommentsProps {
   childComments: CommentAuthorProps[];
   depth: number;
@@ -414,6 +440,17 @@ export interface ChildCommentsProps {
   postHeading?: string;
 }
 
+export interface CreatePostContextType {
+  imagePreviewUrl: string | null;
+  setImagePreviewUrl: Dispatch<SetStateAction<string | null>>;
+  previewValues: PostFormValuesType | null;
+  setPreviewValues: Dispatch<SetStateAction<PostFormValuesType | null>>;
+  clearEditor: boolean;
+  setClearEditor: Dispatch<SetStateAction<boolean>>;
+  podcastPreviewUrl: string | null;
+  setPodcastPreviewUrl: Dispatch<SetStateAction<string | null>>;
+  username: string;
+}
 export type ModalTriggerProps = {
   isCreateFormPage: boolean;
 };

@@ -236,8 +236,7 @@ export function formatInterviewDate(inputDate: Date): string {
 export function formatSalary(amount: number, salaryPeriod: string): string {
   const formattedSalary =
     amount >= 1000 ? `${(amount / 1000).toFixed(0)}k` : amount.toString();
-  const periodSuffix = salaryPeriod === "month" ? "/mo" : "/year";
-  return formattedSalary + periodSuffix;
+  return formattedSalary + "/" + salaryPeriod;
 }
 
 export function capitalise(str: string) {
