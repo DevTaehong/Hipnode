@@ -445,14 +445,7 @@ export const groupFormLinkProps = {
   title: "Create Group",
   description:
     "Create a community and unite with like-minded individuals. Embark on exciting journeys together.",
-  codeOfConductButton: {
-    title: "Code of Conduct",
-    link: "/",
-  },
-  linkToFormButton: {
-    title: "Create Group",
-    link: "/group/create-group",
-  },
+  linkToFormButtonTitle: "Create Group",
 };
 
 // Add real links once they're available
@@ -460,14 +453,7 @@ export const podcastFormLinkProps = {
   title: "Start your Podcast",
   description:
     "Working on your own internet business? We'd love to interview you!",
-  codeOfConductButton: {
-    title: "Code of Conduct",
-    link: "/",
-  },
-  linkToFormButton: {
-    title: "Submit a Podcast",
-    link: "/",
-  },
+  linkToFormButtonTitle: "Submit a Podcast",
 };
 
 export const profileFilters = [
@@ -521,13 +507,31 @@ export const meetupFormLinkProps = {
   title: "Host a Meetup",
   description:
     "Find other Hipnoders in your area so you can learn, share, and work together.",
-  codeOfConductButton: {
-    title: "Code of Conduct",
-    link: "/",
+  linkToFormButtonTitle: "Host a Meetup",
+};
+
+export const codeOfConduct = [
+  {
+    title: "Respect",
+    description: "Treat all users with kindness, respect, and empathy.",
   },
-  linkToFormButton: {
-    title: "Host a Meetup",
-    link: "/",
+  {
+    title: "No Harassment",
+    description: "Avoid harassment, bullying, or hate speech.",
+  },
+  {
+    title: "Privacy",
+    description:
+      "Respect others' privacy and don't share personal info without consent.",
+  },
+  {
+    title: "Inclusivity",
+    description: "Embrace diversity and promote an inclusive environment.",
+  },
+  {
+    title: "Report Abuse",
+    description:
+      "Report any abusive behavior to maintain a safe space for all.}",
   },
 };
 

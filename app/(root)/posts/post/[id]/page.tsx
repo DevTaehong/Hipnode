@@ -68,10 +68,8 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
               />
             </div>
             <div className="flex items-center justify-between">
-              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 lg:pb-[1.25rem] dark:text-light-2">
-                {heading}
-              </h1>
-              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 lg:pb-[1.25rem] dark:text-light-2">
+              <h1 className="action-popover pl-[4.8rem]">{heading}</h1>
+              <div className="action-popover pr-[2.8rem]">
                 {userCanEditMedia && (
                   <MediaEditActionPopover mediaId={postData.id} label="Post" />
                 )}

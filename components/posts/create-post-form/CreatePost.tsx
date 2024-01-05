@@ -55,6 +55,7 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { SelectionOptions, fetchAndSetFormData, handleUpload } from "./utils";
 import FormLoader from "./FormLoader";
 import Location from "./Location";
+import CodeOfConductModal from "@/components/code-of-conduct/CodeOfConductModal";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),
@@ -409,11 +410,10 @@ const CreatePost = ({
             </div>
           )}
 
-          <div className="flex justify-between pt-4">
+          <div className="flex flex-wrap justify-between gap-3 pt-4">
             <CreatePostButtons mediaId={mediaId} />
-            <p className="flex max-w-[8rem] items-center justify-center rounded-md p-2 text-[0.563rem] dark:bg-dark-4 dark:text-light-2 sm:mt-0 sm:text-[0.875rem] md:leading-[1.375rem]">
-              Code of Conduct
-            </p>
+
+            <CodeOfConductModal isCreateFormPage />
           </div>
         </form>
       </Form>

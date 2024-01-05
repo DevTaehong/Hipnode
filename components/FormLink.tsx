@@ -1,29 +1,14 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-
-type FormLinkButtonType = {
-  title: string;
-  link: string;
-};
-
-type FormLinkType = {
-  title: string;
-  description: string;
-  codeOfConductButton: FormLinkButtonType;
-  linkToFormButton: FormLinkButtonType;
-  className?: string;
-};
+import CodeOfConductModal from "./code-of-conduct/CodeOfConductModal";
+import { FormLinkType } from "@/types/posts";
 
 const FormLink = ({
   title,
   description,
-  codeOfConductButton,
-  linkToFormButton,
+  linkToFormButtonTitle,
   className,
 }: FormLinkType) => {
-  const buttons = [codeOfConductButton, linkToFormButton];
-  const buttonStyles = ["bg-red-60 text-red-10", "bg-white text-red-80"];
-
   return (
     <div
       className={cn(
@@ -34,18 +19,13 @@ const FormLink = ({
       <p className="semibold-18 text-white">{title}</p>
       <p className="base-12 mt-1.5 text-white">{description}</p>
       <div className="mt-5 flex w-full justify-between gap-5">
-        {buttons.map((button, index) => (
-          <Link
-            href={button.link}
-            key={button.title}
-            className={cn(
-              "semibold-14 flex-center w-full rounded py-2.5 hover:scale-105 transition duration-200",
-              buttonStyles[index]
-            )}
-          >
-            {button.title}
-          </Link>
-        ))}
+        <CodeOfConductModal />
+        <Link
+          href="/posts/create-post"
+          className="semibold-14 flex-center w-full rounded bg-white py-2.5 text-red-80 transition duration-200 hover:scale-105"
+        >
+          {linkToFormButtonTitle}
+        </Link>
       </div>
     </div>
   );

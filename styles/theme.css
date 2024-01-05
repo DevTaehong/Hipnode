@@ -247,6 +247,10 @@
     font-size: inherit;
     line-height: inherit;
   }
+
+  .action-popover {
+    @apply pb-[0.875rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem];
+  }
 }
 
 .notification_type-icon {

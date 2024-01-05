@@ -400,6 +400,12 @@ export type SidebarItemProps = {
   peopleFollowed: number;
 };
 
+export type FormLinkType = {
+  title: string;
+  description: string;
+  linkToFormButtonTitle: string;
+  className?: string;
+};
 export interface ChildCommentsProps {
   childComments: CommentAuthorProps[];
   depth: number;
@@ -407,3 +413,7 @@ export interface ChildCommentsProps {
   postComments: Record<string, CommentAuthorProps[]>;
   postHeading?: string;
 }
+
+export type ModalTriggerProps = {
+  isCreateFormPage: boolean;
+};
