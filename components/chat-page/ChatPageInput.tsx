@@ -15,7 +15,11 @@ import { useChatPageInputContext } from "@/app/contexts/ChatPageInputContext";
 import { adjustHeight } from "@/utils";
 import { UserTyping } from "@/types/chatroom.index";
 import ChatBoxInputContent from "./ChatBoxInputContent";
-import { API_RESULT, liveChatSubmission, userTypingChange } from "../live-chat";
+import {
+  API_RESULT,
+  liveChatSubmission,
+  userTypingChange,
+} from "../../utils/chat-functions";
 
 const ChatPageInput = () => {
   const { chatroomId } = useChatStore();

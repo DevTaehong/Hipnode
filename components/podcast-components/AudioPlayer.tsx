@@ -3,6 +3,7 @@ import { AudioPlayerImage, PodcastEpisodeInfo, PodcastPlayButton } from ".";
 
 const AudioPlayer = ({ podcast, url, podcastId }: AudioPlayerProps) => {
   const {
+    id,
     image,
     episodeNumber,
     user: { name: creatorName },
@@ -12,7 +13,7 @@ const AudioPlayer = ({ podcast, url, podcastId }: AudioPlayerProps) => {
 
   return (
     <section className="flex h-fit w-full justify-between gap-2 rounded-2xl bg-light p-3.5 dark:bg-dark-3 md:gap-0 md:p-5">
-      <AudioPlayerImage imageSrc={image} />
+      <AudioPlayerImage imageSrc={image} podcastId={id} />
 
       <div className="flex-1 flex-col">
         <PodcastEpisodeInfo

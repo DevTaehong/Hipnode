@@ -60,8 +60,8 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   }
 
   return (
-    <main className="bg-light-2_dark-2 -mt-16 flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[5.875rem]">
-      <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 lg:max-w-[85rem] lg:flex-row">
+    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pt-[6rem] lg:h-screen lg:pb-[2.3rem] lg:pt-[5.875rem]">
+      <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 overflow-hidden lg:sticky lg:max-w-[85rem] lg:flex-row">
         {podcastData && (
           <PodcastFilterAndContentWrapper
             listOfShows={listOfShows}
@@ -70,7 +70,7 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
           />
         )}
 
-        <section className="flex w-full lg:max-w-[20.3125rem]">
+        <section className="flex w-full lg:max-w-[20.3125rem] lg:overflow-hidden">
           <div className="flex w-full flex-col gap-5 overflow-scroll">
             <FormLink {...podcastFormLinkProps} className="hidden lg:flex" />
             <Meetups meetUps={meetups} />

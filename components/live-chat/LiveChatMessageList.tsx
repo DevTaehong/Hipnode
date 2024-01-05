@@ -6,9 +6,9 @@ import useChatStore from "@/app/chatStore";
 import { ChatMessage, LiveChatMessageListProps } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
-import LiveChatMessage from "./LiveChatMessage";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
+import { LiveChatMessage } from ".";
+import { LoaderComponent } from "../onboarding-components";
 
 const LiveChatMessageList = React.memo(
   ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
