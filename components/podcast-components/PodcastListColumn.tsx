@@ -1,5 +1,5 @@
-import PodcastCard from "./PodcastCard";
 import { PodcastListColumnType } from "@/types/podcast.index";
+import { PodcastCard } from ".";
 
 const PodcastListColumn = ({ podcasts }: PodcastListColumnType) => {
   return (

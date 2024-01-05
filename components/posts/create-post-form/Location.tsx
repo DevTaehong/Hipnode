@@ -7,7 +7,7 @@ const SuggestionsList = ({
   suggestions,
   onSuggestionSelect,
 }: SuggestionsListProps) => (
-  <ul className="absolute z-10 overflow-hidden shadow-md">
+  <ul className="absolute z-10 mt-1 h-fit max-h-[10rem] overflow-scroll shadow-md">
     {suggestions.map((suggestion) => {
       const {
         place_id: placeId,
@@ -19,7 +19,7 @@ const SuggestionsList = ({
 
       return (
         <li
-          className="relative cursor-pointer"
+          className="relative cursor-pointer p-2 hover:bg-light-2 dark:hover:bg-dark-4"
           key={placeId}
           onClick={onSuggestionSelect(suggestion)}
         >
@@ -55,7 +55,7 @@ const Location = ({ setValueHookForm }: LocationProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [clearSuggestions]);
+  }, []);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -68,7 +68,7 @@ const Location = ({ setValueHookForm }: LocationProps) => {
   };
 
   return (
-    <div className="w-full" ref={ref}>
+    <div className="relative w-full" ref={ref}>
       <label
         className="flex flex-col justify-start pb-2.5 text-[0.875rem] font-medium leading-none"
         htmlFor="location"

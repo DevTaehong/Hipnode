@@ -2,9 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import FillIcon from "../icons/fill-icons";
-import LiveChatAudioPlayer from "./LiveChatAudioPlayer";
 import { MessageAttachmentProps } from "@/types/chatroom.index";
-import LiveChatVideoPlayer from "./LiveChatVideoPlayer";
+import { LiveChatVideoPlayer, LiveChatAudioPlayer } from ".";
 
 const MessageAttachment = ({
   message,

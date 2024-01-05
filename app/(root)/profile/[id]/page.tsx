@@ -19,9 +19,9 @@ import {
 import { formatUserJoinedDate } from "@/lib/utils";
 
 import { ProfileResults } from "@/types";
-import { isMeetUpExtended, isPodcast, isInterview } from "@/utils/typeGuards";
-import { getAllPostsByUserId } from "@/lib/actions/post.action";
+import { isInterview, isMeetUpExtended, isPodcast } from "@/utils/typeGuards";
 import { PostCardList } from "@/components/home-page/post-card";
+import { getAllPostsByUserId } from "@/lib/actions/post.action";
 import { ExtendedPrismaPost } from "@/types/posts";
 
 const ProfilePage = async ({

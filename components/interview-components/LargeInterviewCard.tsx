@@ -1,7 +1,15 @@
+import dynamic from "next/dynamic";
+
 import { formatSalary } from "@/utils";
 import { InterviewBannerImage, InterviewCardInfo } from ".";
 import { LargeInterviewCardProps } from "@/types/interview.index";
-import SanatizedHtml from "../posts/post-by-id/main-content/SanatizedHtml";
+
+const SanatizedHtml = dynamic(
+  () => import("../posts/post-by-id/main-content/SanatizedHtml"),
+  {
+    ssr: false,
+  }
+);
 
 const LargeInterviewCard = ({
   interviewData,
@@ -27,9 +35,9 @@ const LargeInterviewCard = ({
         width={785}
         roundedTop
       />
-      <section className="flex">
+      <section className="flex w-full">
         <p className="regular-14 md:regular-18 pl-5 pt-8 text-sc-5">H1</p>
-        <div className="flex flex-col gap-3.5 p-5 text-sc-3 md:gap-5">
+        <div className="flex w-full flex-col gap-3.5 p-5 text-sc-3 md:gap-5">
           <h1 className="text-sc-2_light-2 semibold-16 sm:semibold-26">
             {title}
           </h1>

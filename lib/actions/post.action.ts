@@ -755,8 +755,9 @@ export async function sharePostAndCountShares(postId: number): Promise<number> {
 export async function toggleLikeComment(
   commentId: number,
   receiverId: number | undefined,
-  postHeading: string | undefined
-): Promise<void> {
+  postHeading: string | undefined,
+  path: string
+): Promise<{ liked: boolean; totalLikes: number }> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to toggle like on a comment.",
@@ -766,6 +767,7 @@ export async function toggleLikeComment(
     const existingLike = await prisma.like.findUnique({
       where: { userId_commentId: { userId, commentId } },
     });
+
     if (existingLike) {
       await prisma.like.delete({ where: { id: existingLike.id } });
 
@@ -802,6 +804,23 @@ export async function toggleLikeComment(
           }
         });
     }
+
+    const totalLikes = await prisma.like.count({
+      where: {
+        commentId,
+      },
+    });
+
+    await prisma.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        likeCount: totalLikes,
+      },
+    });
+    revalidatePath(path);
+    return { liked: !existingLike, totalLikes };
   } catch (error) {
     console.error("Error toggling like on comment:", error);
     throw error;

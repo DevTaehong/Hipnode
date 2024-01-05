@@ -1,5 +1,6 @@
-import { IPodcast } from "@/types/podcast.index";
 import { create } from "zustand";
+
+import { IPodcast } from "@/types/podcast.index";
 
 interface PodcastStore {
   isPlaying: boolean;

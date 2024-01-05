@@ -1,17 +1,21 @@
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+
 import {
   OnboardingSideScreen,
   Questionnaire,
 } from "@/components/onboarding-components";
 import { onboardingSideScreenInfo } from "@/constants";
-import { redirect } from "next/navigation";
+import { isLoggedInUserOnboarded } from "@/lib/actions/user.actions";
 
 const Page = async () => {
   const user = await currentUser();
-  if (!user) {
+
+  if (!user || (await isLoggedInUserOnboarded(user.id))) {
     redirect("/");
   }
-  const { id: userClerkId } = user;
+
+  const userClerkId = user.id;
 
   return (
     <main className="onboarding-page">

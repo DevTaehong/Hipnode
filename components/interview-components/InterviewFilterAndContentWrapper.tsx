@@ -5,7 +5,7 @@ import { useState } from "react";
 import { interviewFormLinkProps } from "@/constants/interview";
 import FormLink from "../FormLink";
 import { Categories } from "../podcast-components";
-import InterviewPageFilter from "./InterviewPageFilter";
+import { InterviewPageFilter } from ".";
 import { InterviewFilterAndContentWrapperProps } from "@/types/interview.index";
 
 const InterviewFilterAndContentWrapper = ({

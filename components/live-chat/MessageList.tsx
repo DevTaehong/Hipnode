@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import FillIcon from "../icons/fill-icons";
-import UsersToMessage from "./UsersToMessage";
 import { getAllUsers } from "@/lib/actions/user.actions";
 import { ChatProps } from "@/types/chatroom.index";
 import useChatStore from "@/app/chatStore";
@@ -10,6 +9,7 @@ import {
   getAllOnlineUserIds,
   recreateOnlineUser,
 } from "@/lib/actions/online-user.actions";
+import { UsersToMessage } from ".";
 
 const MessageList = () => {
   const { userInfo, setOnlineUsers } = useChatStore();

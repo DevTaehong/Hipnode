@@ -83,6 +83,7 @@ module.exports = {
           DEFAULT: "#FFFFFF",
           2: "#F7F7F7",
           3: "#F4F6F8",
+          4: "#7B8EC8",
         },
         dark: {
           1: "#151A1E",
