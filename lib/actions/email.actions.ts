@@ -3,10 +3,11 @@
 import { Resend } from "resend";
 
 import EmailTemplate from "@/components/email/email-templates";
+import { EmailData } from "@/types/posts";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendEmail(data: any) {
+export async function sendEmail(data: EmailData) {
   const { selectedComplaintTag, currentUrl } = data;
 
   if (data) {

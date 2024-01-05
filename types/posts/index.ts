@@ -432,3 +432,8 @@ export interface ChildCommentsProps {
   postComments: Record<string, CommentAuthorProps[]>;
   postHeading?: string;
 }
+
+export type EmailData = {
+  selectedComplaintTag: string;
+  currentUrl: string;
+};

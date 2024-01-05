@@ -117,7 +117,7 @@ const Comment = ({
               isEdited={isEdited}
               totalLikes={totalLikes}
             />
-            <div className="flex flex-wrap text-[1rem] leading-[1.5rem] text-sc-3">
+            <div className="flex flex-wrap text-base leading-6 text-sc-3">
               {content}
             </div>
             {isReplying && renderCommentForm(true, false)}

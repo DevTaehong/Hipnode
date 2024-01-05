@@ -29,7 +29,7 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
   const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  console.log(actionBarData);
+
   const iconData = useMemo(
     () => [
       {

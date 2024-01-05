@@ -74,7 +74,7 @@ em-emoji-picker #preview {
 }
 
 .geoapify-autocomplete-input {
-  @apply w-full bg-light-2 dark:bg-dark-4  dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-[1rem];
+  @apply w-full bg-light-2 dark:bg-dark-4  dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem] md:text-base;
 }
 
 .geoapify-autocomplete-items {
@@ -678,7 +678,6 @@ code {
 }
 
 @media (max-width: 40px) {
-
   /* or another appropriate breakpoint */
   .conditional-break-all {
     word-break: break-all;

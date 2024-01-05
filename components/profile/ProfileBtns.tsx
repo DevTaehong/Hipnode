@@ -7,7 +7,7 @@ const ProfileBtns = () => {
   return (
     <div className="mt-5 flex justify-center gap-2.5">
       <Button
-        className="bg-blue p-2.5 px-9 py-1 text-[1rem] font-semibold leading-[1.5rem] text-light"
+        className="bg-blue p-2.5 px-9 py-1 text-base font-semibold leading-6 text-light"
         onClick={() => {}}
       >
         Follow

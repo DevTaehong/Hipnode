@@ -28,7 +28,7 @@ const MediaEditActionPopover = dynamic(
 const PostPage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const postData = await getPostContentById(+id);
-  console.log(postData);
+
   const {
     author: { username, picture, id: authorId },
     createdAt,
@@ -51,8 +51,8 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             author={author.username}
           />
           <aside className="mb-[1.25rem] flex min-w-[13rem] flex-col justify-start rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
-            <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-3">
-              <span className="pr-[0.5rem] text-[1rem] font-semibold leading-[1.5rem] text-blue-80">
+            <p className="text-base font-semibold leading-6 text-sc-3">
+              <span className="pr-[0.5rem] text-base font-semibold leading-6 text-blue-80">
                 {username}
               </span>
               Posted on <span>{formattedDate}</span>
@@ -82,7 +82,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             </div>
 
             <TagsList tags={tags} />
-            <div className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-[1rem] leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
+            <div className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-base leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
               <SanatizedHtml content={content} />
             </div>
             <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
@@ -115,11 +115,11 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
               {username}
             </h2>
-            <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
+            <p className="mb-[1.25rem] flex justify-center text-base leading-6 text-sc-3">
               Web Developer
             </p>
             <Following authorId={authorId} isFollowing={isFollowing} />
-            <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
+            <p className="flex justify-center text-base leading-6 text-sc-3">
               {+calculatedDate > 0
                 ? `joined ${calculatedDate} months ago`
                 : "joined this month"}

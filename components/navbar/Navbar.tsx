@@ -59,7 +59,7 @@ const Navbar = async () => {
           <SignedOut>
             <Link
               href="/sign-up"
-              className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2"
+              className="text-base font-semibold leading-6 text-sc-2 dark:text-light-2"
             >
               Signup
             </Link>

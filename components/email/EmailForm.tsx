@@ -22,20 +22,19 @@ const EmailForm = ({ currentUrl, setOpen, author }: EmailFormProps) => {
       return;
     }
     const res = await sendEmail({ selectedComplaintTag, currentUrl });
-    if (res) {
-      toast({
-        title: "Email sent Successfully",
-        variant: "formFieldsFill",
-      });
-    }
+    res
+      ? toast({
+          title: "Email sent Successfully",
+          variant: "formFieldsFill",
+        })
+      : toast({
+          title: "Oops! Something went wrong. Please try again later.",
+          variant: "destructive",
+        });
   };
 
   const handleTagClick = (tag: string) => {
-    if (selectedComplaintTag === tag) {
-      setSelectedComplaintTag("");
-    } else {
-      setSelectedComplaintTag(tag);
-    }
+    setSelectedComplaintTag((prevTag) => (prevTag === tag ? "" : tag));
   };
 
   return (
@@ -52,13 +51,15 @@ const EmailForm = ({ currentUrl, setOpen, author }: EmailFormProps) => {
             ? "bg-red-80"
             : "bg-light-3_dark-3";
           return (
-            <div
+            <button
+              type="button"
+              aria-label={`Report tag ${tag}`}
               key={tag}
               className={`${bgColor} flex cursor-pointer rounded-full border border-sc-5 px-5 py-2.5 hover:bg-red-80 dark:border-sc-2`}
               onClick={() => handleTagClick(tag)}
             >
               <span className="text-sc-2_light-2 regular-12">{tag}</span>
-            </div>
+            </button>
           );
         })}
       </div>

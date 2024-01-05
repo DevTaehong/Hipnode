@@ -18,7 +18,7 @@ const GroupPopover = ({
     <Popover>
       <PopoverTrigger
         asChild
-        className="flex  justify-between border-none text-[1rem] text-blue-80 dark:bg-dark-4"
+        className="flex  justify-between border-none text-base text-blue-80 dark:bg-dark-4"
       >
         <div className="flex w-fit flex-row  rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
           <p

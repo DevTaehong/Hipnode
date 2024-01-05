@@ -21,7 +21,7 @@ const CommentHeader = ({
           <span className="px-2">•</span>
         </span>
         {isEdited && (
-          <p className="mt-1 text-[1rem] leading-[1.5rem] text-sc-2 dark:text-light-2 sm:mt-0">
+          <p className="mt-1 text-base leading-6 text-sc-2 dark:text-light-2 sm:mt-0">
             Edited
           </p>
         )}

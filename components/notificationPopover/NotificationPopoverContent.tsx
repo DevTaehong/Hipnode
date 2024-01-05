@@ -43,7 +43,7 @@ const NotificationPopoverContent = ({
         <section className="relative z-10 bg-light dark:bg-dark-4">
           <div className="flex flex-col gap-5 rounded-t-lg xl:gap-[1.875rem]">
             <div className="flex items-center justify-center gap-[3.9375rem] xl:gap-[13.9375rem]">
-              <h1 className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 xl:text-[1.625rem] xl:leading-[2.375rem]">
+              <h1 className="text-base font-semibold leading-6 text-sc-2 dark:text-light-2 xl:text-[1.625rem] xl:leading-[2.375rem]">
                 {unreadNotifications?.length} Notifications
               </h1>
               <MarkAllReadButton
@@ -78,7 +78,7 @@ const NotificationPopoverContent = ({
                   />
                 ))
             ) : (
-              <p className="mt-3 text-center text-[1rem] font-bold leading-[1.5rem] text-sc-2 dark:text-light-2 xl:mt-5 xl:text-[1.625rem] xl:leading-[2.375rem]">
+              <p className="mt-3 text-center text-base font-bold leading-6 text-sc-2 dark:text-light-2 xl:mt-5 xl:text-[1.625rem] xl:leading-[2.375rem]">
                 No Notifications{" "}
                 {selectedTab !== "all notification" && selectedTab
                   ? "For " +
