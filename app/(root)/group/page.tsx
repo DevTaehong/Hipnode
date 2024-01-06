@@ -24,10 +24,7 @@ const GroupPage = async () => {
 
   return (
     <div className="flex flex-col gap-y-5 p-5 lg:flex-row lg:gap-y-0 lg:p-0 lg:px-10 2xl:mx-auto 2xl:max-w-[90rem]">
-      <div
-        className="hidden lg:fixed lg:inset-y-0 lg:block lg:h-screen lg:overflow-y-auto 
-          lg:pb-[1.875rem] lg:pt-[6.875rem]"
-      >
+      <div className="group-page-left-sidebar">
         <GroupSection
           fastestGrowingGroupsPromise={getFastestGrowingGroups()}
           newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
@@ -53,11 +50,7 @@ const GroupPage = async () => {
         />
       </article>
 
-      <aside
-        className="mb-[5.5rem] flex flex-col gap-5 sm:flex-row md:mb-5 lg:fixed lg:inset-y-0 
-          lg:right-[max(2.5rem,calc(50%-42.5rem))] lg:h-screen lg:w-[20.3125rem] lg:flex-col 
-          lg:overflow-y-auto lg:px-0 lg:pb-[1.875rem] lg:pt-[6.875rem]"
-      >
+      <aside className="group-page-right-sidebar">
         <Meetups meetUps={meetups} />
         <Podcasts podcasts={podcasts} />
       </aside>
