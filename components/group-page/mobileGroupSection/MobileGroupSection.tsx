@@ -37,7 +37,7 @@ const MobileGroupSection = ({
   const selectedGroupHeader = groupHeaderData[groups as keyof GroupData];
 
   return (
-    <section className="block p-5 lg:hidden">
+    <section className="block lg:hidden">
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}

@@ -14,6 +14,15 @@
   .separator-light2-dark3 {
     @apply bg-light-2 dark:bg-dark-3;
   }
+
+  .group-page-left-sidebar {
+    @apply lg:fixed lg:inset-y-0 lg:h-screen lg:overflow-y-auto hidden lg:block lg:pb-[1.875rem] lg:pt-[6.875rem];
+  }
+  .group-page-right-sidebar {
+    @apply lg:fixed lg:inset-y-0 lg:h-screen lg:overflow-y-auto mb-[5.5rem] flex flex-col gap-5 sm:flex-row md:mb-5
+    lg:right-[max(2.5rem,calc(50%-42.5rem))] lg:w-[20.3125rem] lg:flex-col 
+    lg:px-0 lg:pb-[1.875rem] lg:pt-[6.875rem];
+  }
 }
 
 ::-webkit-scrollbar {

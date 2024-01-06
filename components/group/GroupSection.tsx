@@ -29,7 +29,7 @@ const GroupSection = ({
 
   return (
     <aside
-      className={`bg-light_dark-4 relative flex w-56 flex-col rounded-2xl p-2.5 ${
+      className={`bg-light_dark-4 relative flex max-w-[13.125rem] flex-col rounded-2xl p-2.5 ${
         expandedGroupIndex !== null ? "gap-2.5" : "gap-5"
       }`}
     >
