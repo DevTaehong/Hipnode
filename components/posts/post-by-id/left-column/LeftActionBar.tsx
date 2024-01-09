@@ -19,13 +19,15 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import EmailForm from "@/components/email/EmailForm";
-import { chatIcon, moreIcon, shareIcons } from "@/constants/posts";
+
 import {
   IconBlock,
   ShareIconComponent,
   ShareIconsSection,
   ShareUrlLink,
 } from ".";
+import { shareIcons } from "@/constants/podcast";
+import { chatIcon, moreIcon } from "@/constants/posts";
 
 const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
   const { toast } = useToast();
