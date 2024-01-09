@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+"use client";
 
-import FillIcon from "../icons/fill-icons";
-import { getAllUsers } from "@/lib/actions/user.actions";
-import { ChatProps } from "@/types/chatroom.index";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
 import useChatStore from "@/app/chatStore";
 import {
   getAllOnlineUserIds,
   recreateOnlineUser,
 } from "@/lib/actions/online-user.actions";
-import { UsersToMessage } from ".";
+import FillIcon from "../icons/fill-icons";
+import { ChatPageUserInfo } from "@/types/chatroom.index";
+import { usePathname } from "next/navigation";
 
-const MessageList = () => {
-  const { userInfo, setOnlineUsers } = useChatStore();
+const ChatPageLink = ({ userInfo }: { userInfo: ChatPageUserInfo }) => {
   const { id } = userInfo;
-
-  const [users, setUsers] = useState<ChatProps[]>([]);
+  const { setUserInfo, setOnlineUsers } = useChatStore();
+  const path = usePathname();
+  const [hover, setHover] = useState(false);
 
   const resetOnlineUsers = async () => {
     try {
@@ -41,18 +42,6 @@ const MessageList = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const allUsers = await getAllUsers();
-        setUsers(allUsers);
-      } catch (error) {
-        console.error("Error fetching users: ", error);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  useEffect(() => {
     const resetUsersPeriodically = async () => {
       try {
         const recreatedUser = await recreateOnlineUser(id);
@@ -72,20 +61,25 @@ const MessageList = () => {
     return () => clearInterval(intervalId);
   }, [id]);
 
+  useEffect(() => {
+    setUserInfo(userInfo);
+  }, []);
+
+  const chatIconBackgroundColor =
+    path === "/chat" || hover ? "bg-red-80" : "bg-sc-6 dark:bg-dark-4";
+  const chatIconFillColor =
+    path === "/chat" || hover ? "fill-white" : "fill-sc-4 dark:fill-sc-6";
+
   return (
-    <Popover>
-      <PopoverTrigger>
-        <div className="cursor-pointer xl:rounded-lg xl:bg-light-2 xl:p-2 dark:xl:bg-dark-4">
-          <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
-        </div>
-      </PopoverTrigger>
-      <PopoverContent>
-        <section className="h-fit w-48 bg-white p-3">
-          <UsersToMessage users={users} />
-        </section>
-      </PopoverContent>
-    </Popover>
+    <Link
+      href="/chat"
+      className={`rounded-md p-2.5 ${chatIconBackgroundColor}`}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <FillIcon.Message className={chatIconFillColor} />
+    </Link>
   );
 };
 
-export default MessageList;
+export default ChatPageLink;

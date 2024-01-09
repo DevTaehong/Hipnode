@@ -31,3 +31,10 @@ export type PostPerformance = {
     comments: number;
   };
 };
+
+export type ChatUserInfoProps = {
+  id: number;
+  username: string;
+  image: string;
+  name: string;
+};

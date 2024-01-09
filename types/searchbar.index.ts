@@ -28,10 +28,10 @@ export interface SearchBarProps {
   dispatch: Dispatch<SearchBarAction>;
 }
 
-type NavBarUserInfoProps = {
+export type NavBarUserInfoProps = {
   id: number;
-  username: string | null | undefined;
-  image: string | undefined;
+  username: string;
+  image: string;
   name: string;
 };
 

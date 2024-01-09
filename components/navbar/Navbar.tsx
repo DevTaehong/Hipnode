@@ -11,8 +11,8 @@ const Navbar = async () => {
 
   const userInfo = {
     id: userId,
-    username: userName,
-    image: loggedInUserImage,
+    username: userName || "",
+    image: loggedInUserImage || "/hipnode-icon.png",
     name: fullName,
   };
 

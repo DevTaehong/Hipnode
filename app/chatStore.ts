@@ -4,17 +4,10 @@ import {
   createChatroom,
   getAllChatroomUsers,
 } from "@/lib/actions/chatroom.actions";
-import { ChatroomUser } from "@/types/chatroom.index";
+import { ChatroomUser, UserInfo } from "@/types/chatroom.index";
 import { API_RESULT } from "@/utils/chat-functions";
 interface ChatroomMap {
   [chatroomId: number]: Set<number>;
-}
-
-interface UserInfo {
-  id: number;
-  username: string;
-  name?: string;
-  image: string;
 }
 
 interface ChatStoreState {

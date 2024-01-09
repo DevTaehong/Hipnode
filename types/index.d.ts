@@ -291,8 +291,8 @@ export interface NotificationCommentTypes {
 
 export interface ProfileInfoProps {
   userId: number;
-  src: string | undefined;
-  username: string | undefined;
+  src: string;
+  username: string;
   isLoggedInUser: boolean;
   title?: string | null;
   followers: number | undefined;

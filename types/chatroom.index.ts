@@ -290,3 +290,10 @@ export interface EditDeleteButtonProps {
   handleEdit: () => void;
   smallChatBox?: boolean;
 }
+
+export interface ChatPageUserInfo {
+  id: number;
+  username: string;
+  name: string;
+  image: string;
+}
