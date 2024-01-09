@@ -52,10 +52,11 @@ import {
 import { useCreatePostContext } from "@/app/contexts/CreatePostContext";
 import { initialConfig } from "@/constants/lexical-editor";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { SelectionOptions, fetchAndSetFormData, handleUpload } from "./utils";
+import { fetchAndSetFormData, handleUpload } from "./utils";
 import FormLoader from "./FormLoader";
 import Location from "./Location";
 import CodeOfConductModal from "@/components/code-of-conduct/CodeOfConductModal";
+import { SelectionOptions } from "@/constants";
 
 const LexicalEditor = dynamic(
   () => import("@/components/lexical-editor/LexicalEditor"),

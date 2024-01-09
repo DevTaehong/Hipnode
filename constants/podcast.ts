@@ -9,17 +9,17 @@ import {
 
 export const shareIcons = [
   {
-    name: "facebook",
+    label: "facebook",
     wrapper: FacebookShareButton,
     icon: SocialIcon.Facebook,
   },
   {
-    name: "twitter",
+    label: "twitter",
     wrapper: TwitterShareButton,
     icon: SocialIcon.Twitter,
   },
   {
-    name: "linkedIn",
+    label: "linkedIn",
     wrapper: LinkedinShareButton,
     icon: SocialIcon.LinkedIn,
   },
