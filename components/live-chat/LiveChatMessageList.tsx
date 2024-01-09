@@ -67,7 +67,7 @@ const LiveChatMessageList = React.memo(
               alt={`image of ${secondUserUsername}`}
               height={40}
               width={40}
-              className="h-10 w-10 shrink-0 rounded-full"
+              className="h-10 w-10 shrink-0 rounded-full object-cover"
             />
             <figcaption className="flex flex-col">
               <p className="base-14 md:base-18 text-sc-2_light-2">

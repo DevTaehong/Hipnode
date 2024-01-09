@@ -56,23 +56,3 @@ export const handleEmojiSelect = ({
   const updatedValue = currentValue + emojiCharacter;
   setMessageText(updatedValue);
 };
-
-export const getStyling = (smallChatBox: boolean) => {
-  const outerDivStyles = smallChatBox
-    ? "gap-1"
-    : "gap-3 xs:flex-row md:flex-col lg:flex-row";
-
-  const imageDivStyles = smallChatBox
-    ? "w-full max-h-[7rem]"
-    : "xs:max-h-[7rem] xs:max-w-[8.2rem] md:max-w-full md:max-h-[18rem] lg:max-h-[7rem] lg:max-w-[8.2rem]";
-
-  const imageStyles = smallChatBox
-    ? ""
-    : "w-full xs:w-[8.2rem] md:w-full lg:w-[8.2rem]";
-
-  return {
-    outerDivStyles,
-    imageDivStyles,
-    imageStyles,
-  };
-};

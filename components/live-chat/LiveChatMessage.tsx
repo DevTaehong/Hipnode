@@ -90,7 +90,7 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
           alt={`Profile image for ${username}`}
           height={40}
           width={40}
-          className="rounded-full"
+          className="rounded-full object-cover"
         />
       </figure>
       <figure className="relative flex w-fit max-w-[250px] flex-col">

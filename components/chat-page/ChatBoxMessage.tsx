@@ -88,7 +88,7 @@ const ChatBoxMessage = ({ message }: { message: ChatMessage }) => {
               alt={`Profile image for ${username}`}
               height={40}
               width={40}
-              className="rounded-full"
+              className="rounded-full object-cover"
             />
           </figure>
         )}

@@ -76,7 +76,7 @@ const ChatroomListItem = ({
               alt={`profile image for ${otherUser.name}`}
               height={40}
               width={40}
-              className="shrink-0 rounded-full"
+              className="shrink-0 rounded-full object-cover"
             />
             {isOtherUserOnline && (
               <figcaption className="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-sc-2 bg-green-500 dark:border-light" />

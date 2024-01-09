@@ -38,7 +38,7 @@ const ChatBoxHeader = () => {
             alt={`profile image for ${otherUserInfo.name}`}
             height={56}
             width={56}
-            className="h-14 w-14 shrink-0 rounded-full"
+            className="h-14 w-14 shrink-0 rounded-full object-cover"
           />
         </Link>
         <figcaption className="flex flex-col justify-between truncate whitespace-nowrap">
