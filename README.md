@@ -2,14 +2,21 @@
 
 # Cohort5_AlgoAlliance_Hipnode
 
-Cohort5_AlgoAlliance_Hipnode is an innovative social media platform featuring posts, podcasts, meetups, interviews, and other interactive functionalities.
+Hipnode is an innovative social media platform featuring posts, podcasts, meetups, interviews, and other interactive functionalities.
+
+This is the Capstone project from JS Mastery Masterclass Experience. The project was engineered over a three month period using a professional UI design created using [Figma](https://www.figma.com/file/RKjPbEbYkvE7XFvYVS8FfZ/Social-Media-Platform?node-id=3901%3A35548&mode=dev).
 
 ## Features
 
 - **Posts**: Create and engage with posts. Share your thoughts, experiences, and ideas with a wider community.
+
+  <img src="public/home.png" alt="Homepage" width="500" height="300">
+
 - **Podcasts**: Explore a variety of podcasts on diverse topics or host your own.
 - **Meetups**: Organize and participate in meetups to connect with people sharing similar interests.
 - **Interviews**: Discover interviews with a range of personalities, providing insights and inspiration.
+- **Groups**: Join groups related to your own interests, share posts and other content.
+- **Live Chat**: Engage in real-time conversations, share instant feedback, and build connections through our interactive live chat feature.
 
 ## Technologies Used
 
@@ -25,12 +32,14 @@ Cohort5_AlgoAlliance_Hipnode is an innovative social media platform featuring po
 - **Other Utilities**: Including emoji support, audio recording, geolocation, etc.
 - **Development Tools**: ESLint, Prettier for code linting and formatting.
 - **Faker.js**: For generating fake data in development/testing.
+- **Resend**: For emailing.
 
 ## Setup Guide
 
 ### Prerequisites
 
-- Node.js (Refer to [Node.js](https://nodejs.org/) for installation)
+- Node.js (Refer to
+  for installation)
 - npm (Comes with Node.js)
 
 ### Installation
