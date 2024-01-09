@@ -171,7 +171,7 @@ export type LargePodcastCardType = {
 type ShareIconType = FC<{ className?: string }>;
 
 interface ShareIconConfig {
-  name: string;
+  label: string;
   wrapper:
     | typeof FacebookShareButton
     | typeof TwitterShareButton
@@ -181,6 +181,7 @@ interface ShareIconConfig {
 
 export interface ShareButtonsProps {
   title: string;
+  label?: string;
   shareIcons: ShareIconConfig[];
 }
 

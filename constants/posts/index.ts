@@ -3,7 +3,6 @@ import * as z from "zod";
 
 import OutlineIcon from "@/components/icons/outline-icons";
 
-
 export enum POST_TYPE {
   POST = "Post",
   PODCAST = "Podcast",

@@ -1,5 +1,5 @@
 "use client";
-import OutlineIcon from "@/components/icons/outline-icons";
+
 import {
   FacebookShareButton,
   TelegramShareButton,
@@ -7,6 +7,8 @@ import {
   EmailShareButton,
   LinkedinShareButton,
 } from "react-share";
+
+import OutlineIcon from "@/components/icons/outline-icons";
 
 export const shareIcons = [
   {

@@ -44,7 +44,7 @@ const ShareButtons = ({ title, shareIcons }: ShareButtonsProps) => {
             const WrapperComponent = icon.wrapper;
             const IconComponent = icon.icon;
             return (
-              <WrapperComponent key={icon.name} title={title} url={currentUrl}>
+              <WrapperComponent key={icon.label} title={title} url={currentUrl}>
                 <IconComponent className="fill-dark-2 dark:fill-light-2" />
               </WrapperComponent>
             );
