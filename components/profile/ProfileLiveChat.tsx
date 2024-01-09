@@ -15,6 +15,7 @@ const ProfileLiveChat = ({
     setShowChat,
     createNewChatroom,
     userInfo,
+    showChat,
     setChatroomId,
   } = useChatStore();
 
@@ -40,7 +41,11 @@ const ProfileLiveChat = ({
     }
   };
   return (
-    <button onClick={() => handleUserClick(id)}>
+    <button
+      onClick={() => handleUserClick(id)}
+      disabled={showChat}
+      className="flex h-full items-center justify-center rounded-lg bg-blue-10 px-2.5 dark:bg-dark-4"
+    >
       <FillIcon.Message className="fill-blue" />
     </button>
   );

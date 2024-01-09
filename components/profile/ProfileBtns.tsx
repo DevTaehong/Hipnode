@@ -30,12 +30,7 @@ const ProfileBtns = ({
         {following ? "Following" : "Follow"}
       </button>
 
-      <div
-        className="flex h-full cursor-pointer items-center justify-center rounded-lg bg-blue-10 px-2.5 dark:bg-dark-4"
-        onClick={() => {}}
-      >
-        <ProfileLiveChat userInfo={userInfo} />
-      </div>
+      <ProfileLiveChat userInfo={userInfo} />
     </div>
   );
 };
