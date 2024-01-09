@@ -13,6 +13,12 @@ const Performance = ({ data }: PerformanceProps) => {
       </p>
 
       <section className="mt-7 flex flex-col gap-6">
+        {data.length === 0 && (
+          <div className="flex justify-center text-base text-sc-1 dark:text-light md:text-lg">
+            No data
+          </div>
+        )}
+
         {data.map((card) => (
           <PerformanceCard
             key={card.id}

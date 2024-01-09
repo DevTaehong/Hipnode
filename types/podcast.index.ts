@@ -22,7 +22,8 @@ export interface PodcastUserInfo extends Podcast {
 }
 
 type UserInfo = {
-  name: string;
+  username?: string;
+  name?: string;
   location: string | null;
   picture: string;
 };

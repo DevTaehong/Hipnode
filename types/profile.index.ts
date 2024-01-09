@@ -11,6 +11,7 @@ export type UserProfile = User & {
     followers: number;
     following: number;
   };
+  isLoggedInUser: boolean;
 };
 
 export type ProfileMeetup = MeetUp & {

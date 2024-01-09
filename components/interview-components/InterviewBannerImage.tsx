@@ -17,8 +17,7 @@ const InterviewBannerImage = ({
         height={height}
         width={width}
         alt="banner image"
-        style={{ objectFit: "cover" }}
-        className={borderRadius}
+        className={`${borderRadius} object-cover`}
       />
     </figure>
   );

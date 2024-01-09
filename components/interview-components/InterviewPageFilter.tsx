@@ -88,7 +88,7 @@ const InterviewPageFilter = ({
           interviewList.map((interview) => (
             <InterviewCard key={interview.id} interviewData={interview} />
           ))}
-        <SeeMoreButton array={interviewList} setLoadMore={setLoadMore} />
+        <SeeMoreButton hasMore={hasMoreInterviews} setLoadMore={setLoadMore} />
         <p
           ref={ref}
           className={`${

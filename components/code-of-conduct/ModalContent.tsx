@@ -1,4 +1,4 @@
-import { DialogContent, DialogClose } from "@radix-ui/react-dialog";
+import { DialogContent, DialogClose } from "@/components/ui/dialog";
 import CustomButton from "../CustomButton";
 import CodeOfConductList from "./CodeOfConductList";
 

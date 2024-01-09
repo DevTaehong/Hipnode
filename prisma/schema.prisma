@@ -46,6 +46,28 @@ model User {
   notificationReceiver    Notification[]           @relation("Receiver")
   notificationSender      Notification[]           @relation("Sender")
   notificationLastChecked DateTime                 @default(now())
+  activities              Activities[]
+}
+
+model Activities {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  postId Int?
+  post   Post? @relation(fields: [postId], references: [id])
+
+  interviewId Int?
+  interview   Interview? @relation(fields: [interviewId], references: [id])
+
+  meetupId Int?
+  meetup   MeetUp? @relation(fields: [meetupId], references: [id])
+
+  podcastId Int?
+  podcast   Podcast? @relation(fields: [podcastId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Follower {
@@ -73,30 +95,30 @@ model Onboarding {
 }
 
 model Post {
-  id           Int         @id @default(autoincrement())
-  content      String
-  contentType  String
-  authorId     Int
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  isEdited     Boolean     @default(false)
-  viewCount    Int         @default(0)
-  likeCount    Int         @default(0)
-  image        String     
-  blurImage    String     
-  imageWidth   Int     
-  imageHeight  Int       
-  groupId      Int
-  heading      String
-  clerkId      String?
-  comments     Comment[]
-  likes        Like[]
-  author       User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  group        Group?      @relation(fields: [groupId], references: [id])
-  Share        Share[]
-  tags         TagOnPost[]
+  id          Int          @id @default(autoincrement())
+  content     String
+  contentType String
+  authorId    Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isEdited    Boolean      @default(false)
+  viewCount   Int          @default(0)
+  likeCount   Int          @default(0)
+  image       String
+  blurImage   String
+  imageWidth  Int
+  imageHeight Int
+  groupId     Int
+  heading     String
+  clerkId     String?
+  comments    Comment[]
+  likes       Like[]
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  group       Group?       @relation(fields: [groupId], references: [id])
+  Share       Share[]
+  tags        TagOnPost[]
+  activities  Activities[]
 }
-
 
 model Like {
   id            Int            @id @default(autoincrement())
@@ -127,7 +149,7 @@ model Comment {
   replies                    Comment[]      @relation("CommentToComment")
   post                       Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
   likes                      Like[]
-  likeCount                 Int            @default(0)
+  likeCount                  Int            @default(0)
   notifications              Notification[] @relation("CommentToNotification")
   parentCommentNotifications Notification[] @relation("CommentParentToNotification")
 }
@@ -160,20 +182,21 @@ model Shows {
 }
 
 model Podcast {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
+  id            Int          @id @default(autoincrement())
+  createdAt     DateTime     @default(now())
   details       String
-  episodeNumber Int      @default(autoincrement())
+  episodeNumber Int          @default(autoincrement())
   image         String
   contentType   String
   clerkId       String?
   showId        Int
   title         String
-  updatedAt     DateTime @updatedAt
+  updatedAt     DateTime     @updatedAt
   url           String
   userId        Int
-  show          Shows    @relation(fields: [showId], references: [id], onDelete: Cascade)
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  show          Shows        @relation(fields: [showId], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities    Activities[]
 }
 
 model UsersSubscribedToShows {
@@ -216,6 +239,7 @@ model MeetUp {
   responsiblePerson   User           @relation(fields: [responsiblePersonId], references: [id], onDelete: Cascade)
   tags                TagOnMeetup[]
   notifications       Notification[]
+  activities          Activities[]
 }
 
 model MeetupTag {
@@ -266,6 +290,7 @@ model Interview {
   updatedAt    DateTime         @updatedAt
   creator      User             @relation(fields: [creatorId], references: [id])
   tags         TagOnInterview[]
+  activities   Activities[]
 }
 
 model Chatroom {
@@ -286,16 +311,16 @@ model ChatroomUsers {
 }
 
 model Message {
-  id              Int              @id @default(autoincrement())
-  text            String?
-  createdAt       DateTime         @default(now())
-  userId          Int
-  chatroomId      Int
-  attachment      String?
-  attachmentType  String?
-  messageUUID     String           @unique
-  Chatroom        Chatroom         @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-  User            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             Int      @id @default(autoincrement())
+  text           String?
+  createdAt      DateTime @default(now())
+  userId         Int
+  chatroomId     Int
+  attachment     String?
+  attachmentType String?
+  messageUUID    String   @unique
+  Chatroom       Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Share {
@@ -350,8 +375,7 @@ enum Role {
 }
 
 model OnlineUser {
-  id       Int      @id @default(autoincrement())
-  userId   Int      
+  id        Int      @id @default(autoincrement())
+  userId    Int
   enteredAt DateTime @default(now())
 }
-

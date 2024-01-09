@@ -1,4 +1,6 @@
-import { Dialog } from "@radix-ui/react-dialog";
+"use client";
+
+import { Dialog } from "@/components/ui/dialog";
 import { ModalTrigger, ModalContent } from ".";
 
 const CodeOfConductModal = ({

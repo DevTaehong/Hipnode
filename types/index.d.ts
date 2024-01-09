@@ -11,6 +11,7 @@ import { GroupProps } from "@types/models";
 import { ProfileMeetup, ProfilePost } from "./profile.index";
 import { InterviewProps } from "./interview.index";
 import { ExtendedPrismaPost } from "./posts";
+import { ProfileMeetupResponse } from "@/lib/actions/profile.actions";
 
 export interface AuthenticatedUser {
   userId: number;
@@ -32,7 +33,7 @@ type FieldName = "groupName" | "description";
 
 export type ProfileResults =
   | ExtendedPrismaPost[]
-  | ProfileMeetup[]
+  | ProfileMeetupResponse[]
   | Podcast[]
   | InterviewProps[];
 
@@ -289,8 +290,10 @@ export interface NotificationCommentTypes {
 }
 
 export interface ProfileInfoProps {
+  userId: number;
   src: string | undefined;
-  name: string | undefined;
+  username: string | undefined;
+  isLoggedInUser: boolean;
   title?: string | null;
   followers: number | undefined;
   following: number | undefined;
@@ -307,6 +310,7 @@ export interface ProfileInfoProps {
       picture: string;
     };
   }[];
+  isFollowing: boolean;
 }
 
 export interface ProfileLinkProps {

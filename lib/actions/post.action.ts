@@ -393,13 +393,31 @@ export async function getAllPostsByUserId({
   authorId,
 }: {
   numberToSkip?: number;
-  authorId: number;
+  authorId: number | string;
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to get Post Content.",
       false
     );
+
+    if (typeof authorId === "string") {
+      const user = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: authorId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!user) throw new Error(`User with username ${authorId} not found`);
+
+      authorId = user[0].id;
+    }
 
     const numberOfAvailablePosts = await countPostsByAuthorId(authorId);
 
@@ -449,6 +467,7 @@ export async function getAllPostsByUserId({
         },
       },
     });
+
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,

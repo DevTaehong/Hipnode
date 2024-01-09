@@ -3,10 +3,22 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const NotFound = ({ isErrorPage = false }: { isErrorPage?: boolean }) => {
-  const buttonText = isErrorPage
-    ? "Something went wrong"
-    : "404. Page was not found";
+const NotFound = ({
+  isErrorPage = false,
+  isProfilePage = false,
+}: {
+  isErrorPage?: boolean;
+  isProfilePage?: boolean;
+}) => {
+  let buttonText;
+
+  if (isErrorPage) {
+    buttonText = "Something went wrong";
+  } else if (isProfilePage) {
+    buttonText = "404. User was not found";
+  } else {
+    buttonText = "404. Page was not found";
+  }
 
   return (
     <main className="flex-center h-screen w-screen">

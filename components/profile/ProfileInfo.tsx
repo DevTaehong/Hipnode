@@ -10,8 +10,11 @@ import SocialIcon from "./SocialIcon";
 import TextDescription from "./TextDescription";
 
 const ProfileModal = ({
+  userId,
   src,
-  name,
+  username,
+  isFollowing,
+  isLoggedInUser,
   title,
   followers,
   following,
@@ -37,14 +40,16 @@ const ProfileModal = ({
       />
 
       <h3 className="mt-2.5 text-[1.625rem] font-semibold leading-[2.375rem] text-sc-1 dark:text-light">
-        {name}
+        {username}
       </h3>
 
       <p className="text-center text-base leading-6 text-sc-2 dark:text-sc-3">
         {title}
       </p>
 
-      <ProfileBtns />
+      {!isLoggedInUser && (
+        <ProfileBtns userId={userId} isFollowing={isFollowing} />
+      )}
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
         {followers} Followers • {points} Points

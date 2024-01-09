@@ -16,6 +16,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 
 const UserButton = () => {
   const { user } = useUser();
+  console.log(user);
 
   return (
     <Popover>
@@ -42,7 +43,7 @@ const UserButton = () => {
       </PopoverTrigger>
       <PopoverContent className="relative right-[20px] top-[23px] h-[187px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <section className="relative top-[8px] flex flex-col gap-5 p-4">
-          <UserButtonLink link="/profile" text="Profile" />
+          <UserButtonLink link={`/profile/${user?.username}`} text="Profile" />
 
           <UserButtonLink link="/settings" text="Settings" />
 

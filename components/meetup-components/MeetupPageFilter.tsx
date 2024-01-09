@@ -86,7 +86,7 @@ const MeetupPageFilter = ({
           meetupsList.map((meetup) => (
             <MeetupsCard key={meetup.id} meetUp={meetup} />
           ))}
-        <SeeMoreButton array={meetupsList} setLoadMore={setLoadMore} />
+        <SeeMoreButton hasMore={hasMoreMeetups} setLoadMore={setLoadMore} />
         <p
           ref={ref}
           className={`${

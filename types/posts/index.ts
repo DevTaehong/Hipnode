@@ -382,6 +382,7 @@ export type LikeButtonProps = {
 export type TagListProps = {
   tags: string[];
   userIdFromParams?: number;
+  username?: string;
   setTagged: (tag: string) => void;
 };
 

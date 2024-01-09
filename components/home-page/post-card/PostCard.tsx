@@ -85,7 +85,7 @@ const PostCard = ({
           <div className="flex justify-between">
             <Link href={`/posts/post/${id}`}>
               <h2
-                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-[101%] md:line-clamp-2 dark:text-light-2"
+                className="semibold-12 md:semibold-18 line-clamp-3 pr-[1.25rem] text-sc-2 hover:scale-[101%] dark:text-light-2 md:line-clamp-2"
                 dangerouslySetInnerHTML={{ __html: htmlString.slice(1, -1) }}
               />
             </Link>
@@ -114,6 +114,7 @@ const PostCard = ({
               tags={tags}
               userIdFromParams={userIdFromParams}
               setTagged={setTagged}
+              username={username}
             />
           </div>
         </div>

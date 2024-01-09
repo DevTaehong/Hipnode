@@ -1,25 +1,22 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { PodcastUserInfo } from "@/types/podcast.index";
-import { MeetUpExtended } from "@/types/meetups.index";
-import { InterviewProps } from "@/types/interview.index";
 import OutlineIcon from "@/components/icons/outline-icons";
 
 interface SeeMoreButtonProps {
-  array: InterviewProps[] | PodcastUserInfo[] | MeetUpExtended[] | undefined;
+  hasMore: boolean;
   setLoadMore: Dispatch<SetStateAction<boolean>>;
   className?: string;
 }
 
 const SeeMoreButton = ({
-  array,
+  hasMore,
   setLoadMore,
   className,
 }: SeeMoreButtonProps) => {
   return (
     <button
       className={`${className} flex w-fit items-center gap-2.5 lg:hidden ${
-        array && array.length < 20 && "hidden lg:hidden"
+        !hasMore && "hidden"
       }`}
       onClick={() => setLoadMore(true)}
     >

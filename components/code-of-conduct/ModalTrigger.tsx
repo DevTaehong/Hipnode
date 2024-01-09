@@ -1,5 +1,5 @@
 import { ModalTriggerProps } from "@/types/posts";
-import { DialogTrigger } from "@radix-ui/react-dialog";
+import { DialogTrigger } from "@/components/ui/dialog";
 
 const ModalTrigger = ({ isCreateFormPage }: ModalTriggerProps) => {
   const codeOfConductModalStyles = isCreateFormPage

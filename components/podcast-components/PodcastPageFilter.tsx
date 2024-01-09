@@ -102,7 +102,7 @@ const PodcastPageFilter = ({
             ))}
         </div>
         <SeeMoreButton
-          array={podcasts}
+          hasMore={hasMorePodcasts}
           setLoadMore={setLoadMore}
           className="mt-5"
         />

@@ -19,9 +19,22 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
     creator: { name: username, picture: userImage },
   } = interviewData;
 
+  const profilePage = true;
+
   const interviewSalary = formatSalary(salary, salaryPeriod);
+
+  const outerDivStyles = profilePage
+    ? "lg:flex-row"
+    : "md:flex-row xl:flex-row";
+
+  const firstImageStyles = profilePage ? "lg:hidden" : "md:hidden lg:flex";
+
+  const secondImageStyles = profilePage ? "md:hidden lg:flex" : "lg:hidden";
+
   return (
-    <article className="bg-light_dark-3 text-sc-2_light-2 flex flex-col justify-between gap-[1.875rem] rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4 sm:p-5 md:flex-row xl:w-full xl:flex-row">
+    <article
+      className={`bg-light_dark-3 text-sc-2_light-2 flex w-full flex-col justify-between gap-[1.875rem] rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4 sm:p-5 ${outerDivStyles}`}
+    >
       <section className="flex w-full flex-col justify-between gap-5 sm:h-full">
         <InterviewHeader
           userImage={userImage}
@@ -33,12 +46,12 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
         />
         <InterviewBannerImage
           bannerImage={bannerImage}
-          className="flex h-[12.5rem] w-full md:hidden lg:flex xl:hidden"
-          height={360}
-          width={560}
+          className={`${firstImageStyles} flex h-[12.5rem] w-full xl:hidden`}
+          height={720}
+          width={1120}
         />
         <h2 className="semibold-16 sm:semibold-18 ">{title}</h2>
-        <div className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-0">
+        <div className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-4">
           <InterviewCardInfo
             interviewSalary={interviewSalary}
             updates={updates}
@@ -46,18 +59,20 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           />
           <Link
             href={`/interviews/${id}`}
-            className="semibold-14 flex-center h-[2.375rem] w-[5.9375rem] rounded bg-blue text-white sm:h-full xl:ml-[-1rem]"
+            className="semibold-14 flex-center whitespace-nowrap rounded bg-blue px-3.5 py-2 text-white"
           >
             Full Details
           </Link>
         </div>
       </section>
-      <InterviewBannerImage
-        bannerImage={bannerImage}
-        className="hidden h-[11.25rem] w-full md:flex md:w-[17.5rem] lg:hidden xl:flex xl:w-[17.5rem]"
-        height={360}
-        width={560}
-      />
+      <div className="flex w-full lg:max-w-[17.5rem]">
+        <InterviewBannerImage
+          bannerImage={bannerImage}
+          className={`${secondImageStyles} hidden h-[11.25rem] w-full md:flex xl:flex xl:w-full xl:max-w-[17.5rem]`}
+          height={720}
+          width={1120}
+        />
+      </div>
     </article>
   );
 };
