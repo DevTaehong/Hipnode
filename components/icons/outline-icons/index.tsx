@@ -32,6 +32,7 @@ import SearchIcon from "./SearchIcon";
 import Share2Icon from "./Share2Icon";
 import SocialIcon from "./SocialIcon";
 import VoiceIcon from "./VoiceIcon";
+import CopyIcon from "./CopyIcon";
 
 interface OutlineIconProps {
   children?: ReactNode;
@@ -506,6 +507,10 @@ OutlineIcon.Voice = function Icon({ className }: OutlineIconProps) {
       className={className ?? "stroke-[#3F4354] dark:stroke-[#F7F7F7]"}
     />
   );
+};
+
+OutlineIcon.Copy = function Icon({ className }: OutlineIconProps) {
+  return <CopyIcon className="shrink-0 fill-red" />;
 };
 
 export default OutlineIcon;

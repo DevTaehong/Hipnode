@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import { meetupFormLinkProps } from "@/constants";
 import FormLink from "../FormLink";
-import { Categories } from "../podcast-components";
-import MeetupPageFilter from "./MeetupPageFilter";
 import { MeetupFilterAndContentWrapperProps } from "@/types/meetups.index";
+import { MeetupPageFilter } from ".";
+import { Categories } from "../podcast-components";
 
 const MeetupFilterAndContentWrapper = ({
   meetupTags,

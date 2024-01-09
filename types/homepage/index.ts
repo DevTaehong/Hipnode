@@ -43,6 +43,7 @@ export type PostCardProps = {
   profileSearchParams?: string;
   setTagged: (tagged: string) => void;
   userIdFromParams?: number;
+  username?: string;
 };
 
 export type SocialCountTuple = [string, number];

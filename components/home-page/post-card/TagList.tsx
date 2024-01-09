@@ -2,12 +2,17 @@ import Link from "next/link";
 
 import { TagListProps } from "@/types/posts";
 
-const TagList = ({ tags, userIdFromParams, setTagged }: TagListProps) => {
+const TagList = ({
+  tags,
+  userIdFromParams,
+  setTagged,
+  username,
+}: TagListProps) => {
   return (
     <ul className="flex justify-start gap-[0.625rem]">
       {tags.map((item) => {
         const urlPath = userIdFromParams
-          ? `${userIdFromParams}?tag=${item}`
+          ? `${username}?tag=${item}`
           : `?tag=${item}`;
         return (
           <Link href={urlPath} key={item}>

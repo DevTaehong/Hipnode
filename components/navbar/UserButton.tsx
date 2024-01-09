@@ -16,6 +16,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 
 const UserButton = () => {
   const { user } = useUser();
+  console.log(user);
 
   return (
     <Popover>
@@ -33,7 +34,7 @@ const UserButton = () => {
         </div>
 
         <div className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
-          <p className="line-clamp-1 flex-1 text-[1rem] font-bold leading-[1.5rem] text-sc-1 dark:text-light-2">
+          <p className="line-clamp-1 flex-1 text-base font-bold leading-6 text-sc-1 dark:text-light-2">
             {user?.username}
           </p>
 
@@ -42,14 +43,14 @@ const UserButton = () => {
       </PopoverTrigger>
       <PopoverContent className="relative right-[20px] top-[23px] h-[187px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <section className="relative top-[8px] flex flex-col gap-5 p-4">
-          <UserButtonLink link="/profile" text="Profile" />
+          <UserButtonLink link={`/profile/${user?.username}`} text="Profile" />
 
           <UserButtonLink link="/settings" text="Settings" />
 
           <div className="h-[1px] w-full bg-light-2 dark:bg-sc-3" />
 
           <article className="flex w-full items-center justify-between gap-[17px]">
-            <p className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2">
+            <p className="text-base font-semibold leading-6 text-sc-2 dark:text-light-2">
               Interface
             </p>
             <PopoverClose>

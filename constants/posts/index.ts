@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
-
 import * as z from "zod";
+
+import OutlineIcon from "@/components/icons/outline-icons";
+
 
 export enum POST_TYPE {
   POST = "Post",
@@ -188,3 +190,13 @@ export const meetupInputFields = createInputFields([
     type: "text",
   },
 ]);
+
+export const chatIcon = {
+  label: "Chat",
+  icon: OutlineIcon.Comment,
+};
+
+export const moreIcon = {
+  label: "More",
+  icon: OutlineIcon.Share2,
+};

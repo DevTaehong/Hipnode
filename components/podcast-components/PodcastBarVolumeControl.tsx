@@ -7,6 +7,7 @@ import {
 } from "@radix-ui/react-hover-card";
 import { Slider } from "../ui/slider";
 import { ImCross } from "react-icons/im";
+
 import { PodcastBarVolumeControlProps } from "@/types/podcast.index";
 import { getVolumeIcon } from "@/utils";
 
@@ -33,7 +34,7 @@ const PodcastBarVolumeControl = ({
       <HoverCard openDelay={100} closeDelay={500}>
         <HoverCardTrigger>
           <div
-            className="text-sc-1_light-2 text-2xl"
+            className="text-sc-1_light-2 text-lg md:text-2xl"
             onClick={handleVolumeIconClick}
           >
             <VolumeSymbol />
@@ -53,7 +54,9 @@ const PodcastBarVolumeControl = ({
         className="text-sc-1_light-2 flex items-center"
         onClick={handleCloseClick}
       >
-        <ImCross />
+        <p className="text-sm md:text-lg">
+          <ImCross />
+        </p>
       </div>
     </div>
   );

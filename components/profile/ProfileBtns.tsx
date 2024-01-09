@@ -1,20 +1,36 @@
 "use client";
 
-import { Button } from "../ui/button";
+import { useState } from "react";
+
+import { followUser } from "@/lib/actions/post.action";
 import FillIcon from "@/components/icons/fill-icons";
 
-const ProfileBtns = () => {
+const ProfileBtns = ({
+  userId,
+  isFollowing,
+}: {
+  userId: number;
+  isFollowing: boolean;
+}) => {
+  const [following, setFollowing] = useState(isFollowing);
+
+  const handleFollow = async () => {
+    const followStatus = await followUser(userId);
+    setFollowing(followStatus);
+  };
+
   return (
-    <div className="mt-5 flex justify-center gap-2.5">
-      <Button
-        className="bg-blue p-2.5 px-9 py-1 text-[1rem] font-semibold leading-[1.5rem] text-light"
-        onClick={() => {}}
+    <div className="mt-5 flex h-10 w-full items-center justify-center gap-2.5">
+      <button
+        className="flex h-full w-full items-center justify-center rounded-lg bg-blue text-base font-semibold leading-6 text-white"
+        type="button"
+        onClick={handleFollow}
       >
-        Follow
-      </Button>
+        {following ? "Following" : "Follow"}
+      </button>
 
       <div
-        className="flex cursor-pointer items-center justify-center rounded-lg bg-blue-10 p-2.5 dark:bg-dark-4"
+        className="flex h-full cursor-pointer items-center justify-center rounded-lg bg-blue-10 px-2.5 dark:bg-dark-4"
         onClick={() => {}}
       >
         <FillIcon.Message className="fill-blue" />

@@ -1,7 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-import { getNotificationLastChecked } from "./actions/user.actions";
-
 export const verifyAuth = async (
   message = "You must be logged in to perform this action.",
   canCallFunction = true
@@ -19,12 +17,6 @@ export const verifyAuth = async (
   const fullName = [userData?.firstName, userData?.lastName]
     .filter(Boolean)
     .join(" ");
-  let lastChecked;
-
-  if (userId) {
-    const notificationData = await getNotificationLastChecked(userId);
-    lastChecked = notificationData.notificationLastChecked;
-  }
 
   return {
     clerkId,
@@ -32,6 +24,5 @@ export const verifyAuth = async (
     loggedInUserImage,
     userName,
     fullName,
-    lastChecked,
   };
 };

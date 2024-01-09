@@ -31,14 +31,14 @@ const Profile = () => {
       <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
         {username}
       </h2>
-      <p className="mb-[1.25rem] flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
+      <p className="mb-[1.25rem] flex justify-center text-base leading-6 text-sc-3">
         Web Developer
       </p>
       <CustomButton
         label="Follow"
         className="mb-[1.25rem] flex w-full items-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
       />
-      <p className="flex justify-center text-[1rem] leading-[1.5rem] text-sc-3">
+      <p className="flex justify-center text-base leading-6 text-sc-3">
         {+calculatedDate > 0
           ? `joined ${calculatedDate} months ago`
           : "joined this month"}

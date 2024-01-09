@@ -6,9 +6,9 @@ import useChatStore from "@/app/chatStore";
 import { ChatMessage, LiveChatMessageListProps } from "@/types/chatroom.index";
 import { christopher } from "@/public/assets";
 import OutlineIcon from "../icons/outline-icons";
-import LiveChatMessage from "./LiveChatMessage";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
 import useMediaPlayerStore from "@/app/mediaPlayerStore";
+import { LiveChatMessage } from ".";
+import { LoaderComponent } from "../onboarding-components";
 
 const LiveChatMessageList = React.memo(
   ({ messages, setMessages, setDroppedFile }: LiveChatMessageListProps) => {
@@ -67,7 +67,7 @@ const LiveChatMessageList = React.memo(
               alt={`image of ${secondUserUsername}`}
               height={40}
               width={40}
-              className="h-10 w-10 shrink-0 rounded-full"
+              className="h-10 w-10 shrink-0 rounded-full object-cover"
             />
             <figcaption className="flex flex-col">
               <p className="base-14 md:base-18 text-sc-2_light-2">

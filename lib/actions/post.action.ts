@@ -13,8 +13,11 @@ import {
   CommentsGroupedByParentId,
   ExtendedPrismaPost,
   GetPostByIdType,
+  GroupsType,
+  ImagePodcastPreviewUrlType,
   PostToEditByIdType,
   UpdateCommentType,
+  UploadedImageType,
 } from "@/types/posts";
 import { verifyAuth } from "../auth";
 import {
@@ -27,6 +30,7 @@ import {
   deleteNotification,
   updateNotification,
 } from "./notification.actions";
+import { PostFormValuesType } from "@/constants/posts";
 
 export async function handleTags(
   tagNames: string[]
@@ -57,16 +61,10 @@ export async function handleTags(
 }
 
 export async function createPostWithTags(
-  postData: {
-    heading: string;
-    content: string;
-    image: string;
-    groupId: number;
-    contentType: string;
-    blurImage: string;
-    imageWidth: number;
-    imageHeight: number;
-  },
+  data: PostFormValuesType,
+  imagePodcastPreviewUrl: ImagePodcastPreviewUrlType,
+  uploadedImage: UploadedImageType,
+  groups: GroupsType[],
   tagNames: string[]
 ): Promise<Post> {
   try {
@@ -75,24 +73,34 @@ export async function createPostWithTags(
       false
     );
 
+    const matchedGroup = groups.find((group) => group.label === data.group);
+    const groupIdValue = matchedGroup ? matchedGroup.value : 0;
+
+    const postData = {
+      heading: data.heading,
+      content: data.content,
+      image: (data.image || imagePodcastPreviewUrl.imagePreviewUrl) ?? "",
+      blurImage: uploadedImage.blurImage || "",
+      imageWidth: uploadedImage.imageWidth || 0,
+      imageHeight: uploadedImage.imageHeight || 0,
+      authorId: userId,
+      clerkId,
+      groupId: groupIdValue,
+      contentType: data.contentType,
+    };
+
     const allTagIdsToConnect = await handleTags(tagNames);
 
     await prisma.$transaction(async (prisma) => {
       const post = await prisma.post.create({
-        data: {
-          ...postData,
-          authorId: userId,
-          clerkId,
-        },
-        include: {
-          author: true,
-        },
+        data: postData,
+        include: { author: true },
       });
 
       await prisma.tagOnPost.createMany({
-        data: allTagIdsToConnect.map((tagId) => ({
+        data: allTagIdsToConnect.map((tag) => ({
           postId: post.id,
-          tagId: tagId.id,
+          tagId: tag.id,
         })),
         skipDuplicates: true,
       });
@@ -110,7 +118,9 @@ export async function createPostWithTags(
 
 export async function updatePost(
   postId: number,
-  data: Partial<Post>,
+  data: PostFormValuesType,
+  imagePodcastPreviewUrl: ImagePodcastPreviewUrlType,
+  groups: GroupsType[],
   tagNames: string[]
 ): Promise<Post> {
   try {
@@ -119,12 +129,23 @@ export async function updatePost(
       false
     );
 
+    const matchedGroup = groups.find((group) => group.label === data.group);
+    const groupIdValue = matchedGroup ? matchedGroup.value : 0;
+
+    const postData = {
+      heading: data.heading,
+      content: data.content,
+      groupId: groupIdValue,
+      image: (data.image || imagePodcastPreviewUrl.imagePreviewUrl) ?? "",
+      contentType: data.contentType,
+    };
+
     const allTagIdsToConnect = await handleTags(tagNames);
 
     await prisma.$transaction(async (prisma) => {
       const updatedPost = await prisma.post.update({
         where: { id: postId, authorId: userId },
-        data: { ...data, authorId: userId, clerkId },
+        data: { ...postData, authorId: userId, clerkId },
         include: {
           author: true,
         },
@@ -372,13 +393,31 @@ export async function getAllPostsByUserId({
   authorId,
 }: {
   numberToSkip?: number;
-  authorId: number;
+  authorId: number | string;
 }): Promise<ExtendedPrismaPost[]> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to get Post Content.",
       false
     );
+
+    if (typeof authorId === "string") {
+      const user = await prisma.user.findMany({
+        where: {
+          username: {
+            equals: authorId,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!user) throw new Error(`User with username ${authorId} not found`);
+
+      authorId = user[0].id;
+    }
 
     const numberOfAvailablePosts = await countPostsByAuthorId(authorId);
 
@@ -428,6 +467,7 @@ export async function getAllPostsByUserId({
         },
       },
     });
+
     return posts.map((post) => ({
       ...post,
       numberOfAvailablePosts,

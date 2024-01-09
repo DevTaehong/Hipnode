@@ -1,4 +1,10 @@
-import React, { ButtonHTMLAttributes, ComponentType, ReactNode } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  ComponentType,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+} from "react";
 
 import { Control, UseFormReturn } from "react-hook-form";
 import { Comment, Group, Post, Share, Tag, User } from "@prisma/client";
@@ -8,6 +14,13 @@ import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
 import { Suggestion } from "use-places-autocomplete";
 import { StaticImageData } from "next/image";
+import {
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  EmailShareButton,
+} from "react-share";
 
 export type CoverImageUploadProps = {
   control: Control<PostFormValuesType>;
@@ -206,6 +219,7 @@ export type ExtendedPrismaPost = {
   blurImage: string;
   imageHeight: number;
   imageWidth: number;
+  groupId?: number;
   userProfileId?: number;
   loggedInUserHasLikedPost: boolean;
 };
@@ -242,6 +256,7 @@ export type LeftActionBarProps = {
     commentsCount: number;
     sharesCount?: number;
   };
+  author: string;
 };
 
 export type GetActionBarDataProps = {
@@ -309,6 +324,7 @@ export type FilteredMeetupsResult = {
 export type InterviewDataType = {
   title: string;
   contentType: string;
+  clerkId?: string;
   bannerImage: string;
   details: string;
   websiteLink: string;
@@ -346,6 +362,18 @@ export type SuggestionsListProps = {
   onSuggestionSelect: (suggestion: Suggestion) => () => void;
 };
 
+export type UploadedImageType = {
+  mainImage: string;
+  blurImage: string;
+  imageWidth: number | undefined;
+  imageHeight: number | undefined;
+};
+
+export type ImagePodcastPreviewUrlType = {
+  imagePreviewUrl: string | null;
+  podcastPreviewUrl: string | null;
+};
+
 export type LikeButtonProps = {
   toggleLike: () => void;
   additionalClasses: string;
@@ -354,6 +382,7 @@ export type LikeButtonProps = {
 export type TagListProps = {
   tags: string[];
   userIdFromParams?: number;
+  username?: string;
   setTagged: (tag: string) => void;
 };
 
@@ -386,6 +415,63 @@ export type SidebarItemProps = {
   peopleFollowed: number;
 };
 
+export type IconComponentType = React.FC<{ className?: string }>;
+
+export type ShareWrapperType =
+  | typeof FacebookShareButton
+  | typeof TelegramShareButton
+  | typeof TwitterShareButton
+  | typeof LinkedinShareButton
+  | typeof EmailShareButton;
+
+export interface ShareIconProps {
+  label: string;
+  icon: IconComponentType;
+  wrapper?: ShareWrapperType;
+}
+
+export interface ShareIconComponentProps {
+  icon: ShareIconProps;
+  hoveredIcon: string;
+  setHoveredIcon: (iconLabel: string) => void;
+}
+
+export type EmailFormProps = {
+  currentUrl: string;
+  setOpen: (open: boolean) => void;
+  author: string;
+};
+
+export interface HipnodeReportProps {
+  currentUrl: string;
+  selectedComplaintTag: string;
+}
+export type PreviewProps = {
+  previewValues: PostFormValuesType | null;
+};
+
+export type PreviewInterviewProps = PreviewProps & {
+  interviewSalary?: string | null;
+};
+
+export type ImagePreviewProps = {
+  previewValues: PostFormValuesType | null;
+  imagePreviewUrl: string | null;
+};
+
+export type PodcastImagePreviewProps = {
+  previewValues: PostFormValuesType | null;
+  username: string;
+  imagePreviewUrl: string | null;
+};
+
+export type FormLinkType = {
+  title: string;
+  description: string;
+  linkToFormButtonTitle: string;
+  className?: string;
+};
+
 export interface ChildCommentsProps {
   childComments: CommentAuthorProps[];
   depth: number;
@@ -393,3 +479,34 @@ export interface ChildCommentsProps {
   postComments: Record<string, CommentAuthorProps[]>;
   postHeading?: string;
 }
+
+export type EmailData = {
+  selectedComplaintTag: string;
+  currentUrl: string;
+};
+
+export type ShareIconsSectionProps = {
+  icons: ShareIconProps[];
+  hoveredIcon: string;
+  setHoveredIcon: (icon: string) => void;
+  currentUrl: string;
+};
+
+export type ShareUrlLinkProps = {
+  currentUrl: string;
+  handleCopyClick: () => void;
+};
+export interface CreatePostContextType {
+  imagePreviewUrl: string | null;
+  setImagePreviewUrl: Dispatch<SetStateAction<string | null>>;
+  previewValues: PostFormValuesType | null;
+  setPreviewValues: Dispatch<SetStateAction<PostFormValuesType | null>>;
+  clearEditor: boolean;
+  setClearEditor: Dispatch<SetStateAction<boolean>>;
+  podcastPreviewUrl: string | null;
+  setPodcastPreviewUrl: Dispatch<SetStateAction<string | null>>;
+  username: string;
+}
+export type ModalTriggerProps = {
+  isCreateFormPage: boolean;
+};

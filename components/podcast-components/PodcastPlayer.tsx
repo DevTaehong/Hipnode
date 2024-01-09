@@ -147,15 +147,35 @@ const PodcastPlayer = () => {
     };
   }, [state.currentTime]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    const handleResize = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        dispatch({ type: "SET_RAISED_Z_INDEX", payload: false });
+      }
+    };
+    mediaQuery.addEventListener("change", handleResize);
+    if (mediaQuery.matches) {
+      dispatch({ type: "SET_RAISED_Z_INDEX", payload: false });
+    }
+    return () => {
+      mediaQuery.removeEventListener("change", handleResize);
+    };
+  }, []);
+
+  const podcastPlayerZIndex = state.raisedZIndex ? "z-50" : "z-10";
+
   return (
     <footer
-      className={`bg-light_dark-3 fixed bottom-0 flex h-[4.5rem] w-full items-center justify-between gap-2 px-5 transition duration-200 ${
+      className={`bg-light_dark-3 ${podcastPlayerZIndex} fixed bottom-0 flex h-[4.5rem] w-full items-center justify-between gap-2 px-5 transition duration-200 ${
         !state.showPlayer && "translate-y-[4.5rem]"
       }`}
     >
       <PodcastComponents.PodcastBarImage
-        id={state.id || id}
         podcastUserImage={state.podcastUserImage}
+        dispatch={dispatch}
+        raisedZIndex={state.raisedZIndex}
       />
       <section className="flex w-80 flex-col items-center self-center">
         <PodcastComponents.PodcastBarPlayButton
@@ -165,6 +185,7 @@ const PodcastPlayer = () => {
           isPlaying={isPlaying}
         />
         <PodcastComponents.PodcastSpeedButton
+          showId={id}
           showInfo={state.showInfo}
           audioRef={audioRef}
           playbackSpeedIndex={state.playbackSpeedIndex}

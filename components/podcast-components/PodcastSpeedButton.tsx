@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { playbackSpeedOptions } from "@/constants";
 import { cyclePlaybackSpeed } from "@/hooks/podcastHooks";
 import { PodcastSpeedButtonProps } from "@/types/podcast.index";
@@ -7,6 +9,7 @@ const PodcastSpeedButton = ({
   audioRef,
   playbackSpeedIndex,
   dispatch,
+  showId,
 }: PodcastSpeedButtonProps) => {
   const handlePlaybackSpeedCycle = () => {
     const newIndex = cyclePlaybackSpeed({ audioRef, playbackSpeedIndex });
@@ -15,7 +18,14 @@ const PodcastSpeedButton = ({
 
   return (
     <div className="flex items-center gap-2">
-      {showInfo && <p className="text-sc-1_light-2 text-xs">{showInfo}</p>}
+      {showInfo && (
+        <Link
+          href={`/podcasts/${showId}`}
+          className="text-sc-1_light-2 line-clamp-1 text-xs"
+        >
+          {showInfo}
+        </Link>
+      )}
       <button
         onClick={handlePlaybackSpeedCycle}
         className="text-sc-1_light-2 text-sm"

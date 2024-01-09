@@ -12,6 +12,10 @@ import {
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
 import { revalidatePath } from "next/cache";
+import { createNotification } from "./notification.actions";
+import { getNotificationDate } from "@/utils";
+import { PostFormValuesType } from "@/constants/posts";
+import { MeetupWithTags } from "@/types/meetups.index";
 
 export async function getAllMeetUps(): Promise<MeetUp[]> {
   try {
@@ -59,13 +63,23 @@ async function handleMeetupTags(tagNames: string[]): Promise<{ id: number }[]> {
 }
 
 export async function createMeetUpWithTags(
-  meetupData: MeetUpDataType,
+  data: PostFormValuesType,
   tagNames: string[]
 ): Promise<MeetUp> {
   try {
     const { clerkId, userId } = await verifyAuth(
       "You must be logged in to create a meetup."
     );
+
+    const meetupData: MeetUpDataType = {
+      title: data.heading,
+      location: data.location ?? "",
+      contactEmail: data.contactEmail ?? "",
+      contactNumber: data.contactNumber ?? "",
+      image: data.image ?? "",
+      contentType: data.contentType,
+      summary: data.content,
+    };
 
     const allTagIdsToConnect = await handleMeetupTags(tagNames);
 
@@ -80,6 +94,7 @@ export async function createMeetUpWithTags(
           select: {
             name: true,
             picture: true,
+            username: true,
           },
         },
       },
@@ -91,6 +106,31 @@ export async function createMeetUpWithTags(
         meetupId: meetUp.id,
       })),
     });
+
+    // NOTE - create notification for all followers of the user
+    prisma.follower
+      .findMany({
+        where: {
+          followedId: userId,
+        },
+        select: {
+          followerId: true,
+        },
+      })
+      .then((followers) => {
+        const date = getNotificationDate(meetUp.createdAt);
+        followers.forEach((follower) => {
+          createNotification({
+            date,
+            meetupId: meetUp.id,
+            title: meetUp.title,
+            type: "MEETUP",
+            userId: follower.followerId,
+            senderName: meetUp.responsiblePerson.username,
+            image: meetUp.responsiblePerson.picture,
+          });
+        });
+      });
 
     redirect("/meet-ups");
   } catch (error) {
@@ -190,14 +230,28 @@ export async function getFilteredMeetups({
   }
 }
 
-export async function getMeetupById(id: number): Promise<MeetUp | null> {
+export async function getMeetupById(
+  id: number
+): Promise<MeetupWithTags | null> {
   try {
     const meetup = await prisma.meetUp.findUnique({
       where: {
         id,
       },
+      include: {
+        tags: {
+          select: { tag: { select: { id: true, name: true } } },
+        },
+      },
     });
-    return meetup || null;
+    if (meetup) {
+      return {
+        ...meetup,
+        tags: meetup.tags.map((t) => t.tag),
+      };
+    }
+
+    return null;
   } catch (error) {
     console.error(`Error getting meetup by ID ${id}:`, error);
     throw error;
@@ -259,13 +313,24 @@ export async function getMeetupToEdit(
 
 export async function updateMeetup(
   id: number,
-  meetupData: MeetUpDataType,
+  data: PostFormValuesType,
   tagNames: string[]
 ): Promise<MeetUp> {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to update a meetup."
     );
+
+    const meetupData: MeetUpDataType = {
+      title: data.heading,
+      location: data.location ?? "",
+      contactEmail: data.contactEmail ?? "",
+      contactNumber: data.contactNumber ?? "",
+      image: data.image ?? "",
+      contentType: data.contentType,
+      summary: data.content,
+    };
+
     const allTagIdsToConnect = await handleMeetupTags(tagNames);
 
     await prisma.$transaction(async (prisma) => {

@@ -1,5 +1,5 @@
 import OutlineIcon from "@/components/icons/outline-icons";
-import PostPreview from "@/components/posts/create-post-form/PostPreview";
+import PostPreview from "@/components/posts/create-post-form/post-preview/PostPreview";
 import { WritePreviewToggleProps } from "@/types/lexical-editor";
 
 const LexicalWritePreviewToggle = ({

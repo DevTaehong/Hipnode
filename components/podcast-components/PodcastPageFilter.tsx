@@ -7,10 +7,9 @@ import { useSearchParams } from "next/navigation";
 import { getFilterPodcastsUserInfo } from "@/lib/actions/podcast.actions";
 import { extractArray } from "@/utils";
 import { PodcastPageFilterProps } from "@/types/podcast.index";
-import PodcastListColumn from "./PodcastListColumn";
-import SeeMoreButton from "../interview-components/SeeMoreButton";
-import BoxShading from "../interview-components/BoxShading";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
+import { BoxShading, SeeMoreButton } from "../interview-components";
+import { PodcastListColumn } from ".";
+import { LoaderComponent } from "../onboarding-components";
 
 const PodcastPageFilter = ({
   loading,
@@ -103,7 +102,7 @@ const PodcastPageFilter = ({
             ))}
         </div>
         <SeeMoreButton
-          array={podcasts}
+          hasMore={hasMorePodcasts}
           setLoadMore={setLoadMore}
           className="mt-5"
         />

@@ -1,27 +1,23 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
 
-import OutlineIcon from "../icons/outline-icons";
 import { markAllReadNotifications } from "@/lib/actions/notification.actions";
+import OutlineIcon from "../icons/outline-icons";
 
 const MarkAllReadButton = ({
   unreadNotifications,
   setIsPopoverOpen,
 }: {
   unreadNotifications: number;
-  setIsPopoverOpen: Dispatch<SetStateAction<boolean>>;
+  setIsPopoverOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const isMarkAllRead = unreadNotifications === 0;
-
-  const handleMarkAllRead = () => {
-    markAllReadNotifications();
-  };
 
   return (
     <button
       onClick={() => {
-        handleMarkAllRead();
-        setIsPopoverOpen(true);
+        markAllReadNotifications();
+        setIsPopoverOpen?.(true);
       }}
       disabled={isMarkAllRead}
       className={`${
@@ -29,7 +25,7 @@ const MarkAllReadButton = ({
           ? "bg-light-2"
           : "bg-blue-10 hover:opacity-80 hover:transition-opacity"
       } flex h-9 w-[8.25rem] items-center justify-center gap-2.5 rounded-md px-2.5 
-        py-[0.4375rem] dark:bg-dark-3 xl:h-[2.375rem] xl:w-36`}
+        py-[0.4375rem] xl:h-[2.375rem] xl:w-36 dark:bg-dark-3`}
     >
       <OutlineIcon.Checkmark
         className={isMarkAllRead ? "fill-sc-3" : "fill-blue dark:fill-blue-80"}

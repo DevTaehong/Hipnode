@@ -4,11 +4,9 @@ import { type Podcast } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
-import {
-  CreatePodcastType,
-  IPodcast,
-  PodcastUserInfo,
-} from "@/types/podcast.index";
+import { IPodcast, PodcastUserInfo } from "@/types/podcast.index";
+import { POST_TYPE, PostFormValuesType } from "@/constants/posts";
+import { createShow } from "./show.actions";
 
 type PodcastByIdType = Partial<IPodcast>;
 
@@ -172,15 +170,37 @@ export async function getFilterPodcastsUserInfo({
   }
 }
 
-export async function createPodcast(data: CreatePodcastType): Promise<Podcast> {
+// The `.__isNew__` flag is specific to the react-select library.
+// It indicates whether the option was created dynamically by the user
+// (i.e., it's a new option that was not part of the original set of options).
+
+export async function createPodcast(
+  data: PostFormValuesType
+): Promise<Podcast> {
   try {
+    let newShowId = null;
+    if (data.show?.__isNew__) {
+      const newShow = await createShow({ name: data.show.label });
+      newShowId = newShow.id;
+    }
+
+    const podcastData = {
+      title: data.heading,
+      details: data.content,
+      image: data.image ?? "",
+      url: data.podcast ?? "",
+      showId: Number(newShowId) || Number(data.show!?.value),
+      contentType: POST_TYPE.PODCAST,
+    };
+
     const { clerkId, userId } = await verifyAuth(
       "You must be logged in to create a podcast."
     );
 
     await prisma.podcast.create({
-      data: { ...data, userId, clerkId },
+      data: { ...podcastData, userId, clerkId },
     });
+
     redirect("/podcasts");
   } catch (error) {
     console.error("Error creating podcast:", error);
@@ -188,18 +208,33 @@ export async function createPodcast(data: CreatePodcastType): Promise<Podcast> {
   }
 }
 
-export async function updatePodcast(id: number, data: Partial<Podcast>) {
+export async function updatePodcast(id: number, data: PostFormValuesType) {
   try {
     const { userId } = await verifyAuth(
       "You must be logged in to update a podcast."
     );
+
+    let newShowId = null;
+    if (data.show!?.__isNew__) {
+      const newShow = await createShow({ name: data.show.label });
+      newShowId = newShow.id;
+    }
+
+    const podcastData = {
+      title: data.heading,
+      details: data.content,
+      image: data.image ?? "",
+      url: data.podcast ?? "",
+      showId: Number(newShowId) || Number(data.show!?.value),
+      contentType: POST_TYPE.PODCAST,
+    };
 
     await prisma.podcast.update({
       where: {
         id,
         userId,
       },
-      data,
+      data: podcastData,
     });
     redirect("/podcasts");
   } catch (error) {

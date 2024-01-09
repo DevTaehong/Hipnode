@@ -20,7 +20,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
         <button
           type="button"
           onClick={() => onSubmitPreview()}
-          className="flex cursor-pointer items-center gap-[0.625rem] text-[0.875rem] dark:text-light-2 md:text-[1rem] md:leading-[1.5rem]"
+          className="flex cursor-pointer items-center gap-[0.625rem] text-[0.875rem] dark:text-light-2 md:text-base md:leading-6"
         >
           <OutlineIcon.View />
           <span className="pr-4">Preview</span>
@@ -45,7 +45,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
           )}
         </div>
         <DialogHeader>
-          <DialogTitle className="flex flex-row justify-start px-12 text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
+          <DialogTitle className="flex flex-row justify-start px-12 text-base font-semibold leading-6 text-sc-2 dark:text-light-2 md:text-[1.625rem] md:font-normal md:leading-[2.375rem]">
             {previewValues?.heading || (
               <p className="animate-pulse text-sc-2 dark:text-light-2">
                 Your title here ....
@@ -58,7 +58,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
             ? previewValues?.tags?.map((tag: string) => (
                 <p
                   key={tag}
-                  className="text-[1rem] font-normal leading-[1.5rem] text-yellow-90"
+                  className="text-base font-normal leading-6 text-yellow-90"
                 >
                   #{tag}
                 </p>
@@ -66,7 +66,7 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
             : Array.from({ length: 3 }).map((_, index) => (
                 <p
                   key={index}
-                  className="animate-pulse text-[1rem] font-normal leading-[1.5rem] text-yellow-90"
+                  className="animate-pulse text-base font-normal leading-6 text-yellow-90"
                 >
                   {`#tag ${index + 1}`}
                 </p>
@@ -74,11 +74,11 @@ const PostPreview = ({ htmlString, onSubmitPreview }: PostPreviewProps) => {
         </div>
         {htmlString && htmlString.length > 11 ? (
           <p
-            className="px-12 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:text-sc-3 md:text-[1rem]"
+            className="px-12 text-[0.875rem] leading-6 text-sc-3 dark:text-sc-3 md:text-base"
             dangerouslySetInnerHTML={{ __html: htmlString }}
           />
         ) : (
-          <p className="animate-pulse  rounded px-12 md:text-[1rem} pl-4 px-2 py-8 mb-[1.25rem] rounded bg-gray-200 text-[0.875rem] leading-[1.5rem] text-sc-3 dark:bg-gray-700 dark:text-sc-3">
+          <p className="animate-pulse  rounded px-12 md:text-[1rem} pl-4 px-2 py-8 mb-[1.25rem] rounded bg-gray-200 text-[0.875rem] leading-6 text-sc-3 dark:bg-gray-700 dark:text-sc-3">
             Your media content......
           </p>
         )}

@@ -22,7 +22,8 @@ export interface PodcastUserInfo extends Podcast {
 }
 
 type UserInfo = {
-  name: string;
+  username?: string;
+  name?: string;
   location: string | null;
   picture: string;
 };
@@ -104,6 +105,7 @@ export interface PodcastSpeedButtonProps {
   audioRef: React.RefObject<HTMLAudioElement>;
   playbackSpeedIndex: number;
   dispatch: React.Dispatch<Action>;
+  showId?: number;
 }
 
 export interface PodcastProgressBarProps {
@@ -155,8 +157,9 @@ export interface PodcastBarPlayButtonProps {
 }
 
 export interface PodcastBarImageProps {
-  id: number | undefined;
   podcastUserImage: string;
+  dispatch: React.Dispatch<Action>;
+  raisedZIndex: boolean;
 }
 
 export type LargePodcastCardType = {
@@ -236,3 +239,8 @@ export type PodcastWithShow = {
   contentType: string;
   show: { label: string; value: string };
 };
+
+export interface AudioPlayerImageProps {
+  imageSrc: string;
+  podcastId: number;
+}

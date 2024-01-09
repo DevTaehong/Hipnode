@@ -192,7 +192,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
       </div>
       {!hasSeenAllPosts && (
         <CustomButton
-          className="lg:hidden dark:text-light-2"
+          className="dark:text-light-2 lg:hidden"
           type="button"
           onClick={() => setLoadMore(true)}
           label={

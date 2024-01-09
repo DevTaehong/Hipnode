@@ -236,8 +236,7 @@ export function formatInterviewDate(inputDate: Date): string {
 export function formatSalary(amount: number, salaryPeriod: string): string {
   const formattedSalary =
     amount >= 1000 ? `${(amount / 1000).toFixed(0)}k` : amount.toString();
-  const periodSuffix = salaryPeriod === "month" ? "/mo" : "/year";
-  return formattedSalary + periodSuffix;
+  return formattedSalary + "/" + salaryPeriod;
 }
 
 export function capitalise(str: string) {
@@ -473,4 +472,16 @@ export const filterNotifications = (
   return notifications.filter(
     (notification) => notification.type.toLowerCase() === selectedTab
   );
+};
+
+const getSortedNotificationDate = (date: Date | string) => {
+  return date instanceof Date ? date : new Date(date);
+};
+
+export const sortedNotifications = (notifications: NotificationProps[]) => {
+  return notifications.sort((a, b) => {
+    const dateA = getSortedNotificationDate(a.createdAt);
+    const dateB = getSortedNotificationDate(b.createdAt);
+    return dateB.getTime() - dateA.getTime();
+  });
 };

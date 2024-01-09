@@ -29,7 +29,6 @@ async function main() {
   await seedInterviewTags();
   await createInterviews(users);
   await seedTagOnInterview();
-  await createPosts(users, tags, groups);
   const posts = await createPosts(users, tags, groups);
 
   const shows = await createShows(users);

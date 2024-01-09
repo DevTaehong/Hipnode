@@ -26,7 +26,7 @@ const ProfileFilter = () => {
   }, [search, router, searchParams]);
 
   return (
-    <div className="flex w-full justify-between gap-5 overflow-y-hidden rounded-[0.875rem] bg-light p-2.5 dark:bg-dark-3 md:rounded-[1.25rem] md:px-7 md:py-5">
+    <div className="flex w-full shrink-0 justify-between gap-5 overflow-y-hidden rounded-[0.875rem] bg-light p-2.5 dark:bg-dark-3 md:rounded-[1.25rem] md:px-7 md:py-5">
       {profileFilters.map((filter) => (
         <Button
           key={filter}

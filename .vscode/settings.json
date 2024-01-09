@@ -10,5 +10,6 @@
   },
   "cSpell.words": ["chatrooms", "Hipnode", "livechat", "negan"],
   "prettier.singleQuote": false,
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "[prisma]": { "editor.defaultFormatter": "Prisma.prisma" }
 }

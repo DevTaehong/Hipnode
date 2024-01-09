@@ -1,24 +1,10 @@
 "use client";
 
-import { PostFormValuesType } from "@/constants/posts";
-import React, {
-  createContext,
-  useContext,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { createContext, useContext, useState } from "react";
 
-export interface CreatePostContextType {
-  imagePreviewUrl: string | null;
-  setImagePreviewUrl: Dispatch<SetStateAction<string | null>>;
-  previewValues: PostFormValuesType | null;
-  setPreviewValues: Dispatch<SetStateAction<PostFormValuesType | null>>;
-  clearEditor: boolean;
-  setClearEditor: Dispatch<SetStateAction<boolean>>;
-  podcastPreviewUrl: string | null;
-  setPodcastPreviewUrl: Dispatch<SetStateAction<string | null>>;
-}
+import { PostFormValuesType } from "@/constants/posts";
+import { useUser } from "@clerk/nextjs";
+import { CreatePostContextType } from "@/types/posts";
 
 const CreatePostContext = createContext<CreatePostContextType | undefined>(
   undefined
@@ -38,6 +24,8 @@ export function CreatePostProvider({
     null
   );
 
+  const user = useUser();
+
   const contextValue: CreatePostContextType = {
     imagePreviewUrl,
     setImagePreviewUrl,
@@ -47,6 +35,7 @@ export function CreatePostProvider({
     setClearEditor,
     podcastPreviewUrl,
     setPodcastPreviewUrl,
+    username: user?.user?.username || "Christopher",
   };
 
   return (

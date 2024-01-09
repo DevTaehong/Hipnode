@@ -23,36 +23,38 @@ const GroupPage = async () => {
   ]);
 
   return (
-    <main className="bg-light-2_dark-2">
-      <div className="lg:pl-5 2xl:mx-auto 2xl:max-w-[90rem] 2xl:px-10">
-        <div className="flex flex-col lg:flex-row">
-          <div className="hidden lg:sticky lg:top-[5.755rem] lg:block lg:h-[90vh]">
-            <GroupSection
-              fastestGrowingGroupsPromise={getFastestGrowingGroups()}
-              newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
-              mostPopularGroupsPromise={getMostPopularGroups()}
-            />
-          </div>
-          <MobileGroupSection
-            fastestGrowingGroupsPromise={getFastestGrowingGroups()}
-            newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
-            mostPopularGroupsPromise={getMostPopularGroups()}
-          />
-          <article>
-            <InfiniteScroll
-              renderItem={GroupPost}
-              initialData={posts}
-              fetchData={getPostsFromGroups}
-              className="mx-5 columns-1 gap-5 sm:columns-2 lg:mb-10 lg:mr-0 lg:pt-[1.88rem] 2xl:columns-3"
-            />
-          </article>
-          <aside className="mb-5 flex flex-col gap-5 p-5 lg:sticky lg:top-[4.63rem] lg:h-[90vh]">
-            <Meetups meetUps={meetups} />
-            <Podcasts podcasts={podcasts} />
-          </aside>
-        </div>
+    <div className="flex flex-col gap-y-5 p-5 lg:flex-row lg:gap-y-0 lg:p-0 lg:px-10 2xl:mx-auto 2xl:max-w-[90rem]">
+      <div className="group-page-left-sidebar">
+        <GroupSection
+          fastestGrowingGroupsPromise={getFastestGrowingGroups()}
+          newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
+          mostPopularGroupsPromise={getMostPopularGroups()}
+        />
       </div>
-    </main>
+
+      <MobileGroupSection
+        fastestGrowingGroupsPromise={getFastestGrowingGroups()}
+        newlyLaunchedGroupsPromise={getNewlyLaunchedGroups()}
+        mostPopularGroupsPromise={getMostPopularGroups()}
+      />
+
+      <article
+        className="lg:h-screen lg:overflow-y-auto lg:py-[1.875rem] 
+        lg:pl-[14.375rem] lg:pr-[21.5625rem]"
+      >
+        <InfiniteScroll
+          renderItem={GroupPost}
+          initialData={posts}
+          fetchData={getPostsFromGroups}
+          className="columns-1 gap-5 sm:columns-2 2xl:columns-3"
+        />
+      </article>
+
+      <aside className="group-page-right-sidebar">
+        <Meetups meetUps={meetups} />
+        <Podcasts podcasts={podcasts} />
+      </aside>
+    </div>
   );
 };
 

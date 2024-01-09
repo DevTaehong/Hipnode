@@ -4,18 +4,16 @@ import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { v4 as uuidv4 } from "uuid";
 
-import MessageAttachment from "./MessageAttachment";
 import useChatStore from "@/app/chatStore";
-import {
-  isOnlyEmoji,
-  extractUrls,
-  formatTextWithLineBreaks,
-  handleEditClick,
-  handleDeleteClick,
-} from ".";
-import EditDeleteButton from "../chat-page/EditDeleteButton";
+import { handleEditClick, handleDeleteClick } from "../../utils/chat-functions";
 import { LiveChatMessageProps } from "@/types/chatroom.index";
-import LinkPreview from "../chat-page/LinkPreview";
+import { EditDeleteButton, LinkPreview } from "../chat-page";
+import { MessageAttachment } from ".";
+import {
+  extractUrls,
+  isOnlyEmoji,
+  formatTextWithLineBreaks,
+} from "@/utils/chat-page-styling";
 
 const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
   const { chatroomUsers } = useChatStore();
@@ -92,7 +90,7 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
           alt={`Profile image for ${username}`}
           height={40}
           width={40}
-          className="rounded-full"
+          className="rounded-full object-cover"
         />
       </figure>
       <figure className="relative flex w-fit max-w-[250px] flex-col">

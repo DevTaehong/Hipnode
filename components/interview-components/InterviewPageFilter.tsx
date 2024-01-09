@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 
-import { InterviewCard } from ".";
+import { BoxShading, InterviewCard, SeeMoreButton } from ".";
 import { extractArray } from "@/utils";
 import { getFilteredInterviews } from "@/lib/actions/interview.actions";
-import SeeMoreButton from "./SeeMoreButton";
-import BoxShading from "./BoxShading";
-import LoaderComponent from "../onboarding-components/LoaderComponent";
 import { InterviewPageProps, InterviewProps } from "@/types/interview.index";
+import { LoaderComponent } from "../onboarding-components";
 
 const InterviewPageFilter = ({
   loading,
@@ -90,7 +88,7 @@ const InterviewPageFilter = ({
           interviewList.map((interview) => (
             <InterviewCard key={interview.id} interviewData={interview} />
           ))}
-        <SeeMoreButton array={interviewList} setLoadMore={setLoadMore} />
+        <SeeMoreButton hasMore={hasMoreInterviews} setLoadMore={setLoadMore} />
         <p
           ref={ref}
           className={`${

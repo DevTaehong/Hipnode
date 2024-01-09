@@ -1,14 +1,10 @@
-import { useState, useEffect, memo, useMemo } from "react";
+import { useState, useEffect, memo } from "react";
 import Link from "next/link";
 
 import { LinkPreviewProps, LinkPreviewMetadata } from "@/types/chatroom.index";
 import { fetchMetadataServer } from "./fetchMetadata";
-import { getStyling } from "../live-chat";
 
 const LinkPreview = memo(({ url, smallChatBox = false }: LinkPreviewProps) => {
-  const { outerDivStyles, imageDivStyles, imageStyles } = useMemo(() => {
-    return getStyling(smallChatBox);
-  }, [smallChatBox]);
   const [metadata, setMetadata] = useState<LinkPreviewMetadata>({
     title: null,
     image: null,
@@ -30,6 +26,18 @@ const LinkPreview = memo(({ url, smallChatBox = false }: LinkPreviewProps) => {
   }, [url]);
 
   const { title, image, description } = metadata;
+
+  const outerDivStyles = smallChatBox
+    ? "gap-1"
+    : "gap-3 xs:flex-row md:flex-col lg:flex-row";
+
+  const imageDivStyles = smallChatBox
+    ? "w-full max-h-[7rem]"
+    : "xs:max-h-[7rem] xs:max-w-[8.2rem] md:max-w-full md:max-h-[18rem] lg:max-h-[7rem] w-full lg:max-w-[10rem]";
+
+  const imageStyles = smallChatBox
+    ? ""
+    : "w-full xs:w-[8.2rem] md:w-full lg:w-[10rem]";
 
   if (!title || !image) return null;
 

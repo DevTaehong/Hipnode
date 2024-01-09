@@ -179,11 +179,11 @@
   }
 
   .clerk-modal-background {
-    @apply flex w-full justify-center py-8 dark:bg-dark-1 md:w-1/2 md:py-20;
+    @apply flex w-full justify-center py-8 dark:bg-dark-3 md:w-1/2 md:py-20;
   }
 
   .clerk-modal-container {
-    @apply relative flex h-fit w-full max-w-[32rem] md:max-w-[32rem];
+    @apply relative dark:bg-dark-3 flex h-fit w-full max-w-[32rem] md:max-w-[32rem];
   }
 
   .clerk-modal-logo {
@@ -246,6 +246,10 @@
     background: none;
     font-size: inherit;
     line-height: inherit;
+  }
+
+  .action-popover {
+    @apply pb-[0.875rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem];
   }
 }
 

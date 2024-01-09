@@ -1,6 +1,7 @@
 import {
   getNewPostsByGroupId,
   getPopularGroupPosts,
+  getPopularTags,
 } from "@/lib/actions/post.action";
 import { groupFormLinkProps } from "@/constants";
 import { getGroupById } from "@/lib/actions/group.actions";
@@ -11,13 +12,14 @@ import Explore from "@/components/explore/Explore";
 import GroupAbout from "@/components/group-detail-page/GroupAbout";
 import GroupAdmins from "@/components/group-detail-page/GroupAdmins";
 import GroupCover from "@/components/group-detail-page/GroupCover";
-import Tags from "@/components/home-page/tags/Tags";
 import RecentMedia from "@/components/group-detail-page/RecentMedia";
 import FetchGroupDetailPosts from "@/components/group-detail-page/FetchGroupDetailPosts";
+import PopularTags from "@/components/home-page/tags/PopularTags";
 
 const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
   const groupId = Number(params.id);
   const group = await getGroupById({ groupId });
+  const tagsData = await getPopularTags();
   // NOTE - Since this is the first query, there is no cursor to pass in.
   const defaultMyCursorId = undefined;
   const newPosts = await getNewPostsByGroupId(defaultMyCursorId, groupId);
@@ -71,7 +73,7 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
             description={group?.description ?? group?.name ?? "N/A"}
           />
           <GroupAdmins admins={group?.admins ?? []} />
-          <Tags className="w-full min-w-0 px-0" />
+          <PopularTags tagsData={tagsData} />
         </aside>
       </div>
     </main>
