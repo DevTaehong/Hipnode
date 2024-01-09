@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { ChangeEvent, FC } from "react";
+import { ChangeEvent, ElementType, FC, ReactNode, SetStateAction } from "react";
 import { StaticImageData } from "next/image";
 import { Podcast, Post, User } from "@prisma/client";
 import { Control, FieldValues } from "react-hook-form";
@@ -118,7 +118,7 @@ export type QuestionKeysMapType = {
 
 export type PostItem = {
   title: string;
-  icon: React.FC<{ className?: string; children? }>;
+  icon: FC<{ className?: string; children? }>;
   iconBgColor: string;
   iconFillColor: string;
 };
@@ -128,12 +128,12 @@ export interface ClerkUser extends User {
 }
 
 export interface CustomButtonProps {
-  label: string | React.ReactNode;
+  label: string | ReactNode;
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
-  icon?: React.FC;
+  icon?: FC;
 }
 
 export interface ActiveButtonsProps {
@@ -186,7 +186,7 @@ export interface OnboardingSideScreenProps {
 }
 
 export interface IconProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 
@@ -250,13 +250,10 @@ export interface SocialIconProps extends IconProps {
 
 export interface NotificationTab {
   title: string;
-  icon?: React.ElementType;
+  icon?: ElementType;
 }
 
-export interface NotificationPopoverButtonProps {
-  className: string;
-  sideOffset: number;
-  alignOffset: number;
+export interface NotificationButtonProps {
   currentUserId: number;
   lastChecked: Date;
 }
@@ -288,6 +285,7 @@ export interface NotificationCommentTypes {
   image: string;
   isFollowed?: boolean | null;
   commentId?: number | null;
+  classNames?: string;
 }
 
 export interface ProfileInfoProps {
@@ -357,7 +355,7 @@ export interface ContentCardProps {
 }
 
 export interface StatsDescriptionProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 
@@ -378,4 +376,31 @@ export interface CategoriesProps {
   page: string;
   urlFilter: string;
   className: string;
+}
+
+export interface NotificationProviderProps {
+  children: ReactNode;
+  currentUserId: number;
+  lastChecked: Date;
+}
+
+export interface GetNotificationQueryOptions {
+  take: number;
+  where: {
+    userId: number;
+  };
+  orderBy: {
+    createdAt: "desc";
+  };
+  skip?: number;
+  cursor?: {
+    id: number;
+  };
+}
+
+export interface Notification extends NotificationProps {}
+
+export interface GetNotificationsTypes {
+  notifications: Notification[];
+  hasMoreData?: boolean;
 }

@@ -1,9 +1,13 @@
 import { verifyAuth } from "@/lib/auth";
+import { getNotificationLastChecked } from "@/lib/actions/user.actions";
 import { NavbarContent } from ".";
 
 const Navbar = async () => {
-  const { userId, loggedInUserImage, userName, fullName, lastChecked } =
-    await verifyAuth("You must be logged in to view this page.", false);
+  const { userId, loggedInUserImage, userName, fullName } = await verifyAuth(
+    "You must be logged in to view this page.",
+    false
+  );
+  const lastChecked = await getNotificationLastChecked(userId);
 
   const userInfo = {
     id: userId,
@@ -17,7 +21,7 @@ const Navbar = async () => {
       <NavbarContent
         userInfo={userInfo}
         currentUserId={userId}
-        lastChecked={lastChecked}
+        lastChecked={lastChecked.notificationLastChecked}
       />
     </nav>
   );

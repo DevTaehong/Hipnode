@@ -28,7 +28,7 @@ const PopularTags = ({ tagsData }: TagsProps) => {
     router.push(newPath);
   };
   return (
-    <aside className="flex h-fit w-full flex-col items-start justify-center rounded-2xl bg-light p-5 dark:bg-dark-3 lg:w-[13.125rem]">
+    <aside className="flex h-fit w-full flex-col items-start justify-center rounded-2xl bg-light p-5 lg:w-[13.125rem] dark:bg-dark-3">
       <h1 className="semibold-16 mb-5 text-sc-2 dark:text-light-2">
         Popular Tags
       </h1>

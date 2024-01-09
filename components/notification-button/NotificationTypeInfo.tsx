@@ -8,25 +8,25 @@ const NotificationTypeInfo = {
   COMMENT: {
     message: "commented on your post",
     icon: (
-      <CommentIcon className="h-4 w-4 stroke-sc-2 dark:stroke-light-2 xl:h-5 xl:w-5" />
+      <CommentIcon className="h-4 w-4 stroke-sc-2 xl:h-5 xl:w-5 dark:stroke-light-2" />
     ),
   },
   REPLY: {
     message: "replied to your comment",
     icon: (
-      <CommentIcon className="h-4 w-4 stroke-sc-2 dark:stroke-light-2 xl:h-5 xl:w-5" />
+      <CommentIcon className="h-4 w-4 stroke-sc-2 xl:h-5 xl:w-5 dark:stroke-light-2" />
     ),
   },
   REACTION: {
     message: "liked your post",
     icon: (
-      <HeartIcon className="h-4 w-4 fill-sc-2 dark:fill-light-2 xl:h-5 xl:w-5" />
+      <HeartIcon className="h-4 w-4 fill-sc-2 xl:h-5 xl:w-5 dark:fill-light-2" />
     ),
   },
   MENTION: {
     message: "mentioned you",
     icon: (
-      <MentionIcon className="h-4 w-4 fill-sc-2 dark:fill-light-2 xl:h-5 xl:w-5" />
+      <MentionIcon className="h-4 w-4 fill-sc-2 xl:h-5 xl:w-5 dark:fill-light-2" />
     ),
   },
   MEETUP: {
@@ -36,7 +36,7 @@ const NotificationTypeInfo = {
   FOLLOWER: {
     message: "followed you",
     icon: (
-      <FollowIcon className="h-4 w-4 fill-sc-2 dark:fill-light-2 xl:h-5 xl:w-5" />
+      <FollowIcon className="h-4 w-4 fill-sc-2 xl:h-5 xl:w-5 dark:fill-light-2" />
     ),
   },
 };

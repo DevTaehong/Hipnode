@@ -16,7 +16,7 @@ const SidebarItem = ({ item, peopleFollowed }: SidebarItemProps) => {
     <Link
       key={title}
       className="flex w-fit cursor-pointer flex-row items-center justify-between hover:translate-x-1 hover:scale-[101%]"
-      href={`?filter=${title.toLowerCase()}`}
+      href={`/?filter=${title.toLowerCase()}`}
     >
       <div className={imgContainerClass}>
         <Image src={imgSrc} height={28} width={28} alt={imgAlt} />
@@ -33,7 +33,7 @@ const SidebarItem = ({ item, peopleFollowed }: SidebarItemProps) => {
             </span>
           )}
         </p>
-        <p className="line-clamp-1 hidden text-[0.563rem] dark:text-sc-3 lg:block">
+        <p className="line-clamp-1 hidden text-[0.563rem] lg:block dark:text-sc-3">
           {description}
         </p>
       </div>

@@ -533,7 +533,7 @@ export const codeOfConduct = [
     description:
       "Report any abusive behavior to maintain a safe space for all.}",
   },
-};
+];
 
 export const SelectionOptions: SelectionOptionsType = [
   { label: "Post", icon: FillIcon.Post },
@@ -541,3 +541,8 @@ export const SelectionOptions: SelectionOptionsType = [
   { label: "Podcast", icon: FillIcon.Podcasts },
   { label: "Interview", icon: FillIcon.Interviews },
 ];
+
+export const SIDE_OFFSET_LAPTOP = 11;
+export const SIDE_OFFSET_MOBILE = 15;
+export const ALIGN_OFFSET_LAPTOP = -189;
+export const ALIGN_OFFSET_MOBILE = -72;

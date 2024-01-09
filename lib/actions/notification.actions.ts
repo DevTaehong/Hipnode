@@ -1,20 +1,38 @@
 "use server";
 
-import { Notification } from "@prisma/client";
-
 import prisma from "@/lib/prisma";
+import { verifyAuth } from "../auth";
 import {
   CreateNotificationsParams,
   UpdateNotificationsParams,
   deleteNotificationParams,
-} from "./shared.types";
+} from "@/types/shared.types";
+import { GetNotificationQueryOptions, GetNotificationsTypes } from "@/types";
+
+export async function getUnreadNotificationsCount(
+  userId: number
+): Promise<number> {
+  try {
+    const count = await prisma.notification.count({
+      where: {
+        userId,
+        isRead: false,
+      },
+    });
+
+    return count;
+  } catch (error) {
+    console.error("Error retrieving unread notifications count:", error);
+    throw error;
+  }
+}
 
 export async function getUncheckedNotifications(
   userId: number,
   lastChecked: Date
-): Promise<{ createdAt: Date }[]> {
+): Promise<number> {
   try {
-    const notifications = await prisma.notification.findMany({
+    const notifications = await prisma.notification.count({
       where: {
         userId,
         createdAt: {
@@ -23,8 +41,6 @@ export async function getUncheckedNotifications(
       },
     });
 
-    if (!notifications) throw new Error("No unchecked notifications found");
-
     return notifications;
   } catch (error) {
     console.error("Error retrieving unchecked notifications:", error);
@@ -32,22 +48,38 @@ export async function getUncheckedNotifications(
   }
 }
 
-export async function getNotificationsByUserId(
-  userId: number
-): Promise<Notification[]> {
+export async function getNotificationsByCursorId(
+  cursorId?: number
+): Promise<GetNotificationsTypes> {
   try {
-    const notifications = await prisma.notification.findMany({
+    const { userId } = await verifyAuth();
+
+    let queryOptions: GetNotificationQueryOptions = {
+      take: 10,
       where: {
         userId,
       },
       orderBy: {
-        date: "desc",
+        createdAt: "desc",
       },
-    });
+    };
+
+    if (cursorId !== undefined) {
+      queryOptions = {
+        ...queryOptions,
+        skip: 1,
+        cursor: { id: cursorId },
+      };
+    }
+
+    const notifications = await prisma.notification.findMany(queryOptions);
 
     if (!notifications) throw new Error("No notifications found");
 
-    return notifications;
+    return {
+      notifications,
+      hasMoreData: notifications.length > 0,
+    };
   } catch (error) {
     console.error("Error retrieving notifications:", error);
     throw error;

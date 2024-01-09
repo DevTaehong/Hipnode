@@ -473,3 +473,15 @@ export const filterNotifications = (
     (notification) => notification.type.toLowerCase() === selectedTab
   );
 };
+
+const getSortedNotificationDate = (date: Date | string) => {
+  return date instanceof Date ? date : new Date(date);
+};
+
+export const sortedNotifications = (notifications: NotificationProps[]) => {
+  return notifications.sort((a, b) => {
+    const dateA = getSortedNotificationDate(a.createdAt);
+    const dateB = getSortedNotificationDate(b.createdAt);
+    return dateB.getTime() - dateA.getTime();
+  });
+};

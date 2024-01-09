@@ -12,6 +12,8 @@ import {
 import { redirect } from "next/navigation";
 import { verifyAuth } from "../auth";
 import { revalidatePath } from "next/cache";
+import { createNotification } from "./notification.actions";
+import { getNotificationDate } from "@/utils";
 import { PostFormValuesType } from "@/constants/posts";
 import { MeetupWithTags } from "@/types/meetups.index";
 
@@ -92,6 +94,7 @@ export async function createMeetUpWithTags(
           select: {
             name: true,
             picture: true,
+            username: true,
           },
         },
       },
@@ -103,6 +106,31 @@ export async function createMeetUpWithTags(
         meetupId: meetUp.id,
       })),
     });
+
+    // NOTE - create notification for all followers of the user
+    prisma.follower
+      .findMany({
+        where: {
+          followedId: userId,
+        },
+        select: {
+          followerId: true,
+        },
+      })
+      .then((followers) => {
+        const date = getNotificationDate(meetUp.createdAt);
+        followers.forEach((follower) => {
+          createNotification({
+            date,
+            meetupId: meetUp.id,
+            title: meetUp.title,
+            type: "MEETUP",
+            userId: follower.followerId,
+            senderName: meetUp.responsiblePerson.username,
+            image: meetUp.responsiblePerson.picture,
+          });
+        });
+      });
 
     redirect("/meet-ups");
   } catch (error) {

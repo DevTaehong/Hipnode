@@ -4,7 +4,6 @@ export { default as Navbar } from "./Navbar";
 export { default as NavbarContent } from "./NavbarContent";
 export { default as NavLinks } from "./NavLinks";
 export { default as NotificationButton } from "./NotificationButton";
-export { default as NotificationPopover } from "./NotificationPopover";
 export { default as SearchResultItem } from "./SearchResultItem";
 export { default as SearchResultList } from "./SearchResultList";
 export { default as SearchTypeHeader } from "./SearchTypeHeader";

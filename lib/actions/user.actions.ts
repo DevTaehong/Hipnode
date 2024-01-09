@@ -237,10 +237,7 @@ export async function isLoggedInUserOnboarded(
   }
 }
 
-export async function updateNotificationLastChecked(
-  id: number,
-  path: string
-): Promise<void> {
+export async function updateNotificationLastChecked(id: number): Promise<void> {
   try {
     await prisma.user.update({
       where: {
@@ -250,7 +247,6 @@ export async function updateNotificationLastChecked(
         notificationLastChecked: new Date(),
       },
     });
-    revalidatePath(path);
   } catch (error) {
     console.error("Error updating notification last checked:", error);
     throw error;
