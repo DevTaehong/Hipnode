@@ -26,7 +26,7 @@ const PodcastPage = async ({ params }: PodcastPageProps) => {
   const randomIndex = getRandomInt(0, 2);
 
   return (
-    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pt-[6rem]">
+    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pb-[5.5rem] pt-[6rem]">
       <section className="relative flex h-fit w-full max-w-3xl flex-col gap-5">
         <AudioPlayer
           podcast={podcast}

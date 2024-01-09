@@ -27,7 +27,7 @@ const Meetups = async ({ searchParams }: { searchParams: SearchProps }) => {
     tagIds: meetupFilters,
   });
   return (
-    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 lg:h-screen lg:pb-[2.3rem] lg:pt-[1.875rem]">
+    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pb-[5.5rem] lg:h-screen lg:pt-[1.875rem]">
       <div className="mt-20 flex max-w-[85rem] flex-col gap-5 lg:sticky lg:mt-16 lg:flex-row lg:overflow-hidden xl:w-full">
         <MeetupFilterAndContentWrapper
           meetupTags={meetupTags}
