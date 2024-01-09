@@ -10,13 +10,27 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 
 - **Posts**: Create and engage with posts. Share your thoughts, experiences, and ideas with a wider community.
 
-  <img src="public/home.png" alt="Homepage" width="500" height="300">
+  <img src="public/readme/home.png" alt="Homepage" width="500" height="300">
 
 - **Podcasts**: Explore a variety of podcasts on diverse topics or host your own.
+
+  <img src="public/readme/podcast.png" alt="Homepage" width="500" height="300" >
+
 - **Meetups**: Organize and participate in meetups to connect with people sharing similar interests.
+
+  <img src="public/readme/meetups.png" alt="Homepage" width="500" height="300">
+
 - **Interviews**: Discover interviews with a range of personalities, providing insights and inspiration.
+
+  <img src="public/readme/interviews.png" alt="Homepage" width="500" height="300">
+
 - **Groups**: Join groups related to your own interests, share posts and other content.
+
+  <img src="public/readme/group.png" alt="Homepage" width="500" height="300">
+
 - **Live Chat**: Engage in real-time conversations, share instant feedback, and build connections through our interactive live chat feature.
+
+  <img src="public/readme/livechat.png" alt="Homepage" width="500" height="300">
 
 ## Technologies Used
 
@@ -151,15 +165,41 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 - **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
 - **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
 
-- **Author3** - [Profile](https://github.com/AlexDjangoX)
-- **Author4** - [Profile](https://github.com/AlexDjangoX)
+### Tye Stanley - Software Developer
+
+[GitHub Profile](https://github.com/)
+
+#### Main Tasks
+
+- **Page, Component, and Functionality Development**: Led the development of pages and components for meetups, podcasts, and interviews, adhering to Figma design specifications. Integrated key functionality within these components to enhance interactivity and user engagement. Ensured a polished and responsive user interface across all components.
+- **Authentication and User Onboarding**: Implemented user authentication using Clerk and designed a comprehensive onboarding sequence for new users, improving the user experience from the outset.
+- **Podcast Player Functionality**: Developed a versatile podcast player, allowing users to enjoy podcasts while browsing other site sections, thus adding a multitasking feature to the platform.
+- **Live Chat Feature**: Created an instant messaging feature, enabling real-time communication among users and contributing to a more interactive and connected user community.
+- **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
+- **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
+
+### Taehong Min - Software Developer
+
+[GitHub Profile](https://github.com/)
+
+#### Main Tasks
+
+- **Page, Component, and Functionality Development**: Led the development of pages and components for meetups, podcasts, and interviews, adhering to Figma design specifications. Integrated key functionality within these components to enhance interactivity and user engagement. Ensured a polished and responsive user interface across all components.
+- **Authentication and User Onboarding**: Implemented user authentication using Clerk and designed a comprehensive onboarding sequence for new users, improving the user experience from the outset.
+- **Podcast Player Functionality**: Developed a versatile podcast player, allowing users to enjoy podcasts while browsing other site sections, thus adding a multitasking feature to the platform.
+- **Live Chat Feature**: Created an instant messaging feature, enabling real-time communication among users and contributing to a more interactive and connected user community.
+- **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
+- **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
 
 ## License
 
-This project is licensed under the [LICENSE NAME] License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the [MIT] License.
 
 ## Acknowledgments
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc.
+- Adrian Hajdin who makes this possible through his amazing team of Mentors
+- The tireless support we received throughout the Master Class
+- Amazing workshops run be mentors based on participant requests
+- Regular meetups withy mentors in the Office-hours platform
+- One on one mentorship we all received
+- An amazing Dev Team of diverse people from across the globe

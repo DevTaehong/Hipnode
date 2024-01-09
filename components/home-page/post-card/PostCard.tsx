@@ -45,11 +45,27 @@ const PostCard = ({
   });
 
   const toggleLike = async () => {
-    const toggled = await togglePostLike(id);
     setLikesState((prevState) => ({
-      likesCount: toggled.totalLikes,
+      likesCount: prevState.loggedInUserHasLikedPost
+        ? prevState.likesCount - 1
+        : prevState.likesCount + 1,
       loggedInUserHasLikedPost: !prevState.loggedInUserHasLikedPost,
     }));
+
+    try {
+      const toggled = await togglePostLike(id);
+      setLikesState({
+        likesCount: toggled.totalLikes,
+        loggedInUserHasLikedPost: toggled.liked,
+      });
+    } catch (error) {
+      setLikesState((prevState) => ({
+        likesCount: prevState.loggedInUserHasLikedPost
+          ? prevState.likesCount + 1
+          : prevState.likesCount - 1,
+        loggedInUserHasLikedPost: !prevState.loggedInUserHasLikedPost,
+      }));
+    }
   };
 
   const socialCounts: SocialCountTuple[] = [
@@ -95,7 +111,7 @@ const PostCard = ({
                   authorPicture={picture ?? "/public/emoji.png"}
                 />
               </Link>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center self-start">
                 <LikeButton
                   toggleLike={toggleLike}
                   additionalClasses={heartIconClass}
@@ -114,13 +130,12 @@ const PostCard = ({
               tags={tags}
               userIdFromParams={userIdFromParams}
               setTagged={setTagged}
-              username={username}
             />
           </div>
         </div>
 
         <div className="hidden items-center justify-between md:flex">
-          <Link href={`/profile/${authorId}`} className="flex items-center">
+          <Link href={`/profile/${username}`} className="flex items-center">
             <SocialMediaIcon authorPicture={picture ?? "/public/emoji.png"} />
             <div className="flex h-full flex-col pl-[0.625rem]">
               <p className="text-[0.875rem] leading-[1.375rem] text-sc-2 hover:scale-105 dark:text-sc-6">
@@ -132,7 +147,7 @@ const PostCard = ({
             </div>
           </Link>
 
-          <div className="hidden w-[20rem] xl:flex">
+          <div className="hidden xl:flex">
             <SocialStatistics socialCounts={socialCounts} />
           </div>
         </div>
