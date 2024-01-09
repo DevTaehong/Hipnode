@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import FillIcon from "../icons/fill-icons";
 import useChatStore from "@/app/chatStore";
 import { ChatUserInfoProps } from "@/types/profile.index";
