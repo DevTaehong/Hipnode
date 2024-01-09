@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
+import * as z from "zod";
 
 import OutlineIcon from "@/components/icons/outline-icons";
-import * as z from "zod";
+
 
 export enum POST_TYPE {
   POST = "Post",

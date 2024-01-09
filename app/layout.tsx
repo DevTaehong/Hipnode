@@ -13,8 +13,23 @@ const font = SourceSans3({
 });
 
 export const metadata: Metadata = {
-  title: "HipNode",
+  metadataBase: new URL("https://cohort5-algo-alliance-hipnode.vercel.app/"),
+  title: "Hipnode",
   description: "Social Media Platform",
+  openGraph: {
+    title: "Hipnode - Social Media Platform",
+    description: "Social Media Platform",
+    url: "https://cohort5-algo-alliance-hipnode.vercel.app/",
+    siteName: "Hipnode",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 800,
+        height: 600,
+        alt: "Hipnode logo image",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
