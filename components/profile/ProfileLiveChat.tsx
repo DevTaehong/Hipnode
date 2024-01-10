@@ -2,12 +2,12 @@
 
 import FillIcon from "../icons/fill-icons";
 import useChatStore from "@/app/chatStore";
-import { ChatUserInfoProps } from "@/types/profile.index";
+import { BaseUserInfo } from "@/types/profile.index";
 
 const ProfileLiveChat = ({
   userInfo: chatroomUserInfo,
 }: {
-  userInfo: ChatUserInfoProps;
+  userInfo: BaseUserInfo;
 }) => {
   const {
     setChatroomUsers,

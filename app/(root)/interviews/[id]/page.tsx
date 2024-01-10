@@ -17,7 +17,7 @@ const Page = async ({ params }: { params: Params }) => {
   const tagNames = tags.map((tag) => tag.name);
 
   return (
-    <main className="bg-light-2_dark-2 mt-[-5rem] flex h-screen w-screen justify-center p-5 pb-[5.5rem] pt-[6rem]">
+    <main className="dynamic-pages-styles">
       <LargeInterviewCard interviewData={data} tags={tagNames} />
     </main>
   );

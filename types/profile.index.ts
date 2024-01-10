@@ -32,7 +32,7 @@ export type PostPerformance = {
   };
 };
 
-export type ChatUserInfoProps = {
+export type BaseUserInfo = {
   id: number;
   username: string;
   image: string;

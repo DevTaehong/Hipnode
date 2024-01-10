@@ -3,6 +3,7 @@ import {
   SearchBarState,
 } from "@/components/navbar/globalSearchReducer";
 import { Dispatch } from "react";
+import { BaseUserInfo } from "./profile.index";
 
 export interface PostResult {
   id: number;
@@ -28,15 +29,8 @@ export interface SearchBarProps {
   dispatch: Dispatch<SearchBarAction>;
 }
 
-export type NavBarUserInfoProps = {
-  id: number;
-  username: string;
-  image: string;
-  name: string;
-};
-
 export interface NavbarContentProps {
-  userInfo: NavBarUserInfoProps;
+  userInfo: BaseUserInfo;
   currentUserId: number;
   lastChecked?: Date | null;
 }

@@ -61,6 +61,37 @@ export async function getAllChatroomUsers() {
   }
 }
 
+export async function isExistingChatroom(
+  userIds: number[]
+): Promise<number | null> {
+  try {
+    const [userId1, userId2] = userIds;
+
+    const chatroomsForUser1 = await prisma.chatroomUsers.findMany({
+      where: { userId: userId1 },
+      select: { chatroomId: true },
+    });
+
+    for (const chatroom of chatroomsForUser1) {
+      const user2InChatroom = await prisma.chatroomUsers.findFirst({
+        where: {
+          chatroomId: chatroom.chatroomId,
+          userId: userId2,
+        },
+      });
+
+      if (user2InChatroom) {
+        return chatroom.chatroomId;
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error finding shared chatroom ID:", error);
+    throw error;
+  }
+}
+
 export async function getUserChatrooms(userId: number) {
   try {
     const userChatrooms = await prisma.chatroomUsers.findMany({

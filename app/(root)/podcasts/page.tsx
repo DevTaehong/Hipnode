@@ -60,7 +60,7 @@ const Podcasts = async ({ searchParams }: { searchParams: SearchProps }) => {
   }
 
   return (
-    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pb-[5.5rem] pt-[6rem] lg:h-screen lg:pt-[5.875rem]">
+    <main className="general-pages-styles pt-[6rem] lg:pt-[5.875rem]">
       <div className="flex h-full w-full max-w-[44rem] flex-col gap-5 overflow-hidden lg:sticky lg:max-w-[85rem] lg:flex-row">
         {podcastData && (
           <PodcastFilterAndContentWrapper

@@ -9,10 +9,10 @@ import {
   recreateOnlineUser,
 } from "@/lib/actions/online-user.actions";
 import FillIcon from "../icons/fill-icons";
-import { ChatPageUserInfo } from "@/types/chatroom.index";
 import { usePathname } from "next/navigation";
+import { BaseUserInfo } from "@/types/profile.index";
 
-const ChatPageLink = ({ userInfo }: { userInfo: ChatPageUserInfo }) => {
+const ChatPageLink = ({ userInfo }: { userInfo: BaseUserInfo }) => {
   const { id } = userInfo;
   const { setUserInfo, setOnlineUsers } = useChatStore();
   const path = usePathname();
@@ -63,12 +63,15 @@ const ChatPageLink = ({ userInfo }: { userInfo: ChatPageUserInfo }) => {
 
   useEffect(() => {
     setUserInfo(userInfo);
-  }, []);
+  }, [userInfo]);
 
-  const chatIconBackgroundColor =
-    path === "/chat" || hover ? "bg-red-80" : "bg-sc-6 dark:bg-dark-4";
-  const chatIconFillColor =
-    path === "/chat" || hover ? "fill-white" : "fill-sc-4 dark:fill-sc-6";
+  const isActiveOrHovered = path === "/chat" || hover;
+  const chatIconBackgroundColor = isActiveOrHovered
+    ? "bg-red-80"
+    : "bg-sc-6 dark:bg-dark-4";
+  const chatIconFillColor = isActiveOrHovered
+    ? "fill-white"
+    : "fill-sc-4 dark:fill-sc-6";
 
   return (
     <Link

@@ -4,13 +4,13 @@ import { useState } from "react";
 
 import { followUser } from "@/lib/actions/post.action";
 import ProfileLiveChat from "./ProfileLiveChat";
-import { ChatUserInfoProps } from "@/types/profile.index";
+import { BaseUserInfo } from "@/types/profile.index";
 
 const ProfileBtns = ({
   userInfo,
   isFollowing,
 }: {
-  userInfo: ChatUserInfoProps;
+  userInfo: BaseUserInfo;
   isFollowing: boolean;
 }) => {
   const [following, setFollowing] = useState(isFollowing);

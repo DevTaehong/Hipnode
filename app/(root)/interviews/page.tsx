@@ -30,7 +30,7 @@ const Interviews = async ({ searchParams }: { searchParams: SearchProps }) => {
   });
 
   return (
-    <main className="bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pb-[5.5rem] pt-[2rem] lg:h-screen lg:pt-[1.875rem]">
+    <main className="general-pages-styles pt-[2rem] lg:pt-[1.875rem]">
       <div className="mt-16 flex max-w-[85rem] flex-col gap-5 lg:sticky lg:flex-row lg:overflow-hidden xl:w-full">
         <InterviewFilterAndContentWrapper
           tags={tags}
