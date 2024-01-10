@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { FaEdit } from "react-icons/fa";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -100,7 +99,7 @@ const ProfileInfoEdit = ({
           </p>
 
           <button
-            className={`absolute right-[-15px] top-[4px] hidden text-sc-4 group-hover:block`}
+            className={`absolute right-[-15px] top-[2px] hidden text-sc-4 group-hover:block`}
             onClick={() => setIsEditting(true)}
           >
             <FaEdit />
