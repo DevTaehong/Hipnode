@@ -29,10 +29,41 @@ export interface SearchBarProps {
   dispatch: Dispatch<SearchBarAction>;
 }
 
+interface RecentMessage {
+  id: number;
+  text: string | null;
+  createdAt: Date;
+  userId: number;
+  chatroomId: number;
+  attachment: string | null;
+  attachmentType: string | null;
+  messageUUID: string;
+}
+
+interface NavBarChatOtherUser {
+  id: number;
+  name: string;
+  username: string;
+  picture: string;
+}
+export interface UserChatroomProps {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  recentMessage: RecentMessage;
+  otherUser: NavBarChatOtherUser;
+}
+
 export interface NavbarContentProps {
   userInfo: BaseUserInfo;
   currentUserId: number;
   lastChecked?: Date | null;
+  userChatrooms: UserChatroomProps[];
+}
+
+export interface ChatPageLinkProps {
+  userInfo: BaseUserInfo;
+  userChatrooms: UserChatroomProps[];
 }
 
 export interface SearchResultItemProps {

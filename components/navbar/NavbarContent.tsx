@@ -16,6 +16,7 @@ const NavbarContent = ({
   userInfo,
   currentUserId,
   lastChecked,
+  userChatrooms,
 }: NavbarContentProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -53,7 +54,7 @@ const NavbarContent = ({
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            <ChatPageLink userInfo={userInfo} />
+            <ChatPageLink userInfo={userInfo} userChatrooms={userChatrooms} />
             <NotificationButton
               currentUserId={currentUserId}
               lastChecked={lastChecked ?? new Date()}

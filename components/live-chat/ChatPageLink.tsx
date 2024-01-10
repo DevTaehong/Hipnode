@@ -1,22 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect } from "react";
 
 import useChatStore from "@/app/chatStore";
 import {
   getAllOnlineUserIds,
   recreateOnlineUser,
 } from "@/lib/actions/online-user.actions";
-import FillIcon from "../icons/fill-icons";
-import { usePathname } from "next/navigation";
-import { BaseUserInfo } from "@/types/profile.index";
+import NavBarChatList from "./NavBarChatList";
+import { ChatPageLinkProps } from "@/types/searchbar.index";
 
-const ChatPageLink = ({ userInfo }: { userInfo: BaseUserInfo }) => {
+const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
   const { id } = userInfo;
   const { setUserInfo, setOnlineUsers } = useChatStore();
-  const path = usePathname();
-  const [hover, setHover] = useState(false);
 
   const resetOnlineUsers = async () => {
     try {
@@ -65,24 +61,7 @@ const ChatPageLink = ({ userInfo }: { userInfo: BaseUserInfo }) => {
     setUserInfo(userInfo);
   }, [userInfo]);
 
-  const isActiveOrHovered = path === "/chat" || hover;
-  const chatIconBackgroundColor = isActiveOrHovered
-    ? "bg-red-80"
-    : "bg-sc-6 dark:bg-dark-4";
-  const chatIconFillColor = isActiveOrHovered
-    ? "fill-white"
-    : "fill-sc-4 dark:fill-sc-6";
-
-  return (
-    <Link
-      href="/chat"
-      className={`rounded-md p-2.5 ${chatIconBackgroundColor}`}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <FillIcon.Message className={chatIconFillColor} />
-    </Link>
-  );
+  return <NavBarChatList userChatrooms={userChatrooms} />;
 };
 
 export default ChatPageLink;

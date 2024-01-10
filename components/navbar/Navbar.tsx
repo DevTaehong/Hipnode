@@ -1,5 +1,6 @@
 import { verifyAuth } from "@/lib/auth";
 import { getNotificationLastChecked } from "@/lib/actions/user.actions";
+import { getUserChatrooms } from "@/lib/actions/chatroom.actions";
 import { NavbarContent } from ".";
 
 const Navbar = async () => {
@@ -19,12 +20,18 @@ const Navbar = async () => {
     name: fullName,
   };
 
+  const userChatrooms = (await getUserChatrooms(userId)) ?? [];
+  const chatroomsWithRecentMessage = userChatrooms.filter(
+    (chatroom) => chatroom.recentMessage !== null
+  );
+
   return (
     <nav className="sticky inset-x-0 top-0 z-50 bg-light dark:bg-dark-3">
       <NavbarContent
         userInfo={userInfo}
         currentUserId={userId}
         lastChecked={lastChecked?.notificationLastChecked}
+        userChatrooms={chatroomsWithRecentMessage}
       />
     </nav>
   );
