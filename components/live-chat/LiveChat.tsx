@@ -62,7 +62,7 @@ const LiveChat = () => {
   return (
     <section
       {...getRootProps()}
-      className={`bg-light_dark-4 fixed bottom-20 right-0 h-[450px] w-full max-w-[450px] flex-col items-end justify-end rounded-2xl md:right-10  ${
+      className={`bg-light_dark-4 fixed bottom-20 right-0 h-[450px] w-full max-w-[450px] flex-col items-end justify-end rounded-2xl shadow-md md:right-10  ${
         showChat ? "flex" : "hidden"
       } ${path === "/chat" ? "hidden" : "flex"}`}
     >

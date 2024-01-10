@@ -47,7 +47,7 @@ const NavBarChatList = ({
         <FillIcon.Message className={chatIconFillColor} />
       </PopoverTrigger>
       <PopoverContent>
-        <div className="bg-light_dark-4 flex max-w-[21rem] flex-col gap-4 rounded-lg py-5">
+        <div className="bg-light_dark-4 mt-4 flex max-w-[21rem] flex-col gap-4 rounded-lg py-5 shadow-md">
           <h2 className="semibold-18 text-sc-2_light-2 px-5">Messages</h2>
           <ul className="flex max-h-[18.125rem] flex-col overflow-auto">
             {userChatrooms.map((chatroom) => (
