@@ -25,7 +25,7 @@ const MoreButton = ({ groupId }: { groupId: number }) => {
       router.push("/group");
       toast({
         description: "Successfully deleted group :)",
-        variant: "destructive",
+        variant: "default",
       });
     } catch (error) {
       console.error("Failed to delete a group, error: ", error);

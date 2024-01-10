@@ -10,6 +10,7 @@ import {
   getAllPostsByTagNameByUserId,
   getAllPostsByUserId,
   getMostPopularPosts,
+  getMostPopularPostsOfDay,
   getPostsByFollowing,
 } from "@/lib/actions/post.action";
 import { ExtendedPrismaPost } from "@/types/posts";
@@ -31,7 +32,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
   const [amountToSkip, setAmountToSkip] = useState<number>(10);
   const [tagged, setTagged] = useState("");
   const [tagChanged, setTagChanged] = useState<boolean>(false);
-  const [filterChanged, setFilterChanged] = useState<boolean>(false);
+  const [popularPostsForToday, setPopularPostsForToday] = useState(1);
   const { ref, inView } = useInView();
 
   const path = usePathname();
@@ -57,19 +58,22 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
     (async () => {
       try {
         let posts;
-        if (filter && path === "/" && filterChanged) {
+        if (filter && path === "/") {
           setPostData([]);
           setAmountToSkip(10);
 
           switch (filter) {
             case "popular":
-              posts = await getMostPopularPosts({});
+              posts = await getMostPopularPostsOfDay({});
+              setPopularPostsForToday(posts?.length);
               break;
             case "newest":
               posts = await getAllPosts({});
+
               break;
             case "following":
               posts = await getPostsByFollowing({});
+
               break;
             default:
               posts = await getAllPosts({});
@@ -77,7 +81,6 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
           }
 
           setPostData(posts);
-          setFilterChanged(false);
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -125,15 +128,12 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
         switch (filter) {
           case "popular":
             posts = await getMostPopularPosts({ numberToSkip: amountToSkip });
-            setFilterChanged(true);
             break;
           case "newest":
             posts = await getAllPosts({ numberToSkip: amountToSkip });
-            setFilterChanged(true);
             break;
           case "following":
             posts = await getPostsByFollowing({ numberToSkip: amountToSkip });
-            setFilterChanged(true);
             break;
           default:
             posts = await getAllPosts({ numberToSkip: amountToSkip });
@@ -170,7 +170,13 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
   return (
     <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
-      {!postData.length && (
+      {filter === "popular" && popularPostsForToday === 0 && (
+        <div className="flex animate-pulse flex-col items-center justify-center text-red-80">
+          <p>Click any other tag to view posts !</p>
+          <p>Make it the most popular post for the day !</p>
+        </div>
+      )}
+      {!postData.length && popularPostsForToday !== 0 && (
         <div className="flex h-full justify-center pt-40">
           <LoaderComponent />
         </div>

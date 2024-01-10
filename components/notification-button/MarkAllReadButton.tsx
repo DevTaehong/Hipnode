@@ -22,10 +22,10 @@ const MarkAllReadButton = ({
       disabled={isMarkAllRead}
       className={`${
         isMarkAllRead
-          ? "bg-light-2"
+          ? "bg-light"
           : "bg-blue-10 hover:opacity-80 hover:transition-opacity"
       } flex h-9 w-[8.25rem] items-center justify-center gap-2.5 rounded-md px-2.5 
-        py-[0.4375rem] xl:h-[2.375rem] xl:w-36 dark:bg-dark-3`}
+        py-[0.4375rem] dark:bg-dark-3 xl:h-[2.375rem] xl:w-36`}
     >
       <OutlineIcon.Checkmark
         className={isMarkAllRead ? "fill-sc-3" : "fill-blue dark:fill-blue-80"}

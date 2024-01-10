@@ -21,7 +21,6 @@ export interface EditGroupParams {
   groupId: number;
   name?: string;
   description?: string;
-  path: string;
   members?: User[];
   admins?: User[];
   coverImage?: string;
@@ -51,12 +50,35 @@ export interface GetPostsByGroupIdQueryOptions {
   where?: {
     groupId: number | undefined;
   };
-  include?: {
-    author: boolean;
-    comments: boolean;
-    likes: boolean;
+  select: {
+    id: boolean;
+    image: boolean;
+    content: boolean;
+    viewCount: boolean;
+    createdAt: boolean;
+    heading: boolean;
+    blurImage: boolean;
+    imageWidth: boolean;
+    imageHeight: boolean;
+    author: {
+      select: {
+        username: boolean;
+        picture: boolean;
+        id: boolean;
+      };
+    };
+    likes: {
+      select: {
+        userId: boolean;
+      };
+    };
+    comments: {
+      select: {
+        id: boolean;
+      };
+    };
     tags: {
-      include: {
+      select: {
         tag: boolean;
       };
     };
@@ -70,14 +92,29 @@ export interface GetPostsFromGroupsQueryOptions {
   cursor?: {
     id: number;
   };
-  where?: {
-    group?: {
-      isNot?: null;
+  select: {
+    id: boolean;
+    image: boolean;
+    content: boolean;
+    createdAt: boolean;
+    heading: boolean;
+    likes: {
+      select: {
+        userId: boolean;
+      };
     };
-  };
-  include?: {
-    author: boolean;
-    group: boolean;
+    author: {
+      select: {
+        username: boolean;
+        picture: boolean;
+      };
+    };
+    group: {
+      select: {
+        name: boolean;
+        id: boolean;
+      };
+    };
   };
 }
 

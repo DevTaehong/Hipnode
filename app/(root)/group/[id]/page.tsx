@@ -1,7 +1,7 @@
 import {
   getNewPostsByGroupId,
   getPopularGroupPosts,
-  getPopularTags,
+  getPopularTagsOnGroupPage,
 } from "@/lib/actions/post.action";
 import { groupFormLinkProps } from "@/constants";
 import { getGroupById } from "@/lib/actions/group.actions";
@@ -19,7 +19,7 @@ import PopularTags from "@/components/home-page/tags/PopularTags";
 const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
   const groupId = Number(params.id);
   const group = await getGroupById({ groupId });
-  const tagsData = await getPopularTags();
+  const tagsData = await getPopularTagsOnGroupPage(groupId);
   // NOTE - Since this is the first query, there is no cursor to pass in.
   const defaultMyCursorId = undefined;
   const newPosts = await getNewPostsByGroupId(defaultMyCursorId, groupId);
@@ -27,10 +27,10 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="bg-light-2_dark-2">
-      <div className="flex flex-col gap-5 p-5 lg:flex-row lg:py-0 xl:px-10 2xl:mx-auto 2xl:max-w-[90rem]">
+      <div className="flex flex-col gap-5 p-5 lg:flex-row lg:px-10 lg:py-0 2xl:mx-auto 2xl:max-w-[90rem]">
         <section
-          className="flex flex-col gap-5 lg:h-screen lg:max-w-[49.0625rem] 
-          lg:grow lg:overflow-y-auto lg:pt-[1.875rem]"
+          className="flex flex-col gap-5 lg:ml-[14.375rem] lg:mr-[21.5625rem] 
+          lg:h-screen lg:max-w-[49.0625rem] lg:grow lg:overflow-y-auto lg:py-[1.875rem]"
         >
           {group && <GroupCover group={group} />}
           <FormLink {...groupFormLinkProps} className="flex lg:hidden" />
@@ -54,8 +54,8 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
         </section>
 
         <aside
-          className="flex flex-col gap-5 lg:order-last lg:h-screen 
-          lg:max-w-[20.3125rem] lg:grow lg:flex-col lg:overflow-y-auto lg:py-[1.875rem]"
+          className="group-detail-sidebar flex flex-col  gap-5 lg:right-[max(2.5rem,calc(50%-42.5rem))]
+          lg:order-last lg:h-screen lg:max-w-[20.3125rem] lg:grow lg:flex-col"
         >
           <FormLink
             {...groupFormLinkProps}
@@ -66,8 +66,8 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
         </aside>
 
         <aside
-          className="flex flex-col gap-5 lg:order-first lg:h-screen lg:max-w-[13.125rem] 
-          lg:overflow-y-auto lg:py-[1.875rem]"
+          className="group-detail-sidebar flex flex-col  gap-5 
+          lg:left-auto lg:order-first lg:h-screen lg:max-w-[13.125rem]"
         >
           <GroupAbout
             description={group?.description ?? group?.name ?? "N/A"}

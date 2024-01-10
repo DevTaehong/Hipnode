@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 type HeartProps = {
   className: string;
   isLiked: boolean;
+  isAComment?: boolean;
 };
 
 const Heart = ({ className, isLiked }: HeartProps) => {
@@ -23,6 +24,7 @@ const Heart = ({ className, isLiked }: HeartProps) => {
         rx="15"
         className={isLiked ? "fill-red-10" : "fill-[#F4F6F8] dark:fill-dark-4"}
       />
+
       <g filter={`${isLiked ? "url(#filter0_d_15412_138)" : ""}`}>
         <path
           fillRule="evenodd"

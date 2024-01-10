@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
+import { useParams } from "next/navigation";
 
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -19,7 +20,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import EmailForm from "@/components/email/EmailForm";
-
+import { chatIcon, moreIcon } from "@/constants/posts";
 import {
   IconBlock,
   ShareIconComponent,
@@ -27,13 +28,13 @@ import {
   ShareUrlLink,
 } from ".";
 import { shareIcons } from "@/constants/podcast";
-import { chatIcon, moreIcon } from "@/constants/posts";
 
 const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
   const { toast } = useToast();
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
   const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const postIdFromParams = useParams().id;
 
   const iconData = useMemo(
     () => [
@@ -59,7 +60,7 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
     });
   };
 
-  const currentUrl = window.location.href;
+  const currentUrl = `http://localhost:3000/posts/post/${postIdFromParams}`;
 
   const iconsToDisplay = showMoreIcons ? shareIcons : shareIcons.slice(0, 4);
 
@@ -118,7 +119,7 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
         <DialogTrigger>
           <IconBlock label="Report" IconComponent={ReportIcon} />
         </DialogTrigger>
-        <DialogContent className="rounded-lg bg-light-2 p-2 dark:bg-dark-4">
+        <DialogContent className="rounded-lg border-none bg-light-2 p-2 dark:bg-dark-4">
           <EmailForm
             currentUrl={currentUrl}
             setOpen={setOpen}

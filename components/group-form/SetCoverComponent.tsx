@@ -7,31 +7,39 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SetCoverIcon } from "../icons/outline-icons/Icon";
 import OutlineIcon from "../icons/outline-icons";
 import { Input } from "@/components/ui/input";
-import { uploadImageToSupabase } from "@/utils";
+import { uploadGroupImages } from "@/utils";
+import { PLACEHOLDER_IMAGE_URL } from "@/constants";
 
-const SetCoverComponent = () => {
+const SetCoverComponent = ({
+  groupCover,
+  groupId,
+  type,
+}: {
+  groupCover: string | null | undefined;
+  groupId: number | undefined;
+  type: "create" | "edit";
+}) => {
   const router = useRouter();
   const search = useSearchParams();
-  const profilePhotoURL = search.get("profilePhotoUrl");
-  const coverUrl = search.get("coverUrl");
+  const profilePhotoURL = search.get("profilePhotoURL");
+  const coverURL = search.get("coverURL");
 
   const handleSetCover = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      const uploadedURL = await uploadImageToSupabase(
-        file,
-        "group-cover",
-        "cover"
-      );
+
+      const uploadedURL = await uploadGroupImages(file, "group-cover", "cover");
+
+      const editPage = `edit/${groupId}`;
+      const createPage = `create-group`;
 
       router.push(
-        `/group/create-group?coverUrl=${uploadedURL?.mainImageURL}&profilePhotoUrl=${
-          profilePhotoURL ?? ""
-        }`
+        `/group/${
+          type === "edit" ? editPage : createPage
+        }?coverURL=${uploadedURL}&profilePhotoURL=${profilePhotoURL ?? ""}`
       );
     }
   };
-
   return (
     <div className="flex flex-col items-start gap-5">
       <div className="flex gap-2.5">
@@ -41,7 +49,7 @@ const SetCoverComponent = () => {
             text-sc-2 hover:opacity-80 hover:transition-opacity dark:bg-dark-4 dark:text-light-2"
         >
           <SetCoverIcon />
-          {coverUrl ? "Change Cover" : "Set Cover"}
+          {coverURL || groupCover ? "Change Cover" : "Set Cover"}
         </label>
         <Input
           id="cover"
@@ -52,10 +60,10 @@ const SetCoverComponent = () => {
           className="hidden"
         />
       </div>
-      {coverUrl ? (
+      {groupCover || coverURL ? (
         <Image
           className="h-[8.25rem] w-full rounded-lg object-cover sm:h-[10.4375rem]"
-          src={coverUrl}
+          src={coverURL || groupCover || PLACEHOLDER_IMAGE_URL}
           width={295}
           height={132}
           alt="cover image"

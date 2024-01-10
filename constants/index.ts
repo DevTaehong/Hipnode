@@ -1,12 +1,10 @@
 import FillIcon from "@/components/icons/fill-icons";
 import OutlineIcon from "@/components/icons/outline-icons";
-import newest from "@/public/images/newest.png";
-import popular from "@/public/images/popular.png";
-import followers from "@/public/images/followers.png";
 
 import { ColorVariantsOnboardingType, GroupPromiseProps } from "@/types";
 import { SelectionOptionsType } from "@/types/posts";
 
+export const SHARE_URL = "https://cohort5-algo-alliance-hipnode.vercel.app";
 export const MAX_NOTIFICATIONS = 3;
 
 export const dummyMessages = [
@@ -391,31 +389,23 @@ export const srcArray = [
 
 export const sidebarItems = [
   {
-    imgSrc: newest,
-    imgAlt: "newest and recent",
+    icon: OutlineIcon.New,
     title: "Newest",
     subTitle: "and recent",
     description: "Find the latest update",
-    imgContainerClass:
-      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
   },
   {
-    imgSrc: popular,
-    imgAlt: "popular of the day",
+    icon: OutlineIcon.Popular,
     title: "Popular",
     subTitle: "of the day",
     description: "Shots featured today by curators",
-    imgContainerClass:
-      "flex h-[1.75rem] w-[1.75rem] items-center justify-center rounded-md bg-light-3 dark:bg-dark-4",
   },
   {
-    imgSrc: followers,
-    imgAlt: "followers",
+    icon: OutlineIcon.Following,
     title: "Following",
     description: "Explore from your favorite person",
+    fillColorRed: true,
     loggedInFollowerFilter: true,
-    imgContainerClass:
-      "h-[1.75rem] w-[1.75rem] rounded-md bg-light-3 p-[0.25rem] dark:bg-dark-4",
   },
 ];
 
@@ -446,6 +436,7 @@ export const groupFormLinkProps = {
   description:
     "Create a community and unite with like-minded individuals. Embark on exciting journeys together.",
   linkToFormButtonTitle: "Create Group",
+  link: "/group/create-group",
 };
 
 // Add real links once they're available
