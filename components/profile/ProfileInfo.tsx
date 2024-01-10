@@ -84,9 +84,9 @@ const ProfileModal = ({
           profileFollowing.length === 0 && (
             <Link
               href="/"
-              className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
+              className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6 dark:bg-dark-4"
             >
-              <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
+              <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-white">
                 0
               </p>
             </Link>
@@ -106,12 +106,14 @@ const ProfileModal = ({
           <div className="flex items-center gap-2">
             <OutlineIcon.Web className="fill-sc-2 dark:fill-light-2" />
 
-            <ProfileInfoEdit
-              text={website}
-              field={"website"}
-              isLoggedInUser={isLoggedInUser}
-              className={`line-clamp-1 text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6`}
-            />
+            <Link
+              href={website}
+              className={`line-clamp-1 w-full cursor-pointer text-center text-base font-semibold leading-6 text-sc-2 dark:text-sc-6`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {website}
+            </Link>
           </div>
         )}
 
