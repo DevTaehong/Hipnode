@@ -15,6 +15,8 @@ import Podcasts from "@/components/home-page/podcast/Podcasts";
 import Meetups from "@/components/home-page/meetup/Meetups";
 import GroupSection from "@/components/group/GroupSection";
 
+export const dynamic = "force-dynamic";
+
 const GroupPage = async () => {
   const [meetups, podcasts, posts] = await Promise.all([
     getAllMeetUps(),
