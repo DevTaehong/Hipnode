@@ -692,3 +692,25 @@ code {
     word-break: break-all;
   }
 }
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.25);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartBeat {
+  @apply animate-[heartBeat_500ms_ease-in-out];
+}

@@ -46,6 +46,7 @@ model User {
   notificationReceiver    Notification[]           @relation("Receiver")
   notificationSender      Notification[]           @relation("Sender")
   notificationLastChecked DateTime                 @default(now())
+  Views                   View[]
   activities              Activities[]
 }
 
@@ -116,8 +117,21 @@ model Post {
   author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
   group       Group?       @relation(fields: [groupId], references: [id])
   Share       Share[]
+  Views       View[]
   tags        TagOnPost[]
-  activities  Activities[]
+  Activities  Activities[]
+}
+
+model View {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
 }
 
 model Like {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -39,22 +39,22 @@ const Comment = ({
   postComments: Record<string, CommentAuthorProps[]>;
 }) => {
   const [showChildren, setShowChildren] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [isLiked, setIsLiked] = useState(likedByCurrentUser);
   const [totalLikes, setTotalLikes] = useState(likeCount);
   const path = usePathname();
   const canReply = depth < 1;
+  const [isPending, startTransition] = useTransition();
 
   const handleDelete = async () => {
-    setIsDeleting(true);
     try {
-      await deleteCommentOrReply(id, path);
+      startTransition(() => {
+        deleteCommentOrReply(id, path);
+      });
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
-    setIsDeleting(false);
   };
 
   const toggleLikeHandler = async () => {
@@ -109,8 +109,8 @@ const Comment = ({
         <div className="grow">
           {depth > 0 && !isLastComment && <AvatarJoinStraight />}
         </div>
-        <div className="flex w-full flex-col gap-[1rem]">
-          <div className="flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
+        <div className="relative flex w-full flex-col gap-[1rem]">
+          <div className="relative flex grow flex-col rounded-2xl border border-solid border-sc-5 p-[0.938rem]">
             <CommentHeader
               username={author?.username ?? "The Unknown Soldier"}
               createdAt={createdAt}
@@ -123,17 +123,19 @@ const Comment = ({
             {isReplying && renderCommentForm(true, false)}
             {isEditing && renderCommentForm(false, true)}
           </div>
+          {isPending && (
+            <p className="absolute left-3.5 flex h-[2rem] translate-y-[-2rem] animate-pulse justify-center text-red-80">
+              {`Deleting comment ...`}
+            </p>
+          )}
 
-          {isDeleting || isEditing ? (
-            <div className="flex justify-between text-sc-3 dark:text-white">
-              <p>{isDeleting ? "Deleting..." : "Editing..."}</p>
-              <p
-                className="cursor-pointer pr-[0.5rem]"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel edit
-              </p>
-            </div>
+          {isEditing ? (
+            <p
+              className="flex animate-pulse cursor-pointer justify-between pr-[0.5rem] text-red-80"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel edit
+            </p>
           ) : (
             <CommentActions
               userId={userId}

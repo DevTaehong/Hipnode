@@ -62,7 +62,11 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
           ))}
         </ul>
         {userCanEditMedia && (
-          <MediaEditActionPopover label="Meetup" mediaId={id} />
+          <MediaEditActionPopover
+            positionStyles="translate-x-[-2.8rem] translate-y-[-8.2rem]"
+            label="Meetup"
+            mediaId={id}
+          />
         )}
       </div>
     </article>

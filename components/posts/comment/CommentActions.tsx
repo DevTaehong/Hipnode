@@ -1,7 +1,7 @@
 import { CommentActionsProps } from "@/types/posts";
-import Heart from "@/components/icons/fill-icons/Heart";
 import Reply from "@/components/icons/fill-icons/Reply";
 import CommentActionPopover from "../../action-popover/CommentActionPopover";
+import HeartComment from "@/components/icons/fill-icons/HeartComment";
 
 const CommentActions = ({
   onReplyClick,
@@ -21,7 +21,7 @@ const CommentActions = ({
     <div className="flex flex-row justify-between">
       <div className="flex items-center justify-start gap-4">
         <div onClick={onToggleLike}>
-          <Heart className="" isLiked={isLiked} />
+          <HeartComment className="" isLiked={isLiked} isAComment={true} />
         </div>
         {canReply && (
           <div
@@ -36,6 +36,8 @@ const CommentActions = ({
             onEditClick={onEditClick}
             onDeleteClick={onDeleteClick}
             label="Comment"
+            positionStyles="translate-x-[6rem] translate-y-[-0.2rem]"
+            isComment={true}
           />
         )}
       </div>

@@ -19,7 +19,7 @@ import {
   UpdateCommentType,
   UploadedImageType,
 } from "@/types/posts";
-import { verifyAuth } from "../auth";
+
 import {
   groupCommentsByParentId,
   createNotificationIfRequired,
@@ -31,6 +31,7 @@ import {
   updateNotification,
 } from "./notification.actions";
 import { PostFormValuesType } from "@/constants/posts";
+import { verifyAuth } from "../auth";
 
 export async function handleTags(
   tagNames: string[]
@@ -192,20 +193,41 @@ export async function deletePost(id: number): Promise<void> {
   }
 }
 
-export async function incrementViewCount(postId: number): Promise<void> {
+export async function recordPostView(postId: number): Promise<void> {
   try {
-    await prisma.post.update({
+    const { userId } = await verifyAuth(
+      "You must be logged in to record a view.",
+      false
+    );
+
+    const existingView = await prisma.view.findFirst({
       where: {
-        id: postId,
-      },
-      data: {
-        viewCount: {
-          increment: 1,
-        },
+        postId,
+        userId,
       },
     });
+
+    if (!existingView) {
+      await prisma.view.create({
+        data: {
+          postId,
+          userId,
+        },
+      });
+
+      await prisma.post.update({
+        where: {
+          id: postId,
+        },
+        data: {
+          viewCount: {
+            increment: 1,
+          },
+        },
+      });
+    }
   } catch (error) {
-    console.error("Error incrementing view count for post:", error);
+    console.error("Error recording post view:", error);
     throw error;
   }
 }
@@ -217,7 +239,7 @@ export async function getPostContentById(id: number): Promise<GetPostByIdType> {
       false
     );
 
-    await incrementViewCount(id);
+    await recordPostView(id);
 
     const post = await prisma.post.findUnique({
       where: { id },
@@ -227,6 +249,7 @@ export async function getPostContentById(id: number): Promise<GetPostByIdType> {
             picture: true,
             username: true,
             id: true,
+            title: true,
           },
         },
         createdAt: true,
@@ -936,6 +959,7 @@ export async function getPostsByAuthorId(
     return posts.map((post) => ({
       heading: post.heading,
       tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      postId: post.id,
     }));
   } catch (error) {
     console.error("Error retrieving posts by user ID:", error);
@@ -1260,7 +1284,7 @@ export async function followUser(userIdToFollow: number) {
     );
 
     if (followerId === userIdToFollow) {
-      throw new Error("You cannot follow yourself.");
+      return false;
     }
     const existingFollow = await prisma.follower.findFirst({
       where: {
@@ -1632,6 +1656,95 @@ export async function toggleCommentLike(
     return { liked: !existingLike, totalLikes };
   } catch (error) {
     console.error("Error toggling comment like:", error);
+    throw error;
+  }
+}
+
+export async function getMostPopularPostsOfDay({
+  numberToSkip = 0,
+}: {
+  numberToSkip?: number;
+}): Promise<ExtendedPrismaPost[]> {
+  try {
+    const { userId } = await verifyAuth(
+      "You must be logged in to view posts.",
+      false
+    );
+
+    const currentDate = new Date();
+    const startOfDay = new Date(currentDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(currentDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const mostPopularPostsOfDay = await prisma.view.groupBy({
+      by: ["postId"],
+      where: {
+        createdAt: {
+          gte: startOfDay,
+          lte: endOfDay,
+        },
+      },
+      _count: {
+        postId: true,
+      },
+      orderBy: {
+        _count: {
+          postId: "desc",
+        },
+      },
+    });
+
+    const postIds = mostPopularPostsOfDay.map((result) => result.postId);
+
+    const mostPopularPosts = await prisma.post.findMany({
+      skip: numberToSkip,
+      take: 10,
+      where: {
+        id: {
+          in: postIds,
+        },
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            authorId: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
+    });
+
+    return mostPopularPosts.map((post) => ({
+      ...post,
+      numberOfAvailablePosts: postIds.length,
+      likesCount: post.likes.length,
+      commentsCount: post.comments.length,
+      tags: post.tags.map((tagOnPost) => tagOnPost.tag.name),
+      userCanEditMedia: post.author.id === userId,
+      loggedInUserHasLikedPost: post.likes.some(
+        (like) => like.userId === userId
+      ),
+    }));
+  } catch (error) {
+    console.error("Error retrieving most popular posts of the day:", error);
     throw error;
   }
 }
