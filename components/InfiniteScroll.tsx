@@ -2,9 +2,11 @@
 
 import { useEffect, useState, ReactNode, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
+import { useSearchParams } from "next/navigation";
 
 import Spinner from "@/components/Spinner";
 import OutlineIcon from "@/components/icons/outline-icons";
+import useTaggedPosts from "@/hooks/useTaggedPosts";
 interface InfiniteScrollProps<T extends { id: number }> {
   fetchData: (myCursorId?: number, groupId?: number) => Promise<T[]>;
   initialData: T[];
@@ -24,12 +26,13 @@ const InfiniteScroll = <T extends { id: number }>({
   const [isLoading, setIsLoading] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
+  const tag = useSearchParams().get("tag");
+  const { taggedPosts, isPending } = useTaggedPosts(tag, data);
 
   const { ref, inView } = useInView();
 
   const loadMoreData = async () => {
     setIsLoading(true);
-
     const myCursorId = data[data.length - 1]?.id;
     const newData = await fetchData(myCursorId, groupId);
     if (newData.length === 0) {
@@ -43,6 +46,7 @@ const InfiniteScroll = <T extends { id: number }>({
 
   useEffect(() => {
     setData(initialData);
+    setHasMoreData(true);
   }, [initialData]);
 
   useEffect(() => {
@@ -55,9 +59,19 @@ const InfiniteScroll = <T extends { id: number }>({
   return (
     <>
       <div className={className}>
-        {data.map((item) => (
-          <Fragment key={item.id}>{renderItem(item)}</Fragment>
-        ))}
+        {isPending ? (
+          <div className="flex items-center justify-center pt-20">
+            <Spinner />
+          </div>
+        ) : tag ? (
+          taggedPosts?.map((item) => (
+            <Fragment key={item.id}>{renderItem(item)}</Fragment>
+          ))
+        ) : (
+          data.map((item) => (
+            <Fragment key={item.id}>{renderItem(item)}</Fragment>
+          ))
+        )}
       </div>
       <button
         type="button"
@@ -73,7 +87,7 @@ const InfiniteScroll = <T extends { id: number }>({
           hasMoreData ? "flex items-center justify-center py-5" : "hidden"
         }`}
       >
-        {isLoading && <Spinner />}
+        {!isPending && isLoading && <Spinner />}
       </div>
     </>
   );

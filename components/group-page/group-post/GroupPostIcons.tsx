@@ -4,22 +4,47 @@ import Link from "next/link";
 import { useState } from "react";
 
 import FillIcon from "@/components/icons/fill-icons";
+import { togglePostLike } from "@/lib/actions/post.action";
+import Spinner from "@/components/Spinner";
+import { toast } from "@/components/ui/use-toast";
+import GroupPostShareButton from "./GroupPostShareButton";
 
-const GroupPostIcons = ({ id }: { id: number }) => {
-  const [like, setLike] = useState(false);
+const GroupPostIcons = ({
+  id,
+  hasUserLiked,
+}: {
+  id: number;
+  hasUserLiked: boolean;
+}) => {
+  const [like, setLike] = useState(hasUserLiked);
+  const [isPending, setIsPending] = useState(false);
 
-  const handleLike = () => {
-    setLike((prev) => !prev);
+  const handleLike = async () => {
+    try {
+      setIsPending(true);
+      await togglePostLike(id);
+      setLike((prev) => !prev);
+    } catch (error) {
+      toast({
+        title: "Failed to like post. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
-    <div className="flex flex-row gap-5">
-      {/* // TODO - Connection to DB  */}
+    <div className="flex flex-row items-center gap-5">
       <div
         onClick={handleLike}
         className="relative cursor-pointer hover:opacity-80 hover:transition-opacity"
       >
-        <FillIcon.Heart className={`${like ? "fill-red-80" : "fill-sc-5"}`} />
+        {isPending ? (
+          <Spinner classNames="w-5 h-5 flow-root" />
+        ) : (
+          <FillIcon.Heart className={`${like ? "fill-red-80" : "fill-sc-5"}`} />
+        )}
       </div>
       <Link
         href={`/posts/post/${id}`}
@@ -27,10 +52,7 @@ const GroupPostIcons = ({ id }: { id: number }) => {
       >
         <FillIcon.Comment className="fill-sc-5" />
       </Link>
-      {/* // TODO - add share functionality */}
-      <div className="relative cursor-pointer hover:opacity-80 hover:transition-opacity">
-        <FillIcon.Share className="fill-sc-5" />
-      </div>
+      <GroupPostShareButton id={id} />
     </div>
   );
 };

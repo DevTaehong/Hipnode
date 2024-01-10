@@ -1,29 +1,23 @@
+"use client";
 import { ReactTags, Tag } from "react-tag-autocomplete";
-import { User } from "@prisma/client";
+import { useCallback, useState } from "react";
 
 import { CustomTagSuggestion } from "@/types";
+import { debounce, fetchUserSuggestions } from "@/utils";
 import CustomTag from "./CustomTag";
 import CustomOption from "./CustomOption";
 
-// NOTE - https://www.npmjs.com/package/react-tag-autocomplete
 const AddAdminsOrMembers = ({
-  users,
   placeholderText,
   selected,
   setSelected,
 }: {
-  users: User[];
   placeholderText: string;
   selected: Tag[];
   setSelected: (selected: Tag[]) => void;
 }) => {
-  const usersSuggestion: CustomTagSuggestion[] = users.map((user) => {
-    return {
-      value: user.id,
-      label: user.name,
-      user,
-    };
-  });
+  const [isBusy, setIsBusy] = useState(false);
+  const [suggestions, setSuggestions] = useState<CustomTagSuggestion[]>([]);
 
   const onAdd = (newTag: Tag) => {
     setSelected([...selected, newTag]);
@@ -32,6 +26,31 @@ const AddAdminsOrMembers = ({
   const onDelete = (tagIndex: number) => {
     setSelected(selected.filter((_, i) => i !== tagIndex));
   };
+
+  const onInput = useCallback(
+    (userName: string) => {
+      const debouncedFunction = debounce(async () => {
+        if (isBusy) return;
+
+        setIsBusy(true);
+
+        try {
+          const userSuggestions = await fetchUserSuggestions(userName);
+          setSuggestions(userSuggestions);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsBusy(false);
+        }
+      });
+
+      debouncedFunction();
+    },
+    [isBusy]
+  );
+
+  const noOptionsText =
+    isBusy && !suggestions.length ? "Loading..." : "No matching user";
 
   return (
     <ReactTags
@@ -54,10 +73,11 @@ const AddAdminsOrMembers = ({
       }}
       labelText=""
       selected={selected}
-      suggestions={usersSuggestion}
+      suggestions={suggestions}
       onAdd={onAdd}
       onDelete={onDelete}
-      noOptionsText="No matching users"
+      onInput={onInput}
+      noOptionsText={noOptionsText}
       placeholderText={`Add ${placeholderText}...`}
       renderTag={CustomTag}
       renderOption={CustomOption}

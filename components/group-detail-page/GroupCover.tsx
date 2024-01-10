@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { auth } from "@clerk/nextjs";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Group } from "@prisma/client";
+import { auth } from "@clerk/nextjs";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import GroupCoverButtons from "@/components/group-detail-page/GroupCoverButtons";
 import { getUserByClerkId, getUserById } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
 
 const GroupCover = async ({ group }: { group: Group }) => {
   const groupOwner = await getUserById(group.createdBy);
@@ -41,7 +42,10 @@ const GroupCover = async ({ group }: { group: Group }) => {
             </p>
             <p className="regular-10 sm:regular-14 flex items-start gap-0.5 text-sc-3">
               Create by
-              <span className="semibold-12 sm:semibold-14 text-sc-2 dark:text-light-2">{` ${groupOwner?.username}`}</span>
+              <Link
+                href={`/profile/${groupOwner?.id}`}
+                className="semibold-12 sm:semibold-14 text-sc-2 hover:underline dark:text-light-2"
+              >{` ${groupOwner?.username}`}</Link>
             </p>
           </div>
         </div>

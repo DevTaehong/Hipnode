@@ -23,6 +23,14 @@
     lg:right-[max(2.5rem,calc(50%-42.5rem))] lg:w-[20.3125rem] lg:flex-col 
     lg:px-0 lg:pb-[1.875rem] lg:pt-[6.875rem];
   }
+
+  .group-detail-sidebar {
+    @apply lg:fixed lg:inset-y-0 lg:h-screen lg:overflow-y-auto lg:pb-[1.875rem] lg:pt-[6.875rem];
+  }
+
+  .post-link {
+    @apply absolute left-0 top-0 h-full w-full group-hover:shadow-xl group-hover:transition-shadow group-hover:dark:border group-hover:dark:border-solid group-hover:dark:border-sc-2;
+  }
 }
 
 ::-webkit-scrollbar {

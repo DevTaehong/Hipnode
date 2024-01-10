@@ -31,6 +31,8 @@ import {
   updateNotification,
 } from "./notification.actions";
 import { PostFormValuesType } from "@/constants/posts";
+import { GroupPost } from "@/types/models";
+import { PostCardTypes } from "@/types";
 import { verifyAuth } from "../auth";
 
 export async function handleTags(
@@ -512,19 +514,44 @@ export async function getAllPostsByUserId({
 export async function getPopularGroupPosts(
   myCursorId?: number,
   groupId?: number
-): Promise<Post[]> {
+) {
   try {
+    const { userId } = await verifyAuth();
+
     let queryOptions: GetPostsByGroupIdQueryOptions = {
-      take: 4,
+      take: 6,
       where: {
         groupId,
       },
-      include: {
-        author: true,
-        comments: true,
-        likes: true,
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+          },
+        },
         tags: {
-          include: {
+          select: {
             tag: true,
           },
         },
@@ -539,12 +566,23 @@ export async function getPopularGroupPosts(
     if (myCursorId !== undefined) {
       queryOptions = {
         ...queryOptions,
-        skip: 1, // Skip the first result
+        skip: 1,
         cursor: { id: myCursorId },
       };
     }
 
-    const popularPosts = await prisma.post.findMany(queryOptions);
+    const posts = await prisma.post.findMany(queryOptions);
+
+    const popularPosts = posts.map((post) => {
+      const popularPost = (post as PostCardTypes) ?? {};
+      return {
+        ...popularPost,
+        likesCount: popularPost.likes.length,
+        commentsCount: popularPost.comments.length,
+        tagNames: popularPost.tags.map((tagOnPost) => tagOnPost.tag.name),
+        hasUserLiked: popularPost.likes.some((like) => like.userId === userId),
+      };
+    });
     return popularPosts;
   } catch (error) {
     console.error("Error finding posts by group id:", error);
@@ -555,19 +593,44 @@ export async function getPopularGroupPosts(
 export async function getNewPostsByGroupId(
   myCursorId?: number,
   groupId?: number
-): Promise<Post[]> {
+) {
   try {
+    const { userId } = await verifyAuth();
+
     let queryOptions: GetPostsByGroupIdQueryOptions = {
-      take: 4,
+      take: 6,
       where: {
         groupId,
       },
-      include: {
-        author: true,
-        comments: true,
-        likes: true,
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        heading: true,
+        blurImage: true,
+        imageWidth: true,
+        imageHeight: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            id: true,
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+          },
+        },
         tags: {
-          include: {
+          select: {
             tag: true,
           },
         },
@@ -580,44 +643,83 @@ export async function getNewPostsByGroupId(
     if (myCursorId !== undefined) {
       queryOptions = {
         ...queryOptions,
-        skip: 1, // Skip the first result
+        skip: 1,
         cursor: { id: myCursorId },
       };
     }
 
-    const postsByGroupId = await prisma.post.findMany(queryOptions);
-    return postsByGroupId;
+    const posts = await prisma.post.findMany(queryOptions);
+
+    const newPosts = posts.map((post) => {
+      const newPost = (post as PostCardTypes) ?? {};
+      return {
+        ...newPost,
+        likesCount: newPost.likes.length,
+        commentsCount: newPost.comments.length,
+        tagNames: newPost.tags.map((tagOnPost) => tagOnPost.tag.name),
+        hasUserLiked: newPost.likes.some((like) => like.userId === userId),
+      };
+    });
+    return newPosts;
   } catch (error) {
     console.error("Error finding posts by group id:", error);
     throw error;
   }
 }
 
-export async function getPostsFromGroups(myCursorId?: number): Promise<Post[]> {
+export async function getPostsFromGroups(
+  myCursorId?: number
+): Promise<GroupPost[]> {
   try {
+    const { userId } = await verifyAuth();
+
     let queryOptions: GetPostsFromGroupsQueryOptions = {
-      take: 9, // Take only the limit number of results
-      where: {
-        group: {
-          isNot: null,
+      take: 9,
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        createdAt: true,
+        heading: true,
+        likes: {
+          select: {
+            userId: true,
+          },
         },
-      },
-      include: {
-        author: true,
-        group: true,
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        group: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
       },
     };
 
     if (myCursorId !== undefined) {
       queryOptions = {
         ...queryOptions,
-        skip: 1, // Skip the first result
+        skip: 1,
         cursor: { id: myCursorId },
       };
     }
 
-    const postsFromGroups = await prisma.post.findMany(queryOptions);
-    return postsFromGroups;
+    const posts = await prisma.post.findMany(queryOptions);
+
+    const groupPosts = posts.map((post) => {
+      const groupPost = (post as GroupPost) ?? {};
+      return {
+        ...groupPost,
+        hasUserLiked: groupPost.likes.some((like) => like.userId === userId),
+      };
+    });
+
+    return groupPosts;
   } catch (error) {
     console.error("Error finding posts from groups:", error);
     throw error;
@@ -1325,6 +1427,8 @@ export async function isFollowingUser(userIdToFollow: number) {
       "You must be logged in to follow a user."
     );
 
+    if (followerId === userIdToFollow) return true;
+
     const existingFollow = await prisma.follower.findFirst({
       where: {
         followerId,
@@ -1745,6 +1849,55 @@ export async function getMostPopularPostsOfDay({
     }));
   } catch (error) {
     console.error("Error retrieving most popular posts of the day:", error);
+    throw error;
+  }
+}
+
+export async function getPopularTagsOnGroupPage(
+  id: number
+): Promise<{ name: string; views: number }[]> {
+  try {
+    const tagCounts = await prisma.tagOnPost.groupBy({
+      where: {
+        post: {
+          group: {
+            id,
+          },
+        },
+      },
+      by: ["tagId"],
+      _count: {
+        postId: true,
+      },
+      orderBy: {
+        _count: {
+          postId: "desc",
+        },
+      },
+      take: 6,
+    });
+
+    const tagIds = tagCounts.map((tagCount) => tagCount.tagId);
+    const tags = await prisma.tag.findMany({
+      where: {
+        id: {
+          in: tagIds,
+        },
+      },
+    });
+
+    const tagNameMap: Record<number, string> = {};
+
+    tags.forEach((tag) => {
+      tagNameMap[tag.id] = tag.name;
+    });
+
+    return tagCounts.map((tagCount) => ({
+      name: tagNameMap[tagCount.tagId],
+      views: tagCount._count.postId,
+    }));
+  } catch (error) {
+    console.error("Error retrieving popular tags:", error);
     throw error;
   }
 }

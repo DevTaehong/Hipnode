@@ -29,7 +29,6 @@ const GroupLeaveModal = ({
           <FillIcon className="fill-sc-3">
             <LeaveIcon />
           </FillIcon>
-          {/* // TODO - add conditional rendering for this button whether user is joined or not */}
           Leave
         </Button>
       </AlertDialogTrigger>

@@ -8,6 +8,7 @@ const FormLink = ({
   description,
   linkToFormButtonTitle,
   className,
+  link,
 }: FormLinkType) => {
   return (
     <div
@@ -21,7 +22,7 @@ const FormLink = ({
       <div className="mt-5 flex w-full justify-between gap-5">
         <CodeOfConductModal />
         <Link
-          href="/posts/create-post"
+          href={`${link ?? "/posts/create-post"}`}
           className="semibold-14 flex-center w-full rounded bg-white py-2.5 text-red-80 transition duration-200 hover:scale-105"
         >
           {linkToFormButtonTitle}
