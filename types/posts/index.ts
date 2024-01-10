@@ -475,6 +475,7 @@ export type FormLinkType = {
   description: string;
   linkToFormButtonTitle: string;
   className?: string;
+  link?: string;
 };
 
 export interface ChildCommentsProps {

@@ -7,7 +7,10 @@ const Navbar = async () => {
     "You must be logged in to view this page.",
     false
   );
-  const lastChecked = await getNotificationLastChecked(userId);
+  let lastChecked;
+  if (userId) {
+    lastChecked = await getNotificationLastChecked(userId);
+  }
 
   const userInfo = {
     id: userId,
@@ -21,7 +24,7 @@ const Navbar = async () => {
       <NavbarContent
         userInfo={userInfo}
         currentUserId={userId}
-        lastChecked={lastChecked.notificationLastChecked}
+        lastChecked={lastChecked?.notificationLastChecked}
       />
     </nav>
   );

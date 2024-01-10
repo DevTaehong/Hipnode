@@ -4,6 +4,7 @@ import OutlineIcon from "@/components/icons/outline-icons";
 import { ColorVariantsOnboardingType, GroupPromiseProps } from "@/types";
 import { SelectionOptionsType } from "@/types/posts";
 
+export const SHARE_URL = "https://cohort5-algo-alliance-hipnode.vercel.app";
 export const MAX_NOTIFICATIONS = 3;
 
 export const dummyMessages = [
@@ -435,6 +436,7 @@ export const groupFormLinkProps = {
   description:
     "Create a community and unite with like-minded individuals. Embark on exciting journeys together.",
   linkToFormButtonTitle: "Create Group",
+  link: "/group/create-group",
 };
 
 // Add real links once they're available

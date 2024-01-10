@@ -11,7 +11,7 @@ const RecentMedia = ({ media }: { media: Post[] }) => {
       <div className="grid grid-cols-3 grid-rows-4 gap-2.5 xs:flex xs:flex-wrap xs:gap-2 lg:grid lg:grid-cols-3 lg:grid-rows-4 lg:gap-2.5">
         {media.slice(0, 10).map((post, i) => (
           <Link
-            href={`/post/${post.id}`}
+            href={`/posts/post/${post.id}`}
             key={post.id}
             className={`${i === 2 && rowSpan2} ${
               i === 6 && rowSpan2
