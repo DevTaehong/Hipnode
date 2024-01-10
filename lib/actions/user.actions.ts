@@ -6,6 +6,7 @@ import { UserAnswersType } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createUserType } from "@/types/posts";
+import { verifyAuth } from "../auth";
 
 export async function getUserByClerkId(
   clerkId: string,
@@ -126,6 +127,27 @@ export async function updateUser(clerkId: string, data: Partial<User>) {
     const user = await prisma.user.update({
       where: {
         clerkId,
+      },
+      data,
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+}
+
+export async function updateProfileInfo(data: Partial<User>) {
+  const { userId } = await verifyAuth(
+    "You must be logged in to edit profile.",
+    false
+  );
+
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: userId,
       },
       data,
     });

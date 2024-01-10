@@ -294,11 +294,11 @@ export interface ProfileInfoProps {
   src: string | undefined;
   username: string | undefined;
   isLoggedInUser: boolean;
-  title?: string | null;
+  title: string;
   followers: number | undefined;
   following: number | undefined;
   points: number | undefined;
-  description: string | null | undefined;
+  description: string;
   website?: string | null | undefined;
   twitter?: string | null | undefined;
   instagram?: string | null | undefined;
