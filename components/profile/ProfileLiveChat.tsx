@@ -15,7 +15,6 @@ const ProfileLiveChat = ({
     createNewChatroom,
     userInfo,
     showChat,
-    setChatroomId,
   } = useChatStore();
 
   const { id, username, image, name } = chatroomUserInfo;
@@ -33,12 +32,12 @@ const ProfileLiveChat = ({
           name,
         },
       ];
-      setChatroomId(null);
       setChatroomUsers(chatroomUsers);
       setShowChat(true);
       createNewChatroom();
     }
   };
+
   return (
     <button
       onClick={() => handleUserClick(id)}
