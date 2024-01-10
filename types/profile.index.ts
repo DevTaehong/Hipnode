@@ -31,3 +31,11 @@ export type PostPerformance = {
     comments: number;
   };
 };
+
+export interface EditSocialsProps {
+  website: string | null | undefined;
+  twitter: string | null | undefined;
+  instagram: string | null | undefined;
+  facebook: string | null | undefined;
+  isLoggedInUser: boolean;
+}

@@ -2,13 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import ProfileBtns from "./ProfileBtns";
-import OutlineIcon from "../icons/outline-icons";
 import ProfileLink from "./ProfileLink";
-import SocialIcon from "./SocialIcon";
 import TextDescription from "./TextDescription";
 import ProfileInfoEdit from "./ProfileInfoEdit";
 
 import { ProfileInfoProps } from "@/types";
+import EditSocials from "./EditSocials";
 
 const ProfileModal = ({
   userId,
@@ -101,30 +100,13 @@ const ProfileModal = ({
         className={`text-[0.875rem] font-semibold leading-[1.375rem] text-sc-3`}
       />
 
-      <div className="mt-5 flex flex-wrap justify-center gap-5 md:flex-col">
-        {website && (
-          <div className="flex items-center gap-2">
-            <OutlineIcon.Web className="fill-sc-2 dark:fill-light-2" />
-
-            <Link
-              href={website}
-              className={`line-clamp-1 w-full cursor-pointer text-center text-base font-semibold leading-6 text-sc-2 dark:text-sc-6`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {website}
-            </Link>
-          </div>
-        )}
-
-        <div className="flex justify-center gap-5">
-          {twitter && <SocialIcon icon="Twitter" link={twitter} />}
-
-          {instagram && <SocialIcon icon="Instagram" link={instagram} />}
-
-          {facebook && <SocialIcon icon="Facebook" link={facebook} />}
-        </div>
-      </div>
+      <EditSocials
+        website={website}
+        twitter={twitter}
+        instagram={instagram}
+        facebook={facebook}
+        isLoggedInUser={isLoggedInUser}
+      />
 
       <div className="mt-5 h-[1px] w-full bg-light-2 dark:bg-sc-3 md:mt-7" />
 
