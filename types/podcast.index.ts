@@ -243,5 +243,5 @@ export type PodcastWithShow = {
 
 export interface AudioPlayerImageProps {
   imageSrc: string;
-  podcastId: number;
+  podcastId?: number;
 }
