@@ -5,8 +5,8 @@ import { ImageWithCaptionProps } from "@/types/homepage";
 const ImageWithCaption = ({
   imageSrc,
   imageAlt,
-  imageWidth = 16,
-  imageHeight = 16,
+  imageWidth = 40,
+  imageHeight = 40,
   className = "",
   caption = "",
 }: ImageWithCaptionProps) => (

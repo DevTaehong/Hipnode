@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useTransition } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -40,9 +40,10 @@ const CommentForm = ({
   setIsReplying,
   postId,
   postHeading,
+  isReplying,
 }: CommentFormProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
 
   const path = usePathname();
 
@@ -54,11 +55,12 @@ const CommentForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
     try {
       if (isEditing) {
         await updateComment(Number(commentId), values.comment, path);
-        setIsEditing?.(false);
+        startTransition(() => {
+          setIsEditing?.(false);
+        });
       } else {
         await addCommentOrReply(
           postId,
@@ -67,12 +69,14 @@ const CommentForm = ({
           path,
           postHeading
         );
-        setIsReplying?.(false);
+
+        startTransition(() => {
+          setIsReplying?.(false);
+        });
       }
     } catch (error) {
       console.error("Error processing comment:", error);
     } finally {
-      setIsLoading(false);
       form.reset();
     }
   };
@@ -92,55 +96,80 @@ const CommentForm = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-2">
-      <Form {...form}>
-        <form className={className}>
-          <div className="flex w-full items-center justify-between">
-            <div className="flex w-full">
-              <FormField
-                control={form.control}
-                name="comment"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormControl>
-                      <TextareaAutosize
-                        maxRows={5}
-                        {...field}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Say something cool.... 🔥"
-                        className="flex h-[45px] w-full resize-none items-center whitespace-pre-line bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+    <>
+      <div className="flex w-full flex-col gap-2">
+        {isPending && isEditing && (
+          <p className="absolute top-[-2rem] text-red-80">Editing....</p>
+        )}
+        {isPending && !isEditing && (
+          <p
+            className={`absolute animate-pulse text-red-80 ${
+              isReplying ? "top-[-2rem]" : "left-3.5 translate-y-[-2rem]"
+            }`}
+          >
+            {`${isReplying ? "Replying ..." : "Commenting ..."}`}
+          </p>
+        )}
+        <Form {...form}>
+          <form className={className}>
+            <div className="flex w-full items-center justify-between">
+              <div className="flex w-full">
+                <FormField
+                  control={form.control}
+                  name="comment"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormControl>
+                        <>
+                          {isReplying && (
+                            <div className="animate-pulse px-3 pt-3">
+                              <hr />
+                            </div>
+                          )}
+
+                          <TextareaAutosize
+                            maxRows={5}
+                            {...field}
+                            onKeyDown={handleKeyDown}
+                            placeholder={
+                              isReplying
+                                ? "Replying to comment... 🔥"
+                                : "Say something cool.... 🔥"
+                            }
+                            className="flex h-[45px] w-full resize-none items-center whitespace-pre-line bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                          />
+                        </>
+                      </FormControl>
+                      <FormMessage className="absolute bottom-[-2rem] py-1 pl-2 capitalize text-red-80" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="relative flex h-6 w-6 items-center justify-center">
+                <Image
+                  src="/smiley.svg"
+                  alt="smiley"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                />
+                {showEmojiPicker && (
+                  <div className="absolute right-0 top-[2.5rem] z-20 h-[2rem]">
+                    <Picker
+                      data={data}
+                      onEmojiSelect={handleEmojiSelect}
+                      onClickOutside={() => setShowEmojiPicker(false)}
+                      perLine={12}
+                    />
+                  </div>
                 )}
-              />
+              </div>
             </div>
-            <div className="relative flex h-6 w-6 items-center justify-center">
-              <Image
-                src="/smiley.svg"
-                alt="smiley"
-                width={24}
-                height={24}
-                className="rounded-full"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              />
-              {showEmojiPicker && (
-                <div className="absolute right-0 top-[2.5rem]  h-[2rem]">
-                  <Picker
-                    data={data}
-                    onEmojiSelect={handleEmojiSelect}
-                    onClickOutside={() => setShowEmojiPicker(false)}
-                    perLine={12}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </form>
-      </Form>
-      {isLoading && <p className="pl-2 text-sc-5">Adding comment...</p>}
-    </div>
+          </form>
+        </Form>
+      </div>
+    </>
   );
 };
 

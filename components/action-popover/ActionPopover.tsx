@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { MoreVertical } from "lucide-react";
+import { MoreHorizontal, MoreVertical } from "lucide-react";
 
 import CommentIconButton from "../posts/comment/CommentIconButton";
 import OutlineIcon from "@/components/icons/outline-icons";
@@ -15,12 +15,16 @@ interface ActionPopoverProps {
   onEditClick: () => void;
   deletePost: () => void;
   label: string;
+  positionStyles?: string;
+  isComment?: boolean;
 }
 
 const ActionPopover = ({
   onEditClick,
   deletePost,
   label,
+  positionStyles,
+  isComment,
 }: ActionPopoverProps) => {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
@@ -40,12 +44,14 @@ const ActionPopover = ({
     <Popover>
       <PopoverTrigger>
         <CommentIconButton
-          Icon={MoreVertical}
-          color="dark:text-light text-sc-3"
+          Icon={isComment ? MoreHorizontal : MoreVertical}
+          color="text-sc-3"
         />
       </PopoverTrigger>
       <PopoverContent>
-        <section className="flex w-fit translate-x-[-3rem] translate-y-[0rem] flex-col rounded-xl border border-solid border-sc-5 bg-light-2 p-[1.25rem] dark:border-dark-3 dark:bg-dark-4">
+        <section
+          className={`${positionStyles} flex w-fit flex-col rounded-xl border border-solid border-sc-5 bg-light-2 p-[1.25rem] dark:border-dark-3 dark:bg-dark-4`}
+        >
           <div
             onClick={onEditClick}
             className="mb-[0.625rem] flex cursor-pointer flex-row items-center justify-start"
