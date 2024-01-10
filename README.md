@@ -10,7 +10,7 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 
 - **Posts**: Create and engage with posts. Share your thoughts, experiences, and ideas with a wider community.
 
-  <img src="public/readme/home.png" alt="Homepage" width="500" height="300">
+  [<img src="public/readme/home.png" alt="Homepage" width="500" height="300">](https://youtu.be/3hZXbFAARCw "Hipnode - Social Media Platform - Homepage. Create, Read, Update and Delete a Post")
 
 - **Podcasts**: Explore a variety of podcasts on diverse topics or host your own.
 
@@ -138,9 +138,26 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 
 ## Authors
 
+### Glen McCallum - Software Developer
+
+[GitHub Profile](https://github.com/glenmac90)
+
+ <img src="public/readme/glengithub.webp" alt="Glen git-hub-green" width="50%" >
+
+#### Main Tasks
+
+- **Page, Component, and Functionality Development**: Led the development of pages and components for meetups, podcasts, and interviews, adhering to Figma design specifications. Integrated key functionality within these components to enhance interactivity and user engagement. Ensured a polished and responsive user interface across all components.
+- **Authentication and User Onboarding**: Implemented user authentication using Clerk and designed a comprehensive onboarding sequence for new users, improving the user experience from the outset.
+- **Podcast Player Functionality**: Developed a versatile podcast player, allowing users to enjoy podcasts while browsing other site sections, thus adding a multitasking feature to the platform.
+- **Live Chat Feature**: Created an instant messaging feature, enabling real-time communication among users and contributing to a more interactive and connected user community.
+- **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
+- **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
+
 ### Alexander Mc Lachlan - Software Developer
 
 [GitHub Profile](https://github.com/AlexDjangoX)
+
+ <img src="public/readme/alexgithub.png" alt="Alex git-hub-green" width="50%" >
 
 #### Main Tasks
 
@@ -151,19 +168,6 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 - **Form Handling**: Developed multi-purpose form for handling various content types like posts, podcasts, meetups, and interviews. Integrated `react-hook-form` and `zod` for efficient and reliable form management. Leveraging NextJS 14 server functions for all the CRUD operations.
 - **Component Creation**: Translated Figma diagrams into requisite React components, ensuring a seamless alignment between design and functionality.
 - **Component Styling and Animation**: Leveraging Tailwind CSS and Framer Motion to satisfy Figma requirements and add subtle animation.
-
-### Glen McCallum - Software Developer
-
-[GitHub Profile](https://github.com/glenmac90)
-
-#### Main Tasks
-
-- **Page, Component, and Functionality Development**: Led the development of pages and components for meetups, podcasts, and interviews, adhering to Figma design specifications. Integrated key functionality within these components to enhance interactivity and user engagement. Ensured a polished and responsive user interface across all components.
-- **Authentication and User Onboarding**: Implemented user authentication using Clerk and designed a comprehensive onboarding sequence for new users, improving the user experience from the outset.
-- **Podcast Player Functionality**: Developed a versatile podcast player, allowing users to enjoy podcasts while browsing other site sections, thus adding a multitasking feature to the platform.
-- **Live Chat Feature**: Created an instant messaging feature, enabling real-time communication among users and contributing to a more interactive and connected user community.
-- **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
-- **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
 
 ### Tye Stanley - Software Developer
 
