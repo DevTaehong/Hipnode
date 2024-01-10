@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import Tag from "@/components/profile/Tag";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import GroupDetailPostLikeButton from "./GroupDetailPostLikeButton";
+import GroupDetailPostBaseUserInfo from "./GroupDetailPostBaseUserInfo";
 
 const GroupDetailPostHeader = ({
   heading,
@@ -39,7 +39,7 @@ const GroupDetailPostHeader = ({
         <AvatarFallback>{author.username.charAt(0)}</AvatarFallback>
       </Link>
     </Avatar>
-    <GroupDetailPostLikeButton hasUserLiked={hasUserLiked} postId={postId} />
+    <GroupDetailPostBaseUserInfo hasUserLiked={hasUserLiked} postId={postId} />
   </div>
 );
 export default GroupDetailPostHeader;
