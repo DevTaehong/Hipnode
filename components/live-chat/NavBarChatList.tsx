@@ -7,9 +7,9 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@radix-ui/react-popover";
-import FillIcon from "../icons/fill-icons";
 import { usePathname } from "next/navigation";
 
+import FillIcon from "../icons/fill-icons";
 import NavBarChatListItem from "./NavBarChatListItem";
 import { UserChatroomProps } from "@/types/searchbar.index";
 
