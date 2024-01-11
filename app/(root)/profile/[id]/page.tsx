@@ -74,7 +74,7 @@ const ProfilePage = async ({
     result.length === 0 || (result.data && result.data.length === 0);
 
   return (
-    <div className="mx-auto mt-[-5rem] flex min-h-screen w-full max-w-[49rem] flex-col justify-center gap-5 bg-light-2 p-5 pb-20 pt-[6.25rem] dark:bg-dark-2 md:sticky md:h-screen md:flex-row md:overflow-hidden md:pb-0 lg:max-w-[90rem] lg:px-10">
+    <div className="mx-auto mt-[-5rem] flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 pb-20 pt-[6.25rem] dark:bg-dark-2 md:sticky md:h-screen md:flex-row md:overflow-hidden md:pb-0 lg:max-w-[90rem] lg:px-10">
       <section>
         <ProfileInfo
           userId={user.id}

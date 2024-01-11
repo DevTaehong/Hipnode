@@ -60,18 +60,15 @@ const EditSocials = ({
     <>
       <div className="mt-5 flex flex-wrap justify-center gap-5 md:flex-col">
         {links.website && (
-          <div className="flex items-center gap-2">
+          <Link
+            href={String(links.website)}
+            className={`flex w-full cursor-pointer items-center justify-center gap-2 text-base font-semibold leading-6 text-sc-2 dark:text-sc-6`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <OutlineIcon.Web className="fill-sc-2 dark:fill-light-2" />
-
-            <Link
-              href={String(links.website)}
-              className={`line-clamp-1 w-full cursor-pointer text-center text-base font-semibold leading-6 text-sc-2 dark:text-sc-6`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {links.website}
-            </Link>
-          </div>
+            <p className="max-w-[150px] truncate">{links.website}</p>
+          </Link>
         )}
 
         <div className="flex justify-center gap-5">
