@@ -12,9 +12,14 @@ import { deleteInterviewAction } from "@/lib/actions/interview.actions";
 interface PostActionPopoverProps {
   mediaId: number;
   label: string;
+  positionStyles?: string;
 }
 
-const MediaEditActionPopover = ({ mediaId, label }: PostActionPopoverProps) => {
+const MediaEditActionPopover = ({
+  mediaId,
+  label,
+  positionStyles,
+}: PostActionPopoverProps) => {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -57,6 +62,7 @@ const MediaEditActionPopover = ({ mediaId, label }: PostActionPopoverProps) => {
       onEditClick={onEditClick}
       deletePost={deletePost}
       label={label}
+      positionStyles={positionStyles}
     />
   );
 };

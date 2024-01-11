@@ -11,9 +11,43 @@ import { supabase } from "@/utils/supabaseClient";
 import { homePageTags, monthNames, abbMonthNames } from "@/constants";
 import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
 import { TagIconConfig } from "@/types/homepage";
+import { CustomTagSuggestion, NotificationProps } from "@/types";
 import { createNotification } from "@/lib/actions/notification.actions";
 import { getBlurData } from "@/lib";
-import { NotificationProps } from "@/types";
+import { getUsersByName } from "@/lib/actions/user.actions";
+
+export function debounce(fn: (...args: any[]) => void, delay: number = 100) {
+  let timeoutID: number | null = null;
+
+  return function (...args: any[]) {
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+    }
+    timeoutID = window.setTimeout(() => fn(...args), delay);
+  };
+}
+
+export async function fetchUserSuggestions(name: string) {
+  try {
+    const users = await getUsersByName(name);
+
+    if (users) {
+      const usersSuggestions: CustomTagSuggestion[] = users.map((user) => {
+        return {
+          value: user.id,
+          label: user.name,
+          user,
+        };
+      });
+      return usersSuggestions;
+    } else {
+      throw Error("No user found!");
+    }
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
 export function formatGroupDetailPostDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
@@ -345,13 +379,16 @@ export function formatRelativeTime(dateString: Date): string {
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
-    return `${diffInSeconds}sec ago`;
+    return `${diffInSeconds} sec ago`;
   } else if (diffInSeconds < 3600) {
-    return `${Math.floor(diffInSeconds / 60)}min ago`;
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
   } else if (diffInSeconds < 86400) {
-    return `${Math.floor(diffInSeconds / 3600)}hour ago`;
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
   } else {
-    return `${Math.floor(diffInSeconds / 86400)}day ago`;
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} day${days === 1 ? "" : "s"} ago`;
   }
 }
 
@@ -473,6 +510,26 @@ export const filterNotifications = (
     (notification) => notification.type.toLowerCase() === selectedTab
   );
 };
+
+export async function uploadGroupImages(
+  file: File,
+  bucket: string,
+  folder: string
+) {
+  const fileExtension = file.name.split(".").pop();
+  const prefix = folder && folder.trim() ? `${folder}/` : "";
+  const uniqueFileName = `${prefix}image_${uuidv4()}.${fileExtension}`;
+
+  const { error, data } = await supabase.storage
+    .from(bucket)
+    .upload(uniqueFileName, file);
+
+  if (error) {
+    throw new Error("Error uploading image");
+  }
+  const publicURL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${data.path}`;
+  return publicURL;
+}
 
 const getSortedNotificationDate = (date: Date | string) => {
   return date instanceof Date ? date : new Date(date);

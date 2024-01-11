@@ -7,13 +7,13 @@ import React, {
 } from "react";
 
 import { Control, UseFormReturn } from "react-hook-form";
-import { Comment, Group, Post, Share, Tag, User } from "@prisma/client";
+import { Comment, Group, Post, Share, Tag } from "@prisma/client";
 
 import { PostFormValuesType } from "@/constants/posts";
 import { GroupPromiseProps } from "..";
 import { MeetUpExtended } from "../meetups.index";
 import { Suggestion } from "use-places-autocomplete";
-import { StaticImageData } from "next/image";
+
 import {
   FacebookShareButton,
   TelegramShareButton,
@@ -111,6 +111,7 @@ export type CommentIconButtonProps = {
 type DevInfoItem = {
   heading: string;
   tags: string[];
+  postId?: number;
 };
 
 export type DevelopmentInfoProps = {
@@ -131,6 +132,7 @@ export interface CommentFormProps {
   content?: string;
   postId: number;
   postHeading?: string;
+  isDeleting?: boolean;
 }
 
 export interface CommentActionsProps {
@@ -202,7 +204,13 @@ export type ExtendedPrismaPost = {
   image: Post["image"];
   content: Post["content"];
   viewCount: Post["viewCount"];
-  author: Pick<User, "username" | "picture" | "id">;
+  author: {
+    username: string;
+    picture: string;
+    id: number;
+    title?: string | null;
+  };
+
   likesCount: number;
   commentsCount: number;
   tags: Tag["name"][];
@@ -401,21 +409,18 @@ export interface FollowingProps {
   authorId: number;
   isFollowing: boolean;
 }
+export type IconComponentType = React.FC<{ className?: string }>;
 
 export type SidebarItemProps = {
   item: {
-    imgSrc: StaticImageData;
-    imgAlt: string;
+    icon: IconComponentType;
     title: string;
     subTitle?: string;
     description: string;
-    imgContainerClass: string;
     loggedInFollowerFilter?: boolean;
   };
   peopleFollowed: number;
 };
-
-export type IconComponentType = React.FC<{ className?: string }>;
 
 export type ShareWrapperType =
   | typeof FacebookShareButton
@@ -470,6 +475,7 @@ export type FormLinkType = {
   description: string;
   linkToFormButtonTitle: string;
   className?: string;
+  link?: string;
 };
 
 export interface ChildCommentsProps {

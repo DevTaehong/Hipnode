@@ -30,7 +30,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
   const postData = await getPostContentById(+id);
 
   const {
-    author: { username, picture, id: authorId },
+    author: { username, picture, id: authorId, title },
     createdAt,
     userCanEditMedia,
   } = postData;
@@ -70,21 +70,33 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 className="w-full rounded-t-2xl object-cover"
               />
             </div>
-            <div className="flex items-center justify-between">
-              <h1 className="pb-[0.875rem] pl-[4.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
-                {heading}
-              </h1>
-              <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
-                {userCanEditMedia && (
-                  <MediaEditActionPopover mediaId={postData.id} label="Post" />
-                )}
+            <div className="flex w-full">
+              <p className="flex w-fit justify-start px-6 pt-4 text-xl text-sc-5">
+                H1
+              </p>
+              <div className="flex w-full flex-col">
+                <div className="flex w-full justify-between">
+                  <h1 className="pb-[0.875rem] text-[1.625rem] font-semibold leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+                    {heading}
+                  </h1>
+
+                  <div className="pb-[0.875rem] pr-[2.8rem] font-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2 lg:pb-[1.25rem]">
+                    {userCanEditMedia && (
+                      <MediaEditActionPopover
+                        positionStyles="translate-x-[-1.8rem] translate-y-[-0.8rem]"
+                        mediaId={postData.id}
+                        label="Post"
+                      />
+                    )}
+                  </div>
+                </div>
+                <TagsList tags={tags} />
+                <div className="pb-[1.875rem] pr-[1.25rem] text-base leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
+                  <SanatizedHtml content={content} />
+                </div>
               </div>
             </div>
 
-            <TagsList tags={tags} />
-            <div className="pb-[1.875rem] pl-[4.8rem] pr-[1.25rem] text-base leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
-              <SanatizedHtml content={content} />
-            </div>
             <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
               <div className="flex items-center justify-center px-[1.25rem]">
                 <Image
@@ -94,7 +106,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                   height={40}
                 />
               </div>
-              <div className="flex h-fit grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
+              <div className="relative flex h-fit grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
                 <CommentForm postId={postData.id} postHeading={heading} />
               </div>
             </div>
@@ -103,34 +115,37 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">
           <RightColumnWrapper>
-            <div className="mb-[1.25rem] flex  h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-purple-20">
+            <div className="mb-[1.25rem] flex h-[6.25rem] w-[6.25rem] shrink-0 items-center justify-center rounded-full">
               <Image
                 src={picture ?? "/images/emoji_2.png"}
                 alt="profile-image"
                 height={100}
                 width={100}
-                className="flex-center h-[5rem] w-[5rem] rounded-full"
+                className="flex-center h-[6.25rem] w-[6.25rem] shrink-0 rounded-full"
               />
             </div>
             <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
               {username}
             </h2>
             <p className="mb-[1.25rem] flex justify-center text-base leading-6 text-sc-3">
-              Web Developer
+              {title}
             </p>
-            <Following authorId={authorId} isFollowing={isFollowing} />
+            {!userCanEditMedia && (
+              <Following authorId={authorId} isFollowing={isFollowing} />
+            )}
+
             <p className="flex justify-center text-base leading-6 text-sc-3">
               {+calculatedDate > 0
                 ? `joined ${calculatedDate} months ago`
                 : "joined this month"}
             </p>
           </RightColumnWrapper>
-          <aside className="flex min-w-[20.3rem] flex-col items-center justify-center rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
-            <h2 className="text-[1.125rem] leading-[1.625rem] text-sc-2 dark:text-light-2">
+          <aside className="flex min-w-[20.3rem] flex-col rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
+            <h2 className="text-[1.125rem] leading-[1.625rem]  text-sc-2 dark:text-light-2">
               More from {username}
             </h2>
 
-            <div className="flex flex-col items-start">
+            <div className="flex w-full flex-col items-start">
               <DevelopmentInformation devInfo={devInfo} />
             </div>
           </aside>

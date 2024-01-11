@@ -13,6 +13,39 @@ import { InterviewProps } from "./interview.index";
 import { ExtendedPrismaPost } from "./posts";
 import { ProfileMeetupResponse } from "@/lib/actions/profile.actions";
 
+export type PostCardTypes = Post & {
+  id: number;
+  image: string;
+  content: string;
+  viewCount: number;
+  createdAt: Date;
+  heading: string;
+  blurImage: string;
+  imageWidth: number;
+  imageHeight: number;
+  author: {
+    username: string;
+    picture: string;
+    id: number;
+  };
+  likes: {
+    userId: number;
+  }[];
+  comments: {
+    id: number;
+  }[];
+  tags: {
+    tag: {
+      id: number;
+      name: string;
+    };
+  }[];
+  hasUserLiked: boolean;
+  likesCount: number;
+  commentsCount: number;
+  tagNames: string[];
+};
+
 export interface AuthenticatedUser {
   userId: number;
 }
@@ -291,8 +324,8 @@ export interface NotificationCommentTypes {
 
 export interface ProfileInfoProps {
   userId: number;
-  src: string | undefined;
-  username: string | undefined;
+  src: string;
+  username: string;
   isLoggedInUser: boolean;
   title: string;
   followers: number | undefined;

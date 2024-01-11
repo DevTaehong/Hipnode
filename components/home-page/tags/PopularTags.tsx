@@ -37,12 +37,12 @@ const PopularTags = ({ tagsData }: TagsProps) => {
         return (
           <div
             key={tag.name}
-            className="mb-[0.675rem] flex items-center justify-center gap-3 hover:translate-x-1 hover:scale-[101%]"
+            className="mb-[0.675rem] flex h-full items-center justify-center gap-3 hover:translate-x-1 hover:scale-[101%]"
           >
             <div
-              className={`flex rounded-lg ${
+              className={`rounded-lg ${
                 colorVariants[tag.iconBgColor]
-              } p-[0.375rem]`}
+              } flex-center h-[2rem] w-[2rem] shrink-0`}
             >
               <Icon className={`${colorVariants[tag.iconFillColor]}`} />
             </div>

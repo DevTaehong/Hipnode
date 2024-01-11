@@ -46,3 +46,10 @@ export interface SocialLinkProps {
   instagram: string | readonly string[] | undefined;
   facebook: string | readonly string[] | undefined;
 }
+
+export type BaseUserInfo = {
+  id: number;
+  username: string;
+  image: string;
+  name: string;
+};

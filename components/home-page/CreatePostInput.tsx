@@ -21,12 +21,12 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
 
   return (
     <section className="flex w-full items-center rounded-2xl bg-light p-[0.875rem] dark:bg-dark-3 md:p-[1.25rem]">
-      <div className="flex h-[2.3rem] w-[2.3rem] items-center justify-center rounded-full bg-yellow-30 md:h-[2.5rem] md:w-[2.5rem]">
+      <div className="flex h-[1.8rem] w-[1.8rem] shrink-0 items-center justify-center rounded-full md:h-[2.5rem] md:w-[2.5rem]">
         <ImageWithCaption
           imageSrc={userImage}
           imageWidth={40}
           imageHeight={40}
-          className="h-[1.5rem] w-[1.5rem] shrink-0 rounded-full md:h-[1.8rem] md:w-[1.8rem]"
+          className="h-[1.8rem] w-[1.8rem] shrink-0 rounded-full md:h-[2.5rem] md:w-[2.5rem]"
           imageAlt="User Image"
         />
       </div>
@@ -34,7 +34,7 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
         <Input
           type="text"
           placeholder="Share what is going on in your mind..."
-          className="bg-sc-6 px-[0.625rem] py-[0.5rem] text-[0.75rem] font-normal leading-[1.125rem] text-sc-4 focus:outline-none focus:ring-0 dark:bg-dark-4 md:p-[0.75rem] md:text-[0.875rem] md:leading-[1.375rem]"
+          className="rounded-md bg-sc-6 px-[0.625rem] py-[0.5rem] text-[0.75rem] font-normal leading-[1.125rem] text-sc-4 focus:outline-none focus:ring-0 dark:bg-dark-4 md:p-[0.75rem] md:text-[0.875rem] md:leading-[1.375rem]"
           onChange={handleInputChange}
         />
       </div>

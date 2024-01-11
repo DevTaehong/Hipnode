@@ -8,6 +8,23 @@ import { redirect } from "next/navigation";
 import { createUserType } from "@/types/posts";
 import { verifyAuth } from "../auth";
 
+export async function getUsersByName(name: string) {
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+    });
+
+    return users;
+  } catch (error) {
+    console.error("Error fetching user by name:", error);
+    throw error;
+  }
+}
+
 export async function getUserByClerkId(
   clerkId: string,
   includeOnboarding = true

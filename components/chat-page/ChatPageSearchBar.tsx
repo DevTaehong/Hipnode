@@ -55,8 +55,10 @@ const ChatPageSearchBar = () => {
     ]);
 
     try {
-      await createNewChatroom();
-      setSearchText("");
+      const newChatroom = await createNewChatroom();
+      if (newChatroom === 0) {
+        setSearchText("");
+      }
     } catch (error) {
       console.error("Failed to create new chatroom:", error);
     }

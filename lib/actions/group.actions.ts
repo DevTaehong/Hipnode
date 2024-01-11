@@ -11,6 +11,47 @@ import {
   GetGroupByIdParams,
   GetGroupsQueryOptions,
 } from "../../types/shared.types";
+import { verifyAuth } from "../auth";
+
+export async function isUserMemberOfGroup(groupId: number) {
+  try {
+    const { userId } = await verifyAuth();
+    const isUserMemberOfGroup = await prisma.group.findFirst({
+      where: {
+        id: groupId,
+        members: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    return Boolean(isUserMemberOfGroup);
+  } catch (error) {
+    console.error("Error checking if user is a member of a group:", error);
+  }
+}
+
+export async function joinGroup(groupId: number) {
+  try {
+    const { userId } = await verifyAuth();
+
+    await prisma.group.update({
+      where: {
+        id: groupId,
+      },
+      data: {
+        members: {
+          connect: { id: userId },
+        },
+      },
+    });
+    revalidatePath(`/group/${groupId}`);
+  } catch (error) {
+    console.error("Error joining a group:", error);
+  }
+}
 
 export async function leaveGroup(userId: number, groupId: number) {
   try {
@@ -48,6 +89,8 @@ export async function leaveGroup(userId: number, groupId: number) {
       },
       data: updateData,
     });
+
+    revalidatePath(`/group/${groupId}`);
   } catch (error) {
     console.error("Error leaving a group:", error);
   }
@@ -140,16 +183,8 @@ export async function getGroups(myCursorId?: number) {
 
 export async function editGroup(params: EditGroupParams) {
   try {
-    const {
-      groupId,
-      name,
-      description,
-      path,
-      logo,
-      coverImage,
-      admins,
-      members,
-    } = params;
+    const { groupId, name, description, logo, coverImage, admins, members } =
+      params;
 
     await prisma.group.update({
       where: {
@@ -168,7 +203,7 @@ export async function editGroup(params: EditGroupParams) {
         },
       },
     });
-    revalidatePath(path);
+    revalidatePath(`/group/${groupId}`);
   } catch (error) {
     console.error("Error editing a group:", error);
     throw error;

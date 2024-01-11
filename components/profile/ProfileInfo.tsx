@@ -27,6 +27,13 @@ const ProfileModal = ({
   profileFollowing,
   joinedAt,
 }: ProfileInfoProps) => {
+  const chatUserInfo = {
+    id: userId,
+    username,
+    image: src,
+    name: username,
+  };
+
   return (
     <div className="relative mx-auto flex flex-col items-center rounded-2xl bg-white p-5 dark:bg-dark-3 min-[477px]:max-w-[13.125rem]">
       <div className="absolute left-0 top-0 h-[6.50rem] w-full rounded-t-2xl bg-profile-modal bg-cover bg-center bg-no-repeat" />
@@ -50,7 +57,7 @@ const ProfileModal = ({
       />
 
       {!isLoggedInUser && (
-        <ProfileBtns userId={userId} isFollowing={isFollowing} />
+        <ProfileBtns userInfo={chatUserInfo} isFollowing={isFollowing} />
       )}
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">

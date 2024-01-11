@@ -6,36 +6,50 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { SetCoverIcon } from "../icons/outline-icons/Icon";
 import OutlineIcon from "../icons/outline-icons";
-import { uploadImageToSupabase } from "@/utils";
+import { uploadGroupImages } from "@/utils";
 import { Input } from "../ui/input";
+import { PLACEHOLDER_IMAGE_URL } from "@/constants";
 
-const SetProfilePhotoComponent = () => {
+const SetProfilePhotoComponent = ({
+  groupLogo,
+  groupId,
+  type,
+}: {
+  groupLogo: string | null | undefined;
+  groupId: number | undefined;
+  type: "create" | "edit";
+}) => {
   const router = useRouter();
   const search = useSearchParams();
   const profilePhotoURL = search.get("profilePhotoURL");
-  const coverUrl = search.get("coverUrl");
+  const coverURL = search.get("coverURL");
 
   const handleSetProfilePhoto = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      const uploadedURL = await uploadImageToSupabase(
+
+      const uploadedURL = await uploadGroupImages(
         file,
         "group-profile-photo",
         "photos"
       );
+
+      const editPage = `edit/${groupId}`;
+      const createPage = `create-group`;
+
       router.push(
-        `/group/create-group?coverUrl=${
-          coverUrl ?? ""
-        }&profilePhotoURL=${uploadedURL?.mainImageURL}`
+        `/group/${type === "edit" ? editPage : createPage}?coverURL=${
+          coverURL ?? ""
+        }&profilePhotoURL=${uploadedURL}`
       );
     }
   };
 
   return (
     <div className="flex items-center gap-2.5">
-      {profilePhotoURL ? (
+      {profilePhotoURL || groupLogo ? (
         <Image
-          src={profilePhotoURL}
+          src={profilePhotoURL || groupLogo || PLACEHOLDER_IMAGE_URL}
           width={60}
           height={60}
           className="h-[3.75rem] w-[3.75rem] rounded-full object-cover"
@@ -54,7 +68,9 @@ const SetProfilePhotoComponent = () => {
             text-sc-2 hover:opacity-80 hover:transition-opacity dark:bg-dark-4 dark:text-light-2"
         >
           <SetCoverIcon />
-          {profilePhotoURL ? "Change Profile Photo" : "Set Profile Photo"}
+          {profilePhotoURL || groupLogo
+            ? "Change Profile Photo"
+            : "Set Profile Photo"}
         </label>
         <Input
           id="profile"

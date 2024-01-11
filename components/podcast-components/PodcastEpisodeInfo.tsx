@@ -19,7 +19,11 @@ const PodcastEpisodeInfo = ({
         <div className="flex items-center justify-between">
           {showName} &bull; Episode {episodeNumber}
           {userCanEditMedia && (
-            <MediaEditActionPopover label="Podcast" mediaId={podcastId} />
+            <MediaEditActionPopover
+              positionStyles="translate-x-[-3.2rem] translate-y-[-0.2rem]"
+              label="Podcast"
+              mediaId={podcastId}
+            />
           )}
         </div>
       </h2>

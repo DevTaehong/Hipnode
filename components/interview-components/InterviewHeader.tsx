@@ -40,7 +40,11 @@ const InterviewHeader = ({
       </Link>
 
       {userCanEditMedia && (
-        <MediaEditActionPopover label="Interview" mediaId={id} />
+        <MediaEditActionPopover
+          positionStyles="translate-x-[-4rem] translate-y-[-1.2rem]"
+          label="Interview"
+          mediaId={id}
+        />
       )}
     </header>
   );

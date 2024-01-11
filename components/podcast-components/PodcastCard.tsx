@@ -17,7 +17,10 @@ const PodcastCard = ({ info }: { info: PodcastWithUserInfo }) => {
           <header>
             <h2 className="text-sc-1_light-2 semibold-16">{title}</h2>
           </header>
-          <p className="text-sc-3_light-6 base-12">{details}</p>
+          <p
+            className="text-sc-3_light-6 base-12"
+            dangerouslySetInnerHTML={{ __html: details.slice(1, -1) }}
+          ></p>
         </section>
 
         <footer className="mt-5 flex items-center gap-2.5">

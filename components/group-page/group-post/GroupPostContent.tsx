@@ -9,27 +9,27 @@ const GroupPostContent = ({
   heading,
   content,
   id,
+  hasUserLiked,
 }: {
   image: string;
   groupName: string;
   heading?: string;
   content: string;
   id: number;
-}) => {
-  return (
-    <CardContent className="flex flex-col gap-[0.62rem]">
-      <Image
-        className="w-full rounded-[0.65rem]"
-        src={image}
-        width={315}
-        height={146}
-        alt={`Post image from a ${groupName} group`}
-      />
-      <GroupPostIcons id={id} />
-      <h6 className="semibold-14 font-feature line-clamp-3">{heading}</h6>
-      <p className="regular-12 line-clamp-6">{content}</p>
-    </CardContent>
-  );
-};
+  hasUserLiked: boolean;
+}) => (
+  <CardContent className="flex flex-col gap-[0.62rem]">
+    <Image
+      className="w-full rounded-[0.65rem]"
+      src={image}
+      width={315}
+      height={146}
+      alt={`Post image from a ${groupName} group`}
+    />
+    <GroupPostIcons id={id} hasUserLiked={hasUserLiked} />
+    <h6 className="semibold-14 font-feature line-clamp-3">{heading}</h6>
+    <p className="regular-12 line-clamp-6">{content}</p>
+  </CardContent>
+);
 
 export default GroupPostContent;

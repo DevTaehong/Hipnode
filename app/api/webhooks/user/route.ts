@@ -93,7 +93,7 @@ async function handler(request: Request) {
 
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {
-        userId: user.id,
+        userId: user?.id,
       },
     });
 

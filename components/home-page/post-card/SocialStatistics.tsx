@@ -2,7 +2,7 @@ import { SocialStatisticsProps } from "@/types/homepage";
 
 const SocialStatistics = ({ socialCounts }: SocialStatisticsProps) => {
   return (
-    <ul className="flex w-full flex-row flex-wrap justify-between pt-[1.25rem] text-[0.563rem] leading-[0.875rem] text-sc-3 md:pt-0 dark:text-sc-5">
+    <ul className="flex w-fit flex-row flex-wrap justify-between gap-10 pt-[1.25rem] text-[0.563rem] leading-[0.875rem] text-sc-3 dark:text-sc-5 md:pt-0">
       {socialCounts?.map(([key, value]) => {
         return (
           <li

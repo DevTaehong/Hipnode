@@ -1,7 +1,6 @@
 "use client";
-
 import { AlertDialogAction } from "@/components/ui/alert-dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import { leaveGroup } from "@/lib/actions/group.actions";
 
 const GroupLeaveButton = ({
@@ -11,16 +10,12 @@ const GroupLeaveButton = ({
   userId: number;
   groupId: number;
 }) => {
-  const { toast } = useToast();
-
   const handleLeaveGroup = async () => {
-    if (userId === -1) {
-      toast({
-        title: "You must be logged in to leave a group.",
-        variant: "destructive",
-      });
-    }
     await leaveGroup(userId, groupId);
+    toast({
+      description: "Successfully leave from group :)",
+      variant: "default",
+    });
   };
   return (
     <AlertDialogAction

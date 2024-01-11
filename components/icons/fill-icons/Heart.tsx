@@ -3,11 +3,10 @@
 import { cn } from "@/lib/utils";
 
 type HeartProps = {
-  className: string;
   isLiked: boolean;
 };
 
-const Heart = ({ className, isLiked }: HeartProps) => {
+const Heart = ({ isLiked }: HeartProps) => {
   return (
     <svg
       width="30"
@@ -15,7 +14,7 @@ const Heart = ({ className, isLiked }: HeartProps) => {
       viewBox="0 0 30 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("shrink-0 cursor-pointer", className)}
+      className={cn("shrink-0 cursor-pointer")}
     >
       <rect
         width="30"
@@ -23,6 +22,7 @@ const Heart = ({ className, isLiked }: HeartProps) => {
         rx="15"
         className={isLiked ? "fill-red-10" : "fill-[#F4F6F8] dark:fill-dark-4"}
       />
+
       <g filter={`${isLiked ? "url(#filter0_d_15412_138)" : ""}`}>
         <path
           fillRule="evenodd"
