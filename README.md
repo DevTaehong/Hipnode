@@ -203,6 +203,6 @@ This project is licensed under the [MIT] License.
 - Adrian Hajdin who makes this possible through his amazing team of Mentors
 - The tireless support we received throughout the Master Class
 - Amazing workshops run be mentors based on participant requests
-- Regular meetups withy mentors in the Office-hours platform
+- Regular meetups with mentors in the Office-hours platform
 - One on one mentorship we all received
 - An amazing Dev Team of diverse people from across the globe
