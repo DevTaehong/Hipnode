@@ -161,13 +161,13 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 
 #### Main Tasks
 
-- **Database Setup**: Implemented the setup of PostgreSQL using Prisma ORM. Developed the database models based on the provided Figma diagrams to ensure a robust data structure. Created functions and seeded DB using Faker.
-- **Rich Text Editor**: Created a sophisticated rich text editor utilizing the Lexical framework, enhancing the user interface for content creation.
+- **Database Setup**: Implemented the setup of `PostgreSQL` using `Prisma ORM`. Developed the database models based on the provided `Figma` diagrams to ensure a robust data structure. Created functions and seeded DB using `Faker`.
+- **Rich Text Editor**: Created a sophisticated rich text editor utilizing the `Lexical framework`, enhancing the user interface for content creation.
 - **Home Page Layout and interactivity**: Responsible for the layout and presentation of the home page, contributing to an intuitive and user-friendly experience.
 - **Comments Section Layout and interactivity**: Responsible for the comments section, which allows users to comment on posts and also accepts replies to comments.
-- **Form Handling**: Developed multi-purpose form for handling various content types like posts, podcasts, meetups, and interviews. Integrated `react-hook-form` and `zod` for efficient and reliable form management. Leveraging NextJS 14 server functions for all the CRUD operations.
-- **Component Creation**: Translated Figma diagrams into requisite React components, ensuring a seamless alignment between design and functionality.
-- **Component Styling and Animation**: Leveraging Tailwind CSS and Framer Motion to satisfy Figma requirements and add subtle animation.
+- **Form Handling**: Developed multi-purpose form for handling various content types like posts, podcasts, meetups, and interviews. Integrated `react-hook-form` and `zod` for efficient and reliable form management. Leveraging `NextJS 14` `server functions` for all the CRUD operations.
+- **Component Creation**: Translated Figma diagrams into requisite `React` components, ensuring a seamless alignment between design and functionality.
+- **Component Styling and Animation**: Leveraging `Tailwind CSS` and `Framer Motion` to satisfy Figma requirements and add subtle animation.
 
 ### Tye Stanley - Software Developer
 
