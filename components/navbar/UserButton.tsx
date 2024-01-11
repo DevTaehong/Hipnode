@@ -16,7 +16,6 @@ import { PopoverClose } from "@radix-ui/react-popover";
 
 const UserButton = () => {
   const { user } = useUser();
-  console.log(user);
 
   return (
     <Popover>
