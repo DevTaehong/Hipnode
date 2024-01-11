@@ -123,7 +123,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
 
   try {
     await channel.publish("chat-message", chatMessage);
-    const newMessage = await createMessage({
+    await createMessage({
       text: chatMessage.text,
       userId: currentUser.id,
       receiverUserId,
@@ -132,14 +132,6 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       attachmentType: chatMessage.attachmentType,
       messageUUID: messageUniqueId,
     });
-    if (newMessage) {
-      createLiveChatNotification({
-        chatroomId,
-        messageId: newMessage.id,
-        userId: currentUser.id,
-        receiverUserId,
-      });
-    }
     return API_RESULT.SUCCESS;
   } catch (error) {
     console.error("Error sending or creating message:", error);

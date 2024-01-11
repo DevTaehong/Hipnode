@@ -205,9 +205,17 @@ export async function deleteChatroom(chatroomId: number) {
 }
 
 export async function createMessage(data: CreateMessageType) {
+  const { chatroomId, userId, receiverUserId } = data;
   try {
     const message = await prisma.message.create({
       data,
+    });
+
+    createLiveChatNotification({
+      chatroomId,
+      messageId: message.id,
+      userId,
+      receiverUserId,
     });
 
     return message;

@@ -29,7 +29,7 @@ const ChatroomListItem = ({
   } = chatroom;
 
   useEffect(() => {
-    if (notification !== null) {
+    if (notification !== null && chatroomId !== chatroomListId) {
       setShowNotification(true);
     } else {
       setShowNotification(false);
@@ -47,7 +47,7 @@ const ChatroomListItem = ({
       }
     };
     handleReadNotification();
-  }, [chatroomId]);
+  }, [chatroomId, notification]);
 
   useChannel("hipnode-livechat-typing-status", (message) => {
     setUserTyping(message.data);
