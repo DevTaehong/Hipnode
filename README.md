@@ -10,7 +10,7 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 
 - **Posts**: Create and engage with posts. Share your thoughts, experiences, and ideas with a wider community.
 
-  [<img src="public/readme/home.png" alt="Homepage" width="500" height="300">](https://youtu.be/3hZXbFAARCw "Hipnode - Social Media Platform - Homepage. Create, Read, Update and Delete a Post")
+  [<img src="public/readme/home.png" alt="Homepage" width="500" height="300">](https://youtu.be/psQsIe4ZzzY "Hipnode - Social Media Platform - Homepage. Create, Read, Update and Delete a Post")
 
 - **Podcasts**: Explore a variety of podcasts on diverse topics or host your own.
 
