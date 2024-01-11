@@ -126,7 +126,7 @@ const NavBarChatList = ({
           <h2 className="semibold-18 text-sc-2_light-2 px-5">Messages</h2>
           <ul className="flex h-full max-h-[18.125rem] w-full flex-col overflow-auto">
             {isLoading ? (
-              <div className="flex-center h-full w-full">
+              <div className="flex-center h-full w-full py-5">
                 <LoaderComponent />
               </div>
             ) : (
@@ -139,7 +139,7 @@ const NavBarChatList = ({
               ))
             )}
           </ul>
-          <Link href="/chat" className="semibold-14 self-center text-blue">
+          <Link href="/chat" className="semibold-14 self-center px-5 text-blue">
             See all in Messenger
           </Link>
         </div>
