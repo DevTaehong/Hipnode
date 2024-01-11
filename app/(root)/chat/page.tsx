@@ -23,9 +23,9 @@ const Chat = async () => {
   }
   if (!userInfo || !clerkUserId) return null;
 
-  const unreadNotifications = await getUnreadNotifications(userInfo.id);
+  const unreadNotifications = await getUnreadNotifications();
 
-  const chatrooms = (await getUserChatrooms(userInfo.id)) ?? [];
+  const chatrooms = (await getUserChatrooms()) ?? [];
   return (
     <ChatPageWrapper
       chatrooms={chatrooms}

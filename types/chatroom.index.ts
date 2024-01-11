@@ -147,6 +147,7 @@ export type NotificationType = {
   chatroomId: number;
   userId: number;
   receiverUserId: number;
+  count: number;
 };
 
 export interface ChatPageProps {
@@ -158,6 +159,7 @@ export interface ChatPageProps {
 export interface ChatroomListItemProps {
   chatroom: ChatroomDetail;
   setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
+  notification: NotificationType;
 }
 
 export interface ChatPageContextType {

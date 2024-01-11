@@ -20,7 +20,7 @@ const Navbar = async () => {
     name: fullName,
   };
 
-  const userChatrooms = (await getUserChatrooms(userId)) ?? [];
+  const userChatrooms = (await getUserChatrooms()) ?? [];
   const chatroomsWithRecentMessage = userChatrooms.filter(
     (chatroom) => chatroom.recentMessage !== null
   );

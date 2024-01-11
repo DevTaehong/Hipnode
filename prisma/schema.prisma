@@ -408,6 +408,7 @@ model ChatNotification {
   messageId       Int
   hasBeenRead     Boolean  @default(false)
   hasBeenNotified Boolean  @default(false)
+  count           Int      @default(1)
 
   Chatroom Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
   User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)

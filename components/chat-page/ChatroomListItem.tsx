@@ -11,41 +11,13 @@ import { deleteChatNotification } from "@/lib/actions/chatroom.actions";
 const ChatroomListItem = ({
   chatroom,
   setShowChatRoomList,
+  notification,
 }: ChatroomListItemProps) => {
   const { setChatroomId, setChatroomUsers, chatroomId, onlineUsers } =
     useChatStore();
-  const { userInfo, unreadNotifications } = useChatPageContext();
+  const { userInfo } = useChatPageContext();
   const [userTyping, setUserTyping] = useState<UserTyping | null>(null);
-  const [unread, setUnread] = useState(false);
-
-  useEffect(() => {
-    const hasUnread = unreadNotifications.some(
-      (notification) =>
-        notification.chatroomId === chatroom.id &&
-        notification.receiverUserId === userInfo.id
-    );
-    setUnread(hasUnread);
-  }, []);
-
-  const notification = unreadNotifications.find(
-    (notification) => notification.chatroomId === chatroom.id
-  );
-
-  useEffect(() => {
-    const handleReadNotification = async () => {
-      if (chatroomId !== chatroom.id || !notification) return;
-      try {
-        const notificationStatus = await deleteChatNotification(
-          notification.chatNotificationId,
-          notification.receiverUserId
-        );
-        setUnread(!notificationStatus);
-      } catch (error) {
-        console.error("There was an error deleting the notification", error);
-      }
-    };
-    handleReadNotification();
-  }, [chatroomId]);
+  const [showNotification, setShowNotification] = useState(false);
 
   const {
     id: chatroomListId,
@@ -55,6 +27,27 @@ const ChatroomListItem = ({
     },
     otherUser,
   } = chatroom;
+
+  useEffect(() => {
+    if (notification !== null) {
+      setShowNotification(true);
+    } else {
+      setShowNotification(false);
+    }
+  }, [notification]);
+
+  useEffect(() => {
+    const handleReadNotification = async () => {
+      if (chatroomId !== chatroomListId || notification === null) return;
+      try {
+        setShowNotification(false);
+        await deleteChatNotification(notification.chatNotificationId);
+      } catch (error) {
+        console.error("There was an error deleting the notification", error);
+      }
+    };
+    handleReadNotification();
+  }, [chatroomId]);
 
   useChannel("hipnode-livechat-typing-status", (message) => {
     setUserTyping(message.data);
@@ -100,7 +93,7 @@ const ChatroomListItem = ({
     >
       <div
         className={`mt-4 h-2 w-2 rounded-full bg-red ${
-          unread ? "flex" : "hidden"
+          showNotification ? "flex" : "hidden"
         }`}
       />
       <div className="flex w-full flex-col gap-4">

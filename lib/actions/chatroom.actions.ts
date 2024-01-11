@@ -7,6 +7,7 @@ import {
   CreateMessageType,
   EditMessageType,
 } from "@/types/chatroom.index";
+import { verifyAuth } from "../auth";
 
 export async function createChatroom(userIds: number[]) {
   try {
@@ -92,7 +93,11 @@ export async function isExistingChatroom(
   }
 }
 
-export async function getUserChatrooms(userId: number) {
+export async function getUserChatrooms() {
+  const { userId } = await verifyAuth(
+    "You must be logged in to view notifications.",
+    false
+  );
   try {
     const userChatrooms = await prisma.chatroomUsers.findMany({
       where: {
@@ -294,21 +299,30 @@ export async function createLiveChatNotification(data: ChatNotificationType) {
     if (existingNotification) {
       const updatedNotification = await prisma.chatNotification.update({
         where: { id: existingNotification.id },
-        data: { messageId: data.messageId },
+        data: {
+          count: {
+            increment: 1,
+          },
+        },
       });
       return updatedNotification;
     } else {
       const newNotification = await prisma.chatNotification.create({
-        data,
+        data: { ...data },
       });
       return newNotification;
     }
   } catch (error) {
-    console.error("Error creating live chat notification:", error);
+    console.error("Error creating/updating live chat notification:", error);
   }
 }
 
-export async function getUnreadNotifications(userId: number) {
+export async function getUnreadNotifications() {
+  const { userId } = await verifyAuth(
+    "You must be logged in to view notifications.",
+    false
+  );
+
   try {
     const unreadNotifications = await prisma.chatNotification.findMany({
       where: {
@@ -320,6 +334,7 @@ export async function getUnreadNotifications(userId: number) {
         chatroomId: true,
         userId: true,
         receiverUserId: true,
+        count: true,
       },
     });
 
@@ -328,6 +343,7 @@ export async function getUnreadNotifications(userId: number) {
       chatroomId: notification.chatroomId,
       userId: notification.userId,
       receiverUserId: notification.receiverUserId,
+      count: notification.count,
     }));
 
     return notificationsData;
@@ -338,14 +354,17 @@ export async function getUnreadNotifications(userId: number) {
 }
 
 export async function deleteChatNotification(
-  notificationId: number,
-  receiverUserId: number
+  notificationId: number
 ): Promise<boolean> {
+  const { userId } = await verifyAuth(
+    "You must be logged in to view notifications.",
+    false
+  );
   try {
     await prisma.chatNotification.delete({
       where: {
         id: notificationId,
-        receiverUserId, // Add this condition
+        receiverUserId: userId, // Add this condition
       },
     });
     console.log(`Notification with ID ${notificationId} has been deleted.`);

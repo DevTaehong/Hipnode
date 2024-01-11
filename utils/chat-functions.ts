@@ -133,7 +133,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
       messageUUID: messageUniqueId,
     });
     if (newMessage) {
-      await createLiveChatNotification({
+      createLiveChatNotification({
         chatroomId,
         messageId: newMessage.id,
         userId: currentUser.id,
