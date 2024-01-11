@@ -145,14 +145,14 @@ export async function updateProfileInfo(data: Partial<User>) {
   );
 
   try {
-    const user = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: userId,
       },
       data,
     });
 
-    return user;
+    return "Successfully updated profile info.";
   } catch (error) {
     console.error("Error updating user:", error);
     throw error;

@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogClose,
 } from "@/components/ui/dialog";
+import { updateProfileInfo } from "@/lib/actions/user.actions";
 import { EditSocialsProps, SocialLinkProps } from "@/types/profile.index";
 
 export const socialNames = [
@@ -33,8 +34,26 @@ const EditSocials = ({
     facebook: facebook || "",
   });
 
-  const handleSubmit = () => {
-    console.log("submit");
+  const handleSubmit = async () => {
+    try {
+      if (
+        website === links.website &&
+        twitter === links.twitter &&
+        instagram === links.instagram &&
+        facebook === links.facebook
+      ) {
+        return;
+      }
+
+      await updateProfileInfo({
+        website: String(links.website),
+        twitter: String(links.twitter),
+        instagram: String(links.instagram),
+        facebook: String(links.facebook),
+      });
+    } catch (error) {
+      console.log("error updating user");
+    }
   };
 
   return (
@@ -56,11 +75,17 @@ const EditSocials = ({
         )}
 
         <div className="flex justify-center gap-5">
-          {twitter && <SocialIcon icon="Twitter" link={twitter} />}
+          {links.twitter && (
+            <SocialIcon icon="Twitter" link={String(links.twitter)} />
+          )}
 
-          {instagram && <SocialIcon icon="Instagram" link={instagram} />}
+          {links.instagram && (
+            <SocialIcon icon="Instagram" link={String(links.instagram)} />
+          )}
 
-          {facebook && <SocialIcon icon="Facebook" link={facebook} />}
+          {links.facebook && (
+            <SocialIcon icon="Facebook" link={String(links.facebook)} />
+          )}
         </div>
       </div>
 
