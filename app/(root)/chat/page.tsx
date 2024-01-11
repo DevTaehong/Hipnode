@@ -1,10 +1,7 @@
 import { auth } from "@clerk/nextjs";
 
 import ChatPageWrapper from "@/components/chat-page/ChatPageWrapper";
-import {
-  getUserChatrooms,
-  getUnreadNotifications,
-} from "@/lib/actions/chatroom.actions";
+import { getUserChatrooms } from "@/lib/actions/chatroom.actions";
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 
 const Chat = async () => {
@@ -23,16 +20,8 @@ const Chat = async () => {
   }
   if (!userInfo || !clerkUserId) return null;
 
-  const unreadNotifications = await getUnreadNotifications();
-
   const chatrooms = (await getUserChatrooms()) ?? [];
-  return (
-    <ChatPageWrapper
-      chatrooms={chatrooms}
-      userInfo={userInfo}
-      unreadNotifications={unreadNotifications}
-    />
-  );
+  return <ChatPageWrapper chatrooms={chatrooms} userInfo={userInfo} />;
 };
 
 export default Chat;

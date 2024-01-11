@@ -153,7 +153,6 @@ export type NotificationType = {
 export interface ChatPageProps {
   chatrooms: ChatroomDetail[];
   userInfo: UserInfo;
-  unreadNotifications: NotificationType[];
 }
 
 export interface ChatroomListItemProps {
@@ -175,7 +174,6 @@ export interface ChatPageContextType {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   isInputDisabled: boolean;
   setIsInputDisabled: Dispatch<SetStateAction<boolean>>;
-  unreadNotifications: NotificationType[];
 }
 
 export interface ChatPageInputContextType {
