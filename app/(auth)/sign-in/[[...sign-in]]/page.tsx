@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <main className="sign-up-background">
       <OnboardingSideScreen />
-      <section className="clerk-modal-background">
+      <section className="clerk-modal-background bg-white">
         <div className="clerk-modal-container">
           <SignIn
             afterSignInUrl="/"

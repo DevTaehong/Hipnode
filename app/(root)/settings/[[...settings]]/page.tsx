@@ -1,4 +1,5 @@
 import { UserProfile, SignOutButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const Page = () => {
   return (
@@ -9,11 +10,13 @@ const Page = () => {
       <div className="flex w-full justify-center overflow-scroll pb-20">
         <section className="flex h-fit w-fit flex-col gap-2">
           <div className="flex self-end">
-            <SignOutButton>
-              <p className="hover:semibold-16 cursor-pointer text-red-60 hover:text-red-80">
-                Sign Out
-              </p>
-            </SignOutButton>
+            <Link href="/sign-in">
+              <SignOutButton>
+                <p className="hover:semibold-16 cursor-pointer text-red-60 hover:text-red-80">
+                  Sign Out
+                </p>
+              </SignOutButton>
+            </Link>
           </div>
           <UserProfile
             path="/settings"

@@ -379,13 +379,16 @@ export function formatRelativeTime(dateString: Date): string {
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
-    return `${diffInSeconds}sec ago`;
+    return `${diffInSeconds} sec ago`;
   } else if (diffInSeconds < 3600) {
-    return `${Math.floor(diffInSeconds / 60)}min ago`;
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
   } else if (diffInSeconds < 86400) {
-    return `${Math.floor(diffInSeconds / 3600)}hour ago`;
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
   } else {
-    return `${Math.floor(diffInSeconds / 86400)}day ago`;
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} day${days === 1 ? "" : "s"} ago`;
   }
 }
 

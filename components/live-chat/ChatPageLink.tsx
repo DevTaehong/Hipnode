@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+"use client";
 
-import FillIcon from "../icons/fill-icons";
-import { getAllUsers } from "@/lib/actions/user.actions";
-import { ChatProps } from "@/types/chatroom.index";
+import { useEffect } from "react";
+
 import useChatStore from "@/app/chatStore";
 import {
   getAllOnlineUserIds,
   recreateOnlineUser,
 } from "@/lib/actions/online-user.actions";
-import { UsersToMessage } from ".";
+import NavBarChatList from "./NavBarChatList";
+import { ChatPageLinkProps } from "@/types/searchbar.index";
 
-const MessageList = () => {
-  const { userInfo, setOnlineUsers } = useChatStore();
+const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
   const { id } = userInfo;
-
-  const [users, setUsers] = useState<ChatProps[]>([]);
+  const { setUserInfo, setOnlineUsers } = useChatStore();
 
   const resetOnlineUsers = async () => {
     try {
@@ -41,18 +38,6 @@ const MessageList = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const allUsers = await getAllUsers();
-        setUsers(allUsers);
-      } catch (error) {
-        console.error("Error fetching users: ", error);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  useEffect(() => {
     const resetUsersPeriodically = async () => {
       try {
         const recreatedUser = await recreateOnlineUser(id);
@@ -72,20 +57,11 @@ const MessageList = () => {
     return () => clearInterval(intervalId);
   }, [id]);
 
-  return (
-    <Popover>
-      <PopoverTrigger>
-        <div className="cursor-pointer xl:rounded-lg xl:bg-light-2 xl:p-2 dark:xl:bg-dark-4">
-          <FillIcon.Message className="fill-sc-4 dark:fill-sc-6" />
-        </div>
-      </PopoverTrigger>
-      <PopoverContent>
-        <section className="h-fit w-48 bg-white p-3">
-          <UsersToMessage users={users} />
-        </section>
-      </PopoverContent>
-    </Popover>
-  );
+  useEffect(() => {
+    setUserInfo(userInfo);
+  }, [userInfo]);
+
+  return <NavBarChatList userChatrooms={userChatrooms} />;
 };
 
-export default MessageList;
+export default ChatPageLink;

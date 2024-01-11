@@ -3,19 +3,20 @@
 import { useState } from "react";
 
 import { followUser } from "@/lib/actions/post.action";
-import FillIcon from "@/components/icons/fill-icons";
+import ProfileLiveChat from "./ProfileLiveChat";
+import { BaseUserInfo } from "@/types/profile.index";
 
 const ProfileBtns = ({
-  userId,
+  userInfo,
   isFollowing,
 }: {
-  userId: number;
+  userInfo: BaseUserInfo;
   isFollowing: boolean;
 }) => {
   const [following, setFollowing] = useState(isFollowing);
 
   const handleFollow = async () => {
-    const followStatus = await followUser(userId);
+    const followStatus = await followUser(userInfo.id);
     setFollowing(followStatus);
   };
 
@@ -29,12 +30,7 @@ const ProfileBtns = ({
         {following ? "Following" : "Follow"}
       </button>
 
-      <div
-        className="flex h-full cursor-pointer items-center justify-center rounded-lg bg-blue-10 px-2.5 dark:bg-dark-4"
-        onClick={() => {}}
-      >
-        <FillIcon.Message className="fill-blue" />
-      </div>
+      <ProfileLiveChat userInfo={userInfo} />
     </div>
   );
 };

@@ -26,6 +26,8 @@ import { interviewFormLinkProps } from "@/constants/interview";
 import HistoryList from "@/components/profile/HistoryList";
 import NotFound from "@/components/NotFound";
 
+export const dynamic = "force-dynamic";
+
 const ProfilePage = async ({
   params,
   searchParams,

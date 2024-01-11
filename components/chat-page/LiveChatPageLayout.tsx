@@ -60,7 +60,7 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
         setIsInputDisabled,
       }}
     >
-      <main className="bg-light-2_dark-2 mt-[-5rem] flex h-screen min-h-screen w-screen justify-center pt-20">
+      <main className="mt-[-5rem] flex h-screen min-h-screen w-screen justify-center bg-light pb-8 pt-20 dark:bg-dark-2 md:pb-12">
         <section
           className="flex h-full w-full max-w-[90rem] flex-col border-x border-sc-6 dark:border-dark-2 md:flex-row
 md:dark:border-dark-3"
