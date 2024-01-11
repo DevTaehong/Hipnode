@@ -129,16 +129,15 @@ const ProfilePage = async ({
           />
         )}
 
-        <div className="relative flex w-full flex-1 overflow-auto">
-          {searchParams?.search === "interviews" &&
-            result.data.length !== 0 && (
-              <InterviewsList
-                data={result}
-                authorId={params.id}
-                resultType={searchParams.search}
-              />
-            )}
-        </div>
+        {searchParams?.search === "interviews" && result.data.length !== 0 && (
+          <div className="relative flex w-full flex-1 overflow-auto">
+            <InterviewsList
+              data={result}
+              authorId={params.id}
+              resultType={searchParams.search}
+            />
+          </div>
+        )}
 
         {searchParams?.search === "history" && result.data.length !== 0 && (
           <HistoryList data={result} authorId={params.id} />
