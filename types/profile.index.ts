@@ -39,3 +39,10 @@ export interface EditSocialsProps {
   facebook: string | null | undefined;
   isLoggedInUser: boolean;
 }
+
+export interface SocialLinkProps {
+  website: string | readonly string[] | undefined;
+  twitter: string | readonly string[] | undefined;
+  instagram: string | readonly string[] | undefined;
+  facebook: string | readonly string[] | undefined;
+}
