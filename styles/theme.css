@@ -139,6 +139,14 @@
     @apply text-sc-4 dark:text-light-2;
   }
 
+  .general-pages-styles {
+    @apply bg-light-2_dark-2 mt-[-5rem] flex min-h-screen w-screen justify-center p-5 pb-[5.5rem] lg:h-screen;
+  }
+
+  .dynamic-pages-styles {
+    @apply bg-light-2_dark-2 mt-[-5rem] flex h-screen w-screen justify-center p-5 pb-[5.5rem] pt-24;
+  }
+
   /* Onboarding component styles */
   .onboarding-page {
     @apply flex w-screen flex-col dark:bg-dark-2 md:min-h-screen md:flex-row;

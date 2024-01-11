@@ -21,7 +21,11 @@ const NotFound = ({
   }
 
   return (
-    <main className="flex-center h-screen w-screen">
+    <main
+      className={`flex-center w-screen ${
+        isProfilePage ? "mt-[-12rem] h-screen" : "h-screen"
+      }`}
+    >
       <div className="flex flex-col items-center gap-6">
         <div className="flex justify-center">
           <p className="text-7xl font-bold text-red-80">Hipno</p>

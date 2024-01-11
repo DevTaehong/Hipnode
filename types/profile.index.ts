@@ -31,3 +31,10 @@ export type PostPerformance = {
     comments: number;
   };
 };
+
+export type BaseUserInfo = {
+  id: number;
+  username: string;
+  image: string;
+  name: string;
+};
