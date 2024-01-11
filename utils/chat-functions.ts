@@ -12,6 +12,7 @@ import DOMPurify from "dompurify";
 import { v4 as uuidv4 } from "uuid";
 
 import {
+  createLiveChatNotification,
   createMessage,
   deleteMessage,
   editMessage,
@@ -84,7 +85,14 @@ const uploadAttachment = async (file: File | File[]) => {
 };
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
-  const { messageText, droppedFile, channel, chatroomId, currentUser } = args;
+  const {
+    messageText,
+    droppedFile,
+    channel,
+    chatroomId,
+    currentUser,
+    receiverUserId,
+  } = args;
 
   const mediaType = droppedFile ? getMediaType(droppedFile) : null;
 
@@ -115,14 +123,23 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
 
   try {
     await channel.publish("chat-message", chatMessage);
-    await createMessage({
+    const newMessage = await createMessage({
       text: chatMessage.text,
       userId: currentUser.id,
+      receiverUserId,
       chatroomId,
       attachment: chatMessage.attachment,
       attachmentType: chatMessage.attachmentType,
       messageUUID: messageUniqueId,
     });
+    if (newMessage) {
+      await createLiveChatNotification({
+        chatroomId,
+        messageId: newMessage.id,
+        userId: currentUser.id,
+        receiverUserId,
+      });
+    }
     return API_RESULT.SUCCESS;
   } catch (error) {
     console.error("Error sending or creating message:", error);

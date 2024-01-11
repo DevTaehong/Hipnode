@@ -273,3 +273,88 @@ export async function getMessagesForChatroom(chatroomId: number) {
     throw error;
   }
 }
+
+type ChatNotificationType = {
+  chatroomId: number;
+  userId: number;
+  messageId: number;
+  receiverUserId: number;
+};
+
+export async function createLiveChatNotification(data: ChatNotificationType) {
+  try {
+    const existingNotification = await prisma.chatNotification.findFirst({
+      where: {
+        chatroomId: data.chatroomId,
+        userId: data.userId,
+        hasBeenRead: false,
+      },
+    });
+
+    if (existingNotification) {
+      const updatedNotification = await prisma.chatNotification.update({
+        where: { id: existingNotification.id },
+        data: { messageId: data.messageId },
+      });
+      return updatedNotification;
+    } else {
+      const newNotification = await prisma.chatNotification.create({
+        data,
+      });
+      return newNotification;
+    }
+  } catch (error) {
+    console.error("Error creating live chat notification:", error);
+  }
+}
+
+export async function getUnreadNotifications(userId: number) {
+  try {
+    const unreadNotifications = await prisma.chatNotification.findMany({
+      where: {
+        receiverUserId: userId,
+        hasBeenRead: false,
+      },
+      select: {
+        id: true,
+        chatroomId: true,
+        userId: true,
+        receiverUserId: true,
+      },
+    });
+
+    const notificationsData = unreadNotifications.map((notification) => ({
+      chatNotificationId: notification.id,
+      chatroomId: notification.chatroomId,
+      userId: notification.userId,
+      receiverUserId: notification.receiverUserId,
+    }));
+
+    return notificationsData;
+  } catch (error) {
+    console.error("Error fetching unread notifications:", error);
+    return [];
+  }
+}
+
+export async function deleteChatNotification(
+  notificationId: number,
+  receiverUserId: number
+): Promise<boolean> {
+  try {
+    await prisma.chatNotification.delete({
+      where: {
+        id: notificationId,
+        receiverUserId, // Add this condition
+      },
+    });
+    console.log(`Notification with ID ${notificationId} has been deleted.`);
+    return true; // Indicate successful deletion
+  } catch (error) {
+    console.error(
+      `Error deleting chat notification with ID ${notificationId}:`,
+      error
+    );
+    return false; // Indicate failed deletion
+  }
+}

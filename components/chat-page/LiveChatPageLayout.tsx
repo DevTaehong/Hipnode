@@ -5,7 +5,11 @@ import { ChatMessage, ChatPageProps } from "@/types/chatroom.index";
 import { ChatPageChatList, ChatPageLiveChat } from ".";
 import useChatStore from "@/app/chatStore";
 
-const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
+const LiveChatPageLayout = ({
+  chatrooms,
+  userInfo,
+  unreadNotifications,
+}: ChatPageProps) => {
   const { setShowChat } = useChatStore();
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -58,6 +62,7 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
         setIsLoading,
         isInputDisabled,
         setIsInputDisabled,
+        unreadNotifications,
       }}
     >
       <main className="mt-[-5rem] flex h-screen min-h-screen w-screen justify-center bg-light pb-8 pt-20 dark:bg-dark-2 md:pb-12">

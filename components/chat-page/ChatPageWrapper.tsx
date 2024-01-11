@@ -6,10 +6,18 @@ import { client } from "@/lib/ably";
 import { LiveChatPageLayout } from ".";
 import { ChatPageProps } from "@/types/chatroom.index";
 
-const ChatPageWrapper = ({ chatrooms, userInfo }: ChatPageProps) => {
+const ChatPageWrapper = ({
+  chatrooms,
+  userInfo,
+  unreadNotifications,
+}: ChatPageProps) => {
   return (
     <AblyProvider client={client}>
-      <LiveChatPageLayout chatrooms={chatrooms} userInfo={userInfo} />
+      <LiveChatPageLayout
+        chatrooms={chatrooms}
+        userInfo={userInfo}
+        unreadNotifications={unreadNotifications}
+      />
     </AblyProvider>
   );
 };
