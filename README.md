@@ -167,16 +167,17 @@ This is the Capstone project from JS Mastery Masterclass Experience. The project
 
 ### Tye Stanley - Software Developer
 
-[GitHub Profile](https://github.com/)
+[GitHub Profile](https://github.com/TyeStanley)
 
 #### Main Tasks
 
-- **Page, Component, and Functionality Development**: Led the development of pages and components for meetups, podcasts, and interviews, adhering to Figma design specifications. Integrated key functionality within these components to enhance interactivity and user engagement. Ensured a polished and responsive user interface across all components.
-- **Authentication and User Onboarding**: Implemented user authentication using Clerk and designed a comprehensive onboarding sequence for new users, improving the user experience from the outset.
-- **Podcast Player Functionality**: Developed a versatile podcast player, allowing users to enjoy podcasts while browsing other site sections, thus adding a multitasking feature to the platform.
-- **Live Chat Feature**: Created an instant messaging feature, enabling real-time communication among users and contributing to a more interactive and connected user community.
-- **Global Search Functionality**: Engineered a global search feature across the platform, facilitating efficient and intuitive access to various content types, thereby enhancing user navigation and site usability..
-- **Database Design and Query Optimisation**: Contributed to shaping the database architecture using Prisma. Crafted efficient database queries and models, ensuring data integrity and optimal performance. Contributed significantly to the backend development with a focus on scalability and maintainability.
+- **Profile Page Development**: Meticulously developed the user profile page, serving as a personalized dashboard that displays comprehensive user profile information. This page is thoughtfully designed to feature a user's contributions to the platform, including an array of content such as posts, meetups, podcasts, and interviews. The profile page not only highlights individual user activity but also serves as a reflection of their interests and engagement within the community. It is optimized for user interaction, allowing visitors to view and interact with the content seamlessly, thereby fostering a sense of connection and community engagement.
+
+- **History Filter Implementation**: Implemented an automatic history filter feature, leveraging PostgreSQL triggers. This advanced functionality dynamically generates history filters based on user activity, streamlining content discovery and interaction. By capturing user interactions and preferences, the system intelligently curates content, offering a tailored browsing experience. This feature not only enhances user engagement by simplifying access to relevant content but also improves the overall site navigation, making it more intuitive and user-centric.
+
+- **User Profile Update Functionality**: Enabled users to update their personal information directly through the profile info card on their profile page. This enhancement fosters user autonomy, allowing for real-time updates and personalization of user profiles. The intuitive interface facilitates effortless editing of profile details, ensuring that users can keep their information current and reflective of their professional or personal status. This direct interaction with the profile info card streamlines the user experience, making profile management both accessible and convenient.
+
+- **Database Update and Data Integration**: Executed a comprehensive update of the database to include all necessary data fields required for enhanced platform functionality. This process involved meticulous data analysis and integration, ensuring that each piece of data serves a specific purpose and contributes to the overall user experience. The update was carried out with a focus on scalability and maintainability, ensuring that the database architecture is robust and future-proof.
 
 ### Taehong Min - Software Developer
 
