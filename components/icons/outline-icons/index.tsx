@@ -502,11 +502,7 @@ OutlineIcon.Instagram = function Icon({ className }: OutlineIconProps) {
 };
 
 OutlineIcon.Facebook = function Icon({ className }: OutlineIconProps) {
-  return (
-    <SocialIcon className={className ?? "fill-[#3F4354] dark:fill-[#F7F7F7]"}>
-      <SocialIcon.Facebook />
-    </SocialIcon>
-  );
+  return <SocialIcon.Facebook className={className} />;
 };
 
 OutlineIcon.LinkedIn = function Icon({ className }: OutlineIconProps) {

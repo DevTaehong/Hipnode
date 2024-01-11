@@ -7,7 +7,12 @@ import TextDescription from "./TextDescription";
 import ProfileInfoEdit from "./ProfileInfoEdit";
 
 import { ProfileInfoProps } from "@/types";
-import EditSocials from "./EditSocials";
+
+import dynamic from "next/dynamic";
+
+const EditSocials = dynamic(() => import("@/components/profile/EditSocials"), {
+  ssr: false,
+});
 
 const ProfileModal = ({
   userId,
