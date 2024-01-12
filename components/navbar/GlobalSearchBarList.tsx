@@ -15,7 +15,8 @@ const GlobalSearchBarList = ({
         </p>
       )}
       {searchResults.map((result) => {
-        const key = result.type ? result.id + result.type : result.id;
+        if (!result.id) return null;
+        const key = result.type ? `${result.id}-${result.type}` : result.id;
         return (
           <SearchResultItem
             key={key}
