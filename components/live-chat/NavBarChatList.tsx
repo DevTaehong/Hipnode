@@ -13,7 +13,10 @@ import FillIcon from "../icons/fill-icons";
 import NavBarChatListItem from "./NavBarChatListItem";
 import { UserChatroomProps } from "@/types/searchbar.index";
 import { NotificationType } from "@/types/chatroom.index";
-import { getUnreadNotifications } from "@/lib/actions/chatroom.actions";
+import {
+  getUnreadNotifications,
+  getUserChatrooms,
+} from "@/lib/actions/chatroom.actions";
 import { LoaderComponent } from "../onboarding-components";
 import { supabase } from "@/utils/supabaseClient";
 import useChatStore from "@/app/chatStore";
@@ -28,6 +31,8 @@ const NavBarChatList = ({
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [chatrooms, setChatrooms] =
+    useState<UserChatroomProps[]>(userChatrooms);
   const [isNewNotification, setIsNewNotification] = useState(false);
   const path = usePathname();
 
@@ -82,18 +87,24 @@ const NavBarChatList = ({
     );
   };
 
+  const refetchChatrooms = async () => {
+    try {
+      const chatrooms = await getUserChatrooms();
+      setChatrooms(chatrooms);
+    } catch (error) {
+      console.error("Error refetching chatrooms:", error);
+    }
+  };
+
   /* @ts-ignore */
   const handleChange = (payload) => {
-    const isRelevantNotification = userChatrooms.some(
-      (chatroom) =>
-        chatroom.id === payload.new.chatroomId &&
-        payload.new.receiverUserId === userInfo.id
-    );
-
+    const isCurrentUserMessageReceiver =
+      payload.new.receiverUserId === userInfo.id;
     const isChatOpenForNotification =
       showChat && chatroomId === payload.new.chatroomId;
 
-    if (isRelevantNotification && !isChatOpenForNotification) {
+    if (isCurrentUserMessageReceiver && !isChatOpenForNotification) {
+      refetchChatrooms();
       setIsNewNotification(true);
     }
   };
@@ -130,7 +141,7 @@ const NavBarChatList = ({
                 <LoaderComponent />
               </div>
             ) : (
-              userChatrooms.map((chatroom) => (
+              chatrooms.map((chatroom) => (
                 <NavBarChatListItem
                   key={chatroom.id}
                   chatroom={chatroom}

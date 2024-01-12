@@ -134,31 +134,30 @@ export async function getUserChatrooms() {
       },
     });
 
-    const chatroomsWithDetails = userChatrooms.map(({ Chatroom }) => {
-      const recentMessage = Chatroom.Message[0] || null;
-      const otherUser = Chatroom.ChatroomUsers[0]?.User || null;
+    // Filter and map in a single step
+    const chatroomsWithRecentMessage = userChatrooms
+      .map(({ Chatroom }) => {
+        const recentMessage = Chatroom.Message[0] || null;
+        const otherUser = Chatroom.ChatroomUsers[0]?.User || null;
 
-      return {
-        id: Chatroom.id,
-        createdAt: Chatroom.createdAt,
-        updatedAt: Chatroom.updatedAt,
-        recentMessage,
-        otherUser,
-      };
-    });
+        return {
+          id: Chatroom.id,
+          createdAt: Chatroom.createdAt,
+          updatedAt: Chatroom.updatedAt,
+          recentMessage,
+          otherUser,
+        };
+      })
+      .filter((chatroom) => chatroom.recentMessage !== null);
 
-    chatroomsWithDetails.sort((a, b) => {
-      const dateA = a.recentMessage
-        ? new Date(a.recentMessage.createdAt).getTime()
-        : 0;
-      const dateB = b.recentMessage
-        ? new Date(b.recentMessage.createdAt).getTime()
-        : 0;
-
+    // Sort the filtered chatrooms
+    chatroomsWithRecentMessage.sort((a, b) => {
+      const dateA = new Date(a.recentMessage.createdAt).getTime();
+      const dateB = new Date(b.recentMessage.createdAt).getTime();
       return dateB - dateA;
     });
 
-    return chatroomsWithDetails;
+    return chatroomsWithRecentMessage;
   } catch (error) {
     console.error("Error fetching chatrooms for user:", error);
     throw error;
