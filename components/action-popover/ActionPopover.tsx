@@ -27,10 +27,16 @@ const ActionPopover = ({
   isComment,
 }: ActionPopoverProps) => {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const togglePopover = () => {
+    setIsPopoverOpen(!isPopoverOpen);
+  };
 
   const handleDeleteClick = () => {
     if (isConfirmingDelete) {
       deletePost();
+      setIsPopoverOpen(false);
     } else {
       setIsConfirmingDelete(true);
     }
@@ -38,11 +44,12 @@ const ActionPopover = ({
 
   const handleCancelDelete = () => {
     setIsConfirmingDelete(false);
+    setIsPopoverOpen(false);
   };
 
   return (
-    <Popover>
-      <PopoverTrigger>
+    <Popover open={isPopoverOpen}>
+      <PopoverTrigger onClick={togglePopover}>
         <CommentIconButton
           Icon={isComment ? MoreHorizontal : MoreVertical}
           color="text-sc-3"
