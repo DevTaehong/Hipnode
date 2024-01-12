@@ -37,11 +37,10 @@ const NavBarChatListItem = ({
 
   const formattedTime = formatRelativeTime(recentMessageCreatedAt);
 
-  const handleClick = async (clickedUserId: number) => {
-    const clickedUser = clickedUserId;
+  const handleClick = async () => {
     setShowChat(true);
 
-    if (clickedUser) {
+    if (id) {
       const chatroomUsers = [
         userInfo,
         {
@@ -56,14 +55,14 @@ const NavBarChatListItem = ({
     }
     if (notification) {
       setShowNotification(false);
-      await deleteChatNotification(notification.chatNotificationId);
+      deleteChatNotification(notification.chatNotificationId);
     }
   };
 
   return (
     <PopoverClose
       className="flex cursor-pointer items-center justify-between gap-12 px-5 py-2.5 hover:bg-light-2 dark:hover:bg-dark-3"
-      onClick={() => handleClick(id)}
+      onClick={() => handleClick()}
     >
       <div className="flex gap-2.5">
         <Image

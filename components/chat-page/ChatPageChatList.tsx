@@ -76,19 +76,21 @@ const ChatPageChatList = () => {
     }
   };
 
-  supabase
-    .channel("ChatNotification")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "ChatNotification" },
-      handleChange
-    )
-    .on(
-      "postgres_changes",
-      { event: "UPDATE", schema: "public", table: "ChatNotification" },
-      handleChange
-    )
-    .subscribe();
+  useEffect(() => {
+    supabase
+      .channel("ChatNotification")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "ChatNotification" },
+        handleChange
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "ChatNotification" },
+        handleChange
+      )
+      .subscribe();
+  }, []);
 
   return (
     <section className="flex h-fit w-full flex-col bg-light dark:bg-dark-2 md:h-full md:max-w-[27.5rem]">

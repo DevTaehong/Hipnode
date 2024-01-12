@@ -54,7 +54,7 @@ const ChatPageInput = () => {
 
   const { channel } = useChannel("hipnode-livechat");
 
-  const receiverUserId = chatroomUsers[1].id;
+  const receiverUserId = chatroomUsers[1]?.id;
 
   const handleFormLogic = async () => {
     if (messageTextIsEmpty && !droppedFile) return;

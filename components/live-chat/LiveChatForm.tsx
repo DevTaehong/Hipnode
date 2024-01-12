@@ -80,7 +80,7 @@ const LiveChatForm = ({
     image: "",
   };
 
-  const receiverUserId = chatroomUsers[1].id;
+  const receiverUserId = chatroomUsers[1]?.id;
 
   const handleFormSubmission = async (
     event:

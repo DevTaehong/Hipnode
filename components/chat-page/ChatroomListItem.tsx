@@ -41,7 +41,7 @@ const ChatroomListItem = ({
       if (chatroomId !== chatroomListId || notification === null) return;
       try {
         setShowNotification(false);
-        await deleteChatNotification(notification.chatNotificationId);
+        deleteChatNotification(notification.chatNotificationId);
       } catch (error) {
         console.error("There was an error deleting the notification", error);
       }

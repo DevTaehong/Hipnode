@@ -58,9 +58,25 @@ const NavBarChatList = ({
     fetchNotifications();
   }, [isOpen]);
 
+  useEffect(() => {
+    supabase
+      .channel("ChatNotification")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "ChatNotification" },
+        handleChange
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "ChatNotification" },
+        handleChange
+      )
+      .subscribe();
+  }, []);
+
   if (path === "/chat") {
     return (
-      <div className="rounded-md bg-red p-2.5">
+      <div className="cursor-not-allowed rounded-md bg-red p-2.5">
         <FillIcon.Message className="fill-white" />
       </div>
     );
@@ -97,20 +113,6 @@ const NavBarChatList = ({
       setIsNewNotification(true);
     }
   };
-
-  supabase
-    .channel("ChatNotification")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "ChatNotification" },
-      handleChange
-    )
-    .on(
-      "postgres_changes",
-      { event: "UPDATE", schema: "public", table: "ChatNotification" },
-      handleChange
-    )
-    .subscribe();
 
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
