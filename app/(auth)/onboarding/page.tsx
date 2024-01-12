@@ -15,12 +15,10 @@ const Page = async () => {
     redirect("/");
   }
 
-  const userClerkId = user.id;
-
   return (
     <main className="onboarding-page">
       <OnboardingSideScreen info={onboardingSideScreenInfo} />
-      <Questionnaire userClerkId={userClerkId} />
+      <Questionnaire />
     </main>
   );
 };

@@ -3,16 +3,11 @@
 import { useState, useEffect } from "react";
 
 import { createOnboarding } from "@/lib/actions/user.actions";
-import {
-  UserAnswersType,
-  AnswersType,
-  QuestionKeysMapType,
-  QuestionnaireProps,
-} from "@/types";
+import { UserAnswersType, AnswersType, QuestionKeysMapType } from "@/types";
 import { QuestionnaireForm } from ".";
 import { onboardingQuestions } from "@/constants";
 
-const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
+const Questionnaire = () => {
   const [questionSet, setQuestionSet] = useState(0);
   const [animateIn, setAnimateIn] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<AnswersType[]>([]);
@@ -24,7 +19,7 @@ const Questionnaire = ({ userClerkId }: QuestionnaireProps) => {
     if (shouldOnboard) {
       const doOnboarding = async () => {
         setSelectedAnswers([]);
-        await createOnboarding(userClerkId, userAnswers);
+        await createOnboarding(userAnswers);
       };
       doOnboarding();
     }

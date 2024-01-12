@@ -192,10 +192,6 @@ export type ColorVariantsOnboardingType = {
   bgGreen: string;
 };
 
-export interface QuestionnaireProps {
-  userClerkId: string;
-}
-
 export interface QuestionnaireFormProps {
   questions: (typeof onboardingQuestions)[number];
   animateClass: string;

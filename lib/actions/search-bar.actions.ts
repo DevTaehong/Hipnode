@@ -213,7 +213,11 @@ export async function getSearchBarResults(
             createdAt: "desc",
           },
         });
-        posts = postResults.map(({ id, heading }) => ({ id, title: heading }));
+        posts = postResults.map(({ id, heading }) => ({
+          id,
+          title: heading,
+          type: "post",
+        }));
         totalCount += await prisma.post.count({
           where: {
             heading: {
@@ -224,8 +228,8 @@ export async function getSearchBarResults(
         });
         break;
       }
-      case "meetup":
-        posts = await prisma.meetUp.findMany({
+      case "meetup": {
+        const postResults = await prisma.meetUp.findMany({
           skip: amountToSkip,
           take,
           where: {
@@ -242,6 +246,11 @@ export async function getSearchBarResults(
             createdAt: "desc",
           },
         });
+        posts = postResults.map(({ id, title }) => ({
+          id,
+          title,
+          type: "meetup",
+        }));
         totalCount += await prisma.meetUp.count({
           where: {
             title: {
@@ -251,6 +260,7 @@ export async function getSearchBarResults(
           },
         });
         break;
+      }
       case "group": {
         const postResults = await prisma.group.findMany({
           skip: amountToSkip,
@@ -269,7 +279,11 @@ export async function getSearchBarResults(
             createdAt: "desc",
           },
         });
-        posts = postResults.map(({ id, name }) => ({ id, title: name }));
+        posts = postResults.map(({ id, name }) => ({
+          id,
+          title: name,
+          type: "group",
+        }));
         totalCount += await prisma.group.count({
           where: {
             name: {
@@ -280,8 +294,8 @@ export async function getSearchBarResults(
         });
         break;
       }
-      case "podcast":
-        posts = await prisma.podcast.findMany({
+      case "podcast": {
+        const postResults = await prisma.podcast.findMany({
           skip: amountToSkip,
           take,
           where: {
@@ -298,6 +312,11 @@ export async function getSearchBarResults(
             createdAt: "desc",
           },
         });
+        posts = postResults.map(({ id, title }) => ({
+          id,
+          title,
+          type: "podcast",
+        }));
         totalCount += await prisma.podcast.count({
           where: {
             title: {
@@ -307,8 +326,9 @@ export async function getSearchBarResults(
           },
         });
         break;
-      case "interview":
-        posts = await prisma.interview.findMany({
+      }
+      case "interview": {
+        const postResults = await prisma.interview.findMany({
           skip: amountToSkip,
           take,
           where: {
@@ -325,6 +345,11 @@ export async function getSearchBarResults(
             createdAt: "desc",
           },
         });
+        posts = postResults.map(({ id, title }) => ({
+          id,
+          title,
+          type: "interview",
+        }));
         totalCount += await prisma.interview.count({
           where: {
             title: {
@@ -334,6 +359,7 @@ export async function getSearchBarResults(
           },
         });
         break;
+      }
       default:
         posts = [];
         break;
