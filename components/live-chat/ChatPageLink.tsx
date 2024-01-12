@@ -15,11 +15,21 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
 
   const { channel } = useChannel("online-user", (message: any) => {
     const userOnlineInfo = message.data.data;
+
     if (userOnlineInfo.status === "online") {
-      setOnlineUsersPresent((prevOnlineUsers) => [
-        ...prevOnlineUsers,
-        userOnlineInfo.userId,
-      ]);
+      setOnlineUsersPresent((prevOnlineUsers: number[]) => {
+        if (!prevOnlineUsers.includes(userOnlineInfo.userId)) {
+          return [...prevOnlineUsers, userOnlineInfo.userId];
+        } else {
+          return prevOnlineUsers;
+        }
+      });
+    } else if (userOnlineInfo.status === "offline") {
+      setOnlineUsersPresent((prevOnlineUsers) => {
+        return prevOnlineUsers.filter(
+          (userId) => userId !== userOnlineInfo.userId
+        );
+      });
     }
   });
 
@@ -30,6 +40,19 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
         status: "online",
       },
     });
+
+    return () => {
+      channel.publish("online-user", {
+        data: {
+          userId: userInfo.id,
+          status: "offline",
+        },
+      });
+
+      setOnlineUsersPresent((prevOnlineUsers) =>
+        prevOnlineUsers.filter((userId) => userId !== userInfo.id)
+      );
+    };
   }, []);
 
   useEffect(() => {
