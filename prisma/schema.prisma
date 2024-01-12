@@ -53,7 +53,7 @@ model User {
 model Activities {
   id     Int  @id @default(autoincrement())
   userId Int
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   postId Int?
   post   Post? @relation(fields: [postId], references: [id])
@@ -76,8 +76,8 @@ model Follower {
   followerId Int // ID of the user who follows
   followedId Int // ID of the user being followed
 
-  follower      User           @relation(fields: [followerId], references: [id], name: "follower")
-  followed      User           @relation(fields: [followedId], references: [id], name: "followed")
+  follower      User           @relation(fields: [followerId], references: [id], name: "follower", onDelete: Cascade)
+  followed      User           @relation(fields: [followedId], references: [id], name: "followed", onDelete: Cascade)
   notifications Notification[]
 
   @@unique([followerId, followedId]) // Ensures that the same follow relationship can't be created more than once
@@ -302,7 +302,7 @@ model Interview {
   salaryPeriod String
   updates      Int
   updatedAt    DateTime         @updatedAt
-  creator      User             @relation(fields: [creatorId], references: [id])
+  creator      User             @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   tags         TagOnInterview[]
   activities   Activities[]
 }
