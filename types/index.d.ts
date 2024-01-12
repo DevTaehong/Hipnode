@@ -323,27 +323,31 @@ export interface NotificationCommentTypes {
 }
 
 export interface ProfileInfoProps {
-  userId: number;
-  src: string;
-  username: string;
-  isLoggedInUser: boolean;
-  title: string;
-  followers: number | undefined;
-  following: number | undefined;
-  points: number | undefined;
-  description: string;
-  website?: string | null | undefined;
-  twitter?: string | null | undefined;
-  instagram?: string | null | undefined;
-  facebook?: string | null | undefined;
-  joinedAt: string | null | undefined;
-  profileFollowing: {
-    followed: {
-      username: string;
-      picture: string;
+  user: {
+    id: number;
+    picture: string;
+    username: string;
+    bio: string | null;
+    isLoggedInUser: boolean;
+    title: string | null;
+    _count: {
+      followers: number;
+      following: number;
     };
-  }[];
-  isFollowing: boolean;
+    points: number;
+    website: string | null;
+    twitter: string | null;
+    instagram: string | null;
+    facebook: string | null;
+    following: {
+      followed: {
+        username: string;
+        picture: string;
+      };
+    }[];
+    createdAt: Date;
+    isFollowing: boolean;
+  };
 }
 
 export interface ProfileLinkProps {
@@ -440,4 +444,9 @@ export interface Notification extends NotificationProps {}
 export interface GetNotificationsTypes {
   notifications: Notification[];
   hasMoreData?: boolean;
+}
+
+export interface FollowRelationsTypes {
+  followerId: number;
+  followedId: number;
 }

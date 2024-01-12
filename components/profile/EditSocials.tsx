@@ -28,32 +28,28 @@ const EditSocials = ({
   isLoggedInUser,
 }: EditSocialsProps) => {
   const [links, setLinks] = useState<SocialLinkProps>({
-    website: website || "",
-    twitter: twitter || "",
-    instagram: instagram || "",
-    facebook: facebook || "",
+    website: website ?? "",
+    twitter: twitter ?? "",
+    instagram: instagram ?? "",
+    facebook: facebook ?? "",
   });
 
   const handleSubmit = async () => {
-    try {
-      if (
-        website === links.website &&
-        twitter === links.twitter &&
-        instagram === links.instagram &&
-        facebook === links.facebook
-      ) {
-        return;
-      }
-
-      await updateProfileInfo({
-        website: String(links.website),
-        twitter: String(links.twitter),
-        instagram: String(links.instagram),
-        facebook: String(links.facebook),
-      });
-    } catch (error) {
-      console.log("error updating user");
+    if (
+      website === links.website &&
+      twitter === links.twitter &&
+      instagram === links.instagram &&
+      facebook === links.facebook
+    ) {
+      return;
     }
+
+    await updateProfileInfo({
+      website: String(links.website),
+      twitter: String(links.twitter),
+      instagram: String(links.instagram),
+      facebook: String(links.facebook),
+    });
   };
 
   return (
@@ -115,10 +111,7 @@ const EditSocials = ({
             ))}
 
             <DialogClose className="mt-5" onClick={handleSubmit}>
-              <button
-                className="w-full rounded-lg bg-blue px-2 py-1 text-sm font-semibold leading-6 text-white hover:bg-blue/80"
-                onClick={handleSubmit}
-              >
+              <button className="w-full rounded-lg bg-blue px-2 py-1 text-sm font-semibold leading-6 text-white hover:bg-blue/80">
                 Save Changes
               </button>
             </DialogClose>

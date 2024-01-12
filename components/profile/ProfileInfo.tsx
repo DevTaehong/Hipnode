@@ -5,6 +5,7 @@ import ProfileBtns from "./ProfileBtns";
 import ProfileLink from "./ProfileLink";
 import TextDescription from "./TextDescription";
 import ProfileInfoEdit from "./ProfileInfoEdit";
+import { formatUserJoinedDate } from "@/lib/utils";
 
 import { ProfileInfoProps } from "@/types";
 
@@ -14,28 +15,29 @@ const EditSocials = dynamic(() => import("@/components/profile/EditSocials"), {
   ssr: false,
 });
 
-const ProfileModal = ({
-  userId,
-  src,
-  username,
-  isFollowing,
-  isLoggedInUser,
-  title,
-  followers,
-  following,
-  points,
-  description,
-  website,
-  twitter,
-  instagram,
-  facebook,
-  profileFollowing,
-  joinedAt,
-}: ProfileInfoProps) => {
-  const chatUserInfo = {
-    id: userId,
+const ProfileModal = ({ user }: ProfileInfoProps) => {
+  const {
+    id,
     username,
-    image: src,
+    picture,
+    title,
+    bio,
+    createdAt,
+    website,
+    twitter,
+    instagram,
+    facebook,
+    points,
+    following,
+    isLoggedInUser,
+    isFollowing,
+    _count,
+  } = user;
+
+  const chatUserInfo = {
+    id,
+    username,
+    image: picture,
     name: username,
   };
 
@@ -44,7 +46,7 @@ const ProfileModal = ({
       <div className="absolute left-0 top-0 h-[6.50rem] w-full rounded-t-2xl bg-profile-modal bg-cover bg-center bg-no-repeat" />
 
       <Image
-        src={src || "/images/emoji_2.png"}
+        src={picture ?? "/images/emoji_2.png"}
         alt="profile"
         width={130}
         height={130}
@@ -56,7 +58,7 @@ const ProfileModal = ({
       </h3>
 
       <ProfileInfoEdit
-        text={title}
+        text={title ?? "No title"}
         field={"title"}
         isLoggedInUser={isLoggedInUser}
       />
@@ -66,15 +68,15 @@ const ProfileModal = ({
       )}
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
-        {followers} Followers • {points} Points
+        {_count.followers} Followers • {points} Points
       </TextDescription>
 
       <TextDescription className="mt-5 text-sc-2 dark:text-sc-6">
-        Following {following}
+        Following {_count.following}
       </TextDescription>
 
       <div className="mb-5 mt-4 flex flex-wrap justify-center gap-2.5">
-        {profileFollowing?.map(({ followed }) => (
+        {following?.map(({ followed }) => (
           <ProfileLink
             key={followed.username}
             username={followed.username}
@@ -82,17 +84,17 @@ const ProfileModal = ({
           />
         ))}
 
-        {following && following > 6 ? (
+        {following && _count.following > 6 ? (
           <Link
             href="/"
             className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
           >
             <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
-              {following - 6}+
+              {_count.following - 6}+
             </p>
           </Link>
         ) : (
-          profileFollowing.length === 0 && (
+          following.length === 0 && (
             <Link
               href="/"
               className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6 dark:bg-dark-4"
@@ -106,7 +108,7 @@ const ProfileModal = ({
       </div>
 
       <ProfileInfoEdit
-        text={description}
+        text={bio ?? "No bio"}
         field={"bio"}
         isLoggedInUser={isLoggedInUser}
         className={`text-[0.875rem] font-semibold leading-[1.375rem] text-sc-3`}
@@ -120,10 +122,10 @@ const ProfileModal = ({
         isLoggedInUser={isLoggedInUser}
       />
 
-      <div className="mt-5 h-[1px] w-full bg-light-2 dark:bg-sc-3 md:mt-7" />
+      <div className="mt-5 h-px w-full bg-light-2 dark:bg-sc-3 md:mt-7" />
 
       <TextDescription className="mt-5 text-sc-3 dark:text-sc-6 md:mt-7">
-        joined {joinedAt}
+        joined {formatUserJoinedDate(createdAt)}
       </TextDescription>
     </div>
   );

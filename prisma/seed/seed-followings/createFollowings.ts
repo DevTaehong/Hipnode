@@ -1,25 +1,31 @@
-import prisma from "../../../lib/prisma";
+import { User } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { shuffle } from "@/utils";
+import { FollowRelationsTypes } from "@/types";
 
-export async function createFollowings(users: any) {
+export async function createFollowings(users: User[]) {
   const numberOfFollows = 10;
+  const followRelations: FollowRelationsTypes[] = [];
 
   for (const user of users) {
-    const otherUsers = users.filter((u: any) => u.id !== user.id);
+    const otherUsers = users.filter((u) => u.id !== user.id);
+    shuffle(otherUsers);
 
-    for (let i = 0; i < numberOfFollows; i++) {
-      if (otherUsers.length === 0) break;
+    const usersToFollow = otherUsers.slice(0, numberOfFollows);
 
-      const randomIndex = Math.floor(Math.random() * otherUsers.length);
-      const randomUser = otherUsers[randomIndex];
-
-      await prisma.follower.create({
-        data: {
-          followerId: user.id,
-          followedId: randomUser.id,
-        },
+    usersToFollow.forEach((randomUser) => {
+      followRelations.push({
+        followerId: user.id,
+        followedId: randomUser.id,
       });
-
-      otherUsers.splice(randomIndex, 1);
-    }
+    });
   }
+
+  const followCreationPromises = followRelations.map((relation) =>
+    prisma.follower.create({
+      data: relation,
+    })
+  );
+
+  await prisma.$transaction(followCreationPromises);
 }

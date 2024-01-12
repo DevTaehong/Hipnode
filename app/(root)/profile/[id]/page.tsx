@@ -11,7 +11,6 @@ import {
   getProfilePodcasts,
 } from "@/lib/actions/profile.actions";
 
-import { formatUserJoinedDate } from "@/lib/utils";
 import { PostCardList } from "@/components/home-page/post-card";
 import {
   getAllPostsByUserId,
@@ -75,30 +74,17 @@ const ProfilePage = async ({
   const isEmpty =
     result.length === 0 || (result.data && result.data.length === 0);
 
+  const extendedUser = {
+    ...user,
+    isFollowing,
+  };
+
   return (
     <div className="mx-auto mt-[-5rem] flex min-h-screen w-full flex-col justify-center gap-5 bg-light-2 p-5 pb-20 pt-[6.25rem] dark:bg-dark-2 md:sticky md:h-screen md:flex-row md:overflow-hidden md:pb-0 lg:max-w-[90rem] lg:px-10">
       <section>
-        <ProfileInfo
-          userId={user.id}
-          src={user.picture}
-          username={user.username}
-          isFollowing={isFollowing}
-          isLoggedInUser={user.isLoggedInUser}
-          title={user.title || "No Title"}
-          followers={user?._count?.followers}
-          following={user?._count?.following}
-          points={user.points}
-          description={user.bio || "No Bio"}
-          website={user.website}
-          twitter={user.twitter}
-          instagram={user.instagram}
-          facebook={user.facebook}
-          profileFollowing={user?.following}
-          joinedAt={formatUserJoinedDate(user.createdAt)}
-        />
+        <ProfileInfo user={extendedUser} />
       </section>
 
-      {/* Profile Filter & Content Cards */}
       <section className="flex flex-1 flex-col gap-5">
         <ProfileFilter />
 
@@ -108,14 +94,14 @@ const ProfilePage = async ({
           </div>
         )}
 
-        {searchParams?.search === "posts" && result.length !== 0 && (
+        {searchParams.search === "posts" && result.length !== 0 && (
           <PostCardList
             posts={result as ExtendedPrismaPost[]}
             authorId={user.id}
           />
         )}
 
-        {searchParams?.search === "meetups" && result.data.length !== 0 && (
+        {searchParams.search === "meetups" && result.data.length !== 0 && (
           <MeetupsList
             data={result}
             authorId={params.id}
@@ -123,7 +109,7 @@ const ProfilePage = async ({
           />
         )}
 
-        {searchParams?.search === "podcasts" && result.data.length !== 0 && (
+        {searchParams.search === "podcasts" && result.data.length !== 0 && (
           <PodcastsList
             data={result}
             authorId={params.id}
@@ -131,7 +117,7 @@ const ProfilePage = async ({
           />
         )}
 
-        {searchParams?.search === "interviews" && result.data.length !== 0 && (
+        {searchParams.search === "interviews" && result.data.length !== 0 && (
           <div className="relative flex w-full flex-1 overflow-auto">
             <InterviewsList
               data={result}
@@ -141,12 +127,11 @@ const ProfilePage = async ({
           </div>
         )}
 
-        {searchParams?.search === "history" && result.data.length !== 0 && (
+        {searchParams.search === "history" && result.data.length !== 0 && (
           <HistoryList data={result} authorId={params.id} />
         )}
       </section>
 
-      {/* HostMeetup Card & Performance Card */}
       <section className="hidden w-[20.3125rem] shrink-0 flex-col gap-5 xl:flex">
         <FormLink {...interviewFormLinkProps} className="hidden lg:flex" />
         <Performance data={performanceData} />
