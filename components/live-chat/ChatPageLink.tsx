@@ -24,7 +24,7 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
           return prevOnlineUsers;
         }
       });
-    } else if (userOnlineInfo.status === "offline") {
+    } else {
       setOnlineUsersPresent((prevOnlineUsers) => {
         return prevOnlineUsers.filter(
           (userId) => userId !== userOnlineInfo.userId
@@ -48,10 +48,6 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
           status: "offline",
         },
       });
-
-      setOnlineUsersPresent((prevOnlineUsers) =>
-        prevOnlineUsers.filter((userId) => userId !== userInfo.id)
-      );
     };
   }, []);
 
