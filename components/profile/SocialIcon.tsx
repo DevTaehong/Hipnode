@@ -9,7 +9,7 @@ const SocialIcon = ({ icon, link }: SocialIconsProps) => {
   const Icon = OutlineIcon[icon as keyof typeof OutlineIcon];
 
   return (
-    <Link key={icon} href={link}>
+    <Link key={icon} href={link} target="_blank" rel="noopener">
       <Icon className="fill-sc-4 dark:fill-sc-6" />
     </Link>
   );
