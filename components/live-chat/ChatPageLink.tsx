@@ -1,65 +1,40 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useChannel } from "ably/react";
 
 import useChatStore from "@/app/chatStore";
-import {
-  getAllOnlineUserIds,
-  recreateOnlineUser,
-} from "@/lib/actions/online-user.actions";
 import NavBarChatList from "./NavBarChatList";
 import { ChatPageLinkProps } from "@/types/searchbar.index";
 
 const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
-  const { id } = userInfo;
-  const { setUserInfo, setOnlineUsers } = useChatStore();
+  const { setOnlineUsers } = useChatStore();
+  const [onlineUsersPresent, setOnlineUsersPresent] = useState<number[] | []>(
+    []
+  );
 
-  const resetOnlineUsers = async () => {
-    try {
-      const onlineUserIds = await getAllOnlineUserIds();
-      setOnlineUsers(onlineUserIds);
-    } catch (error) {
-      console.error("Error fetching online users:", error);
+  const { channel } = useChannel("online-user", (message: any) => {
+    const userOnlineInfo = message.data.data;
+    if (userOnlineInfo.status === "online") {
+      setOnlineUsersPresent((prevOnlineUsers) => [
+        ...prevOnlineUsers,
+        userOnlineInfo.userId,
+      ]);
     }
-  };
+  });
 
   useEffect(() => {
-    const handleAddUser = async () => {
-      try {
-        await recreateOnlineUser(id);
-        await resetOnlineUsers();
-      } catch (error) {
-        console.error("Error adding user to online users:", error);
-      }
-    };
-    if (id > 0) {
-      handleAddUser();
-    }
-  }, [id]);
+    channel.publish("online-user", {
+      data: {
+        userId: userInfo.id,
+        status: "online",
+      },
+    });
+  }, []);
 
   useEffect(() => {
-    const resetUsersPeriodically = async () => {
-      try {
-        const recreatedUser = await recreateOnlineUser(id);
-        if (recreatedUser) {
-          await resetOnlineUsers();
-        }
-      } catch (error) {
-        console.error("Error resetting online users periodically:", error);
-      }
-    };
-    const intervalId = setInterval(() => {
-      if (id > 0) {
-        resetUsersPeriodically();
-      }
-    }, 120000);
-
-    return () => clearInterval(intervalId);
-  }, [id]);
-
-  useEffect(() => {
-    setUserInfo(userInfo);
-  }, [userInfo]);
+    setOnlineUsers(onlineUsersPresent);
+  }, [onlineUsersPresent]);
 
   return <NavBarChatList userChatrooms={userChatrooms} />;
 };

@@ -10,7 +10,7 @@ import OutlineIcon from "../icons/outline-icons";
 import { NavbarContentProps } from "@/types/searchbar.index";
 import { reducer, initialState } from "./globalSearchReducer";
 import { NavLinks, GlobalSearchBar, NotificationButton, UserButton } from ".";
-import { ChatPageLink } from "../live-chat";
+import ChatPageLinkWrapper from "./ChatPageLinkWrapper";
 
 const NavbarContent = ({
   userInfo,
@@ -54,7 +54,10 @@ const NavbarContent = ({
 
         <section className="flex max-w-[17.9375rem] items-center gap-5 md:gap-[1.56rem]">
           <SignedIn>
-            <ChatPageLink userInfo={userInfo} userChatrooms={userChatrooms} />
+            <ChatPageLinkWrapper
+              userInfo={userInfo}
+              userChatrooms={userChatrooms}
+            />
             <NotificationButton
               currentUserId={currentUserId}
               lastChecked={lastChecked ?? new Date()}
