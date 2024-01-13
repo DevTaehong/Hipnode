@@ -17,7 +17,7 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
 
   useEffect(() => {
     setOnlineUsersPresent(
-      presenceData.map((presenceItem) => presenceItem.data.userId)
+      presenceData.map((presenceItem) => presenceItem.data?.userId)
     );
   }, [presenceData]);
 
