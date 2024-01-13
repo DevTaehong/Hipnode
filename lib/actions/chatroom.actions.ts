@@ -367,16 +367,15 @@ export async function deleteChatNotification(
     await prisma.chatNotification.delete({
       where: {
         id: notificationId,
-        receiverUserId: userId, // Add this condition
+        receiverUserId: userId,
       },
     });
-    console.log(`Notification with ID ${notificationId} has been deleted.`);
-    return true; // Indicate successful deletion
+    return true;
   } catch (error) {
     console.error(
       `Error deleting chat notification with ID ${notificationId}:`,
       error
     );
-    return false; // Indicate failed deletion
+    return false;
   }
 }

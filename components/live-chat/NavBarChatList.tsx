@@ -64,6 +64,36 @@ const NavBarChatList = ({
     fetchNotifications();
   }, [isOpen]);
 
+  /* @ts-ignore */
+  const handleChange = (payload) => {
+    const isCurrentUserMessageReceiver =
+      payload.new.receiverUserId === userInfo.id;
+    const isChatOpenForNotification =
+      showChat && chatroomId === payload.new.chatroomId;
+
+    if (isCurrentUserMessageReceiver && !isChatOpenForNotification) {
+      fetchNotifications(false);
+      refetchChatrooms();
+      setIsNewNotification(true);
+    }
+  };
+
+  useEffect(() => {
+    supabase
+      .channel("ChatNotification")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "ChatNotification" },
+        handleChange
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "ChatNotification" },
+        handleChange
+      )
+      .subscribe();
+  });
+
   if (path === "/chat") {
     return (
       <div className="cursor-not-allowed rounded-md bg-red p-2.5">
@@ -96,34 +126,6 @@ const NavBarChatList = ({
       console.error("Error refetching chatrooms:", error);
     }
   };
-
-  /* @ts-ignore */
-  const handleChange = (payload) => {
-    const isCurrentUserMessageReceiver =
-      payload.new.receiverUserId === userInfo.id;
-    const isChatOpenForNotification =
-      showChat && chatroomId === payload.new.chatroomId;
-
-    if (isCurrentUserMessageReceiver && !isChatOpenForNotification) {
-      fetchNotifications(false);
-      refetchChatrooms();
-      setIsNewNotification(true);
-    }
-  };
-
-  supabase
-    .channel("ChatNotification")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "ChatNotification" },
-      handleChange
-    )
-    .on(
-      "postgres_changes",
-      { event: "UPDATE", schema: "public", table: "ChatNotification" },
-      handleChange
-    )
-    .subscribe();
 
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
