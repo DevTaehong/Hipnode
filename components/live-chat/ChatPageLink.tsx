@@ -24,10 +24,10 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
   const { channel } = useChannel("online-user");
 
   useEffect(() => {
-    channel.presence.enter({ userId: userInfo.id, status: "online" });
+    channel.presence.enter({ userId: userInfo.id });
 
     return () => {
-      channel.presence.leave({ userId: userInfo.id, status: "offline" });
+      channel.presence.leave({ userId: userInfo.id });
     };
   }, [channel, userInfo.id]);
 
