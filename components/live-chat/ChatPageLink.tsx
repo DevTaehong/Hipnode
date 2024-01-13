@@ -8,15 +8,12 @@ import NavBarChatList from "./NavBarChatList";
 import { ChatPageLinkProps } from "@/types/searchbar.index";
 
 const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
-  const { setOnlineUsers, onlineUsers } = useChatStore();
+  const { setOnlineUsers } = useChatStore();
   const [onlineUsersPresent, setOnlineUsersPresent] = useState<number[] | []>(
     []
   );
 
   const { presenceData } = usePresence("online-user");
-
-  console.log(presenceData);
-  console.log(onlineUsers);
 
   useEffect(() => {
     setOnlineUsersPresent(
@@ -24,26 +21,7 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
     );
   }, [presenceData]);
 
-  const { channel } = useChannel("online-user", (message: any) => {
-    console.log(message);
-    // const userOnlineInfo = message.data.data;
-
-    // if (userOnlineInfo.status === "online") {
-    //   setOnlineUsersPresent((prevOnlineUsers: number[]) => {
-    //     if (!prevOnlineUsers.includes(userOnlineInfo.userId)) {
-    //       return [...prevOnlineUsers, userOnlineInfo.userId];
-    //     } else {
-    //       return prevOnlineUsers;
-    //     }
-    //   });
-    // } else {
-    //   setOnlineUsersPresent((prevOnlineUsers) => {
-    //     return prevOnlineUsers.filter(
-    //       (userId) => userId !== userOnlineInfo.userId
-    //     );
-    //   });
-    // }
-  });
+  const { channel } = useChannel("online-user");
 
   useEffect(() => {
     channel.presence.enter({ userId: userInfo.id, status: "online" });
