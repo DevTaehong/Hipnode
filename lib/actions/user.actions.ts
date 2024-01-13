@@ -6,6 +6,7 @@ import { UserAnswersType } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createUserType } from "@/types/posts";
+import { verifyAuth } from "../auth";
 
 export async function getUsersByName(name: string) {
   try {
@@ -184,8 +185,12 @@ export async function getOnboardingByUserId(userId: number) {
   }
 }
 
-export async function createOnboarding(clerkId: string, data: UserAnswersType) {
+export async function createOnboarding(data: UserAnswersType) {
   try {
+    const { clerkId } = await verifyAuth(
+      "You must have a valid session to create an onboarding.",
+      false
+    );
     const user = await prisma.user.findUnique({
       where: {
         clerkId,
