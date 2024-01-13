@@ -46,9 +46,9 @@ const NavBarChatList = ({
     }
   }, [notifications]);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = async (setLoader = true) => {
     try {
-      setIsLoading(true);
+      if (setLoader) setIsLoading(true);
       const unreadNotifications = await getUnreadNotifications();
       if (unreadNotifications) {
         setNotifications(unreadNotifications);
@@ -56,7 +56,7 @@ const NavBarChatList = ({
     } catch (error) {
       console.log("There was an error fetching your notifications", error);
     } finally {
-      setIsLoading(false);
+      if (setLoader) setIsLoading(false);
     }
   };
 
@@ -105,7 +105,7 @@ const NavBarChatList = ({
       showChat && chatroomId === payload.new.chatroomId;
 
     if (isCurrentUserMessageReceiver && !isChatOpenForNotification) {
-      fetchNotifications();
+      fetchNotifications(false);
       refetchChatrooms();
       setIsNewNotification(true);
     }
