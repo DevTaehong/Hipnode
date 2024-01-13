@@ -3,18 +3,19 @@
 import { AblyProvider } from "ably/react";
 
 import { client } from "@/lib/ably";
-import { ChatPageLink } from "../live-chat";
-import { ChatPageLinkProps } from "@/types/searchbar.index";
+import ChatPresenceManager from "../live-chat/ChatPresenceManager";
+import { BaseUserInfo } from "@/types/profile.index";
 
-const ChatPageLinkWrapper = ({
-  userChatrooms,
+const ChatPresenceManagerWrapper = ({
   userInfo,
-}: ChatPageLinkProps) => {
+}: {
+  userInfo: BaseUserInfo;
+}) => {
   return (
     <AblyProvider client={client}>
-      <ChatPageLink userInfo={userInfo} userChatrooms={userChatrooms} />
+      <ChatPresenceManager userInfo={userInfo} />
     </AblyProvider>
   );
 };
 
-export default ChatPageLinkWrapper;
+export default ChatPresenceManagerWrapper;

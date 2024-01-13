@@ -4,12 +4,10 @@ import { useEffect } from "react";
 import { useChannel, usePresence } from "ably/react";
 
 import useChatStore from "@/app/chatStore";
-import NavBarChatList from "./NavBarChatList";
-import { ChatPageLinkProps } from "@/types/searchbar.index";
+import { BaseUserInfo } from "@/types/profile.index";
 
-const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
+const ChatPresenceManager = ({ userInfo }: { userInfo: BaseUserInfo }) => {
   const { setOnlineUsers } = useChatStore();
-
   const { presenceData } = usePresence("online-user");
   const { channel } = useChannel("online-user");
 
@@ -17,7 +15,7 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
     setOnlineUsers(
       presenceData.map((presenceItem) => presenceItem.data?.userId)
     );
-  }, [presenceData]);
+  }, [presenceData, setOnlineUsers]);
 
   useEffect(() => {
     channel.presence.enter({ userId: userInfo.id });
@@ -27,7 +25,7 @@ const ChatPageLink = ({ userInfo, userChatrooms }: ChatPageLinkProps) => {
     };
   }, [channel, userInfo.id]);
 
-  return <NavBarChatList userChatrooms={userChatrooms} />;
+  return null;
 };
 
-export default ChatPageLink;
+export default ChatPresenceManager;
