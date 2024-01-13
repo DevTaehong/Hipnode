@@ -295,24 +295,20 @@ type ChatNotificationType = {
 
 export async function createLiveChatNotification(data: ChatNotificationType) {
   try {
-    const existingNotification = await prisma.chatNotification.findFirst({
+    const updateResult = await prisma.chatNotification.updateMany({
       where: {
         chatroomId: data.chatroomId,
         userId: data.userId,
         hasBeenRead: false,
       },
-    });
-
-    if (existingNotification) {
-      const updatedNotification = await prisma.chatNotification.update({
-        where: { id: existingNotification.id },
-        data: {
-          count: {
-            increment: 1,
-          },
+      data: {
+        count: {
+          increment: 1,
         },
-      });
-      return updatedNotification;
+      },
+    });
+    if (updateResult.count > 0) {
+      return updateResult;
     } else {
       const newNotification = await prisma.chatNotification.create({
         data: { ...data },

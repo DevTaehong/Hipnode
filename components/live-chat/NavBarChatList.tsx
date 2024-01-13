@@ -46,20 +46,21 @@ const NavBarChatList = ({
     }
   }, [notifications]);
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        setIsLoading(true);
-        const unreadNotifications = await getUnreadNotifications();
-        if (unreadNotifications) {
-          setNotifications(unreadNotifications);
-        }
-      } catch (error) {
-        console.log("There was an error fetching your notifications", error);
-      } finally {
-        setIsLoading(false);
+  const fetchNotifications = async () => {
+    try {
+      setIsLoading(true);
+      const unreadNotifications = await getUnreadNotifications();
+      if (unreadNotifications) {
+        setNotifications(unreadNotifications);
       }
-    };
+    } catch (error) {
+      console.log("There was an error fetching your notifications", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchNotifications();
   }, [isOpen]);
 
@@ -104,6 +105,7 @@ const NavBarChatList = ({
       showChat && chatroomId === payload.new.chatroomId;
 
     if (isCurrentUserMessageReceiver && !isChatOpenForNotification) {
+      fetchNotifications();
       refetchChatrooms();
       setIsNewNotification(true);
     }
