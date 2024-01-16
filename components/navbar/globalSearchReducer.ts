@@ -52,7 +52,7 @@ export const reducer = (
     case "SET_SEARCH_TEXT":
       return { ...state, searchText: action.payload };
     case "SET_ACTIVE_SEARCH_TYPE":
-      return { ...state, activeSearchType: action.payload };
+      return { ...state, activeSearchType: action.payload, amountToSkip: 0 };
     case "SET_AMOUNT_TO_SKIP":
       return { ...state, amountToSkip: action.payload };
     case "SET_IS_LOADING":
