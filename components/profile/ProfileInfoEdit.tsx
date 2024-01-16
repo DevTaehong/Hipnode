@@ -25,16 +25,13 @@ const ProfileInfoEdit = ({
       setIsEditting(false);
       return;
     }
-    try {
-      const updatedUser = await updateProfileInfo({
-        [field]: inputText,
-      });
 
-      if (updatedUser) {
-        setIsEditting(false);
-      }
-    } catch (error) {
-      console.log("error updating user");
+    const updatedUser = await updateProfileInfo({
+      [field]: inputText,
+    });
+
+    if (updatedUser) {
+      setIsEditting(false);
     }
   };
 
