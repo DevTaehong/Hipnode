@@ -12,13 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { updateProfileInfo } from "@/lib/actions/user.actions";
 import { EditSocialsProps, SocialLinkProps } from "@/types/profile.index";
-
-export const socialNames = [
-  { field: "website", icon: <OutlineIcon.Website /> },
-  { field: "twitter", icon: <OutlineIcon.Twitter /> },
-  { field: "instagram", icon: <OutlineIcon.Instagram /> },
-  { field: "facebook", icon: <OutlineIcon.Facebook /> },
-];
+import { socialNames } from "@/constants/reusable";
 
 const EditSocials = ({
   website,
