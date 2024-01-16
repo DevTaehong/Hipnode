@@ -7,11 +7,9 @@ import useChatStore from "@/app/chatStore";
 import { BaseUserInfo } from "@/types/profile.index";
 
 const ChatPresenceManager = ({ userInfo }: { userInfo: BaseUserInfo }) => {
-  const { setOnlineUsers, onlineUsers } = useChatStore();
+  const { setOnlineUsers } = useChatStore();
   const { presenceData } = usePresence("online-user");
   const { channel } = useChannel("online-user");
-  console.log(onlineUsers);
-  console.log(presenceData);
 
   useEffect(() => {
     setOnlineUsers(
