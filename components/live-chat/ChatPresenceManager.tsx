@@ -15,7 +15,7 @@ const ChatPresenceManager = ({ userInfo }: { userInfo: BaseUserInfo }) => {
     setOnlineUsers(
       presenceData.map((presenceItem) => presenceItem.data?.userId)
     );
-  }, [presenceData, setOnlineUsers]);
+  }, [presenceData]);
 
   useEffect(() => {
     channel.presence.enter({ userId: userInfo.id });
