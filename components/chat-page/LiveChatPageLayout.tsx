@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 import { ChatPageContext } from "@/app/contexts/ChatPageContext";
@@ -60,7 +62,7 @@ const LiveChatPageLayout = ({ chatrooms, userInfo }: ChatPageProps) => {
         setIsInputDisabled,
       }}
     >
-      <main className="mt-[-5rem] flex h-screen min-h-screen w-screen justify-center bg-light pb-8 pt-20 dark:bg-dark-2 md:pb-12">
+      <main className="mt-[-10rem] flex h-screen min-h-screen w-screen justify-center bg-light pt-28 dark:bg-dark-2 md:mt-[-5rem] md:pb-12 md:pt-20">
         <section
           className="flex h-full w-full max-w-[90rem] flex-col border-x border-sc-6 dark:border-dark-2 md:flex-row
 md:dark:border-dark-3"

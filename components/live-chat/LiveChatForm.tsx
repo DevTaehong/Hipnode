@@ -80,6 +80,8 @@ const LiveChatForm = ({
     image: "",
   };
 
+  const receiverUserId = chatroomUsers[1]?.id;
+
   const handleFormSubmission = async (
     event:
       | FormEvent<HTMLFormElement>
@@ -96,6 +98,7 @@ const LiveChatForm = ({
         channel,
         chatroomId,
         currentUser,
+        receiverUserId,
       });
 
       if (result === API_RESULT.SUCCESS) {

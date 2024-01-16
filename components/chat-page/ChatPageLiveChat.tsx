@@ -70,7 +70,7 @@ const ChatPageLiveChat = () => {
       }
     };
     fetchMessages();
-  }, [chatroomId, chatroomUsers]);
+  }, [chatroomId]);
 
   useEffect(() => {
     if (chatroomId === null || !chatroomUsers.length) {

@@ -21,6 +21,7 @@ export type CreateMessageType = {
   attachment: string | null;
   attachmentType: string | null;
   messageUUID: string;
+  receiverUserId: number;
 };
 
 export type EditMessageType = {
@@ -111,6 +112,7 @@ export interface LiveChatSubmissionProps {
   channel: Types.RealtimeChannelPromise;
   chatroomId: number | null;
   currentUser: CurrentUser;
+  receiverUserId: number;
 }
 
 interface RecentMessage {
@@ -140,6 +142,14 @@ export interface ChatroomDetail {
 
 // type HandleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
 
+export type NotificationType = {
+  chatNotificationId: number;
+  chatroomId: number;
+  userId: number;
+  receiverUserId: number;
+  count: number;
+};
+
 export interface ChatPageProps {
   chatrooms: ChatroomDetail[];
   userInfo: UserInfo;
@@ -148,6 +158,7 @@ export interface ChatPageProps {
 export interface ChatroomListItemProps {
   chatroom: ChatroomDetail;
   setShowChatRoomList: Dispatch<SetStateAction<boolean>>;
+  notification: NotificationType;
 }
 
 export interface ChatPageContextType {

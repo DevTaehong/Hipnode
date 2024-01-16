@@ -20,10 +20,7 @@ const Navbar = async () => {
     name: fullName,
   };
 
-  const userChatrooms = (await getUserChatrooms(userId)) ?? [];
-  const chatroomsWithRecentMessage = userChatrooms.filter(
-    (chatroom) => chatroom.recentMessage !== null
-  );
+  const userChatrooms = await getUserChatrooms();
 
   return (
     <nav className="sticky inset-x-0 top-0 z-50 bg-light dark:bg-dark-3">
@@ -31,7 +28,7 @@ const Navbar = async () => {
         userInfo={userInfo}
         currentUserId={userId}
         lastChecked={lastChecked?.notificationLastChecked}
-        userChatrooms={chatroomsWithRecentMessage}
+        userChatrooms={userChatrooms}
       />
     </nav>
   );

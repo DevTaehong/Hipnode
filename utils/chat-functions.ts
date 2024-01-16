@@ -12,6 +12,7 @@ import DOMPurify from "dompurify";
 import { v4 as uuidv4 } from "uuid";
 
 import {
+  createLiveChatNotification,
   createMessage,
   deleteMessage,
   editMessage,
@@ -84,7 +85,14 @@ const uploadAttachment = async (file: File | File[]) => {
 };
 
 export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
-  const { messageText, droppedFile, channel, chatroomId, currentUser } = args;
+  const {
+    messageText,
+    droppedFile,
+    channel,
+    chatroomId,
+    currentUser,
+    receiverUserId,
+  } = args;
 
   const mediaType = droppedFile ? getMediaType(droppedFile) : null;
 
@@ -118,6 +126,7 @@ export const liveChatSubmission = async (args: LiveChatSubmissionProps) => {
     await createMessage({
       text: chatMessage.text,
       userId: currentUser.id,
+      receiverUserId,
       chatroomId,
       attachment: chatMessage.attachment,
       attachmentType: chatMessage.attachmentType,

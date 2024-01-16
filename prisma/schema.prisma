@@ -48,6 +48,7 @@ model User {
   notificationLastChecked DateTime                 @default(now())
   Views                   View[]
   activities              Activities[]
+  ChatNotification        ChatNotification[]
 }
 
 model Activities {
@@ -308,11 +309,12 @@ model Interview {
 }
 
 model Chatroom {
-  id            Int             @id @default(autoincrement())
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  ChatroomUsers ChatroomUsers[]
-  Message       Message[]
+  id               Int                @id @default(autoincrement())
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  ChatroomUsers    ChatroomUsers[]
+  Message          Message[]
+  ChatNotification ChatNotification[]
 }
 
 model ChatroomUsers {
@@ -325,16 +327,18 @@ model ChatroomUsers {
 }
 
 model Message {
-  id             Int      @id @default(autoincrement())
-  text           String?
-  createdAt      DateTime @default(now())
-  userId         Int
-  chatroomId     Int
-  attachment     String?
-  attachmentType String?
-  messageUUID    String   @unique
-  Chatroom       Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-  User           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               Int                @id @default(autoincrement())
+  text             String?
+  createdAt        DateTime           @default(now())
+  userId           Int
+  receiverUserId   Int
+  chatroomId       Int
+  attachment       String?
+  attachmentType   String?
+  messageUUID      String             @unique
+  Chatroom         Chatroom           @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ChatNotification ChatNotification[]
 }
 
 model Share {
@@ -392,4 +396,23 @@ model OnlineUser {
   id        Int      @id @default(autoincrement())
   userId    Int
   enteredAt DateTime @default(now())
+}
+
+model ChatNotification {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  chatroomId      Int
+  userId          Int
+  receiverUserId  Int
+  messageId       Int
+  hasBeenRead     Boolean  @default(false)
+  hasBeenNotified Boolean  @default(false)
+  count           Int      @default(1)
+
+  Chatroom Chatroom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
+  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Message  Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([chatroomId, userId, messageId], name: "idx_chat_notification")
 }

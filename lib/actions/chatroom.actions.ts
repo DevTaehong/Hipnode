@@ -7,6 +7,7 @@ import {
   CreateMessageType,
   EditMessageType,
 } from "@/types/chatroom.index";
+import { verifyAuth } from "../auth";
 
 export async function createChatroom(userIds: number[]) {
   try {
@@ -92,7 +93,11 @@ export async function isExistingChatroom(
   }
 }
 
-export async function getUserChatrooms(userId: number) {
+export async function getUserChatrooms() {
+  const { userId } = await verifyAuth(
+    "You must be logged in to view notifications.",
+    false
+  );
   try {
     const userChatrooms = await prisma.chatroomUsers.findMany({
       where: {
@@ -129,31 +134,30 @@ export async function getUserChatrooms(userId: number) {
       },
     });
 
-    const chatroomsWithDetails = userChatrooms.map(({ Chatroom }) => {
-      const recentMessage = Chatroom.Message[0] || null;
-      const otherUser = Chatroom.ChatroomUsers[0]?.User || null;
+    // Filter and map in a single step
+    const chatroomsWithRecentMessage = userChatrooms
+      .map(({ Chatroom }) => {
+        const recentMessage = Chatroom.Message[0] || null;
+        const otherUser = Chatroom.ChatroomUsers[0]?.User || null;
 
-      return {
-        id: Chatroom.id,
-        createdAt: Chatroom.createdAt,
-        updatedAt: Chatroom.updatedAt,
-        recentMessage,
-        otherUser,
-      };
-    });
+        return {
+          id: Chatroom.id,
+          createdAt: Chatroom.createdAt,
+          updatedAt: Chatroom.updatedAt,
+          recentMessage,
+          otherUser,
+        };
+      })
+      .filter((chatroom) => chatroom.recentMessage !== null);
 
-    chatroomsWithDetails.sort((a, b) => {
-      const dateA = a.recentMessage
-        ? new Date(a.recentMessage.createdAt).getTime()
-        : 0;
-      const dateB = b.recentMessage
-        ? new Date(b.recentMessage.createdAt).getTime()
-        : 0;
-
+    // Sort the filtered chatrooms
+    chatroomsWithRecentMessage.sort((a, b) => {
+      const dateA = new Date(a.recentMessage.createdAt).getTime();
+      const dateB = new Date(b.recentMessage.createdAt).getTime();
       return dateB - dateA;
     });
 
-    return chatroomsWithDetails;
+    return chatroomsWithRecentMessage;
   } catch (error) {
     console.error("Error fetching chatrooms for user:", error);
     throw error;
@@ -200,9 +204,17 @@ export async function deleteChatroom(chatroomId: number) {
 }
 
 export async function createMessage(data: CreateMessageType) {
+  const { chatroomId, userId, receiverUserId } = data;
   try {
     const message = await prisma.message.create({
       data,
+    });
+
+    createLiveChatNotification({
+      chatroomId,
+      messageId: message.id,
+      userId,
+      receiverUserId,
     });
 
     return message;
@@ -271,5 +283,99 @@ export async function getMessagesForChatroom(chatroomId: number) {
   } catch (error) {
     console.error("Error retrieving messages for chatroom:", error);
     throw error;
+  }
+}
+
+type ChatNotificationType = {
+  chatroomId: number;
+  userId: number;
+  messageId: number;
+  receiverUserId: number;
+};
+
+export async function createLiveChatNotification(data: ChatNotificationType) {
+  try {
+    const updateResult = await prisma.chatNotification.updateMany({
+      where: {
+        chatroomId: data.chatroomId,
+        userId: data.userId,
+        hasBeenRead: false,
+      },
+      data: {
+        count: {
+          increment: 1,
+        },
+      },
+    });
+    if (updateResult.count > 0) {
+      return updateResult;
+    } else {
+      const newNotification = await prisma.chatNotification.create({
+        data: { ...data },
+      });
+      return newNotification;
+    }
+  } catch (error) {
+    console.error("Error creating/updating live chat notification:", error);
+  }
+}
+
+export async function getUnreadNotifications() {
+  const { userId } = await verifyAuth(
+    "You must be logged in to view notifications.",
+    false
+  );
+
+  try {
+    const unreadNotifications = await prisma.chatNotification.findMany({
+      where: {
+        receiverUserId: userId,
+        hasBeenRead: false,
+      },
+      select: {
+        id: true,
+        chatroomId: true,
+        userId: true,
+        receiverUserId: true,
+        count: true,
+      },
+    });
+
+    const notificationsData = unreadNotifications.map((notification) => ({
+      chatNotificationId: notification.id,
+      chatroomId: notification.chatroomId,
+      userId: notification.userId,
+      receiverUserId: notification.receiverUserId,
+      count: notification.count,
+    }));
+
+    return notificationsData;
+  } catch (error) {
+    console.error("Error fetching unread notifications:", error);
+    return [];
+  }
+}
+
+export async function deleteChatNotification(
+  notificationId: number
+): Promise<boolean> {
+  const { userId } = await verifyAuth(
+    "You must be logged in to view notifications.",
+    false
+  );
+  try {
+    await prisma.chatNotification.delete({
+      where: {
+        id: notificationId,
+        receiverUserId: userId,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.error(
+      `Error deleting chat notification with ID ${notificationId}:`,
+      error
+    );
+    return false;
   }
 }

@@ -22,7 +22,7 @@ import {
 } from "../../utils/chat-functions";
 
 const ChatPageInput = () => {
-  const { chatroomId } = useChatStore();
+  const { chatroomId, chatroomUsers } = useChatStore();
   const { isInputDisabled, userInfo, isLoading, setIsInputDisabled } =
     useChatPageContext();
   const { droppedFile, setDroppedFile } = useChatPageInputContext();
@@ -54,6 +54,8 @@ const ChatPageInput = () => {
 
   const { channel } = useChannel("hipnode-livechat");
 
+  const receiverUserId = chatroomUsers[1]?.id;
+
   const handleFormLogic = async () => {
     if (messageTextIsEmpty && !droppedFile) return;
     setIsInputDisabled(true);
@@ -64,6 +66,7 @@ const ChatPageInput = () => {
         channel,
         chatroomId,
         currentUser,
+        receiverUserId,
       });
       if (result === API_RESULT.SUCCESS) {
         setMessageText("");
