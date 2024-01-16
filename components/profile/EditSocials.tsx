@@ -62,17 +62,18 @@ const EditSocials = ({
         )}
 
         <div className="flex justify-center gap-5">
-          {links.twitter && (
-            <SocialIcon icon="Twitter" link={String(links.twitter)} />
-          )}
-
-          {links.instagram && (
-            <SocialIcon icon="Instagram" link={String(links.instagram)} />
-          )}
-
-          {links.facebook && (
-            <SocialIcon icon="Facebook" link={String(links.facebook)} />
-          )}
+          {Object.entries(links).map(([key, value]) => {
+            if (value && key !== "website") {
+              return (
+                <SocialIcon
+                  key={key}
+                  icon={key.charAt(0).toUpperCase() + key.slice(1)}
+                  link={String(value)}
+                />
+              );
+            }
+            return null;
+          })}
         </div>
       </div>
 
