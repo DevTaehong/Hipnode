@@ -53,7 +53,7 @@ const UserButton = () => {
             </div>
           </SignOutButton>
 
-          <div className="h-[1px] w-full bg-light-2 dark:bg-sc-3" />
+          <div className="h-px w-full bg-light-2 dark:bg-sc-3" />
 
           <article className="flex w-full items-center justify-between gap-[17px]">
             <p className="text-base font-semibold leading-6 text-sc-2 dark:text-light-2">
