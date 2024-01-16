@@ -47,10 +47,10 @@ const UserButton = () => {
           <UserButtonLink link="/settings" text="Settings" />
 
           <SignOutButton>
-            <button className="flex items-center gap-3.5 rounded text-base font-semibold leading-6 text-red-80">
+            <div className="flex items-center gap-3.5 rounded text-base font-semibold leading-6 text-red-80">
               <FillIcons.Leave className="fill-red-80" />
               Logout
-            </button>
+            </div>
           </SignOutButton>
 
           <div className="h-[1px] w-full bg-light-2 dark:bg-sc-3" />

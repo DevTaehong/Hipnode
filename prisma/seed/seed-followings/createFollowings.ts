@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
-import prisma from "@/lib/prisma";
-import { shuffle } from "@/utils";
+import prisma from "../../../lib/prisma";
+import { shuffle } from "../../../utils";
 import { FollowRelationsTypes } from "@/types";
 
 export async function createFollowings(users: User[]) {
