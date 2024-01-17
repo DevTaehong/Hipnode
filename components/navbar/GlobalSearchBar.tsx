@@ -58,7 +58,6 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
     if (state.isLoading) return;
     const payload = heading === state.activeSearchType ? "" : heading;
     dispatch({ type: "SET_ACTIVE_SEARCH_TYPE", payload });
-    dispatch({ type: "SET_AMOUNT_TO_SKIP", payload: 0 });
   };
 
   const handleClose = () => {
