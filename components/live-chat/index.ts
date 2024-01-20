@@ -11,4 +11,3 @@ export { default as LiveChatMessageList } from "./LiveChatMessageList";
 export { default as LiveChatVideoPlayer } from "./LiveChatVideoPlayer";
 export { default as LiveChatWrapper } from "./LiveChatWrapper";
 export { default as MessageAttachment } from "./MessageAttachment";
-export { default as ChatPageLink } from "./ChatPageLink";
