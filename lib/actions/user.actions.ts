@@ -155,6 +155,27 @@ export async function updateUser(clerkId: string, data: Partial<User>) {
   }
 }
 
+export async function updateProfileInfo(data: Partial<User>) {
+  const { userId } = await verifyAuth(
+    "You must be logged in to edit profile.",
+    false
+  );
+
+  try {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data,
+    });
+
+    return "Successfully updated profile info.";
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+}
+
 export async function deleteUser(clerkId: string) {
   try {
     const deletedUser = await prisma.user.delete({

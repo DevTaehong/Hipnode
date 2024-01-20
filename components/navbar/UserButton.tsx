@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 
 import FillIcons from "@/components/icons/fill-icons";
 import {
@@ -40,13 +40,20 @@ const UserButton = () => {
           <FillIcons.Triangle />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="relative right-[20px] top-[23px] h-[187px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
+      <PopoverContent className="relative right-[20px] top-[23px] h-[233px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] lg:right-[40px] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <section className="relative top-[8px] flex flex-col gap-5 p-4">
           <UserButtonLink link={`/profile/${user?.username}`} text="Profile" />
 
           <UserButtonLink link="/settings" text="Settings" />
 
-          <div className="h-[1px] w-full bg-light-2 dark:bg-sc-3" />
+          <SignOutButton>
+            <div className="flex items-center gap-3.5 rounded text-base font-semibold leading-6 text-red-80">
+              <FillIcons.Leave className="fill-red-80" />
+              Logout
+            </div>
+          </SignOutButton>
+
+          <div className="h-px w-full bg-light-2 dark:bg-sc-3" />
 
           <article className="flex w-full items-center justify-between gap-[17px]">
             <p className="text-base font-semibold leading-6 text-sc-2 dark:text-light-2">

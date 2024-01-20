@@ -49,7 +49,7 @@ const HistoryList = ({ data, authorId }: HistoryListProps) => {
   }, [inView, loadMore, authorId, currentPage]);
 
   return (
-    <ul className="flex translate-y-[-1.25rem] flex-col gap-5 overflow-auto">
+    <ul className="mt-5 flex translate-y-[-1.25rem] flex-col gap-5 overflow-auto">
       {dataList.map((item) => {
         if (item.post !== null)
           return (

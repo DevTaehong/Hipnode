@@ -15,6 +15,7 @@ import { CustomTagSuggestion, NotificationProps } from "@/types";
 import { createNotification } from "@/lib/actions/notification.actions";
 import { getBlurData } from "@/lib";
 import { getUsersByName } from "@/lib/actions/user.actions";
+import { User } from "@prisma/client";
 
 export function debounce(fn: (...args: any[]) => void, delay: number = 100) {
   let timeoutID: number | null = null;
@@ -541,4 +542,11 @@ export const sortedNotifications = (notifications: NotificationProps[]) => {
     const dateB = getSortedNotificationDate(b.createdAt);
     return dateB.getTime() - dateA.getTime();
   });
+};
+
+export const shuffle = (array: User[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 };

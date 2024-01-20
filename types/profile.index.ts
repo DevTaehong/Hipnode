@@ -32,6 +32,21 @@ export type PostPerformance = {
   };
 };
 
+export interface EditSocialsProps {
+  website: string | null | undefined;
+  twitter: string | null | undefined;
+  instagram: string | null | undefined;
+  facebook: string | null | undefined;
+  isLoggedInUser: boolean;
+}
+
+export interface SocialLinkProps {
+  website: string | readonly string[] | undefined;
+  twitter: string | readonly string[] | undefined;
+  instagram: string | readonly string[] | undefined;
+  facebook: string | readonly string[] | undefined;
+}
+
 export type BaseUserInfo = {
   id: number;
   username: string;
