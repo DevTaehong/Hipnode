@@ -8,9 +8,8 @@ import {
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import { supabase } from "@/utils/supabaseClient";
-import { homePageTags, monthNames, abbMonthNames } from "@/constants";
+import { monthNames, abbMonthNames } from "@/constants";
 import { CommentAuthorProps, GetActionBarDataProps } from "@/types/posts";
-import { TagIconConfig } from "@/types/homepage";
 import { CustomTagSuggestion, NotificationProps } from "@/types";
 import { createNotification } from "@/lib/actions/notification.actions";
 import { getBlurData } from "@/lib";
@@ -50,7 +49,7 @@ export async function fetchUserSuggestions(name: string) {
   }
 }
 
-export function formatGroupDetailPostDate(createdAt: Date) {
+export function formatPosCardDate(createdAt: Date) {
   return formatDistanceToNow(createdAt, { addSuffix: true });
 }
 
@@ -361,17 +360,6 @@ export const getActionBarData = (postData: GetActionBarDataProps) => {
     sharesCount: postData.sharesCount,
   };
   return actionBarData;
-};
-
-export const getIconConfig = (tagName: string): TagIconConfig => {
-  const hash = tagName
-    .split("")
-    .reduce(
-      (acc: number, char: string) => char.charCodeAt(0) + ((acc << 5) - acc),
-      0
-    );
-  const index = Math.abs(hash) % homePageTags.length;
-  return homePageTags[index];
 };
 
 export function formatRelativeTime(dateString: Date): string {

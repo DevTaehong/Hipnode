@@ -1,7 +1,7 @@
 "use client";
-
 import Image from "next/image";
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 import FillIcons from "@/components/icons/fill-icons";
 import {
@@ -10,20 +10,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Theme from "@/components/navbar/Theme";
-
 import UserButtonLink from "./UserButtonLink";
-import { PopoverClose } from "@radix-ui/react-popover";
+import { BaseUserInfo } from "@/types/profile.index";
 
-const UserButton = () => {
-  const { user } = useUser();
-
+const UserButton = ({ userInfo }: { userInfo: BaseUserInfo }) => {
   return (
     <Popover>
       <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg hover:bg-sc-6 dark:hover:bg-dark-4">
         <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
-          {user?.imageUrl && (
+          {userInfo?.image && (
             <Image
-              src={user?.imageUrl}
+              src={userInfo?.image}
               alt="User Image"
               width={30}
               height={30}
@@ -34,7 +31,7 @@ const UserButton = () => {
 
         <div className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
           <p className="line-clamp-1 flex-1 text-base font-bold leading-6 text-sc-1 dark:text-light-2">
-            {user?.username}
+            {userInfo?.username}
           </p>
 
           <FillIcons.Triangle />
@@ -42,7 +39,10 @@ const UserButton = () => {
       </PopoverTrigger>
       <PopoverContent className="relative right-[20px] top-[23px] h-[233px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] lg:right-[40px] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <section className="relative top-[8px] flex flex-col gap-5 p-4">
-          <UserButtonLink link={`/profile/${user?.username}`} text="Profile" />
+          <UserButtonLink
+            link={`/profile/${userInfo?.username}`}
+            text="Profile"
+          />
 
           <UserButtonLink link="/settings" text="Settings" />
 

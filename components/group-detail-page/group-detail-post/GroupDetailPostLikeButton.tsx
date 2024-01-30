@@ -35,7 +35,7 @@ const GroupDetailPostLikeButton = ({
   return (
     <div
       onClick={handleLike}
-      className="relative hidden hover:opacity-80 hover:transition-opacity xl:block"
+      className="relative hidden transition-opacity hover:opacity-80 xl:block"
     >
       {isPending ? (
         <Spinner classNames="low-root w-[1.875rem] h-[1.875rem]" />

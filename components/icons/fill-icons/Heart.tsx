@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 
 type HeartProps = {
   isLiked: boolean;
+  classNames?: string;
 };
 
-const Heart = ({ isLiked }: HeartProps) => {
+const Heart = ({ isLiked, classNames }: HeartProps) => {
   return (
     <svg
       width="30"
@@ -14,7 +15,7 @@ const Heart = ({ isLiked }: HeartProps) => {
       viewBox="0 0 30 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("shrink-0 cursor-pointer")}
+      className={cn("shrink-0 cursor-pointer", classNames)}
     >
       <rect
         width="30"

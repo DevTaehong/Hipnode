@@ -321,39 +321,6 @@ export const tags = [
   },
 ];
 
-export const homePageTags = [
-  {
-    icon: OutlineIcon.Dev,
-    iconBgColor: "bgYellow",
-    iconFillColor: "fillYellow",
-  },
-  {
-    icon: OutlineIcon.Popular,
-    iconBgColor: "bgRed",
-    iconFillColor: "fillRed",
-  },
-  {
-    icon: OutlineIcon.Popular,
-    iconBgColor: "bgBlue",
-    iconFillColor: "fillBlue",
-  },
-  {
-    icon: OutlineIcon.Dev,
-    iconBgColor: "bgYellow",
-    iconFillColor: "fillYellow",
-  },
-  {
-    icon: OutlineIcon.Dev,
-    iconBgColor: "bgGreen",
-    iconFillColor: "fillGreen",
-  },
-  {
-    icon: OutlineIcon.Popular,
-    iconBgColor: "bgRed",
-    iconFillColor: "fillRed",
-  },
-];
-
 // Data for the CategoryFilter component
 export const CategoryFilterData = [
   {
@@ -391,7 +358,7 @@ export const sidebarItems = [
   {
     icon: OutlineIcon.New,
     title: "Newest",
-    subTitle: "and recent",
+    subTitle: "and Recent",
     description: "Find the latest update",
   },
   {

@@ -372,7 +372,7 @@ export async function getProfileInterviews(
   }
 }
 
-interface ProfileHistoryResponse {
+export interface ProfileHistoryResponse {
   data: Activities[];
   page: number;
   hasMore: boolean;

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Post } from "@prisma/client";
 import Link from "next/link";
 
-import { formatGroupDetailPostDate } from "@/utils";
+import { formatPosCardDate } from "@/utils";
 import { PostCardTypes } from "@/types";
 import GroupDetailPostHeader from "@/components/group-detail-page/group-detail-post/GroupDetailPostHeader";
 import GroupDetailPostFooter from "@/components/group-detail-page/group-detail-post/GroupDetailPostFooter";
@@ -23,7 +23,7 @@ const GroupDetailPost = (post: Post) => {
     viewCount,
     tagNames,
   } = post as PostCardTypes;
-  const date = formatGroupDetailPostDate(new Date(createdAt));
+  const date = formatPosCardDate(new Date(createdAt));
 
   return (
     <article className="group relative">
@@ -40,8 +40,8 @@ const GroupDetailPost = (post: Post) => {
           alt={`${heading} image`}
           width={56}
           height={56}
-          className="h-14 w-14 rounded-[0.25rem] object-cover sm:h-[9.75rem] sm:w-[9.75rem] sm:rounded-2xl
-            lg:h-14 lg:w-14 lg:border lg:border-contentCard lg:shadow-contentCard xl:h-[9.75rem] xl:w-[9.75rem]"
+          className="size-14 rounded-[0.25rem] object-cover sm:size-[9.75rem] sm:rounded-2xl lg:size-14 lg:border
+            lg:border-contentCard lg:shadow-contentCard xl:size-[9.75rem]"
         />
         <div className="flex grow flex-col justify-between gap-5">
           <GroupDetailPostHeader

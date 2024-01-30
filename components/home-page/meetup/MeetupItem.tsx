@@ -9,13 +9,13 @@ import { MeetupDate } from "@/components/home-page/meetup";
 const MeetupItem = ({
   meet: { id, createdAt, title, image, location },
 }: MeetupItemProps) => (
-  <Link key={id} href={`/meet-ups/${id}`}>
+  <Link key={id} href={`/meet-ups/${id}`} className="group">
     <article className="flex flex-row bg-light dark:bg-dark-3">
       <MeetupDate createdAt={createdAt} />
       <div className="flex flex-col justify-between pl-[0.875rem]">
         <div className="flex flex-col gap-0.5 ">
           <div className="overflow-hidden">
-            <h3 className="semibold-14 truncate capitalize text-sc-2 dark:text-light-2">
+            <h3 className="semibold-14 truncate capitalize text-sc-2 transition-colors group-hover:text-blue dark:text-light-2">
               {title}...
             </h3>
           </div>
@@ -27,7 +27,7 @@ const MeetupItem = ({
               caption={location}
               imageWidth={16}
               imageHeight={16}
-              className="h-[1rem] w-[1rem] rounded-full"
+              className="size-4 rounded-full"
             />
             <p className="base-10 text-sc-3">{location}</p>
           </div>

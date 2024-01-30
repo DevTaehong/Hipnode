@@ -21,7 +21,7 @@ const Tag = ({ text }: { text: string }) => {
     <button
       onClick={handleTagClick}
       className={`relative cursor-pointer rounded-full px-2.5 py-1 text-[0.5625rem] leading-[0.875rem]  
-        hover:opacity-80 hover:transition-opacity md:text-[0.625rem] 
+        transition-opacity hover:opacity-80 md:text-[0.625rem] 
         md:font-semibold md:leading-[1rem] ${
           tag === text
             ? "bg-red-10 text-red-80"

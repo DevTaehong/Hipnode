@@ -70,10 +70,10 @@ const ListItemContent = ({
         objectFit: "cover",
       }}
       alt={`logo of the group ${groupName}`}
-      className="h-[2.125rem] w-[2.125rem] rounded-full border border-purple-20"
+      className="size-[2.125rem] rounded-full border border-purple-20"
     />
     <div className="line-clamp-1 flex w-full flex-col">
-      <h5 className="semibold-12 text-sc-2_light-2 truncate group-hover:text-blue">
+      <h5 className="semibold-12 text-sc-2_light-2 truncate transition-colors group-hover:text-blue">
         {groupName}
       </h5>
       <p className="base-10 truncate text-sc-3">{description}</p>

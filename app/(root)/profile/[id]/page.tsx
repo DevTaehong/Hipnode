@@ -1,6 +1,9 @@
 import Performance from "@/components/profile/Performance";
 import ProfileFilter from "@/components/profile/ProfileFilter";
 import ProfileInfo from "@/components/profile/ProfileInfo";
+import ProfileResult from "@/components/profile/ProfileResult";
+import FormLink from "@/components/FormLink";
+import NotFound from "@/components/NotFound";
 
 import {
   getPerformanceData,
@@ -10,20 +13,12 @@ import {
   getProfileMeetups,
   getProfilePodcasts,
 } from "@/lib/actions/profile.actions";
-
-import { PostCardList } from "@/components/home-page/post-card";
 import {
   getAllPostsByUserId,
   isFollowingUser,
 } from "@/lib/actions/post.action";
-import { ExtendedPrismaPost } from "@/types/posts";
-import MeetupsList from "@/components/profile/MeetupsList";
-import PodcastsList from "@/components/profile/PodcastsList";
-import InterviewsList from "@/components/profile/InterviewsList";
-import FormLink from "@/components/FormLink";
 import { interviewFormLinkProps } from "@/constants/interview";
-import HistoryList from "@/components/profile/HistoryList";
-import NotFound from "@/components/NotFound";
+import { ResultType } from "@/types/profile.index";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +35,7 @@ const ProfilePage = async ({
     return <NotFound isProfilePage />;
   }
 
-  let result: any = [];
+  let result: ResultType = [];
 
   switch (searchParams.search) {
     case "posts":
@@ -71,8 +66,9 @@ const ProfilePage = async ({
 
   if (!result) return;
 
-  const isEmpty =
-    result.length === 0 || (result.data && result.data.length === 0);
+  const isEmpty = Array.isArray(result)
+    ? result.length === 0
+    : !result.data || result.data.length === 0;
 
   const extendedUser = {
     ...user,
@@ -88,48 +84,13 @@ const ProfilePage = async ({
       <section className="flex flex-1 flex-col gap-5">
         <ProfileFilter />
 
-        {isEmpty && (
-          <div className="flex justify-center text-base text-sc-1 dark:text-light md:text-lg">
-            No {searchParams?.search}
-          </div>
-        )}
-
-        {searchParams.search === "posts" && result.length !== 0 && (
-          <PostCardList
-            posts={result as ExtendedPrismaPost[]}
-            authorId={user.id}
-          />
-        )}
-
-        {searchParams.search === "meetups" && result.data.length !== 0 && (
-          <MeetupsList
-            data={result}
-            authorId={params.id}
-            resultType={searchParams.search}
-          />
-        )}
-
-        {searchParams.search === "podcasts" && result.data.length !== 0 && (
-          <PodcastsList
-            data={result}
-            authorId={params.id}
-            resultType={searchParams.search}
-          />
-        )}
-
-        {searchParams.search === "interviews" && result.data.length !== 0 && (
-          <div className="relative flex w-full flex-1 overflow-auto">
-            <InterviewsList
-              data={result}
-              authorId={params.id}
-              resultType={searchParams.search}
-            />
-          </div>
-        )}
-
-        {searchParams.search === "history" && result.data.length !== 0 && (
-          <HistoryList data={result} authorId={params.id} />
-        )}
+        <ProfileResult
+          result={result}
+          isEmpty={isEmpty}
+          paramId={params.id}
+          searchParam={searchParams?.search}
+          authorId={user.id}
+        />
       </section>
 
       <section className="hidden w-[20.3125rem] shrink-0 flex-col gap-5 xl:flex">

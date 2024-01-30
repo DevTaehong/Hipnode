@@ -16,11 +16,11 @@ const GroupPostHeader = ({
   groupName: string;
   groupId: number;
 }) => {
-  const { username, picture, id } = author;
+  const { username, picture} = author;
   return (
     <CardHeader className="flex flex-row items-center gap-[0.62rem]">
-      <Avatar className="flex h-[2.125rem] w-[2.125rem] items-center justify-center hover:opacity-80 hover:transition-opacity">
-        <Link href={`/profile/${id}`}>
+      <Avatar className="flex size-[2.125rem] items-center justify-center hover:opacity-80 hover:transition-opacity">
+        <Link href={`/profile/${username}`}>
           <AvatarImage src={picture} alt={`${username}'s avatar`} />
           <AvatarFallback>{username.charAt(0)}</AvatarFallback>
         </Link>
@@ -33,7 +33,7 @@ const GroupPostHeader = ({
           {groupName}
         </Link>
         <Link
-          href={`/profile/${author.id}`}
+          href={`/profile/${username}`}
           className="regular-10 relative hover:underline"
         >
           {username}

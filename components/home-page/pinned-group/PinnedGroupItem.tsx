@@ -7,7 +7,10 @@ const PinnedGroupItem = ({ group }: PinnedGroupItemProps) => {
   const { name, description, coverImage, id } = group;
   return (
     <Link href={`/group/${id}`}>
-      <li className="flex cursor-pointer items-center gap-2.5 hover:translate-x-1 hover:scale-[101%]">
+      <li
+        className="flex cursor-pointer items-center gap-2.5 px-[0.3125rem] py-1.5 transition-colors hover:rounded-md 
+          hover:bg-light-2 dark:hover:bg-dark-4"
+      >
         {coverImage && <GroupImage src={coverImage} name={name} />}
 
         <article className="flex flex-col">

@@ -18,7 +18,7 @@ const TagList = ({
           <Link href={urlPath} key={item}>
             <li
               onClick={() => setTagged(item)}
-              className="semibold-10 w-fit  cursor-pointer rounded-full bg-light-3 px-[0.625rem] py-1 leading-[0.875rem] hover:scale-110 hover:bg-light-2 hover:shadow-lg dark:bg-dark-4 dark:text-sc-5 hover:dark:bg-dark-2"
+              className="semibold-10 w-fit cursor-pointer rounded-full bg-light-3 px-[0.625rem] py-1 leading-[0.875rem] text-sc-4 transition-opacity hover:opacity-80 dark:bg-dark-4 dark:text-sc-5"
             >
               {item}
             </li>

@@ -10,7 +10,9 @@ const SeeAllButton = ({ groups }: { groups: string }) => {
         }}
         className="flex h-3.5 justify-center rounded-[0.625rem] bg-purple-20 px-1"
       >
-        <span className="semibold-9 text-purple">See all</span>
+        <span className="semibold-9 text-purple transition-colors">
+          See all
+        </span>
       </Link>
     </div>
   );

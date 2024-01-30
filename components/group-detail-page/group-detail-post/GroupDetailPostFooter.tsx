@@ -18,7 +18,7 @@ const GroupDetailPostFooter = ({
 }) => (
   <div className="flex flex-row gap-[1.875rem] lg:items-center lg:justify-between lg:gap-10">
     <div className="hidden xl:flex xl:flex-row xl:gap-2.5">
-      <Avatar className="relative h-10 w-10 shrink-0 hover:opacity-80 hover:transition-opacity">
+      <Avatar className="relative size-10 shrink-0 hover:opacity-80 hover:transition-opacity">
         <Link href={`/profile/${author.id}`}>
           <AvatarImage
             src={author.picture}

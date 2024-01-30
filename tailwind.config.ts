@@ -37,8 +37,10 @@ module.exports = {
         xs: "376px",
       },
       boxShadow: {
-        contentCard: "0px 2px 6px 0px rgba(43, 0, 212, 0.06)",
+        contentCard: "0px 2px 6px 0px rgba(47, 133, 247, 0.06)",
         media: "0px 2px 6px 0px rgba(35, 117, 252, 0.10)",
+        meetupDate: "0px 6px 6px 2px rgba(71, 153, 235, 0.04)",
+        podcastSidebar: "0px 3px 4px 0px rgba(2, 27, 109, 0.06)",
       },
       colors: {
         red: {
@@ -101,6 +103,7 @@ module.exports = {
         },
         media: "rgba(35, 117, 252, 0.10)",
         contentCard: "rgba(43, 0, 212, 0.10)",
+        podcastSidebar: "rgba(2, 27, 109, 0.10)",
         leaveModal:
           "linear-gradient(180deg, rgba(189, 189, 189, 0.20) 0%, rgba(189, 189, 189, 0.20) 100%)",
         border: "hsl(var(--border))",

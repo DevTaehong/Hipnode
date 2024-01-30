@@ -8,7 +8,7 @@ const Podcasts = ({ podcasts }: PodcastsProps) => {
   const podcastArray = podcasts.slice(0, 4);
   return (
     <aside className="flex w-full flex-col gap-5 rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
-      <Link href="/podcasts">
+      <Link href="/podcasts" className="group">
         <RightSidebarHeader heading={"Podcasts"} />
       </Link>
       {podcastArray.map((podcast) => (

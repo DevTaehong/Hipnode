@@ -1,6 +1,6 @@
 import { Group, MeetUp, Podcast } from "@prisma/client";
 import { StaticImageData } from "next/image";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { tags } from "@/constants";
 import { ExtendedPrismaPost } from "../posts";
 
@@ -115,9 +115,3 @@ export type PostCardListProps = {
   posts: ExtendedPrismaPost[];
   authorId?: number;
 };
-
-export interface TagIconConfig {
-  icon: React.ComponentType<{ className?: string }>;
-  iconBgColor: string;
-  iconFillColor: string;
-}

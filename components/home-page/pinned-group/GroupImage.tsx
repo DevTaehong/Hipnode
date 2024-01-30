@@ -9,7 +9,7 @@ const GroupImage = ({ src, name }: GroupImageProps) => {
       alt={`Logo of group ${name} in list of pinned groups`}
       height={32}
       width={32}
-      className="rounded"
+      className="size-8 rounded"
     />
   );
 };

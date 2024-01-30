@@ -169,7 +169,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
     (postData[postData.length - 1]?.numberOfAvailablePosts || 0);
 
   return (
-    <main className="flex h-full max-h-screen w-full flex-col gap-[1.25rem] overflow-y-scroll">
+    <main className="flex size-full max-h-screen flex-col gap-[1.25rem] overflow-y-scroll">
       {filter === "popular" && popularPostsForToday === 0 && (
         <div className="flex animate-pulse flex-col items-center justify-center text-red-80">
           <p>Click any other tag to view posts !</p>
@@ -188,7 +188,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
       />
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
-          <div className="flex h-full w-full flex-col items-center justify-center pt-12">
+          <div className="flex size-full flex-col items-center justify-center pt-12">
             <p className="mb-8 animate-pulse font-bold text-red-80">
               Loading your content...
             </p>

@@ -33,8 +33,8 @@ const GroupDetailPostHeader = ({
         {tags?.map((tag) => <Tag text={tag} key={tag} />)}
       </div>
     </div>
-    <Avatar className="relative flex h-[1.875rem] w-[1.875rem] shrink-0 hover:opacity-80 hover:transition-opacity md:h-10 md:w-10 xl:hidden">
-      <Link href={`/profile/${author.id}`}>
+    <Avatar className="relative flex size-[1.875rem] shrink-0 transition-opacity hover:opacity-80 md:size-10 xl:hidden">
+      <Link href={`/profile/${author.username}`}>
         <AvatarImage src={author.picture} alt={`${author.username}'s avatar`} />
         <AvatarFallback>{author.username.charAt(0)}</AvatarFallback>
       </Link>

@@ -1,4 +1,11 @@
+import {
+  ProfileMeetupResponse,
+  ProfilePodcastResponse,
+  ProfileInterviewsResponse,
+  ProfileHistoryResponse,
+} from "@/lib/actions/profile.actions";
 import { MeetUp, User } from "@prisma/client";
+import { ExtendedPrismaPost } from "./posts";
 
 export type UserProfile = User & {
   following: {
@@ -52,4 +59,19 @@ export type BaseUserInfo = {
   username: string;
   image: string;
   name: string;
+};
+
+export type ResultType =
+  | ExtendedPrismaPost[]
+  | ProfileMeetupResponse
+  | ProfilePodcastResponse
+  | ProfileInterviewsResponse
+  | ProfileHistoryResponse;
+
+export type ProfileResultType = {
+  result: ResultType;
+  isEmpty: boolean;
+  paramId: string;
+  searchParam: string;
+  authorId: number;
 };

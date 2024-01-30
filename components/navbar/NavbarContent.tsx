@@ -61,7 +61,7 @@ const NavbarContent = ({
               currentUserId={currentUserId}
               lastChecked={lastChecked ?? new Date()}
             />
-            <UserButton />
+            <UserButton userInfo={userInfo} />
           </SignedIn>
 
           <SignedOut>

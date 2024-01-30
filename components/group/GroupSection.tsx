@@ -38,7 +38,7 @@ const GroupSection = ({
         className={`${expandedGroupIndex === null && "hidden"} cursor-pointer`}
         onClick={() => setExpandedGroupIndex(null)}
       >
-        <OutlineIcons.ArrowLeft className="stroke-sc-2 hover:opacity-80 hover:transition-opacity dark:stroke-sc-3" />
+        <OutlineIcons.ArrowLeft className="stroke-sc-2 transition-opacity hover:opacity-80 dark:stroke-sc-3" />
       </figure>
 
       {sectionHeadings.map((section: HeadingsType, index: number) => (

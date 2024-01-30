@@ -5,8 +5,8 @@ import { MeetupItem } from "@/components/home-page/meetup";
 import { MeetupsProps } from "@/types/homepage";
 
 const Meetups = ({ meetUps }: MeetupsProps) => (
-  <aside className="w-full gap-5 flex flex-col rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
-    <Link href="/meet-ups">
+  <aside className="flex w-full flex-col gap-5 rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
+    <Link href="/meet-ups" className="group">
       <RightSidebarHeader heading={"Meetups"} />
     </Link>
     {meetUps

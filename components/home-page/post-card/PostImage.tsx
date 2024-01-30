@@ -17,7 +17,8 @@ const PostImage = ({
         width={imageWidth}
         height={imageHeight}
         placeholder="blur"
-        className="rounded-md border-2 object-cover  dark:border-light-3 "
+        className="size-14 rounded-[0.25rem] object-cover sm:size-[9.75rem] sm:rounded-2xl lg:size-14 lg:border
+        lg:border-contentCard lg:shadow-contentCard xl:size-[9.75rem]"
       />
       <figcaption className="sr-only">
         Placeholder image for a social media post
