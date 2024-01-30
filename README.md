@@ -4,7 +4,7 @@
 
 Hipnode is an innovative social media platform featuring posts, podcasts, meetups, interviews, and other interactive functionalities.
 
-This is the Capstone project from JS Mastery Masterclass Experience. The project was engineered over a three month period using a professional UI design created using [Figma](https://www.figma.com/file/RKjPbEbYkvE7XFvYVS8FfZ/Social-Media-Platform?node-id=3901%3A35548&mode=dev).
+This is the Capstone project from JS Mastery Masterclass Experience. The project was engineered over three months using a professional UI design created using Figma.
 
 ## Features
 
