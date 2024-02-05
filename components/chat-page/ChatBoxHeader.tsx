@@ -28,7 +28,7 @@ const ChatBoxHeader = () => {
       <figure className="relative flex items-center gap-4 md:gap-4">
         <button
           onClick={() => setShowChatRoomList(!showChatRoomList)}
-          className="bg-light_dark-4 flex-center h-[1.875rem] w-[1.875rem] shrink-0 rounded-lg text-lg text-sc-4 md:hidden"
+          className="bg-light_dark-4 flex-center size-[1.875rem] shrink-0 rounded-lg text-lg text-sc-4 md:hidden"
         >
           <IoIosArrowBack />
         </button>
@@ -38,7 +38,7 @@ const ChatBoxHeader = () => {
             alt={`profile image for ${otherUserInfo.name}`}
             height={56}
             width={56}
-            className="h-14 w-14 shrink-0 rounded-full object-cover"
+            className="size-14 shrink-0 rounded-full object-cover"
           />
         </Link>
         <figcaption className="flex flex-col justify-between truncate whitespace-nowrap">
@@ -54,7 +54,7 @@ const ChatBoxHeader = () => {
         </figcaption>
       </figure>
       <Link
-        href={`/profile/${otherUserInfo.id}`}
+        href={`/profile/${otherUserInfo.username}`}
         className="semibold-14 md:flex-center hidden shrink-0 rounded-md bg-red-80 px-3 py-2 text-light md:px-4 md:py-3"
       >
         View Profile
