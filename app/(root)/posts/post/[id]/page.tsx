@@ -44,7 +44,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
 
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
-      <div className="mx-auto flex h-full w-full max-w-[85rem] flex-col lg:flex-row">
+      <div className="mx-auto flex size-full max-w-[85rem] flex-col lg:flex-row">
         <div className="order-2 flex flex-col gap-[1.25rem] lg:order-1">
           <LeftActionBar
             actionBarData={actionBarData}
@@ -115,13 +115,13 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">
           <RightColumnWrapper>
-            <div className="mb-[1.25rem] flex h-[6.25rem] w-[6.25rem] shrink-0 items-center justify-center rounded-full">
+            <div className="mb-[1.25rem] flex size-[6.25rem] shrink-0 items-center justify-center rounded-full">
               <Image
                 src={picture ?? "/images/emoji_2.png"}
                 alt="profile-image"
                 height={100}
                 width={100}
-                className="flex-center h-[6.25rem] w-[6.25rem] shrink-0 rounded-full"
+                className="flex-center size-[6.25rem] shrink-0 rounded-full"
               />
             </div>
             <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
