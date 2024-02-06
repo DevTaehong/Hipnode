@@ -30,7 +30,7 @@ const CoverImageUpload = ({
           <FormControl>
             <ImageUpload
               onFileSelected={handleFileSelected}
-              label="Cover Image"
+              label="Set Cover"
             />
           </FormControl>
           <FormMessage className="capitalize text-red-500" />

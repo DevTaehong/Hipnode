@@ -70,7 +70,7 @@ const SetCoverComponent = ({
         />
       ) : (
         <div className="flex h-[8.25rem] w-full items-center justify-center rounded-lg bg-light-2 dark:bg-dark-4 sm:h-[10.4375rem]">
-          <OutlineIcon.ImageIcon className="stroke-sc-4 sm:h-10 sm:w-10" />
+          <OutlineIcon.ImageIcon className="stroke-sc-4 sm:size-10" />
         </div>
       )}
     </div>

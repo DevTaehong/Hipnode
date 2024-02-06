@@ -28,32 +28,18 @@ const ImageUpload = ({ onFileSelected, label }: ImageUploadProps) => {
         style={{ display: "none" }}
       />
       <div
-        className="cursor-pointer rounded-md text-[0.8rem] dark:bg-dark-4 dark:text-light-2"
+        className="hover-effect cursor-pointer rounded-md text-[0.8rem] dark:bg-dark-4 dark:text-light-2"
         onClick={handleUploadClick}
       >
-        <div className="flex h-10 w-fit cursor-pointer flex-row items-center rounded-md   px-[0.8rem] py-[0.25rem] dark:bg-dark-4">
-          {label === "Cover Image" ? (
-            <OutlineIcon.ImageIcon
-              className={`${
-                fileSelected
-                  ? "stroke-blue-80"
-                  : "stroke-dark-4 dark:stroke-light-2"
-              } `}
-            />
+        <div className="flex h-10 w-fit cursor-pointer flex-row items-center rounded-md bg-light-2 px-[0.8rem] py-[0.25rem] dark:bg-dark-4">
+          {label === "Set Cover" ? (
+            <OutlineIcon.ImageIcon className="stroke-dark-4 dark:stroke-light-2" />
           ) : (
-            <FillIcon.Podcasts
-              className={`${
-                fileSelected ? "fill-blue-80" : "fill-dark-4 dark:fill-light-2"
-              } `}
-            />
+            <FillIcon.Podcasts className="fill-dark-4 dark:fill-light-2" />
           )}
 
-          <p
-            className={`pl-[0.625rem] text-[0.563rem] sm:text-[0.875rem] md:leading-[1.375rem] ${
-              fileSelected ? "text-blue-80" : "text-sc-2 dark:text-light-2"
-            }`}
-          >
-            {label}
+          <p className="pl-[0.625rem] text-[0.563rem] text-sc-2 dark:text-light-2 sm:text-[0.875rem] md:leading-[1.375rem]">
+            {fileSelected ? "Change Cover" : label}
           </p>
         </div>
       </div>

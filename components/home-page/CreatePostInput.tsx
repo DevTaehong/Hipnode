@@ -21,12 +21,12 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
 
   return (
     <section className="flex w-full items-center rounded-2xl bg-light p-[0.875rem] dark:bg-dark-3 md:p-[1.25rem]">
-      <div className="flex h-[1.8rem] w-[1.8rem] shrink-0 items-center justify-center rounded-full md:h-[2.5rem] md:w-[2.5rem]">
+      <div className="flex size-[1.8rem] shrink-0 items-center justify-center rounded-full md:size-[2.5rem]">
         <ImageWithCaption
           imageSrc={userImage}
           imageWidth={40}
           imageHeight={40}
-          className="h-[1.8rem] w-[1.8rem] shrink-0 rounded-full md:h-[2.5rem] md:w-[2.5rem]"
+          className="size-[1.8rem] shrink-0 rounded-full md:size-[2.5rem]"
           imageAlt="User Image"
         />
       </div>
@@ -41,7 +41,7 @@ const CreatePostInput = ({ userImage }: CreatePostInputProps) => {
       <Link href={`/posts/create-post?title=${encodeURIComponent(inputValue)}`}>
         <CustomButton
           label="Create Post"
-          className="w-auto shrink-0 truncate rounded-[0.375rem] bg-red-80 px-[0.875rem] py-[0.55rem] text-[0.75rem] font-medium leading-[1.25rem] text-light dark:text-sc-6 md:px-[1rem] md:py-[0.65rem] md:text-[0.875rem]"
+          className="hover-effect w-auto shrink-0 truncate rounded-[0.375rem] bg-red-80 px-[0.875rem] py-[0.55rem] text-[0.75rem] font-medium leading-[1.25rem] text-light dark:text-sc-6 md:px-[1rem] md:py-[0.65rem] md:text-[0.875rem]"
           onClick={handleButtonClick}
         />
       </Link>

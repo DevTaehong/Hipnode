@@ -18,16 +18,12 @@ const GroupPopover = ({
     <Popover>
       <PopoverTrigger
         asChild
-        className="flex  justify-between border-none text-base text-blue-80 dark:bg-dark-4"
+        className="hover-effect flex cursor-pointer justify-between border-none bg-light-2 text-base text-sc-2 dark:bg-dark-4"
       >
         <div className="flex w-fit flex-row  rounded-md px-[0.625rem] py-[0.25rem] dark:bg-dark-4">
-          <p
-            className={`flex items-center justify-start gap-2 text-[0.563rem]  sm:text-[0.875rem] md:leading-[1.375rem] ${
-              currentGroup ? "text-blue-80" : "dark:text-light-2"
-            }`}
-          >
+          <p className="flex items-center justify-start gap-2 text-[0.563rem] dark:text-light-2 sm:text-[0.875rem] md:leading-[1.375rem]">
             {currentGroup || "Select Group"}{" "}
-            <ChevronDown className=" h-4 w-4 text-white opacity-50" />
+            <ChevronDown className="size-4 text-sc-2 dark:text-light-2" />
           </p>
         </div>
       </PopoverTrigger>

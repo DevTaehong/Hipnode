@@ -13,8 +13,6 @@ import {
   REDO_COMMAND,
   UNDO_COMMAND,
 } from "lexical";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
 
 import { LexicalIconButtons } from ".";
 import {
@@ -36,23 +34,7 @@ const LexicalMenu = ({
 }: LexicalMenuProps) => {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [clearEditor, setClearEditor] = useState(false);
-
-  const insertTextAtSelection = (editor: any, text: string) => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        selection.insertText(text);
-      }
-    });
-  };
-
-  const handleEmojiSelect = (emoji: any) => {
-    if (emoji.native) {
-      insertTextAtSelection(editor, emoji.native);
-    }
-  };
 
   const [state, setState] = useState<LexicalMenuState>({
     isBold: false,
@@ -115,7 +97,6 @@ const LexicalMenu = ({
           setAutoFocus(true);
         } else {
           setAutoFocus(false);
-          setShowEmojiPicker(false);
         }
       }
     }
@@ -145,18 +126,6 @@ const LexicalMenu = ({
       />
 
       <div className="flex-wrap">
-        {showEmojiPicker && (
-          <div className="absolute right-[-0rem] top-[2.8rem]">
-            <Picker data={data} onEmojiSelect={handleEmojiSelect} perLine={6} />
-          </div>
-        )}
-        <button
-          type="button"
-          onClick={() => setShowEmojiPicker((prev) => !prev)}
-          className="translate-y-[-4px] pr-1 text-[1.1rem]"
-        >
-          🙂
-        </button>
         <LexicalIconButtons
           icon="unorderedList"
           aria-label="Insert Unordered List"

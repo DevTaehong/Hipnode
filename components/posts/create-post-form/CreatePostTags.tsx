@@ -66,13 +66,13 @@ const CreatePostTags = ({ control, form, contentType }: FromFieldProps) => {
   };
 
   return (
-    <div className="w-full pb-[1.25rem]">
+    <div className="w-full">
       <FormField
         name="tags"
         control={control}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="flex flex-row pb-[0.625rem] leading-[1.375rem] dark:text-light-2 md:py-[0.625rem]  md:text-[0.875rem]">
+            <FormLabel className="flex flex-row pb-[0.625rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-light-2 md:py-[0.625rem] md:text-[0.875rem]">
               {contentType === "Meetup" ? (
                 <p>
                   Please tag your meetup (up to 5) - Cyber, Music, Web3, Design,
@@ -107,7 +107,7 @@ const CreatePostTags = ({ control, form, contentType }: FromFieldProps) => {
                 <Input
                   placeholder="Add a tag..."
                   type="text"
-                  className="rounded-lg border border-light-2 bg-light px-[1.25rem] py-[0.75rem] text-base outline-none dark:border-dark-4 dark:bg-dark-3 dark:text-light-2"
+                  className="rounded-lg border-2 border-light-2 bg-light px-[1.25rem] py-[0.75rem] text-base outline-none dark:border-dark-4 dark:bg-dark-3 dark:text-light-2"
                   onKeyDown={(e) => handleInputKeyDown(e, field)}
                 />
               </>

@@ -55,7 +55,6 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { fetchAndSetFormData, handleUpload } from "./utils";
 import FormLoader from "./FormLoader";
 import Location from "./Location";
-import CodeOfConductModal from "@/components/code-of-conduct/CodeOfConductModal";
 import { SelectionOptions } from "@/constants";
 
 const LexicalEditor = dynamic(
@@ -226,18 +225,18 @@ const CreatePost = ({
     );
   }
   return (
-    <div className="mt-5 flex w-full max-w-[55rem] items-center justify-center rounded-md bg-light dark:bg-dark-3 md:mt-0">
+    <div className="mt-5 flex w-full max-w-[55rem] items-center justify-center rounded-2xl bg-light dark:bg-dark-3 md:mt-0">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(processForm)}
-          className="w-full rounded-md p-[1.25rem] dark:bg-dark-3"
+          className="w-full rounded-2xl p-[1.25rem] dark:bg-dark-3"
         >
           <div className="pb-[1.25rem]">
             <GenericInput
               control={form.control}
               name="heading"
               placeholder="Title...."
-              className="rounded-lg px-[1.25rem] py-[0.7rem] text-[1.625rem] font-bold leading-[2.365rem] text-sc-1 outline-none dark:text-light-2"
+              className="rounded-lg bg-light-2 px-[1.25rem] py-[0.7rem] text-[1.625rem] font-bold leading-[2.365rem] text-sc-1 outline-none dark:bg-dark-4 dark:text-light-2"
             />
           </div>
           <div className="flex flex-wrap gap-4 bg-light pb-[1.25rem] dark:bg-dark-3">
@@ -275,13 +274,13 @@ const CreatePost = ({
           </div>
           <div className="flex items-center justify-center">
             {imagePreviewUrl && (
-              <div className="flex max-h-[17rem] w-full justify-center pb-[2.5rem]">
+              <div className="flex max-h-[21.25rem] w-full justify-center pb-[2.5rem]">
                 <Image
                   src={imagePreviewUrl}
                   alt="post-image"
-                  width={335}
-                  height={117}
-                  className="w-full rounded-md object-cover"
+                  width={840}
+                  height={340}
+                  className="w-full rounded-lg object-cover"
                 />
               </div>
             )}
@@ -302,7 +301,7 @@ const CreatePost = ({
               </div>
             </>
           )}
-          <div className="relative flex flex-col">
+          <div className={`relative flex flex-col`}>
             <div className="min-h-[22rem]">
               <FormField
                 name="content"
@@ -327,7 +326,7 @@ const CreatePost = ({
           </div>
           {contentType === POST_TYPE.PODCAST ? (
             <>
-              <FormLabel className="text-sc-2 dark:text-light-2">
+              <FormLabel className="text-[0.875rem] font-semibold leading-none text-sc-2 dark:text-light-2">
                 Category
               </FormLabel>
               <Controller
@@ -338,11 +337,27 @@ const CreatePost = ({
                     styles={{
                       control: (baseStyles, state) => ({
                         ...baseStyles,
-                        borderColor: state.isFocused ? "white" : "",
-                        backgroundColor: "bg-light-3 dark:bg-dark-4",
-                        marginTop: "0.4rem",
-                        padding: "0.2rem",
+                        border: "2px solid #F7F7F7",
+                        borderRadius: "8px",
+                        cursor: "pointer",
                       }),
+                      option: (baseStyles, state) => ({
+                        ...baseStyles,
+                        cursor: "pointer",
+                      }),
+                    }}
+                    classNames={{
+                      control: (state) =>
+                        "hover:border-dark-4 outline-none placeholder:text-sc-3 rounded-lg border-2 mt-2.5 mb-5 border-light-2 bg-light-2 dark:border-dark-4 py-1 dark:bg-dark-3 dark:text-light-2",
+                      menu: (state) =>
+                        "bg-light-2 dark:bg-dark-3 dark:text-light-2 ",
+                      menuList: (state) => "bg-light-2 dark:bg-dark-3",
+                      option: (state) =>
+                        "dark:text-light-2 dark:bg-dark-4 cursor-pointer hover:dark:bg-dark-3",
+                      indicatorSeparator: (state) =>
+                        "bg-light-2 dark:bg-light-2",
+                      indicatorsContainer: (state) =>
+                        "bg-light-2 dark:bg-dark-3",
                     }}
                     {...field}
                     isClearable
@@ -414,11 +429,7 @@ const CreatePost = ({
             </div>
           )}
 
-          <div className="flex flex-wrap justify-between gap-3 pt-4">
-            <CreatePostButtons mediaId={mediaId} />
-
-            <CodeOfConductModal isCreateFormPage />
-          </div>
+          <CreatePostButtons mediaId={mediaId} />
         </form>
       </Form>
     </div>

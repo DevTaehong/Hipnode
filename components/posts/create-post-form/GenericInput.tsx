@@ -11,6 +11,7 @@ import {
   FormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export interface GenericInputProps {
   control: Control<PostFormValuesType>;
@@ -43,10 +44,15 @@ const GenericInput = ({
         control={control as any}
         render={({ field }) => (
           <FormItem className="flex w-full flex-col justify-start">
-            <FormLabel className="pb-2.5">{label}</FormLabel>
+            <FormLabel className="pb-2.5 text-[0.875rem] font-semibold leading-none">
+              {label}
+            </FormLabel>
             <FormControl>
               <Input
-                className={`${className} w-full bg-light-2 dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem]`}
+                className={cn(
+                  "w-full rounded-lg border-2 border-light-2 bg-light dark:border-dark-4 dark:bg-dark-3 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem]",
+                  className
+                )}
                 {...field}
                 placeholder={
                   type === "numerical" ? "Add salary..." : placeholder

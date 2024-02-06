@@ -70,13 +70,13 @@ const Location = ({ setValueHookForm }: LocationProps) => {
   return (
     <div className="relative w-full" ref={ref}>
       <label
-        className="flex flex-col justify-start pb-2.5 text-[0.875rem] font-medium leading-none"
+        className="flex flex-col justify-start pb-2.5 text-[0.875rem] font-semibold leading-none"
         htmlFor="location"
       >
         Location
       </label>
       <input
-        className="w-full bg-light-2 dark:bg-dark-4 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem]"
+        className="w-full rounded-lg border-2 border-light-2 bg-light dark:border-dark-4 dark:bg-dark-3 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem]"
         value={value}
         onChange={handleInput}
         disabled={!ready}
