@@ -82,7 +82,9 @@ const LeftActionBar = ({
         <div className="flex-center size-7 rounded-md">
           <OrangeHeartIcon hasUserLiked={like} />
         </div>
-        <p className="text-[1rem] font-semibold leading-6 text-sc-3 dark:text-sc-3">
+        <p
+          className={`text-[1rem] font-semibold leading-6 ${like ? "text-sc-1 dark:text-light" : "text-sc-3"}`}
+        >
           {`${likeCounts} Heart`}
         </p>
       </div>
