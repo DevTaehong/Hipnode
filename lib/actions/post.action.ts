@@ -1378,7 +1378,7 @@ export async function getAllPostsByTagNameByUserId({
   }
 }
 
-export async function followUser(userIdToFollow: number) {
+export async function followUser(userIdToFollow: number, path?: string) {
   try {
     const { userId: followerId } = await verifyAuth(
       "You must be logged in to follow a user.",
@@ -1414,6 +1414,7 @@ export async function followUser(userIdToFollow: number) {
       followingStatus = true;
     }
 
+    path && revalidatePath(path);
     return followingStatus;
   } catch (error) {
     console.error("Error following/unfollowing user:", error);
