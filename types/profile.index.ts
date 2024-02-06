@@ -58,7 +58,7 @@ export type BaseUserInfo = {
   id: number;
   username: string;
   image: string;
-  name: string;
+  name?: string;
 };
 
 export type ResultType =

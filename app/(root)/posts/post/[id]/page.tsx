@@ -20,6 +20,7 @@ import CommentList from "@/components/posts/post-by-id/main-content/CommentList"
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
 import Following from "@/components/posts/post-by-id/right-column/Following";
 import Link from "next/link";
+import MessageButton from "@/components/posts/post-by-id/right-column/MessageButton";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -36,6 +37,12 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
     userCanEditMedia,
   } = postData;
 
+  const userInfoForMessage = {
+    id: authorId,
+    username,
+    image: picture,
+  };
+
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content, author } = postData;
   const actionBarData = getActionBarData(postData);
@@ -50,6 +57,8 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
           <LeftActionBar
             actionBarData={actionBarData}
             author={author.username}
+            hasUserLiked={postData.loggedInUserHasLikedPost}
+            postId={postData.id}
           />
           <aside className="mb-[1.25rem] flex min-w-[13rem] flex-col justify-start rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
             <p className="text-base font-semibold leading-6 text-sc-3">
@@ -120,7 +129,10 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
         </div>
         <div className="order-3 flex flex-col gap-[1.25rem] lg:order-3">
           <RightColumnWrapper>
-            <div className="mb-[1.25rem] flex size-[6.25rem] shrink-0 items-center justify-center rounded-full">
+            <Link
+              href={`/profile/${username}`}
+              className="hover-effect mb-[1.25rem] flex size-[6.25rem] shrink-0 items-center justify-center rounded-full"
+            >
               <Image
                 src={picture ?? "/images/emoji_2.png"}
                 alt="profile-image"
@@ -128,17 +140,33 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 width={100}
                 className="flex-center size-[6.25rem] shrink-0 rounded-full"
               />
-            </div>
-            <h2 className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 dark:text-light-2">
+            </Link>
+            <Link
+              href={`/profile/${username}`}
+              className="flex justify-center text-[1.625rem] leading-[2.375rem] text-sc-2 hover:underline dark:text-light-2"
+            >
               {username}
-            </h2>
+            </Link>
             <p className="mb-[1.25rem] flex justify-center text-base leading-6 text-sc-3">
               {title}
             </p>
-            {!userCanEditMedia && (
-              <Following authorId={authorId} isFollowing={isFollowing} />
+            {!userCanEditMedia ? (
+              <Following
+                authorId={authorId}
+                isFollowing={isFollowing}
+                postId={postData.id}
+              />
+            ) : (
+              <Link
+                className="hover-effect mb-[1.25rem] flex w-full items-center justify-center rounded-md bg-blue p-[0.625rem] text-[1.125rem] leading-[1.625rem] text-light"
+                href={`/profile/${username}`}
+              >
+                View Profile
+              </Link>
             )}
-
+            {isFollowing && !userCanEditMedia && (
+              <MessageButton userInfo={userInfoForMessage} />
+            )}
             <p className="flex justify-center text-base leading-6 text-sc-3">
               {+calculatedDate > 0
                 ? `joined ${calculatedDate} months ago`
