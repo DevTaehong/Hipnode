@@ -55,7 +55,7 @@ const ChatBoxHeader = () => {
       </figure>
       <Link
         href={`/profile/${otherUserInfo.username}`}
-        className="semibold-14 md:flex-center hidden shrink-0 rounded-md bg-red-80 px-3 py-2 text-light md:px-4 md:py-3"
+        className="semibold-14 md:flex-center hover-effect hidden shrink-0 rounded-md bg-red-80 px-3 py-2 text-light md:px-4 md:py-3"
       >
         View Profile
       </Link>
