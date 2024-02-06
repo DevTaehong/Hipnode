@@ -11,12 +11,12 @@ const NotificationPopoverTrigger = ({
   return (
     <>
       {isNotificationPage ? (
-        <div className="rounded-lg bg-red p-2">
+        <div className="rounded-lg bg-red p-[0.625rem]">
           <FillIcon.Notification className="cursor-not-allowed fill-sc-6" />
         </div>
       ) : (
         <PopoverTrigger asChild>
-          <div className="cursor-pointer xl:rounded-lg xl:bg-light-2 xl:p-2 dark:xl:bg-dark-4">
+          <div className="hover-effect cursor-pointer xl:rounded-lg xl:bg-sc-6 xl:p-[0.625rem] dark:xl:bg-dark-4">
             <FillIcon.Notification
               className="fill-sc-4 dark:fill-sc-6"
               notification={showBadge}

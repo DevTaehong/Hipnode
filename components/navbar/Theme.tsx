@@ -19,7 +19,7 @@ const Theme = () => {
 
   return (
     <section
-      className="flex scale-90 cursor-pointer items-center gap-1 rounded-full bg-light-2 p-1 dark:bg-dark-2"
+      className="hover-effect flex scale-90 cursor-pointer items-center gap-1 rounded-full bg-light-2 p-1 dark:bg-dark-2"
       onClick={setTheme}
     >
       <div className="rounded-full bg-light p-1.5 dark:bg-dark-1">

@@ -5,7 +5,7 @@ import {
   ImVolumeMute2,
   ImVolumeHigh,
 } from "react-icons/im";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { formatDistanceToNow } from "date-fns";
 
 import { supabase } from "@/utils/supabaseClient";
 import { monthNames, abbMonthNames } from "@/constants";
@@ -103,7 +103,6 @@ export const uploadImageToSupabase = async (
       console.error("File upload error:", error.message);
       return null;
     } else {
-      console.log("File uploaded successfully:", uniqueFileName);
       const imageAndBlurImage = {
         mainImageURL: `${projectUrl}/storage/v1/object/public/${bucketName}/${uniqueFileName}`,
         blurImageURL,

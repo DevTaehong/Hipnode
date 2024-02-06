@@ -17,7 +17,7 @@ const NavLinks = () => {
   const pathname = usePathname();
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <section className="fixed inset-x-0 bottom-0 flex h-[68px] items-center justify-center gap-5 bg-light dark:bg-dark-3 md:relative md:h-auto">
         {navLinks.map(({ name, link }) => {
           const Icon = FillIcon[name as keyof typeof FillIcon];
@@ -30,7 +30,7 @@ const NavLinks = () => {
                 <Link
                   href={link}
                   className={cn(
-                    "cursor-pointer rounded-lg p-2 hover:bg-red dark:hover:bg-red group",
+                    "cursor-pointer rounded-lg p-2 transition-colors hover:bg-red dark:hover:bg-red group",
                     isActive && "bg-red"
                   )}
                 >
@@ -42,7 +42,7 @@ const NavLinks = () => {
                   />
                 </Link>
               </TooltipTrigger>
-              <TooltipContent className="dark:bg-dark-3 dark:text-white">
+              <TooltipContent className="border-none bg-dark-3 text-light-2 opacity-80">
                 {name}
               </TooltipContent>
             </Tooltip>

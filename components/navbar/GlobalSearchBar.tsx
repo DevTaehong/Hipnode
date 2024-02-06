@@ -116,12 +116,12 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
 
   return (
     <div
-      className={`${additionalStyles} z-20 -translate-y-2 items-center gap-2 rounded-lg bg-light-2 px-5 py-3 dark:bg-dark-4 lg:relative lg:mx-0 lg:flex lg:w-full lg:max-w-[27.5rem] lg:translate-y-0 lg:py-2`}
+      className={`${additionalStyles} z-20 -translate-y-2 items-center gap-2 rounded-lg bg-sc-6 px-5 py-3 dark:bg-dark-4 lg:relative lg:mx-0 lg:flex lg:w-full lg:max-w-[27.5rem] lg:translate-y-0 lg:py-2`}
     >
       <Input
         type="text"
         placeholder="Type here to search..."
-        className="no-focus flex border-none bg-light-2 shadow-none outline-none dark:bg-dark-4 dark:text-white"
+        className="no-focus flex border-none bg-sc-6 shadow-none outline-none dark:bg-dark-4 dark:text-white"
         value={state.searchText}
         onChange={handleSearchTextChange}
         onFocus={handleFocus}
@@ -130,7 +130,7 @@ const SearchBar = ({ additionalStyles, state, dispatch }: SearchBarProps) => {
       <section
         className={`${
           state.showSearch ? "flex" : "hidden"
-        } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light dark:bg-dark-2 lg:top-12 lg:max-h-[20rem]`}
+        } absolute top-14 h-fit max-h-[80vh] w-full -translate-x-5 flex-col rounded-lg bg-light shadow-lg dark:bg-dark-2 lg:top-12 lg:max-h-[20rem]`}
       >
         <SearchTypeHeader
           state={state}

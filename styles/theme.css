@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer utilities {
+  .hover-effect {
+    @apply transition-opacity hover:opacity-80;
+  }
+
   .bold-30 {
     @apply text-[30px] font-bold leading-[40px];
   }

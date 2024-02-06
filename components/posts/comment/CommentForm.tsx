@@ -136,7 +136,7 @@ const CommentForm = ({
                                 ? "Replying to comment... 🔥"
                                 : "Say something cool.... 🔥"
                             }
-                            className="flex h-[45px] w-full resize-none items-center whitespace-pre-line bg-transparent px-[0.938rem] py-[0.625rem] text-sc-5 focus:outline-none"
+                            className="flex h-[45px] w-full resize-none items-center whitespace-pre-line bg-transparent px-[0.938rem] py-[0.625rem] text-sc-3 placeholder:text-sc-5 focus:outline-none"
                           />
                         </>
                       </FormControl>
@@ -145,7 +145,7 @@ const CommentForm = ({
                   )}
                 />
               </div>
-              <div className="relative flex h-6 w-6 items-center justify-center">
+              <div className="relative flex size-6 items-center justify-center">
                 <Image
                   src="/smiley.svg"
                   alt="smiley"

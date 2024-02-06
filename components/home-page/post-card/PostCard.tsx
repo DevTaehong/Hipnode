@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
@@ -34,15 +35,16 @@ const PostCard = ({
     loggedInUserHasLikedPost,
   },
   setTagged,
-  profileSearchParams,
   userIdFromParams,
 }: PostCardProps) => {
+  const router = useRouter();
   const [likesState, setLikesState] = useState({
     likesCount,
     loggedInUserHasLikedPost,
   });
 
   const toggleLike = async () => {
+    !userIdFromParams && router.push("/login");
     setLikesState((prevState) => ({
       likesCount: prevState.loggedInUserHasLikedPost
         ? prevState.likesCount - 1
@@ -102,10 +104,11 @@ const PostCard = ({
                 <LikeButton
                   toggleLike={toggleLike}
                   hasUserLiked={likesState.loggedInUserHasLikedPost}
+                  userId={userIdFromParams}
                 />
 
                 <div className="mt-1.5 flex">
-                  {userCanEditMedia && profileSearchParams === "posts" && (
+                  {userCanEditMedia && (
                     <MediaEditActionPopover mediaId={id} label="Post" />
                   )}
                 </div>

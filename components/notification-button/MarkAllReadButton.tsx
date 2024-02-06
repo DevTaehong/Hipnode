@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 
 import { markAllReadNotifications } from "@/lib/actions/notification.actions";
 import OutlineIcon from "../icons/outline-icons";
+import { usePathname } from "next/navigation";
 
 const MarkAllReadButton = ({
   unreadNotifications,
@@ -12,6 +13,8 @@ const MarkAllReadButton = ({
   setIsPopoverOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const isMarkAllRead = unreadNotifications === 0;
+  const pathName = usePathname();
+  const isOnNotificationPage = pathName === "/notifications";
 
   return (
     <button
@@ -22,7 +25,7 @@ const MarkAllReadButton = ({
       disabled={isMarkAllRead}
       className={`${
         isMarkAllRead
-          ? "bg-light"
+          ? `${isOnNotificationPage ? "bg-light" : "bg-light-2"}`
           : "bg-blue-10 hover:opacity-80 hover:transition-opacity"
       } flex h-9 w-[8.25rem] items-center justify-center gap-2.5 rounded-md px-2.5 
         py-[0.4375rem] dark:bg-dark-3 xl:h-[2.375rem] xl:w-36`}

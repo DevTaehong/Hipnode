@@ -8,7 +8,7 @@ const ModalTrigger = ({ isCreateFormPage }: ModalTriggerProps) => {
 
   return (
     <DialogTrigger
-      className={`${codeOfConductModalStyles} flex-center rounded py-2.5 transition duration-200 hover:scale-105`}
+      className={`${codeOfConductModalStyles} flex-center hover-effect rounded py-2.5`}
     >
       Code Of Conduct
     </DialogTrigger>

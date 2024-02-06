@@ -384,7 +384,7 @@ export type ImagePodcastPreviewUrlType = {
 
 export type LikeButtonProps = {
   toggleLike: () => void;
-  // additionalClasses: string;
+  userId: number | undefined;
   hasUserLiked: boolean;
 };
 

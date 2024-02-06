@@ -72,7 +72,7 @@ const ListItemContent = ({
       alt={`logo of the group ${groupName}`}
       className="size-[2.125rem] rounded-full border border-purple-20"
     />
-    <div className="line-clamp-1 flex w-full flex-col">
+    <div className="line-clamp-1 flex w-full flex-col items-start">
       <h5 className="semibold-12 text-sc-2_light-2 truncate transition-colors group-hover:text-blue">
         {groupName}
       </h5>

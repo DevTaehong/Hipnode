@@ -17,7 +17,7 @@ const PerformanceCard = ({
         alt="content image of post"
         width={50}
         height={50}
-        className="mr-3.5 rounded-[0.375rem] border border-contentCard shadow-contentCard"
+        className="mr-3.5 size-[3.125rem] shrink-0 rounded-[0.375rem] border border-contentCard object-cover shadow-contentCard"
       />
 
       <div className="flex justify-between gap-5">

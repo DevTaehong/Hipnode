@@ -26,11 +26,10 @@ const GroupSectionServer = ({
 
   return (
     <aside
-      className={`bg-light_dark-4 relative flex w-fit flex-col rounded-2xl p-2.5 md:flex-row ${
+      className={`bg-light_dark-4 relative flex w-fit flex-col rounded-2xl p-2.5 shadow-lg md:flex-row ${
         expandedGroupIndex !== null ? "gap-2.5" : "gap-5"
       }`}
     >
-      {/* <TopPointDecoration /> */}
       <figure
         className={`${expandedGroupIndex === null && "hidden"} cursor-pointer`}
         onClick={() => setExpandedGroupIndex(null)}

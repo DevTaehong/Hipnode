@@ -20,6 +20,7 @@ import { CommentAuthorProps } from "@/types/posts";
 
 import { Record } from "@prisma/client/runtime/library";
 import ChildComments from "./ChildComments";
+import Link from "next/link";
 
 const Comment = ({
   content,
@@ -94,7 +95,7 @@ const Comment = ({
       <section className="flex py-[1.25rem] pr-[1.25rem]">
         <div className="flex flex-col">
           <div className="flex items-start justify-center px-[1.25rem]">
-            <div className="h-10 w-10">
+            <Link href={`/profile/${author?.username}`} className="size-10">
               <Image
                 src={author?.picture ?? "/images/default-avatar.png"}
                 alt="comment author image"
@@ -102,7 +103,7 @@ const Comment = ({
                 height={40}
                 className="rounded-full"
               />
-            </div>
+            </Link>
           </div>
           {childComments.length > 0 && !showChildren && <AvatarJoinLine />}
         </div>

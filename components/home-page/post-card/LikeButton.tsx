@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { LikeButtonProps } from "@/types/posts";
 import Heart from "@/components/icons/fill-icons/Heart";
 
-const LikeButton = ({ toggleLike, hasUserLiked }: LikeButtonProps) => {
+const LikeButton = ({ toggleLike, hasUserLiked, userId }: LikeButtonProps) => {
+  const router = useRouter();
   const [like, setLike] = useState(hasUserLiked);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handleClick = () => {
+    !userId && router.push("/login");
     setIsAnimating(true);
     toggleLike();
     setLike((prev) => !prev);

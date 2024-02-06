@@ -209,11 +209,6 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
           }
         />
       )}
-      {hasSeenAllPosts && postData.length > 0 && (
-        <div className="text-center text-dark-3 dark:text-white">
-          You have seen all the available posts.
-        </div>
-      )}
     </main>
   );
 };

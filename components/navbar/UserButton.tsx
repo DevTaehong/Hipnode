@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { SignOutButton } from "@clerk/nextjs";
-import { PopoverClose } from "@radix-ui/react-popover";
 
 import FillIcons from "@/components/icons/fill-icons";
 import {
@@ -16,7 +15,7 @@ import { BaseUserInfo } from "@/types/profile.index";
 const UserButton = ({ userInfo }: { userInfo: BaseUserInfo }) => {
   return (
     <Popover>
-      <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg hover:bg-sc-6 dark:hover:bg-dark-4">
+      <PopoverTrigger className="flex items-center justify-center gap-4 rounded-lg transition-colors hover:bg-sc-6 dark:hover:bg-dark-4">
         <div className="shrink-0 rounded-[0.5rem] border-[1px] border-yellow">
           {userInfo?.image && (
             <Image
@@ -29,15 +28,15 @@ const UserButton = ({ userInfo }: { userInfo: BaseUserInfo }) => {
           )}
         </div>
 
-        <div className="hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
-          <p className="line-clamp-1 flex-1 text-base font-bold leading-6 text-sc-1 dark:text-light-2">
+        <div className="line-clamp-1 hidden items-center gap-2.5 xl:flex xl:w-[7.9375rem]">
+          <p className="max-w-[4.4375rem] flex-1 truncate text-base font-bold leading-6 text-sc-1 dark:text-light-2">
             {userInfo?.username}
           </p>
 
           <FillIcons.Triangle />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="relative right-[20px] top-[23px] h-[233px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] lg:right-[40px] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
+      <PopoverContent className="relative right-[20px] top-[23px] h-[233px] w-[182px] bg-[url('/USERBUTTON_POPOVER_LIGHT.svg')] bg-center p-0 shadow-xl dark:bg-[url('/USERBUTTON_POPOVER_DARK.svg')] lg:right-[40px] xl:right-[64px] xl:bg-[url('/navbar/user_modal_light_desktop.svg')] xl:dark:bg-[url('/navbar/user_modal_dark_desktop.svg')]">
         <section className="relative top-[8px] flex flex-col gap-5 p-4">
           <UserButtonLink
             link={`/profile/${userInfo?.username}`}
@@ -47,7 +46,7 @@ const UserButton = ({ userInfo }: { userInfo: BaseUserInfo }) => {
           <UserButtonLink link="/settings" text="Settings" />
 
           <SignOutButton>
-            <div className="flex items-center gap-3.5 rounded text-base font-semibold leading-6 text-red-80">
+            <div className="hover-effect flex cursor-pointer items-center gap-3.5 rounded text-base font-semibold leading-6 text-red-80">
               <FillIcons.Leave className="fill-red-80" />
               Logout
             </div>
@@ -59,9 +58,7 @@ const UserButton = ({ userInfo }: { userInfo: BaseUserInfo }) => {
             <p className="text-base font-semibold leading-6 text-sc-2 dark:text-light-2">
               Interface
             </p>
-            <PopoverClose>
-              <Theme />
-            </PopoverClose>
+            <Theme />
           </article>
         </section>
       </PopoverContent>

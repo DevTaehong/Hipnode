@@ -16,7 +16,7 @@ const SearchResultItem = ({ result, handleClose }: SearchResultItemProps) => {
       className="flex w-full cursor-pointer gap-2.5 px-4 py-3 hover:bg-light-2 dark:hover:bg-dark-4"
       onClick={() => handleClose()}
     >
-      <IconComponent className="h-4 w-4 shrink-0 fill-sc-3 dark:fill-sc-4" />
+      <IconComponent className="size-4 shrink-0 fill-sc-3 dark:fill-sc-4" />
       <li className="flex flex-col">
         <p className="text-xs font-bold text-sc-2 dark:text-light">
           {result.title}

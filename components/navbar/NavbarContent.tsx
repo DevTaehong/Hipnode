@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer, useMemo } from "react";
+import React, { useReducer, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
@@ -12,6 +12,7 @@ import { reducer, initialState } from "./globalSearchReducer";
 import { NavLinks, GlobalSearchBar, NotificationButton, UserButton } from ".";
 import ChatPresenceManagerWrapper from "./ChatPageLinkWrapper";
 import NavBarChatList from "../live-chat/NavBarChatList";
+import useChatStore from "@/app/chatStore";
 
 const NavbarContent = ({
   userInfo,
@@ -20,6 +21,11 @@ const NavbarContent = ({
   userChatrooms,
 }: NavbarContentProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { setUserInfo } = useChatStore();
+
+  useEffect(() => {
+    setUserInfo(userInfo);
+  }, [userInfo, setUserInfo]);
 
   const handleOpenClose = () => {
     dispatch({ type: state.showSearch ? "HANDLE_CLOSE" : "HANDLE_OPEN" });
@@ -67,14 +73,14 @@ const NavbarContent = ({
           <SignedOut>
             <Link
               href="/sign-up"
-              className="text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2"
+              className="hover-effect text-[1rem] font-semibold leading-[1.5rem] text-sc-2 dark:text-light-2"
             >
               Signup
             </Link>
 
             <Link
               href="/sign-in"
-              className="rounded-lg bg-red-80 px-6 py-2 text-[0.875rem] font-semibold leading-[1.375rem] text-white hover:bg-red-80/80"
+              className="hover-effect rounded-lg bg-red-80 px-6 py-2 text-[0.875rem] font-semibold leading-[1.375rem] text-white"
             >
               Login
             </Link>

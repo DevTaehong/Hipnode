@@ -9,7 +9,7 @@ const SearchResultList = ({
 }: SearchResultListProps) => {
   if (state.isLoading) {
     return (
-      <div className="flex-center h-full w-full p-10">
+      <div className="flex-center size-full p-10">
         <LoaderComponent isGlobalSearch />
       </div>
     );
