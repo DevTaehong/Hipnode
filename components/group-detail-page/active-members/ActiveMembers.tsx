@@ -26,7 +26,7 @@ const ActiveMembers = ({ members }: { members: User[] }) => {
                     href={`/profile/${member.id}`}
                     className="hover:opacity-80 hover:transition-opacity"
                   >
-                    <Avatar className="h-10 w-10">
+                    <Avatar className="size-10">
                       <AvatarImage
                         src={member.picture}
                         alt={`${member.name}'s avatar`}

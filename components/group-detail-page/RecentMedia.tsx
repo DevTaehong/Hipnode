@@ -22,7 +22,7 @@ const RecentMedia = ({ media }: { media: Post[] }) => {
               height={88}
               src={post.image}
               alt={`${post.heading}'s image`}
-              className="h-full w-full rounded-[0.25rem] object-cover xs:h-[5.5rem] xs:w-[5.5rem] lg:h-full lg:w-full"
+              className="size-full rounded-[0.25rem] object-cover xs:size-[5.5rem] lg:size-full"
             />
           </Link>
         ))}

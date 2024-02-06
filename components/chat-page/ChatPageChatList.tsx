@@ -103,11 +103,11 @@ const ChatPageChatList = () => {
           <p className="self-center text-lg text-sc-4">
             Search to start a new chat
           </p>
-          <OutlineIcon.Search className="h-8 w-8 stroke-sc-4" />
+          <OutlineIcon.Search className="size-8 stroke-sc-4" />
         </div>
       )}
       {showChatRoomList && (
-        <ul className="flex h-full w-full flex-col overflow-scroll md:h-screen">
+        <ul className="flex size-full flex-col overflow-scroll md:h-screen">
           {chatroomsList.map((chatroom) =>
             chatroom.recentMessage ? (
               <ChatroomListItem
