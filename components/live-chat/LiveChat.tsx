@@ -69,7 +69,7 @@ const LiveChat = () => {
       {isDragActive && <HoverScreen />}
       <input {...getInputProps()} />
       {loading ? (
-        <div className="flex-center h-full w-full">
+        <div className="flex-center size-full">
           <LoaderComponent />
         </div>
       ) : (

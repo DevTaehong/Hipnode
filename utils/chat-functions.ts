@@ -8,11 +8,9 @@ import {
   SetStateAction,
 } from "react";
 import { Types } from "ably";
-import DOMPurify from "dompurify";
 import { v4 as uuidv4 } from "uuid";
 
 import {
-  createLiveChatNotification,
   createMessage,
   deleteMessage,
   editMessage,
@@ -23,7 +21,6 @@ import {
   ChatMessage,
   ChatroomUser,
   LiveChatSubmissionProps,
-  handleEmojiSelectProps,
   loadMessagesProps,
   useDropzoneHandlerProps,
 } from "@/types/chatroom.index";

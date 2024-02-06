@@ -67,7 +67,7 @@ const LiveChatMessageList = React.memo(
               alt={`image of ${secondUserUsername}`}
               height={40}
               width={40}
-              className="h-10 w-10 shrink-0 rounded-full object-cover"
+              className="size-10 shrink-0 rounded-full object-cover"
             />
             <figcaption className="flex flex-col">
               <p className="base-14 md:base-18 text-sc-2_light-2">
@@ -91,9 +91,9 @@ const LiveChatMessageList = React.memo(
             </div>
           </div>
         </section>
-        <ul className="flex h-full w-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
+        <ul className="flex size-full flex-col gap-5 overflow-y-scroll px-5 pt-5">
           {chatroomId === null ? (
-            <div className="flex-center h-full w-full">
+            <div className="flex-center size-full">
               <LoaderComponent />
             </div>
           ) : (

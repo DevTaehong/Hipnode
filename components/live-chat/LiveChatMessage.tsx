@@ -84,7 +84,7 @@ const LiveChatMessage = ({ message, setMessages }: LiveChatMessageProps) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <figure className="flex h-10 max-h-[2.5rem] min-h-[2.5rem] w-10 min-w-[2.5rem] max-w-[2.5rem]">
+      <figure className="flex size-10 max-h-[2.5rem] min-h-[2.5rem] min-w-[2.5rem] max-w-[2.5rem]">
         <Image
           src={image}
           alt={`Profile image for ${username}`}

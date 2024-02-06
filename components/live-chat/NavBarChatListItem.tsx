@@ -39,7 +39,6 @@ const NavBarChatListItem = ({
 
   const handleClick = async () => {
     setShowChat(true);
-
     if (id) {
       const chatroomUsers = [
         userInfo,
@@ -80,7 +79,7 @@ const NavBarChatListItem = ({
         </div>
       </div>
       {showNotification && notification && (
-        <p className="semibold-14 flex-center h-[1.125rem] w-[1.125rem] rounded-full bg-red-80 text-white">
+        <p className="semibold-14 flex-center size-[1.125rem] rounded-full bg-red-80 text-white">
           {notification?.count}
         </p>
       )}

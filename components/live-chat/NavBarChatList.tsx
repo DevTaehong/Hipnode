@@ -27,7 +27,6 @@ const NavBarChatList = ({
   userChatrooms: UserChatroomProps[];
 }) => {
   const { userInfo, showChat, chatroomId } = useChatStore();
-  const [hover, setHover] = useState(false);
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +53,7 @@ const NavBarChatList = ({
         setNotifications(unreadNotifications);
       }
     } catch (error) {
-      console.log("There was an error fetching your notifications", error);
+      console.error("There was an error fetching your notifications", error);
     } finally {
       if (setLoader) setIsLoading(false);
     }
@@ -102,14 +101,6 @@ const NavBarChatList = ({
     );
   }
 
-  const isActiveOrHovered = path === "/chat" || hover || isNewNotification;
-  const chatIconBackgroundColor = isActiveOrHovered
-    ? "bg-red"
-    : "bg-sc-6 dark:bg-dark-4";
-  const chatIconFillColor = isActiveOrHovered
-    ? "fill-white"
-    : "fill-sc-4 dark:fill-sc-6";
-
   const getNotificationsForChatroom = (chatroomId: number) => {
     return (
       notifications.filter(
@@ -130,21 +121,19 @@ const NavBarChatList = ({
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger
-        className={`rounded-md p-2.5 ${chatIconBackgroundColor}`}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
+        className={`hover-effect rounded-md bg-sc-6 dark:bg-dark-4 xl:p-2.5 ${path === "/chat" && isNewNotification && "bg-red fill-white"}`}
       >
-        <FillIcon.Message className={chatIconFillColor} />
+        <FillIcon.Message className={`fill-sc-4 dark:fill-sc-6`} />
       </PopoverTrigger>
       <PopoverContent>
         <div className="bg-light_dark-4 mt-4 flex w-full min-w-[18rem] max-w-[21rem] flex-col gap-4 rounded-lg py-5 shadow-md">
           <h2 className="semibold-18 text-sc-2_light-2 px-5">Messages</h2>
-          <ul className="flex h-full max-h-[18.125rem] w-full flex-col overflow-auto">
+          <ul className="flex size-full max-h-[18.125rem] flex-col overflow-auto">
             {isLoading ? (
-              <div className="flex-center h-full w-full py-5">
+              <div className="flex-center size-full py-5">
                 <LoaderComponent />
               </div>
-            ) : (
+            ) : chatrooms.length ? (
               chatrooms.map((chatroom) => (
                 <NavBarChatListItem
                   key={chatroom.id}
@@ -152,9 +141,18 @@ const NavBarChatList = ({
                   notification={getNotificationsForChatroom(chatroom.id)}
                 />
               ))
+            ) : (
+              <li className="flex-center size-full py-5">
+                <p className="regular-14 text-sc-2_light-2">
+                  You have no messages at the moment
+                </p>
+              </li>
             )}
           </ul>
-          <Link href="/chat" className="semibold-14 self-center px-5 text-blue">
+          <Link
+            href="/chat"
+            className="semibold-14 self-center px-5 text-blue hover:underline"
+          >
             See all in Messenger
           </Link>
         </div>
