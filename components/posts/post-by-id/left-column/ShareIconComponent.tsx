@@ -22,7 +22,7 @@ const ShareIconComponent = ({
       <div
         className={`${
           isIconHoveredOver ? "bg-red-10" : "bg-light-2_dark-4"
-        } flex-center h-[4.25rem] w-[4.25rem] shrink-0 rounded-full`}
+        } flex-center size-[4.25rem] shrink-0 rounded-full`}
       >
         <IconComponent
           className={`${isIconHoveredOver ? hoveredStyle : unhoveredStyle}`}
