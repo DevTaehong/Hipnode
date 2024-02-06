@@ -3,6 +3,9 @@ const nextConfig = {
   swcMinify: false,
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
+    serverActions: {
+      bodySizeLimit: '50mb',
+    },
   },
   images: {
     remotePatterns: [
