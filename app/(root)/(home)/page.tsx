@@ -19,7 +19,10 @@ import ResponsiveCreatePostInput from "@/components/posts/create-post-form/Respo
 import { verifyAuth } from "@/lib/auth";
 
 const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
-  const { loggedInUserImage } = await verifyAuth("Welcome to Hipnode", false);
+  const { loggedInUserImage, userId } = await verifyAuth(
+    "Welcome to Hipnode",
+    false
+  );
 
   const [meetups, podcasts, posts, tagsData, groups, peopleFollowed] =
     await Promise.all([
@@ -64,7 +67,7 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
             </div>
           )}
           <div className="flex size-full overflow-hidden">
-            <PostCardList posts={posts} />
+            <PostCardList posts={posts} authorId={userId} />
           </div>
         </div>
 
