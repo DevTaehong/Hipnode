@@ -23,7 +23,7 @@ const FormLink = ({
         <CodeOfConductModal />
         <Link
           href={`${link ?? "/posts/create-post"}`}
-          className="semibold-14 flex-center w-full rounded bg-white py-2.5 text-red-80 transition duration-200 hover:scale-105"
+          className="semibold-14 flex-center hover-effect w-full rounded bg-white py-2.5 text-red-80"
         >
           {linkToFormButtonTitle}
         </Link>
