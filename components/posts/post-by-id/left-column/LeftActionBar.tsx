@@ -28,21 +28,24 @@ import {
   ShareUrlLink,
 } from ".";
 import { shareIcons } from "@/constants/podcast";
+import { togglePostLike } from "@/lib/actions/post.action";
 
-const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
+const LeftActionBar = ({
+  actionBarData,
+  author,
+  hasUserLiked,
+  postId,
+}: LeftActionBarProps) => {
   const { toast } = useToast();
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
   const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const postIdFromParams = useParams().id;
+  const [like, setLike] = useState(hasUserLiked);
+  const [likeCounts, setLikeCounts] = useState(actionBarData.likesCount);
 
   const iconData = useMemo(
     () => [
-      {
-        label: "Heart",
-        count: actionBarData.likesCount,
-        IconComponent: OrangeHeartIcon,
-      },
       {
         label: "Comments",
         count: actionBarData.commentsCount,
@@ -60,17 +63,34 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
     });
   };
 
-  const currentUrl = `http://localhost:3000/posts/post/${postIdFromParams}`;
+  const handleLike = async () => {
+    await togglePostLike(postId);
+    setLike((prev) => !prev);
+    setLikeCounts((prev) => (like ? prev - 1 : prev + 1));
+  };
+
+  const currentUrl = `https://hipnode-devtaehong.vercel.app/posts/post/${postIdFromParams}`;
 
   const iconsToDisplay = showMoreIcons ? shareIcons : shareIcons.slice(0, 4);
 
   return (
     <aside className="flex min-w-[13rem] flex-col justify-start space-y-[1.25rem] rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
+      <div
+        onClick={handleLike}
+        className="hover-effect flex cursor-pointer items-center gap-[0.875rem]"
+      >
+        <div className="flex-center size-7 rounded-md">
+          <OrangeHeartIcon hasUserLiked={like} />
+        </div>
+        <p className="text-[1rem] font-semibold leading-6 text-sc-3 dark:text-sc-3">
+          {`${likeCounts} Heart`}
+        </p>
+      </div>
       {iconData.map((iconBlock, index) => (
         <IconBlock key={index} {...iconBlock} />
       ))}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger>
+        <DialogTrigger className="hover-effect">
           <IconBlock
             label="Share"
             count={actionBarData.sharesCount}
@@ -116,7 +136,7 @@ const LeftActionBar = ({ actionBarData, author }: LeftActionBarProps) => {
         </DialogContent>
       </Dialog>
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger className="hover-effect">
           <IconBlock label="Report" IconComponent={ReportIcon} />
         </DialogTrigger>
         <DialogContent className="rounded-lg border-none bg-light-2 p-2 dark:bg-dark-4">

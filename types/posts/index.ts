@@ -265,6 +265,8 @@ export type LeftActionBarProps = {
     sharesCount?: number;
   };
   author: string;
+  hasUserLiked: boolean;
+  postId: number;
 };
 
 export type GetActionBarDataProps = {
@@ -409,6 +411,7 @@ export type SidebarProps = {
 export interface FollowingProps {
   authorId: number;
   isFollowing: boolean;
+  postId: number;
 }
 export type IconComponentType = React.FC<{ className?: string }>;
 
