@@ -1,25 +1,21 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+// import { useRoute } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 type TagsProps = {
   tagsData: { name: string; views: number }[];
+  pathName: string;
 };
 
-const PopularTags = ({ tagsData }: TagsProps) => {
-  const router = useRouter();
-  const path = usePathname();
+const PopularTags = ({ tagsData, pathName }: TagsProps) => {
+  // const router = useRouter();
 
-  const handleTagClick = (tagName: string) => {
-    const hasQueryParams = path.includes("?");
+  // const handleTagClick = (tagName: string) => {
 
-    const newPath = hasQueryParams
-      ? `${path}&tag=${tagName}`
-      : `${path}?tag=${tagName}`;
-
-    router.push(newPath);
-  };
+  //   router.push(`${pathName}?tag=${tagName}`);
+  // };
   return (
     <aside className="flex h-fit w-full flex-col items-start justify-center gap-y-2.5 rounded-2xl bg-light px-2.5 pb-[0.625rem] pt-4 dark:bg-dark-3 lg:w-[13.125rem]">
       <h1 className="semibold-16 pl-[0.3125rem] text-sc-2 dark:text-light-2">
@@ -28,9 +24,9 @@ const PopularTags = ({ tagsData }: TagsProps) => {
       <div className="flex w-full flex-col items-start">
         {tagsData.map((tag) => {
           return (
-            <div
+            <Link
+              href={`${pathName}?tag=${tag.name}`}
               key={tag.name}
-              onClick={() => handleTagClick(tag.name)}
               className="flex size-full cursor-pointer items-center justify-start gap-2.5 px-[0.3125rem] py-1.5 transition-colors 
                 hover:rounded-md hover:bg-light-2 dark:hover:bg-dark-4"
             >
@@ -51,7 +47,7 @@ const PopularTags = ({ tagsData }: TagsProps) => {
                   {tag.views} Posted By this tag
                 </p>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

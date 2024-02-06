@@ -10,7 +10,7 @@ const SidebarItem = ({ item, peopleFollowed }: SidebarItemProps) => {
     <Link
       key={title}
       className="flex w-full cursor-pointer flex-row items-center justify-between rounded-md px-[0.3125rem] py-1.5 transition-colors hover:bg-light-2 dark:hover:bg-dark-4"
-      href={`?filter=${title.toLowerCase()}`}
+      href={`/?filter=${title.toLowerCase()}`}
     >
       <div className="bg-light-2_dark-4 flex-center size-[1.75rem] shrink-0 rounded-md">
         <IconComponent />

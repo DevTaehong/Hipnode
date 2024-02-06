@@ -39,7 +39,7 @@ const NotificationPage = async () => {
           isLoggedIn={Boolean(loggedInUserImage)}
           peopleFollowed={peopleFollowed}
         />
-        <PopularTags tagsData={tagsData} />
+        <PopularTags tagsData={tagsData} pathName="/" />
         <PinnedGroup groups={groups} />
       </aside>
 

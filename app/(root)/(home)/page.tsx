@@ -51,7 +51,7 @@ const Home = async ({ searchParams }: { searchParams: { tag: string } }) => {
               </div>
             )}
             <div className="hidden lg:flex">
-              <PopularTags tagsData={tagsData} />
+              <PopularTags tagsData={tagsData} pathName="/" />
             </div>
 
             <div className="hidden lg:flex">

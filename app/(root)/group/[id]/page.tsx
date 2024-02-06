@@ -73,7 +73,7 @@ const GroupDetailPage = async ({ params }: { params: { id: string } }) => {
             description={group?.description ?? group?.name ?? "N/A"}
           />
           <GroupAdmins admins={group?.admins ?? []} />
-          <PopularTags tagsData={tagsData} />
+          <PopularTags tagsData={tagsData} pathName={`/group/${group?.id}`} />
         </aside>
       </div>
     </main>
