@@ -19,6 +19,7 @@ import DevelopmentInformation from "@/components/posts/post-by-id/right-column/D
 import CommentList from "@/components/posts/post-by-id/main-content/CommentList";
 import RightColumnWrapper from "@/components/posts/post-by-id/right-column/RightColumnWrapper";
 import Following from "@/components/posts/post-by-id/right-column/Following";
+import Link from "next/link";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -61,13 +62,13 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
         </div>
         <div className="order-1 flex h-fit w-full pb-[1.25rem] lg:order-2 lg:mx-[1.25rem]">
           <section className="w-full rounded-2xl bg-light dark:bg-dark-3">
-            <div className="flex max-h-[273px] w-full justify-center rounded-t-2xl pb-[1.25rem]">
+            <div className="flex h-[7.31rem] w-full justify-center rounded-t-2xl pb-[1.25rem] lg:h-[17.06rem]">
               <Image
                 src={image || ""}
                 alt="post-image"
                 width={335}
                 height={117}
-                className="w-full rounded-t-2xl object-cover"
+                className="w-full rounded-t-[0.625rem] border border-blue-20 object-cover"
               />
             </div>
             <div className="flex w-full">
@@ -98,14 +99,18 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
             </div>
 
             <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
-              <div className="flex items-center justify-center px-[1.25rem]">
+              <Link
+                href={`/profile/${username}`}
+                className="flex items-center justify-center px-[1.25rem]"
+              >
                 <Image
-                  src="/images/emoji_2.png"
-                  alt="emoji"
+                  src={picture ?? "/images/emoji_2.png"}
+                  alt="profile-image"
                   width={40}
                   height={40}
+                  className="rounded-full"
                 />
-              </div>
+              </Link>
               <div className="relative flex h-fit grow rounded-[1.4rem] border border-solid border-sc-5 pr-[1.25rem]">
                 <CommentForm postId={postData.id} postHeading={heading} />
               </div>
