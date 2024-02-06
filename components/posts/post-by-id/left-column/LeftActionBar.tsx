@@ -20,7 +20,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import EmailForm from "@/components/email/EmailForm";
-import { chatIcon, moreIcon } from "@/constants/posts";
+import { chatIcon } from "@/constants/posts";
 import {
   IconBlock,
   ShareIconComponent,
@@ -38,7 +38,6 @@ const LeftActionBar = ({
 }: LeftActionBarProps) => {
   const { toast } = useToast();
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
-  const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const postIdFromParams = useParams().id;
   const [like, setLike] = useState(hasUserLiked);
@@ -70,8 +69,6 @@ const LeftActionBar = ({
   };
 
   const currentUrl = `https://hipnode-devtaehong.vercel.app/posts/post/${postIdFromParams}`;
-
-  const iconsToDisplay = showMoreIcons ? shareIcons : shareIcons.slice(0, 4);
 
   return (
     <aside className="flex min-w-[13rem] flex-col justify-start space-y-[1.25rem] rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
@@ -115,21 +112,11 @@ const LeftActionBar = ({
               />
             </Link>
             <ShareIconsSection
-              icons={iconsToDisplay}
+              icons={shareIcons}
               hoveredIcon={hoveredIcon}
               setHoveredIcon={setHoveredIcon}
               currentUrl={currentUrl}
             />
-            <div
-              className="flex"
-              onClick={() => setShowMoreIcons((prev) => !prev)}
-            >
-              <ShareIconComponent
-                icon={moreIcon}
-                hoveredIcon={hoveredIcon}
-                setHoveredIcon={setHoveredIcon}
-              />
-            </div>
           </div>
           <ShareUrlLink
             currentUrl={currentUrl}
@@ -141,7 +128,7 @@ const LeftActionBar = ({
         <DialogTrigger className="hover-effect">
           <IconBlock label="Report" IconComponent={ReportIcon} />
         </DialogTrigger>
-        <DialogContent className="rounded-lg border-none bg-light-2 p-2 dark:bg-dark-4">
+        <DialogContent className="rounded-lg border-none bg-light-2 p-0 dark:bg-dark-4">
           <EmailForm
             currentUrl={currentUrl}
             setOpen={setOpen}
