@@ -35,10 +35,9 @@ const FollowAdminButton = ({
       onClick={handleFollow}
       className={`${
         following ? "hidden" : "flex"
-      } h-[1.875rem] w-[1.875rem] shrink-0 cursor-pointer items-center justify-center 
-        rounded-full ${
-          isPending ? "bg-none" : "bg-blue-10"
-        } hover:opacity-80 hover:transition-opacity`}
+      } size-[1.875rem] shrink-0 cursor-pointer items-center justify-center rounded-full ${
+        isPending ? "bg-none" : "bg-blue-10"
+      } hover:opacity-80 hover:transition-opacity`}
     >
       {isPending ? (
         <Spinner classNames="low-root w-5 h-5" />

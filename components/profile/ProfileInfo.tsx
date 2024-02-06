@@ -87,7 +87,7 @@ const ProfileModal = ({ user }: ProfileInfoProps) => {
         {following && _count.following > 6 ? (
           <Link
             href="/"
-            className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6"
+            className="flex size-[30px] items-center justify-center rounded-full bg-sc-6"
           >
             <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2">
               {_count.following - 6}+
@@ -97,7 +97,7 @@ const ProfileModal = ({ user }: ProfileInfoProps) => {
           following.length === 0 && (
             <Link
               href="/"
-              className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-sc-6 dark:bg-dark-4"
+              className="flex size-[30px] items-center justify-center rounded-full bg-sc-6 dark:bg-dark-4"
             >
               <p className="text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-white">
                 0
