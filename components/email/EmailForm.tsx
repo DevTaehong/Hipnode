@@ -67,14 +67,14 @@ const EmailForm = ({ currentUrl, setOpen, author }: EmailFormProps) => {
         <DialogClose>
           <button
             onClick={handleSubmit}
-            className="flex h-[2.875rem] w-40 items-center justify-center rounded-md bg-blue"
+            className={`flex h-[2.875rem] w-40 items-center justify-center rounded-md bg-blue ${selectedComplaintTag && "hover-effect"}`}
             disabled={selectedComplaintTag === ""}
           >
             <p className="semibold-18 text-light">Submit</p>
           </button>
         </DialogClose>
         <DialogClose>
-          <button className="base-18 text-sc-3">Cancel</button>
+          <button className="base-18 hover-effect text-sc-3">Cancel</button>
         </DialogClose>
       </footer>
     </section>
