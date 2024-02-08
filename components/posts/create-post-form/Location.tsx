@@ -7,7 +7,7 @@ const SuggestionsList = ({
   suggestions,
   onSuggestionSelect,
 }: SuggestionsListProps) => (
-  <ul className="absolute z-10 mt-1 h-fit max-h-[10rem] overflow-scroll shadow-md">
+  <ul className="absolute z-10 mt-1 h-fit max-h-[10rem] overflow-scroll bg-light shadow-md dark:bg-dark-4">
     {suggestions.map((suggestion) => {
       const {
         place_id: placeId,
@@ -19,7 +19,7 @@ const SuggestionsList = ({
 
       return (
         <li
-          className="relative cursor-pointer p-2 hover:bg-light-2 dark:hover:bg-dark-4"
+          className="relative cursor-pointer p-2 hover:bg-light-2 dark:hover:bg-dark-2"
           key={placeId}
           onClick={onSuggestionSelect(suggestion)}
         >
