@@ -50,7 +50,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           height={720}
           width={1120}
         />
-        <h2 className="semibold-16 sm:semibold-18 ">{title}</h2>
+        <h2 className="semibold-16 sm:semibold-18 capitalize">{title}</h2>
         <div className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-4">
           <InterviewCardInfo
             interviewSalary={interviewSalary}
@@ -59,7 +59,7 @@ const InterviewCard = ({ interviewData }: InterviewCardProps) => {
           />
           <Link
             href={`/interviews/${id}`}
-            className="semibold-14 flex-center whitespace-nowrap rounded bg-blue px-3.5 py-2 text-white"
+            className="semibold-14 hover-effect flex-center whitespace-nowrap rounded bg-blue px-3.5 py-2 text-white shadow-[#30548B]"
           >
             Full Details
           </Link>
