@@ -15,7 +15,9 @@ const PodcastCard = ({ info }: { info: PodcastWithUserInfo }) => {
       <article className="bg-light_dark-3 flex h-fit flex-col justify-between self-start rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4">
         <section className="flex flex-col gap-2.5">
           <header>
-            <h2 className="text-sc-1_light-2 semibold-16">{title}</h2>
+            <h2 className="text-sc-1_light-2 semibold-16 capitalize">
+              {title}
+            </h2>
           </header>
           <p
             className="text-sc-3_light-6 base-12"
