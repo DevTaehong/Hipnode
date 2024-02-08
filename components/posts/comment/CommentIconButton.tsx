@@ -9,12 +9,12 @@ const CommentIconButton = ({
   ...props
 }: CommentIconButtonProps) => {
   return (
-    <button className={cn(isActive && "bg-red-60", color)} {...props}>
+    <div className={cn(isActive && "bg-red-60", color)} {...props}>
       <span className={`${children ? "mr-1" : ""} size-[20px] `}>
         <Icon />
       </span>
       {children}
-    </button>
+    </div>
   );
 };
 

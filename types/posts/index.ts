@@ -1,5 +1,4 @@
 import React, {
-  ButtonHTMLAttributes,
   ComponentType,
   Dispatch,
   ReactNode,
@@ -106,7 +105,7 @@ export type CommentIconButtonProps = {
   isActive?: boolean;
   color?: string;
   children?: ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+};
 
 type DevInfoItem = {
   heading: string;
