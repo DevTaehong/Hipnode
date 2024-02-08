@@ -32,7 +32,7 @@ const GroupJoinButton = ({ groupId }: { groupId: number }) => {
             hover:opacity-80 hover:transition-opacity dark:bg-dark-4"
     >
       {isLoading ? (
-        <Loader2 className="h-5 w-5 animate-spin" />
+        <Loader2 className="size-5 animate-spin" />
       ) : (
         <OutlineIcon.ArrowRight className="stroke-sc-3" />
       )}

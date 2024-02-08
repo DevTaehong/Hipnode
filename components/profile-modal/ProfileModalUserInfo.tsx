@@ -15,7 +15,7 @@ const ProfileModalUserInfo = () => (
         label="Follow"
         className="w-[7.75rem] bg-blue p-[0.375rem] font-semibold leading-6 text-light"
       />
-      <div className="grid h-[2.25rem] w-[2.25rem] place-items-center rounded-lg  bg-blue-10 dark:bg-dark-4">
+      <div className="grid size-[2.25rem] place-items-center rounded-lg bg-blue-10  dark:bg-dark-4">
         <FillIcon.Message className="fill-blue" />
       </div>
     </div>

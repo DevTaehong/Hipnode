@@ -54,14 +54,14 @@ const RenderPreview = ({
       return (
         <Link
           href={attachmentPreview}
-          className="flex-center h-40 w-40 rounded-xl bg-red-80"
+          className="flex-center size-40 rounded-xl bg-red-80"
         >
-          <FillIcon.Post className="h-10 w-10 fill-white" />
+          <FillIcon.Post className="size-10 fill-white" />
         </Link>
       );
     case "folder":
       return (
-        <div className="flex-center h-40 w-40 rounded-xl bg-red-60">
+        <div className="flex-center size-40 rounded-xl bg-red-60">
           <CiFolderOn className="text-[50px] text-white" />
         </div>
       );
@@ -94,7 +94,7 @@ const AttachmentPreview = ({
       <button
         className={`${
           hover ? "flex-center" : "hidden"
-        } absolute right-0 top-0 h-5 w-5 rounded-full bg-red-80/80 ${
+        } absolute right-0 top-0 size-5 rounded-full bg-red-80/80 ${
           mediaType === "audio" ? "-right-5 -top-3" : "right-0 top-0"
         }`}
         onClick={() => {

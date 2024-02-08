@@ -38,8 +38,8 @@ const Message = () => {
             <div className="pl-6" />
           ) : (
             <div
-              className="semibold-14 font-feature flex h-[1.125rem] w-[1.125rem] shrink-0 items-center 
-                    justify-center gap-[0.625rem] rounded-[0.875rem] bg-red-80 p-1 text-light"
+              className="semibold-14 font-feature flex size-[1.125rem] shrink-0 items-center justify-center 
+                    gap-[0.625rem] rounded-[0.875rem] bg-red-80 p-1 text-light"
             >
               {message.newMessageCounts}
             </div>

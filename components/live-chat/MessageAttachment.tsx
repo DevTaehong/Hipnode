@@ -76,11 +76,11 @@ const MessageAttachment = ({
         <Link
           href={attachment}
           className={`flex-center rounded-xl ${
-            chatPage ? "h-60 w-60" : "h-40 w-40"
+            chatPage ? "size-60" : "size-40"
           } ${isMessageFromCurrentUser ? "bg-red-80" : "bg-red-10"}`}
         >
           <FillIcon.Post
-            className={`h-10 w-10 ${
+            className={`size-10 ${
               isMessageFromCurrentUser ? "fill-white" : "fill-red-80"
             }`}
           />

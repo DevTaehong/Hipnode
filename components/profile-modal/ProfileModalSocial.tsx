@@ -6,7 +6,7 @@ const ProfileModalSocial = () => (
     <div className="flex flex-row items-center justify-center px-[1.25rem] pb-[1.25rem]">
       <div className="flex ">
         <div className="mr-[0.625rem]">
-          <OutlineIcons.Web className="h-[0.875rem] w-[0.875rem] fill-sc-2 dark:fill-light-3" />
+          <OutlineIcons.Web className="size-[0.875rem] fill-sc-2 dark:fill-light-3" />
         </div>
         <address
           className="pr-[0.625rem] text-[0.875rem] font-semibold leading-[1.375rem] text-sc-2 dark:text-sc-6"

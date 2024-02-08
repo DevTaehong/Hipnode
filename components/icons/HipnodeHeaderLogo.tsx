@@ -5,16 +5,23 @@ interface HipnodeHeaderLogoProps {
   styles?: string;
 }
 
-const HipnodeHeaderLogo = ({ clerkForm = false, styles }: HipnodeHeaderLogoProps) => {
+const HipnodeHeaderLogo = ({
+  clerkForm = false,
+  styles,
+}: HipnodeHeaderLogoProps) => {
   const divStyles = clerkForm
     ? "h-[0.87rem] w-[0.87rem] sm:h-[1.2rem] sm:w-[1.2rem] bg-light-3"
     : "h-[1.625rem] w-[1.625rem] md:h-[1.875rem] md:w-[1.875rem] dark:bg-light bg-dark-2";
 
   const fillColor = clerkForm ? "fill-sc-2" : "fill-light dark:fill-dark-1";
 
-  const strokeColor = clerkForm ? "stroke-sc-2" : "stroke-light dark:stroke-dark-1";
+  const strokeColor = clerkForm
+    ? "stroke-sc-2"
+    : "stroke-light dark:stroke-dark-1";
 
-  const textStyles = clerkForm ? "text-xs sm:text-base font-bold text-red-90" : "bold-18 md:bold-26 text-red-90";
+  const textStyles = clerkForm
+    ? "text-xs sm:text-base font-bold text-red-90"
+    : "bold-18 md:bold-26 text-red-90";
 
   const dotStyles = clerkForm ? "text-light-3" : "text-sc-1 dark:text-light";
 
@@ -24,7 +31,7 @@ const HipnodeHeaderLogo = ({ clerkForm = false, styles }: HipnodeHeaderLogoProps
     <div className={cn("flex items-center self-start", divGap, styles)}>
       <div className={cn("flex rounded-md p-1", divStyles)}>
         <svg
-          className="h-full w-full"
+          className="size-full"
           viewBox="0 0 22 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

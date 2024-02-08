@@ -56,7 +56,7 @@ const LinkPreview = memo(({ url, smallChatBox = false }: LinkPreviewProps) => {
             alt={title || "Link preview image"}
           />
         </div>
-        <div className="flex h-full w-full flex-col justify-between gap-1 overflow-hidden">
+        <div className="flex size-full flex-col justify-between gap-1 overflow-hidden">
           <p className="semibold-16 md:semibold-18 line-clamp-2">{title}</p>
           <p className="base-12 md:base-14 line-clamp-2">{description}</p>
         </div>

@@ -26,7 +26,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
               alt={`A logo of the organization hosting the meetup ${title}`}
               width={48}
               height={48}
-              className="rounded-md md:h-[4.5rem] md:w-[4.5rem]"
+              className="rounded-md md:size-[4.5rem]"
             />
           </Link>
           <figcaption className="semibold-14 flex flex-col gap-1 md:gap-2">
@@ -39,7 +39,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
           </figcaption>
         </figure>
 
-        <div className="bg-light_dark-4 flex h-[3.25rem] w-[3.25rem] flex-col items-center justify-center rounded-md md:h-[4.5rem] md:w-[3.6875rem]">
+        <div className="bg-light_dark-4 flex size-[3.25rem] flex-col items-center justify-center rounded-md md:h-[4.5rem] md:w-[3.6875rem]">
           <time className="semibold-12 md:semibold-16 text-sc-2_light-2">
             {monthText}
           </time>

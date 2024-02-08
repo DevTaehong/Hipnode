@@ -29,7 +29,7 @@ const GroupCover = async ({ group }: { group: Group }) => {
       />
       <div className="flex flex-row items-center justify-between sm:px-2.5">
         <div className="flex flex-row items-center gap-3.5">
-          <Avatar className="h-10 w-10 sm:h-[4.375rem] sm:w-[4.375rem]">
+          <Avatar className="size-10 sm:size-[4.375rem]">
             <AvatarImage
               src={group.logo ?? "/images/hidnode.svg"}
               alt={`${group.name} logo`}

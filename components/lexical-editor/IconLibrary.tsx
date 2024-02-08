@@ -5,7 +5,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Bold</title>
@@ -19,7 +19,7 @@ export const IconLibrary = {
       role="img"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className="size-5"
     >
       <title>Check</title>
       <path
@@ -35,7 +35,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Inline Code</title>
@@ -48,7 +48,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Copy</title>
@@ -62,7 +62,7 @@ export const IconLibrary = {
       role="img"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className="size-5"
     >
       <title>Italic</title>
       <path d="M60.571 24.301a2.604 2.604 0 0 0-2.604-2.604h-4.594a2.598 2.598 0 0 0-2.59 2.463l-.014-.001-11.276 50.978-.015.066-.011.048h.006a2.55 2.55 0 0 0-.045.449 2.595 2.595 0 0 0 2.406 2.584v.02h4.792a2.595 2.595 0 0 0 2.577-2.336l.013.001 11.257-50.972-.008-.001a2.58 2.58 0 0 0 .106-.695z"></path>
@@ -74,7 +74,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Link</title>
@@ -88,7 +88,7 @@ export const IconLibrary = {
       role="img"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className="size-5"
     >
       <title>Underline</title>
       <path d="M77.5 75.545c-.036 0-.068.009-.103.01v-.01h-55v.01c-1.608.056-2.897 1.368-2.897 2.99s1.288 2.934 2.897 2.99v.01h55v-.01c.035.001.068.01.103.01a3 3 0 0 0 0-6zM50 72.12c15.829 0 23.581-9.057 23.581-22.521V21.383a2.928 2.928 0 0 0-2.929-2.928h-3.864a2.928 2.928 0 0 0-2.929 2.928c0 .04.01.076.012.116v27.856c0 8.649-4.814 14.28-13.871 14.28s-13.871-5.631-13.871-14.28V21.49c.001-.036.011-.071.011-.107a2.928 2.928 0 0 0-2.928-2.928h-3.865a2.929 2.929 0 0 0-2.929 2.928v28.216c0 13.464 7.834 22.521 23.582 22.521z"></path>
@@ -101,7 +101,7 @@ export const IconLibrary = {
       role="img"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className="size-5"
     >
       <title>Strikethrough</title>
       <path d="M77.5 49.719c-.035 0-.068.009-.103.01v-.01h-55v.01a2.995 2.995 0 0 0-2.897 2.99 2.996 2.996 0 0 0 2.897 2.99v.01h55v-.01c.035.001.068.01.103.01a3 3 0 1 0 0-6zm-6.572 9.75h-7.14v.011c-.035-.002-.069-.011-.105-.011-.863 0-1.562.699-1.562 1.562 0 .126.019.247.047.365h-.018c.092.393.157.802.157 1.249 0 3.819-3.14 7.808-11.288 7.808-7.741 0-13.842-3.592-17.678-7.653a1.555 1.555 0 0 0-1.237-.617 1.56 1.56 0 0 0-1.275.664l-.001-.002-.01.015a.48.48 0 0 0-.019.029l-3.425 5.212.003.001a1.55 1.55 0 0 0-.398 1.033c0 .515.253.969.637 1.253 5.091 5.205 12.61 8.891 22.978 8.891 15.191 0 21.896-8.147 21.896-17.568 0-.172-.011-.335-.018-.501.007-.06.018-.118.018-.179 0-.863-.699-1.562-1.562-1.562zm-39.06-13.792c.269.471.77.792 1.351.792h23.542a.502.502 0 0 0 0-1.004v-.008c-8.471-2.48-17.2-3.403-17.2-8.866 0-4.159 3.734-7.044 9.505-7.044 5.941 0 11.967 2.037 16.465 6.535l.006-.008c.272.231.62.375 1.005.375.491 0 .923-.231 1.21-.584l.002.003.028-.039c.028-.037.056-.074.081-.114l3.409-4.788-.003-.001a1.55 1.55 0 0 0 .398-1.033c0-.473-.215-.892-.547-1.178l.011-.015C65.956 23.606 58.742 20.72 50 20.72c-12.476 0-20.623 7.214-20.623 16.634 0 3.499.939 6.195 2.491 8.323z"></path>
@@ -114,7 +114,7 @@ export const IconLibrary = {
       role="img"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className="size-5"
       stroke="currentColor"
     >
       <title>Trash</title>
@@ -132,7 +132,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Align Left</title>
@@ -148,7 +148,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Align Center</title>
@@ -164,7 +164,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Align Right</title>
@@ -180,7 +180,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Align Justify</title>
@@ -196,7 +196,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Redo</title>
@@ -213,7 +213,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Undo</title>
@@ -230,7 +230,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Unordered List</title>
@@ -246,7 +246,7 @@ export const IconLibrary = {
       width="16"
       height="16"
       fill="currentColor"
-      className="h-5 w-5 text-center"
+      className="size-5 text-center"
       viewBox="0 0 16 16"
     >
       <title>Ordered List</title>

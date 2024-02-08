@@ -25,7 +25,7 @@ const CustomOption = (props: OptionRendererProps) => {
         src={option.user?.picture ?? ""}
         width={20}
         height={20}
-        className={`h-5 w-5 rounded-full ${option.user?.picture ?? "hidden"}`}
+        className={`size-5 rounded-full ${option.user?.picture ?? "hidden"}`}
         alt={`Avatar of ${option.label}`}
       />
       {children}

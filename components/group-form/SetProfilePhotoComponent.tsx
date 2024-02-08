@@ -52,11 +52,11 @@ const SetProfilePhotoComponent = ({
           src={profilePhotoURL || groupLogo || PLACEHOLDER_IMAGE_URL}
           width={60}
           height={60}
-          className="h-[3.75rem] w-[3.75rem] rounded-full object-cover"
+          className="size-[3.75rem] rounded-full object-cover"
           alt="Profile Photo"
         />
       ) : (
-        <div className="flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full bg-light-2 dark:bg-dark-4">
+        <div className="flex size-[3.75rem] items-center justify-center rounded-full bg-light-2 dark:bg-dark-4">
           <OutlineIcon.ImageIcon className="stroke-sc-4" />
         </div>
       )}

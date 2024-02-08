@@ -16,7 +16,7 @@ const Admin = async ({
         href={`/profile/${admin.id}`}
         className="line-clamp-1 flex items-center gap-2.5 hover:opacity-80 hover:transition-opacity"
       >
-        <Avatar className="h-[1.875rem] w-[1.875rem]">
+        <Avatar className="size-[1.875rem]">
           <AvatarImage src={admin.picture} alt={admin.username} />
           <AvatarFallback>{admin.username.charAt(0)}</AvatarFallback>
         </Avatar>

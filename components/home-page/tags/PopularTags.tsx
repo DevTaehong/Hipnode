@@ -1,6 +1,3 @@
-"use client";
-
-// import { useRoute } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,12 +7,6 @@ type TagsProps = {
 };
 
 const PopularTags = ({ tagsData, pathName }: TagsProps) => {
-  // const router = useRouter();
-
-  // const handleTagClick = (tagName: string) => {
-
-  //   router.push(`${pathName}?tag=${tagName}`);
-  // };
   return (
     <aside className="flex h-fit w-full flex-col items-start justify-center gap-y-2.5 rounded-2xl bg-light px-2.5 pb-[0.625rem] pt-4 dark:bg-dark-3 lg:w-[13.125rem]">
       <h1 className="semibold-16 pl-[0.3125rem] text-sc-2 dark:text-light-2">
