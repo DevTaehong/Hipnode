@@ -15,7 +15,7 @@ const SanatizedHtml = ({ content }: SanatizedHtmlProps) => {
 
   const contentToDisplay = cleanString(content);
 
-  return <div dangerouslySetInnerHTML={{ __html: contentToDisplay }} />;
+  return <p dangerouslySetInnerHTML={{ __html: contentToDisplay }} />;
 };
 
 export default SanatizedHtml;
