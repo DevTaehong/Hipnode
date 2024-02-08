@@ -101,7 +101,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                   </div>
                 </div>
                 <TagsList tags={tags} />
-                <div className="pb-[1.875rem] pr-[1.25rem] text-base leading-[1.625rem]  text-sc-3 lg:pb-[2.5rem]">
+                <div className="pb-[1.875rem] pr-[1.25rem] text-base leading-[1.625rem] text-sc-3 lg:pb-[2.5rem]">
                   <SanatizedHtml content={content} />
                 </div>
               </div>
