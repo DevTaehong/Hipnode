@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { CardContent } from "@/components/ui/card";
 import GroupPostIcons from "@/components/group-page/group-post/GroupPostIcons";
+import SanatizedHtml from "@/components/posts/post-by-id/main-content/SanatizedHtml";
 
 const GroupPostContent = ({
   image,
@@ -28,7 +29,7 @@ const GroupPostContent = ({
     />
     <GroupPostIcons id={id} hasUserLiked={hasUserLiked} />
     <h6 className="semibold-14 font-feature line-clamp-3">{heading}</h6>
-    <p className="regular-12 line-clamp-6">{content}</p>
+    <SanatizedHtml content={content} className="regular-12 line-clamp-6" />
   </CardContent>
 );
 
