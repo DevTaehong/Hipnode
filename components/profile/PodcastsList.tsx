@@ -11,6 +11,7 @@ import {
   getProfilePodcasts,
 } from "@/lib/actions/profile.actions";
 import { PodcastWithUserInfo } from "@/types/podcast.index";
+import Spinner from "../Spinner";
 
 interface PodcastsListProps {
   data: ProfilePodcastResponse;
@@ -60,9 +61,9 @@ const PodcastsList = ({ data, authorId, resultType }: PodcastsListProps) => {
         ref={ref}
         className={`${
           !hasMoreData && "hidden lg:hidden"
-        } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
+        } mt-2 hidden animate-pulse self-center py-5 dark:text-light-2 lg:flex`}
       >
-        Loading...
+        <Spinner />
       </p>
     </ul>
   );

@@ -10,6 +10,7 @@ import { MeetUpExtended, MeetupsPageProps } from "@/types/meetups.index";
 import { BoxShading, SeeMoreButton } from "../interview-components";
 import { MeetupsCard } from ".";
 import { LoaderComponent } from "../onboarding-components";
+import Spinner from "../Spinner";
 
 const MeetupPageFilter = ({
   loading,
@@ -91,9 +92,9 @@ const MeetupPageFilter = ({
           ref={ref}
           className={`${
             !hasMoreMeetups && "hidden lg:hidden"
-          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
+          } mt-2 hidden animate-pulse self-center py-5 dark:text-light-2 lg:flex`}
         >
-          Loading...
+          <Spinner />
         </p>
       </section>
     </article>

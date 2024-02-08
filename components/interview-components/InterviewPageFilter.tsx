@@ -9,6 +9,7 @@ import { extractArray } from "@/utils";
 import { getFilteredInterviews } from "@/lib/actions/interview.actions";
 import { InterviewPageProps, InterviewProps } from "@/types/interview.index";
 import { LoaderComponent } from "../onboarding-components";
+import Spinner from "../Spinner";
 
 const InterviewPageFilter = ({
   loading,
@@ -93,9 +94,9 @@ const InterviewPageFilter = ({
           ref={ref}
           className={`${
             !hasMoreInterviews && "hidden lg:hidden"
-          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
+          } mt-2 hidden animate-pulse self-center py-5 dark:text-light-2 lg:flex`}
         >
-          Loading...
+          <Spinner />
         </p>
       </section>
     </article>

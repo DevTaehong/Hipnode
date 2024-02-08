@@ -15,7 +15,7 @@ const PodcastFilterAndContentWrapper = ({
   const [loading, setLoading] = useState(true);
   return (
     <>
-      <section className="flex h-full w-full flex-col gap-5 lg:w-[13.125rem]">
+      <section className="flex size-full flex-col gap-5 lg:w-[13.125rem]">
         <FormLink {...podcastFormLinkProps} className="flex lg:hidden" />
 
         <div className="hidden overflow-scroll lg:flex">

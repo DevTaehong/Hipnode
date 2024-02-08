@@ -10,6 +10,7 @@ import { PodcastPageFilterProps } from "@/types/podcast.index";
 import { BoxShading, SeeMoreButton } from "../interview-components";
 import { PodcastListColumn } from ".";
 import { LoaderComponent } from "../onboarding-components";
+import Spinner from "../Spinner";
 
 const PodcastPageFilter = ({
   loading,
@@ -82,13 +83,13 @@ const PodcastPageFilter = ({
 
   if (loading) {
     return (
-      <div className="flex-center flex h-full w-full">
+      <div className="flex-center flex size-full">
         <LoaderComponent />
       </div>
     );
   }
   return (
-    <article className="relative flex h-full w-full flex-col">
+    <article className="relative flex size-full flex-col">
       <BoxShading />
       <section className="no-scrollbar flex w-full flex-col lg:overflow-scroll lg:pb-10">
         <div className="flex flex-col gap-5 xl:flex-row">
@@ -110,9 +111,9 @@ const PodcastPageFilter = ({
           ref={ref}
           className={`${
             !hasMorePodcasts && "hidden lg:hidden"
-          } mt-2 hidden animate-pulse self-center dark:text-light-2 lg:flex`}
+          } mt-2 hidden animate-pulse self-center py-5 dark:text-light-2 lg:flex`}
         >
-          Loading...
+          <Spinner />
         </p>
       </section>
     </article>

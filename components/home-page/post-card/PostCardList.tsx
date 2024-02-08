@@ -111,12 +111,13 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
     let posts: ExtendedPrismaPost[] = [];
     try {
       if (!tag && !filter) {
-        posts = authorId
-          ? await getAllPostsByUserId({
-              numberToSkip: amountToSkip,
-              authorId,
-            })
-          : await getAllPosts({ numberToSkip: amountToSkip });
+        posts =
+          authorId && path !== "/"
+            ? await getAllPostsByUserId({
+                numberToSkip: amountToSkip,
+                authorId,
+              })
+            : await getAllPosts({ numberToSkip: amountToSkip });
       }
 
       if (tag) {
@@ -149,6 +150,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
       console.error("Error fetching posts:", error);
     } finally {
       setIsLoading(false);
+      setLoadMore(false);
     }
   };
 
@@ -160,7 +162,6 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
 
     if (shouldLoadMore) {
       loadMoreData();
-      setLoadMore(false);
     }
   }, [inView, loadMore, postData, isLoading]);
 
@@ -188,10 +189,7 @@ const PostCardList = ({ posts, authorId }: PostCardListProps) => {
       />
       <div ref={ref} className="hidden items-center justify-center p-4 lg:flex">
         {isLoading && (
-          <div className="flex size-full flex-col items-center justify-center pt-12">
-            <p className="mb-8 animate-pulse font-bold text-red-80">
-              Loading your content...
-            </p>
+          <div className="flex size-full flex-col items-center justify-center pt-5">
             <Spinner />
           </div>
         )}
