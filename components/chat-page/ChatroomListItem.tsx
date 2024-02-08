@@ -92,14 +92,14 @@ const ChatroomListItem = ({
       onClick={handleChatroomClick}
     >
       <div
-        className={`mt-4 h-2 w-2 rounded-full bg-red ${
+        className={`mt-4 size-2 rounded-full bg-red ${
           showNotification ? "flex" : "hidden"
         }`}
       />
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full justify-between">
           <div className="flex gap-3">
-            <figure className="relative flex h-10 w-10">
+            <figure className="relative flex size-10">
               <Image
                 src={otherUser.picture}
                 alt={`profile image for ${otherUser.name}`}
@@ -108,7 +108,7 @@ const ChatroomListItem = ({
                 className="shrink-0 rounded-full object-cover"
               />
               {isOtherUserOnline && (
-                <figcaption className="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-sc-2 bg-green-500 dark:border-light" />
+                <figcaption className="absolute bottom-0 right-0 size-3 rounded-full border border-sc-2 bg-green-500 dark:border-light" />
               )}
             </figure>
             <div className="flex h-full flex-col justify-between">
