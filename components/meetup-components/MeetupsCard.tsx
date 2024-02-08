@@ -47,9 +47,9 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
         </div>
       </div>
 
-      <p className="text-sc-1_light-2 flex">
+      <div className="text-sc-1_light-2 flex">
         <SanatizedHtml content={summary}></SanatizedHtml>
-      </p>
+      </div>
       <div className="flex items-center justify-between">
         <ul className="flex gap-2.5">
           {tags.map((tag: MeetupTag) => (
