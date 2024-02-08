@@ -17,7 +17,7 @@ export const resultInfo = [
   {
     title: "meetup",
     url: "/meet-ups",
-    icon: FillIcon.Calendar,
+    icon: FillIcon.Meetups,
   },
   {
     title: "group",
