@@ -41,7 +41,7 @@ const EditDeleteButton = ({
           </div>
         </PopoverTrigger>
         <PopoverContent
-          className={`h-fit w-fit translate-x-3.5 ${
+          className={`size-fit translate-x-3.5 ${
             smallChatBox ? "translate-y-0" : "translate-y-[2rem]"
           }  self-end p-0`}
         >
