@@ -37,10 +37,49 @@
 
 
 ## Setup
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
+1. **Install dependencies:**
 
-Proceed to describe how to install / setup one's local environment / get started with the project.
+   ```
+   npm install
+   ```
 
+2. **Ensure you have the following Environmental Variables:**
+
+   ```
+   # Clerk Authentication
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<clerk_publishable_key>
+   CLERK_SECRET_KEY=<clerk_secret_key>
+   WEBHOOK_SECRET=<webhook_secret>
+   
+   # Clerk URLs
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
+   
+   # Direct URL and Database URL
+   DIRECT_URL=<direct_url>
+   DATABASE_URL=<database_url>
+   
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL=<supabase_url>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<supabase_anon_key> 
+   
+   # Ably API Key
+   NEXT_PUBLIC_ABLY_API_KEY=<ably_api_key>
+  
+   # Google Maps API Key
+   GOOGLE_MAPS_API_KEY=<google_maps_api_key>
+   
+   # Resend API Key
+   RESEND_API_KEY=<resend_api_key>
+   ```
+
+3. **Running the Application :**
+
+   ```
+    npm run dev
+   ```
 
 
 ## Team
