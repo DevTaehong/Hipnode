@@ -64,7 +64,7 @@ FillIcon.Business = function Icon({ className }: FillIconProps) {
   );
 };
 
-FillIcon.Calendar = function Icon({ className }: FillIconProps) {
+FillIcon.Meetups = function Icon({ className }: FillIconProps) {
   return (
     <FillIcon className={className}>
       <CalendarIcon />
