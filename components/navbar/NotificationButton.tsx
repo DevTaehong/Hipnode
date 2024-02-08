@@ -40,14 +40,14 @@ const NotificationButton = ({
 
   useEffect(() => {
     (async () => {
-      const { notifications } = await getNotificationsByCursorId();
+      const notifications = await getNotificationsByCursorId();
       const uncheckedNotifications = await getUncheckedNotifications(
         currentUserId,
         lastChecked
       );
       const showBadge = uncheckedNotifications > 0;
       !isNotificationPage && setShowBadge(showBadge);
-      setNotificationData(notifications);
+      setNotificationData(notifications.notifications);
     })();
   }, []);
 
