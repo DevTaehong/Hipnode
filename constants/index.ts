@@ -7,57 +7,6 @@ import { SelectionOptionsType } from "@/types/posts";
 export const SHARE_URL = "https://cohort5-algo-alliance-hipnode.vercel.app";
 export const MAX_NOTIFICATIONS = 3;
 
-export const dummyMessages = [
-  {
-    name: "Wade Warren",
-    avatar: "/negan.png",
-    avatarFallback: "/negan.png",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    newMessageCounts: 5,
-  },
-  {
-    name: "Wade Warren",
-    avatar: "/negan.png",
-    avatarFallback: "/negan.png",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    newMessageCounts: 5,
-  },
-  {
-    name: "Wade Warren",
-    avatar: "/negan.png",
-    avatarFallback: "/negan.png",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    newMessageCounts: 5,
-  },
-  {
-    name: "Wade Warren",
-    avatar: "/negan.png",
-    avatarFallback: "/negan.png",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    newMessageCounts: 5,
-  },
-  {
-    name: "Wade Warren",
-    avatar: "/negan.png",
-    avatarFallback: "/negan.png",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    newMessageCounts: 5,
-  },
-  {
-    name: "Wade Warren",
-    avatar: "/negan.png",
-    avatarFallback: "/negan.png",
-    date: "20 minutes ago",
-    message: "Congrats on your work anniversary!",
-    newMessageCounts: 5,
-  },
-];
-
 export const PLACEHOLDER_IMAGE_URL = "/images/hipnode.svg";
 
 export const headings = (
