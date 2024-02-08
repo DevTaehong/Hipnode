@@ -30,8 +30,8 @@
 4. Groups-Displayallcontentwithingroups
 5. Podcasts - Display all podcasts with a podcast details page
 6. Profile - Show all posts, meetups, and podcasts for a specific user
-7. Live Chat - Engage in real-time conversations, share instant feedback, and build connections through our interactive live chat feature.
-8. Live Notifications - Display notifications in real-time using web sockets
+7. Live Chat - Engage in real-time conversations, share instant feedback, and build connections through our interactive live chat feature
+8. Live Notifications - Display notifications in real-time using Supabase realtime
 
 
 
