@@ -31,7 +31,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
           </Link>
           <figcaption className="semibold-14 flex flex-col gap-1 md:gap-2">
             <Link href={`/meet-ups/${id}`}>
-              <h3 className="text-sc-2_light-2 semibold-14 md:semibold-18 hover:underline">
+              <h3 className="text-sc-2_light-2 semibold-14 md:semibold-18 capitalize hover:underline">
                 {title}
               </h3>
             </Link>
@@ -47,7 +47,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
         </div>
       </div>
 
-      <div className="text-sc-1_light-2 flex">
+      <div className="text-sc-1_light-2 regular-12 sm:regular-14 flex">
         <SanatizedHtml content={summary}></SanatizedHtml>
       </div>
       <div className="flex items-center justify-between">
