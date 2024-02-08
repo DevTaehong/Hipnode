@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
+import Script from "next/script";
 
 import { getUserByClerkId } from "@/lib/actions/user.actions";
 import { NotificationProvider } from "../contexts/NotificationContext";
@@ -41,6 +42,11 @@ export default async function RootLayout({
       <LiveChatWrapper />
       <PodcastPlayer />
       <Toaster />
+      <Script
+        async
+        defer
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places`}
+      ></Script>
     </main>
   );
 }
