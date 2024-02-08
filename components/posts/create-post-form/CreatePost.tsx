@@ -376,7 +376,7 @@ const CreatePost = ({
 
           {contentType === POST_TYPE.INTERVIEW && (
             <>
-              <div className="flex flex-row justify-between gap-4 pt-5 text-sc-2 dark:text-light-2">
+              <div className="flex flex-col justify-between gap-4 gap-y-5 pt-5 text-sc-2 dark:text-light-2 md:flex-row">
                 {interviewInputFields.slice(0, 2).map((field) => (
                   <GenericInput
                     key={field.name}
@@ -388,7 +388,7 @@ const CreatePost = ({
                   />
                 ))}
               </div>
-              <div className="flex flex-row justify-between gap-4 pt-5 text-sc-2 dark:text-light-2">
+              <div className="flex flex-col justify-between gap-4 gap-y-5 pt-5 text-sc-2 dark:text-light-2 md:flex-row">
                 {interviewInputFields.slice(2).map((field) => (
                   <GenericInput
                     key={field.name}
@@ -404,7 +404,7 @@ const CreatePost = ({
           )}
           {contentType === POST_TYPE.MEETUP && (
             <>
-              <div className="flex flex-row justify-between gap-4 pt-5 text-sc-2 dark:text-light-2">
+              <div className="flex flex-col justify-between gap-4 gap-y-5 pt-5 text-sc-2 dark:text-light-2 md:flex-row">
                 {meetupInputFields.map((field) => (
                   <GenericInput
                     key={field.name}
