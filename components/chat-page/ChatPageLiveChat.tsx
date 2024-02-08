@@ -92,7 +92,7 @@ const ChatPageLiveChat = () => {
       }}
     >
       <section
-        className={`relative flex h-full w-full md:max-w-[50%] lg:max-w-[62.5rem] ${
+        className={`relative flex size-full md:max-w-[50%] lg:max-w-[62.5rem] ${
           showChatRoomList && "hidden md:flex"
         }`}
         {...getRootProps()}
@@ -101,7 +101,7 @@ const ChatPageLiveChat = () => {
         <section className="relative flex w-full flex-col border-b border-l border-sc-6 dark:border-dark-2 md:dark:border-dark-3">
           <ChatBoxHeader />
           {isLoading ? (
-            <div className="flex-center h-full w-full bg-light dark:bg-dark-2 md:dark:bg-dark-3">
+            <div className="flex-center size-full bg-light dark:bg-dark-2 md:dark:bg-dark-3">
               <LoaderComponent />
             </div>
           ) : (
