@@ -1,11 +1,11 @@
 import "./globals.css";
-import React from "react";
+import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Source_Sans_3 as SourceSans3 } from "next/font/google";
+import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { ThemeProvider } from "@/context/ThemeProvider";
-import Script from "next/script";
 
 const font = SourceSans3({
   subsets: ["latin"],
@@ -13,13 +13,13 @@ const font = SourceSans3({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cohort5-algo-alliance-hipnode.vercel.app/"),
+  metadataBase: new URL("https://hipnode-devtaehong.vercel.app/"),
   title: "Hipnode",
   description: "Social Media Platform",
   openGraph: {
     title: "Hipnode - Social Media Platform",
     description: "Social Media Platform",
-    url: "https://cohort5-algo-alliance-hipnode.vercel.app/",
+    url: "https://hipnode-devtaehong.vercel.app/",
     siteName: "Hipnode",
     images: [
       {
@@ -32,11 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <Script
