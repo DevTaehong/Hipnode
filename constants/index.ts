@@ -4,7 +4,7 @@ import OutlineIcon from "@/components/icons/outline-icons";
 import { ColorVariantsOnboardingType, GroupPromiseProps } from "@/types";
 import { SelectionOptionsType } from "@/types/posts";
 
-export const SHARE_URL = "https://hipnode-devtaehong.vercel.app/";
+export const SHARE_URL = "https://hipnode-devtaehong.vercel.app";
 export const MAX_NOTIFICATIONS = 3;
 
 export const dummyMessages = [
