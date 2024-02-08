@@ -8,7 +8,6 @@
 * [Setup](#setup)
 * [Team](#team)
 * [Contact](#contact)
-<!-- * [License](#license) -->
 
 
 ## Technologies Used
@@ -75,7 +74,7 @@
    RESEND_API_KEY=<resend_api_key>
    ```
 
-3. **Running the Application :**
+3. **Running the Application:**
 
    ```
     npm run dev
@@ -93,9 +92,3 @@
 ## Contact
 Created by [@devtaehong](https://taehongmin.vercel.app/) - feel free to contact me!
 
-
-<!-- Optional -->
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
-
-<!-- You don't have to include all sections - just the one's relevant to your project -->
