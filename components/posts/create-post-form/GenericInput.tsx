@@ -50,7 +50,7 @@ const GenericInput = ({
             <FormControl>
               <Input
                 className={cn(
-                  "w-full rounded-lg border-2 border-light-2 bg-light dark:border-dark-4 dark:bg-dark-3 dark:text-light-2 md:px-[1.25rem] md:py-[0.688rem]",
+                  "w-full rounded-lg border-2 border-light-2 bg-light dark:border-dark-4 dark:bg-dark-3 dark:text-light-2 px-[1.25rem] py-[0.688rem]",
                   className
                 )}
                 {...field}
