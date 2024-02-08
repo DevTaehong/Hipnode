@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
 
-import { chatIcon, moreIcon } from "@/constants/posts";
+import { chatIcon } from "@/constants/posts";
 import { shareIcons } from "@/constants/podcast";
 import {
   Dialog,
@@ -22,9 +22,7 @@ import { SHARE_URL } from "@/constants";
 
 const GroupPostShareButton = ({ id }: { id: number }) => {
   const [hoveredIcon, setHoveredIcon] = useState<string>("");
-  const [showMoreIcons, setShowMoreIcons] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const iconsToDisplay = showMoreIcons ? shareIcons : shareIcons.slice(0, 4);
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -57,21 +55,11 @@ const GroupPostShareButton = ({ id }: { id: number }) => {
             />
           </Link>
           <ShareIconsSection
-            icons={iconsToDisplay}
+            icons={shareIcons}
             hoveredIcon={hoveredIcon}
             setHoveredIcon={setHoveredIcon}
             currentUrl={`${SHARE_URL}/posts/post/${id}`}
           />
-          <div
-            className="flex"
-            onClick={() => setShowMoreIcons((prev) => !prev)}
-          >
-            <ShareIconComponent
-              icon={moreIcon}
-              hoveredIcon={hoveredIcon}
-              setHoveredIcon={setHoveredIcon}
-            />
-          </div>
         </div>
         <ShareUrlLink
           currentUrl={`${SHARE_URL}/posts/post/${id}`}
