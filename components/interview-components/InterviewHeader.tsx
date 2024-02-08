@@ -21,14 +21,14 @@ const InterviewHeader = ({
   const interviewDate = formatInterviewDate(date);
   return (
     <header className="flex w-full justify-between">
-      <Link href={`/profile/${creatorId}`}>
+      <Link href={`/profile/${username}`} className="group">
         <div className="flex gap-4">
           <Image
             src={userImage}
             height={40}
             width={40}
             alt="user image"
-            className="h-10 w-10 rounded-full md:h-11 md:w-11"
+            className="size-10 rounded-full group-hover:underline md:size-11"
           />
           <div className="flex flex-col">
             <strong className="semibold-14 sm:semibold-16 ">{username}</strong>
