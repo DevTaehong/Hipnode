@@ -10,7 +10,7 @@ const TagList = ({
 }: TagListProps) => {
   return (
     <ul className="flex justify-start gap-[0.625rem]">
-      {tags.map((item) => {
+      {tags.slice(0, 3).map((item) => {
         const urlPath = userIdFromParams
           ? `${username}?tag=${item}`
           : `?tag=${item}`;
