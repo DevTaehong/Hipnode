@@ -128,10 +128,10 @@ const PostCard = ({
           <Link href={`/profile/${username}`} className="flex items-center">
             <SocialMediaIcon authorPicture={picture ?? "/public/emoji.png"} />
             <div className="flex h-full flex-col pl-[0.625rem]">
-              <p className="text-[0.875rem] leading-[1.375rem] text-sc-2 hover:underline dark:text-sc-6">
+              <p className="semibold-14 text-sc-2 hover:underline dark:text-sc-6">
                 {username}
               </p>
-              <p className="text-[0.625rem] leading-[1rem] text-sc-3 dark:text-sc-5">
+              <p className="regular-10 text-sc-3 dark:text-sc-5">
                 {formatPosCardDate(new Date(createdAt))}
               </p>
             </div>
