@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer, useMemo, useEffect } from "react";
+import { useReducer, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 

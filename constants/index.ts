@@ -259,7 +259,7 @@ export const navLinks = [
     link: "/",
   },
   {
-    name: "Calendar",
+    name: "Meetups",
     link: "/meet-ups",
   },
   {
@@ -495,7 +495,7 @@ export const codeOfConduct = [
 
 export const SelectionOptions: SelectionOptionsType = [
   { label: "Post", icon: FillIcon.Post },
-  { label: "Meetup", icon: FillIcon.Calendar },
+  { label: "Meetup", icon: FillIcon.Meetups },
   { label: "Podcast", icon: FillIcon.Podcasts },
   { label: "Interview", icon: FillIcon.Interviews },
 ];
