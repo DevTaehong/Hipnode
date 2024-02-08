@@ -32,7 +32,10 @@ const ChatBoxHeader = () => {
         >
           <IoIosArrowBack />
         </button>
-        <Link href={`/profile/${otherUserInfo.id}`}>
+        <Link
+          href={`/profile/${otherUserInfo.username}`}
+          className="hover-effect"
+        >
           <Image
             src={otherUserInfo.image}
             alt={`profile image for ${otherUserInfo.name}`}

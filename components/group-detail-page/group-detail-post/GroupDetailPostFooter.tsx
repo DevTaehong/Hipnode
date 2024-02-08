@@ -19,7 +19,7 @@ const GroupDetailPostFooter = ({
   <div className="flex flex-row gap-[1.875rem] lg:items-center lg:justify-between lg:gap-10">
     <div className="hidden xl:flex xl:flex-row xl:gap-2.5">
       <Avatar className="relative size-10 shrink-0 hover:opacity-80 hover:transition-opacity">
-        <Link href={`/profile/${author.id}`}>
+        <Link href={`/profile/${author.username}`}>
           <AvatarImage
             src={author.picture}
             alt={`${author.username}'s avatar`}
@@ -30,7 +30,7 @@ const GroupDetailPostFooter = ({
       <div className="flex flex-col">
         <div className="flex flex-row items-center gap-1">
           <Link
-            href={`/profile/${author.id}`}
+            href={`/profile/${author.username}`}
             className="semibold-14 relative text-sc-2 hover:underline dark:text-sc-6"
           >
             {author.username}

@@ -43,7 +43,7 @@ const GroupCover = async ({ group }: { group: Group }) => {
             <p className="regular-10 sm:regular-14 flex items-start gap-0.5 text-sc-3">
               Create by
               <Link
-                href={`/profile/${groupOwner?.id}`}
+                href={`/profile/${groupOwner?.username}`}
                 className="semibold-12 sm:semibold-14 text-sc-2 hover:underline dark:text-light-2"
               >{` ${groupOwner?.username}`}</Link>
             </p>
