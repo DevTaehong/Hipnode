@@ -6,7 +6,7 @@
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Setup](#setup)
-* [Tean](#team)
+* [Team](#team)
 * [Contact](#contact)
 <!-- * [License](#license) -->
 
