@@ -13,7 +13,7 @@ const Admin = async ({
   return (
     <div className="flex flex-row items-center justify-between">
       <Link
-        href={`/profile/${admin.id}`}
+        href={`/profile/${admin.username}`}
         className="line-clamp-1 flex items-center gap-2.5 hover:opacity-80 hover:transition-opacity"
       >
         <Avatar className="size-[1.875rem]">

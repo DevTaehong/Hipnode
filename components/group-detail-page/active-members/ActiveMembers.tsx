@@ -23,7 +23,7 @@ const ActiveMembers = ({ members }: { members: User[] }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={`/profile/${member.id}`}
+                    href={`/profile/${member.username}`}
                     className="hover:opacity-80 hover:transition-opacity"
                   >
                     <Avatar className="size-10">
