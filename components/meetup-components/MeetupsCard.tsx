@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 import { getFormattedDateMeetUpCard } from "@/utils";
 import { MeetUpExtended, MeetupTag } from "@/types/meetups.index";
 import SanatizedHtml from "../posts/post-by-id/main-content/SanatizedHtml";
-import dynamic from "next/dynamic";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -17,7 +17,7 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
   const { day, monthText } = getFormattedDateMeetUpCard(meetUp.createdAt);
 
   return (
-    <article className="bg-light_dark-3 flex flex-col gap-4 rounded-2xl p-3.5 hover:shadow-lg hover:dark:bg-dark-4 md:gap-6 md:p-5">
+    <article className="bg-light_dark-3 flex flex-col gap-4 rounded-2xl p-3.5 hover:shadow-xl hover:transition-shadow md:gap-6 md:p-5">
       <div className="flex justify-between">
         <figure className="flex items-center gap-5">
           <Link href={`/meet-ups/${id}`}>
@@ -26,20 +26,20 @@ const MeetupsCard = ({ meetUp }: { meetUp: MeetUpExtended }) => {
               alt={`A logo of the organization hosting the meetup ${title}`}
               width={48}
               height={48}
-              className="rounded-md md:size-[4.5rem]"
+              className="rounded-md shadow-contentCard md:size-[4.5rem]"
             />
           </Link>
           <figcaption className="semibold-14 flex flex-col gap-1 md:gap-2">
             <Link href={`/meet-ups/${id}`}>
-              <h3 className="text-sc-2_light-2 semibold-14 md:semibold-18">
+              <h3 className="text-sc-2_light-2 semibold-14 md:semibold-18 hover:underline">
                 {title}
               </h3>
             </Link>
-            <p className="base-10 md:base-14 text-sc-3">{location}</p>
+            <p className="semibold-10 md:regular-14 text-sc-3">{location}</p>
           </figcaption>
         </figure>
 
-        <div className="bg-light_dark-4 flex size-[3.25rem] flex-col items-center justify-center rounded-md md:h-[4.5rem] md:w-[3.6875rem]">
+        <div className="bg-light_dark-4 flex size-[3.25rem] flex-col items-center justify-center rounded-md border border-sc-5 shadow-meetupDate dark:border-dark-3 md:h-[4.5rem] md:w-[3.6875rem]">
           <time className="semibold-12 md:semibold-16 text-sc-2_light-2">
             {monthText}
           </time>
