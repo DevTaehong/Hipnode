@@ -76,7 +76,7 @@ const ChatPageSearchBar = () => {
               className="flex cursor-pointer justify-between border border-sc-6 bg-light px-4 py-6 hover:bg-light-2 dark:border-dark-4 dark:bg-dark-2
                 hover:dark:bg-dark-4"
             >
-              <div className="flex h-12 w-12">
+              <div className="flex size-12">
                 <Image
                   src={user.picture}
                   alt={`profile image for ${user.username}`}
