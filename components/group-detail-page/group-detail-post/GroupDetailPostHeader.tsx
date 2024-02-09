@@ -21,7 +21,7 @@ const GroupDetailPostHeader = ({
   hasUserLiked: boolean;
   postId: number;
 }) => (
-  <div className="flex flex-row justify-between">
+  <div className="flex flex-row items-start justify-between">
     <div className="flex flex-col gap-2.5">
       <Link
         href={`/posts/post/${postId}`}
@@ -30,7 +30,7 @@ const GroupDetailPostHeader = ({
         {heading}
       </Link>
       <div className="flex flex-row gap-2.5">
-        {tags?.map((tag) => <Tag text={tag} key={tag} />)}
+        {tags?.slice(0, 3).map((tag) => <Tag text={tag} key={tag} />)}
       </div>
     </div>
     <Avatar className="relative flex size-[1.875rem] shrink-0 transition-opacity hover:opacity-80 md:size-10 xl:hidden">

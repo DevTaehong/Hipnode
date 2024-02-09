@@ -5,7 +5,6 @@ import { useState } from "react";
 
 import FillIcon from "@/components/icons/fill-icons";
 import { togglePostLike } from "@/lib/actions/post.action";
-import Spinner from "@/components/Spinner";
 import { toast } from "@/components/ui/use-toast";
 import GroupPostShareButton from "./GroupPostShareButton";
 
@@ -21,10 +20,8 @@ const GroupPostIcons = ({
   postHeading: string;
 }) => {
   const [like, setLike] = useState(hasUserLiked);
-  const [isPending, setIsPending] = useState(false);
 
   const handleLike = async () => {
-    setIsPending(true);
     setLike((prev) => !prev);
     try {
       await togglePostLike(id, authorId, postHeading);
@@ -33,23 +30,17 @@ const GroupPostIcons = ({
         title: "Failed to like post. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsPending(false);
     }
   };
 
   return (
     <div className="flex flex-row items-center gap-5">
-      <div
+      <button
         onClick={handleLike}
         className="relative cursor-pointer hover:opacity-80 hover:transition-opacity"
       >
-        {isPending ? (
-          <Spinner classNames="w-5 h-5 flow-root" />
-        ) : (
-          <FillIcon.Heart className={`${like ? "fill-red-80" : "fill-sc-5"}`} />
-        )}
-      </div>
+        <FillIcon.Heart className={`${like ? "fill-red-80" : "fill-sc-5"}`} />
+      </button>
       <Link
         href={`/posts/post/${id}`}
         className="relative cursor-pointer hover:opacity-80 hover:transition-opacity"
