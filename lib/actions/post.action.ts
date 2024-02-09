@@ -1044,11 +1044,12 @@ export async function getPostCommentsByParentId(
 }
 
 export async function getPostsByAuthorId(
-  authorId: number
+  authorId: number,
+  postId: number
 ): Promise<{ heading: string; tags: string[] }[]> {
   try {
     const posts = await prisma.post.findMany({
-      where: { authorId },
+      where: { authorId, id: { not: postId } },
       include: {
         tags: {
           select: {
