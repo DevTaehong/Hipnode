@@ -10,7 +10,7 @@
 Here is a working live demo:  https://hipnode-devtaehong.vercel.app/
 
 ## 📝 Description
-Hipnode, a premium Social Media Forum Web App, redefines digital interaction by offering a suite of powerful functionalities. Seamlessly navigating the platform begins with a user-friendly Sign Up & Sign In process, complemented by in-depth surveys for a tailored onboarding experience. The Homepage serves as the hub, featuring a dynamic home feed, detailed post views, and dedicated creation pages. Hipnode goes beyond traditional social media by introducing specialized sections for Meetups, encouraging connections based on shared interests. 
+Hipnode, a premium Social Media Forum Web App, redefines digital interaction by offering a suite of powerful functionalities. Seamlessly navigating the platform begins with a user-friendly sign-up and sign-in process, complemented by in-depth surveys for a tailored onboarding experience. The Homepage serves as the hub, featuring a dynamic home feed, detailed post views, and dedicated creation pages. Hipnode goes beyond traditional social media by introducing specialized sections for Meetups, encouraging connections based on shared interests. 
 
 
 ## 🛠️ Setup Project
