@@ -4,7 +4,12 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
     serverActions: {
-      bodySizeLimit: '50mb',
+      bodySizeLimit: "20mb",
+    }
+  },
+  api: {
+    bodyParser: {
+      sizeLimit: "20mb",
     },
   },
   images: {
