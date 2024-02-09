@@ -8,13 +8,13 @@ const DevelopmentInformation = ({ devInfo }: DevelopmentInfoProps) => {
       {devInfo.map((item, index) => (
         <div
           key={index}
-          className="flex w-full flex-col border-t border-sc-6 pt-4  dark:border-sc-2 "
+          className="flex w-full flex-col border-t border-sc-6 pt-4 dark:border-sc-2"
         >
           <Link
             href={`/posts/post/${item.postId}`}
             className="group flex w-full flex-col"
           >
-            <p className="text-[0.75rem] leading-[1.125rem] text-sc-2  group-hover:text-red-60 dark:text-light-2 dark:group-hover:text-red-60">
+            <p className="text-[0.75rem] leading-[1.125rem] text-sc-2 group-hover:text-red-60 dark:text-light-2 dark:group-hover:text-red-60">
               {item.heading}
             </p>
             <p className="text-[0.75rem] leading-[1.625rem] text-sc-3 group-hover:text-red-60 dark:group-hover:text-red-60">
