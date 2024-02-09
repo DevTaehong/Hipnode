@@ -13,12 +13,14 @@ interface PostActionPopoverProps {
   mediaId: number;
   label: string;
   positionStyles?: string;
+  path?: string;
 }
 
 const MediaEditActionPopover = ({
   mediaId,
   label,
   positionStyles,
+  path,
 }: PostActionPopoverProps) => {
   const { toast } = useToast();
   const router = useRouter();
@@ -39,6 +41,7 @@ const MediaEditActionPopover = ({
       switch (label) {
         case "Post":
           await deletePostAction(mediaId);
+          path === "/" && router.push("/?filter=newest");
           break;
         case "Podcast":
           await deletePodcastAction(mediaId);

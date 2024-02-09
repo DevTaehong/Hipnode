@@ -99,6 +99,7 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                         positionStyles="translate-x-[-1.8rem] translate-y-[-0.8rem]"
                         mediaId={postData.id}
                         label="Post"
+                        path="/posts/post"
                       />
                     )}
                   </div>

@@ -108,7 +108,7 @@ const PostCard = ({
                 />
 
                 {userCanEditMedia && (
-                  <MediaEditActionPopover mediaId={id} label="Post" />
+                  <MediaEditActionPopover mediaId={id} label="Post" path="/" />
                 )}
               </div>
             </div>
