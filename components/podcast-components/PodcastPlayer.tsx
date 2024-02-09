@@ -24,8 +24,7 @@ const PodcastPlayer = () => {
     if (podcast) {
       dispatch({ type: "SET_PODCAST_USER_IMAGE", payload: podcast.image });
     }
-    if (audioRef.current && songUrl) {
-      audioRef.current.src = songUrl;
+    if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -36,11 +35,10 @@ const PodcastPlayer = () => {
   };
 
   useEffect(() => {
-    if (audioRef.current && songUrl) {
-      audioRef.current.src = songUrl;
+    if (audioRef.current) {
       isPlaying ? audioRef.current.play() : audioRef.current.pause();
     }
-  }, [isPlaying, songUrl]);
+  }, [isPlaying]);
 
   useEffect(() => {
     if (isPlaying) {
