@@ -107,11 +107,9 @@ const PostCard = ({
                   userId={userIdFromParams}
                 />
 
-                <div className="mt-1.5 flex">
-                  {userCanEditMedia && (
-                    <MediaEditActionPopover mediaId={id} label="Post" />
-                  )}
-                </div>
+                {userCanEditMedia && (
+                  <MediaEditActionPopover mediaId={id} label="Post" />
+                )}
               </div>
             </div>
           </div>
