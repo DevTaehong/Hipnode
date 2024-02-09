@@ -107,14 +107,14 @@ const PodcastPageFilter = ({
           setLoadMore={setLoadMore}
           className="mt-5"
         />
-        <p
+        <div
           ref={ref}
           className={`${
             !hasMorePodcasts && "hidden lg:hidden"
           } mt-2 hidden animate-pulse self-center py-5 dark:text-light-2 lg:flex`}
         >
           <Spinner />
-        </p>
+        </div>
       </section>
     </article>
   );
