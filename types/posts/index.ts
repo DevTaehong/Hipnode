@@ -263,9 +263,11 @@ export type LeftActionBarProps = {
     commentsCount: number;
     sharesCount?: number;
   };
-  author: string;
+  authorName: string;
   hasUserLiked: boolean;
   postId: number;
+  authorId: number;
+  postHeading: string;
 };
 
 export type GetActionBarDataProps = {
@@ -447,7 +449,7 @@ export interface ShareIconComponentProps {
 export type EmailFormProps = {
   currentUrl: string;
   setOpen: (open: boolean) => void;
-  author: string;
+  authorName: string;
 };
 
 export interface HipnodeReportProps {

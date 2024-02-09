@@ -12,18 +12,22 @@ import GroupPostShareButton from "./GroupPostShareButton";
 const GroupPostIcons = ({
   id,
   hasUserLiked,
+  authorId,
+  postHeading,
 }: {
   id: number;
   hasUserLiked: boolean;
+  authorId: number;
+  postHeading: string;
 }) => {
   const [like, setLike] = useState(hasUserLiked);
   const [isPending, setIsPending] = useState(false);
 
   const handleLike = async () => {
+    setIsPending(true);
+    setLike((prev) => !prev);
     try {
-      setIsPending(true);
-      await togglePostLike(id);
-      setLike((prev) => !prev);
+      await togglePostLike(id, authorId, postHeading);
     } catch (error) {
       toast({
         title: "Failed to like post. Please try again.",

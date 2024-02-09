@@ -11,13 +11,15 @@ const GroupPostContent = ({
   content,
   id,
   hasUserLiked,
+  authorId,
 }: {
   image: string;
   groupName: string;
-  heading?: string;
+  heading: string;
   content: string;
   id: number;
   hasUserLiked: boolean;
+  authorId: number;
 }) => (
   <CardContent className="flex flex-col gap-[0.62rem]">
     <Image
@@ -27,7 +29,12 @@ const GroupPostContent = ({
       height={146}
       alt={`Post image from a ${groupName} group`}
     />
-    <GroupPostIcons id={id} hasUserLiked={hasUserLiked} />
+    <GroupPostIcons
+      id={id}
+      hasUserLiked={hasUserLiked}
+      postHeading={heading}
+      authorId={authorId}
+    />
     <h6 className="semibold-14 font-feature line-clamp-3">{heading}</h6>
     <SanatizedHtml content={content} className="regular-12 line-clamp-6" />
   </CardContent>

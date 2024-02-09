@@ -41,6 +41,7 @@ const GroupPost = (post: Post) => {
             content,
             id,
             hasUserLiked,
+            authorId: author.id,
           }}
         />
         <CardFooter>

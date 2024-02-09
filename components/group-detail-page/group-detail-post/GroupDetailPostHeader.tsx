@@ -39,7 +39,12 @@ const GroupDetailPostHeader = ({
         <AvatarFallback>{author.username.charAt(0)}</AvatarFallback>
       </Link>
     </Avatar>
-    <GroupDetailPostLikeButton hasUserLiked={hasUserLiked} postId={postId} />
+    <GroupDetailPostLikeButton
+      authorId={author.id}
+      hasUserLiked={hasUserLiked}
+      postId={postId}
+      postHeading={heading}
+    />
   </div>
 );
 export default GroupDetailPostHeader;

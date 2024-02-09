@@ -26,7 +26,7 @@ const PostCard = ({
     likesCount,
     commentsCount,
     viewCount,
-    author: { picture, username },
+    author: { picture, username, id: authorId },
     createdAt,
     blurImage,
     imageHeight,
@@ -53,7 +53,7 @@ const PostCard = ({
     }));
 
     try {
-      const toggled = await togglePostLike(id);
+      const toggled = await togglePostLike(id, authorId, heading);
       setLikesState({
         likesCount: toggled.totalLikes,
         loggedInUserHasLikedPost: toggled.liked,

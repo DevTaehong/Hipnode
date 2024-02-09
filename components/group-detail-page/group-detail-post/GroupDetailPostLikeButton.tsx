@@ -10,18 +10,22 @@ import Spinner from "@/components/Spinner";
 const GroupDetailPostLikeButton = ({
   hasUserLiked,
   postId,
+  authorId,
+  postHeading,
 }: {
   hasUserLiked: boolean;
   postId: number;
+  authorId: number;
+  postHeading: string;
 }) => {
   const [like, setLike] = useState(hasUserLiked);
   const [isPending, setIsPending] = useState(false);
 
   const handleLike = async () => {
+    setIsPending(true);
+    setLike((prev) => !prev);
     try {
-      setIsPending(true);
-      await togglePostLike(postId);
-      setLike((prev) => !prev);
+      await togglePostLike(postId, authorId, postHeading);
     } catch (error) {
       toast({
         title: "Failed to like post. Please try again.",

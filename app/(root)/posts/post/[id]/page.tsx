@@ -57,9 +57,11 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
         <div className="order-2 flex flex-col gap-[1.25rem] lg:order-1">
           <LeftActionBar
             actionBarData={actionBarData}
-            author={author.username}
+            authorName={author.username}
+            authorId={authorId}
             hasUserLiked={postData.loggedInUserHasLikedPost}
             postId={postData.id}
+            postHeading={postData.heading}
           />
           <aside className="mb-[1.25rem] flex min-w-[13rem] flex-col justify-start rounded-2xl bg-light p-[1.25rem] dark:bg-dark-3">
             <p className="text-base font-semibold leading-6 text-sc-3">
