@@ -21,6 +21,7 @@ import RightColumnWrapper from "@/components/posts/post-by-id/right-column/Right
 import Following from "@/components/posts/post-by-id/right-column/Following";
 import Link from "next/link";
 import MessageButton from "@/components/posts/post-by-id/right-column/MessageButton";
+import { verifyAuth } from "@/lib/auth";
 
 const MediaEditActionPopover = dynamic(
   () => import("@/components/action-popover/MediaEditActionPopover"),
@@ -28,6 +29,7 @@ const MediaEditActionPopover = dynamic(
 );
 
 const PostPage = async ({ params }: { params: { id: number } }) => {
+  const { loggedInUserImage, userName } = await verifyAuth();
   const { id } = params;
   const postData = await getPostContentById(+id);
 
@@ -46,10 +48,9 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
   const formattedDate = formatDatePostFormat(createdAt || new Date());
   const { tags, image, heading, content, author } = postData;
   const actionBarData = getActionBarData(postData);
-  const devInfo = await getPostsByAuthorId(authorId);
+  const devInfo = await getPostsByAuthorId(authorId, +id);
   const calculatedDate = howManyMonthsAgo(createdAt);
   const isFollowing = await isFollowingUser(authorId);
-
   return (
     <main className="flex h-fit min-h-screen justify-center bg-light-2 px-[1.25rem] pt-[1.25rem] dark:bg-dark-2">
       <div className="mx-auto flex size-full max-w-[85rem] flex-col lg:flex-row">
@@ -109,11 +110,11 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
 
             <div className="flex items-center justify-center pb-[1.25rem] pr-[1.25rem]">
               <Link
-                href={`/profile/${username}`}
-                className="flex items-center justify-center px-[1.25rem]"
+                href={`/profile/${userName}`}
+                className="hover-effect flex items-center justify-center px-[1.25rem]"
               >
                 <Image
-                  src={picture ?? "/images/emoji_2.png"}
+                  src={loggedInUserImage ?? "/images/emoji_2.png"}
                   alt="profile-image"
                   width={40}
                   height={40}
@@ -173,15 +174,16 @@ const PostPage = async ({ params }: { params: { id: number } }) => {
                 : "joined this month"}
             </p>
           </RightColumnWrapper>
-          <aside className="flex min-w-[20.3rem] flex-col rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
-            <h2 className="text-[1.125rem] leading-[1.625rem]  text-sc-2 dark:text-light-2">
-              More from {username}
-            </h2>
-
-            <div className="flex w-full flex-col items-start">
-              <DevelopmentInformation devInfo={devInfo} />
-            </div>
-          </aside>
+          {devInfo.length > 0 && (
+            <aside className="flex min-w-[20.3rem] flex-col rounded-2xl bg-light p-[1.875rem] dark:bg-dark-3">
+              <h2 className="text-[1.125rem] leading-[1.625rem] text-sc-2 dark:text-light-2">
+                More from {username}
+              </h2>
+              <div className="flex w-full flex-col items-start">
+                <DevelopmentInformation devInfo={devInfo} />
+              </div>
+            </aside>
+          )}
         </div>
       </div>
     </main>
