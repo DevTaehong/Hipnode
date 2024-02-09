@@ -22,13 +22,13 @@ const NotificationComment = ({
   return (
     <article className="flex items-start justify-start gap-[1.875rem]">
       <div className="relative">
-        <Avatar className="relative h-10 w-10 xl:h-[3.125rem] xl:w-[3.125rem]">
+        <Avatar className="relative size-10 xl:size-[3.125rem]">
           <AvatarImage src={image} />
           <AvatarFallback>{senderName?.charAt(0)}</AvatarFallback>
         </Avatar>
         <div
-          className="notification_type-icon absolute left-6 top-6 flex h-[1.625rem] w-[1.625rem] items-center 
-            justify-center rounded-full bg-light xl:left-7 xl:top-7 xl:h-8 xl:w-8 dark:bg-dark-3"
+          className="notification_type-icon absolute left-6 top-6 flex size-[1.625rem] items-center justify-center 
+            rounded-full bg-light dark:bg-dark-3 xl:left-7 xl:top-7 xl:size-8"
         >
           {NotificationTypeInfo[type].icon}
         </div>
