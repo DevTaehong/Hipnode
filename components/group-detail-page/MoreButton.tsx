@@ -32,6 +32,10 @@ const MoreButton = ({ groupId }: { groupId: number }) => {
     }
   };
 
+  const handleEditGroup = () => {
+    router.push(`/group/edit/${groupId}`);
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -49,13 +53,16 @@ const MoreButton = ({ groupId }: { groupId: number }) => {
         side="bottom"
         sideOffset={22}
       >
-        <DropdownMenuItem className="flex cursor-pointer gap-2.5 text-sc-2 dark:text-light-2">
+        <DropdownMenuItem
+          onClick={handleEditGroup}
+          className="flex cursor-pointer gap-2.5 text-sc-2 dark:text-light-2"
+        >
           <OutlineIcon.Edit />
           Edit Group Info
         </DropdownMenuItem>
         <DropdownMenuItem
           className="flex cursor-pointer gap-2.5 text-red dark:text-red-70"
-          onSelect={handleDeleteGroup}
+          onClick={handleDeleteGroup}
         >
           <OutlineIcon className="fill-none">
             <TrashIcon />
