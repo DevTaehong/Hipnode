@@ -7,11 +7,6 @@ const nextConfig = {
       bodySizeLimit: "20mb",
     }
   },
-  api: {
-    bodyParser: {
-      sizeLimit: "20mb",
-    },
-  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cloudflare-ipfs.com" },
