@@ -65,13 +65,12 @@ const LeftActionBar = ({
   };
 
   const handleLike = async () => {
-    setLike((prev) => !prev);
-    setLikeCounts((prev) => (like ? prev - 1 : prev + 1));
-    try {
-      await togglePostLike(postId, authorId, postHeading);
-    } catch (error) {
-      console.error("Error toggling like:", error);
-    }
+    const prevLike = like;
+    setLike(!prevLike);
+    setLikeCounts((prevLikeCounts) =>
+      prevLike ? prevLikeCounts - 1 : prevLikeCounts + 1
+    );
+    await togglePostLike(postId, authorId, postHeading);
   };
 
   const currentUrl = `https://hipnode-devtaehong.vercel.app/posts/post/${postIdFromParams}`;

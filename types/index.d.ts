@@ -289,7 +289,7 @@ export interface NotificationButtonProps {
 }
 
 export interface NotificationProps {
-  id?: number;
+  id: number;
   userId?: number;
   createdAt: Date;
   updatedAt?: Date;

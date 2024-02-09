@@ -54,7 +54,7 @@ export const NotificationProvider = ({
     ]);
   };
 
-  const removeNotification = (notificationId: number | undefined) => {
+  const removeNotification = (notificationId: number) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter(
         (notification) => notification.id !== notificationId
@@ -85,8 +85,8 @@ export const NotificationProvider = ({
         },
         async (payload) => {
           if (payload.eventType === "DELETE") {
-            const deletedNotificationId = (payload.old as Notification).id;
-            removeNotification(deletedNotificationId);
+            const deletedNotification = payload.old as Notification;
+            removeNotification(deletedNotification.id);
             const uncheckedNotifications = await getUncheckedNotifications(
               currentUserId,
               lastChecked
