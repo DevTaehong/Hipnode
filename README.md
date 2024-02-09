@@ -9,6 +9,24 @@
 ## 🌐 Demo
 Here is a working live demo:  https://hipnode-devtaehong.vercel.app/
 
+### 1. Posts, Podcasts, Groups, Interviews, creating and editing a post
+https://www.loom.com/share/00bf2fa820e94a3e944fe7c618e8c613?sid=992eba65-29d6-4b46-a6fd-09f634621865
+
+### 2. Creating, editing and deleting a group
+https://www.loom.com/share/69fc61190fa646ec99fe0db5cee97539?sid=5317a332-07da-40c2-87fc-d23f69e96762
+
+### 3. Live Chat
+https://www.loom.com/share/6d0539d894b345a68f22c07a24edd19f?sid=24017fef-0c65-4275-b242-a194444c6ade
+
+### 4. Love Notifications
+https://www.loom.com/share/de832272f59844b2af01087895264695?sid=941a50c1-bdf3-4b3a-af16-8e893488a3fa
+
+### 5. Profile Page
+https://www.loom.com/share/f42b0965776b401bbb2eae8f52476a18?sid=cde1e055-f6f9-4fc0-a9ef-049247e71759
+
+
+
+
 ## 📝 Description
 Hipnode, a premium Social Media Forum Web App, redefines digital interaction by offering a suite of powerful functionalities. Seamlessly navigating the platform begins with a user-friendly sign-up and sign-in process, complemented by in-depth surveys for a tailored onboarding experience. The Homepage serves as the hub, featuring a dynamic home feed, detailed post views, and dedicated creation pages. Hipnode goes beyond traditional social media by introducing specialized sections for Meetups, encouraging connections based on shared interests. 
 
