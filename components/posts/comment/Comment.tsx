@@ -95,7 +95,10 @@ const Comment = ({
       <section className="flex py-[1.25rem] pr-[1.25rem]">
         <div className="flex flex-col">
           <div className="flex items-start justify-center px-[1.25rem]">
-            <Link href={`/profile/${author?.username}`} className="size-10">
+            <Link
+              href={`/profile/${author?.username}`}
+              className="hover-effect size-10"
+            >
               <Image
                 src={author?.picture ?? "/images/default-avatar.png"}
                 alt="comment author image"
