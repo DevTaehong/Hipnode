@@ -1,50 +1,83 @@
 # Hipnode
-> Hipnode, a premium Social Media Forum Web App, redefines digital interaction by offering a suite of powerful functionalities. Seamlessly navigating the platform begins with a user-friendly Sign Up & Sign In process, complemented by in-depth surveys for a tailored onboarding experience. The Homepage serves as the hub, featuring a dynamic home feed, detailed post views, and dedicated creation pages. Hipnode goes beyond traditional social media by introducing specialized sections for Meetups, encouraging connections based on shared interests.
-> Live demo [_here_](https://hipnode-devtaehong.vercel.app/). 
 
-## Table of Contents
-* [Technologies Used](#technologies-used)
-* [Features](#features)
-* [Setup](#setup)
-* [Team](#team)
-* [Contact](#contact)
+<img width="1395" alt="Screenshot 2024-02-08 at 12 24 54 PM" src="https://github.com/DevTaehong/Hipnode/assets/71358207/f292c85c-ec17-4951-964f-ca3c655df805">
 
+![PRs](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=shields)
+[![website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://github.com/DevTaehong/Hipnode)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## Technologies Used
-- **Next.js**
-- **React**
-- **TypeScript**
-- **Prisma**
-- **Tailwind CSS**
-- **Supabase**
-- **Framer Motion**
-- **Lexical**
-- **Shadcn/ui**
+## 🌐 Demo
+Here is a working live demo:  https://hipnode-devtaehong.vercel.app/
+
+## 📝 Description
+Hipnode, a premium Social Media Forum Web App, redefines digital interaction by offering a suite of powerful functionalities. Seamlessly navigating the platform begins with a user-friendly Sign Up & Sign In process, complemented by in-depth surveys for a tailored onboarding experience. The Homepage serves as the hub, featuring a dynamic home feed, detailed post views, and dedicated creation pages. Hipnode goes beyond traditional social media by introducing specialized sections for Meetups, encouraging connections based on shared interests. 
 
 
+## 🛠️ Setup Project
+To get this project up and running in your development environment, follow these step-by-step instructions.
 
-## Features
-1. Sign Up & Sign in - Complete authentication and survey
-2. Homepage - Consisting of a home feed, post details, and creation pages
-3. Meetups - Display all available meetups
-4. Groups-Displayallcontentwithingroups
-5. Podcasts - Display all podcasts with a podcast details page
-6. Profile - Show all posts, meetups, and podcasts for a specific user
-7. Live Chat - Engage in real-time conversations, share instant feedback, and build connections through our interactive live chat feature
-8. Live Notifications - Display notifications in real-time using Supabase realtime
+### 🍴 Prerequisites
 
+We need to install or make sure that these tools are pre-installed on your machine:
 
+- [NodeJS](https://nodejs.org/en/download/): It is a JavaScript runtime build. 
+- [Git](https://git-scm.com/downloads): It is an open-source version control system. 
 
-## Setup
-1. **Install dependencies:**
+## ✨ Features
 
-   ```
-   npm install
-   ```
+- Sign Up & Sign in - Complete authentication and survey
+- Homepage - Consisting of a home feed, post details, and creation pages
+- Meetups - Display all available meetups
+- Groups-Displayallcontentwithingroups
+- Podcasts - Display all podcasts with a podcast details page
+- Profile - Show all posts, meetups, and podcasts for a specific user
+- Live Chat - Engage in real-time conversations, share instant feedback, and build connections through our interactive live chat feature
+- Live Notifications - Display notifications in real-time using Supabase realtime
 
-2. **Ensure you have the following Environmental Variables:**
+## 🔍 Usage
 
-   ```
+### How To Use
+
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/DevTaehong/Hipnode.git
+
+# Go into the repository
+$ cd Hipnode
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm start
+```
+
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+
+### ⚒️ How to Contribute
+Want to contribute? Great!
+
+To fix a bug or enhance an existing module, follow these steps:
+
+- Fork the repo
+- Create a new branch (`git checkout -b improve-feature`)
+- Make the appropriate changes in the files
+- Add changes to reflect the changes made
+- Commit your changes (`git commit -am 'Improve feature'`)
+- Push to the branch (`git push origin improve-feature`)
+- Create a Pull Request 
+
+### 📩 Bug / Feature Request
+
+If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly open an issue [here](https://github.com/devtaehong/hipnode/issues/new) by including your search query and the expected result.
+
+If you'd like to request a new function, feel free to do so by opening an issue [here](https://github.com/devtaehong/hipnode/issues/new). Please include sample queries and their corresponding results.
+
+## 🔒 ENV file
+ ```
    # Clerk Authentication
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<clerk_publishable_key>
    CLERK_SECRET_KEY=<clerk_secret_key>
@@ -74,21 +107,21 @@
    RESEND_API_KEY=<resend_api_key>
    ```
 
-3. **Running the Application:**
+## 📜 Credits
 
-   ```
-    npm run dev
-   ```
+👦 Tye Stanley <br>
+Email: tyestanley090@gmail.com <br>
+GitHub: @TyeStanley
+
+👦 Glen McCallum <br>
+Email: glen.mccallum@live.co.uk <br>
+GitHub: @glenmac90
+
+👦 Alexander Mc Lachlan <br>
+Email: alexmonk17@gmail.com <br>
+GitHub: @AlexDjangoX
 
 
-## Team
-- [Glen McCallum](https://github.com/glenmac90) - Software Developer
+## 📞 Contact Me
 
-- [Alexander Mc Lachlan](https://github.com/AlexDjangoX) - Software Developer
-
-- [Tye Stanley](https://github.com/TyeStanley) - Software Developer
-
-
-## Contact
-Created by [@devtaehong](https://taehongmin.vercel.app/) - feel free to contact me!
-
+[![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-taehong-blue?style=flat&logo=linkedin&logoColor=b0c0c0&labelColor=363D44)](https://www.linkedin.com/in/taehong/)
