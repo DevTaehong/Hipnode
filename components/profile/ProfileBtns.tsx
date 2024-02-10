@@ -23,7 +23,7 @@ const ProfileBtns = ({
   return (
     <div className="mt-5 flex h-10 w-full items-center justify-center gap-2.5">
       <button
-        className={`hover-effect flex size-full items-center justify-center rounded-lg bg-blue text-base font-semibold leading-6 text-white`}
+        className={`${following ? "border border-blue-20 bg-transparent text-sc-3" : "bg-blue text-light"} hover-effect flex size-full items-center justify-center rounded-lg text-base font-semibold leading-6`}
         type="button"
         onClick={handleFollow}
       >
