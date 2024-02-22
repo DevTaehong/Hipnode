@@ -18,7 +18,7 @@ https://www.loom.com/share/69fc61190fa646ec99fe0db5cee97539?sid=5317a332-07da-40
 ### 3. Live Chat
 https://www.loom.com/share/6d0539d894b345a68f22c07a24edd19f?sid=24017fef-0c65-4275-b242-a194444c6ade
 
-### 4. Love Notifications
+### 4. Live Notifications
 https://www.loom.com/share/de832272f59844b2af01087895264695?sid=941a50c1-bdf3-4b3a-af16-8e893488a3fa
 
 ### 5. Profile Page
