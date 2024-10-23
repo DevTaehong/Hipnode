@@ -379,7 +379,7 @@ export async function getAllPosts({
       },
     });
 
-    revalidatePath(`/`);
+    // revalidatePath(`/`);
 
     return posts.map((post) => ({
       ...post,
