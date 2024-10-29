@@ -489,7 +489,7 @@ export const codeOfConduct = [
   {
     title: "Report Abuse",
     description:
-      "Report any abusive behavior to maintain a safe space for all.}",
+      "Report any abusive behavior to maintain a safe space for all.",
   },
 ];
 
