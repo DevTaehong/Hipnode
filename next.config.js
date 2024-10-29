@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: false,
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
     serverActions: {
       bodySizeLimit: "20mb",
-    }
+    },
   },
   images: {
     remotePatterns: [
