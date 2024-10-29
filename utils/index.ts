@@ -120,26 +120,28 @@ export const uploadImageToSupabase = async (
   }
 };
 
-export async function getBucketUrls(bucketName: string): Promise<string[]> {
-  try {
-    const { data: bucketContents, error } = await supabase.storage
-      .from(bucketName)
-      .list();
+// FIXME - find why this function is not working
+// export async function getBucketUrls(bucketName: string): Promise<string[]> {
+//   try {
+//     console.log("bucketName", bucketName)
+//     const { data: bucketContents, error } = await supabase.storage
+//       .from(bucketName).list();
 
-    if (error) throw error;
+//     console.log("bucketContents", bucketContents)
+//     if (error) throw error
 
-    const urls = bucketContents.map((file) => {
-      const url = supabase.storage.from(bucketName).getPublicUrl(file.name)
-        .data.publicUrl;
-      return url;
-    });
+//     const urls = bucketContents?.map((file) => {
+//       const url = supabase.storage.from(bucketName).getPublicUrl(file.name)
+//         .data.publicUrl;
+//       return url;
+//     });
 
-    return urls;
-  } catch (error) {
-    console.error("Error in getBucketUrls:", error);
-    return [];
-  }
-}
+//     return urls;
+//   } catch (error) {
+//     console.error("Error in getBucketUrls:", error);
+//     return [];
+//   }
+// }
 
 export const formatDate = (date: Date) => {
   const updatedDate = new Date(date);
@@ -455,9 +457,8 @@ export const getNotificationDate = (date: Date) => {
     dateObj.getMinutes() < 10
       ? "0" + dateObj.getMinutes()
       : dateObj.getMinutes();
-  const formattedDate = `${day} ${month}, ${hours}:${minutes}${
-    hours < 12 ? "am" : "pm"
-  }`;
+  const formattedDate = `${day} ${month}, ${hours}:${minutes}${hours < 12 ? "am" : "pm"
+    }`;
   return formattedDate;
 };
 
